@@ -7,6 +7,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -19,6 +21,7 @@
     "@leanscope/ecs-models": "^0.2.43",
     "@leanscope/storyboarding": "^0.1.89",
     "autoprefixer": "^10.4.19",
+    "eslint-plugin-storybook": "^0.8.0",
     "framer-motion": "^11.0.28",
     "postcss": "^8.4.38",
     "react": "^18.2.0",
@@ -31,6 +34,15 @@
     "twin.macro": "^3.4.1"
   },
   "devDependencies": {
+    "@storybook/builder-vite": "^8.0.8",
+    "@storybook/addon-essentials": "^7.6.12",
+    "@storybook/addon-interactions": "^7.6.12",
+    "@storybook/addon-links": "^7.6.12",
+    "@storybook/addon-onboarding": "^1.0.11",
+    "@storybook/blocks": "^7.6.12",
+    "@storybook/react": "^7.6.12",
+    "@storybook/react-vite": "^7.6.12",
+    "@storybook/test": "^7.6.12",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@typescript-eslint/eslint-plugin": "^7.2.0",
@@ -39,6 +51,7 @@
     "eslint": "^8.57.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.6",
+    "storybook": "^7.6.12",
     "typescript": "^5.2.2",
     "vite": "^5.2.0"
   }

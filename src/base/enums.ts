@@ -1,4 +1,4 @@
-export enum AppPages {
+export enum NavigationLinks {
   OVERVIEW = "Übersicht",
   HOMEWORKS = "Hausaufgaben",
   EXAMS = "Prüfungen",

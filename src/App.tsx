@@ -1,7 +1,9 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Overview from "./pages/Overview";
-import { AppPages } from "./base/enums";
-import Homeworks from "./pages/Homeworks";
+import { NavigationLinks } from "./base/enums";
+import Sidebar from "./components/navigation/Sidebar";
+import { formatNavLinkAsPath } from "./utils";
+import { Collection, Exams, Groups, Homeworks, Overview } from "./pages/Index";
+
 
 function App() {
   return (
@@ -9,29 +11,31 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route
-            path={`/${AppPages.OVERVIEW.toLowerCase}`}
+            path={formatNavLinkAsPath(NavigationLinks.OVERVIEW)}
             element={<Overview />}
           />
           <Route
-            path={`/${AppPages.HOMEWORKS.toLowerCase}`}
+            path={formatNavLinkAsPath(NavigationLinks.HOMEWORKS)}
             element={<Homeworks />}
           />
           <Route
-            path={`/${AppPages.EXAMS.toLowerCase}`}
-            element={<Overview />}
+            path={formatNavLinkAsPath(NavigationLinks.EXAMS)}
+            element={<Exams />}
           />
           <Route
-            path={`/${AppPages.COLLECTION.toLowerCase}`}
-            element={<Overview />}
+            path={formatNavLinkAsPath(NavigationLinks.COLLECTION)}
+            element={<Collection />}
           />
           <Route
-            path={`/${AppPages.GROUPS.toLowerCase}`}
-            element={<Overview />}
+            path={formatNavLinkAsPath(NavigationLinks.GROUPS)}
+            element={<Groups />}
           />
         </Routes>
+        <Sidebar />
       </BrowserRouter>
     </div>
   );
 }
+2;
 
 export default App;
