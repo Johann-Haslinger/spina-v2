@@ -1,6 +1,12 @@
 import { formatNavLinkAsPath } from "../utils";
 import { NavigationLinks } from "./enums";
 
+export const ADDITIONAL_TAGS = [
+
+]
+
+
+
 export const NAV_LINKS = [
   {
     title: NavigationLinks.OVERVIEW,
