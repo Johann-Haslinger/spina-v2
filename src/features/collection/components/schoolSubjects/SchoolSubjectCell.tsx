@@ -17,7 +17,7 @@ const StyledCellWrapper = styled.div<{
   backgroundColor: string;
   color: string;
 }>`
-  ${tw` p-2 w-full flex  items-end  text-7xl hover:text-8xl hover:scale-105  transition-all h-40`}
+  ${tw` p-2.5 w-full  rounded-2xl  flex  items-end  text-7xl hover:text-8xl hover:scale-105  transition-all h-40`}
   background-color: ${({ backgroundColor }) => backgroundColor};
   color: ${({ color }) => color};
 `;
@@ -31,7 +31,7 @@ const SchoolSubjectCell = (props: TitleProps & OrderProps & EntityProps) => {
   const schoolSubjectEntities = useSchoolSubjectEntities();
   const { color, backgroundColor } = useSchoolSubjectColors(props.entity);
 
-  const selectSubject = () => {
+  const handleOpenSchoolSubject = () => {
     schoolSubjectEntities.forEach((e) => e.removeTag(Tags.SELECTED));
     entity.addTag(Tags.SELECTED);
   };
@@ -41,7 +41,7 @@ const SchoolSubjectCell = (props: TitleProps & OrderProps & EntityProps) => {
       <StyledCellWrapper
         backgroundColor={backgroundColor}
         color={color}
-        onClick={selectSubject}
+        onClick={handleOpenSchoolSubject}
       >
         <StyledTitle>{title.slice(0, 2)}</StyledTitle>
       </StyledCellWrapper>
