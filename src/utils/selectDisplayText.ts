@@ -1,5 +1,5 @@
 import { SupportedLanguages } from "../base/enums";
-import { HeaderTexts } from "../base/text";
+import { AlertTexts, HeaderTexts } from "../base/text";
 
 export const displayHeaderTexts = (selectedLanguage: SupportedLanguages) => {
   return {
@@ -67,6 +67,41 @@ const getHeaderText = (headerText: HeaderTexts, selectedLanguage: SupportedLangu
           return "Settings";
         default:
           return "";
+      }
+    default:
+      return "";
+  }
+};
+
+
+export const displayAlertTexts = (selectedLanguage: SupportedLanguages) => {
+  return {
+    noContentAddedTitle: getAlertText(AlertTexts.NO_CONTENT_ADDED_TITLE, selectedLanguage),
+    noContentAddedSubtitle: getAlertText(AlertTexts.NO_CONTENT_ADDED_SUBTITLE, selectedLanguage),
+  };
+}
+
+const getAlertText = (alertText: AlertTexts, selectedLanguage: SupportedLanguages) => {
+  switch (alertText) {
+    case AlertTexts.NO_CONTENT_ADDED_TITLE:
+      switch (selectedLanguage) {
+        case SupportedLanguages.DE:
+          return "Keine Inhalte hinzugefügt";
+        case SupportedLanguages.EN:
+          return "No content added";
+        default:
+          return "";
+      }
+    case AlertTexts.NO_CONTENT_ADDED_SUBTITLE:
+      switch (selectedLanguage) {
+        case SupportedLanguages.DE:
+          return "Es siht so aus, als hätten Sie noch keine Inhalte hinzugefüg";
+        case SupportedLanguages.EN:
+          return "It looks like you haven't added any content yet";
+        default:
+          return "";
+        
+
       }
     default:
       return "";

@@ -6,3 +6,8 @@ export enum HeaderTexts {
     OVERVIEW,
     SETTINGS,
 }
+
+export enum AlertTexts {
+    NO_CONTENT_ADDED_TITLE,
+    NO_CONTENT_ADDED_SUBTITLE,
+}

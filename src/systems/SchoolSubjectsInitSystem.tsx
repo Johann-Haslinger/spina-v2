@@ -7,14 +7,14 @@ import { IdentifierFacet, OrderFacet } from "@leanscope/ecs-models";
 import { DataTypes } from "../base/enums";
 
 const fetchSchoolSubjects = async () => {
-  const { data, error } = await supabase.from("subjects").select("name, id");
+  const { data: schoolSubjects, error } = await supabase.from("subjects").select("name, id");
 
   if (error) {
     console.error("Error fetching school subjects:", error);
     return [];
   }
 
-  return data || [];
+  return schoolSubjects || [];
 };
 
 const SchoolSubjectsInitSystem = () => {

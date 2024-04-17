@@ -4,7 +4,7 @@ import React from "react";
 import { TitleFacet } from "../app/AdditionalFacets";
 import { DataTypes } from "../base/enums";
 
-const useSchoolSubjectEntities = (): readonly Entity[] => {
+export const useSchoolSubjectEntities = (): readonly Entity[] => {
   const [schoolSubjectEntities] = useEntities(
     (e) =>
       e.has(TitleFacet) &&
@@ -14,4 +14,3 @@ const useSchoolSubjectEntities = (): readonly Entity[] => {
   return schoolSubjectEntities
 };
 
-export default useSchoolSubjectEntities;
