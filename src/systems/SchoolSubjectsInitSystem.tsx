@@ -5,6 +5,7 @@ import { Entity } from "@leanscope/ecs-engine";
 import { TitleFacet } from "../app/AdditionalFacets";
 import { IdentifierFacet, OrderFacet } from "@leanscope/ecs-models";
 import { DataTypes } from "../base/enums";
+import { dummySchoolSubjects } from "../base/dummy";
 
 const fetchSchoolSubjects = async () => {
   const { data: schoolSubjects, error } = await supabase.from("subjects").select("name, id");
@@ -17,12 +18,13 @@ const fetchSchoolSubjects = async () => {
   return schoolSubjects || [];
 };
 
-const SchoolSubjectsInitSystem = () => {
+const SchoolSubjectsInitSystem = (props: {mokUpData?: boolean}) => {
+  const { mokUpData } = props;
   const lsc = useContext(LeanScopeClientContext);
 
   useEffect(() => {
     const initializeSchoolSubjectEntities = async () => {
-      const schoolSubjects = await fetchSchoolSubjects();
+      const schoolSubjects = mokUpData ? dummySchoolSubjects :  await fetchSchoolSubjects();
 
       schoolSubjects.forEach((schoolSubject, idx) => {
         const isExisting = lsc.engine.entities.some(

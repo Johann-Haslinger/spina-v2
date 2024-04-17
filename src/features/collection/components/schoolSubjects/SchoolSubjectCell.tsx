@@ -1,11 +1,8 @@
 import { TitleProps } from "../../../../app/AdditionalFacets";
 import { EntityProps } from "@leanscope/ecs-engine";
 import { OrderProps, Tags } from "@leanscope/ecs-models";
-
 import tw from "twin.macro";
 import styled from "@emotion/styled";
-import { LuLibrary } from "react-icons/lu";
-import { COLOR_ITEMS } from "../../../../base/constants";
 import { useSchoolSubjectColors } from "../../../../hooks/useSchoolSubjectColors";
 import { useSchoolSubjectEntities } from "../../../../hooks/useSchoolSubjectEntities";
 
@@ -17,7 +14,7 @@ const StyledCellWrapper = styled.div<{
   backgroundColor: string;
   color: string;
 }>`
-  ${tw` p-2.5 w-full  rounded-2xl  flex  items-end  text-7xl hover:text-8xl hover:scale-105  transition-all h-40`}
+  ${tw` p-2.5 w-full flex  items-end  text-7xl hover:text-8xl hover:scale-105  transition-all h-40`}
   background-color: ${({ backgroundColor }) => backgroundColor};
   color: ${({ color }) => color};
 `;
@@ -37,7 +34,7 @@ const SchoolSubjectCell = (props: TitleProps & OrderProps & EntityProps) => {
   };
 
   return (
-    <StyledCellContainer>
+    <StyledCellContainer data-testid="school-subject-cell-1">
       <StyledCellWrapper
         backgroundColor={backgroundColor}
         color={color}

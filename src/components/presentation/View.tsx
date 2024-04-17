@@ -4,15 +4,15 @@ import React, { PropsWithChildren } from "react";
 import tw from "twin.macro";
 
 const StyledViewContainer = styled.div`
-  ${tw`fixed bg-opacity-75  bg-white  backdrop-blur-2xl  p-4 md:px-6 md:pb-6 pt-16 top-0 left-0 w-screen h-screen `}
+  ${tw` bg-opacity-75 w-screen h-screen  bg-white  backdrop-blur-2xl `}
 `;
 
 const StyledViewWrapper = styled.div`
-  ${tw`w-full h-full  rounded-2xl `}
+  ${tw`w-full h-full  overflow-y-scroll`}
 `;
 
 const StyledViewContent = styled.div`
-  ${tw` mx-auto   pt-24 xl:w-[51rem] w-full md:w-[45rem] px-4`}
+  ${tw` mx-auto md:pt-28 pb-40  xl:pt-36 pt-20  xl:w-[51rem] w-full md:w-[45rem] px-4`}
 `;
 
 interface ViewProps {
@@ -40,13 +40,17 @@ const View = (props: ViewProps & PropsWithChildren) => {
       />
       <motion.div
         initial={{
-          x: viewType == "overlayView" ? "100%" : 0,
+          position: "fixed",
+          top: 0,
+          left: 0,
+         
+          x: viewType == "overlayView" ?  "100%" : 0,
         }}
         transition={{
           type: "tween",
         }}
         animate={{
-          x: visibe ? 0 : "100%",
+          x: visibe ? 0 : "100%"
         }}
       >
         <StyledViewContainer>

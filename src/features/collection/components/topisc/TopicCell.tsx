@@ -8,20 +8,20 @@ import { LuBookOpen } from "react-icons/lu";
 import { IoBook } from "react-icons/io5";
 
 const StyledTopicCellContainer = styled.div`
-  ${tw` w-full md:w-1/2 lg:w-1/3 p-2 h-40`}
+  ${tw` w-full md:w-1/2 lg:w-1/3 p-1.5 h-40`}
 `;
 
 const StyledTopicCellWrapper = styled.div<{
   color: string;
   backgroundColor: string;
 }>`
-  ${tw`w-full flex justify-center items-center  hover:scale-105 transition-all rounded-2xl text-7xl font-bold p-2 h-full`}
+  ${tw`w-full flex justify-center items-center  hover:scale-105 transition-all  text-7xl font-bold p-2 h-full`}
   background-color: ${({ backgroundColor }) => backgroundColor};
   color: ${({ color }) => color};
 `;
 
 const StyledTopicTitle = styled.p`
-  ${tw`mt-4 font-semibold text-xl line-clamp-2 `}
+  ${tw`mt-4 font-semibold text-2xl line-clamp-2 `}
 `;
 const StyledTopicDescription = styled.p`
   ${tw` text-seconderyText line-clamp-2 mt-1`}
