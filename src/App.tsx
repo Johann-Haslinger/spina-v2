@@ -1,14 +1,16 @@
+import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { NavigationLinks } from "./base/enums";
-import Sidebar from "./components/navigation/Sidebar";
 import { formatNavLinkAsPath } from "./utils";
 import { Collection, Exams, Groups, Homeworks, Overview } from "./pages/Index";
 import SchoolSubjectsInitSystem from "./systems/SchoolSubjectsInitSystem";
+import ViewManagerSystem from "./systems/ViewManagerSystem";
 
 
 function App() {
   return (
-    <div>
+    <>
+      <ViewManagerSystem />
       <SchoolSubjectsInitSystem />
       <BrowserRouter>
         <Routes>
@@ -36,7 +38,7 @@ function App() {
         </Routes>
         {/* <Sidebar /> */}
       </BrowserRouter>
-    </div>
+    </>
   );
 }
 2;

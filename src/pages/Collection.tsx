@@ -4,20 +4,33 @@ import { dataTypeQuery } from "../utils/queries";
 import { DataTypes } from "../base/enums";
 import { SchoolSubjectCell, SchoolSubjectView } from "../features/collection";
 import { TitleFacet } from "../app/AdditionalFacets";
-import { Tags } from "@leanscope/ecs-models";
-import View from "../components/presentation/View";
+import { OrderFacet, Tags } from "@leanscope/ecs-models";
+import { CollectionLayout, NavigationBar, Spacer, Title, View } from "../components";
+import useSelectedLanguage from "../hooks/useSelectedLanguage";
+import { displayHeaderTexts } from "../utils/selectDisplayText";
 
 const Collection = () => {
+  const selectedLanguage = useSelectedLanguage();
+
   return (
     <>
       <View viewType="baseView">
-        <EntityPropsMapper
-          query={(e) => dataTypeQuery(e, DataTypes.SCHOOL_SUBJECT)}
-          get={[[TitleFacet], []]}
-          onMatch={SchoolSubjectCell}
-        />
+        <NavigationBar>
+          
+        </NavigationBar>
+        <Title>
+          {displayHeaderTexts(selectedLanguage).collectionHeaderText}
+        </Title>
+        <Spacer size={6} />
+        <CollectionLayout>
+          <EntityPropsMapper
+            query={(e) => dataTypeQuery(e, DataTypes.SCHOOL_SUBJECT)}
+            get={[[TitleFacet, OrderFacet], []]}
+            onMatch={SchoolSubjectCell}
+          />
+        </CollectionLayout>
       </View>
-      
+
       <EntityPropsMapper
         query={(e) =>
           dataTypeQuery(e, DataTypes.SCHOOL_SUBJECT) && e.hasTag(Tags.SELECTED)

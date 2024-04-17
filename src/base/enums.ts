@@ -1,3 +1,7 @@
+export enum AdditionalTags {
+  NAVIGATE_BACK = "navigateBack",
+}
+
 export enum NavigationLinks {
   OVERVIEW = "Übersicht",
   HOMEWORKS = "Hausaufgaben",
@@ -14,4 +18,9 @@ export enum DataTypes {
   NOTE = "note",
   FLASHCARD_SET = "flashcardSet",
   FLASHCARD = "flashcard",
+}
+
+export enum SupportedLanguages {
+  DE = "de",
+  EN = "en",
 }

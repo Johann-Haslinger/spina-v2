@@ -1,11 +1,7 @@
 import { formatNavLinkAsPath } from "../utils";
-import { NavigationLinks } from "./enums";
+import { NavigationLinks, SupportedLanguages } from "./enums";
 
-export const ADDITIONAL_TAGS = [
-
-]
-
-
+export const SELECTED_LANGUAGE = SupportedLanguages.DE;
 
 export const NAV_LINKS = [
   {
@@ -30,49 +26,41 @@ export const NAV_LINKS = [
   },
 ];
 
+export const COLORS = [
+ "#F4CF54",
+ "#00965F",
+ "#0B86D1",
+ "#B9A0FF",
+ "#F4BAB5",
+ "#EE7A2C"
+]
+
+
+
 export const COLOR_ITEMS: { color: string; backgroundColor: string }[] = [
   {
-    color: "#EEEEEC",
-    backgroundColor: "#3D65E1",
+    color: "#EE7A2C",
+    backgroundColor: "#F4CF54",
   },
   {
-    color: "#FA912C",
-    backgroundColor: "#F4D4BD",
+    color: "#B9A0FF",
+    backgroundColor: "#00965F",
   },
   {
-    color: "#FA912C",
-    backgroundColor: "#98C3D3",
+    color: "#F4BAB5",
+    backgroundColor: "#0B86D1",
   },
   {
-    color: "#E7C152",
-    backgroundColor: "#F49527",
+    color: "#00965F",
+    backgroundColor: "#B9A0FF",
   },
   {
-    color: "#3769E0",
-    backgroundColor: "#E6C157",
+    color: "#0B86D1",
+    backgroundColor: "#F4BAB5",
   },
   {
-    color: "#DDE2C4",
-    backgroundColor: "#3764E5",
+    color: "#F4CF54",
+    backgroundColor: "#EE7A2C",
   },
-  {
-    color: "#F29533",
-    backgroundColor: "#EEB1D2",
-  },
-  {
-    color: "#EFF0F7",
-    backgroundColor: "#E6C157",
-  },
-  {
-    color: "#8ACAE5",
-    backgroundColor: "#EADFCB",
-  },
-  {
-    color: "#EDB1CF",
-    backgroundColor: "#93BBA0",
-  },
-  {
-    color: "#F4EAF3",
-    backgroundColor: "#F97755",
-  },
+  
 ];
