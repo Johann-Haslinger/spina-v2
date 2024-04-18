@@ -20,7 +20,7 @@ import { useSchoolSubjectColors } from "../../../../hooks/useSchoolSubjectColors
 import { useSchoolSubjectTopics } from "../../hooks/useSchoolSubjectTopics";
 import NoContentAdded from "../../../../components/content/NoContentAdded";
 import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
-import TopicCell from "../topisc/TopicCell";
+import TopicCell from "../topics/TopicCell";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import AddTopicSheet from "./AddTopicSheet";
 

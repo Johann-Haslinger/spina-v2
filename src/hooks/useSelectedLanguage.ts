@@ -6,4 +6,3 @@ export const useSelectedLanguage = (): SupportedLanguages => {
   return SELECTED_LANGUAGE;
 };
 
-export default useSelectedLanguage;
