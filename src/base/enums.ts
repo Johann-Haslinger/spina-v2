@@ -6,6 +6,8 @@ export enum StoryGuid{
 
 export enum AdditionalTags {
   NAVIGATE_BACK = "navigateBack",
+  APP_STATE_ENTITY = "appStateEntity",
+  SIDEBAR_IS_VISIBLE = "sidebarVisible",
 }
 
 export enum NavigationLinks {

@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import React from "react";
 import tw from "twin.macro";
 import { displayAlertTexts } from "../../utils/selectDisplayText";
-import useSelectedLanguage from "../../hooks/useSelectedLanguage";
+import { useSelectedLanguage } from "../../hooks/useSelectedLanguage";
 
 const StyledNoConttentAddedWrapper = styled.div`
   ${tw`mx-auto  mt-40 text-center`}

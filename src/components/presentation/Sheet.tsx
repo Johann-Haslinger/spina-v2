@@ -9,7 +9,7 @@ interface SheetProps {
 }
 
 const StyledSheetWrapper = styled.div`
-  ${tw`p-4 lg:px-8 w-full md:h-[90%] mx-auto mt-[2.5%]  h-[95%] md:w-8/12 bg-opacity-90 backdrop-blur-2xl  md:rounded-2xl rounded-t-2xl  bg-primary`}
+  ${tw`p-4 lg:px-8 w-full md:h-[90%] mx-auto mt-[2.5%]  h-[95%] md:w-8/12 bg-opacity-90 backdrop-blur-xl  md:rounded-2xl rounded-t-xl  bg-primary`}
 `;
 
 

@@ -7,6 +7,8 @@ import SchoolSubjectsInitSystem from "./systems/SchoolSubjectsInitSystem";
 import ViewManagerSystem from "./systems/ViewManagerSystem";
 import LoadTopicEntitiesSystem from "./features/collection/systems/LoadTopicEntitiesSystem";
 import StoriesInitSystem from "./systems/StoriesInitSystem";
+import { Sidebar } from "./components";
+import AppInitSystem from "./systems/AppInitSystem";
 
 function App() {
   useEffect(() => {
@@ -15,11 +17,12 @@ function App() {
 
   return (
     <>
+      <AppInitSystem />
       <StoriesInitSystem initialStory={StoryGuid.OBSERVING_COLLECTION_STORY} />
       <ViewManagerSystem />
       <LoadTopicEntitiesSystem />
       <SchoolSubjectsInitSystem />
-      
+
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Collection />} />
@@ -44,7 +47,7 @@ function App() {
             element={<Groups />}
           />
         </Routes>
-        {/* <Sidebar /> */}
+        <Sidebar />
       </BrowserRouter>
     </>
   );

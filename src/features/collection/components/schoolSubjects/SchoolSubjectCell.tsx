@@ -7,14 +7,14 @@ import { useSchoolSubjectColors } from "../../../../hooks/useSchoolSubjectColors
 import { useSchoolSubjectEntities } from "../../../../hooks/useSchoolSubjectEntities";
 
 const StyledCellContainer = styled.div`
-  ${tw`w-1/2  md:p-1.5  md:w-1/3 lg:w-1/4 2xl:w-1/5`}
+  ${tw`w-1/2  cursor-pointer md:p-1.5  md:w-1/3 lg:w-1/4 2xl:w-1/5`}
 `;
 
 const StyledCellWrapper = styled.div<{
   backgroundColor: string;
   color: string;
 }>`
-  ${tw` p-2.5 w-full flex  items-end  text-7xl hover:text-8xl hover:scale-105  transition-all h-40`}
+  ${tw` p-2.5 w-full flex     items-end  text-7xl hover:text-8xl hover:scale-105  transition-all h-40`}
   background-color: ${({ backgroundColor }) => backgroundColor};
   color: ${({ color }) => color};
 `;
@@ -34,7 +34,7 @@ const SchoolSubjectCell = (props: TitleProps & OrderProps & EntityProps) => {
   };
 
   return (
-    <StyledCellContainer data-testid="school-subject-cell-1">
+    <StyledCellContainer >
       <StyledCellWrapper
         backgroundColor={backgroundColor}
         color={color}
