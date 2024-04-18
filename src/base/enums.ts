@@ -1,3 +1,9 @@
+export enum Stories{
+  OBSERVING_COLLECTION_STORY = "observingCollectionStory",
+  OBSERVING_SCHOOL_SUBJECT_STORY = "observingSchoolSubjectStory",
+  CREATE_NEW_TOPIC_STORY = "createNewTopicStory",
+}
+
 export enum AdditionalTags {
   NAVIGATE_BACK = "navigateBack",
 }

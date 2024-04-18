@@ -7,8 +7,8 @@ import { TitleFacet } from "../app/AdditionalFacets";
 import { OrderFacet, Tags } from "@leanscope/ecs-models";
 import {
   CollectionLayout,
-  Divider,
   NavigationBar,
+  Spacer,
   Title,
   View,
 } from "../components";
@@ -25,7 +25,7 @@ const Collection = () => {
         <Title>
           {displayHeaderTexts(selectedLanguage).collectionHeaderText}
         </Title>
-        <Divider/>
+        <Spacer />
         <CollectionLayout>
           <EntityPropsMapper
             query={(e) => dataTypeQuery(e, DataTypes.SCHOOL_SUBJECT)}

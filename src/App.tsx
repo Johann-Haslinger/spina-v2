@@ -1,24 +1,25 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { NavigationLinks } from "./base/enums";
+import { NavigationLinks, Stories } from "./base/enums";
 import { formatNavLinkAsPath } from "./utils";
 import { Collection, Exams, Groups, Homeworks, Overview } from "./pages/Index";
 import SchoolSubjectsInitSystem from "./systems/SchoolSubjectsInitSystem";
 import ViewManagerSystem from "./systems/ViewManagerSystem";
 import LoadTopicEntitiesSystem from "./features/collection/systems/LoadTopicEntitiesSystem";
-
+import StoriesInitSystem from "./systems/StoriesInitSystem";
 
 function App() {
-
   useEffect(() => {
-    document.documentElement.classList.add('dark')
-  }, [])
-  
+    document.documentElement.classList.add("dark");
+  }, []);
+
   return (
     <>
+      <StoriesInitSystem initialStory={Stories.OBSERVING_COLLECTION_STORY} />
       <ViewManagerSystem />
-      <LoadTopicEntitiesSystem  />
+      <LoadTopicEntitiesSystem />
       <SchoolSubjectsInitSystem />
+      
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Collection />} />

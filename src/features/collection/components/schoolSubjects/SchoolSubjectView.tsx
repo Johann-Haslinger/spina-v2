@@ -9,6 +9,7 @@ import {
   CollectionLayout,
   Divider,
   NavigationBar,
+  Spacer,
   Title,
   View,
 } from "../../../../components";
@@ -25,24 +26,21 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
   const { title, entity } = props;
   const isVisible = useIsViewVisible(entity);
   const { color, backgroundColor } = useSchoolSubjectColors(props.entity);
-  const {  hasTopics } = useSchoolSubjectTopicEntities(
-    props.entity
-  );
+  const { hasTopics } = useSchoolSubjectTopicEntities(props.entity);
 
   const handleNavigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
 
   return (
     <View visibe={isVisible}>
-      <NavigationBar backButtonLabel="Sammlung" navigateBack={handleNavigateBack}>
+      <NavigationBar
+        backButtonLabel="Sammlung"
+        navigateBack={handleNavigateBack}
+      >
         <LuPlus />
       </NavigationBar>
 
-      {hasTopics && (
-        <>
-          <Title>{title} </Title>
-          <Divider />
-        </>
-      )}
+      {hasTopics && <Title>{title} </Title>}
+      <Spacer />  
       {!hasTopics && (
         <NoContentAdded backgroundColor={backgroundColor} color={color} />
       )}
