@@ -7,7 +7,7 @@ import { useSchoolSubjectColors } from "../../../../hooks/useSchoolSubjectColors
 import { useSchoolSubjectEntities } from "../../../../hooks/useSchoolSubjectEntities";
 
 const StyledCellContainer = styled.div`
-  ${tw`w-full md:w-1/3 p-1.5 lg:w-1/4 2xl:w-1/5`}
+  ${tw`w-1/2  md:p-1.5  md:w-1/3 lg:w-1/4 2xl:w-1/5`}
 `;
 
 const StyledCellWrapper = styled.div<{

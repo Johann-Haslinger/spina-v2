@@ -5,7 +5,7 @@ import { ViSidebar } from "../../assets/icons";
 import { IoArrowBack, IoChevronBack } from "react-icons/io5";
 
 const StyledNavBarWrapper = styled.div`
-  ${tw`flex fixed px-6 pt-2 top-0    left-0 w-full justify-between   h-14 `}
+  ${tw`flex fixed px-4  md:px-6 pt-2 top-0  bg-primary bg-opacity-90 backdrop-blur-xl  left-0 w-full justify-between   h-14 `}
 `;
 
 const NavigationIconWrapper = styled.div`
@@ -17,7 +17,7 @@ const ToolIconWrapper = styled.div`
 `;
 
 const StyledBackButton = styled.button`
-  ${tw`flex space-x-2 ml-4 items-center`}
+  ${tw`flex space-x-2 ml-2 md:ml-4 items-center`}
 `;
 
 const StyledBackButtonIcon = styled.div`

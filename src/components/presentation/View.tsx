@@ -4,7 +4,7 @@ import React, { PropsWithChildren } from "react";
 import tw from "twin.macro";
 
 const StyledViewContainer = styled.div`
-  ${tw`  w-screen h-screen  bg-[#F5F5F5]  backdrop-blur-2xl `}
+  ${tw`  w-screen h-screen  bg-primary  backdrop-blur-2xl `}
 `;
 
 const StyledViewWrapper = styled.div`

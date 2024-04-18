@@ -8,14 +8,14 @@ import { LuBookOpen } from "react-icons/lu";
 import { IoBook } from "react-icons/io5";
 
 const StyledTopicCellContainer = styled.div`
-  ${tw` w-full md:w-1/2 lg:w-1/3 p-1.5 h-40`}
+  ${tw` w-full pb-6 md:w-1/2 lg:w-1/3 p-1.5 h-fit`}
 `;
 
 const StyledTopicCellWrapper = styled.div<{
   color: string;
   backgroundColor: string;
 }>`
-  ${tw`w-full flex rounded-xl justify-center items-center  hover:scale-105 transition-all  text-7xl font-bold p-2 h-full`}
+  ${tw`w-full h-40 flex rounded-xl justify-center items-center  hover:scale-105 transition-all  text-7xl font-bold p-2 `}
   background-color: ${({ backgroundColor }) => backgroundColor};
   color: ${({ color }) => color};
 `;
