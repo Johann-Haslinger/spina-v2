@@ -8,6 +8,7 @@ import { Tags } from "@leanscope/ecs-models";
 import { useSelectedSchoolSubject } from "../../hooks/useSelectedSchoolSubject";
 import { AdditionalTags } from "../../../../base/enums";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
+import BackButton from "../../../../components/buttons/BackButton";
 
 const TopicView = (props: TitleProps & EntityProps) => {
   const { title, entity } = props;
@@ -17,13 +18,14 @@ const TopicView = (props: TitleProps & EntityProps) => {
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
 
   return (
-    <View  visibe={isVisible}>
-      <NavigationBar
-        backButtonLabel={selectedSchoolSubjectTitle}
-        navigateBack={navigateBack}
-      >
+    <View visibe={isVisible}>
+      <NavigationBar>
         <LuPlus />
       </NavigationBar>
+      <BackButton
+        backButtonLabel={selectedSchoolSubjectTitle}
+        navigateBack={navigateBack}
+      />
       <Title>{title}</Title>
     </View>
   );

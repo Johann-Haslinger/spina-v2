@@ -10,12 +10,8 @@ import { useAppState } from "../../features/collection/hooks/useAppState";
 import { useEffect, useState } from "react";
 
 const StyledSidebarLinkWrapper = styled.div<{ isCurrent: boolean }>`
-  ${tw`flex my-3 dark:text-white hover:bg-black overflow-hidden py-1.5 transition-all px-2 rounded-lg space-x-4 items-center`}
+  ${tw`flex my-3 dark:text-white hover:bg-secondery dark:hover:bg-black overflow-hidden py-1.5 transition-all px-2 rounded-lg space-x-4 items-center`}
   ${({ isCurrent }) => isCurrent && tw``}
-`;
-const StyledNavLinkText = styled.div<{ isHoverd: boolean }>`
-  ${tw`transition-all`}/* ${({ isHoverd }) =>
-    isHoverd ? tw` visible` : tw` invisible`} */
 `;
 const StyledNavLinkIcon = styled.div<{ color: string }>`
   ${tw`text-2xl  px-1.5 rounded-full `}/* color: ${({ color }) => color} */
@@ -48,13 +44,6 @@ const SidebarLink = (props: {
   );
 };
 
-const StyledSidebarIcon = styled.div<{ type: "light" | "dark" }>`
-  ${tw` cursor-pointer`}
-  ${({ type }) =>
-    type === "light"
-      ? tw`dark:invisible dark:w-0`
-      : tw`dark:visible w-0 dark:w-fit invisible`};
-`;
 
 const StyledSpinaIcon = styled.div`
   ${tw`w-5 h-5 mb-12 ml-2 scale-90`}
@@ -64,7 +53,6 @@ const StyledSidebarWrapper = styled.div<{ isHoverd: boolean }>`
 `;
 
 const Sidebar = () => {
-  const { isSidebarVisible, toggleSidebar } = useAppState();
   const [isHoverd, setIsHoverd] = useState(false);
 
   return (

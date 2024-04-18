@@ -1,5 +1,5 @@
 import { SupportedLanguages } from "../base/enums";
-import { AlertTexts, HeaderTexts } from "../base/text";
+import { AlertTexts, ButtonTexts, HeaderTexts } from "../base/text";
 
 export const displayHeaderTexts = (selectedLanguage: SupportedLanguages) => {
   return {
@@ -102,6 +102,49 @@ const getAlertText = (alertText: AlertTexts, selectedLanguage: SupportedLanguage
           return "";
         
 
+      }
+    default:
+      return "";
+  }
+};
+
+export const displayButtonTexts = (selectedLanguage: SupportedLanguages) => {
+  return {
+    backButtonText: getButtonText(ButtonTexts.BACK, selectedLanguage),
+    saveButtonText: getButtonText(ButtonTexts.SAVE, selectedLanguage),
+    cancelButtonText: getButtonText(ButtonTexts.CANCEL, selectedLanguage),
+
+  };
+}
+
+const getButtonText = (buttonText: ButtonTexts, selectedLanguage: SupportedLanguages) => {
+  switch (buttonText) {
+    case ButtonTexts.BACK:
+      switch (selectedLanguage) {
+        case SupportedLanguages.DE:
+          return "Zurück";
+        case SupportedLanguages.EN:
+          return "Back";
+        default:
+          return "";
+      }
+    case ButtonTexts.SAVE:
+      switch (selectedLanguage) {
+        case SupportedLanguages.DE:
+          return "Speichern";
+        case SupportedLanguages.EN:
+          return "Save";
+        default:
+          return "";
+      }
+    case ButtonTexts.CANCEL:
+      switch (selectedLanguage) {
+        case SupportedLanguages.DE:
+          return "Abbrechen";
+        case SupportedLanguages.EN:
+          return "Cancel";
+        default:
+          return "";
       }
     default:
       return "";

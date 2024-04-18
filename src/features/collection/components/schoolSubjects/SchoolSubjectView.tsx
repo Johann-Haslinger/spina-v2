@@ -23,28 +23,28 @@ import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
 import TopicCell from "../topics/TopicCell";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import AddTopicSheet from "./AddTopicSheet";
+import BackButton from "../../../../components/buttons/BackButton";
 
 const SchoolSubjectView = (props: TitleProps & EntityProps) => {
-  const lsc = useContext(LeanScopeClientContext)
+  const lsc = useContext(LeanScopeClientContext);
   const { title, entity } = props;
   const isVisible = useIsViewVisible(entity);
   const { color, backgroundColor } = useSchoolSubjectColors(props.entity);
   const { hasTopics } = useSchoolSubjectTopics(props.entity);
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
-  const openAddTopicSheet = () => lsc.stories.transitTo(StoryGuid.ADD_NEW_TOPIC_STORY)
+  const openAddTopicSheet = () =>
+    lsc.stories.transitTo(StoryGuid.ADD_NEW_TOPIC_STORY);
 
   return (
     <View visibe={isVisible}>
-      <NavigationBar
-        backButtonLabel="Sammlung"
-        navigateBack={navigateBack}
-      >
-        <LuPlus  onClick={openAddTopicSheet}/>
+      <NavigationBar>
+        <LuPlus onClick={openAddTopicSheet} />
       </NavigationBar>
 
-      {hasTopics && <Title>{title} </Title>}
-      <Spacer />  
+      <BackButton  backButtonLabel="Sammlung" navigateBack={navigateBack} />
+      <Title>{title} </Title>
+      <Spacer />
       {!hasTopics && (
         <NoContentAdded backgroundColor={backgroundColor} color={color} />
       )}

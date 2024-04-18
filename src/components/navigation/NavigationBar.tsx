@@ -1,8 +1,6 @@
 import styled from "@emotion/styled";
 import React, { PropsWithChildren } from "react";
 import tw from "twin.macro";
-import { ViSidebar, ViSidebarDark } from "../../assets/icons";
-import { IoArrowBack, IoChevronBack } from "react-icons/io5";
 import { useAppState } from "../../features/collection/hooks/useAppState";
 
 const StyledNavBarWrapper = styled.div`

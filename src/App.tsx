@@ -11,9 +11,9 @@ import { Sidebar } from "./components";
 import AppInitSystem from "./systems/AppInitSystem";
 
 function App() {
-  useEffect(() => {
-    document.documentElement.classList.add("dark");
-  }, []);
+  // useEffect(() => {
+  //   document.documentElement.classList.add("dark");
+  // }, []);
 
   return (
     <>
