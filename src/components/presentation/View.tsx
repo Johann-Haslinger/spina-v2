@@ -4,7 +4,7 @@ import React, { PropsWithChildren } from "react";
 import tw from "twin.macro";
 
 const StyledViewContainer = styled.div`
-  ${tw` bg-opacity-75 w-screen h-screen  bg-white  backdrop-blur-2xl `}
+  ${tw`  w-screen h-screen  bg-[#F5F5F5]  backdrop-blur-2xl `}
 `;
 
 const StyledViewWrapper = styled.div`
@@ -43,14 +43,14 @@ const View = (props: ViewProps & PropsWithChildren) => {
           position: "fixed",
           top: 0,
           left: 0,
-         
-          x: viewType == "overlayView" ?  "100%" : 0,
+
+          x: viewType == "overlayView" ? "100%" : 0,
         }}
         transition={{
           type: "tween",
         }}
         animate={{
-          x: visibe ? 0 : "100%"
+          x: visibe ? 0 : "100%",
         }}
       >
         <StyledViewContainer>

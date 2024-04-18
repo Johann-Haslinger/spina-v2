@@ -5,12 +5,14 @@ import { formatNavLinkAsPath } from "./utils";
 import { Collection, Exams, Groups, Homeworks, Overview } from "./pages/Index";
 import SchoolSubjectsInitSystem from "./systems/SchoolSubjectsInitSystem";
 import ViewManagerSystem from "./systems/ViewManagerSystem";
+import LoadTopicEntitiesSystem from "./features/collection/systems/LoadTopicEntitiesSystem";
 
 
 function App() {
   return (
     <>
       <ViewManagerSystem />
+      <LoadTopicEntitiesSystem  />
       <SchoolSubjectsInitSystem />
       <BrowserRouter>
         <Routes>

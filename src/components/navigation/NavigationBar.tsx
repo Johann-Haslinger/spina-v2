@@ -29,9 +29,9 @@ const StyledBackButtonText = styled.p`
 `;
 
 const NavigationBar = (
-  props: PropsWithChildren & { navigateBack?: () => void }
+  props: PropsWithChildren & { navigateBack?: () => void, backButtonLabel?: string }
 ) => {
-  const { navigateBack, children } = props;
+  const { navigateBack, children, backButtonLabel } = props;
 
   return (
     <StyledNavBarWrapper>
@@ -42,7 +42,7 @@ const NavigationBar = (
             <StyledBackButtonIcon>
               <IoChevronBack />
             </StyledBackButtonIcon>
-            <StyledBackButtonText>Zurück</StyledBackButtonText>
+            <StyledBackButtonText>{backButtonLabel ? backButtonLabel : "Sammlung"}</StyledBackButtonText>
           </StyledBackButton>
         )}
       </NavigationIconWrapper>

@@ -15,7 +15,7 @@ const StyledTopicCellWrapper = styled.div<{
   color: string;
   backgroundColor: string;
 }>`
-  ${tw`w-full flex justify-center items-center  hover:scale-105 transition-all  text-7xl font-bold p-2 h-full`}
+  ${tw`w-full flex rounded-xl justify-center items-center  hover:scale-105 transition-all  text-7xl font-bold p-2 h-full`}
   background-color: ${({ backgroundColor }) => backgroundColor};
   color: ${({ color }) => color};
 `;
@@ -25,18 +25,11 @@ const StyledTopicTitle = styled.p`
 `;
 const StyledTopicDescription = styled.p`
   ${tw` text-seconderyText line-clamp-2 mt-1`}
-`
-
-const StyledTopicIcon = styled.div<{ color: string }>`
-  ${tw`  size-16 mx-auto mt-8 `}
-  background-color: ${({ color }) => color};
 `;
-
 
 const TopicCell = (props: TitleProps & EntityProps) => {
   const { title, entity } = props;
   const { color, backgroundColor } = useTopicColor(entity);
- 
 
   const handleOpenTopic = () => {
     entity.addTag(Tags.SELECTED);
@@ -49,11 +42,12 @@ const TopicCell = (props: TitleProps & EntityProps) => {
         color={color}
         backgroundColor={backgroundColor}
       >
-       {/* <StyledTopicIcon color={color} /> */}
-       <IoBook />
+        <IoBook />
       </StyledTopicCellWrapper>
       <StyledTopicTitle>{title}</StyledTopicTitle>
-      <StyledTopicDescription>Lorem ipsum dolor sit amet etum non situm.</StyledTopicDescription>
+      <StyledTopicDescription>
+        Lorem ipsum dolor sit amet etum non situm.
+      </StyledTopicDescription>
     </StyledTopicCellContainer>
   );
 };

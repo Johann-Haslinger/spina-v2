@@ -64,3 +64,29 @@ export const dummySchoolSubjects = [
         name: "Religion",
     },
 ];
+
+
+
+export const dummyTopics = [
+    {
+        topicName: "Addition",
+        id: "1",
+        date_added: new Date().toISOString(),
+        topicDescription: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        parentId: "0",
+    },
+    {
+        topicName: "Subtraction",
+        id: "2",
+        date_added: new Date().toISOString(),
+        topicDescription: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        parentId: "0",
+    },
+    {
+        topicName: "Multiplication",
+        id: "3",
+        date_added: new Date().toISOString(),
+        topicDescription: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+        parentId: "0",
+    },
+];
