@@ -1,5 +1,5 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { Entity, useEntities, useEntity } from "@leanscope/ecs-engine";
+import { Entity } from "@leanscope/ecs-engine";
 import {
   DescriptionFacet,
   IdentifierFacet,
@@ -11,9 +11,9 @@ import { useContext, useEffect } from "react";
 import { TitleFacet } from "../../../app/AdditionalFacets";
 import { DataTypes } from "../../../base/enums";
 import supabase from "../../../lib/supabase";
-import { dataTypeQuery } from "../../../utils/queries";
 import { dummyTopics } from "../../../base/dummy";
-import { useSchoolSubjectTopicEntities } from "../hooks/useSchoolSubjectTopicEntities";
+import { useSelectedSchoolSubject } from "../hooks/useSelectedSchoolSubject";
+import { useSchoolSubjectTopics } from "../hooks/useSchoolSubjectTopics";
 
 const fetchTopicsForSchoolSubject = async (subjectId: string) => {
   console.log("fetching topics for school subject", subjectId);
@@ -33,30 +33,21 @@ const fetchTopicsForSchoolSubject = async (subjectId: string) => {
 const LoadTopicEntitiesSystem = (props: { mokUpData?: boolean }) => {
   const { mokUpData } = props;
   const lsc = useContext(LeanScopeClientContext);
-  const [selectedSchoolSubjectEntity] = useEntity(
-    (e) => dataTypeQuery(e, DataTypes.SCHOOL_SUBJECT) && e.hasTag(Tags.SELECTED)
-  );
-
-  const schoolSubjectId =
-    selectedSchoolSubjectEntity?.get(IdentifierFacet)?.props.guid;
-  const [subjectTopicEntities] = useEntities(
-    (e) =>
-      e.hasTag(DataTypes.TOPIC) &&
-      e.get(ParentFacet)?.props.parentId === schoolSubjectId
-  );
-
-  const topicEntitiesAlreadyLoaded = subjectTopicEntities.length > 0;
+  const { selectedSchoolSubjectEntity, selectedSchoolSubjectId } = useSelectedSchoolSubject();
+  const { hasTopics } = useSchoolSubjectTopics(selectedSchoolSubjectEntity);
 
   useEffect(() => {
     const initializeTopicEntities = async () => {
-      if (schoolSubjectId) {
+      if (selectedSchoolSubjectId) {
         const topics = mokUpData
           ? dummyTopics
-          : await fetchTopicsForSchoolSubject(schoolSubjectId);
+          : await fetchTopicsForSchoolSubject(selectedSchoolSubjectId);
 
         topics.forEach((topic) => {
           const isExisting = lsc.engine.entities.some(
-            (e) => e.get(IdentifierFacet)?.props.guid === topic.id && e.hasTag(DataTypes.TOPIC)
+            (e) =>
+              e.get(IdentifierFacet)?.props.guid === topic.id &&
+              e.hasTag(DataTypes.TOPIC)
           );
 
           if (!isExisting) {
@@ -67,20 +58,23 @@ const LoadTopicEntitiesSystem = (props: { mokUpData?: boolean }) => {
             topicEntity.add(
               new TimestampFacet({ timestampDateTimeValue: topic.date_added })
             );
+
             topicEntity.add(
               new DescriptionFacet({ description: topic.topicDescription })
             );
-            topicEntity.add(new ParentFacet({ parentId: schoolSubjectId }));
+            topicEntity.add(
+              new ParentFacet({ parentId: selectedSchoolSubjectId })
+            );
             topicEntity.addTag(DataTypes.TOPIC);
           }
         });
       }
     };
 
-    if (selectedSchoolSubjectEntity && !topicEntitiesAlreadyLoaded) {
+    if (selectedSchoolSubjectId && !hasTopics) {
       initializeTopicEntities();
     }
-  }, [selectedSchoolSubjectEntity]);
+  }, [selectedSchoolSubjectId]);
 
   return null;
 };

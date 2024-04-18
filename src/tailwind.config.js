@@ -15,6 +15,7 @@ module.exports = {
         primaryTextDark: "#ffffff",
         seconderyText: "#86858A",
         seconderyTextDark: "#86858A",
+        placeholderText: "#BDBDBD",
        
       },
       backgroundColor: {

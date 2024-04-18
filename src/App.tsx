@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { NavigationLinks, Stories } from "./base/enums";
+import { NavigationLinks, StoryGuid } from "./base/enums";
 import { formatNavLinkAsPath } from "./utils";
 import { Collection, Exams, Groups, Homeworks, Overview } from "./pages/Index";
 import SchoolSubjectsInitSystem from "./systems/SchoolSubjectsInitSystem";
@@ -15,7 +15,7 @@ function App() {
 
   return (
     <>
-      <StoriesInitSystem initialStory={Stories.OBSERVING_COLLECTION_STORY} />
+      <StoriesInitSystem initialStory={StoryGuid.OBSERVING_COLLECTION_STORY} />
       <ViewManagerSystem />
       <LoadTopicEntitiesSystem />
       <SchoolSubjectsInitSystem />

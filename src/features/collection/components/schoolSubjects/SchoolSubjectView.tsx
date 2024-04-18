@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { TitleFacet, TitleProps } from "../../../../app/AdditionalFacets";
 import {
   EntityProps,
@@ -13,30 +13,34 @@ import {
   Title,
   View,
 } from "../../../../components";
-import { AdditionalTags, DataTypes } from "../../../../base/enums";
+import { AdditionalTags, DataTypes, StoryGuid } from "../../../../base/enums";
 import { LuPlus } from "react-icons/lu";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 import { useSchoolSubjectColors } from "../../../../hooks/useSchoolSubjectColors";
-import { useSchoolSubjectTopicEntities } from "../../hooks/useSchoolSubjectTopicEntities";
+import { useSchoolSubjectTopics } from "../../hooks/useSchoolSubjectTopics";
 import NoContentAdded from "../../../../components/content/NoContentAdded";
 import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
 import TopicCell from "../topisc/TopicCell";
+import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import AddTopicSheet from "./AddTopicSheet";
 
 const SchoolSubjectView = (props: TitleProps & EntityProps) => {
+  const lsc = useContext(LeanScopeClientContext)
   const { title, entity } = props;
   const isVisible = useIsViewVisible(entity);
   const { color, backgroundColor } = useSchoolSubjectColors(props.entity);
-  const { hasTopics } = useSchoolSubjectTopicEntities(props.entity);
+  const { hasTopics } = useSchoolSubjectTopics(props.entity);
 
-  const handleNavigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
+  const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
+  const openAddTopicSheet = () => lsc.stories.transitTo(StoryGuid.ADD_NEW_TOPIC_STORY)
 
   return (
     <View visibe={isVisible}>
       <NavigationBar
         backButtonLabel="Sammlung"
-        navigateBack={handleNavigateBack}
+        navigateBack={navigateBack}
       >
-        <LuPlus />
+        <LuPlus  onClick={openAddTopicSheet}/>
       </NavigationBar>
 
       {hasTopics && <Title>{title} </Title>}
@@ -54,6 +58,7 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
           onMatch={TopicCell}
         />
       </CollectionLayout>
+      <AddTopicSheet />
     </View>
   );
 };

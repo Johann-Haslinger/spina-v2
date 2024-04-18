@@ -20,6 +20,7 @@
     "@leanscope/ecs-engine": "^0.2.67",
     "@leanscope/ecs-generation": "^0.1.84",
     "@leanscope/ecs-models": "^0.2.43",
+    "@leanscope/inspection": "^0.1.2",
     "@leanscope/storyboarding": "^0.1.89",
     "autoprefixer": "^10.4.19",
     "eslint-plugin-storybook": "^0.8.0",
@@ -32,7 +33,8 @@
     "react-router-dom": "^6.22.3",
     "supabase": "^1.153.4",
     "tailwindcss": "^3.4.3",
-    "twin.macro": "^3.4.1"
+    "twin.macro": "^3.4.1",
+    "uuidv4": "^6.2.13"
   },
   "devDependencies": {
     "@babel/plugin-transform-modules-commonjs": "^7.24.1",
