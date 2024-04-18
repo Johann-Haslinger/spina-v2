@@ -3,7 +3,7 @@ import React, { PropsWithChildren } from "react";
 import tw from "twin.macro";
 
 const StyledTitle = styled.div`
-  ${tw`text-4xl font-black`}
+  ${tw`text-4xl dark:text-white text-primatyText font-black`}
 `;
 
 interface TitleProps {
@@ -11,7 +11,7 @@ interface TitleProps {
 }
 
 const Title = (props: PropsWithChildren & TitleProps) => {
-  const { color = "black", children } = props;
+  const { color, children } = props;
   return (
     <StyledTitle
       style={{

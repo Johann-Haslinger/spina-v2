@@ -21,7 +21,7 @@ const StyledTopicCellWrapper = styled.div<{
 `;
 
 const StyledTopicTitle = styled.p`
-  ${tw`mt-4 font-semibold text-2xl line-clamp-2 `}
+  ${tw`mt-4 dark:text-white text-primatyText font-semibold text-2xl line-clamp-2 `}
 `;
 const StyledTopicDescription = styled.p`
   ${tw` text-seconderyText line-clamp-2 mt-1`}

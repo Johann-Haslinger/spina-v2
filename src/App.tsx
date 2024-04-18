@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { NavigationLinks } from "./base/enums";
 import { formatNavLinkAsPath } from "./utils";
@@ -9,6 +9,11 @@ import LoadTopicEntitiesSystem from "./features/collection/systems/LoadTopicEnti
 
 
 function App() {
+
+  useEffect(() => {
+    document.documentElement.classList.add('dark')
+  }, [])
+  
   return (
     <>
       <ViewManagerSystem />

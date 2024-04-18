@@ -1,11 +1,11 @@
 import styled from "@emotion/styled";
 import React, { PropsWithChildren } from "react";
 import tw from "twin.macro";
-import { ViSidebar } from "../../assets/icons";
+import { ViSidebar, ViSidebarDark } from "../../assets/icons";
 import { IoArrowBack, IoChevronBack } from "react-icons/io5";
 
 const StyledNavBarWrapper = styled.div`
-  ${tw`flex fixed px-4  md:px-6 pt-2 top-0  bg-primary bg-opacity-90 backdrop-blur-xl  left-0 w-full justify-between   h-14 `}
+  ${tw`flex fixed px-4  md:px-6 pt-2 top-0 dark:text-white text-primatyText dark:bg-primaryDark bg-primary bg-opacity-90 backdrop-blur-xl  left-0 w-full justify-between   h-14 `}
 `;
 
 const NavigationIconWrapper = styled.div`
@@ -21,31 +21,48 @@ const StyledBackButton = styled.button`
 `;
 
 const StyledBackButtonIcon = styled.div`
-  ${tw`text-xl `}
+  ${tw`text-xl  `}
 `;
 
 const StyledBackButtonText = styled.p`
   ${tw`text-sm`}
 `;
 
+const StyledSidebarIcon = styled.div<{ type: "light" | "dark" }>`
+  ${tw`text-xl`}
+  ${({ type }) =>
+    type === "light" ? tw`dark:invisible dark:w-0` : tw`dark:visible w-0 dark:w-fit invisible`};
+`;
+
 const NavigationBar = (
-  props: PropsWithChildren & { navigateBack?: () => void, backButtonLabel?: string }
+  props: PropsWithChildren & {
+    navigateBack?: () => void;
+    backButtonLabel?: string;
+  }
 ) => {
   const { navigateBack, children, backButtonLabel } = props;
 
   return (
     <StyledNavBarWrapper>
       <NavigationIconWrapper>
-        <ViSidebar />
+        <StyledSidebarIcon type="light">
+          <ViSidebar />
+        </StyledSidebarIcon>
+        <StyledSidebarIcon type="dark">
+          <ViSidebarDark />
+        </StyledSidebarIcon>
         {navigateBack && (
           <StyledBackButton onClick={navigateBack}>
             <StyledBackButtonIcon>
               <IoChevronBack />
             </StyledBackButtonIcon>
-            <StyledBackButtonText>{backButtonLabel ? backButtonLabel : "Sammlung"}</StyledBackButtonText>
+            <StyledBackButtonText>
+              {backButtonLabel ? backButtonLabel : "Sammlung"}
+            </StyledBackButtonText>
           </StyledBackButton>
-        )}
+        )}{" "}
       </NavigationIconWrapper>
+
       <ToolIconWrapper>{children}</ToolIconWrapper>
     </StyledNavBarWrapper>
   );

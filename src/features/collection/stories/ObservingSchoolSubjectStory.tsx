@@ -2,7 +2,7 @@ import {
   LeanScopeClientApp,
   LeanScopeClient,
 } from "@leanscope/api-client/node";
-import React from "react";
+import React, { useEffect } from "react";
 import ViewManagerSystem from "../../../systems/ViewManagerSystem";
 import SchoolSubjectView from "../components/schoolSubjects/SchoolSubjectView";
 import { Entity, EntityCreator } from "@leanscope/ecs-engine";
@@ -14,6 +14,10 @@ import Collection from "../../../pages/Collection";
 import SchoolSubjectsInitSystem from "../../../systems/SchoolSubjectsInitSystem";
 
 const ObservingSchoolSubjectStory = () => {
+
+  useEffect(() => {
+    document.documentElement.classList.add("dark");
+  }, []);
   return (
     <React.StrictMode>
       <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>

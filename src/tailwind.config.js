@@ -3,17 +3,23 @@
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
 
-  darkMode: "class",
+
+  darkMode: 'selector',
+ 
   theme: {
     fontFamily: {},
     extend: {
       colors: {
-        primary: "#5856D5",
+        primary: "#000000",
+        primatyText: "#1E1E1E",
+        primaryTextDark: "#ffffff",
         seconderyText: "#86858A",
+        seconderyTextDark: "#86858A",
        
       },
       backgroundColor: {
         primary: "#F5F5F5",
+        primaryDark: "#000000",
         secondery: "#F6F6F6"
       
       },
