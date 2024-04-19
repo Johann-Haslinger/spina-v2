@@ -17,7 +17,7 @@ import TopicView from "../features/collection/components/topics/TopicView";
 import { useSelectedLanguage } from "../hooks/useSelectedLanguage";
 
 const Collection = () => {
-  const selectedLanguage = useSelectedLanguage();
+  const {selectedLanguage} = useSelectedLanguage();
 
   return (
     <>

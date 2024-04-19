@@ -26,7 +26,7 @@ const NoContentAdded = (props: {
   backgroundColor?: string;
 }) => {
   const { color = "black", backgroundColor } = props;
-  const selectedLanguage = useSelectedLanguage();
+  const {selectedLanguage} = useSelectedLanguage();
 
   return (
     <StyledNoConttentAddedWrapper>

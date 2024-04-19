@@ -7,9 +7,10 @@ export enum StoryGuid{
 export enum AdditionalTags {
   NAVIGATE_BACK = "navigateBack",
   APP_STATE_ENTITY = "appStateEntity",
-  SIDEBAR_IS_VISIBLE = "sidebarVisible",
-  LIGHT_MODE = "lightMode",
-  DARK_MODE = "darkMode",
+  SIDEBAR_VISIBLE = "sidebarVisible",
+  SETTING_VISIBLE = "settingVisible",
+  LIGHT_THEME = "lightMode",
+  DARK_THEME = "darkMode",
   
 }
 
@@ -34,4 +35,9 @@ export enum DataTypes {
 export enum SupportedLanguages {
   DE = "de",
   EN = "en",
+}
+
+export enum SupportedThemes {
+  LIGHT = "light",
+  DARK = "dark",
 }

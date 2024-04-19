@@ -43,26 +43,9 @@ export const dummySchoolSubjects = [
         id: "11",
         name: "Musik",
     },
-    {
-        id: "12",
-        name: "Erdkunde",
-    },
-    {
-        id: "13",
-        name: "Wirtschaft",
-    },
-    {
-        id: "14",
-        name: "Politik",
-    },
-    {
-        id: "15",
-        name: "Ethik",
-    },
-    {
-        id: "16",
-        name: "Religion",
-    },
+  
+ 
+
 ];
 
 

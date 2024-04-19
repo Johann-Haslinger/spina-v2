@@ -2,10 +2,10 @@ import { useEntities } from "@leanscope/ecs-engine";
 import React, { useEffect } from "react";
 import { AdditionalTags } from "../base/enums";
 import { Tags } from "@leanscope/ecs-models";
-import { useAppState } from "../features/collection/hooks/useAppState";
+import { useSelectedTheme } from "../features/collection/hooks/useSelectedTheme";
 
 const ViewManagerSystem = () => {
-  const { isDarkMode } = useAppState();
+  const { isDarkMode } = useSelectedTheme();
   const [closingVews] = useEntities(
     (e) => e.hasTag(Tags.SELECTED) && e.hasTag(AdditionalTags.NAVIGATE_BACK)
   );

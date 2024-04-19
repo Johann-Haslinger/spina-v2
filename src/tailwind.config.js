@@ -21,7 +21,8 @@ module.exports = {
       backgroundColor: {
         primary: "#F5F5F5",
         primaryDark: "#000000",
-        secondery: "#F6F6F6"
+        secondery: "#F6F6F6",
+        seconderyDark: "#141414"
       
       },
       borderColor: {

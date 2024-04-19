@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { NavigationLinks, StoryGuid } from "./base/enums";
 import { formatNavLinkAsPath } from "./utils";
@@ -9,10 +9,12 @@ import LoadTopicEntitiesSystem from "./features/collection/systems/LoadTopicEnti
 import StoriesInitSystem from "./systems/StoriesInitSystem";
 import { Sidebar } from "./components";
 import AppInitSystem from "./systems/AppInitSystem";
+import { Settings } from "./features/settings";
 
 function App() {
   return (
     <>
+
       <AppInitSystem />
       <StoriesInitSystem initialStory={StoryGuid.OBSERVING_COLLECTION_STORY} />
       <ViewManagerSystem />
@@ -44,6 +46,7 @@ function App() {
           />
         </Routes>
         <Sidebar />
+        <Settings />
       </BrowserRouter>
     </>
   );

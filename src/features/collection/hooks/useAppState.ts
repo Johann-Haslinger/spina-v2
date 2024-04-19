@@ -9,32 +9,28 @@ export const useAppState = () => {
   );
   const [isSidebarVisible] = useEntityHasTags(
     appStateEntity,
-    AdditionalTags.SIDEBAR_IS_VISIBLE
+    AdditionalTags.SIDEBAR_VISIBLE
   );
-  const [isLightMode] = useEntityHasTags(
+  const [isSettingVisible] = useEntityHasTags(
     appStateEntity,
-    AdditionalTags.LIGHT_MODE
-  );
-  const [isDarkMode] = useEntityHasTags(
-    appStateEntity,
-    AdditionalTags.DARK_MODE
+    AdditionalTags.SETTING_VISIBLE
   );
 
-  const toggleViewMode = () => {
-    if (isLightMode) {
-      appStateEntity?.remove(AdditionalTags.LIGHT_MODE);
-      appStateEntity?.add(AdditionalTags.DARK_MODE);
+  const toggleSettings = () => {
+    if (isSettingVisible) {
+      appStateEntity?.remove(AdditionalTags.SETTING_VISIBLE);
     } else {
-      appStateEntity?.remove(AdditionalTags.DARK_MODE);
-      appStateEntity?.add(AdditionalTags.LIGHT_MODE);
+      appStateEntity?.add(AdditionalTags.SETTING_VISIBLE);
     }
-  };
+  }
+
+ 
 
   const toggleSidebar = () => {
     if (isSidebarVisible) {
-      appStateEntity?.remove(AdditionalTags.SIDEBAR_IS_VISIBLE);
+      appStateEntity?.remove(AdditionalTags.SIDEBAR_VISIBLE);
     } else {
-      appStateEntity?.add(AdditionalTags.SIDEBAR_IS_VISIBLE);
+      appStateEntity?.add(AdditionalTags.SIDEBAR_VISIBLE);
       console.log(appStateEntity);
     }
   };
@@ -43,8 +39,7 @@ export const useAppState = () => {
     isSidebarVisible,
     toggleSidebar,
     appStateEntity,
-    isLightMode,
-    isDarkMode,
-    toggleViewMode,
+    toggleSettings,
+    isSettingVisible
   };
 };

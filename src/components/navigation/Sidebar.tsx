@@ -10,7 +10,7 @@ import { useEffect, useRef, useState } from "react";
 import { useWindowDimensions } from "../../hooks/useWindowDimensions";
 import { useAppState } from "../../features/collection/hooks/useAppState";
 
-const StyledProfileLinkWrapper = styled.div<{ isHoverd: boolean }>`
+const StyledSettingsWrapper = styled.div<{ isHoverd: boolean }>`
   ${tw`flex w-[226px] cursor-pointer  hover:bg-primary dark:hover:bg-black   mx-1 absolute bottom-0 my-2 dark:text-white  overflow-hidden py-1 transition-all  rounded-xl space-x-4 items-center`}/* ${({
     isHoverd,
   }) => isHoverd && tw`bg-secondery dark:bg-black`} */
@@ -27,11 +27,13 @@ const StyledProfileIcon = styled.div<{
 const StyledProfileText = styled.div`
   ${tw` font-semibold `}
 `;
-const ProfileLink = (props: { isFullWidth: boolean }) => {
+const SettingsLink = (props: { isFullWidth: boolean }) => {
   const { isFullWidth: isHoverd } = props;
   const { color, backgroundColor } = COLOR_ITEMS[1];
+  const {toggleSettings} = useAppState();
+  
   return (
-    <StyledProfileLinkWrapper isHoverd={isHoverd}>
+    <StyledSettingsWrapper onClick={toggleSettings} isHoverd={isHoverd}>
       <StyledProfileIcon color={color} backgroundColor={backgroundColor}>
         J
       </StyledProfileIcon>
@@ -41,7 +43,7 @@ const ProfileLink = (props: { isFullWidth: boolean }) => {
       >
         <StyledProfileText>Johann</StyledProfileText>
       </motion.div>
-    </StyledProfileLinkWrapper>
+    </StyledSettingsWrapper>
   );
 };
 
@@ -86,7 +88,7 @@ const StyledSpinaIcon = styled.div`
   ${tw`w-5 h-5  hover:scale-100 transition-all  mb-12 ml-2.5 scale-90`}
 `;
 const StyledSidebarWrapper = styled.div<{ isFullWidth: boolean }>`
-  ${tw`h-full  pt-6 bg-white dark:bg-[#141414] px-2 rounded-xl backdrop-blur-2xl bg-opacity-90  `}
+  ${tw`h-full  pt-6 bg-white dark:bg-seconderyDark  transition-all  px-2 rounded-xl backdrop-blur-2xl bg-opacity-90  `}
 `;
 
 const Sidebar = () => {
@@ -97,6 +99,8 @@ const Sidebar = () => {
   const isMobile = width < 768;
   const isVisible = isMobile ? isSidebarVisible : true;
   const isFullWidth = isMobile ? true : isHoverd;
+
+
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);
@@ -126,7 +130,7 @@ const Sidebar = () => {
         height: isMobile ? "98%" : "96%",
         top: isMobile ? "1%" :  "2%",
         left:  isMobile ? "14px" : "1%",
-        zIndex: 1000,
+       
       }}
       initial={{
         width: 72,
@@ -152,7 +156,7 @@ const Sidebar = () => {
             path={navLink.path}
           />
         ))}
-        <ProfileLink isFullWidth={isFullWidth} />
+        <SettingsLink isFullWidth={isFullWidth} />
       </StyledSidebarWrapper>
     </motion.div>
   );

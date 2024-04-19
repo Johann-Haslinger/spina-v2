@@ -53,7 +53,7 @@ const AddTopicSheet = () => {
   };
 
   return (
-    <Sheet navigateBack={navigateBack} isVisible={isVisible}>
+    <Sheet navigateBack={navigateBack} visible={isVisible}>
       <FlexBox>
         <button onClick={navigateBack}>Back</button>
         <button onClick={addTopic}>Add topic</button>

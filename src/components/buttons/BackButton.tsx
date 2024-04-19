@@ -14,10 +14,13 @@ const StyledBackButtonIcon = styled.div`
   ${tw`text-lg`}
 `;
 
-const BackButton = (props: { navigateBack?: () => void , backButtonLabel?: string}) => {
+const BackButton = (props: {
+  navigateBack?: () => void;
+  backButtonLabel?: string;
+}) => {
   const { navigateBack, backButtonLabel } = props;
   const [isHovered, setIsHovered] = useState(false);
-  const selectedLanguage = useSelectedLanguage();
+  const { selectedLanguage } = useSelectedLanguage();
 
   return (
     <StyledBackButtonWrapper
@@ -36,7 +39,9 @@ const BackButton = (props: { navigateBack?: () => void , backButtonLabel?: strin
         </StyledBackButtonIcon>
       </motion.div>
       <p>
-        {backButtonLabel ? backButtonLabel : displayButtonTexts(selectedLanguage).backButtonText}
+        {backButtonLabel
+          ? backButtonLabel
+          : displayButtonTexts(selectedLanguage).backButtonText}
       </p>
     </StyledBackButtonWrapper>
   );

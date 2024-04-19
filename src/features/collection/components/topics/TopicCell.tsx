@@ -5,6 +5,7 @@ import tw from "twin.macro";
 import styled from "@emotion/styled";
 import { Tags } from "@leanscope/ecs-models";
 import { IoBook } from "react-icons/io5";
+import { useAppState } from "../../hooks/useAppState";
 
 const StyledTopicCellContainer = styled.div`
   ${tw` w-full cursor-pointer pb-6 md:w-1/2 lg:w-1/3 p-1.5 h-fit`}
@@ -29,9 +30,12 @@ const StyledTopicDescription = styled.p`
 const TopicCell = (props: TitleProps & EntityProps) => {
   const { title, entity } = props;
   const { color, backgroundColor } = useTopicColor(entity);
+  const { isSidebarVisible } = useAppState();
 
   const handleOpenTopic = () => {
-    entity.addTag(Tags.SELECTED);
+    if (!isSidebarVisible) {
+      entity.addTag(Tags.SELECTED);
+    }
   };
 
   return (

@@ -11,6 +11,7 @@ import ViewManagerSystem from "../systems/ViewManagerSystem";
 import AppInitSystem from "../systems/AppInitSystem";
 import { Sidebar } from "../components";
 import { BrowserRouter } from "react-router-dom";
+import { Settings } from "../features/settings";
 
 const ObservingSidebarStory = () => {
   return (
@@ -26,6 +27,7 @@ const ObservingSidebarStory = () => {
           <SchoolSubjectsInitSystem mokUpData />
           <Collection />
           <Sidebar />
+          <Settings />
         </LeanScopeClientApp>
       </BrowserRouter>
     </React.StrictMode>

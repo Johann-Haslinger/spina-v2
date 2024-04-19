@@ -1,3 +1,4 @@
+import { SupportedLanguages } from "../base/enums";
 import { Facet } from "../base/facet";
 
 export interface TitleProps {
@@ -6,6 +7,15 @@ export interface TitleProps {
 
 export class TitleFacet extends Facet<TitleProps>{
   constructor(props: TitleProps) {
+    super(props);
+  }
+}
+export interface SelectedLanguageProps {
+  selectedLanguage: SupportedLanguages;
+}
+
+export class SelectedLanguageFacet extends Facet<SelectedLanguageProps>{
+  constructor(props: SelectedLanguageProps) {
     super(props);
   }
 }
