@@ -2,9 +2,10 @@ import styled from "@emotion/styled";
 import React, { PropsWithChildren } from "react";
 import tw from "twin.macro";
 import { useAppState } from "../../features/collection/hooks/useAppState";
+import { ViSidebar, ViSidebarDark } from "../../assets/icons";
 
 const StyledNavBarWrapper = styled.div`
-  ${tw`flex fixed px-4  md:px-6 pt-2 top-0 dark:text-white text-primatyText dark:bg-primaryDark bg-primary bg-opacity-90 backdrop-blur-xl  left-0 w-full justify-between   h-14 `}
+  ${tw`flex fixed px-4 !bg-opacity-70 backdrop-blur-2xl  md:px-6 pt-2 top-0 dark:text-white text-primatyText dark:bg-primaryDark bg-primary   left-0 w-full justify-between   h-14 `}
 `;
 
 const NavigationIconsWrapper = styled.div`
@@ -28,7 +29,7 @@ const StyledBackButtonText = styled.p`
 `;
 
 const StyledSidebarIcon = styled.div<{ type: "light" | "dark" }>`
-  ${tw`text-xl`}
+  ${tw`text-xl md:!invisible `}
   ${({ type }) =>
     type === "light"
       ? tw`dark:invisible dark:w-0`
@@ -46,14 +47,14 @@ const NavigationBar = (
 
   return (
     <StyledNavBarWrapper>
-      {/* <NavigationIconsWrapper>
+      <NavigationIconsWrapper>
         <StyledSidebarIcon onClick={toggleSidebar} type="light">
           <ViSidebar />
         </StyledSidebarIcon>
         <StyledSidebarIcon  onClick={toggleSidebar}  type="dark">
           <ViSidebarDark />
         </StyledSidebarIcon>
-        {navigateBack && (
+        {/* {navigateBack && (
           <StyledBackButton onClick={navigateBack}>
             <StyledBackButtonIcon>
               <IoChevronBack />
@@ -62,8 +63,8 @@ const NavigationBar = (
               {backButtonLabel ? backButtonLabel : "Sammlung"}
             </StyledBackButtonText>
           </StyledBackButton>
-        )}{" "}
-      </NavigationIconsWrapper> */}
+        )}{" "} */}
+      </NavigationIconsWrapper>
       <div></div>
 
       <ToolIconWrapper>{children}</ToolIconWrapper>

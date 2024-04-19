@@ -11,10 +11,24 @@ export const useAppState = () => {
     appStateEntity,
     AdditionalTags.SIDEBAR_IS_VISIBLE
   );
+  const [isLightMode] = useEntityHasTags(
+    appStateEntity,
+    AdditionalTags.LIGHT_MODE
+  );
+  const [isDarkMode] = useEntityHasTags(
+    appStateEntity,
+    AdditionalTags.DARK_MODE
+  );
 
-  useEffect(() => {
-    console.log(isSidebarVisible);
-  }, [isSidebarVisible]);
+  const toggleViewMode = () => {
+    if (isLightMode) {
+      appStateEntity?.remove(AdditionalTags.LIGHT_MODE);
+      appStateEntity?.add(AdditionalTags.DARK_MODE);
+    } else {
+      appStateEntity?.remove(AdditionalTags.DARK_MODE);
+      appStateEntity?.add(AdditionalTags.LIGHT_MODE);
+    }
+  };
 
   const toggleSidebar = () => {
     if (isSidebarVisible) {
@@ -25,5 +39,12 @@ export const useAppState = () => {
     }
   };
 
-  return { isSidebarVisible, toggleSidebar, appStateEntity };
+  return {
+    isSidebarVisible,
+    toggleSidebar,
+    appStateEntity,
+    isLightMode,
+    isDarkMode,
+    toggleViewMode,
+  };
 };

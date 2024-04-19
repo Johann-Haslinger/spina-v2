@@ -8,6 +8,9 @@ export enum AdditionalTags {
   NAVIGATE_BACK = "navigateBack",
   APP_STATE_ENTITY = "appStateEntity",
   SIDEBAR_IS_VISIBLE = "sidebarVisible",
+  LIGHT_MODE = "lightMode",
+  DARK_MODE = "darkMode",
+  
 }
 
 export enum NavigationLinks {

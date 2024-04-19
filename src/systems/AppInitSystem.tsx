@@ -13,7 +13,7 @@ const AppInitSystem = () => {
     if (!appStateEntity) {
       lsc.entities.create({
         guid: "appState",
-        tags: [AdditionalTags.APP_STATE_ENTITY],
+        tags: [AdditionalTags.APP_STATE_ENTITY, AdditionalTags.DARK_MODE],
       });
     }
   }, []);

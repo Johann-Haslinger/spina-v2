@@ -4,26 +4,64 @@ import tw from "twin.macro";
 import { COLOR_ITEMS, COLORS, NAV_LINKS } from "../../base/constants";
 import NavigationLinkIcon from "./NavigationLinkIcon";
 import { NavigationLinks } from "../../base/enums";
-import { ViSidebar, ViSidebarDark, ViSpina } from "../../assets/icons";
+import { ViSpina } from "../../assets/icons";
 import { NavLink, useLocation } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
+import { useWindowDimensions } from "../../hooks/useWindowDimensions";
 import { useAppState } from "../../features/collection/hooks/useAppState";
-import { useEffect, useState } from "react";
+
+const StyledProfileLinkWrapper = styled.div<{ isHoverd: boolean }>`
+  ${tw`flex w-[226px] cursor-pointer  hover:bg-primary dark:hover:bg-black   mx-1 absolute bottom-0 my-2 dark:text-white  overflow-hidden py-1 transition-all  rounded-xl space-x-4 items-center`}/* ${({
+    isHoverd,
+  }) => isHoverd && tw`bg-secondery dark:bg-black`} */
+`;
+
+const StyledProfileIcon = styled.div<{
+  color: string;
+  backgroundColor: string;
+}>`
+  ${tw`text-2xl hover:opacity-90 transition-all font-black mx-1 size-10 rounded-lg flex items-center justify-center`}
+  color: ${({ color }) => color};
+  background-color: ${({ backgroundColor }) => backgroundColor};
+`;
+const StyledProfileText = styled.div`
+  ${tw` font-semibold `}
+`;
+const ProfileLink = (props: { isFullWidth: boolean }) => {
+  const { isFullWidth: isHoverd } = props;
+  const { color, backgroundColor } = COLOR_ITEMS[1];
+  return (
+    <StyledProfileLinkWrapper isHoverd={isHoverd}>
+      <StyledProfileIcon color={color} backgroundColor={backgroundColor}>
+        J
+      </StyledProfileIcon>
+      <motion.div
+        initial={{ x: -10, opacity: 0 }}
+        animate={{ x: isHoverd ? 0 : -10, opacity: isHoverd ? 1 : 0 }}
+      >
+        <StyledProfileText>Johann</StyledProfileText>
+      </motion.div>
+    </StyledProfileLinkWrapper>
+  );
+};
 
 const StyledSidebarLinkWrapper = styled.div<{ isCurrent: boolean }>`
-  ${tw`flex my-3 dark:text-white hover:bg-secondery dark:hover:bg-black overflow-hidden py-1.5 transition-all px-2 rounded-lg space-x-4 items-center`}
+  ${tw`flex my-1.5 dark:text-white hover:bg-secondery dark:hover:bg-black overflow-hidden py-3 transition-all px-2 rounded-lg space-x-4 items-center`}
   ${({ isCurrent }) => isCurrent && tw``}
 `;
 const StyledNavLinkIcon = styled.div<{ color: string }>`
-  ${tw`text-2xl  px-1.5 rounded-full `}/* color: ${({ color }) => color} */
+  ${tw`text-2xl dark:opacity-100  transition-all  px-1.5 rounded-full `}/* color: ${({
+    color,
+  }) => color} */
 `;
 
 const SidebarLink = (props: {
   title: NavigationLinks;
   path: string;
   idx: number;
-  isHoverd: boolean;
+  isFullWidth: boolean;
 }) => {
-  const { title, path, idx, isHoverd } = props;
+  const { title, path, idx, isFullWidth: isHoverd } = props;
   const { pathname } = useLocation();
 
   return (
@@ -44,51 +82,77 @@ const SidebarLink = (props: {
   );
 };
 
-
 const StyledSpinaIcon = styled.div`
-  ${tw`w-5 h-5 mb-12 ml-2 scale-90`}
+  ${tw`w-5 h-5  hover:scale-100 transition-all  mb-12 ml-2.5 scale-90`}
 `;
-const StyledSidebarWrapper = styled.div<{ isHoverd: boolean }>`
+const StyledSidebarWrapper = styled.div<{ isFullWidth: boolean }>`
   ${tw`h-full  pt-6 bg-white dark:bg-[#141414] px-2 rounded-xl backdrop-blur-2xl bg-opacity-90  `}
 `;
 
 const Sidebar = () => {
+  const { isSidebarVisible, toggleSidebar } = useAppState();
+  const { width } = useWindowDimensions();
   const [isHoverd, setIsHoverd] = useState(false);
+  const sidebarRef = useRef<HTMLDivElement>(null);
+  const isMobile = width < 768;
+  const isVisible = isMobile ? isSidebarVisible : true;
+  const isFullWidth = isMobile ? true : isHoverd;
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside, true);
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+    };
+  }, [isSidebarVisible]);
+
+  const handleClickOutside = (e: MouseEvent) => {
+    if (
+      isSidebarVisible &&
+      sidebarRef.current &&
+      !sidebarRef.current.contains(e.target as Node)
+    ) {
+      console.log("click outside");
+      toggleSidebar();
+    }
+  };
 
   return (
     <motion.div
+      ref={sidebarRef}
       onHoverStart={() => setIsHoverd(true)}
       onHoverEnd={() => setIsHoverd(false)}
       style={{
         position: "fixed",
-        height: "96%",
-        top: "2%",
-        left: "1%",
+        height: isMobile ? "98%" : "96%",
+        top: isMobile ? "1%" :  "2%",
+        left:  isMobile ? "14px" : "1%",
         zIndex: 1000,
       }}
       initial={{
         width: 72,
         x: -100,
       }}
+      transition={{ duration: isMobile ?  0.2 : 0.6, type: isMobile ? "tween" :  "spring"}}
       animate={{
-        width: isHoverd ? 250 : 72,
-        x: 0,
+        width: isFullWidth ? 250 : 72,
+        x: isVisible ? 0 : -300,
       }}
     >
-      <StyledSidebarWrapper isHoverd={isHoverd}>
-        <StyledSpinaIcon >
+      <StyledSidebarWrapper isFullWidth={isFullWidth}>
+        <StyledSpinaIcon>
           <ViSpina />
         </StyledSpinaIcon>
 
         {NAV_LINKS.map((navLink, idx) => (
           <SidebarLink
-            isHoverd={isHoverd}
+            isFullWidth={isFullWidth}
             key={idx}
             idx={idx}
             title={navLink.title}
             path={navLink.path}
           />
         ))}
+        <ProfileLink isFullWidth={isFullWidth} />
       </StyledSidebarWrapper>
     </motion.div>
   );

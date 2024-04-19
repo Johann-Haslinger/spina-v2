@@ -7,7 +7,7 @@ import { useSelectedLanguage } from "../../hooks/useSelectedLanguage";
 import { displayButtonTexts } from "../../utils/selectDisplayText";
 
 const StyledBackButtonWrapper = styled.div`
-  ${tw`flex mb-2 space-x-2 items-center cursor-pointer`}
+  ${tw`flex dark:text-primaryTextDark mb-2 space-x-2 items-center cursor-pointer`}
 `;
 
 const StyledBackButtonIcon = styled.div`
