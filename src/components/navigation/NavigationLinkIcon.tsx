@@ -9,12 +9,30 @@ import {
   LuTrophy,
   LuUsers,
 } from "react-icons/lu";
-import { IoBook, IoGrid, IoHome, IoPeople, IoTrophy } from "react-icons/io5";
+import { IoBook, IoBookOutline, IoGrid, IoGridOutline, IoHome, IoHomeOutline, IoPeople, IoPeopleOutline, IoTrophy, IoTrophyOutline } from "react-icons/io5";
+
+// const NavigationLinkIcon = (props: { navLink: NavigationLinks }) => {
+//   switch (props.navLink) {
+//     case NavigationLinks.OVERVIEW:
+//       return <IoHomeOutline  />;
+//     case NavigationLinks.HOMEWORKS:
+//       return <IoBookOutline />;
+//     case NavigationLinks.EXAMS:
+//       return <IoTrophyOutline />;
+//     case NavigationLinks.COLLECTION:
+//       return <IoGridOutline />;
+//     case NavigationLinks.GROUPS:
+//       return <IoPeopleOutline />;
+
+//     default:
+//       return <LuBookOpen />;
+//   }
+// };
 
 const NavigationLinkIcon = (props: { navLink: NavigationLinks }) => {
   switch (props.navLink) {
     case NavigationLinks.OVERVIEW:
-      return <IoHome  />;
+      return <IoHome />;
     case NavigationLinks.HOMEWORKS:
       return <IoBook />;
     case NavigationLinks.EXAMS:

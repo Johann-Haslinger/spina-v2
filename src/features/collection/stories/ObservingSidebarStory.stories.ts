@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import "../index.css"
+import "../../../index.css"
 import ObservingSidebarStory from "./ObservingSidebarStory";
 
 const meta = {
-  title: "Stories/ObservingSidebarStory",
+  title: "Stories/Collection/ObservingSidebarStory",
   component: ObservingSidebarStory,
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout

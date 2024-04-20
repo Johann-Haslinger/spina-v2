@@ -14,9 +14,9 @@ import { Settings } from "./features/settings";
 function App() {
   return (
     <>
-
-      <AppInitSystem />
+     
       <StoriesInitSystem initialStory={StoryGuid.OBSERVING_COLLECTION_STORY} />
+      <AppInitSystem />
       <ViewManagerSystem />
       <LoadTopicEntitiesSystem />
       <SchoolSubjectsInitSystem />

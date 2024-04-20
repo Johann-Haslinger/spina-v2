@@ -1,3 +1,4 @@
+import { v4 } from "uuid";
 export const dummySchoolSubjects = [
     {
         id: "1",
@@ -73,3 +74,48 @@ export const dummyTopics = [
         parentId: "0",
     },
 ];
+
+export const dummyHomeworks = [
+    {
+        id: "1",
+        title: "Book p. 12 ex. 2",
+        dueDate: new Date().toISOString(),
+        dateAdded: new Date().toISOString(),
+        status: 1,
+        parentId: "1",
+    },
+    {
+        id: "2",
+        title: "Book p. 12 ex. 3",
+        dueDate: new Date().toISOString(),
+        dateAdded: new Date().toISOString(),
+        status: 1,
+        parentId: "1",
+    },
+    {
+        id: "3",
+        title: "Book p. 12 ex. 4",
+        dueDate: new Date().toISOString(),
+        dateAdded: new Date().toISOString(),
+        status: 1,
+        parentId: "1",
+    },
+    {
+        id: "4",
+        title: "Book p. 12 ex. 5",
+        dueDate: new Date().toISOString(),
+        dateAdded: new Date().toISOString(),
+        status: 2,
+        parentId: "1",
+    },
+    {
+        id: "5",
+        title: "Book p. 12 ex. 6",
+        dueDate: new Date().toISOString(),
+        dateAdded: new Date().toISOString(),
+        status: 2,
+        parentId: "1",
+    },
+    
+
+]

@@ -2,6 +2,7 @@
 
 export { default as View } from "./presentation/View";
 export { default as Sheet } from "./presentation/Sheet";
+export { default as Kanban } from "./presentation/Kanban";
 
 
 // ------Content-----

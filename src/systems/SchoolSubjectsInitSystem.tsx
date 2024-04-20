@@ -6,6 +6,7 @@ import { TitleFacet } from "../app/AdditionalFacets";
 import { IdentifierFacet, OrderFacet } from "@leanscope/ecs-models";
 import { DataTypes } from "../base/enums";
 import { dummySchoolSubjects } from "../base/dummy";
+import { dataTypeQuery } from "../utils/queries";
 
 const fetchSchoolSubjects = async () => {
   const { data: schoolSubjects, error } = await supabase.from("subjects").select("name, id");
@@ -28,7 +29,7 @@ const SchoolSubjectsInitSystem = (props: {mokUpData?: boolean}) => {
 
       schoolSubjects.forEach((schoolSubject, idx) => {
         const isExisting = lsc.engine.entities.some(
-          (e) => e.get(IdentifierFacet)?.props.guid === schoolSubject.id
+          (e) => e.get(IdentifierFacet)?.props.guid === schoolSubject.id  && dataTypeQuery(e, DataTypes.HOMEWORK)
         );
 
         if (!isExisting) {

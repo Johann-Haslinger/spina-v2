@@ -52,7 +52,7 @@ const StyledSidebarLinkWrapper = styled.div<{ isCurrent: boolean }>`
   ${({ isCurrent }) => isCurrent && tw``}
 `;
 const StyledNavLinkIcon = styled.div<{ color: string }>`
-  ${tw`text-2xl dark:opacity-100  transition-all  px-1.5 rounded-full `}/* color: ${({
+  ${tw`text-2xl dark:opacity-100 transition-all  px-1.5 rounded-full `}/* color: ${({
     color,
   }) => color} */
 `;

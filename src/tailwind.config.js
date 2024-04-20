@@ -22,7 +22,9 @@ module.exports = {
         primary: "#F5F5F5",
         primaryDark: "#000000",
         secondery: "#F6F6F6",
-        seconderyDark: "#141414"
+        seconderyDark: "#141414",
+        tertiary: "#F5F5F5",
+        tertiaryDark: "#000000",
       
       },
       borderColor: {
