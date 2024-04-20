@@ -8,6 +8,7 @@ export { default as Kanban } from "./presentation/Kanban";
 // ------Content-----
 
 export { default as Title } from "./content/Title";
+export { default as TextEditor } from "./content/TextEditor";
 
 
 // ------Layout------

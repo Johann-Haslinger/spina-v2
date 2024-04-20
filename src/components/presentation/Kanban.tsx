@@ -7,6 +7,24 @@ import styled from "@emotion/styled/macro";
 import tw from "twin.macro";
 import { COLOR_ITEMS } from "../../base/constants";
 
+
+const selectColorItemForColoumn = (statusId: string) => {
+  switch (statusId) {
+    case "1":
+      return COLOR_ITEMS[3];
+    case "2":
+      return COLOR_ITEMS[0];
+    case "3":
+      return COLOR_ITEMS[2];
+    case "4":
+      return COLOR_ITEMS[1];
+    case "5":
+      return COLOR_ITEMS[5];
+    default:
+      return COLOR_ITEMS[0];
+  }
+}
+
 const statusStates = {
   1: "Nicht begonnen",
   2: "In Gefahr",
@@ -18,6 +36,12 @@ const statusStates = {
 const StyledKanbanColumnWrapper = styled.div<{ backgroundColor: string }>`
   ${tw`py-1 w-1/4  transition-all min-h-96 min-w-[12rem]`}
   background-color: ${({ backgroundColor }) => backgroundColor};
+`;
+
+const StyledStatusWrapper = styled.div<{ backgroundColor: string, color: string }>`
+  ${tw`px-2 mb-2 font-black pt-1`}
+  background-color: ${({ backgroundColor }) => backgroundColor};
+  color: ${({ color }) => color};
 `;
 
 const KanbanColumn = (props: {
@@ -32,10 +56,12 @@ const KanbanColumn = (props: {
     (e) => e.get(StatusFacet)?.props.status == Number(statusId) && query(e)
   );
 
-  const { backgroundColor, color } = COLOR_ITEMS[idx];
+  const { backgroundColor, color } = selectColorItemForColoumn(statusId)
+  
 
   return (
     <StyledKanbanColumnWrapper backgroundColor={backgroundColor}>
+      <StyledStatusWrapper backgroundColor={backgroundColor} color={color}>{statusLabel}</StyledStatusWrapper>
       <Droppable key={statusId} droppableId={`droppable-${statusId}`}>
         {(provided, snapshot) => (
           <div

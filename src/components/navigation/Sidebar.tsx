@@ -30,8 +30,8 @@ const StyledProfileText = styled.div`
 const SettingsLink = (props: { isFullWidth: boolean }) => {
   const { isFullWidth: isHoverd } = props;
   const { color, backgroundColor } = COLOR_ITEMS[1];
-  const {toggleSettings} = useAppState();
-  
+  const { toggleSettings } = useAppState();
+
   return (
     <StyledSettingsWrapper onClick={toggleSettings} isHoverd={isHoverd}>
       <StyledProfileIcon color={color} backgroundColor={backgroundColor}>
@@ -52,9 +52,8 @@ const StyledSidebarLinkWrapper = styled.div<{ isCurrent: boolean }>`
   ${({ isCurrent }) => isCurrent && tw``}
 `;
 const StyledNavLinkIcon = styled.div<{ color: string }>`
-  ${tw`text-2xl dark:opacity-100 transition-all  px-1.5 rounded-full `}/* color: ${({
-    color,
-  }) => color} */
+  ${tw`text-2xl dark:text-white dark:opacity-100 transition-all  px-1.5 rounded-full `}
+  color: ${({ color }) => color}
 `;
 
 const SidebarLink = (props: {
@@ -70,7 +69,7 @@ const SidebarLink = (props: {
     <NavLink to={path}>
       <StyledSidebarLinkWrapper isCurrent={path == pathname}>
         <StyledNavLinkIcon color={COLORS[idx]}>
-          <NavigationLinkIcon navLink={title} />
+          <NavigationLinkIcon  navLink={title} />
         </StyledNavLinkIcon>
 
         <motion.div
@@ -100,8 +99,6 @@ const Sidebar = () => {
   const isVisible = isMobile ? isSidebarVisible : true;
   const isFullWidth = isMobile ? true : isHoverd;
 
-
-
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);
     return () => {
@@ -128,15 +125,17 @@ const Sidebar = () => {
       style={{
         position: "fixed",
         height: isMobile ? "98%" : "96%",
-        top: isMobile ? "1%" :  "2%",
-        left:  isMobile ? "14px" : "1%",
-       
+        top: isMobile ? "1%" : "2%",
+        left: isMobile ? "14px" : "1%",
       }}
       initial={{
         width: 72,
         x: -100,
       }}
-      transition={{ duration: isMobile ?  0.2 : 0.6, type: isMobile ? "tween" :  "spring"}}
+      transition={{
+        duration: isMobile ? 0.2 : 0.6,
+        type: isMobile ? "tween" : "spring",
+      }}
       animate={{
         width: isFullWidth ? 250 : 72,
         x: isVisible ? 0 : -300,

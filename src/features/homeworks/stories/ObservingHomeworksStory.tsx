@@ -26,7 +26,7 @@ const ObservingHomeworksStory = () => {
           <AppInitSystem />
 
           <SchoolSubjectsInitSystem mokUpData />
-          <Homeworks />
+          <Homeworks mockup />
           <Sidebar />
           <Settings />
         </LeanScopeClientApp>

@@ -4,7 +4,6 @@ import {
   DescriptionFacet,
   IdentifierFacet,
   ParentFacet,
-  Tags,
   TimestampFacet,
 } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";

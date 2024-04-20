@@ -11,9 +11,10 @@ const StyledViewWrapper = styled.div`
   ${tw`w-full h-full  overflow-y-scroll`}
 `;
 
-const StyledViewContent = styled.div<{reducePaddingX?: boolean}>`
+const StyledViewContent = styled.div<{reducePaddingX?: boolean, isOverlayView: boolean}>`
   ${tw` mx-auto md:pt-28 pb-40  xl:pt-36 pt-20   w-full  px-4`}
   ${({ reducePaddingX: ignorePaddingX }) => ignorePaddingX ? tw`md:w-[52rem]` : tw` md:w-[45rem] xl:w-[51rem] `}
+  ${({ isOverlayView }) => isOverlayView ? tw`md:pt-20 xl:pt-28 pt-10 ` : tw`md:pt-28 xl:pt-36 pt-20  `}
 `;
 
 interface ViewProps {
@@ -57,7 +58,7 @@ const View = (props: ViewProps & PropsWithChildren) => {
       >
         <StyledViewContainer>
           <StyledViewWrapper >
-            <StyledViewContent reducePaddingX={reducePaddingX}> {children}</StyledViewContent>
+            <StyledViewContent isOverlayView={viewType == "overlayView"} reducePaddingX={reducePaddingX}> {children}</StyledViewContent>
           </StyledViewWrapper>
         </StyledViewContainer>
       </motion.div>

@@ -23,7 +23,7 @@ const Collection = () => {
     <>
       <View viewType="baseView">
       <NavigationBar></NavigationBar>
-        <Title>
+        <Title size="large">
           {displayHeaderTexts(selectedLanguage).collectionHeaderText}
         </Title>
         <Spacer />

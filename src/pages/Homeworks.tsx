@@ -13,20 +13,31 @@ import { useSelectedLanguage } from "../hooks/useSelectedLanguage";
 import HomeworksInitSystem from "../features/homeworks/systems/HomeworksInitSystem";
 import { dataTypeQuery } from "../utils/queries";
 import { DataTypes } from "../base/enums";
-import {  HomeworkKanbanCell } from "../features/homeworks";
+import { HomeworkKanbanCell, HomeworkView } from "../features/homeworks";
+import { EntityPropsMapper } from "@leanscope/ecs-engine";
+import {
+  IdentifierFacet,
+  ParentFacet,
+  Tags,
+  TextFacet,
+} from "@leanscope/ecs-models";
+import { DueDateFacet, TitleFacet } from "../app/AdditionalFacets";
+import LoadHomeworkTextSystem from "../features/homeworks/systems/LoadHomeworkTextSystem";
 
-const Homeworks = () => {
+const Homeworks = (props: {mockup?: boolean}) => {
+  const { mockup } = props;
   const { selectedLanguage } = useSelectedLanguage();
 
   return (
     <>
-      <HomeworksInitSystem mokUpData />
+      <HomeworksInitSystem mokUpData={mockup} />
+      <LoadHomeworkTextSystem  mokUpData={mockup} />
 
       <View reducePaddingX viewType="baseView">
         <NavigationBar>
           <IoAdd />
         </NavigationBar>
-        <Title>
+        <Title size="large">
           {displayHeaderTexts(selectedLanguage).homeworksHeaderText}
         </Title>
         <Spacer />
@@ -37,6 +48,17 @@ const Homeworks = () => {
           />
         </CollectionLayout>
       </View>
+
+      <EntityPropsMapper
+        query={(e) =>
+          dataTypeQuery(e, DataTypes.HOMEWORK) && e.has(Tags.SELECTED)
+        }
+        get={[
+          [TitleFacet, DueDateFacet, ParentFacet, TextFacet, IdentifierFacet],
+          [],
+        ]}
+        onMatch={HomeworkView}
+      />
     </>
   );
 };
