@@ -23,7 +23,7 @@ const AddTopicSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(StoryGuid.ADD_NEW_TOPIC_STORY);
   const { selectedSchoolSubjectId } = useSelectedSchoolSubject();
-  const topicNameRef = useRef<HTMLInputElement>(null);
+  const topicTitleRef = useRef<HTMLInputElement>(null);
   const topicDescriptionRef = useRef<HTMLInputElement>(null);
 
   const navigateBack = () =>
@@ -34,7 +34,7 @@ const AddTopicSheet = () => {
 
     if (
       selectedSchoolSubjectId &&
-      topicNameRef.current &&
+      topicTitleRef.current &&
       topicDescriptionRef.current
     ) {
       console.log("Adding topic");
@@ -47,7 +47,7 @@ const AddTopicSheet = () => {
       newTopicEntity.add(
         new DescriptionFacet({ description: topicDescriptionRef.current.value })
       );
-      newTopicEntity.add(new TitleFacet({ title: topicNameRef.current.value }));
+      newTopicEntity.add(new TitleFacet({ title: topicTitleRef.current.value }));
       newTopicEntity.add(DataTypes.TOPIC);
     }
   };
@@ -59,7 +59,7 @@ const AddTopicSheet = () => {
         <button onClick={addTopic}>Add topic</button>
       </FlexBox>
       <StyledInput
-        ref={topicNameRef}
+        ref={topicTitleRef}
         type="text"
         placeholder="Enter topic name"
       />

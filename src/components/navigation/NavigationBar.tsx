@@ -13,20 +13,10 @@ const NavigationIconsWrapper = styled.div`
 `;
 
 const ToolIconWrapper = styled.div`
-  ${tw`flex pr-4 text-xl items-center`}
+  ${tw`flex pr-4  items-center`}
 `;
 
-const StyledBackButton = styled.button`
-  ${tw`flex space-x-2 ml-2 md:ml-4 items-center`}
-`;
 
-const StyledBackButtonIcon = styled.div`
-  ${tw`text-xl  `}
-`;
-
-const StyledBackButtonText = styled.p`
-  ${tw`text-sm`}
-`;
 
 const StyledSidebarIcon = styled.div<{ type: "light" | "dark" }>`
   ${tw`text-xl md:!invisible `}
@@ -54,16 +44,7 @@ const NavigationBar = (
         <StyledSidebarIcon  onClick={toggleSidebar}  type="dark">
           <ViSidebarDark />
         </StyledSidebarIcon>
-        {/* {navigateBack && (
-          <StyledBackButton onClick={navigateBack}>
-            <StyledBackButtonIcon>
-              <IoChevronBack />
-            </StyledBackButtonIcon>
-            <StyledBackButtonText>
-              {backButtonLabel ? backButtonLabel : "Sammlung"}
-            </StyledBackButtonText>
-          </StyledBackButton>
-        )}{" "} */}
+      
       </NavigationIconsWrapper>
       <div></div>
 

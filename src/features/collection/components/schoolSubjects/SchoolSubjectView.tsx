@@ -6,6 +6,7 @@ import {
   useEntities,
 } from "@leanscope/ecs-engine";
 import {
+  BackButton,
   CollectionLayout,
   Divider,
   NavigationBar,
@@ -23,7 +24,6 @@ import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
 import TopicCell from "../topics/TopicCell";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import AddTopicSheet from "./AddTopicSheet";
-import BackButton from "../../../../components/buttons/BackButton";
 
 const SchoolSubjectView = (props: TitleProps & EntityProps) => {
   const lsc = useContext(LeanScopeClientContext);

@@ -63,6 +63,7 @@ const Sheet = (props: PropsWithChildren & SheetProps) => {
             height: "100%",
             top: 0,
             left: 0,
+            zIndex: 100,
           }}
         />
         <motion.div
@@ -77,6 +78,7 @@ const Sheet = (props: PropsWithChildren & SheetProps) => {
             height: "100%",
             top: 0,
             left: 0,
+            zIndex: 100,
           }}
         >
           <StyledSheetWrapper ref={sheetRef}>{children}</StyledSheetWrapper>

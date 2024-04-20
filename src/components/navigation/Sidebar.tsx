@@ -1,3 +1,4 @@
+import React from "react";
 import styled from "@emotion/styled";
 import { motion } from "framer-motion";
 import tw from "twin.macro";
@@ -9,11 +10,36 @@ import { NavLink, useLocation } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { useWindowDimensions } from "../../hooks/useWindowDimensions";
 import { useAppState } from "../../features/collection/hooks/useAppState";
+import {  IoHelpOutline, IoLogOutOutline, IoSettingsOutline } from "react-icons/io5";
+import { useUserData } from "../../hooks/useUserData";
 
+const StyledSettingsMenuWrapper = styled.div`
+  ${tw` px-2 py-2 dark:text-primaryTextDark w-56 h-48 bg-secondery  bg-opacity-95 backdrop-blur-xl dark:bg-primaryDark rounded-lg`}
+`;
+
+const StyledEmailText = styled.div`
+  ${tw`w-full px-1 py-3 text-sm text-seconderyText dark:text-seconderyTextDark`}
+`;
+
+const StyledHelpText = styled.div`
+  ${tw`w-full px-1 py-3  transition-all hover:opacity-50 text-sm flex items-center `}
+`;
+
+const StyledSettingsText = styled.div`
+  ${tw`w-full px-1 pb-3  transition-all hover:opacity-50  pt-1 text-sm flex items-center  `}
+`;
+const StyledLogoutText = styled.div`
+  ${tw`w-full px-1 py-3  transition-all hover:opacity-50  text-sm flex items-center `}
+`;
+const StyledSettingsMenuIcon = styled.div`
+  ${tw`text-base mr-3 `}
+`;
+const StyledSettingsDivider = styled.div`
+  ${tw`w-full h-0.5 dark:border-primaryBorderDark border-primaryBorder border-b `}
+`;
 const StyledSettingsWrapper = styled.div<{ isHoverd: boolean }>`
-  ${tw`flex w-[226px] cursor-pointer  hover:bg-primary dark:hover:bg-black   mx-1 absolute bottom-0 my-2 dark:text-white  overflow-hidden py-1 transition-all  rounded-xl space-x-4 items-center`}/* ${({
-    isHoverd,
-  }) => isHoverd && tw`bg-secondery dark:bg-black`} */
+  ${tw`flex w-[226px] cursor-pointer  hover:bg-primary dark:hover:bg-black   mx-1 absolute bottom-0 my-2 dark:text-white  overflow-hidden py-1 transition-all  rounded-xl space-x-4 items-center`}
+  ${({ isHoverd }) => isHoverd && tw`bg-primary dark:bg-black`}
 `;
 
 const StyledProfileIcon = styled.div<{
@@ -27,23 +53,78 @@ const StyledProfileIcon = styled.div<{
 const StyledProfileText = styled.div`
   ${tw` font-semibold `}
 `;
+
 const SettingsLink = (props: { isFullWidth: boolean }) => {
-  const { isFullWidth: isHoverd } = props;
+  const { isFullWidth } = props;
   const { color, backgroundColor } = COLOR_ITEMS[1];
   const { toggleSettings } = useAppState();
+  const {userEmail} = useUserData();
+  const [isSettingsMenuVisible, setIsSettingsMenuVisible] = useState(false);
+
+  useEffect(() => {
+    if (!isFullWidth) {
+      setIsSettingsMenuVisible(false);
+    }
+  }, [isFullWidth]);
 
   return (
-    <StyledSettingsWrapper onClick={toggleSettings} isHoverd={isHoverd}>
-      <StyledProfileIcon color={color} backgroundColor={backgroundColor}>
-        J
-      </StyledProfileIcon>
+    <>
       <motion.div
-        initial={{ x: -10, opacity: 0 }}
-        animate={{ x: isHoverd ? 0 : -10, opacity: isHoverd ? 1 : 0 }}
+        style={{
+          position: "absolute",
+          left: 14,
+        }}
+        transition={{
+          duration: 0.1,
+        }}
+        initial={{
+          bottom: 60,
+          opacity: 0,
+        }}
+        animate={{
+          bottom: isSettingsMenuVisible ? 65 : 60,
+          opacity: isSettingsMenuVisible ? 1 : 0,
+        }}
       >
-        <StyledProfileText>Johann</StyledProfileText>
+        <StyledSettingsMenuWrapper>
+          <StyledEmailText>{userEmail}</StyledEmailText>
+          <StyledSettingsDivider />
+          <StyledHelpText>
+            <StyledSettingsMenuIcon>
+              <IoHelpOutline />
+            </StyledSettingsMenuIcon>
+            What to do
+          </StyledHelpText>
+          <StyledSettingsText onClick={toggleSettings}>
+            <StyledSettingsMenuIcon>
+              <IoSettingsOutline />
+            </StyledSettingsMenuIcon>
+            Settings
+          </StyledSettingsText>
+          <StyledSettingsDivider />
+          <StyledLogoutText>
+            <StyledSettingsMenuIcon>
+              <IoLogOutOutline />
+            </StyledSettingsMenuIcon>
+            Logout
+          </StyledLogoutText>
+        </StyledSettingsMenuWrapper>
       </motion.div>
-    </StyledSettingsWrapper>
+      <StyledSettingsWrapper
+        onClick={() => setIsSettingsMenuVisible(!isSettingsMenuVisible)}
+        isHoverd={isSettingsMenuVisible}
+      >
+        <StyledProfileIcon color={color} backgroundColor={backgroundColor}>
+          J
+        </StyledProfileIcon>
+        <motion.div
+          initial={{ x: -10, opacity: 0 }}
+          animate={{ x: isFullWidth ? 0 : -10, opacity: isFullWidth ? 1 : 0 }}
+        >
+          <StyledProfileText>Johann</StyledProfileText>
+        </motion.div>
+      </StyledSettingsWrapper>
+    </>
   );
 };
 
@@ -52,8 +133,9 @@ const StyledSidebarLinkWrapper = styled.div<{ isCurrent: boolean }>`
   ${({ isCurrent }) => isCurrent && tw``}
 `;
 const StyledNavLinkIcon = styled.div<{ color: string }>`
-  ${tw`text-2xl dark:text-white dark:opacity-100 transition-all  px-1.5 rounded-full `}
-  color: ${({ color }) => color}
+  ${tw`text-2xl text-black dark:text-white dark:opacity-100 transition-all  px-1.5 rounded-full `}/* color: ${({
+    color,
+  }) => color} */
 `;
 
 const SidebarLink = (props: {
@@ -69,7 +151,7 @@ const SidebarLink = (props: {
     <NavLink to={path}>
       <StyledSidebarLinkWrapper isCurrent={path == pathname}>
         <StyledNavLinkIcon color={COLORS[idx]}>
-          <NavigationLinkIcon  navLink={title} />
+          <NavigationLinkIcon navLink={title} />
         </StyledNavLinkIcon>
 
         <motion.div
@@ -87,7 +169,7 @@ const StyledSpinaIcon = styled.div`
   ${tw`w-5 h-5  hover:scale-100 transition-all  mb-12 ml-2.5 scale-90`}
 `;
 const StyledSidebarWrapper = styled.div<{ isFullWidth: boolean }>`
-  ${tw`h-full  pt-6 bg-white dark:bg-seconderyDark  transition-all  px-2 rounded-xl backdrop-blur-2xl bg-opacity-90  `}
+  ${tw`h-full  pt-6 bg-white dark:bg-seconderyDark  transition-all  px-2 rounded-xl backdrop-blur-2xl bg-opacity-95  `}
 `;
 
 const Sidebar = () => {

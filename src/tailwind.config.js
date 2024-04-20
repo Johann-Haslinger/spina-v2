@@ -29,6 +29,7 @@ module.exports = {
       },
       borderColor: {
         primaryBorder: '#E1E1E5',
+        primaryBorderDark: '#444444',
       },
     },
   },

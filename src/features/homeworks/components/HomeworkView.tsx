@@ -1,4 +1,6 @@
 import {
+  BackButton,
+  NavBarButton,
   NavigationBar,
   Spacer,
   TextEditor,
@@ -14,10 +16,10 @@ import {
 } from "@leanscope/ecs-models";
 import { useIsViewVisible } from "../../../hooks/useIsViewVisible";
 import { AdditionalTags } from "../../../base/enums";
-import BackButton from "../../../components/buttons/BackButton";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import { displayHeaderTexts } from "../../../utils/selectDisplayText";
 import supabase from "../../../lib/supabase";
+import { IoAdd } from "react-icons/io5";
 
 const HomeworkView = (
   props: EntityProps &
@@ -49,7 +51,9 @@ const HomeworkView = (
   return (
   
       <View visibe={isVisible}>
-        <NavigationBar></NavigationBar>
+        <NavigationBar>
+          
+        </NavigationBar>
         <BackButton
           backButtonLabel={
             displayHeaderTexts(selectedLanguage).homeworksHeaderText
