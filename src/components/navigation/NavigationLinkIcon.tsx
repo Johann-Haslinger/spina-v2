@@ -9,7 +9,7 @@ import {
   LuTrophy,
   LuUsers,
 } from "react-icons/lu";
-import { IoBook, IoBookOutline, IoGrid, IoGridOutline, IoHome, IoHomeOutline, IoPeople, IoPeopleOutline, IoTrophy, IoTrophyOutline } from "react-icons/io5";
+import { IoBook, IoBookOutline, IoGrid, IoGridOutline, IoHome, IoHomeOutline, IoJournal, IoPeople, IoPeopleOutline, IoTrophy, IoTrophyOutline } from "react-icons/io5";
 
 // const NavigationLinkIcon = (props: { navLink: NavigationLinks }) => {
 //   switch (props.navLink) {
@@ -34,7 +34,7 @@ const NavigationLinkIcon = (props: { navLink: NavigationLinks }) => {
     case NavigationLinks.OVERVIEW:
       return <IoHome />;
     case NavigationLinks.HOMEWORKS:
-      return <IoBook />;
+      return <IoJournal />;
     case NavigationLinks.EXAMS:
       return <IoTrophy />;
     case NavigationLinks.COLLECTION:

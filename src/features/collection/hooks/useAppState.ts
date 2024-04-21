@@ -1,7 +1,6 @@
 import { useEntity } from "@leanscope/ecs-engine";
 import { AdditionalTags } from "../../../base/enums";
 import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntityComponents";
-import { useEffect } from "react";
 
 export const useAppState = () => {
   const [appStateEntity] = useEntity((e) =>

@@ -22,6 +22,8 @@
     "@leanscope/ecs-models": "^0.2.43",
     "@leanscope/inspection": "^0.1.2",
     "@leanscope/storyboarding": "^0.1.89",
+    "@supabase/auth-ui-react": "^0.4.7",
+    "@supabase/auth-ui-shared": "^0.1.8",
     "@types/react-beautiful-dnd": "^13.1.8",
     "autoprefixer": "^10.4.19",
     "eslint-plugin-storybook": "^0.8.0",

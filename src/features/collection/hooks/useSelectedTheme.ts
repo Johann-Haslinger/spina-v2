@@ -13,14 +13,15 @@ export const useSelectedTheme = () => {
     appStateEntity,
     AdditionalTags.DARK_THEME
   );
-
   const changeTheme = (theme: SupportedThemes) => {
-   if (theme === SupportedThemes.DARK) {
+    if (theme === SupportedThemes.DARK) {
       appStateEntity?.add(AdditionalTags.DARK_THEME);
       appStateEntity?.remove(AdditionalTags.LIGHT_THEME);
+      localStorage.setItem("theme", SupportedThemes.DARK);
     } else {
       appStateEntity?.add(AdditionalTags.LIGHT_THEME);
       appStateEntity?.remove(AdditionalTags.DARK_THEME);
+      localStorage.setItem("theme", SupportedThemes.LIGHT);
     }
   }
 

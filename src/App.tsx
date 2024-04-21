@@ -9,12 +9,17 @@ import LoadTopicEntitiesSystem from "./features/collection/systems/LoadTopicEnti
 import StoriesInitSystem from "./systems/StoriesInitSystem";
 import { Sidebar } from "./components";
 import AppInitSystem from "./systems/AppInitSystem";
+import { useUserData } from "./hooks/useUserData";
+import { AuthUI } from "./features/auth-ui";
 import { Settings } from "./features/settings";
 
 function App() {
-  return (
+  const { session } = useUserData();
+  console.log(session);
+  return !session ? (
+    <AuthUI />
+  ) : (
     <>
-     
       <StoriesInitSystem initialStory={StoryGuid.OBSERVING_COLLECTION_STORY} />
       <AppInitSystem />
       <ViewManagerSystem />

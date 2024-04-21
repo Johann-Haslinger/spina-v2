@@ -63,7 +63,7 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
   const { isFullWidth } = props;
   const { color, backgroundColor } = COLOR_ITEMS[1];
   const { toggleSettings } = useAppState();
-  const { userEmail, signedIn} = useUserData();
+  const { userEmail, signedIn, signOut } = useUserData();
   const [isSettingsMenuVisible, setIsSettingsMenuVisible] = useState(false);
 
   useEffect(() => {
@@ -107,9 +107,9 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
             Settings
           </StyledSettingsText>
           <StyledSettingsDivider />
-          <StyledAccountStatusText>
+          <StyledAccountStatusText onClick={() => signedIn && signOut()}>
             <StyledSettingsMenuIcon>
-            {signedIn ? <IoLogOutOutline /> : <IoLogInOutline />}
+              {signedIn ? <IoLogOutOutline /> : <IoLogInOutline />}
             </StyledSettingsMenuIcon>
             {signedIn ? "Logout" : "Login"}
           </StyledAccountStatusText>

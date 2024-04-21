@@ -19,7 +19,7 @@ import { AdditionalTags } from "../../../base/enums";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import { displayHeaderTexts } from "../../../utils/selectDisplayText";
 import supabase from "../../../lib/supabase";
-import { IoAdd } from "react-icons/io5";
+import { IoAdd, IoEllipsisHorizontalCircleOutline } from "react-icons/io5";
 
 const HomeworkView = (
   props: EntityProps &
@@ -52,7 +52,9 @@ const HomeworkView = (
   
       <View visibe={isVisible}>
         <NavigationBar>
-          
+          <NavBarButton>
+            <IoEllipsisHorizontalCircleOutline />
+          </NavBarButton>
         </NavigationBar>
         <BackButton
           backButtonLabel={
