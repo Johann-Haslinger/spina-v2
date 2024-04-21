@@ -27,8 +27,9 @@ const HomeworksInitSystem = (props: {mokUpData?: boolean }) => {
     useEffect(() => {
       const initializeHomeworkEntities = async () => {
         const homeworks = mokUpData ? dummyHomeworks :  await fetchHomeworks();
+        console .log(homeworks)
   
-        homeworks.forEach((homework, idx) => {
+        homeworks.forEach((homework) => {
           const isExisting = lsc.engine.entities.some(
             (e) => e.get(IdentifierFacet)?.props.guid === homework.id && dataTypeQuery(e, DataTypes.HOMEWORK)
           );

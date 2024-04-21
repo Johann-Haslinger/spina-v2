@@ -9,7 +9,6 @@ export { default as Kanban } from "./presentation/Kanban";
 
 export { default as Title } from "./content/Title";
 export { default as TextEditor } from "./content/TextEditor";
-export { default as TextInput } from "./content/TextInput";
 
 
 // ------Layout------
@@ -29,3 +28,10 @@ export { default as Sidebar } from "./navigation/Sidebar";
 
 export { default as NavBarButton } from "./buttons/NavBarButton";
 export { default as BackButton } from "./buttons/BackButton";
+
+// ----Inputs----
+
+export { default as TextInput } from "./inputs/TextInput";
+export { default as DateInput } from "./inputs/DateInput";
+export { default as SelectInput } from "./inputs/SelectInput";
+export { default as TextAreaInput } from "./inputs/TextAreaInput";

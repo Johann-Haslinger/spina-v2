@@ -3,7 +3,7 @@ import React, { PropsWithChildren } from "react";
 import tw from "twin.macro";
 
 const StyledSectionRowWrapper = styled.div<{ hideBorder?: boolean }>`
-  ${tw`flex py-4  flex-col`}
+  ${tw`flex items-center w-full h-16 px-1`}
   ${({ hideBorder }) =>
     !hideBorder &&
     tw`border-b dark:border-primaryBorderDark border-primaryBorder`}

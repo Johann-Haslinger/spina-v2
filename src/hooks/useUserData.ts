@@ -10,6 +10,7 @@ export const useUserData =  () => {
       const user = await supabase.auth.getUser();
       const userEmail =  user.data.user?.email
       const userId = user.data.user?.id
+      console.log(userId)
       setUserEmail(userEmail);
       setUserId(userId);
     };
