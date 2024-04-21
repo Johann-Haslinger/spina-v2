@@ -9,6 +9,7 @@ export { default as Kanban } from "./presentation/Kanban";
 
 export { default as Title } from "./content/Title";
 export { default as TextEditor } from "./content/TextEditor";
+export { default as TextInput } from "./content/TextInput";
 
 
 // ------Layout------

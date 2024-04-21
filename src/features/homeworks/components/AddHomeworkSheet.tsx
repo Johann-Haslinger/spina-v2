@@ -1,6 +1,6 @@
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { DataTypes, StoryGuid } from "../../../base/enums";
-import { FlexBox, Sheet } from "../../../components";
+import { FlexBox, Sheet, Spacer, TextInput } from "../../../components";
 import { useContext, useRef } from "react";
 import { useSchoolSubjectEntities } from "../../../hooks/useSchoolSubjectEntities";
 import {
@@ -16,6 +16,7 @@ import {
 import { Entity } from "@leanscope/ecs-engine";
 import { v4 } from "uuid";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import SectionRow from "../../../components/layout/SectionRow";
 
 const AddHomeworkSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -63,11 +64,20 @@ const AddHomeworkSheet = () => {
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>
       <FlexBox>
+        
         <button onClick={navigateBack}>Back</button>
         <button onClick={addHomework}>Add homework</button>
       </FlexBox>
-      <input ref={homeworkTitleRef} placeholder="Title" />
-      <input ref={homeworkDueDateRef} type="date" placeholder="Due date" />
+      <Spacer />
+      <SectionRow>
+        <TextInput ref={homeworkTitleRef} placeholder="Title" />
+      </SectionRow>
+      <SectionRow>
+        <FlexBox>
+          <p>Zieldatum</p>
+          <input ref={homeworkDueDateRef} type="date" placeholder="Due date" />
+        </FlexBox>
+      </SectionRow>
       <select ref={homeworkParentRef}>
         {schooolSubjectEntities.map((entity, idx) => {
           const schoolSubjectId = entity.get(IdentifierFacet)?.props.guid;

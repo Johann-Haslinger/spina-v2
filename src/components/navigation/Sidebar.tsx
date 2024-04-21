@@ -10,26 +10,31 @@ import { NavLink, useLocation } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { useWindowDimensions } from "../../hooks/useWindowDimensions";
 import { useAppState } from "../../features/collection/hooks/useAppState";
-import {  IoHelpOutline, IoLogOutOutline, IoSettingsOutline } from "react-icons/io5";
+import {
+  IoHelpOutline,
+  IoLogInOutline,
+  IoLogOutOutline,
+  IoSettingsOutline,
+} from "react-icons/io5";
 import { useUserData } from "../../hooks/useUserData";
 
 const StyledSettingsMenuWrapper = styled.div`
-  ${tw` px-2 py-2 dark:text-primaryTextDark w-56 h-48 bg-secondery  bg-opacity-95 backdrop-blur-xl dark:bg-primaryDark rounded-lg`}
+  ${tw` px-2 py-2 dark:text-primaryTextDark w-56 h-52 bg-secondery  bg-opacity-95 backdrop-blur-xl dark:bg-primaryDark rounded-lg`}
 `;
 
 const StyledEmailText = styled.div`
-  ${tw`w-full px-1 py-3 text-sm text-seconderyText dark:text-seconderyTextDark`}
+  ${tw`w-full px-1 py-3  text-seconderyText dark:text-seconderyTextDark`}
 `;
 
 const StyledHelpText = styled.div`
-  ${tw`w-full px-1 py-3  transition-all hover:opacity-50 text-sm flex items-center `}
+  ${tw`w-full px-1 py-3  transition-all hover:opacity-50 flex items-center `}
 `;
 
 const StyledSettingsText = styled.div`
-  ${tw`w-full px-1 pb-3  transition-all hover:opacity-50  pt-1 text-sm flex items-center  `}
+  ${tw`w-full px-1 pb-3  transition-all hover:opacity-50  pt-1 flex items-center  `}
 `;
-const StyledLogoutText = styled.div`
-  ${tw`w-full px-1 py-3  transition-all hover:opacity-50  text-sm flex items-center `}
+const StyledAccountStatusText = styled.div`
+  ${tw`w-full px-1 py-3  transition-all hover:opacity-50   flex items-center `}
 `;
 const StyledSettingsMenuIcon = styled.div`
   ${tw`text-base mr-3 `}
@@ -58,7 +63,7 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
   const { isFullWidth } = props;
   const { color, backgroundColor } = COLOR_ITEMS[1];
   const { toggleSettings } = useAppState();
-  const {userEmail} = useUserData();
+  const { userEmail, signedIn} = useUserData();
   const [isSettingsMenuVisible, setIsSettingsMenuVisible] = useState(false);
 
   useEffect(() => {
@@ -78,11 +83,11 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
           duration: 0.1,
         }}
         initial={{
-          bottom: 60,
+          bottom: 55,
           opacity: 0,
         }}
         animate={{
-          bottom: isSettingsMenuVisible ? 65 : 60,
+          bottom: isSettingsMenuVisible ? 65 : 55,
           opacity: isSettingsMenuVisible ? 1 : 0,
         }}
       >
@@ -102,12 +107,12 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
             Settings
           </StyledSettingsText>
           <StyledSettingsDivider />
-          <StyledLogoutText>
+          <StyledAccountStatusText>
             <StyledSettingsMenuIcon>
-              <IoLogOutOutline />
+            {signedIn ? <IoLogOutOutline /> : <IoLogInOutline />}
             </StyledSettingsMenuIcon>
-            Logout
-          </StyledLogoutText>
+            {signedIn ? "Logout" : "Login"}
+          </StyledAccountStatusText>
         </StyledSettingsMenuWrapper>
       </motion.div>
       <StyledSettingsWrapper

@@ -30,15 +30,6 @@ const Homeworks = (props: { mockup?: boolean }) => {
   const lsc = useContext(LeanScopeClientContext);
   const { mockup } = props;
   const { selectedLanguage } = useSelectedLanguage();
-  const [homeworkEntities] = useEntities((e) => dataTypeQuery(e, DataTypes.HOMEWORK));
-
-  console.log(homeworkEntities);
-  
-  useEffect(() => {
-    console.log(homeworkEntities);
-  }, [homeworkEntities]);
-
-
 
   const openAddHomeworkSheet = () =>
     lsc.stories.transitTo(StoryGuid.ADD_NEW_HOMEWORK_STORY);

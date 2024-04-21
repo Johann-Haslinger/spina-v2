@@ -17,5 +17,5 @@ export const useUserData =  () => {
     fetchUserData();
   }, []);
 
-  return { userId: userId || "No User Signed In", userEmail: userEmail || "No User Signed In"};
+  return { userId: userId || "No User Signed In", userEmail: userEmail || "No User Signed In", signedIn: userId ? true : false};
 };

@@ -2,11 +2,12 @@ import styled from "@emotion/styled";
 import { Entity, useEntity } from "@leanscope/ecs-engine";
 import { useEntityFacets } from "@leanscope/ecs-engine/react-api/hooks/useEntityFacets";
 import tw from "twin.macro";
-import {  TitleFacet } from "../../../app/AdditionalFacets";
+import { TitleFacet } from "../../../app/AdditionalFacets";
 import { IdentifierFacet, ParentFacet, Tags } from "@leanscope/ecs-models";
 import { dataTypeQuery } from "../../../utils/queries";
 import { DataTypes } from "../../../base/enums";
 import { useDaysUntilDue } from "../../../hooks/useDaysUntilDue";
+import { motion } from "framer-motion";
 
 const StyledHomeworkCellContainer = styled.div`
   ${tw`w-full  transition-all h-32 px-2 py-1`}
@@ -22,7 +23,6 @@ const StyledHomeworkCellWrapper = styled.div<{
 
 const StyledHomeworkCellTitle = styled.div`
   ${tw`text-lg line-clamp-2 font-black`}
-
 `;
 const StyledHomeworkCellSubtitle = styled.div`
   ${tw` text-sm font-medium line-clamp-2`}
@@ -57,17 +57,31 @@ const HomeworkKanbanCell = (pops: {
     parentSchoolSubjectEntity?.get(TitleFacet)?.props.title ||
     "No School Subject";
 
-   const handleOpenHomework = () => entity.add(Tags.SELECTED)
+  const handleOpenHomework = () => entity.add(Tags.SELECTED);
 
   return (
-    <StyledHomeworkCellContainer onClick={handleOpenHomework} >
-      <StyledHomeworkCellWrapper backgroundColor={backgroundColor} color={color}>
-        <StyledHomeworkCellTitle>{title}</StyledHomeworkCellTitle>
-        <StyledHomeworkCellSubtitle>
-          {parentSchoolSubjectTitle}, {daysUntilDue}
-        </StyledHomeworkCellSubtitle>
-      </StyledHomeworkCellWrapper>
-    </StyledHomeworkCellContainer>
+    <motion.div
+      initial={{
+        opacity: 0,
+        y: -15,
+      }}
+      animate={{
+        opacity: 1,
+        y: 0,
+      }}
+    >
+      <StyledHomeworkCellContainer onClick={handleOpenHomework}>
+        <StyledHomeworkCellWrapper
+          backgroundColor={backgroundColor}
+          color={color}
+        >
+          <StyledHomeworkCellTitle>{title}</StyledHomeworkCellTitle>
+          <StyledHomeworkCellSubtitle>
+            {parentSchoolSubjectTitle}, {daysUntilDue}
+          </StyledHomeworkCellSubtitle>
+        </StyledHomeworkCellWrapper>
+      </StyledHomeworkCellContainer>
+    </motion.div>
   );
 };
 
