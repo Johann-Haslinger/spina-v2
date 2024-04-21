@@ -6,7 +6,7 @@ import styled from "@emotion/styled/macro";
 import tw from "twin.macro";
 
 const StyledAuthWrapper = styled.div`
-  ${tw`flex justify-center items-center h-screen`}
+  ${tw`flex bg-black justify-center items-center h-screen`}
 `;
 
 function AuthUI() {
@@ -23,8 +23,28 @@ function AuthUI() {
       <StyledAuthWrapper>
         <Auth
           supabaseClient={supabase}
-          appearance={{ theme: ThemeSupa }}
+          appearance={{
+            theme: ThemeSupa,
+            variables: {
+              default: {
+                colors: {
+                  brand: "#B9A0FF",
+                  brandAccent: "#B9A0FF",
+                },
+              },
+            },
+            // className: {
+            //   container: {
+            //     width: "80px",
+            //   },
+            //   button: {
+            //     width: "2px",
+
+            //   }
+            // },
+          }}
           theme="dark"
+          // providers={["google"]}
           providers={[]}
         />
       </StyledAuthWrapper>

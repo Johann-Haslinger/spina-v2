@@ -1,0 +1,11 @@
+# Build-Einstellungen
+[build]
+  command = "npm run build"  # Der Befehl zum Erstellen deiner Anwendung
+  publish = "build"         # Das Verzeichnis, das veröffentlicht werden soll
+
+# Umleitungen (optional)
+[[redirects]]
+  from = "/*"             # Die Quell-URL oder das Muster
+  to = "/index.html"      # Das Ziel der Umleitung
+  status = 200            # Der HTTP-Statuscode für die Umleitung
+
