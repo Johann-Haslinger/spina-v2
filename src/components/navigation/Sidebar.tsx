@@ -44,7 +44,7 @@ const StyledSettingsDivider = styled.div`
 `;
 const StyledSettingsWrapper = styled.div<{ isHoverd: boolean }>`
   ${tw`flex w-[226px] cursor-pointer  hover:bg-primary dark:hover:bg-black   mx-1 absolute bottom-0 my-2 dark:text-white  overflow-hidden py-1 transition-all  rounded-xl space-x-4 items-center`}
-  ${({ isHoverd }) => isHoverd && tw`bg-primary dark:bg-black`}
+  ${({ isHoverd }) => isHoverd && tw`xl:bg-primary xl:dark:bg-black`}
 `;
 
 const StyledProfileIcon = styled.div<{
@@ -64,17 +64,37 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
   const { color, backgroundColor } = COLOR_ITEMS[1];
   const { toggleSettings } = useAppState();
   const { userEmail, signedIn, signOut } = useUserData();
-  const [isSettingsMenuVisible, setIsSettingsMenuVisible] = useState(false);
+  const [isSettingsQuickMenuVisible, setIsSettingsQuickMenuVisible] =
+    useState(false);
+  const settingsQuickMenuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    document.addEventListener("click", handleClickOutside, true);
+    return () => {
+      document.removeEventListener("click", handleClickOutside, true);
+    };
+  }, [isSettingsQuickMenuVisible]);
+
+  const handleClickOutside = (e: MouseEvent) => {
+    if (
+      isSettingsQuickMenuVisible &&
+      settingsQuickMenuRef.current &&
+      !settingsQuickMenuRef.current.contains(e.target as Node)
+    ) {
+      setIsSettingsQuickMenuVisible(false);
+    }
+  };
 
   useEffect(() => {
     if (!isFullWidth) {
-      setIsSettingsMenuVisible(false);
+      setIsSettingsQuickMenuVisible(false);
     }
   }, [isFullWidth]);
 
   return (
     <>
       <motion.div
+        ref={settingsQuickMenuRef}
         style={{
           position: "absolute",
           left: 14,
@@ -87,8 +107,8 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
           opacity: 0,
         }}
         animate={{
-          bottom: isSettingsMenuVisible ? 65 : 55,
-          opacity: isSettingsMenuVisible ? 1 : 0,
+          bottom: isSettingsQuickMenuVisible ? 65 : 55,
+          opacity: isSettingsQuickMenuVisible ? 1 : 0,
         }}
       >
         <StyledSettingsMenuWrapper>
@@ -116,8 +136,10 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
         </StyledSettingsMenuWrapper>
       </motion.div>
       <StyledSettingsWrapper
-        onClick={() => setIsSettingsMenuVisible(!isSettingsMenuVisible)}
-        isHoverd={isSettingsMenuVisible}
+        onClick={() =>
+          setIsSettingsQuickMenuVisible(!isSettingsQuickMenuVisible)
+        }
+        isHoverd={isSettingsQuickMenuVisible}
       >
         <StyledProfileIcon color={color} backgroundColor={backgroundColor}>
           J
@@ -182,7 +204,7 @@ const Sidebar = () => {
   const { width } = useWindowDimensions();
   const [isHoverd, setIsHoverd] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
-  const isMobile = width < 768;
+  const isMobile = width < 1280;
   const isVisible = isMobile ? isSidebarVisible : true;
   const isFullWidth = isMobile ? true : isHoverd;
 

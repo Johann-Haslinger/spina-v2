@@ -16,23 +16,16 @@ const ToolIconWrapper = styled.div`
   ${tw`flex pr-4  items-center`}
 `;
 
-
-
 const StyledSidebarIcon = styled.div<{ type: "light" | "dark" }>`
-  ${tw`text-xl md:!invisible `}
+  ${tw`text-xl xl:!invisible `}
   ${({ type }) =>
     type === "light"
       ? tw`dark:invisible dark:w-0`
       : tw`dark:visible w-0 dark:w-fit invisible`};
 `;
 
-const NavigationBar = (
-  props: PropsWithChildren & {
-    navigateBack?: () => void;
-    backButtonLabel?: string;
-  }
-) => {
-  const { navigateBack, children, backButtonLabel } = props;
+const NavigationBar = (props: PropsWithChildren ) => {
+  const { children } = props;
   const { toggleSidebar } = useAppState();
 
   return (
@@ -41,10 +34,9 @@ const NavigationBar = (
         <StyledSidebarIcon onClick={toggleSidebar} type="light">
           <ViSidebar />
         </StyledSidebarIcon>
-        <StyledSidebarIcon  onClick={toggleSidebar}  type="dark">
+        <StyledSidebarIcon onClick={toggleSidebar} type="dark">
           <ViSidebarDark />
         </StyledSidebarIcon>
-      
       </NavigationIconsWrapper>
       <div></div>
 
