@@ -7,7 +7,6 @@ import styled from "@emotion/styled/macro";
 import tw from "twin.macro";
 import { COLOR_ITEMS } from "../../base/constants";
 
-
 const selectColorItemForColoumn = (statusId: string) => {
   switch (statusId) {
     case "1":
@@ -23,7 +22,7 @@ const selectColorItemForColoumn = (statusId: string) => {
     default:
       return COLOR_ITEMS[0];
   }
-}
+};
 
 const statusStates = {
   1: "Nicht begonnen",
@@ -38,7 +37,10 @@ const StyledKanbanColumnWrapper = styled.div<{ backgroundColor: string }>`
   background-color: ${({ backgroundColor }) => backgroundColor};
 `;
 
-const StyledStatusWrapper = styled.div<{ backgroundColor: string, color: string }>`
+const StyledStatusWrapper = styled.div<{
+  backgroundColor: string;
+  color: string;
+}>`
   ${tw`px-2 mb-2 font-black pt-1`}
   background-color: ${({ backgroundColor }) => backgroundColor};
   color: ${({ color }) => color};
@@ -49,19 +51,21 @@ const KanbanColumn = (props: {
   statusId: string;
   statusLabel: string;
   query: (e: Entity) => boolean;
+  sortingRule?: (a: Entity, b: Entity) => number;
   kanbanCell: (props: any) => ReactNode;
 }) => {
-  const { statusId, statusLabel, query, kanbanCell, idx } = props;
+  const { statusId, statusLabel, query, kanbanCell, sortingRule } = props;
   const [columEntities] = useEntities(
     (e) => e.get(StatusFacet)?.props.status == Number(statusId) && query(e)
   );
 
-  const { backgroundColor, color } = selectColorItemForColoumn(statusId)
-  
+  const { backgroundColor, color } = selectColorItemForColoumn(statusId);
 
   return (
     <StyledKanbanColumnWrapper backgroundColor={backgroundColor}>
-      <StyledStatusWrapper backgroundColor={backgroundColor} color={color}>{statusLabel}</StyledStatusWrapper>
+      <StyledStatusWrapper backgroundColor={backgroundColor} color={color}>
+        {statusLabel}
+      </StyledStatusWrapper>
       <Droppable key={statusId} droppableId={`droppable-${statusId}`}>
         {(provided, snapshot) => (
           <div
@@ -71,38 +75,28 @@ const KanbanColumn = (props: {
             ref={provided.innerRef}
             {...provided.droppableProps}
           >
-            {[...columEntities]
-              .sort(
-                (a, b) =>
-                  new Date(
-                    a.get(DateAddedFacet)?.props.dateAdded || ""
-                  ).getTime() -
-                  new Date(
-                    b.get(DateAddedFacet)?.props.dateAdded || ""
-                  ).getTime()
-              )
-              .map((entity, idx) => {
-                const draggableId = entity.get(IdentifierFacet)?.props.guid;
-                return (
-                  draggableId && (
-                    <Draggable
-                      key={draggableId}
-                      draggableId={draggableId}
-                      index={idx}
-                    >
-                      {(provided) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.draggableProps}
-                          {...provided.dragHandleProps}
-                        >
-                          {kanbanCell({ entity, backgroundColor, color })}
-                        </div>
-                      )}
-                    </Draggable>
-                  )
-                );
-              })}
+            {[...columEntities].sort(sortingRule).map((entity, idx) => {
+              const draggableId = entity.get(IdentifierFacet)?.props.guid;
+              return (
+                draggableId && (
+                  <Draggable
+                    key={draggableId}
+                    draggableId={draggableId}
+                    index={idx}
+                  >
+                    {(provided) => (
+                      <div
+                        ref={provided.innerRef}
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                      >
+                        {kanbanCell({ entity, backgroundColor, color })}
+                      </div>
+                    )}
+                  </Draggable>
+                )
+              );
+            })}
             {provided.placeholder}
           </div>
         )}
@@ -117,6 +111,7 @@ const StyledKanbanWrapper = styled.div`
 interface KanbanProps {
   kanbanCell: (props: any) => ReactNode;
   query: (e: Entity) => boolean;
+  sortingRule?: (a: Entity, b: Entity) => number;
 }
 
 const Kanban = (props: KanbanProps & PropsWithChildren) => {

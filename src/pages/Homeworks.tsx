@@ -14,7 +14,11 @@ import { useSelectedLanguage } from "../hooks/useSelectedLanguage";
 import HomeworksInitSystem from "../features/homeworks/systems/HomeworksInitSystem";
 import { dataTypeQuery } from "../utils/queries";
 import { DataTypes, StoryGuid } from "../base/enums";
-import { AddHomeworkSheet, HomeworkKanbanCell, HomeworkView } from "../features/homeworks";
+import {
+  AddHomeworkSheet,
+  HomeworkKanbanCell,
+  HomeworkView,
+} from "../features/homeworks";
 import { EntityPropsMapper, useEntities } from "@leanscope/ecs-engine";
 import {
   IdentifierFacet,
@@ -25,6 +29,7 @@ import {
 import { DueDateFacet, TitleFacet } from "../app/AdditionalFacets";
 import LoadHomeworkTextSystem from "../features/homeworks/systems/LoadHomeworkTextSystem";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import { sortEntitiesByDueDate } from "../utils/sortEntitiesByTime";
 
 const Homeworks = (props: { mockup?: boolean }) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -41,8 +46,8 @@ const Homeworks = (props: { mockup?: boolean }) => {
 
       <View reducePaddingX viewType="baseView">
         <NavigationBar>
-          <NavBarButton onClick={openAddHomeworkSheet} >
-            <IoAdd  />
+          <NavBarButton onClick={openAddHomeworkSheet}>
+            <IoAdd />
           </NavBarButton>
         </NavigationBar>
         <Title size="large">
@@ -51,6 +56,7 @@ const Homeworks = (props: { mockup?: boolean }) => {
         <Spacer />
         <CollectionLayout>
           <Kanban
+            sortingRule={sortEntitiesByDueDate}
             kanbanCell={HomeworkKanbanCell}
             query={(e) => dataTypeQuery(e, DataTypes.HOMEWORK)}
           />

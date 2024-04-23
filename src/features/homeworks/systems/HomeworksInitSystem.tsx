@@ -15,7 +15,7 @@ import { dataTypeQuery } from "../../../utils/queries";
 
 const fetchHomeworks = async () => {
   const fourteenDaysAgo = new Date(
-    new Date().getTime() - 14 * 24 * 60 * 60 * 1000
+    new Date().getTime() - 7 * 24 * 60 * 60 * 1000
   ).toISOString();
 
   const { data: schoolSubjects, error } = await supabase
