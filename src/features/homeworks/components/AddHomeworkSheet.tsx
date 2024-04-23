@@ -42,6 +42,7 @@ const AddHomeworkSheet = () => {
 
   const addHomework = async () => {
     const { title, dueDate, parent, description, id } = newHomework;
+    console.log("newHomeworkParent",  parent || schooolSubjectEntities[0].get(IdentifierFacet)?.props.guid!,);
     const newHomeworkEntity = new Entity();
     lsc.engine.addEntity(newHomeworkEntity);
     newHomeworkEntity.add(new IdentifierFacet({ guid: id }));

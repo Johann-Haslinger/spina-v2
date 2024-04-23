@@ -8,6 +8,7 @@ import { dataTypeQuery } from "../../../utils/queries";
 import { DataTypes } from "../../../base/enums";
 import { useDaysUntilDue } from "../../../hooks/useDaysUntilDue";
 import { motion } from "framer-motion";
+import { useSchoolSubjectEntities } from "../../../hooks/useSchoolSubjectEntities";
 
 const StyledHomeworkCellContainer = styled.div`
   ${tw`w-full  transition-all h-32 px-2 py-1`}
@@ -48,11 +49,13 @@ const HomeworkKanbanCell = (pops: {
   const daysUntilDue = useDaysUntilDue(entity);
   const title = titleProps?.title || "No Title";
   const parentId = parentProps?.parentId || "No Parent";
-  const [parentSchoolSubjectEntity] = useEntity(
+  const schoolSubjectEntities = useSchoolSubjectEntities();
+  const parentSchoolSubjectEntity = schoolSubjectEntities.find(
     (e) =>
       e.get(IdentifierFacet)?.props.guid === parentId &&
       dataTypeQuery(e, DataTypes.SCHOOL_SUBJECT)
   );
+
   const parentSchoolSubjectTitle =
     parentSchoolSubjectEntity?.get(TitleFacet)?.props.title ||
     "No School Subject";

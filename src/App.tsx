@@ -15,7 +15,7 @@ import { Settings } from "./features/settings";
 
 function App() {
   const { session } = useUserData();
-  console.log(session);
+
   return !session ? (
     <AuthUI />
   ) : (

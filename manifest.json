@@ -1,20 +1,16 @@
 {
-    "short_name": "Spina",
-    "name": "Spina",
-    "icons": [
-        {
-            "src": "/spina.svg",
-            "type": "image/svg+xml",
-            "sizes": "100x100"
-            
-            
-        }
-    ],
-
-
-    "start_url": ".",
-    "display": "standalone",
-    "theme_color": "#F5F5F5",
-    "background_color": "#F5F5F5"
+  "name": "Spina",
+  "short_name": "Spina",
+  "description": "Spina Schopl-App PWA",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F5F5F5",
+  "theme_color": "#F5F5F5",
+  "icons": [
+    {
+      "src": "spina.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
 }
-
