@@ -22,10 +22,9 @@ const TopicView = (props: TitleProps & EntityProps) => {
       <NavigationBar>
         <LuPlus />
       </NavigationBar>
-      <BackButton
-        backButtonLabel={selectedSchoolSubjectTitle}
-        navigateBack={navigateBack}
-      />
+      <BackButton navigateBack={navigateBack}>
+        {selectedSchoolSubjectTitle}
+      </BackButton>
       <Title>{title}</Title>
     </View>
   );

@@ -9,11 +9,7 @@ import {
 } from "../../../components";
 import { EntityProps } from "@leanscope/ecs-engine";
 import { DueDateProps, TitleProps } from "../../../app/AdditionalFacets";
-import {
-  IdentifierProps,
-  ParentProps,
-  TextProps,
-} from "@leanscope/ecs-models";
+import { IdentifierProps, ParentProps, TextProps } from "@leanscope/ecs-models";
 import { useIsViewVisible } from "../../../hooks/useIsViewVisible";
 import { AdditionalTags } from "../../../base/enums";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
@@ -36,36 +32,30 @@ const HomeworkView = (
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
 
   const handleTextChange = async (value: string) => {
-
     const { error } = await supabase
       .from("homeworks")
       .update({ text: value })
       .eq("id", guid);
 
-
-      if (error) {
-        console.error("Error updating homework text", error);
-      }
+    if (error) {
+      console.error("Error updating homework text", error);
+    }
   };
 
   return (
-  
-      <View visibe={isVisible}>
-        <NavigationBar>
-          <NavBarButton>
-            <IoEllipsisHorizontalCircleOutline />
-          </NavBarButton>
-        </NavigationBar>
-        <BackButton
-          backButtonLabel={
-            displayHeaderTexts(selectedLanguage).homeworksHeaderText
-          }
-          navigateBack={navigateBack}
-        />
-        <Title>{title}</Title>
-        <Spacer size={8} />
-        <TextEditor onBlur={handleTextChange} value={text} />
-      </View>
+    <View visibe={isVisible}>
+      <NavigationBar>
+        <NavBarButton>
+          <IoEllipsisHorizontalCircleOutline />
+        </NavBarButton>
+      </NavigationBar>
+      <BackButton navigateBack={navigateBack}>
+        {displayHeaderTexts(selectedLanguage).homeworksHeaderText}
+      </BackButton>
+      <Title>{title}</Title>
+      <Spacer size={8} />
+      <TextEditor onBlur={handleTextChange} value={text} />
+    </View>
   );
 };
 
