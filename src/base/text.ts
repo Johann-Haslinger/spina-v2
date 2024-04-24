@@ -1,5 +1,6 @@
 export enum HeaderTexts {
     COLLECTION, 
+    STUDY,
     HOMEWORKS,
     EXAMS,
     GROUPS,

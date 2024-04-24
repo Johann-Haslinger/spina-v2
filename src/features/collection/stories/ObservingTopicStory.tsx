@@ -8,7 +8,7 @@ import Collection from "../../../pages/Collection";
 import SchoolSubjectsInitSystem from "../../../systems/SchoolSubjectsInitSystem";
 import StoriesInitSystem from "../../../systems/StoriesInitSystem";
 import ViewManagerSystem from "../../../systems/ViewManagerSystem";
-import LoadTopicEntitiesSystem from "../systems/LoadTopicEntitiesSystem";
+import LoadTopicsSystem from "../systems/LoadTopicsSystem";
 
 const ObservingTopicStory = () => {
   return (
@@ -28,7 +28,7 @@ const ObservingTopicStory = () => {
           initialStory={StoryGuid.OBSERVING_SCHOOL_SUBJECT_STORY}
         />
         <SchoolSubjectsInitSystem mokUpData />
-        <LoadTopicEntitiesSystem mokUpData />
+        <LoadTopicsSystem mokUpData />
 
         <Collection />
       </LeanScopeClientApp>

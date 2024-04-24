@@ -173,10 +173,11 @@ const SidebarLink = (props: {
 }) => {
   const { title, path, idx, isFullWidth: isHoverd } = props;
   const { pathname } = useLocation();
+  const { toggleSettings, isSidebarVisible } = useAppState();
 
   return (
     <NavLink to={path}>
-      <StyledSidebarLinkWrapper isCurrent={path == pathname}>
+      <StyledSidebarLinkWrapper onClick={isSidebarVisible ? toggleSettings : undefined} isCurrent={path == pathname}>
         <StyledNavLinkIcon color={COLORS[idx]}>
           <NavigationLinkIcon navLink={title} />
         </StyledNavLinkIcon>

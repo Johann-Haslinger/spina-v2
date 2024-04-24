@@ -118,3 +118,58 @@ export const dummyHomeworks = [
 
 export const dummyText = `
 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.`;
+
+export const dummyFlashcardSets = [
+  {
+    id: "1",
+    flashcardSetName: "Addition",
+    date_added: new Date().toISOString(),
+  },
+  {
+    id: "2",
+    flashcardSetName: "Subtraction",
+    date_added: new Date().toISOString(),
+  },
+  {
+    id: "3",
+    flashcardSetName: "Multiplication",
+    date_added: new Date().toISOString(),
+  },
+];
+
+export const dummyFlashcards = [
+  {
+    id: v4(),
+    parentId: "1",
+    question: "Lorem ipsum dolor sit amet?",
+    answer:
+      "Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.",
+    difficulty: 1,
+  },
+  {
+    id: v4(),
+    parentId: "1",
+    question: "Lorem ipsum dolor sit amet?",
+    answer:
+      "Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.",
+    difficulty: 1,
+  },
+
+  {
+    id: v4(),
+    parentId: "1",
+    question: "Lorem ipsum dolor sit amet?",
+    answer:
+      "Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.",
+    difficulty: 1,
+  },
+
+  {
+    id: v4(),
+    parentId: "1",
+    question: "Lorem ipsum dolor sit amet?",
+    answer:
+      "Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.",
+    difficulty: 1,
+  },
+];

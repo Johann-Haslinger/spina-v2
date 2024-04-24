@@ -48,3 +48,32 @@ export class DueDateFacet extends Facet<DueDateProps>{
     super(props);
   }
 }
+
+export interface MasteryLevelProps {
+  masteryLevel: number;
+}
+
+export class MasteryLevelFacet extends Facet<MasteryLevelProps>{
+  constructor(props: MasteryLevelProps) {
+    super(props);
+  }
+}
+
+export interface QuestionProps {
+  question: string;
+}
+
+export class QuestionFacet extends Facet<QuestionProps>{
+  constructor(props: QuestionProps) {
+    super(props);
+  }
+}
+ export interface AnswerProps {
+  answer: string;
+}
+
+export class AnswerFacet extends Facet<AnswerProps>{
+  constructor(props: AnswerProps) {
+    super(props);
+  }
+}

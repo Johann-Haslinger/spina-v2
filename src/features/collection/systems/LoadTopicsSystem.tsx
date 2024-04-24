@@ -29,7 +29,7 @@ const fetchTopicsForSchoolSubject = async (subjectId: string) => {
   return topics || [];
 };
 
-const LoadTopicEntitiesSystem = (props: { mokUpData?: boolean }) => {
+const LoadTopicsSystem = (props: { mokUpData?: boolean }) => {
   const { mokUpData } = props;
   const lsc = useContext(LeanScopeClientContext);
   const { selectedSchoolSubjectEntity, selectedSchoolSubjectId } = useSelectedSchoolSubject();
@@ -78,4 +78,4 @@ const LoadTopicEntitiesSystem = (props: { mokUpData?: boolean }) => {
   return null;
 };
 
-export default LoadTopicEntitiesSystem;
+export default LoadTopicsSystem;

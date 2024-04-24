@@ -5,6 +5,7 @@ export const displayHeaderTexts = (selectedLanguage: SupportedLanguages) => {
   return {
     collectionHeaderText: getHeaderText(HeaderTexts.COLLECTION, selectedLanguage),
     homeworksHeaderText: getHeaderText(HeaderTexts.HOMEWORKS, selectedLanguage),
+    studyHeaderText: getHeaderText(HeaderTexts.STUDY, selectedLanguage),
     examsHeaderText: getHeaderText(HeaderTexts.EXAMS, selectedLanguage),
     groupsHeaderText: getHeaderText(HeaderTexts.GROUPS, selectedLanguage),
     overviewHeaderText: getHeaderText(HeaderTexts.OVERVIEW, selectedLanguage),
@@ -23,6 +24,17 @@ const getHeaderText = (headerText: HeaderTexts, selectedLanguage: SupportedLangu
         default:
           return "";
       }
+    
+      case HeaderTexts.STUDY:
+      switch (selectedLanguage) {
+        case SupportedLanguages.DE:
+          return "Lernen";
+        case SupportedLanguages.EN:
+          return "Study";
+        default:
+          return "";
+      }
+    
     case HeaderTexts.HOMEWORKS:
       switch (selectedLanguage) {
         case SupportedLanguages.DE:

@@ -112,10 +112,11 @@ interface KanbanProps {
   kanbanCell: (props: any) => ReactNode;
   query: (e: Entity) => boolean;
   sortingRule?: (a: Entity, b: Entity) => number;
+  updateEntityStatus: (entity: Entity, newStatus: number) => void;
 }
 
 const Kanban = (props: KanbanProps & PropsWithChildren) => {
-  const { query } = props;
+  const { query, updateEntityStatus } = props;
   const [kanbanEntities] = useEntities((e) => e.has(StatusFacet) && query(e));
 
   const handleDragEnd = async (result: any) => {
@@ -142,9 +143,11 @@ const Kanban = (props: KanbanProps & PropsWithChildren) => {
       const draggedEntity = kanbanEntities.find(
         (e) => e.get(IdentifierFacet)?.props.guid === draggedItemId
       );
-      if (newStatus) {
+      if (newStatus && draggedEntity) {
         draggedEntity?.add(new StatusFacet({ status: newStatus }));
+        updateEntityStatus(draggedEntity, newStatus)
       }
+     
     }
   };
 

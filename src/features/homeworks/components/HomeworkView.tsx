@@ -36,7 +36,7 @@ const HomeworkView = (
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
 
   const handleTextChange = async (value: string) => {
-    console.log("updating homework text", value);
+
     const { error } = await supabase
       .from("homeworks")
       .update({ text: value })

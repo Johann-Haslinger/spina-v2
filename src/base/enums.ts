@@ -17,15 +17,17 @@ export enum AdditionalTags {
 }
 
 export enum NavigationLinks {
-  OVERVIEW = "Übersicht",
-  HOMEWORKS = "Hausaufgaben",
-  EXAMS = "Prüfungen",
-  COLLECTION = "Sammlung",
-  GROUPS = "Gruppen",
+  OVERVIEW = "overview",
+  STUDY = "study",
+  HOMEWORKS = "homeworks",
+  EXAMS = "exams",
+  COLLECTION = "collection",
+  GROUPS = "groups",
 }
 
 export enum DataTypes {
   HOMEWORK = "homework",
+  FLASHCARD_GROUP = "flashcardGroup",
   EXAM = "exam",
   SCHOOL_SUBJECT = "schoolSubject",
   TOPIC = "topic",

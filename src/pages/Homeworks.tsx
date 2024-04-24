@@ -19,7 +19,7 @@ import {
   HomeworkKanbanCell,
   HomeworkView,
 } from "../features/homeworks";
-import { EntityPropsMapper, useEntities } from "@leanscope/ecs-engine";
+import { Entity, EntityPropsMapper, useEntities } from "@leanscope/ecs-engine";
 import {
   IdentifierFacet,
   ParentFacet,
@@ -30,6 +30,7 @@ import { DueDateFacet, TitleFacet } from "../app/AdditionalFacets";
 import LoadHomeworkTextSystem from "../features/homeworks/systems/LoadHomeworkTextSystem";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { sortEntitiesByDueDate } from "../utils/sortEntitiesByTime";
+import supabase from "../lib/supabase";
 
 const Homeworks = (props: { mockup?: boolean }) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -38,6 +39,14 @@ const Homeworks = (props: { mockup?: boolean }) => {
 
   const openAddHomeworkSheet = () =>
     lsc.stories.transitTo(StoryGuid.ADD_NEW_HOMEWORK_STORY);
+
+  const updateHomeworkStatus = async(homework: Entity, status: number) => {
+    const homeworkId = homework.get(IdentifierFacet)?.props.guid;
+     const {error} = await supabase.from("homeworks").update({status}).eq("id", homeworkId);
+      if(error){
+        console.error("Error updating homework status", error);
+      }
+  }
 
   return (
     <>
@@ -56,6 +65,7 @@ const Homeworks = (props: { mockup?: boolean }) => {
         <Spacer />
         <CollectionLayout>
           <Kanban
+          updateEntityStatus={updateHomeworkStatus}
             sortingRule={sortEntitiesByDueDate}
             kanbanCell={HomeworkKanbanCell}
             query={(e) => dataTypeQuery(e, DataTypes.HOMEWORK)}

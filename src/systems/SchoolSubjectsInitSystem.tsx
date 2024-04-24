@@ -29,7 +29,7 @@ const SchoolSubjectsInitSystem = (props: {mokUpData?: boolean}) => {
 
       schoolSubjects.forEach((schoolSubject, idx) => {
         const isExisting = lsc.engine.entities.some(
-          (e) => e.get(IdentifierFacet)?.props.guid === schoolSubject.id  && dataTypeQuery(e, DataTypes.HOMEWORK)
+          (e) => e.get(IdentifierFacet)?.props.guid === schoolSubject.id  && dataTypeQuery(e, DataTypes.SCHOOL_SUBJECT)
         );
 
         if (!isExisting) {

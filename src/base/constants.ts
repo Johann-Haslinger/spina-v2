@@ -9,6 +9,10 @@ export const NAV_LINKS = [
     path: formatNavLinkAsPath(NavigationLinks.OVERVIEW),
   },
   {
+    title: NavigationLinks.STUDY,
+    path: formatNavLinkAsPath(NavigationLinks.STUDY),
+  },
+  {
     title: NavigationLinks.HOMEWORKS,
     path: formatNavLinkAsPath(NavigationLinks.HOMEWORKS),
   },
@@ -20,6 +24,7 @@ export const NAV_LINKS = [
     title: NavigationLinks.COLLECTION,
     path: formatNavLinkAsPath(NavigationLinks.COLLECTION),
   },
+
   {
     title: NavigationLinks.GROUPS,
     path: formatNavLinkAsPath(NavigationLinks.GROUPS),
@@ -27,15 +32,13 @@ export const NAV_LINKS = [
 ];
 
 export const COLORS = [
- "#F4CF54",
- "#00965F",
- "#0B86D1",
- "#B9A0FF",
- "#F4BAB5",
- "#EE7A2C"
-]
-
-
+  "#F4CF54",
+  "#00965F",
+  "#0B86D1",
+  "#B9A0FF",
+  "#F4BAB5",
+  "#EE7A2C",
+];
 
 export const COLOR_ITEMS: { color: string; backgroundColor: string }[] = [
   {
@@ -62,5 +65,4 @@ export const COLOR_ITEMS: { color: string; backgroundColor: string }[] = [
     color: "#F4CF54",
     backgroundColor: "#EE7A2C",
   },
-  
 ];

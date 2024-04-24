@@ -1,38 +1,24 @@
-import React from "react";
 import { NavigationLinks } from "../../base/enums";
 import {
-  LuBook,
-  LuBookOpen,
-  LuGraduationCap,
-  LuHome,
-  LuLayoutGrid,
-  LuTrophy,
-  LuUsers,
-} from "react-icons/lu";
-import { IoBook, IoBookOutline, IoGrid, IoGridOutline, IoHome, IoHomeOutline, IoJournal, IoPeople, IoPeopleOutline, IoTrophy, IoTrophyOutline } from "react-icons/io5";
-
-// const NavigationLinkIcon = (props: { navLink: NavigationLinks }) => {
-//   switch (props.navLink) {
-//     case NavigationLinks.OVERVIEW:
-//       return <IoHomeOutline  />;
-//     case NavigationLinks.HOMEWORKS:
-//       return <IoBookOutline />;
-//     case NavigationLinks.EXAMS:
-//       return <IoTrophyOutline />;
-//     case NavigationLinks.COLLECTION:
-//       return <IoGridOutline />;
-//     case NavigationLinks.GROUPS:
-//       return <IoPeopleOutline />;
-
-//     default:
-//       return <LuBookOpen />;
-//   }
-// };
+  IoBook,
+  IoBookOutline,
+  IoGrid,
+  IoGridOutline,
+  IoHome,
+  IoHomeOutline,
+  IoJournal,
+  IoPeople,
+  IoPeopleOutline,
+  IoTrophy,
+  IoTrophyOutline,
+} from "react-icons/io5";
 
 const NavigationLinkIcon = (props: { navLink: NavigationLinks }) => {
   switch (props.navLink) {
     case NavigationLinks.OVERVIEW:
       return <IoHome />;
+    case NavigationLinks.STUDY:
+      return <IoBook />;
     case NavigationLinks.HOMEWORKS:
       return <IoJournal />;
     case NavigationLinks.EXAMS:
@@ -43,7 +29,7 @@ const NavigationLinkIcon = (props: { navLink: NavigationLinks }) => {
       return <IoPeople />;
 
     default:
-      return <LuBookOpen />;
+      return <IoBook />;
   }
 };
 
