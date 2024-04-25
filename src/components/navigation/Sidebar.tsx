@@ -223,7 +223,6 @@ const Sidebar = () => {
       sidebarRef.current &&
       !sidebarRef.current.contains(e.target as Node)
     ) {
-      console.log("click outside");
       toggleSidebar();
     }
   };

@@ -31,7 +31,7 @@ const LoadFlashcardsSystem = (props: { mockupData?: boolean }) => {
   const lsc = useContext(LeanScopeClientContext);
   const [selectedFlashcardGroupEntity] = useEntity(
     (e) =>
-      dataTypeQuery(e, DataTypes.FLASHCARD_GROUP) && e.hasTag(Tags.SELECTED)
+      (dataTypeQuery(e, DataTypes.FLASHCARD_GROUP) || dataTypeQuery(e, DataTypes.FLASHCARD_SET)) && e.hasTag(Tags.SELECTED)
   );
   const selectedFlashcardGroupId =
     selectedFlashcardGroupEntity?.get(IdentifierFacet)?.props.guid;

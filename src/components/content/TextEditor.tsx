@@ -31,7 +31,6 @@ const TextEditor = (props: {
   useEffect(() => {
     const saveInterval = setInterval(() => {
       if (onBlur && textEditorRef.current) {
-        console.log("Saving content",  textEditorRef.current.innerHTML);
         onBlur(textEditorRef.current.innerHTML);
       }
     }, 30000); 

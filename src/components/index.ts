@@ -40,3 +40,4 @@ export { default as TextAreaInput } from "./inputs/TextAreaInput";
 // ---ThumbNails---
 
 export { default as NoteThumbNail } from "./thumbNails/NoteThumbNail";
+export { default as FlashcardSetThumbNail } from "./thumbNails/FlashcardSetThumbNail";

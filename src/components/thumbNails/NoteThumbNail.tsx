@@ -57,20 +57,20 @@ const NoteThumbNail = (props: { color: string; title: string, onClick?: ()=> voi
       <StyledNoteCellContainer>
         {[1, 2].map((cellIndex) => (
           <StyledNoteCellItem key={cellIndex} backgroundColor={color}>
-            {[0, 1, 2, 3, 4, 5, 6].map((lineIndex) => (
+            {/* {[0, 1, 2, 3, 4, 5, 6].map((lineIndex) => (
               <StyledNoteCellLine
                 key={lineIndex}
                 lineIndex={lineIndex}
                 cellIndex={cellIndex}
                 color={color}
               />
-            ))}
+            ))} */}
           </StyledNoteCellItem>
         ))}
       </StyledNoteCellContainer>
 
       <StyledNoteCellTitle>
-        {title !== "" ? title : "Kein Titel"}
+        {title || "Kein Titel"}
       </StyledNoteCellTitle>
 
       <StyledResourceTypeText> Mitschrift</StyledResourceTypeText>

@@ -12,7 +12,6 @@ import supabase from "../../../lib/supabase";
 import { useSelectedTopic } from "../hooks/useSelectedTopic";
 
 const fetchNotesForTopic = async (topicId: string) => {
-  console.log("fetching notes for topic", topicId);
   const { data: notes, error } = await supabase
     .from("notes")
     .select("title, id, date_added")

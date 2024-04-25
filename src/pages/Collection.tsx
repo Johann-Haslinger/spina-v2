@@ -13,7 +13,6 @@ import {
   View,
 } from "../components";
 import { displayHeaderTexts } from "../utils/selectDisplayText";
-import TopicView from "../features/collection/components/topics/TopicView";
 import { useSelectedLanguage } from "../hooks/useSelectedLanguage";
 
 const Collection = () => {
@@ -43,13 +42,7 @@ const Collection = () => {
         get={[[TitleFacet], []]}
         onMatch={SchoolSubjectView}
       />
-      <EntityPropsMapper
-        query={(e) =>
-          dataTypeQuery(e, DataTypes.TOPIC) && e.hasTag(Tags.SELECTED)
-        }
-        get={[[TitleFacet], []]}
-        onMatch={TopicView}
-      />
+      
     </>
   );
 };

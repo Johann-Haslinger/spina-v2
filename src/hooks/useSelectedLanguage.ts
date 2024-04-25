@@ -6,14 +6,18 @@ import { useEntityFacets } from "@leanscope/ecs-engine/react-api/hooks/useEntity
 
 export const useSelectedLanguage = () => {
   const { appStateEntity } = useAppState();
-  const [selectedLanguagePorps] = useEntityFacets(appStateEntity, SelectedLanguageFacet);
-  const selectedLanguage = selectedLanguagePorps?.selectedLanguage || SupportedLanguages.EN;
+  const [selectedLanguagePorps] = useEntityFacets(
+    appStateEntity,
+    SelectedLanguageFacet
+  );
+  const selectedLanguage =
+    selectedLanguagePorps?.selectedLanguage || SupportedLanguages.EN;
 
   const changeLanguage = (language: SupportedLanguages) => {
-    console.log("Changing language to", language);
-    appStateEntity?.add(new SelectedLanguageFacet({ selectedLanguage: language }));
-
-  }
+    appStateEntity?.add(
+      new SelectedLanguageFacet({ selectedLanguage: language })
+    );
+  };
 
   return { selectedLanguage, changeLanguage };
 };

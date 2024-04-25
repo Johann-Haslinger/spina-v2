@@ -19,7 +19,6 @@ const ViewManagerSystem = () => {
 
   useEffect(() => {
     if (isSheetViewVisible) {
-      console.log("overflow-hidden");
       document.body.classList.add("overflow-hidden");
     } else {
       document.body.classList.remove("overflow-hidden");

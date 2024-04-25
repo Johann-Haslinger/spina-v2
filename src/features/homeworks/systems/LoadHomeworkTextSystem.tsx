@@ -1,23 +1,15 @@
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { Entity, useEntity } from "@leanscope/ecs-engine";
+import {  useEntity } from "@leanscope/ecs-engine";
 import {
   IdentifierFacet,
-  TimestampFacet,
-  DescriptionFacet,
-  ParentFacet,
   Tags,
   TextFacet,
 } from "@leanscope/ecs-models";
-import React, { useContext, useEffect } from "react";
-import { TitleFacet } from "../../../app/AdditionalFacets";
-import { dummyText, dummyTopics } from "../../../base/dummy";
+import {  useEffect } from "react";
+import { dummyText } from "../../../base/dummy";
 import { DataTypes } from "../../../base/enums";
 import supabase from "../../../lib/supabase";
-import { useSchoolSubjectTopics } from "../../collection/hooks/useSchoolSubjectTopics";
-import { useSelectedSchoolSubject } from "../../collection/hooks/useSelectedSchoolSubject";
 
 const fetchHomeworkText = async (homeworkId: string) => {
-  console.log("fetching text for homewirk", homeworkId);
   const { data: text, error } = await supabase
     .from("homeworks")
     .select("text")

@@ -4,7 +4,6 @@ import {
   DescriptionFacet,
   IdentifierFacet,
   ParentFacet,
-  TimestampFacet,
 } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
 import { DateAddedFacet, TitleFacet } from "../../../app/AdditionalFacets";
@@ -15,7 +14,6 @@ import { useSelectedSchoolSubject } from "../hooks/useSelectedSchoolSubject";
 import { useSchoolSubjectTopics } from "../hooks/useSchoolSubjectTopics";
 
 const fetchTopicsForSchoolSubject = async (subjectId: string) => {
-  console.log("fetching topics for school subject", subjectId);
   const { data: topics, error } = await supabase
     .from("topics")
     .select("topicName, id, date_added, topicDescription")

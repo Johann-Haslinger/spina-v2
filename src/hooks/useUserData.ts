@@ -26,7 +26,6 @@ export const useUserData = () => {
 
   const signOut = async () => {
     await supabase.auth.signOut();
-    console.log("Signed Out");
     window.location.reload();
   };
 

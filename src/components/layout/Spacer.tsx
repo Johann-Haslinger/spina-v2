@@ -13,7 +13,7 @@ const StyledSpacer = styled.div<{ size: SpacerSize }>`
 `;
 
 const Spacer = (props: SpacerProps) => {
-  const { size = 4 } = props;
+  const { size = 6 } = props;
   return <StyledSpacer size={size} />;
 };
 

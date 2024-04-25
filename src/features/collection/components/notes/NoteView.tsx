@@ -30,7 +30,7 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
       .eq("id", guid);
 
     if (error) {
-      console.error("Error updating homework text", error);
+      console.error("Error updating note text", error);
     }
   };
 
@@ -44,7 +44,7 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
           {selectedTopicTitle}
         </BackButton>
         <Title>{title}</Title>
-        <Spacer />
+        <Spacer  />
         <TextEditor onBlur={handleTextBlur} value={text} />
       </View>
     </>

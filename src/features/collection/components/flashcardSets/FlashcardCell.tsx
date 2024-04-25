@@ -3,14 +3,14 @@ import {
   AnswerProps,
   MasteryLevelProps,
   QuestionProps,
-} from "../../../app/AdditionalFacets";
+} from "../../../../app/AdditionalFacets";
 import { EntityProps } from "@leanscope/ecs-engine";
 import tw from "twin.macro";
-import { COLOR_ITEMS } from "../../../base/constants";
+import { COLOR_ITEMS } from "../../../../base/constants";
 import { Tags } from "@leanscope/ecs-models";
 import { useContext } from "react";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { StoryGuid } from "../../../base/enums";
+import { StoryGuid } from "../../../../base/enums";
 
 const StyledFlashcardCellWrapper = styled.div<{
   backgroundColor: string;

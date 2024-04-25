@@ -16,14 +16,13 @@ export const useTopicResourceColor = (resourceEntity: Entity) => {
       e.get(IdentifierFacet)?.props.guid === topicId &&
       dataTypeQuery(e, DataTypes.TOPIC)
   );
-  console.log("topicId", topicId, topicEntity);
+
   const schoolSubjectId = topicEntity?.get(ParentFacet)?.props.parentId;
   const [schoolSubjectEntity] = useEntity(
     (e) =>
       e.get(IdentifierFacet)?.props.guid === schoolSubjectId &&
       dataTypeQuery(e, DataTypes.SCHOOL_SUBJECT)
   );
-  console.log("shcoolSubjectId", schoolSubjectId, schoolSubjectEntity);
 
   if (schoolSubjectEntity) {
     const orderIndex = schoolSubjectEntity?.get(OrderFacet)?.props.orderIndex;

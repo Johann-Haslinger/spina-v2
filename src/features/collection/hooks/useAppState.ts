@@ -35,7 +35,6 @@ export const useAppState = () => {
       appStateEntity?.remove(AdditionalTags.SIDEBAR_VISIBLE);
     } else {
       appStateEntity?.add(AdditionalTags.SIDEBAR_VISIBLE);
-      console.log(appStateEntity);
     }
   };
 

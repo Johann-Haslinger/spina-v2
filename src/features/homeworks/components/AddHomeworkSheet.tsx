@@ -42,7 +42,6 @@ const AddHomeworkSheet = () => {
 
   const addHomework = async () => {
     const { title, dueDate, parent, description, id } = newHomework;
-    console.log("newHomeworkParent",  parent || schooolSubjectEntities[0].get(IdentifierFacet)?.props.guid!,);
     const newHomeworkEntity = new Entity();
     lsc.engine.addEntity(newHomeworkEntity);
     newHomeworkEntity.add(new IdentifierFacet({ guid: id }));
@@ -61,7 +60,7 @@ const AddHomeworkSheet = () => {
     );
     newHomeworkEntity.add(new StatusFacet({ status: 1 }));
     newHomeworkEntity.add(DataTypes.HOMEWORK);
-    console.log("id", id);
+
     const { error } = await supabase.from("homeworks").insert([
       {
         id: id,

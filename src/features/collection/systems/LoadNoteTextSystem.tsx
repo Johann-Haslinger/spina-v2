@@ -18,7 +18,6 @@ const LoadNoteTextSystem = (props: { mockupData?: boolean }) => {
   useEffect(() => {
     const loadNoteText = async () => {
       let noteText;
-      console.log("mockupData", mockupData);
       if (mockupData) {
         noteText = dummyText;
       } else {

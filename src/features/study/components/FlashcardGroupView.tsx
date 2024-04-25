@@ -20,7 +20,7 @@ import { displayHeaderTexts } from "../../../utils/selectDisplayText";
 import { useIsViewVisible } from "../../../hooks/useIsViewVisible";
 import { AdditionalTags, DataTypes } from "../../../base/enums";
 import { dataTypeQuery, isChildOfQuery } from "../../../utils/queries";
-import FlashcardCell from "./FlashcardCell";
+import { FlashcardCell } from "../../collection";
 
 const FlashcardGroupView = (props: TitleProps & EntityProps) => {
   const { title, entity } = props;

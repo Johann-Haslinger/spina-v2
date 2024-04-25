@@ -37,7 +37,6 @@ const AddTopicSheet = () => {
       topicTitleRef.current &&
       topicDescriptionRef.current
     ) {
-      console.log("Adding topic");
       const newTopicEntity = new Entity();
       lsc.engine.addEntity(newTopicEntity);
       newTopicEntity.add(new IdentifierFacet({ guid: v4() }));
