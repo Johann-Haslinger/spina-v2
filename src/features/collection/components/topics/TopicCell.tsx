@@ -8,20 +8,20 @@ import { IoBook } from "react-icons/io5";
 import { useAppState } from "../../hooks/useAppState";
 
 const StyledTopicCellContainer = styled.div`
-  ${tw` w-full cursor-pointer pb-6 md:w-1/2 lg:w-1/3 p-1.5 h-fit`}
+  ${tw` w-full cursor-pointer pb-6 h-fit`}
 `;
 
 const StyledTopicCellWrapper = styled.div<{
   color: string;
   backgroundColor: string;
 }>`
-  ${tw`w-full h-40 flex rounded-xl  justify-center items-center  hover:scale-105 transition-all  text-7xl font-bold p-2 `}
+  ${tw`w-full h-40 flex justify-center items-center  hover:scale-105 transition-all  text-7xl font-bold p-2 `}
   background-color: ${({ backgroundColor }) => backgroundColor};
   color: ${({ color }) => color};
 `;
 
 const StyledTopicTitle = styled.p`
-  ${tw`mt-4 dark:text-white text-primatyText font-semibold text-2xl line-clamp-2 `}
+  ${tw`mt-4 dark:text-white text-primatyText font-bold text-xl line-clamp-2 `}
 `;
 const StyledTopicDescription = styled.p`
   ${tw` text-seconderyText line-clamp-2 mt-1`}

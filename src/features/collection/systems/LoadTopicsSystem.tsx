@@ -7,7 +7,7 @@ import {
   TimestampFacet,
 } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
-import { TitleFacet } from "../../../app/AdditionalFacets";
+import { DateAddedFacet, TitleFacet } from "../../../app/AdditionalFacets";
 import { DataTypes } from "../../../base/enums";
 import supabase from "../../../lib/supabase";
 import { dummyTopics } from "../../../base/dummy";
@@ -55,7 +55,7 @@ const LoadTopicsSystem = (props: { mokUpData?: boolean }) => {
             topicEntity.add(new TitleFacet({ title: topic.topicName }));
             topicEntity.add(new IdentifierFacet({ guid: topic.id }));
             topicEntity.add(
-              new TimestampFacet({ timestampDateTimeValue: topic.date_added })
+              new DateAddedFacet({ dateAdded: topic.date_added })
             );
 
             topicEntity.add(

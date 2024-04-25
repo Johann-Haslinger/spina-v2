@@ -41,7 +41,7 @@ const FlashcardGroupView = (props: TitleProps & EntityProps) => {
       </BackButton>
       <Title>{title}</Title>
       <Spacer size={6}/>
-      <CollectionGrid>
+      <CollectionGrid columnSize="large">
         <EntityPropsMapper
           query={(e) =>
             dataTypeQuery(e, DataTypes.FLASHCARD) &&

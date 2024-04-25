@@ -6,7 +6,7 @@ import { SchoolSubjectCell, SchoolSubjectView } from "../features/collection";
 import { TitleFacet } from "../app/AdditionalFacets";
 import { OrderFacet, Tags } from "@leanscope/ecs-models";
 import {
-  CollectionLayout,
+  CollectionGrid,
   NavigationBar,
   Spacer,
   Title,
@@ -17,23 +17,23 @@ import TopicView from "../features/collection/components/topics/TopicView";
 import { useSelectedLanguage } from "../hooks/useSelectedLanguage";
 
 const Collection = () => {
-  const {selectedLanguage} = useSelectedLanguage();
+  const { selectedLanguage } = useSelectedLanguage();
 
   return (
     <>
       <View viewType="baseView">
-      <NavigationBar></NavigationBar>
+        <NavigationBar></NavigationBar>
         <Title size="large">
           {displayHeaderTexts(selectedLanguage).collectionHeaderText}
         </Title>
         <Spacer />
-        <CollectionLayout>
+        <CollectionGrid>
           <EntityPropsMapper
             query={(e) => dataTypeQuery(e, DataTypes.SCHOOL_SUBJECT)}
             get={[[TitleFacet, OrderFacet], []]}
             onMatch={SchoolSubjectCell}
           />
-        </CollectionLayout>
+        </CollectionGrid>
       </View>
 
       <EntityPropsMapper

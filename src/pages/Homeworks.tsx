@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from "react";
 import {
-  CollectionLayout,
   Kanban,
   NavBarButton,
   NavigationBar,
@@ -40,13 +39,16 @@ const Homeworks = (props: { mockup?: boolean }) => {
   const openAddHomeworkSheet = () =>
     lsc.stories.transitTo(StoryGuid.ADD_NEW_HOMEWORK_STORY);
 
-  const updateHomeworkStatus = async(homework: Entity, status: number) => {
+  const updateHomeworkStatus = async (homework: Entity, status: number) => {
     const homeworkId = homework.get(IdentifierFacet)?.props.guid;
-     const {error} = await supabase.from("homeworks").update({status}).eq("id", homeworkId);
-      if(error){
-        console.error("Error updating homework status", error);
-      }
-  }
+    const { error } = await supabase
+      .from("homeworks")
+      .update({ status })
+      .eq("id", homeworkId);
+    if (error) {
+      console.error("Error updating homework status", error);
+    }
+  };
 
   return (
     <>
@@ -63,14 +65,12 @@ const Homeworks = (props: { mockup?: boolean }) => {
           {displayHeaderTexts(selectedLanguage).homeworksHeaderText}
         </Title>
         <Spacer />
-        <CollectionLayout>
-          <Kanban
+        <Kanban
           updateEntityStatus={updateHomeworkStatus}
-            sortingRule={sortEntitiesByDueDate}
-            kanbanCell={HomeworkKanbanCell}
-            query={(e) => dataTypeQuery(e, DataTypes.HOMEWORK)}
-          />
-        </CollectionLayout>
+          sortingRule={sortEntitiesByDueDate}
+          kanbanCell={HomeworkKanbanCell}
+          query={(e) => dataTypeQuery(e, DataTypes.HOMEWORK)}
+        />
       </View>
 
       <EntityPropsMapper

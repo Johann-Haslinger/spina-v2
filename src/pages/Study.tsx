@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import {
-  CollectionLayout,
+  CollectionGrid,
   NavBarButton,
   NavigationBar,
   Spacer,
@@ -43,13 +43,13 @@ const Study = () => {
         </NavigationBar>
         <Title>{displayHeaderTexts(selectedLanguage).studyHeaderText}</Title>
         <Spacer />
-        <CollectionLayout>
+        <CollectionGrid>
           <EntityPropsMapper
             query={(e) => dataTypeQuery(e, DataTypes.FLASHCARD_GROUP)}
             get={[[TitleFacet], []]}
             onMatch={FlashcardGroupCell}
           />
-        </CollectionLayout>
+        </CollectionGrid>
       </View>
       <EntityPropsMapper
         query={(e) => e.has(DataTypes.FLASHCARD_GROUP) && e.has(Tags.SELECTED)}

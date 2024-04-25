@@ -173,3 +173,32 @@ export const dummyFlashcards = [
     difficulty: 1,
   },
 ];
+
+export const dummyNotes = [
+  {
+    id: "1",
+    title: "Lorem ipsum dolor sit amet",
+    date_added: new Date().toISOString(),
+    parentId: "1",
+  },
+  {
+    id: "2",
+    title: "Lorem ipsum dolor sit amet",
+
+    date_added: new Date().toISOString(),
+    parentId: "1",
+  },
+  {
+    id: "3",
+    title: "Lorem ipsum dolor sit amet",
+    date_added: new Date().toISOString(),
+    parentId: "1",
+  },
+  {
+    id: "4",
+    title: "Lorem ipsum dolor sit amet",
+
+    date_added: new Date().toISOString(),
+    parentId: "1",
+  },
+];

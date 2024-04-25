@@ -3,12 +3,10 @@ import { TitleFacet, TitleProps } from "../../../../app/AdditionalFacets";
 import {
   EntityProps,
   EntityPropsMapper,
-  useEntities,
 } from "@leanscope/ecs-engine";
 import {
   BackButton,
-  CollectionLayout,
-  Divider,
+  CollectionGrid,
   NavigationBar,
   Spacer,
   Title,
@@ -33,7 +31,7 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
   const isVisible = useIsViewVisible(entity);
   const { color, backgroundColor } = useSchoolSubjectColors(props.entity);
   const { hasTopics } = useSchoolSubjectTopics(props.entity);
-  const {selectedLanguage} = useSelectedLanguage();
+  const { selectedLanguage } = useSelectedLanguage();
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
   const openAddTopicSheet = () =>
@@ -44,7 +42,7 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
       <NavigationBar>
         <LuPlus onClick={openAddTopicSheet} />
       </NavigationBar>
-      <BackButton  navigateBack={navigateBack} >
+      <BackButton navigateBack={navigateBack}>
         {displayHeaderTexts(selectedLanguage).collectionHeaderText}
       </BackButton>
       <Title>{title} </Title>
@@ -52,8 +50,7 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
       {!hasTopics && (
         <NoContentAdded backgroundColor={backgroundColor} color={color} />
       )}
-
-      <CollectionLayout>
+      <CollectionGrid columnSize="large">
         <EntityPropsMapper
           query={(e) =>
             dataTypeQuery(e, DataTypes.TOPIC) && isChildOfQuery(e, entity)
@@ -61,7 +58,7 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
           get={[[TitleFacet], []]}
           onMatch={TopicCell}
         />
-      </CollectionLayout>
+      </CollectionGrid>
       <AddTopicSheet />
     </View>
   );

@@ -13,7 +13,7 @@ export { default as TextEditor } from "./content/TextEditor";
 
 // ------Layout------
 
-export { default as CollectionLayout } from "./layout/Collection";
+
 export { default as Spacer } from "./layout/Spacer";
 export { default as Divider } from "./layout/Divider";
 export { default as CollectionGrid } from "./layout/CollectionGrid";
