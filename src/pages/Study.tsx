@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   CollectionLayout,
   NavBarButton,
   NavigationBar,
+  Spacer,
   Title,
   View,
 } from "../components";
@@ -11,7 +12,7 @@ import { displayHeaderTexts } from "../utils/selectDisplayText";
 import { IoAdd } from "react-icons/io5";
 import { EntityPropsMapper } from "@leanscope/ecs-engine";
 import { dataTypeQuery } from "../utils/queries";
-import { DataTypes } from "../base/enums";
+import { DataTypes, StoryGuid } from "../base/enums";
 import {
   FlashcardGroupCell,
   FlashcardGroupsInitSystem,
@@ -20,9 +21,14 @@ import {
 } from "../features/study";
 import { TitleFacet } from "../app/AdditionalFacets";
 import { Tags } from "@leanscope/ecs-models";
+import AddFlashcardGroupSheet from "../features/study/components/AddFlashcardGroupSheet";
+import { LeanScopeClientContext } from "@leanscope/api-client/node";
 
 const Study = () => {
+  const lsc = useContext(LeanScopeClientContext)
   const { selectedLanguage } = useSelectedLanguage();
+
+  const openAddFlashcardGroupSheet = () => lsc.stories.transitTo(StoryGuid.ADD_FLASHCARD_GROUP_STORY);
 
   return (
     <>
@@ -31,11 +37,12 @@ const Study = () => {
 
       <View viewType="baseView">
         <NavigationBar>
-          <NavBarButton>
+          <NavBarButton onClick={openAddFlashcardGroupSheet}>
             <IoAdd />
           </NavBarButton>
         </NavigationBar>
         <Title>{displayHeaderTexts(selectedLanguage).studyHeaderText}</Title>
+        <Spacer />
         <CollectionLayout>
           <EntityPropsMapper
             query={(e) => dataTypeQuery(e, DataTypes.FLASHCARD_GROUP)}
@@ -49,6 +56,7 @@ const Study = () => {
         get={[[TitleFacet], []]}
         onMatch={FlashcardGroupView}
       />
+      <AddFlashcardGroupSheet />
     </>
   );
 };

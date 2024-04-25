@@ -8,7 +8,7 @@ import { dataTypeQuery } from "../../../utils/queries";
 import { DataTypes } from "../../../base/enums";
 import { useDaysUntilDue } from "../../../hooks/useDaysUntilDue";
 import { motion } from "framer-motion";
-import { useSchoolSubjectEntities } from "../../../hooks/useSchoolSubjectEntities";
+import { useSchoolSubjectEntities } from "../../../hooks/useSchoolSubjects";
 
 const StyledHomeworkCellContainer = styled.div`
   ${tw`w-full  transition-all h-32 px-2 py-1`}

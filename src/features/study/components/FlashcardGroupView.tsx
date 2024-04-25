@@ -3,6 +3,7 @@ import {
   CollectionGrid,
   NavBarButton,
   NavigationBar,
+  Spacer,
   Title,
   View,
 } from "../../../components";
@@ -39,6 +40,7 @@ const FlashcardGroupView = (props: TitleProps & EntityProps) => {
         {displayHeaderTexts(selectedLanguage).studyHeaderText}
       </BackButton>
       <Title>{title}</Title>
+      <Spacer size={6}/>
       <CollectionGrid>
         <EntityPropsMapper
           query={(e) =>

@@ -10,7 +10,7 @@ import {
   TextInput,
 } from "../../../components";
 import { useContext, useState } from "react";
-import { useSchoolSubjectEntities } from "../../../hooks/useSchoolSubjectEntities";
+import { useSchoolSubjectEntities } from "../../../hooks/useSchoolSubjects";
 import { IdentifierFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
 import {
   DueDateFacet,

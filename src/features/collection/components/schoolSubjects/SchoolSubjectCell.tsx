@@ -4,7 +4,7 @@ import { OrderProps, Tags } from "@leanscope/ecs-models";
 import tw from "twin.macro";
 import styled from "@emotion/styled";
 import { useSchoolSubjectColors } from "../../../../hooks/useSchoolSubjectColors";
-import { useSchoolSubjectEntities } from "../../../../hooks/useSchoolSubjectEntities";
+import { useSchoolSubjectEntities } from "../../../../hooks/useSchoolSubjects";
 import { useAppState } from "../../hooks/useAppState";
 
 const StyledCellContainer = styled.div`
