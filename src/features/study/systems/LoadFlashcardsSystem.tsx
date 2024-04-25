@@ -26,8 +26,8 @@ const fetchFlashcardsForFlashcardGroup = async (parentId: string) => {
   return flashcards || [];
 };
 
-const LoadFlashcardsSystem = (props: { mokUpData?: boolean }) => {
-  const { mokUpData } = props;
+const LoadFlashcardsSystem = (props: { mockupData?: boolean }) => {
+  const { mockupData } = props;
   const lsc = useContext(LeanScopeClientContext);
   const [selectedFlashcardGroupEntity] = useEntity(
     (e) =>
@@ -39,7 +39,7 @@ const LoadFlashcardsSystem = (props: { mokUpData?: boolean }) => {
   useEffect(() => {
     const initializeFlashcardEntities = async () => {
       if (selectedFlashcardGroupId) {
-        const flashcards = mokUpData
+        const flashcards = mockupData
           ? dummyFlashcards
           : await fetchFlashcardsForFlashcardGroup(selectedFlashcardGroupId);
 

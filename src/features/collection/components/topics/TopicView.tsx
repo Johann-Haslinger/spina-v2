@@ -15,10 +15,11 @@ import { AdditionalTags, DataTypes } from "../../../../base/enums";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 import BackButton from "../../../../components/buttons/BackButton";
 import LoadNotesSystem from "../../systems/LoadNotesSystem";
-import { dataTypeQuery } from "../../../../utils/queries";
+import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
 import NoteCell from "../notes/NoteCell";
 import { sortEntitiesByDateAdded } from "../../../../utils/sortEntitiesByTime";
 import NoteView from "../notes/NoteView";
+import { useTopicColor } from "../../hooks/useTopicColor";
 
 const TopicView = (props: TitleProps & EntityProps) => {
   const { title, entity } = props;
@@ -29,7 +30,7 @@ const TopicView = (props: TitleProps & EntityProps) => {
 
   return (
     <>
-      <LoadNotesSystem mokUpData />
+      <LoadNotesSystem mockupData />
 
       <View visibe={isVisible}>
         <NavigationBar>
@@ -42,7 +43,7 @@ const TopicView = (props: TitleProps & EntityProps) => {
         <Spacer />
         <CollectionGrid>
           <EntityPropsMapper
-            query={(e) => dataTypeQuery(e, DataTypes.NOTE)}
+            query={(e) => dataTypeQuery(e, DataTypes.NOTE) && isChildOfQuery(e, entity)}
             sort={(a, b) => sortEntitiesByDateAdded(a, b)}
             get={[[TitleFacet], []]}
             onMatch={NoteCell}

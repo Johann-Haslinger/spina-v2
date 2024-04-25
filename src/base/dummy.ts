@@ -177,26 +177,26 @@ export const dummyFlashcards = [
 export const dummyNotes = [
   {
     id: "1",
-    title: "Lorem ipsum dolor sit amet",
+    title: "Lorem ipsum ",
     date_added: new Date().toISOString(),
     parentId: "1",
   },
   {
     id: "2",
-    title: "Lorem ipsum dolor sit amet",
+    title: "Lorem ipsum ",
 
     date_added: new Date().toISOString(),
     parentId: "1",
   },
   {
     id: "3",
-    title: "Lorem ipsum dolor sit amet",
+    title: "Lorem ipsum ",
     date_added: new Date().toISOString(),
     parentId: "1",
   },
   {
     id: "4",
-    title: "Lorem ipsum dolor sit amet",
+    title: "Lorem ipsum ",
 
     date_added: new Date().toISOString(),
     parentId: "1",

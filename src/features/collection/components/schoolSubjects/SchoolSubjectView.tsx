@@ -24,6 +24,7 @@ import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import AddTopicSheet from "./AddTopicSheet";
 import { displayHeaderTexts } from "../../../../utils/selectDisplayText";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
+import { sortEntitiesByDateAdded } from "../../../../utils/sortEntitiesByTime";
 
 const SchoolSubjectView = (props: TitleProps & EntityProps) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -46,7 +47,7 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
         {displayHeaderTexts(selectedLanguage).collectionHeaderText}
       </BackButton>
       <Title>{title} </Title>
-      <Spacer />
+      <Spacer size={6} />
       {!hasTopics && (
         <NoContentAdded backgroundColor={backgroundColor} color={color} />
       )}
@@ -55,6 +56,7 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
           query={(e) =>
             dataTypeQuery(e, DataTypes.TOPIC) && isChildOfQuery(e, entity)
           }
+          sort={(a, b) => sortEntitiesByDateAdded(a, b)}
           get={[[TitleFacet], []]}
           onMatch={TopicCell}
         />

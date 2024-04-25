@@ -22,13 +22,13 @@ const fetchFlashcardSets = async () => {
 
 
 
-const FlashcardGroupsInitSystem = (props: { mokUpData?: boolean }) => {
-  const { mokUpData } = props;
+const FlashcardGroupsInitSystem = (props: { mockupData?: boolean }) => {
+  const { mockupData } = props;
   const lsc = useContext(LeanScopeClientContext);
 
   useEffect(() => {
     const initializeFlashcardGroupEntities = async () => {
-      const flashcardSets = mokUpData ? dummyFlashcardSets :  await fetchFlashcardSets();
+      const flashcardSets = mockupData ? dummyFlashcardSets :  await fetchFlashcardSets();
 
       flashcardSets.forEach((flashcardSet, idx) => {
         const isExisting = lsc.engine.entities.some(

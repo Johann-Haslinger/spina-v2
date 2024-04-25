@@ -16,7 +16,7 @@ const ObservingCollectionStory = () => {
       <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
         <ViewManagerSystem />
         <StoriesInitSystem initialStory={StoryGuid.OBSERVING_COLLECTION_STORY} />
-        <SchoolSubjectsInitSystem mokUpData />
+        <SchoolSubjectsInitSystem mockupData />
         <Collection />
       </LeanScopeClientApp>
     </React.StrictMode>

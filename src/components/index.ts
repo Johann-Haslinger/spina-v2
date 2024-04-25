@@ -36,3 +36,7 @@ export { default as TextInput } from "./inputs/TextInput";
 export { default as DateInput } from "./inputs/DateInput";
 export { default as SelectInput } from "./inputs/SelectInput";
 export { default as TextAreaInput } from "./inputs/TextAreaInput";
+
+// ---ThumbNails---
+
+export { default as NoteThumbNail } from "./thumbNails/NoteThumbNail";

@@ -31,8 +31,8 @@ const ObservingSchoolSubjectStory = () => {
 
         <ViewManagerSystem />
         <StoriesInitSystem initialStory={StoryGuid.OBSERVING_SCHOOL_SUBJECT_STORY} />
-        <SchoolSubjectsInitSystem mokUpData />
-        <LoadTopicsSystem mokUpData />
+        <SchoolSubjectsInitSystem mockupData />
+        <LoadTopicsSystem mockupData />
 
         <Collection />
       </LeanScopeClientApp>

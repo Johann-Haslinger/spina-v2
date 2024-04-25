@@ -25,7 +25,7 @@ const ObservingHomeworksStory = () => {
           <ViewManagerSystem />
           <AppInitSystem />
 
-          <SchoolSubjectsInitSystem mokUpData />
+          <SchoolSubjectsInitSystem mockupData />
           <Homeworks mockup />
           <Sidebar />
           <Settings />

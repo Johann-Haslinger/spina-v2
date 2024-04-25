@@ -32,8 +32,8 @@ const fetchHomeworkText = async (homeworkId: string) => {
   return text.text || [];
 };
 
-const LoadHomeworkTextSystem = (props: { mokUpData?: boolean }) => {
-  const { mokUpData } = props;
+const LoadHomeworkTextSystem = (props: { mockupData?: boolean }) => {
+  const { mockupData } = props;
   const [selectedHomework] = useEntity(
     (e) => e.hasTag(DataTypes.HOMEWORK) && e.hasTag(Tags.SELECTED)
   );
@@ -42,7 +42,7 @@ const LoadHomeworkTextSystem = (props: { mokUpData?: boolean }) => {
   useEffect(() => {
     const loadHomeworkText = async () => {
       if (selectedHomeworkId) {
-        const homeworkText = mokUpData
+        const homeworkText = mockupData
           ? dummyText
           : await fetchHomeworkText(selectedHomeworkId);
 

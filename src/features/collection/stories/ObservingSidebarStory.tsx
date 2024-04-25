@@ -24,7 +24,7 @@ const ObservingSidebarStory = () => {
           <ViewManagerSystem />
           <AppInitSystem />
 
-          <SchoolSubjectsInitSystem mokUpData />
+          <SchoolSubjectsInitSystem mockupData />
           <Collection />
           <Sidebar />
           <Settings />

@@ -26,15 +26,15 @@ const fetchNotesForTopic = async (topicId: string) => {
   return notes || [];
 };
 
-const LoadNotesSystem = (props: { mokUpData?: boolean }) => {
-  const { mokUpData } = props;
+const LoadNotesSystem = (props: { mockupData?: boolean }) => {
+  const { mockupData } = props;
   const lsc = useContext(LeanScopeClientContext);
   const { selectedTopicId } = useSelectedTopic();
 
   useEffect(() => {
     const initializeNoteEntities = async () => {
       if (selectedTopicId) {
-        const notes = mokUpData
+        const notes = mockupData
           ? dummyNotes
           : await fetchNotesForTopic(selectedTopicId);
 

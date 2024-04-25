@@ -31,13 +31,13 @@ const fetchHomeworks = async () => {
   return schoolSubjects || [];
 };
 
-const HomeworksInitSystem = (props: { mokUpData?: boolean }) => {
-  const { mokUpData } = props;
+const HomeworksInitSystem = (props: { mockupData?: boolean }) => {
+  const { mockupData } = props;
   const lsc = useContext(LeanScopeClientContext);
 
   useEffect(() => {
     const initializeHomeworkEntities = async () => {
-      const homeworks = mokUpData ? dummyHomeworks : await fetchHomeworks();
+      const homeworks = mockupData ? dummyHomeworks : await fetchHomeworks();
 
       homeworks.forEach((homework) => {
         const isExisting = lsc.engine.entities.some(

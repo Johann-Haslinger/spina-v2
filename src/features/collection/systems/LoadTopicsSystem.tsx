@@ -29,8 +29,8 @@ const fetchTopicsForSchoolSubject = async (subjectId: string) => {
   return topics || [];
 };
 
-const LoadTopicsSystem = (props: { mokUpData?: boolean }) => {
-  const { mokUpData } = props;
+const LoadTopicsSystem = (props: { mockupData?: boolean }) => {
+  const { mockupData } = props;
   const lsc = useContext(LeanScopeClientContext);
   const { selectedSchoolSubjectEntity, selectedSchoolSubjectId } = useSelectedSchoolSubject();
   const { hasTopics } = useSchoolSubjectTopics(selectedSchoolSubjectEntity);
@@ -38,7 +38,7 @@ const LoadTopicsSystem = (props: { mokUpData?: boolean }) => {
   useEffect(() => {
     const initializeTopicEntities = async () => {
       if (selectedSchoolSubjectId) {
-        const topics = mokUpData
+        const topics = mockupData
           ? dummyTopics
           : await fetchTopicsForSchoolSubject(selectedSchoolSubjectId);
 

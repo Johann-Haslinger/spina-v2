@@ -19,13 +19,13 @@ const fetchSchoolSubjects = async () => {
   return schoolSubjects || [];
 };
 
-const SchoolSubjectsInitSystem = (props: {mokUpData?: boolean}) => {
-  const { mokUpData } = props;
+const SchoolSubjectsInitSystem = (props: {mockupData?: boolean}) => {
+  const { mockupData } = props;
   const lsc = useContext(LeanScopeClientContext);
 
   useEffect(() => {
     const initializeSchoolSubjectEntities = async () => {
-      const schoolSubjects = mokUpData ? dummySchoolSubjects :  await fetchSchoolSubjects();
+      const schoolSubjects = mockupData ? dummySchoolSubjects :  await fetchSchoolSubjects();
 
       schoolSubjects.forEach((schoolSubject, idx) => {
         const isExisting = lsc.engine.entities.some(

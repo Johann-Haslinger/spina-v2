@@ -32,8 +32,8 @@ const Study = () => {
 
   return (
     <>
-      <FlashcardGroupsInitSystem mokUpData />
-      <LoadFlashcardsSystem mokUpData />
+      <FlashcardGroupsInitSystem mockupData />
+      <LoadFlashcardsSystem mockupData />
 
       <View viewType="baseView">
         <NavigationBar>

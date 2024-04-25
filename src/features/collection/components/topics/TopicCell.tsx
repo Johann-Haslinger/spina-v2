@@ -15,9 +15,9 @@ const StyledTopicCellWrapper = styled.div<{
   color: string;
   backgroundColor: string;
 }>`
-  ${tw`w-full h-40 flex justify-center items-center  hover:scale-105 transition-all  text-7xl font-bold p-2 `}
+  ${tw`w-full h-40 text-white text-opacity-40 rounded-xl flex justify-center items-center  hover:scale-105 transition-all  text-7xl font-bold p-2 `}
   background-color: ${({ backgroundColor }) => backgroundColor};
-  color: ${({ color }) => color};
+  /* color: ${({ color }) => color}; */
 `;
 
 const StyledTopicTitle = styled.p`
