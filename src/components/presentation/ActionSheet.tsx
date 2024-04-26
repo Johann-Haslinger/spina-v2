@@ -3,16 +3,16 @@ import { delay, motion } from "framer-motion";
 import { PropsWithChildren, useEffect, useRef, useState } from "react";
 import tw from "twin.macro";
 
-const StyledOptionSheetWrapper = styled.div`
+const StyledActionSheetWrapper = styled.div`
   ${tw` bg-[rgb(244,244,244)] bg-opacity-80 w-full shadow-[0px_0px_60px_0px_rgba(0,0,0,0.13)] text-black backdrop-blur-2xl rounded-lg `}
 `;
 
-interface OptionSheetProps {
+interface ActionSheetProps {
   visible: boolean;
   navigateBack: () => void;
 }
 
-const OptionSheet = (props: PropsWithChildren & OptionSheetProps) => {
+const ActionSheet = (props: PropsWithChildren & ActionSheetProps) => {
   const { visible, children, navigateBack } = props;
   const refOne = useRef<HTMLDivElement | null>(null);
 
@@ -51,9 +51,9 @@ const OptionSheet = (props: PropsWithChildren & OptionSheetProps) => {
       animate={{ opacity: visible ? 1 : 0, scale: visible ? 1 : 0.0 }}
       transition={{ duration: 0.2 }}
     >
-      <StyledOptionSheetWrapper>{children}</StyledOptionSheetWrapper>
+      <StyledActionSheetWrapper>{children}</StyledActionSheetWrapper>
     </motion.div>
   );
 };
 
-export default OptionSheet;
+export default ActionSheet;

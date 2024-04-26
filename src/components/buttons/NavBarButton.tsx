@@ -2,7 +2,7 @@ import React from "react";
 import styled from "@emotion/styled";
 import { PropsWithChildren, ReactNode, useState } from "react";
 import tw from "twin.macro";
-import OptionSheet from "../presentation/OptionSheet";
+import ActionSheet from "../presentation/ActionSheet";
 
 const StyledNavBarButton = styled.div`
   ${tw`text-2xl transition-all dark:text-primaryTextDark hover:opacity-50`}
@@ -28,9 +28,9 @@ const NavBarButton = (props: PropsWithChildren & NavBarButtonProps) => {
   return (
     <>
       <StyledNavBarButton onClick={handleClick}>{children}</StyledNavBarButton>
-      <OptionSheet visible={isSheetVisible} navigateBack={() => setIsSheetVisible(false)}>
+      <ActionSheet visible={isSheetVisible} navigateBack={() => setIsSheetVisible(false)}>
         {content}
-      </OptionSheet>
+      </ActionSheet>
     </>
   );
 };

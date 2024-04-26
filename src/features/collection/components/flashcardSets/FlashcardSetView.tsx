@@ -1,5 +1,6 @@
 import React, { useContext } from "react";
 import {
+  ActionRow,
   BackButton,
   CollectionGrid,
   NavBarButton,
@@ -23,9 +24,13 @@ import LoadFlashcardsSystem from "../../systems/LoadFlashcardsSystem";
 import FlashcardCell from "./FlashcardCell";
 import { isChildOfQuery } from "../../../../utils/queries";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { IoCreateOutline, IoEllipsisHorizontalCircleOutline, IoTrashOutline } from "react-icons/io5";
+import {
+  IoCreateOutline,
+  IoEllipsisHorizontalCircleOutline,
+  IoTrashOutline,
+} from "react-icons/io5";
 import EditFlashcardSetSheet from "./EditFlashcardSetSheet";
-import OptionRow from "../../../../components/layout/OptionRow";
+import DeleteFlashcardSetAlert from "./DeleteFlashcardSetAlert";
 
 const FlashcardSetView = (
   props: TitleProps & EntityProps & IdentifierProps
@@ -39,7 +44,8 @@ const FlashcardSetView = (
   const openEditFlashcardSetSheet = () =>
     lsc.stories.transitTo(Stories.EDIT_FLASHCARD_SET_STORY);
 
-  const openDeleteFlashcardSetSheet = () =>lsc.stories.transitTo(Stories.DELETE_FLASHCARD_SET_STORY);
+  const openDeleteFlashcardSetAlert = () =>
+    lsc.stories.transitTo(Stories.DELETE_FLASHCARD_SET_STORY);
 
   return (
     <>
@@ -50,8 +56,21 @@ const FlashcardSetView = (
           <NavBarButton
             content={
               <>
-                <OptionRow isFirst icon={<IoCreateOutline/>} onClick={openEditFlashcardSetSheet}>Edit</OptionRow>
-                <OptionRow destructive isLast icon={<IoTrashOutline/>} onClick={openDeleteFlashcardSetSheet}>Delete</OptionRow>
+                <ActionRow
+                  isFirst
+                  icon={<IoCreateOutline />}
+                  onClick={openEditFlashcardSetSheet}
+                >
+                  Edit
+                </ActionRow>
+                <ActionRow
+                  destructive
+                  isLast
+                  icon={<IoTrashOutline />}
+                  onClick={openDeleteFlashcardSetAlert}
+                >
+                  Delete
+                </ActionRow>
               </>
             }
           >
@@ -75,6 +94,7 @@ const FlashcardSetView = (
       </View>
 
       <EditFlashcardSetSheet />
+      <DeleteFlashcardSetAlert />
     </>
   );
 };

@@ -9,12 +9,14 @@ interface SheetProps {
   visible: boolean;
 }
 
+
+
 const StyledSheetWrapper = styled.div`
   ${tw`p-4 lg:px-8 dark:bg-seconderyDark transition-all dark:text-primaryTextDark w-full md:h-[90%] mx-auto mt-[2.5%]  h-[95%] md:w-8/12 bg-opacity-95 backdrop-blur-xl  md:rounded-2xl rounded-t-xl  bg-primary`}
 `;
 
 const Sheet = (props: PropsWithChildren & SheetProps) => {
-  const { children, visible: isVisible = true, navigateBack } = props;
+  const { children, visible = true, navigateBack } = props;
   const sheetRef = useRef<HTMLDivElement>(null);
   const [isSheetDisplayed, setIsSheetDisplayed] = useState(false);
   const {isDarkMode} = useSelectedTheme()
@@ -37,14 +39,14 @@ const Sheet = (props: PropsWithChildren & SheetProps) => {
   };
 
   useEffect(() => {
-    if (isVisible) {
+    if (visible) {
       setIsSheetDisplayed(true);
     } else {
       setTimeout(() => {
         setIsSheetDisplayed(false);
       }, 300);
     }
-  }, [isVisible]);
+  }, [visible]);
 
   return (
     isSheetDisplayed && (
@@ -55,7 +57,7 @@ const Sheet = (props: PropsWithChildren & SheetProps) => {
             backgroundColor: "black",
           }}
           animate={{
-            opacity: !isDarkMode && isVisible ? 0.2 : 0,
+            opacity: !isDarkMode && visible ? 0.2 : 0,
           }}
           style={{
             position: "fixed",
@@ -70,7 +72,7 @@ const Sheet = (props: PropsWithChildren & SheetProps) => {
           transition={{ type: "Tween" }}
           initial={{ y: 1000 }}
           animate={{
-            y: isVisible ? 0 : 1000,
+            y: visible ? 0 : 1000,
           }}
           style={{
             position: "fixed",
