@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { NavigationLinks, StoryGuid } from "./base/enums";
+import { NavigationLinks, Stories } from "./base/enums";
 import { formatNavLinkAsPath } from "./utils";
 import { Collection, Exams, Groups, Homeworks, Overview, Study } from "./pages/Index";
 import SchoolSubjectsInitSystem from "./systems/SchoolSubjectsInitSystem";
@@ -20,7 +20,7 @@ function App() {
     <AuthUI />
   ) : (
     <>
-      <StoriesInitSystem initialStory={StoryGuid.OBSERVING_COLLECTION_STORY} />
+      <StoriesInitSystem initialStory={Stories.OBSERVING_COLLECTION_STORY} />
       <AppInitSystem />
       <ViewManagerSystem />
       <LoadTopicsSystem />

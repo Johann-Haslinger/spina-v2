@@ -4,7 +4,7 @@ import {
 } from "@leanscope/api-client/node";
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
-import { StoryGuid } from "../../../base/enums";
+import { Stories } from "../../../base/enums";
 import { Sidebar } from "../../../components";
 import AppInitSystem from "../../../systems/AppInitSystem";
 import SchoolSubjectsInitSystem from "../../../systems/SchoolSubjectsInitSystem";
@@ -20,7 +20,7 @@ const ObservingHomeworksStory = () => {
         <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
         
           <StoriesInitSystem
-            initialStory={StoryGuid.OBSERVING_COLLECTION_STORY}
+            initialStory={Stories.OBSERVING_COLLECTION_STORY}
           />
           <ViewManagerSystem />
           <AppInitSystem />

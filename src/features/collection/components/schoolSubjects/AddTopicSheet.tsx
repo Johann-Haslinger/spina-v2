@@ -1,7 +1,7 @@
 import React, { useContext, useRef } from "react";
 import { FlexBox, Sheet } from "../../../../components";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
-import { DataTypes, StoryGuid } from "../../../../base/enums";
+import { DataTypes, Stories } from "../../../../base/enums";
 import { useSelectedSchoolSubject } from "../../hooks/useSelectedSchoolSubject";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
@@ -21,13 +21,13 @@ const StyledInput = styled.input`
 
 const AddTopicSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(StoryGuid.ADD_TOPIC_STORY);
+  const isVisible = useIsStoryCurrent(Stories.ADD_TOPIC_STORY);
   const { selectedSchoolSubjectId } = useSelectedSchoolSubject();
   const topicTitleRef = useRef<HTMLInputElement>(null);
   const topicDescriptionRef = useRef<HTMLInputElement>(null);
 
   const navigateBack = () =>
-    lsc.stories.transitTo(StoryGuid.OBSERVING_SCHOOL_SUBJECT_STORY);
+    lsc.stories.transitTo(Stories.OBSERVING_SCHOOL_SUBJECT_STORY);
 
   const addTopic = () => {
     // TODO: Add TimestampFacet to the new topic entity

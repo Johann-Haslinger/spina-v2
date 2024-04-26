@@ -1,5 +1,5 @@
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
-import { DataTypes, StoryGuid } from "../../../base/enums";
+import { DataTypes, Stories } from "../../../base/enums";
 import {
   DateInput,
   FlexBox,
@@ -26,7 +26,7 @@ import supabase from "../../../lib/supabase";
 
 const AddHomeworkSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(StoryGuid.ADD_HOMEWORK_STORY);
+  const isVisible = useIsStoryCurrent(Stories.ADD_HOMEWORK_STORY);
   const schooolSubjectEntities = useSchoolSubjectEntities();
   const [newHomework, setNewHomework] = useState({
     id: v4(),
@@ -38,7 +38,7 @@ const AddHomeworkSheet = () => {
   const { userId } = useUserData();
 
   const navigateBack = () =>
-    lsc.stories.transitTo(StoryGuid.OBSERVING_HOMEWORKS_STORY);
+    lsc.stories.transitTo(Stories.OBSERVING_HOMEWORKS_STORY);
 
   const addHomework = async () => {
     const { title, dueDate, parent, description, id } = newHomework;

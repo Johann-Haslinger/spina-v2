@@ -1,7 +1,7 @@
 import React from "react";
 import { EntityPropsMapper } from "@leanscope/ecs-engine";
 import { dataTypeQuery } from "../utils/queries";
-import { DataTypes, StoryGuid } from "../base/enums";
+import { DataTypes, Stories } from "../base/enums";
 import { SchoolSubjectCell, SchoolSubjectView } from "../features/collection";
 import { TitleFacet } from "../app/AdditionalFacets";
 import { OrderFacet, Tags } from "@leanscope/ecs-models";

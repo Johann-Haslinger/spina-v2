@@ -161,9 +161,9 @@ const StyledSidebarLinkWrapper = styled.div<{ isCurrent: boolean }>`
 `;
 const StyledNavLinkIcon = styled.div<{ color: string }>`
   ${tw`text-2xl text-black dark:text-white dark:opacity-100 transition-all  px-1.5 rounded-full `}
-  color: ${({
+  /* color: ${({
     color,
-  }) => color}
+  }) => color} */
 `;
 
 const SidebarLink = (props: {

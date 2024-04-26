@@ -9,10 +9,9 @@ import {
 } from "../../../../components";
 import { TitleFacet, TitleProps } from "../../../../app/AdditionalFacets";
 import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
-import { LuPlus } from "react-icons/lu";
 import { IdentifierFacet, Tags, TextFacet } from "@leanscope/ecs-models";
 import { useSelectedSchoolSubject } from "../../hooks/useSelectedSchoolSubject";
-import { AdditionalTags, DataTypes, StoryGuid } from "../../../../base/enums";
+import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 import BackButton from "../../../../components/buttons/BackButton";
 import LoadNotesSystem from "../../systems/LoadNotesSystem";
@@ -26,6 +25,9 @@ import LoadFlashcardSetsSystem from "../../systems/LoadFlashcardSetsSystem";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { IoAdd } from "react-icons/io5";
 import AddResourceToTopicSheet from "./AddResourceToTopicSheet";
+import HomeworkCell from "../homeworks/HomeworkCell";
+import HomeworkView from "../homeworks/HomeworkView";
+import LoadHomeworksSystem from "../../systems/LoadHomeworksSystem";
 
 const TopicView = (props: TitleProps & EntityProps) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -34,12 +36,14 @@ const TopicView = (props: TitleProps & EntityProps) => {
   const { selectedSchoolSubjectTitle } = useSelectedSchoolSubject();
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
-  const openAddResourceSheet = () => lsc.stories.transitTo(StoryGuid.ADD_RESOURCE_TO_TOPIC_SHEET);
+  const openAddResourceSheet = () =>
+    lsc.stories.transitTo(Stories.ADD_RESOURCE_TO_TOPIC_STORY);
 
   return (
     <>
       <LoadNotesSystem mockupData />
       <LoadFlashcardSetsSystem mockupData />
+      <LoadHomeworksSystem mockupData />
 
       <View visibe={isVisible}>
         <NavigationBar>
@@ -74,6 +78,17 @@ const TopicView = (props: TitleProps & EntityProps) => {
             onMatch={FlashcardSetCell}
           />
         </CollectionGrid>
+        <Spacer />
+        <CollectionGrid>
+          <EntityPropsMapper
+            query={(e) =>
+              dataTypeQuery(e, DataTypes.HOMEWORK) && isChildOfQuery(e, entity)
+            }
+            get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
+            sort={(a, b) => sortEntitiesByDateAdded(a, b)}
+            onMatch={HomeworkCell}
+          />
+        </CollectionGrid>
       </View>
 
       <EntityPropsMapper
@@ -87,6 +102,13 @@ const TopicView = (props: TitleProps & EntityProps) => {
         }
         get={[[TitleFacet, IdentifierFacet], []]}
         onMatch={FlashcardSetView}
+      />
+       <EntityPropsMapper
+        query={(e) =>
+          dataTypeQuery(e, DataTypes.HOMEWORK) && e.has(Tags.SELECTED)
+        }
+        get={[[TitleFacet, IdentifierFacet, TextFacet], []]}
+        onMatch={HomeworkView}
       />
 
       <AddResourceToTopicSheet />

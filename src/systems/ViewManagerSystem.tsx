@@ -1,15 +1,15 @@
 import { useEntities } from "@leanscope/ecs-engine";
 import React, { useEffect, useState } from "react";
-import { AdditionalTags, StoryGuid } from "../base/enums";
+import { AdditionalTags, Stories } from "../base/enums";
 import { Tags } from "@leanscope/ecs-models";
 import { useSelectedTheme } from "../features/collection/hooks/useSelectedTheme";
 import { useIsSomeStoryCurrent } from "../hooks/useAreStoriesCurrent";
 
 const ViewManagerSystem = () => {
   const isSheetViewVisible = useIsSomeStoryCurrent([
-    StoryGuid.ADD_HOMEWORK_STORY,
-    StoryGuid.ADD_TOPIC_STORY,
-    StoryGuid.OBSERVING_SETTINGS_STORY,
+    Stories.ADD_HOMEWORK_STORY,
+    Stories.ADD_TOPIC_STORY,
+    Stories.OBSERVING_SETTINGS_STORY,
   ]);
   const { isDarkMode } = useSelectedTheme();
   const [closingVews] = useEntities(

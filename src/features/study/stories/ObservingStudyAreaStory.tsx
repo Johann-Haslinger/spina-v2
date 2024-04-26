@@ -3,7 +3,7 @@ import {
   LeanScopeClient,
 } from "@leanscope/api-client/node";
 import React from "react";
-import { StoryGuid } from "../../../base/enums";
+import { Stories } from "../../../base/enums";
 import SchoolSubjectsInitSystem from "../../../systems/SchoolSubjectsInitSystem";
 import StoriesInitSystem from "../../../systems/StoriesInitSystem";
 import ViewManagerSystem from "../../../systems/ViewManagerSystem";
@@ -15,7 +15,7 @@ const ObservingStudyAreaStory = () => {
       <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
         <ViewManagerSystem />
         <StoriesInitSystem
-          initialStory={StoryGuid.OBSERVING_COLLECTION_STORY}
+          initialStory={Stories.OBSERVING_COLLECTION_STORY}
         />
         <SchoolSubjectsInitSystem mockupData />
         <Study />

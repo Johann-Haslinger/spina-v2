@@ -10,13 +10,13 @@ import { COLOR_ITEMS } from "../../../../base/constants";
 import { Tags } from "@leanscope/ecs-models";
 import { useContext } from "react";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { StoryGuid } from "../../../../base/enums";
+import { Stories } from "../../../../base/enums";
 
 const StyledFlashcardCellWrapper = styled.div<{
   backgroundColor: string;
   color: string;
 }>`
-  ${tw`w-full h-40  bg-[rgb(234,234,234)] rounded-lg p-3 transition-all hover:scale-105`}/* background-color: ${(
+  ${tw`w-full h-40  bg-tertiary rounded-lg p-3 transition-all hover:scale-105`}/* background-color: ${(
     props
   ) => props.backgroundColor};
   color: ${(props) => props.color}; */
@@ -54,7 +54,7 @@ const FlashcardCell = (
   const { backgroundColor, color } = COLOR_ITEMS[0];
 
   const openFlashcard = () =>{
-    lsc.stories.transitTo(StoryGuid.EDETING_FLASHCARD_STORY)
+    lsc.stories.transitTo(Stories.EDIT_FLASHCARD_STORY)
     entity.add(Tags.SELECTED)
   }
 

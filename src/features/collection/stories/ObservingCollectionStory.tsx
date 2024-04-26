@@ -6,7 +6,7 @@ import React, { useEffect } from "react";
 import Collection from "../../../pages/Collection";
 import SchoolSubjectsInitSystem from "../../../systems/SchoolSubjectsInitSystem";
 import ViewManagerSystem from "../../../systems/ViewManagerSystem";
-import { StoryGuid } from "../../../base/enums";
+import { Stories } from "../../../base/enums";
 import StoriesInitSystem from "../../../systems/StoriesInitSystem";
 
 const ObservingCollectionStory = () => {
@@ -15,7 +15,7 @@ const ObservingCollectionStory = () => {
     <React.StrictMode>
       <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
         <ViewManagerSystem />
-        <StoriesInitSystem initialStory={StoryGuid.OBSERVING_COLLECTION_STORY} />
+        <StoriesInitSystem initialStory={Stories.OBSERVING_COLLECTION_STORY} />
         <SchoolSubjectsInitSystem mockupData />
         <Collection />
       </LeanScopeClientApp>

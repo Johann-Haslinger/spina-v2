@@ -9,7 +9,7 @@ import {
   Title,
   View,
 } from "../../../../components";
-import { AdditionalTags, DataTypes, StoryGuid } from "../../../../base/enums";
+import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
 import { LuPlus } from "react-icons/lu";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 import { useSchoolSubjectColors } from "../../../../hooks/useSchoolSubjectColors";
@@ -36,7 +36,7 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
   const openAddTopicSheet = () =>
-    lsc.stories.transitTo(StoryGuid.ADD_TOPIC_STORY);
+    lsc.stories.transitTo(Stories.ADD_TOPIC_STORY);
 
   return (
     <>

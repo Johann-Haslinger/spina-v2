@@ -49,8 +49,13 @@ const StyledResourceTypeText = styled.p`
   ${tw`text-sm  text-seconderyText dark:text-seconderyTextDark `}
 `;
 
-const NoteThumbNail = (props: { color: string; title: string, onClick?: ()=> void }) => {
-  const { color, title, onClick } = props;
+const NoteThumbNail = (props: {
+  color: string;
+  title: string;
+  onClick?: () => void;
+  type?: string;
+}) => {
+  const { color, title, onClick, type = "Mitschrift" } = props;
 
   return (
     <StyledNoteCellWrapper onClick={onClick}>
@@ -69,11 +74,9 @@ const NoteThumbNail = (props: { color: string; title: string, onClick?: ()=> voi
         ))}
       </StyledNoteCellContainer>
 
-      <StyledNoteCellTitle>
-        {title || "Kein Titel"}
-      </StyledNoteCellTitle>
+      <StyledNoteCellTitle>{title || "Kein Titel"}</StyledNoteCellTitle>
 
-      <StyledResourceTypeText> Mitschrift</StyledResourceTypeText>
+      <StyledResourceTypeText>{type} </StyledResourceTypeText>
     </StyledNoteCellWrapper>
   );
 };

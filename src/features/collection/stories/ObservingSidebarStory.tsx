@@ -3,7 +3,7 @@ import {
   LeanScopeClient,
 } from "@leanscope/api-client/node";
 import React from "react";
-import { StoryGuid } from "../../../base/enums";
+import { Stories } from "../../../base/enums";
 import Collection from "../../../pages/Collection";
 import SchoolSubjectsInitSystem from "../../../systems/SchoolSubjectsInitSystem";
 import StoriesInitSystem from "../../../systems/StoriesInitSystem";
@@ -19,7 +19,7 @@ const ObservingSidebarStory = () => {
       <BrowserRouter>
         <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
           <StoriesInitSystem
-            initialStory={StoryGuid.OBSERVING_COLLECTION_STORY}
+            initialStory={Stories.OBSERVING_COLLECTION_STORY}
           />
           <ViewManagerSystem />
           <AppInitSystem />

@@ -1,12 +1,12 @@
 import React from "react";
-import { StoryGuid } from "../base/enums";
+import { Stories } from "../base/enums";
 import { EntityCreator } from "@leanscope/ecs-engine";
 import { IdentifierFacet, StoryFacet, Tags } from "@leanscope/ecs-models";
 
-const StoriesInitSystem = (props: { initialStory: StoryGuid }) => {
+const StoriesInitSystem = (props: { initialStory: Stories }) => {
   return (
     <>
-      {Object.values(StoryGuid).map((guid) => (
+      {Object.values(Stories).map((guid) => (
         <EntityCreator
           key={guid}
           facetClasses={[StoryFacet]}

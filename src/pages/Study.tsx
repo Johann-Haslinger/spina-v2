@@ -12,7 +12,7 @@ import { displayHeaderTexts } from "../utils/selectDisplayText";
 import { IoAdd } from "react-icons/io5";
 import { EntityPropsMapper } from "@leanscope/ecs-engine";
 import { dataTypeQuery } from "../utils/queries";
-import { DataTypes, StoryGuid } from "../base/enums";
+import { DataTypes, Stories } from "../base/enums";
 import {
   FlashcardGroupCell,
   FlashcardGroupsInitSystem,
@@ -28,7 +28,7 @@ const Study = () => {
   const lsc = useContext(LeanScopeClientContext)
   const { selectedLanguage } = useSelectedLanguage();
 
-  const openAddFlashcardGroupSheet = () => lsc.stories.transitTo(StoryGuid.ADD_FLASHCARD_GROUP_STORY);
+  const openAddFlashcardGroupSheet = () => lsc.stories.transitTo(Stories.ADD_FLASHCARD_GROUP_STORY);
 
   return (
     <>

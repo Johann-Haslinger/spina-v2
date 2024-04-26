@@ -6,7 +6,7 @@ import React from "react";
 import ViewManagerSystem from "../../../systems/ViewManagerSystem";
 import {  EntityCreator } from "@leanscope/ecs-engine";
 import LoadTopicsSystem from "../systems/LoadTopicsSystem";
-import { DataTypes, StoryGuid } from "../../../base/enums";
+import { DataTypes, Stories } from "../../../base/enums";
 import { IdentifierFacet, OrderFacet, Tags } from "@leanscope/ecs-models";
 import { TitleFacet } from "../../../app/AdditionalFacets";
 import Collection from "../../../pages/Collection";
@@ -30,7 +30,7 @@ const ObservingSchoolSubjectStory = () => {
         />
 
         <ViewManagerSystem />
-        <StoriesInitSystem initialStory={StoryGuid.OBSERVING_SCHOOL_SUBJECT_STORY} />
+        <StoriesInitSystem initialStory={Stories.OBSERVING_SCHOOL_SUBJECT_STORY} />
         <SchoolSubjectsInitSystem mockupData />
         <LoadTopicsSystem mockupData />
 
