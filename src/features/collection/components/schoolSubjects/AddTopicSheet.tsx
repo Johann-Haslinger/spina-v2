@@ -21,7 +21,7 @@ const StyledInput = styled.input`
 
 const AddTopicSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(StoryGuid.ADD_NEW_TOPIC_STORY);
+  const isVisible = useIsStoryCurrent(StoryGuid.ADD_TOPIC_STORY);
   const { selectedSchoolSubjectId } = useSelectedSchoolSubject();
   const topicTitleRef = useRef<HTMLInputElement>(null);
   const topicDescriptionRef = useRef<HTMLInputElement>(null);

@@ -36,7 +36,7 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
   const openAddTopicSheet = () =>
-    lsc.stories.transitTo(StoryGuid.ADD_NEW_TOPIC_STORY);
+    lsc.stories.transitTo(StoryGuid.ADD_TOPIC_STORY);
 
   return (
     <>

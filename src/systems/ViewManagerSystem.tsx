@@ -7,8 +7,8 @@ import { useIsSomeStoryCurrent } from "../hooks/useAreStoriesCurrent";
 
 const ViewManagerSystem = () => {
   const isSheetViewVisible = useIsSomeStoryCurrent([
-    StoryGuid.ADD_NEW_HOMEWORK_STORY,
-    StoryGuid.ADD_NEW_TOPIC_STORY,
+    StoryGuid.ADD_HOMEWORK_STORY,
+    StoryGuid.ADD_TOPIC_STORY,
     StoryGuid.OBSERVING_SETTINGS_STORY,
   ]);
   const { isDarkMode } = useSelectedTheme();

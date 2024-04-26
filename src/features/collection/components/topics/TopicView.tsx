@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   CollectionGrid,
+  NavBarButton,
   NavigationBar,
   Spacer,
   Title,
@@ -11,7 +12,7 @@ import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
 import { LuPlus } from "react-icons/lu";
 import { IdentifierFacet, Tags, TextFacet } from "@leanscope/ecs-models";
 import { useSelectedSchoolSubject } from "../../hooks/useSelectedSchoolSubject";
-import { AdditionalTags, DataTypes } from "../../../../base/enums";
+import { AdditionalTags, DataTypes, StoryGuid } from "../../../../base/enums";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 import BackButton from "../../../../components/buttons/BackButton";
 import LoadNotesSystem from "../../systems/LoadNotesSystem";
@@ -22,13 +23,18 @@ import NoteView from "../notes/NoteView";
 import FlashcardSetCell from "../flashcardSets/FlashcardSetCell";
 import FlashcardSetView from "../flashcardSets/FlashcardSetView";
 import LoadFlashcardSetsSystem from "../../systems/LoadFlashcardSetsSystem";
+import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import { IoAdd } from "react-icons/io5";
+import AddResourceToTopicSheet from "./AddResourceToTopicSheet";
 
 const TopicView = (props: TitleProps & EntityProps) => {
+  const lsc = useContext(LeanScopeClientContext);
   const { title, entity } = props;
   const isVisible = useIsViewVisible(entity);
   const { selectedSchoolSubjectTitle } = useSelectedSchoolSubject();
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
+  const openAddResourceSheet = () => lsc.stories.transitTo(StoryGuid.ADD_RESOURCE_TO_TOPIC_SHEET);
 
   return (
     <>
@@ -37,7 +43,9 @@ const TopicView = (props: TitleProps & EntityProps) => {
 
       <View visibe={isVisible}>
         <NavigationBar>
-          <LuPlus />
+          <NavBarButton onClick={openAddResourceSheet}>
+            <IoAdd />
+          </NavBarButton>
         </NavigationBar>
         <BackButton navigateBack={navigateBack}>
           {selectedSchoolSubjectTitle}
@@ -80,6 +88,8 @@ const TopicView = (props: TitleProps & EntityProps) => {
         get={[[TitleFacet, IdentifierFacet], []]}
         onMatch={FlashcardSetView}
       />
+
+      <AddResourceToTopicSheet />
     </>
   );
 };

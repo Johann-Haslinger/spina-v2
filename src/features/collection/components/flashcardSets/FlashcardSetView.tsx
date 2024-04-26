@@ -42,7 +42,7 @@ const FlashcardSetView = (
         </BackButton>
         <Title>{title}</Title>
         <Spacer size={8} />
-        <CollectionGrid>
+        <CollectionGrid columnSize="large">
           <EntityPropsMapper
             query={(e) => e.hasTag(DataTypes.FLASHCARD) && isChildOfQuery(e, entity)}
             get={[[QuestionFacet, AnswerFacet, MasteryLevelFacet], []]}

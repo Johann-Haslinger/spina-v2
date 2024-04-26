@@ -5,8 +5,8 @@ import tw from "twin.macro";
 import { useSelectedTheme } from "../../features/collection/hooks/useSelectedTheme";
 
 interface SheetProps {
-  navigateBack?: () => void;
-  visible?: boolean;
+  navigateBack: () => void;
+  visible: boolean;
 }
 
 const StyledSheetWrapper = styled.div`

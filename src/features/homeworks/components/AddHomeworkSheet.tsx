@@ -26,7 +26,7 @@ import supabase from "../../../lib/supabase";
 
 const AddHomeworkSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(StoryGuid.ADD_NEW_HOMEWORK_STORY);
+  const isVisible = useIsStoryCurrent(StoryGuid.ADD_HOMEWORK_STORY);
   const schooolSubjectEntities = useSchoolSubjectEntities();
   const [newHomework, setNewHomework] = useState({
     id: v4(),

@@ -3,15 +3,15 @@ import React from "react";
 import tw from "twin.macro";
 
 const CardContainer = tw.div`
-    w-full p-1 flex flex-wrap rounded-lg h-32 transition-all md:hover:scale-105  bg-[rgb(234,234,234)]
+    w-full p-0.5 flex flex-wrap rounded-lg h-32 transition-all md:hover:scale-105  bg-[rgb(234,234,234)]
   `;
 
 const CardItem = tw.div`
-    w-1/2 md:p-0.5 p-[0.1rem] h-[3.8rem]
+    w-1/2 p-0.5  h-[3.8rem]
   `;
 
 const StyledCardContent = styled.div<{ color: string }>`
-  ${tw`  pb-3.5 px-2 pt-1.5 w-full h-full rounded-lg`}
+  ${tw`  pb-3.5 px-2 pt-1.5 w-full h-full rounded-md`}
   background-color: ${({ color }) => color};
 `;
 

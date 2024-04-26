@@ -19,7 +19,7 @@ const AddFlashcardGroupSheet = () => {
     lsc.stories.transitTo(StoryGuid.OBSERVING_FLASHCARD_GROUPS_STORY);
 
   return (
-    <Sheet visible={isVisible}>
+    <Sheet navigateBack={navigateBack} visible={isVisible}>
       <FlexBox>
         <button onClick={navigateBack}>
           Cancel

@@ -37,7 +37,7 @@ const Homeworks = (props: { mockup?: boolean }) => {
   const { selectedLanguage } = useSelectedLanguage();
 
   const openAddHomeworkSheet = () =>
-    lsc.stories.transitTo(StoryGuid.ADD_NEW_HOMEWORK_STORY);
+    lsc.stories.transitTo(StoryGuid.ADD_HOMEWORK_STORY);
 
   const updateHomeworkStatus = async (homework: Entity, status: number) => {
     const homeworkId = homework.get(IdentifierFacet)?.props.guid;
