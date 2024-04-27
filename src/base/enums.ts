@@ -1,11 +1,13 @@
 export enum Stories {
+  OBSERVING_SETTINGS_STORY = "observingSettingsStory",
   OBSERVING_COLLECTION_STORY = "observingCollectionStory",
   OBSERVING_SCHOOL_SUBJECT_STORY = "observingSchoolSubjectStory",
-  OBSERVING_HOMEWORKS_STORY = "observingHomeworksStory",
-  OBSERVING_SETTINGS_STORY = "observingSettingsStory",
+  OBSERVING_TOPIC_STORY = "observingTopicStory",
   OBSERVING_FLASHCARD_GROUPS_STORY = "observingFlashcardGroupsStory",
   OBSERVING_FLASHCARD_SET_STORY = "observingFlashcardSetStory",
-  OBSERVING_TOPIC_STORY = "observingTopicStory",
+  OBSERVING_HOMEWORKS_STORY = "observingHomeworksStory",
+  OBSERVING_NOTE_STORY = "observingNoteStory",
+
 
   ADD_TOPIC_STORY = "addTopicStory",
   ADD_HOMEWORK_STORY = "addHomeworkStory",
