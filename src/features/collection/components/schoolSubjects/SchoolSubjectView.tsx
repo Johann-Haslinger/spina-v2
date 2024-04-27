@@ -4,13 +4,13 @@ import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
 import {
   BackButton,
   CollectionGrid,
+  NavBarButton,
   NavigationBar,
   Spacer,
   Title,
   View,
 } from "../../../../components";
 import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
-import { LuPlus } from "react-icons/lu";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 import { useSchoolSubjectColors } from "../../../../hooks/useSchoolSubjectColors";
 import { useSchoolSubjectTopics } from "../../hooks/useSchoolSubjectTopics";
@@ -25,6 +25,7 @@ import { sortEntitiesByDateAdded } from "../../../../utils/sortEntitiesByTime";
 import { Tags } from "@leanscope/ecs-models";
 import TopicView from "../topics/TopicView";
 import LoadTopicsSystem from "../../systems/LoadTopicsSystem";
+import { IoAdd } from "react-icons/io5";
 
 const SchoolSubjectView = (props: TitleProps & EntityProps) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -41,10 +42,12 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
   return (
     <>
       <LoadTopicsSystem />
-      
+
       <View visibe={isVisible}>
         <NavigationBar>
-          <LuPlus onClick={openAddTopicSheet} />
+          <NavBarButton>
+            <IoAdd onClick={openAddTopicSheet} />
+          </NavBarButton>
         </NavigationBar>
         <BackButton navigateBack={navigateBack}>
           {displayHeaderTexts(selectedLanguage).collectionHeaderText}

@@ -58,7 +58,7 @@ const fetchFlashcardSetsForTopic = async (topicId: string) => {
       };
   
       initializeFlashcardSetEntities();
-    }, [selectedTopicId]);
+    }, [selectedTopicId, mockupData]);
   
     return null;
   };

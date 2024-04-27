@@ -3,7 +3,13 @@ import {
   LeanScopeClient,
 } from "@leanscope/api-client/node";
 import { EntityCreator } from "@leanscope/ecs-engine";
-import { DescriptionFacet, IdentifierFacet, OrderFacet, ParentFacet, Tags } from "@leanscope/ecs-models";
+import {
+  DescriptionFacet,
+  IdentifierFacet,
+  OrderFacet,
+  ParentFacet,
+  Tags,
+} from "@leanscope/ecs-models";
 import React from "react";
 import { TitleFacet } from "../../../app/AdditionalFacets";
 import { DataTypes, Stories } from "../../../base/enums";
@@ -18,7 +24,6 @@ const ObservingTopicStory = () => {
   return (
     <React.StrictMode>
       <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
-      <AppInitSystem mockupData />
         <EntityCreator
           facets={[
             new TitleFacet({ title: "Sinus" }),
@@ -37,13 +42,14 @@ const ObservingTopicStory = () => {
           ]}
           tags={[DataTypes.SCHOOL_SUBJECT, Tags.SELECTED]}
         />
-
-        <ViewManagerSystem />
         <StoriesInitSystem
           initialStory={Stories.OBSERVING_SCHOOL_SUBJECT_STORY}
         />
-        <SchoolSubjectsInitSystem  />
-        <LoadTopicsSystem  />
+        <AppInitSystem mockupData />
+        <ViewManagerSystem />
+
+        <SchoolSubjectsInitSystem />
+        <LoadTopicsSystem />
 
         <Collection />
       </LeanScopeClientApp>

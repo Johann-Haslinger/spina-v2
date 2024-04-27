@@ -2,24 +2,35 @@ import {
   LeanScopeClientApp,
   LeanScopeClient,
 } from "@leanscope/api-client/node";
-import React, { useEffect } from "react";
+import React from "react";
 import Collection from "../../../pages/Collection";
 import SchoolSubjectsInitSystem from "../../../systems/SchoolSubjectsInitSystem";
 import ViewManagerSystem from "../../../systems/ViewManagerSystem";
 import { DataTypes, Stories } from "../../../base/enums";
 import StoriesInitSystem from "../../../systems/StoriesInitSystem";
 import { EntityCreator } from "@leanscope/ecs-engine";
-import { DescriptionFacet, IdentifierFacet, OrderFacet, ParentFacet, Tags } from "@leanscope/ecs-models";
+import {
+  DescriptionFacet,
+  IdentifierFacet,
+  OrderFacet,
+  ParentFacet,
+  Tags,
+} from "@leanscope/ecs-models";
 import { DueDateFacet, TitleFacet } from "../../../app/AdditionalFacets";
-import LoadTopicsSystem from "../systems/LoadTopicsSystem";
 import AppInitSystem from "../../../systems/AppInitSystem";
 
 const ObservingHomeworkStory = () => {
-
   return (
     <React.StrictMode>
-       <AppInitSystem mockupData />
       <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
+        <EntityCreator
+          facets={[
+            new TitleFacet({ title: "Mathematik" }),
+            new IdentifierFacet({ guid: "1" }),
+            new OrderFacet({ orderIndex: 1 }),
+          ]}
+          tags={[DataTypes.SCHOOL_SUBJECT, Tags.SELECTED]}
+        />
         <EntityCreator
           facets={[
             new TitleFacet({ title: "Sinus Exercise" }),
@@ -30,7 +41,7 @@ const ObservingHomeworkStory = () => {
           ]}
           tags={[DataTypes.HOMEWORK, Tags.SELECTED]}
         />
-      <EntityCreator
+        <EntityCreator
           facets={[
             new TitleFacet({ title: "Sinus" }),
             new DescriptionFacet({ description: "Sinusfunktionen" }),
@@ -40,21 +51,15 @@ const ObservingHomeworkStory = () => {
           ]}
           tags={[DataTypes.TOPIC, Tags.SELECTED]}
         />
-        <EntityCreator
-          facets={[
-            new TitleFacet({ title: "Mathematik" }),
-            new IdentifierFacet({ guid: "1" }),
-            new OrderFacet({ orderIndex: 1 }),
-          ]}
-          tags={[DataTypes.SCHOOL_SUBJECT, Tags.SELECTED]}
-        />
 
-        <ViewManagerSystem />
         <StoriesInitSystem
           initialStory={Stories.OBSERVING_SCHOOL_SUBJECT_STORY}
         />
-        <SchoolSubjectsInitSystem  />
-        <LoadTopicsSystem  />
+        <AppInitSystem mockupData />
+
+        <ViewManagerSystem />
+
+        <SchoolSubjectsInitSystem />
 
         <Collection />
       </LeanScopeClientApp>

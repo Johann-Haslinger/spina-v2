@@ -11,14 +11,13 @@ import StoriesInitSystem from "../../../systems/StoriesInitSystem";
 import AppInitSystem from "../../../systems/AppInitSystem";
 
 const ObservingCollectionStory = () => {
-
   return (
     <React.StrictMode>
       <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
+        <StoriesInitSystem initialStory={Stories.OBSERVING_COLLECTION_STORY} />
         <AppInitSystem mockupData />
         <ViewManagerSystem />
-        <StoriesInitSystem initialStory={Stories.OBSERVING_COLLECTION_STORY} />
-        <SchoolSubjectsInitSystem  />
+        <SchoolSubjectsInitSystem />
         <Collection />
       </LeanScopeClientApp>
     </React.StrictMode>

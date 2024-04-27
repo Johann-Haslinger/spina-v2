@@ -72,7 +72,7 @@ const LoadTopicsSystem = () => {
     if (selectedSchoolSubjectId && !hasTopics) {
       initializeTopicEntities();
     }
-  }, [selectedSchoolSubjectId]);
+  }, [selectedSchoolSubjectId, mockupData]);
 
   return null;
 };

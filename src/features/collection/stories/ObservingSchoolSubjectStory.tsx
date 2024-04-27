@@ -4,7 +4,7 @@ import {
 } from "@leanscope/api-client/node";
 import React from "react";
 import ViewManagerSystem from "../../../systems/ViewManagerSystem";
-import {  EntityCreator } from "@leanscope/ecs-engine";
+import { EntityCreator } from "@leanscope/ecs-engine";
 import LoadTopicsSystem from "../systems/LoadTopicsSystem";
 import { DataTypes, Stories } from "../../../base/enums";
 import { IdentifierFacet, OrderFacet, Tags } from "@leanscope/ecs-models";
@@ -15,12 +15,9 @@ import StoriesInitSystem from "../../../systems/StoriesInitSystem";
 import AppInitSystem from "../../../systems/AppInitSystem";
 
 const ObservingSchoolSubjectStory = () => {
-
-  
   return (
     <React.StrictMode>
       <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
-      <AppInitSystem mockupData />
         <EntityCreator
           facets={[
             new TitleFacet({ title: "Mathematik" }),
@@ -29,11 +26,14 @@ const ObservingSchoolSubjectStory = () => {
           ]}
           tags={[DataTypes.SCHOOL_SUBJECT, Tags.SELECTED]}
         />
-
+        <StoriesInitSystem
+          initialStory={Stories.OBSERVING_SCHOOL_SUBJECT_STORY}
+        />
         <ViewManagerSystem />
-        <StoriesInitSystem initialStory={Stories.OBSERVING_SCHOOL_SUBJECT_STORY} />
-        <SchoolSubjectsInitSystem  />
-        <LoadTopicsSystem  />
+        <AppInitSystem mockupData />
+
+        <SchoolSubjectsInitSystem />
+        <LoadTopicsSystem />
 
         <Collection />
       </LeanScopeClientApp>

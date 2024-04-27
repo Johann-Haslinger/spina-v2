@@ -28,46 +28,45 @@ const ObservingNoteStory = () => {
     <React.StrictMode>
       <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
         <BrowserRouter>
-        
-            <EntityCreator
-              facets={[
-                new TitleFacet({ title: "Sinus Exercise" }),
-                new IdentifierFacet({ guid: "100" }),
-                new OrderFacet({ orderIndex: 1 }),
-                new ParentFacet({ parentId: "10" }),
-              ]}
-              tags={[DataTypes.NOTE, Tags.SELECTED]}
-            />
-            <EntityCreator
-              facets={[
-                new TitleFacet({ title: "Sinus" }),
-                new DescriptionFacet({ description: "Sinusfunktionen" }),
-                new IdentifierFacet({ guid: "10" }),
-                new OrderFacet({ orderIndex: 1 }),
-                new ParentFacet({ parentId: "1" }),
-              ]}
-              tags={[DataTypes.TOPIC, Tags.SELECTED]}
-            />
-            <EntityCreator
-              facets={[
-                new TitleFacet({ title: "Mathematik" }),
-                new IdentifierFacet({ guid: "1" }),
-                new OrderFacet({ orderIndex: 1 }),
-              ]}
-              tags={[DataTypes.SCHOOL_SUBJECT, Tags.SELECTED]}
-            />
+          <EntityCreator
+            facets={[
+              new TitleFacet({ title: "Sinus Exercise" }),
+              new IdentifierFacet({ guid: "100" }),
+              new OrderFacet({ orderIndex: 1 }),
+              new ParentFacet({ parentId: "10" }),
+            ]}
+            tags={[DataTypes.NOTE, Tags.SELECTED]}
+          />
+          <EntityCreator
+            facets={[
+              new TitleFacet({ title: "Sinus" }),
+              new DescriptionFacet({ description: "Sinusfunktionen" }),
+              new IdentifierFacet({ guid: "10" }),
+              new OrderFacet({ orderIndex: 1 }),
+              new ParentFacet({ parentId: "1" }),
+            ]}
+            tags={[DataTypes.TOPIC, Tags.SELECTED]}
+          />
+          <EntityCreator
+            facets={[
+              new TitleFacet({ title: "Mathematik" }),
+              new IdentifierFacet({ guid: "1" }),
+              new OrderFacet({ orderIndex: 1 }),
+            ]}
+            tags={[DataTypes.SCHOOL_SUBJECT, Tags.SELECTED]}
+          />
+           <StoriesInitSystem
+            initialStory={Stories.OBSERVING_SCHOOL_SUBJECT_STORY}
+          />
+          <AppInitSystem mockupData />
+          <ViewManagerSystem />
+         
+          <SchoolSubjectsInitSystem />
+          <LoadTopicsSystem />
 
-            <ViewManagerSystem />
-            <StoriesInitSystem
-              initialStory={Stories.OBSERVING_SCHOOL_SUBJECT_STORY}
-            />
-            <SchoolSubjectsInitSystem  />
-            <LoadTopicsSystem  />
-            <AppInitSystem mockupData />
-            <Collection />
-            <Sidebar />
-            <Settings />
-      
+          <Collection />
+          <Sidebar />
+          <Settings />
         </BrowserRouter>
       </LeanScopeClientApp>
     </React.StrictMode>

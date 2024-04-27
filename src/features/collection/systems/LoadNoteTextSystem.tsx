@@ -40,7 +40,7 @@ const LoadNoteTextSystem = () => {
     if (selectedNoteEntity) {
       loadNoteText();
     }
-  }, [selectedNoteEntity]);
+  }, [selectedNoteEntity, mockupData]);
 
   return null;
 };

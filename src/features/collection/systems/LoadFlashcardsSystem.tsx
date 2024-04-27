@@ -69,7 +69,7 @@ const LoadFlashcardsSystem = () => {
     };
 
     initializeFlashcardEntities();
-  }, [selectedFlashcardGroupId]);
+  }, [selectedFlashcardGroupId, mockupData]);
 
   return null;
 };

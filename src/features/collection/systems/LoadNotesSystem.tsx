@@ -60,7 +60,7 @@ const LoadNotesSystem = () => {
     };
 
     initializeNoteEntities();
-  }, [selectedTopicId]);
+  }, [selectedTopicId, mockupData]);
 
   return null;
 };

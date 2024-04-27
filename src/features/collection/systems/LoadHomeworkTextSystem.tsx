@@ -27,6 +27,7 @@ const fetchHomeworkText = async (homeworkId: string) => {
 
 const LoadHomeworkTextSystem = () => {
   const { mockupData } = useMockupData();
+ 
   const [selectedHomework] = useEntity(
     (e) => e.hasTag(DataTypes.HOMEWORK) && e.hasTag(Tags.SELECTED)
   );
@@ -48,7 +49,7 @@ const LoadHomeworkTextSystem = () => {
     if (selectedHomework) {
       loadHomeworkText();
     }
-  }, [selectedHomework]);
+  }, [selectedHomework, mockupData]);
 
   return null;
 };

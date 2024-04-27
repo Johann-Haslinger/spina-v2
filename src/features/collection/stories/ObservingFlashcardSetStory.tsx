@@ -9,16 +9,20 @@ import ViewManagerSystem from "../../../systems/ViewManagerSystem";
 import { DataTypes, Stories } from "../../../base/enums";
 import StoriesInitSystem from "../../../systems/StoriesInitSystem";
 import { EntityCreator } from "@leanscope/ecs-engine";
-import { DescriptionFacet, IdentifierFacet, OrderFacet, ParentFacet, Tags } from "@leanscope/ecs-models";
+import {
+  DescriptionFacet,
+  IdentifierFacet,
+  OrderFacet,
+  ParentFacet,
+  Tags,
+} from "@leanscope/ecs-models";
 import { TitleFacet } from "../../../app/AdditionalFacets";
 import LoadTopicsSystem from "../systems/LoadTopicsSystem";
 import AppInitSystem from "../../../systems/AppInitSystem";
 
 const ObservingFlashcardSetStory = () => {
-
   return (
     <React.StrictMode>
-       <AppInitSystem mockupData />
       <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
         <EntityCreator
           facets={[
@@ -29,7 +33,7 @@ const ObservingFlashcardSetStory = () => {
           ]}
           tags={[DataTypes.FLASHCARD_SET, Tags.SELECTED]}
         />
-      <EntityCreator
+        <EntityCreator
           facets={[
             new TitleFacet({ title: "Sinus" }),
             new DescriptionFacet({ description: "Sinusfunktionen" }),
@@ -48,12 +52,15 @@ const ObservingFlashcardSetStory = () => {
           tags={[DataTypes.SCHOOL_SUBJECT, Tags.SELECTED]}
         />
 
-        <ViewManagerSystem />
         <StoriesInitSystem
           initialStory={Stories.OBSERVING_SCHOOL_SUBJECT_STORY}
         />
-        <SchoolSubjectsInitSystem  />
-        <LoadTopicsSystem  />
+
+        <AppInitSystem mockupData />
+        <ViewManagerSystem />
+
+        <SchoolSubjectsInitSystem />
+        <LoadTopicsSystem />
 
         <Collection />
       </LeanScopeClientApp>

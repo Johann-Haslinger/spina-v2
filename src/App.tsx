@@ -1,8 +1,15 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { NavigationLinks, Stories } from "./base/enums";
+import { DataTypes, NavigationLinks, Stories } from "./base/enums";
 import { formatNavLinkAsPath } from "./utils";
-import { Collection, Exams, Groups, Homeworks, Overview, Study } from "./pages/Index";
+import {
+  Collection,
+  Exams,
+  Groups,
+  Homeworks,
+  Overview,
+  Study,
+} from "./pages/Index";
 import SchoolSubjectsInitSystem from "./systems/SchoolSubjectsInitSystem";
 import ViewManagerSystem from "./systems/ViewManagerSystem";
 import LoadTopicsSystem from "./features/collection/systems/LoadTopicsSystem";
@@ -12,6 +19,11 @@ import AppInitSystem from "./systems/AppInitSystem";
 import { useUserData } from "./hooks/useUserData";
 import { AuthUI } from "./features/auth-ui";
 import { Settings } from "./features/settings";
+import { EntityCreator } from "@leanscope/ecs-engine";
+import { IdentifierFacet, OrderFacet, Tags } from "@leanscope/ecs-models";
+import { TitleFacet } from "./app/AdditionalFacets";
+
+import { v4 } from "uuid";
 
 function App() {
   const { session } = useUserData();
@@ -20,10 +32,19 @@ function App() {
     <AuthUI />
   ) : (
     <>
+      <EntityCreator
+        facets={[
+          new IdentifierFacet({ guid: v4(), displayName: v4() }),
+          new TitleFacet({ title: "Sinus Exercise" }),
+        ]}
+        tags={[]}
+      />
+
       <StoriesInitSystem initialStory={Stories.OBSERVING_COLLECTION_STORY} />
       <AppInitSystem />
+
       <ViewManagerSystem />
-  
+
       <SchoolSubjectsInitSystem />
 
       <BrowserRouter>

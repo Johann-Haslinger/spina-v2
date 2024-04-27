@@ -55,7 +55,7 @@ const SchoolSubjectsInitSystem = () => {
     };
 
     initializeSchoolSubjectEntities();
-  }, []);
+  }, [mockupData]);
 
   return null;
 };
