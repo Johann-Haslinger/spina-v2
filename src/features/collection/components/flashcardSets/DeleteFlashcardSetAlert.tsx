@@ -5,10 +5,13 @@ import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useSelectedFlashcardSet } from "../../hooks/useSelectedFlashcardSet";
 import supabase from "../../../../lib/supabase";
+import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
+import { displayActionTexts } from "../../../../utils/selectDisplayText";
 
 const DeleteFlashcardSetAlert = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Stories.DELETE_FLASHCARD_SET_STORY);
+  const { selectedLanguage } = useSelectedLanguage();
   const { selectedFlashcardSetId, selectedFlashcardSetEntity } =
     useSelectedFlashcardSet();
 
@@ -16,8 +19,8 @@ const DeleteFlashcardSetAlert = () => {
     lsc.stories.transitTo(Stories.OBSERVING_TOPIC_STORY);
 
   const deleteFlashcardSet = async () => {
-    navigateBack()
-    selectedFlashcardSetEntity?.add(AdditionalTags.NAVIGATE_BACK)
+    navigateBack();
+    selectedFlashcardSetEntity?.add(AdditionalTags.NAVIGATE_BACK);
     setTimeout(async () => {
       if (selectedFlashcardSetEntity) {
         lsc.engine.removeEntity(selectedFlashcardSetEntity);
@@ -42,10 +45,10 @@ const DeleteFlashcardSetAlert = () => {
       subTitle="Are you sure you want to delete this flashcard set?"
     >
       <AlertButton onClick={navigateBack} role="primary">
-        Cancel
+        {displayActionTexts(selectedLanguage).cancel}
       </AlertButton>
       <AlertButton onClick={deleteFlashcardSet} role="destructive">
-        Delete
+        {displayActionTexts(selectedLanguage).delete}
       </AlertButton>
     </Alert>
   );

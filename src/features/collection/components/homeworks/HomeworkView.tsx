@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
+  ActionRow,
   BackButton,
   NavBarButton,
   NavigationBar,
@@ -12,16 +13,27 @@ import { EntityProps } from "@leanscope/ecs-engine";
 import { TitleProps } from "../../../../app/AdditionalFacets";
 import { IdentifierProps, TextProps } from "@leanscope/ecs-models";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
-import { AdditionalTags } from "../../../../base/enums";
+import { AdditionalTags, Stories } from "../../../../base/enums";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import { displayHeaderTexts } from "../../../../utils/selectDisplayText";
+import {
+  displayActionTexts,
+  displayHeaderTexts,
+} from "../../../../utils/selectDisplayText";
 import supabase from "../../../../lib/supabase";
-import { IoEllipsisHorizontalCircleOutline } from "react-icons/io5";
+import {
+  IoCreateOutline,
+  IoEllipsisHorizontalCircleOutline,
+  IoTrashOutline,
+} from "react-icons/io5";
 import LoadHomeworkTextSystem from "../../systems/LoadHomeworkTextSystem";
+import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import DeleteHomeworkAlert from "./DeleteHomeworkAlert";
+import EditHomeworkSheet from "./EditHomeworkSheet";
 
 const HomeworkView = (
   props: EntityProps & TitleProps & TextProps & IdentifierProps
 ) => {
+  const lsc = useContext(LeanScopeClientContext);
   const { title, text, guid, entity } = props;
   const isVisible = useIsViewVisible(entity);
   const { selectedLanguage } = useSelectedLanguage();
@@ -39,13 +51,38 @@ const HomeworkView = (
     }
   };
 
+  const openEditHomeworkSheet = () =>
+    lsc.stories.transitTo(Stories.EDIT_HOMEWORK_STORY);
+  const openDeleteHomeworkAlert = () =>
+    lsc.stories.transitTo(Stories.DELETE_HOMEWORK_STORY);
+
   return (
     <>
       <LoadHomeworkTextSystem mockupData />
 
       <View visibe={isVisible}>
         <NavigationBar>
-          <NavBarButton>
+          <NavBarButton
+            content={
+              <>
+                <ActionRow
+                  isFirst
+                  onClick={openEditHomeworkSheet}
+                  icon={<IoCreateOutline />}
+                >
+                  {displayActionTexts(selectedLanguage).edit}
+                </ActionRow>
+                <ActionRow
+                  onClick={openDeleteHomeworkAlert}
+                  icon={<IoTrashOutline />}
+                  destructive
+                  isLast
+                >
+                  {displayActionTexts(selectedLanguage).delete}
+                </ActionRow>
+              </>
+            }
+          >
             <IoEllipsisHorizontalCircleOutline />
           </NavBarButton>
         </NavigationBar>
@@ -56,6 +93,9 @@ const HomeworkView = (
         <Spacer size={8} />
         <TextEditor onBlur={handleTextChange} value={text} />
       </View>
+
+      <DeleteHomeworkAlert />
+      <EditHomeworkSheet />
     </>
   );
 };

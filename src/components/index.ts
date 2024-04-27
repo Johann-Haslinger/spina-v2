@@ -21,6 +21,8 @@ export { default as Divider } from "./layout/Divider";
 export { default as CollectionGrid } from "./layout/CollectionGrid";
 export { default as FlexBox } from "./layout/FlexBox";
 export { default as ActionRow } from "./layout/ActionRow";
+export { default as Section } from "./layout/Section";
+export { default as SectionRow } from "./layout/SectionRow";
 
 
 // ----Navigation----
@@ -33,6 +35,8 @@ export { default as Sidebar } from "./navigation/Sidebar";
 export { default as NavBarButton } from "./buttons/NavBarButton";
 export { default as BackButton } from "./buttons/BackButton";
 export { default as AlertButton } from "./buttons/AlertButton";
+export { default as CancelButton } from "./buttons/CancelButton";
+export { default as SaveButton } from "./buttons/SaveButton";
 
 // ----Inputs----
 

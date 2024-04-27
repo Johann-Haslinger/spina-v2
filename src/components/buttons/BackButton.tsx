@@ -7,7 +7,7 @@ import { useSelectedLanguage } from "../../hooks/useSelectedLanguage";
 import { displayButtonTexts } from "../../utils/selectDisplayText";
 
 const StyledBackButtonWrapper = styled.div`
-  ${tw`flex h-10 w-fit dark:text-primaryTextDark mb-2 space-x-2 items-center cursor-pointer`}
+  ${tw`flex h-10 w-fit text-primaryColor dark:text-primaryTextDark mb-2 space-x-2 items-center cursor-pointer`}
 `;
 
 const StyledBackButtonIcon = styled.div`
@@ -41,7 +41,7 @@ const BackButton = (props: PropsWithChildren &  {
       <p>
         {children
           ? children
-          : displayButtonTexts(selectedLanguage).backButtonText}
+          : displayButtonTexts(selectedLanguage).back}
       </p>
     </StyledBackButtonWrapper>
   );

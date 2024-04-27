@@ -1,5 +1,5 @@
 import { SupportedLanguages } from "../base/enums";
-import { AlertTexts, ButtonTexts, HeaderTexts } from "../base/text";
+import { ActionTexts, AlertTexts, ButtonTexts, HeaderTexts } from "../base/text";
 
 export const displayHeaderTexts = (selectedLanguage: SupportedLanguages) => {
   return {
@@ -122,9 +122,9 @@ const getAlertText = (alertText: AlertTexts, selectedLanguage: SupportedLanguage
 
 export const displayButtonTexts = (selectedLanguage: SupportedLanguages) => {
   return {
-    backButtonText: getButtonText(ButtonTexts.BACK, selectedLanguage),
-    saveButtonText: getButtonText(ButtonTexts.SAVE, selectedLanguage),
-    cancelButtonText: getButtonText(ButtonTexts.CANCEL, selectedLanguage),
+    back: getButtonText(ButtonTexts.BACK, selectedLanguage),
+    save: getButtonText(ButtonTexts.SAVE, selectedLanguage),
+    cancel: getButtonText(ButtonTexts.CANCEL, selectedLanguage),
 
   };
 }
@@ -150,6 +150,48 @@ const getButtonText = (buttonText: ButtonTexts, selectedLanguage: SupportedLangu
           return "";
       }
     case ButtonTexts.CANCEL:
+      switch (selectedLanguage) {
+        case SupportedLanguages.DE:
+          return "Abbrechen";
+        case SupportedLanguages.EN:
+          return "Cancel";
+        default:
+          return "";
+      }
+    default:
+      return "";
+  }
+};
+
+export const displayActionTexts = (selectedLanguage: SupportedLanguages) => {
+  return {
+    delete: getActionText(ActionTexts.DELETE, selectedLanguage),
+    edit: getActionText(ActionTexts.EDIT, selectedLanguage),
+    cancel: getActionText(ActionTexts.CANCEL, selectedLanguage),
+  };
+}
+
+const getActionText = (actionText: ActionTexts, selectedLanguage: SupportedLanguages) => {
+  switch (actionText) {
+    case ActionTexts.DELETE:
+      switch (selectedLanguage) {
+        case SupportedLanguages.DE:
+          return "Löschen";
+        case SupportedLanguages.EN:
+          return "Delete";
+        default:
+          return "";
+      }
+    case ActionTexts.EDIT:
+      switch (selectedLanguage) {
+        case SupportedLanguages.DE:
+          return "Bearbeiten";
+        case SupportedLanguages.EN:
+          return "Edit";
+        default:
+          return "";
+      }
+    case ActionTexts.CANCEL:
       switch (selectedLanguage) {
         case SupportedLanguages.DE:
           return "Abbrechen";

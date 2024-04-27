@@ -41,10 +41,11 @@ const StyledProgressBar = styled.div<{
   width: string;
   backgroundColor: string;
 }>`
-  ${tw` h-0.5  rounded-full`}
-  background-color: ${(props) => props.backgroundColor};
+  ${tw` h-0.5 bg-primaryColor  rounded-full`}
+  /* background-color: ${(props) => props.backgroundColor}; */
   width: ${(props) => props.width};
 `;
+
 
 const FlashcardCell = (
   props: QuestionProps & AnswerProps & EntityProps & MasteryLevelProps

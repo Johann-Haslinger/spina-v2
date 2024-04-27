@@ -10,6 +10,7 @@ module.exports = {
     fontFamily: {},
     extend: {
       colors: {
+        primaryColor:"#0B86D1",
         primary: "#000000",
         primatyText: "#1E1E1E",
         primaryTextDark: "#ffffff",

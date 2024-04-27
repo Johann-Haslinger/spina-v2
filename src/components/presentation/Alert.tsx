@@ -4,7 +4,7 @@ import { PropsWithChildren, useEffect, useRef, useState } from "react";
 import tw from "twin.macro";
 
 const StyledAlertWrapper = styled.div`
-  ${tw`bg-white text-black w-10/12 md:w-64 mx-auto mt-[30%]  backdrop-blur-lg bg-opacity-90 rounded-lg `}
+  ${tw`bg-white text-black w-10/12 md:w-64 mx-auto mt-72  backdrop-blur-lg bg-opacity-90 rounded-lg `}
 `;
 
 const StyledAlertTitle = styled.div`

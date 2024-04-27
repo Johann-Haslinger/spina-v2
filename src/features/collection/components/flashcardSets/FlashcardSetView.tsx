@@ -31,6 +31,8 @@ import {
 } from "react-icons/io5";
 import EditFlashcardSetSheet from "./EditFlashcardSetSheet";
 import DeleteFlashcardSetAlert from "./DeleteFlashcardSetAlert";
+import { displayActionTexts } from "../../../../utils/selectDisplayText";
+import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 
 const FlashcardSetView = (
   props: TitleProps & EntityProps & IdentifierProps
@@ -38,6 +40,7 @@ const FlashcardSetView = (
   const lsc = useContext(LeanScopeClientContext);
   const { title, entity, guid } = props;
   const isVisible = useIsViewVisible(entity);
+  const { selectedLanguage } = useSelectedLanguage();
   const { selectedTopicTitle } = useSelectedTopic();
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
@@ -61,7 +64,7 @@ const FlashcardSetView = (
                   icon={<IoCreateOutline />}
                   onClick={openEditFlashcardSetSheet}
                 >
-                  Edit
+                  {displayActionTexts(selectedLanguage).edit}
                 </ActionRow>
                 <ActionRow
                   destructive
@@ -69,7 +72,7 @@ const FlashcardSetView = (
                   icon={<IoTrashOutline />}
                   onClick={openDeleteFlashcardSetAlert}
                 >
-                  Delete
+                  {displayActionTexts(selectedLanguage).delete}
                 </ActionRow>
               </>
             }

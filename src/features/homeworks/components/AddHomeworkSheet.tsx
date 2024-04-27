@@ -3,6 +3,7 @@ import { DataTypes, Stories } from "../../../base/enums";
 import {
   DateInput,
   FlexBox,
+  SectionRow,
   SelectInput,
   Sheet,
   Spacer,
@@ -20,7 +21,6 @@ import {
 import { Entity } from "@leanscope/ecs-engine";
 import { v4 } from "uuid";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import SectionRow from "../../../components/layout/SectionRow";
 import { useUserData } from "../../../hooks/useUserData";
 import supabase from "../../../lib/supabase";
 

@@ -1,19 +1,80 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import  { useContext } from "react";
-import { Sheet } from "../../../../components";
+import { useContext, useEffect, useState } from "react";
+import {
+  CancelButton,
+  FlexBox,
+  SaveButton,
+  Section,
+  SectionRow,
+  Sheet,
+  Spacer,
+  TextInput,
+} from "../../../../components";
 import { Stories } from "../../../../base/enums";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
+import { useSelectedFlashcardSet } from "../../hooks/useSelectedFlashcardSet";
+import { TitleFacet } from "../../../../app/AdditionalFacets";
+import supabase from "../../../../lib/supabase";
+import { displayButtonTexts } from "../../../../utils/selectDisplayText";
+import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 
 const EditFlashcardSetSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Stories.EDIT_FLASHCARD_SET_STORY);
+  const { selectedLanguage } = useSelectedLanguage();
+  const {
+    selectedFlashcardSetTitle,
+    selectedFlashcardSetEntity,
+    selectedFlashcardSetId,
+  } = useSelectedFlashcardSet();
+  const [newTitle, setNewTitle] = useState(selectedFlashcardSetTitle);
+
+  useEffect(() => {
+    setNewTitle(selectedFlashcardSetTitle);
+  }, [selectedFlashcardSetTitle]);
 
   const navigateBack = () =>
     lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_SET_STORY);
 
+  const updateFlashcardSet = async () => {
+    if (newTitle) {
+      navigateBack();
+      selectedFlashcardSetEntity?.add(new TitleFacet({ title: newTitle }));
+
+      const { error } = await supabase
+        .from("flashcardSets")
+        .update({
+          title: newTitle,
+        })
+        .eq("id", selectedFlashcardSetId);
+
+      if (error) {
+        console.error("Error updating flashcard set", error);
+      }
+    }
+  };
+
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>
-      <button onClick={navigateBack}>Back</button>
+      <FlexBox>
+      <CancelButton onClick={navigateBack}>
+          {displayButtonTexts(selectedLanguage).cancel}
+        </CancelButton>
+        {newTitle !== selectedFlashcardSetTitle && (
+         <SaveButton onClick={updateFlashcardSet}>
+            {displayButtonTexts(selectedLanguage).save}
+          </SaveButton>
+        )}
+      </FlexBox>
+      <Spacer />
+      <Section>
+        <SectionRow type="last">
+          <TextInput
+            value={newTitle}
+            onChange={(e) => setNewTitle(e.target.value)}
+          />
+        </SectionRow>
+      </Section>
     </Sheet>
   );
 };

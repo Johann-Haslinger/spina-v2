@@ -1,22 +1,37 @@
 import styled from "@emotion/styled";
-import  { PropsWithChildren } from "react";
+import { PropsWithChildren, ReactNode } from "react";
 import tw from "twin.macro";
 
-const StyledSectionRowWrapper = styled.div<{ hideBorder?: boolean }>`
-  ${tw`flex items-center w-full h-16 px-1`}
-  ${({ hideBorder }) =>
-    !hideBorder &&
-    tw`border-b dark:border-primaryBorderDark border-primaryBorder`}
+type Type = "default" | "last";
+type Role = "default" | "destructive";
+
+const StyledSectionRowWrapper = styled.div<{ role: Role; type: Type }>`
+  ${tw`flex p-2 min-h-8 pt-0 pr-0 w-full`}
+  ${({ role }) => role === "destructive" && tw`text-red-500`}
 `;
+
+const StyledIconWrapper = styled.div`
+  ${tw`text-2xl ml-3`}
+`;
+
+const StyledSectionRowContent = styled.div<{ type: Type }>`
+  ${tw`flex w-full ml-5  h-fit justify-between pr-3`}
+  ${({ type }) =>
+    type !== "last" && tw` border-b-[0.5px] border-[rgb(198,198,200)]`}
+`;
+
 interface SectionRowProps {
-  hideBorder?: boolean;
+  type?: Type;
+  role?: Role;
+  icon?: ReactNode;
 }
 const SectionRow = (props: PropsWithChildren & SectionRowProps) => {
-  const { children, hideBorder } = props;
+  const { children, role = "default", icon, type = "default" } = props;
 
   return (
-    <StyledSectionRowWrapper hideBorder={hideBorder}>
-      {children}
+    <StyledSectionRowWrapper type={type} role={role}>
+      {icon && <StyledIconWrapper>{icon}</StyledIconWrapper>}
+      <StyledSectionRowContent type={type}>{children}</StyledSectionRowContent>
     </StyledSectionRowWrapper>
   );
 };
