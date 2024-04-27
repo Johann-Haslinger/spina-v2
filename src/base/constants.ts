@@ -1,4 +1,6 @@
-import { formatNavLinkAsPath } from "../utils";
+import { formatNavLinkAsPath } from "../utils/formatNavLinkAsPath";
+
+
 import { NavigationLinks, SupportedLanguages } from "./enums";
 
 export const SELECTED_LANGUAGE = SupportedLanguages.DE;

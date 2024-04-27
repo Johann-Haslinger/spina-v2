@@ -24,6 +24,10 @@ const ObservingFlashcardSetStory = () => {
   return (
     <React.StrictMode>
       <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
+      <StoriesInitSystem
+          initialStory={Stories.OBSERVING_SCHOOL_SUBJECT_STORY}
+        />
+
         <EntityCreator
           facets={[
             new TitleFacet({ title: "Sinus Exercise" }),
@@ -52,10 +56,7 @@ const ObservingFlashcardSetStory = () => {
           tags={[DataTypes.SCHOOL_SUBJECT, Tags.SELECTED]}
         />
 
-        <StoriesInitSystem
-          initialStory={Stories.OBSERVING_SCHOOL_SUBJECT_STORY}
-        />
-
+       
         <AppInitSystem mockupData />
         <ViewManagerSystem />
 

@@ -17,9 +17,11 @@ export enum Stories {
   EDIT_FLASHCARD_STORY = "editFlashcardStory",
   EDIT_FLASHCARD_SET_STORY = "editFlashcardSetStory",
   EDIT_HOMEWORK_STORY = "editHomeworkStory",
+  EDIT_TOPIC_STORY = "editTopicStory",
 
   DELETE_FLASHCARD_SET_STORY = "deleteFlashcardSetStory",
   DELETE_HOMEWORK_STORY = "deleteHomeworkStory",
+  DELETE_TOPIC_STORY = "deleteTopicStory",
   DELETE_NOTE_STORY = "deleteNoteStory",
 }
 

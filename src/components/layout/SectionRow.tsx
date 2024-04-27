@@ -15,7 +15,7 @@ const StyledIconWrapper = styled.div`
 `;
 
 const StyledSectionRowContent = styled.div<{ type: Type }>`
-  ${tw`flex w-full ml-5  h-fit justify-between pr-3`}
+  ${tw`flex w-full ml-5 px-2  h-fit justify-between pr-3`}
   ${({ type }) =>
     type !== "last" && tw` border-b-[0.5px] border-[rgb(198,198,200)]`}
 `;

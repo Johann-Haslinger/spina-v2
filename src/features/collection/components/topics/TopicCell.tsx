@@ -3,7 +3,7 @@ import { EntityProps } from "@leanscope/ecs-engine";
 import { useTopicColor } from "../../hooks/useTopicColor";
 import tw from "twin.macro";
 import styled from "@emotion/styled";
-import { Tags } from "@leanscope/ecs-models";
+import { DescriptionProps, Tags } from "@leanscope/ecs-models";
 import { IoBook } from "react-icons/io5";
 import { useAppState } from "../../hooks/useAppState";
 
@@ -17,7 +17,6 @@ const StyledTopicCellWrapper = styled.div<{
 }>`
   ${tw`w-full h-40 text-white text-opacity-40 rounded-xl flex justify-center items-center  hover:scale-105 transition-all  text-7xl font-bold p-2 `}
   background-color: ${({ backgroundColor }) => backgroundColor};
-  /* color: ${({ color }) => color}; */
 `;
 
 const StyledTopicTitle = styled.p`
@@ -27,8 +26,8 @@ const StyledTopicDescription = styled.p`
   ${tw` text-seconderyText line-clamp-2 mt-1`}
 `;
 
-const TopicCell = (props: TitleProps & EntityProps) => {
-  const { title, entity } = props;
+const TopicCell = (props: TitleProps & EntityProps & DescriptionProps) => {
+  const { title, entity, description } = props;
   const { color, backgroundColor } = useTopicColor(entity);
   const { isSidebarVisible } = useAppState();
 
@@ -48,9 +47,7 @@ const TopicCell = (props: TitleProps & EntityProps) => {
         <IoBook />
       </StyledTopicCellWrapper>
       <StyledTopicTitle>{title}</StyledTopicTitle>
-      <StyledTopicDescription>
-        Lorem ipsum dolor sit amet etum non situm.
-      </StyledTopicDescription>
+      <StyledTopicDescription>{description || "No description added"}</StyledTopicDescription>
     </StyledTopicCellContainer>
   );
 };

@@ -22,7 +22,7 @@ import AddTopicSheet from "./AddTopicSheet";
 import { displayHeaderTexts } from "../../../../utils/selectDisplayText";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { sortEntitiesByDateAdded } from "../../../../utils/sortEntitiesByTime";
-import { Tags } from "@leanscope/ecs-models";
+import { DescriptionFacet, Tags } from "@leanscope/ecs-models";
 import TopicView from "../topics/TopicView";
 import LoadTopicsSystem from "../../systems/LoadTopicsSystem";
 import { IoAdd } from "react-icons/io5";
@@ -44,14 +44,12 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
       <LoadTopicsSystem />
 
       <View visibe={isVisible}>
-        <NavigationBar>
+        <NavigationBar navigateBack={navigateBack} backButtonLabel={displayHeaderTexts(selectedLanguage).collectionHeaderText} >
           <NavBarButton>
             <IoAdd onClick={openAddTopicSheet} />
           </NavBarButton>
         </NavigationBar>
-        <BackButton navigateBack={navigateBack}>
-          {displayHeaderTexts(selectedLanguage).collectionHeaderText}
-        </BackButton>
+       
         <Title>{title} </Title>
         <Spacer size={6} />
         {!hasTopics && (
@@ -63,7 +61,7 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
               dataTypeQuery(e, DataTypes.TOPIC) && isChildOfQuery(e, entity)
             }
             sort={(a, b) => sortEntitiesByDateAdded(a, b)}
-            get={[[TitleFacet], []]}
+            get={[[TitleFacet, DescriptionFacet], []]}
             onMatch={TopicCell}
           />
         </CollectionGrid>
@@ -73,7 +71,7 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
         query={(e) =>
           dataTypeQuery(e, DataTypes.TOPIC) && e.hasTag(Tags.SELECTED)
         }
-        get={[[TitleFacet], []]}
+        get={[[TitleFacet, DescriptionFacet], []]}
         onMatch={TopicView}
       />
     </>

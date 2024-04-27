@@ -52,10 +52,13 @@ const NoteView = (
 
   return (
     <>
-      <LoadNoteTextSystem  />
+      <LoadNoteTextSystem />
 
       <View visibe={isVisible}>
-        <NavigationBar>
+        <NavigationBar
+          backButtonLabel={selectedTopicTitle}
+          navigateBack={navigateBack}
+        >
           <NavBarButton
             content={
               <>
@@ -74,9 +77,7 @@ const NoteView = (
             <IoEllipsisHorizontalCircleOutline />
           </NavBarButton>
         </NavigationBar>
-        <BackButton navigateBack={navigateBack}>
-          {selectedTopicTitle}
-        </BackButton>
+        
         <Title>{title}</Title>
         <Spacer />
         <TextEditor onBlur={handleTextBlur} value={text} />

@@ -1,7 +1,7 @@
 import { useEntity } from "@leanscope/ecs-engine";
 import { dataTypeQuery } from "../../../utils/queries";
 import { DataTypes } from "../../../base/enums";
-import { IdentifierFacet, Tags } from "@leanscope/ecs-models";
+import { DescriptionFacet, IdentifierFacet, Tags } from "@leanscope/ecs-models";
 import { TitleFacet } from "../../../app/AdditionalFacets";
 
 export const useSelectedTopic = () => {
@@ -10,6 +10,7 @@ export const useSelectedTopic = () => {
   );
   const selectedTopicId = selectedTopicEntity?.get(IdentifierFacet)?.props.guid;
   const selectedTopicTitle = selectedTopicEntity?.get(TitleFacet)?.props.title;
+  const selectedTopicDescription = selectedTopicEntity?.get(DescriptionFacet)?.props.description;
 
-  return { selectedTopicEntity, selectedTopicTitle, selectedTopicId };
+  return { selectedTopicEntity, selectedTopicTitle, selectedTopicId , selectedTopicDescription};
 };

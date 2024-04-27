@@ -1,15 +1,23 @@
 import React, { useContext } from "react";
 import {
+  ActionRow,
   CollectionGrid,
+  Divider,
   NavBarButton,
   NavigationBar,
+  SecondaryText,
   Spacer,
   Title,
   View,
 } from "../../../../components";
 import { TitleFacet, TitleProps } from "../../../../app/AdditionalFacets";
 import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
-import { IdentifierFacet, Tags, TextFacet } from "@leanscope/ecs-models";
+import {
+  DescriptionProps,
+  IdentifierFacet,
+  Tags,
+  TextFacet,
+} from "@leanscope/ecs-models";
 import { useSelectedSchoolSubject } from "../../hooks/useSelectedSchoolSubject";
 import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
@@ -23,39 +31,74 @@ import FlashcardSetCell from "../flashcardSets/FlashcardSetCell";
 import FlashcardSetView from "../flashcardSets/FlashcardSetView";
 import LoadFlashcardSetsSystem from "../../systems/LoadFlashcardSetsSystem";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { IoAdd } from "react-icons/io5";
+import { IoAdd, IoCreateOutline, IoEllipsisHorizontalCircleOutline, IoTrashOutline } from "react-icons/io5";
 import AddResourceToTopicSheet from "./AddResourceToTopicSheet";
 import HomeworkCell from "../homeworks/HomeworkCell";
 import HomeworkView from "../homeworks/HomeworkView";
 import LoadHomeworksSystem from "../../systems/LoadHomeworksSystem";
+import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
+import { displayActionTexts } from "../../../../utils/selectDisplayText";
+import DeleteTopicAlert from "./DeleteTopicAlert";
+import EditTopicSheet from "./EditTopicSheet";
 
-const TopicView = (props: TitleProps & EntityProps) => {
+const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
   const lsc = useContext(LeanScopeClientContext);
   const { title, entity } = props;
   const isVisible = useIsViewVisible(entity);
   const { selectedSchoolSubjectTitle } = useSelectedSchoolSubject();
+  const { selectedLanguage } = useSelectedLanguage();
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
   const openAddResourceSheet = () =>
     lsc.stories.transitTo(Stories.ADD_RESOURCE_TO_TOPIC_STORY);
+  const openEditTopicSheet = () =>
+    lsc.stories.transitTo(Stories.EDIT_TOPIC_STORY);
+  const openDeleteTopicAlert = () => lsc.stories.transitTo(Stories.DELETE_TOPIC_STORY);
 
   return (
     <>
-      <LoadNotesSystem  />
-      <LoadFlashcardSetsSystem  />
-      <LoadHomeworksSystem  />
+      <LoadNotesSystem />
+      <LoadFlashcardSetsSystem />
+      <LoadHomeworksSystem />
 
       <View visibe={isVisible}>
-        <NavigationBar>
+        <NavigationBar navigateBack={navigateBack} backButtonLabel={selectedSchoolSubjectTitle}>
           <NavBarButton onClick={openAddResourceSheet}>
             <IoAdd />
           </NavBarButton>
+          <NavBarButton
+            content={
+              <>
+                <ActionRow
+                  isFirst
+                  onClick={openEditTopicSheet}
+                  icon={<IoCreateOutline />}
+                >
+                  {displayActionTexts(selectedLanguage).edit}
+                </ActionRow>
+                <ActionRow
+                  onClick={openDeleteTopicAlert}
+                  icon={<IoTrashOutline />}
+                  destructive
+                  isLast
+                >
+                  {displayActionTexts(selectedLanguage).delete}
+                </ActionRow>
+              </>
+            }
+          >
+            <IoEllipsisHorizontalCircleOutline />
+          </NavBarButton>
         </NavigationBar>
-        <BackButton navigateBack={navigateBack}>
+        {/* <BackButton navigateBack={navigateBack}>
           {selectedSchoolSubjectTitle}
-        </BackButton>
+        </BackButton> */}
         <Title>{title}</Title>
-        <Spacer size={6} />
+        <Spacer size={4} />
+        <SecondaryText>{props.description || "No Description added"}</SecondaryText>
+        <Spacer size={2} />
+        <Divider />
+        <Spacer size={2} />
         <CollectionGrid>
           <EntityPropsMapper
             query={(e) =>
@@ -66,7 +109,7 @@ const TopicView = (props: TitleProps & EntityProps) => {
             onMatch={NoteCell}
           />
         </CollectionGrid>
-     
+
         <CollectionGrid>
           <EntityPropsMapper
             query={(e) =>
@@ -78,7 +121,7 @@ const TopicView = (props: TitleProps & EntityProps) => {
             onMatch={FlashcardSetCell}
           />
         </CollectionGrid>
-      
+
         <CollectionGrid>
           <EntityPropsMapper
             query={(e) =>
@@ -103,7 +146,7 @@ const TopicView = (props: TitleProps & EntityProps) => {
         get={[[TitleFacet, IdentifierFacet], []]}
         onMatch={FlashcardSetView}
       />
-       <EntityPropsMapper
+      <EntityPropsMapper
         query={(e) =>
           dataTypeQuery(e, DataTypes.HOMEWORK) && e.has(Tags.SELECTED)
         }
@@ -112,6 +155,9 @@ const TopicView = (props: TitleProps & EntityProps) => {
       />
 
       <AddResourceToTopicSheet />
+      <DeleteTopicAlert />
+      <EditTopicSheet />
+      
     </>
   );
 };

@@ -16,13 +16,13 @@ import {
   TitleProps,
 } from "../../../../app/AdditionalFacets";
 import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
-import { IdentifierProps, Tags } from "@leanscope/ecs-models";
+import { IdentifierFacet, IdentifierProps, Tags } from "@leanscope/ecs-models";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
 import { useSelectedTopic } from "../../hooks/useSelectedTopic";
 import LoadFlashcardsSystem from "../../systems/LoadFlashcardsSystem";
 import FlashcardCell from "./FlashcardCell";
-import { isChildOfQuery } from "../../../../utils/queries";
+import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import {
   IoCreateOutline,
@@ -33,6 +33,7 @@ import EditFlashcardSetSheet from "./EditFlashcardSetSheet";
 import DeleteFlashcardSetAlert from "./DeleteFlashcardSetAlert";
 import { displayActionTexts } from "../../../../utils/selectDisplayText";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
+import EditFlashcardSheet from "./EditFlashcardSheet";
 
 const FlashcardSetView = (
   props: TitleProps & EntityProps & IdentifierProps
@@ -52,10 +53,13 @@ const FlashcardSetView = (
 
   return (
     <>
-      <LoadFlashcardsSystem  />
+      <LoadFlashcardsSystem />
 
       <View visibe={isVisible}>
-        <NavigationBar>
+        <NavigationBar
+          backButtonLabel={selectedTopicTitle}
+          navigateBack={navigateBack}
+        >
           <NavBarButton
             content={
               <>
@@ -80,9 +84,7 @@ const FlashcardSetView = (
             <IoEllipsisHorizontalCircleOutline />
           </NavBarButton>
         </NavigationBar>
-        <BackButton navigateBack={navigateBack}>
-          {selectedTopicTitle}
-        </BackButton>
+
         <Title>{title}</Title>
         <Spacer size={8} />
         <CollectionGrid columnSize="large">
@@ -95,6 +97,17 @@ const FlashcardSetView = (
           />
         </CollectionGrid>
       </View>
+
+      <EntityPropsMapper
+        query={(e) =>
+          dataTypeQuery(e, DataTypes.FLASHCARD) && e.hasTag(Tags.SELECTED)
+        }
+        get={[
+          [QuestionFacet, AnswerFacet, MasteryLevelFacet, IdentifierFacet],
+          [],
+        ]}
+        onMatch={EditFlashcardSheet}
+      />
 
       <EditFlashcardSetSheet />
       <DeleteFlashcardSetAlert />

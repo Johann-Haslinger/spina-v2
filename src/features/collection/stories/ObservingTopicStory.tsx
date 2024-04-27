@@ -19,39 +19,43 @@ import StoriesInitSystem from "../../../systems/StoriesInitSystem";
 import ViewManagerSystem from "../../../systems/ViewManagerSystem";
 import LoadTopicsSystem from "../systems/LoadTopicsSystem";
 import AppInitSystem from "../../../systems/AppInitSystem";
+import { Sidebar } from "../../../components";
+import { BrowserRouter } from "react-router-dom";
 
 const ObservingTopicStory = () => {
   return (
     <React.StrictMode>
       <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
-        <EntityCreator
-          facets={[
-            new TitleFacet({ title: "Sinus" }),
-            new DescriptionFacet({ description: "Sinusfunktionen" }),
-            new IdentifierFacet({ guid: "0" }),
-            new OrderFacet({ orderIndex: 1 }),
-            new ParentFacet({ parentId: "1" }),
-          ]}
-          tags={[DataTypes.TOPIC, Tags.SELECTED]}
-        />
-        <EntityCreator
-          facets={[
-            new TitleFacet({ title: "Mathematik" }),
-            new IdentifierFacet({ guid: "1" }),
-            new OrderFacet({ orderIndex: 1 }),
-          ]}
-          tags={[DataTypes.SCHOOL_SUBJECT, Tags.SELECTED]}
-        />
-        <StoriesInitSystem
-          initialStory={Stories.OBSERVING_SCHOOL_SUBJECT_STORY}
-        />
-        <AppInitSystem mockupData />
-        <ViewManagerSystem />
+        <BrowserRouter>
+          <EntityCreator
+            facets={[
+              new TitleFacet({ title: "Sinus" }),
+              new DescriptionFacet({ description: "Sinusfunktionen" }),
+              new IdentifierFacet({ guid: "0" }),
+              new OrderFacet({ orderIndex: 1 }),
+              new ParentFacet({ parentId: "1" }),
+            ]}
+            tags={[DataTypes.TOPIC, Tags.SELECTED]}
+          />
+          <EntityCreator
+            facets={[
+              new TitleFacet({ title: "Mathematik" }),
+              new IdentifierFacet({ guid: "1" }),
+              new OrderFacet({ orderIndex: 1 }),
+            ]}
+            tags={[DataTypes.SCHOOL_SUBJECT, Tags.SELECTED]}
+          />
+          <StoriesInitSystem
+            initialStory={Stories.OBSERVING_SCHOOL_SUBJECT_STORY}
+          />
+          <AppInitSystem mockupData />
+          <ViewManagerSystem />
+          <SchoolSubjectsInitSystem />
+          <LoadTopicsSystem />
 
-        <SchoolSubjectsInitSystem />
-        <LoadTopicsSystem />
-
-        <Collection />
+          <Collection />
+          <Sidebar />
+        </BrowserRouter>
       </LeanScopeClientApp>
     </React.StrictMode>
   );

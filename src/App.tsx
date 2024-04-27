@@ -1,7 +1,6 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import { DataTypes, NavigationLinks, Stories } from "./base/enums";
-import { formatNavLinkAsPath } from "./utils";
+import {  NavigationLinks, Stories } from "./base/enums";
 import {
   Collection,
   Exams,
@@ -11,8 +10,7 @@ import {
   Study,
 } from "./pages/Index";
 import SchoolSubjectsInitSystem from "./systems/SchoolSubjectsInitSystem";
-import ViewManagerSystem from "./systems/ViewManagerSystem";
-import LoadTopicsSystem from "./features/collection/systems/LoadTopicsSystem";
+import ViewManagerSystem from "./systems/ViewManagerSystem"
 import StoriesInitSystem from "./systems/StoriesInitSystem";
 import { Sidebar } from "./components";
 import AppInitSystem from "./systems/AppInitSystem";
@@ -20,10 +18,10 @@ import { useUserData } from "./hooks/useUserData";
 import { AuthUI } from "./features/auth-ui";
 import { Settings } from "./features/settings";
 import { EntityCreator } from "@leanscope/ecs-engine";
-import { IdentifierFacet, OrderFacet, Tags } from "@leanscope/ecs-models";
+import { IdentifierFacet } from "@leanscope/ecs-models";
 import { TitleFacet } from "./app/AdditionalFacets";
-
 import { v4 } from "uuid";
+import { formatNavLinkAsPath } from "./utils/formatNavLinkAsPath";
 
 function App() {
   const { session } = useUserData();

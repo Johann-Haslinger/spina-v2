@@ -5,7 +5,7 @@ import tw from "twin.macro";
 import { COLOR_ITEMS, COLORS, NAV_LINKS } from "../../base/constants";
 import NavigationLinkIcon from "./NavigationLinkIcon";
 import { NavigationLinks } from "../../base/enums";
-import { ViSpina } from "../../assets/icons";
+import { ViSpina, ViSpinaColored } from "../../assets/icons";
 import { NavLink, useLocation } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { useWindowDimensions } from "../../hooks/useWindowDimensions";
@@ -17,6 +17,7 @@ import {
   IoSettingsOutline,
 } from "react-icons/io5";
 import { useUserData } from "../../hooks/useUserData";
+import { useSelectedTheme } from "../../features/collection/hooks/useSelectedTheme";
 
 const StyledSettingsMenuWrapper = styled.div`
   ${tw` px-2 py-2 dark:text-primaryTextDark w-56 h-52 bg-secondery  bg-opacity-95 backdrop-blur-xl dark:bg-primaryDark rounded-lg`}
@@ -195,7 +196,7 @@ const SidebarLink = (props: {
 };
 
 const StyledSpinaIcon = styled.div`
-  ${tw`w-5 h-5  hover:scale-100 transition-all  mb-12 ml-2.5 scale-90`}
+  ${tw`w-5 h-5 hover:scale-90 transition-all  mb-12 ml-2.5 scale-75`}
 `;
 const StyledSidebarWrapper = styled.div<{ isFullWidth: boolean }>`
   ${tw`h-full  pt-6 bg-white dark:bg-seconderyDark  transition-all  px-2 rounded-xl backdrop-blur-2xl bg-opacity-95  `}
@@ -203,7 +204,8 @@ const StyledSidebarWrapper = styled.div<{ isFullWidth: boolean }>`
 
 const Sidebar = () => {
   const { isSidebarVisible, toggleSidebar } = useAppState();
-  const { width } = useWindowDimensions();
+  const {isDarkMode}  = useSelectedTheme();
+   const { width } = useWindowDimensions();
   const [isHoverd, setIsHoverd] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const isMobile = width < 1280;
@@ -253,7 +255,7 @@ const Sidebar = () => {
     >
       <StyledSidebarWrapper isFullWidth={isFullWidth}>
         <StyledSpinaIcon>
-          <ViSpina />
+         {isDarkMode ? <ViSpinaColored /> : <ViSpina />}
         </StyledSpinaIcon>
 
         {NAV_LINKS.map((navLink, idx) => (
