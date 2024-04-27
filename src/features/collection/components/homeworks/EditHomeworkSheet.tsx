@@ -15,7 +15,7 @@ import {
   DateInput,
 } from "../../../../components";
 import { useSelectedHomework } from "../../hooks/useSelectedHomework";
-import supabase from "../../../../lib/supabase";
+import supabaseClient from "../../../../lib/supabase";
 import { displayButtonTexts } from "../../../../utils/selectDisplayText";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 
@@ -47,7 +47,7 @@ const EditHomeworkSheet = () => {
       selectedHomeworkEntity?.add(new TitleFacet({ title: newTitle }));
       selectedHomeworkEntity?.add(new DueDateFacet({ dueDate: newDueDate }));
 
-      const { error } = await supabase
+      const { error } = await supabaseClient
         .from("homeworks")
         .update({
           title: newTitle,

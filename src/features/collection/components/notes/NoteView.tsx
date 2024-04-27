@@ -1,6 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
+  ActionRow,
   BackButton,
+  NavBarButton,
   NavigationBar,
   Spacer,
   TextEditor,
@@ -11,20 +13,34 @@ import { useSelectedTopic } from "../../hooks/useSelectedTopic";
 import { TitleProps } from "../../../../app/AdditionalFacets";
 import { EntityProps } from "@leanscope/ecs-engine";
 import { IdentifierProps, TextProps } from "@leanscope/ecs-models";
-import { AdditionalTags } from "../../../../base/enums";
+import { AdditionalTags, Stories } from "../../../../base/enums";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 import LoadNoteTextSystem from "../../systems/LoadNoteTextSystem";
-import supabase from "../../../../lib/supabase";
+import supabaseClient from "../../../../lib/supabase";
+import {
+  IoEllipsisHorizontalCircleOutline,
+  IoTrashOutline,
+} from "react-icons/io5";
+import { displayActionTexts } from "../../../../utils/selectDisplayText";
+import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
+import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import DeleteNoteAlert from "./DeleteNoteAlert";
 
-const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps) => {
+const NoteView = (
+  props: TitleProps & IdentifierProps & EntityProps & TextProps
+) => {
+  const lsc = useContext(LeanScopeClientContext);
   const { title, entity, text, guid } = props;
   const { selectedTopicTitle } = useSelectedTopic();
+  const { selectedLanguage } = useSelectedLanguage();
   const isVisible = useIsViewVisible(entity);
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
+  const openDeleteAlert = () =>
+    lsc.stories.transitTo(Stories.DELETE_NOTE_STORY);
 
   const handleTextBlur = async (value: string) => {
-    const { error } = await supabase
+    const { error } = await supabaseClient
       .from("notes")
       .update({ text: value })
       .eq("id", guid);
@@ -39,14 +55,34 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
       <LoadNoteTextSystem mockupData />
 
       <View visibe={isVisible}>
-        <NavigationBar></NavigationBar>
+        <NavigationBar>
+          <NavBarButton
+            content={
+              <>
+                <ActionRow
+                  isFirst
+                  isLast
+                  destructive
+                  onClick={openDeleteAlert}
+                  icon={<IoTrashOutline />}
+                >
+                  {displayActionTexts(selectedLanguage).delete}
+                </ActionRow>
+              </>
+            }
+          >
+            <IoEllipsisHorizontalCircleOutline />
+          </NavBarButton>
+        </NavigationBar>
         <BackButton navigateBack={navigateBack}>
           {selectedTopicTitle}
         </BackButton>
         <Title>{title}</Title>
-        <Spacer  />
+        <Spacer />
         <TextEditor onBlur={handleTextBlur} value={text} />
       </View>
+
+      <DeleteNoteAlert />
     </>
   );
 };

@@ -22,7 +22,7 @@ import { Entity } from "@leanscope/ecs-engine";
 import { v4 } from "uuid";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useUserData } from "../../../hooks/useUserData";
-import supabase from "../../../lib/supabase";
+import supabaseClient from "../../../lib/supabase";
 
 const AddHomeworkSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -61,7 +61,7 @@ const AddHomeworkSheet = () => {
     newHomeworkEntity.add(new StatusFacet({ status: 1 }));
     newHomeworkEntity.add(DataTypes.HOMEWORK);
 
-    const { error } = await supabase.from("homeworks").insert([
+    const { error } = await supabaseClient.from("homeworks").insert([
       {
         id: id,
         user_id: userId,

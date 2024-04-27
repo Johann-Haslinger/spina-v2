@@ -8,11 +8,11 @@ import { useContext, useEffect } from "react";
 import { DateAddedFacet, TitleFacet } from "../../../app/AdditionalFacets";
 import { dummyNotes } from "../../../base/dummy";
 import { DataTypes } from "../../../base/enums";
-import supabase from "../../../lib/supabase";
+import supabaseClient from "../../../lib/supabase";
 import { useSelectedTopic } from "../hooks/useSelectedTopic";
 
 const fetchNotesForTopic = async (topicId: string) => {
-  const { data: notes, error } = await supabase
+  const { data: notes, error } = await supabaseClient
     .from("notes")
     .select("title, id, date_added")
     .eq("parentId", topicId);

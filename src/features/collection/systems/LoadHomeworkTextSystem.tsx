@@ -7,10 +7,10 @@ import {
 import {  useEffect } from "react";
 import { dummyText } from "../../../base/dummy";
 import { DataTypes } from "../../../base/enums";
-import supabase from "../../../lib/supabase";
+import supabaseClient from "../../../lib/supabase";
 
 const fetchHomeworkText = async (homeworkId: string) => {
-  const { data: text, error } = await supabase
+  const { data: text, error } = await supabaseClient
     .from("homeworks")
     .select("text")
     .eq("id", homeworkId)

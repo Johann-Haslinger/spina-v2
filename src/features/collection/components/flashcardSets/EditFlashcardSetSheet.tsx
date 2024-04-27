@@ -14,7 +14,7 @@ import { Stories } from "../../../../base/enums";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useSelectedFlashcardSet } from "../../hooks/useSelectedFlashcardSet";
 import { TitleFacet } from "../../../../app/AdditionalFacets";
-import supabase from "../../../../lib/supabase";
+import supabaseClient from "../../../../lib/supabase";
 import { displayButtonTexts } from "../../../../utils/selectDisplayText";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 
@@ -41,7 +41,7 @@ const EditFlashcardSetSheet = () => {
       navigateBack();
       selectedFlashcardSetEntity?.add(new TitleFacet({ title: newTitle }));
 
-      const { error } = await supabase
+      const { error } = await supabaseClient
         .from("flashcardSets")
         .update({
           title: newTitle,

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react'
-import supabase from '../../../lib/supabase';
+import supabaseClient from '../../../lib/supabase';
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
@@ -10,7 +10,7 @@ import { useSelectedTopic } from '../hooks/useSelectedTopic';
 
 
 const fetchFlashcardSetsForTopic = async (topicId: string) => {
-    const { data: flashcardSets, error } = await supabase
+    const { data: flashcardSets, error } = await supabaseClient
       .from("flashcardets")
       .select("flashcardSetName, id, date_added")
       .eq("parentId", topicId);

@@ -19,7 +19,7 @@ import {
   displayActionTexts,
   displayHeaderTexts,
 } from "../../../../utils/selectDisplayText";
-import supabase from "../../../../lib/supabase";
+import supabaseClient from "../../../../lib/supabase";
 import {
   IoCreateOutline,
   IoEllipsisHorizontalCircleOutline,
@@ -41,7 +41,7 @@ const HomeworkView = (
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
 
   const handleTextChange = async (value: string) => {
-    const { error } = await supabase
+    const { error } = await supabaseClient
       .from("homeworks")
       .update({ text: value })
       .eq("id", guid);

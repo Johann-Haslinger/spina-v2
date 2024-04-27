@@ -1,5 +1,5 @@
 import  { useContext, useEffect } from "react";
-import supabase from "../../../lib/supabase";
+import supabaseClient from "../../../lib/supabase";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
 import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
@@ -18,7 +18,7 @@ const fetchHomeworks = async () => {
     new Date().getTime() - 7 * 24 * 60 * 60 * 1000
   ).toISOString();
 
-  const { data: schoolSubjects, error } = await supabase
+  const { data: schoolSubjects, error } = await supabaseClient
     .from("homeworks")
     .select("title, id, dueDate, status, parentId")
     .gte("dueDate", fourteenDaysAgo);

@@ -8,13 +8,13 @@ import {
 import { useContext, useEffect } from "react";
 import { DateAddedFacet, TitleFacet } from "../../../app/AdditionalFacets";
 import { DataTypes } from "../../../base/enums";
-import supabase from "../../../lib/supabase";
+import supabaseClient from "../../../lib/supabase";
 import { dummyTopics } from "../../../base/dummy";
 import { useSelectedSchoolSubject } from "../hooks/useSelectedSchoolSubject";
 import { useSchoolSubjectTopics } from "../hooks/useSchoolSubjectTopics";
 
 const fetchTopicsForSchoolSubject = async (subjectId: string) => {
-  const { data: topics, error } = await supabase
+  const { data: topics, error } = await supabaseClient
     .from("topics")
     .select("topicName, id, date_added, topicDescription")
     .eq("parentId", subjectId);

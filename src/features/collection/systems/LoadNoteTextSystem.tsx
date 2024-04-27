@@ -4,7 +4,7 @@ import  { useEffect } from "react";
 import { DataTypes } from "../../../base/enums";
 import { dataTypeQuery } from "../../../utils/queries";
 import { dummyText } from "../../../base/dummy";
-import supabase from "../../../lib/supabase";
+import supabaseClient from "../../../lib/supabase";
 
 const LoadNoteTextSystem = (props: { mockupData?: boolean }) => {
   const {  mockupData } = props;
@@ -21,7 +21,7 @@ const LoadNoteTextSystem = (props: { mockupData?: boolean }) => {
       if (mockupData) {
         noteText = dummyText;
       } else {
-        const { data: noteTextData, error } = await supabase
+        const { data: noteTextData, error } = await supabaseClient
           .from("notes")
           .select("text")
           .eq("id", selectedNoteId)

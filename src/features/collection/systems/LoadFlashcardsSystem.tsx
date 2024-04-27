@@ -9,11 +9,11 @@ import { useContext, useEffect } from "react";
 import { AnswerFacet, MasteryLevelFacet, QuestionFacet } from "../../../app/AdditionalFacets";
 import { dummyFlashcards } from "../../../base/dummy";
 import { DataTypes } from "../../../base/enums";
-import supabase from "../../../lib/supabase";
+import supabaseClient from "../../../lib/supabase";
 import { dataTypeQuery } from "../../../utils/queries";
 
 const fetchFlashcardsForFlashcardGroup = async (parentId: string) => {
-  const { data: flashcards, error } = await supabase
+  const { data: flashcards, error } = await supabaseClient
     .from("flashCards")
     .select("question, id, answer, difficulty")
     .eq("parentId", parentId);

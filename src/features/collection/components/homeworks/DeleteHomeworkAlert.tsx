@@ -6,7 +6,7 @@ import { Alert, AlertButton } from '../../../../components';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import { displayActionTexts } from '../../../../utils/selectDisplayText';
 import { useSelectedHomework } from '../../hooks/useSelectedHomework';
-import supabase from '../../../../lib/supabase';
+import supabaseClient from '../../../../lib/supabase';
 
 const DeleteHomeworkAlert = () => {
     const lsc = useContext(LeanScopeClientContext);
@@ -25,7 +25,7 @@ const DeleteHomeworkAlert = () => {
         if (selectedHomeworkEntity) {
           lsc.engine.removeEntity(selectedHomeworkEntity);
   
-          const { error } = await supabase
+          const { error } = await supabaseClient
             .from("homeworks")
             .delete()
             .eq("id", selectedHomeworkId);

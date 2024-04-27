@@ -4,7 +4,7 @@ import { AdditionalTags, Stories } from "../../../../base/enums";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useSelectedFlashcardSet } from "../../hooks/useSelectedFlashcardSet";
-import supabase from "../../../../lib/supabase";
+import supabaseClient from "../../../../lib/supabase";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { displayActionTexts } from "../../../../utils/selectDisplayText";
 
@@ -25,7 +25,7 @@ const DeleteFlashcardSetAlert = () => {
       if (selectedFlashcardSetEntity) {
         lsc.engine.removeEntity(selectedFlashcardSetEntity);
 
-        const { error } = await supabase
+        const { error } = await supabaseClient
           .from("flashcardSets")
           .delete()
           .eq("id", selectedFlashcardSetId);

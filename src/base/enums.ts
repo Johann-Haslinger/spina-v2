@@ -18,6 +18,7 @@ export enum Stories {
 
   DELETE_FLASHCARD_SET_STORY = "deleteFlashcardSetStory",
   DELETE_HOMEWORK_STORY = "deleteHomeworkStory",
+  DELETE_NOTE_STORY = "deleteNoteStory",
 }
 
 export enum AdditionalTags {

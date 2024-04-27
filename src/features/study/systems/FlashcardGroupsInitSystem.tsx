@@ -6,11 +6,11 @@ import { DateAddedFacet, TitleFacet } from "../../../app/AdditionalFacets";
 import { dummyFlashcardSets, dummySchoolSubjects } from "../../../base/dummy";
 import { DataTypes } from "../../../base/enums";
 import { dataTypeQuery } from "../../../utils/queries";
-import supabase from "../../../lib/supabase";
+import supabaseClient from "../../../lib/supabase";
 
 
 const fetchFlashcardSets = async () => {
-  const { data: flashcardSets, error } = await supabase.from("flashcardSets").select("flashcardSetName, id, date_added");
+  const { data: flashcardSets, error } = await supabaseClient.from("flashcardSets").select("flashcardSetName, id, date_added");
 
   if (error) {
     console.error("Error fetching flashcardSets:", error);

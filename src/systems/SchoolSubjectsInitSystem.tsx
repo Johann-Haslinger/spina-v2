@@ -1,6 +1,6 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useContext, useEffect } from "react";
-import supabase from "../lib/supabase";
+import supabaseClient from "../lib/supabase";
 import { Entity } from "@leanscope/ecs-engine";
 import { TitleFacet } from "../app/AdditionalFacets";
 import { IdentifierFacet, OrderFacet } from "@leanscope/ecs-models";
@@ -9,7 +9,7 @@ import { dummySchoolSubjects } from "../base/dummy";
 import { dataTypeQuery } from "../utils/queries";
 
 const fetchSchoolSubjects = async () => {
-  const { data: schoolSubjects, error } = await supabase.from("subjects").select("name, id");
+  const { data: schoolSubjects, error } = await supabaseClient.from("subjects").select("name, id");
 
   if (error) {
     console.error("Error fetching school subjects:", error);

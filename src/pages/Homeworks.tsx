@@ -27,7 +27,7 @@ import {
 import { DueDateFacet, TitleFacet } from "../app/AdditionalFacets";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { sortEntitiesByDueDate } from "../utils/sortEntitiesByTime";
-import supabase from "../lib/supabase";
+import supabaseClient from "../lib/supabase";
 import { HomeworkView } from "../features/collection";
 
 const Homeworks = (props: { mockup?: boolean }) => {
@@ -40,7 +40,7 @@ const Homeworks = (props: { mockup?: boolean }) => {
 
   const updateHomeworkStatus = async (homework: Entity, status: number) => {
     const homeworkId = homework.get(IdentifierFacet)?.props.guid;
-    const { error } = await supabase
+    const { error } = await supabaseClient
       .from("homeworks")
       .update({ status })
       .eq("id", homeworkId);

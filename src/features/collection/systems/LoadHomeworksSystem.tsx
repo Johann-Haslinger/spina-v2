@@ -1,5 +1,5 @@
 import { useContext, useEffect } from "react";
-import supabase from "../../../lib/supabase";
+import supabaseClient from "../../../lib/supabase";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
 import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
@@ -9,7 +9,7 @@ import { DataTypes } from "../../../base/enums";
 import { useSelectedTopic } from "../hooks/useSelectedTopic";
 
 const fetchHomeworksForTopic = async (topicId: string) => {
-  const { data: homeworks, error } = await supabase
+  const { data: homeworks, error } = await supabaseClient
     .from("homeworks")
     .select("title, id, createdAt, dueDate")
     .eq("parentId", topicId);

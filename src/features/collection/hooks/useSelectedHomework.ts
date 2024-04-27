@@ -15,7 +15,6 @@ export const useSelectedHomework = () => {
   const selectedHomeworkDueDate =
     selectedHomeworkEntity?.get(DueDateFacet)?.props.dueDate;
 
-    console.log("selectedHomeworkEntity",selectedHomeworkTitle, selectedHomeworkDueDate);
   return {
     selectedHomeworkEntity,
     selectedHomeworkTitle,

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import supabase from "../lib/supabase";
+import supabaseClient from "../lib/supabase";
 
 export const useUserData = () => {
   const [userId, setUserId] = useState<string>();
@@ -8,8 +8,8 @@ export const useUserData = () => {
 
   useEffect(() => {
     const fetchUserData = async () => {
-      const user = await supabase.auth.getUser();
-      const session = await supabase.auth.getSession();
+      const user = await supabaseClient.auth.getUser();
+      const session = await supabaseClient.auth.getSession();
       const userEmail = user.data.user?.email;
       const userId = user.data.user?.id;
       setUserEmail(userEmail);
@@ -17,7 +17,7 @@ export const useUserData = () => {
       setSession(session.data.session);
     };
 
-    supabase?.auth.onAuthStateChange((_event, session) => {
+    supabaseClient?.auth.onAuthStateChange((_event, session) => {
       setSession(session);
     });
 
@@ -25,7 +25,7 @@ export const useUserData = () => {
   }, []);
 
   const signOut = async () => {
-    await supabase.auth.signOut();
+    await supabaseClient.auth.signOut();
     window.location.reload();
   };
 
