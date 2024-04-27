@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import tw from "twin.macro";
 
 const StyledNoteCellWrapper = styled.div`
-  ${tw`pb-2  `}
+  ${tw`pb-4 min-h-48 `}
 `;
 
 const StyledNoteCellContainer = styled.div`

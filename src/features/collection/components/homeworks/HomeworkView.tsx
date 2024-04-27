@@ -58,7 +58,7 @@ const HomeworkView = (
 
   return (
     <>
-      <LoadHomeworkTextSystem mockupData />
+      <LoadHomeworkTextSystem  />
 
       <View visibe={isVisible}>
         <NavigationBar>

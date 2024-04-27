@@ -12,6 +12,7 @@ import supabaseClient from "../../../lib/supabase";
 import { dummyTopics } from "../../../base/dummy";
 import { useSelectedSchoolSubject } from "../hooks/useSelectedSchoolSubject";
 import { useSchoolSubjectTopics } from "../hooks/useSchoolSubjectTopics";
+import { useMockupData } from "../../../hooks/useMockupData";
 
 const fetchTopicsForSchoolSubject = async (subjectId: string) => {
   const { data: topics, error } = await supabaseClient
@@ -27,8 +28,8 @@ const fetchTopicsForSchoolSubject = async (subjectId: string) => {
   return topics || [];
 };
 
-const LoadTopicsSystem = (props: { mockupData?: boolean }) => {
-  const { mockupData } = props;
+const LoadTopicsSystem = () => {
+  const { mockupData } = useMockupData();
   const lsc = useContext(LeanScopeClientContext);
   const { selectedSchoolSubjectEntity, selectedSchoolSubjectId } = useSelectedSchoolSubject();
   const { hasTopics } = useSchoolSubjectTopics(selectedSchoolSubjectEntity);

@@ -10,6 +10,7 @@ import { dummyNotes } from "../../../base/dummy";
 import { DataTypes } from "../../../base/enums";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedTopic } from "../hooks/useSelectedTopic";
+import { useMockupData } from "../../../hooks/useMockupData";
 
 const fetchNotesForTopic = async (topicId: string) => {
   const { data: notes, error } = await supabaseClient
@@ -25,8 +26,8 @@ const fetchNotesForTopic = async (topicId: string) => {
   return notes || [];
 };
 
-const LoadNotesSystem = (props: { mockupData?: boolean }) => {
-  const { mockupData } = props;
+const LoadNotesSystem = () => {
+  const { mockupData } =useMockupData();
   const lsc = useContext(LeanScopeClientContext);
   const { selectedTopicId } = useSelectedTopic();
 

@@ -12,11 +12,13 @@ import SchoolSubjectsInitSystem from "../../../systems/SchoolSubjectsInitSystem"
 import StoriesInitSystem from "../../../systems/StoriesInitSystem";
 import ViewManagerSystem from "../../../systems/ViewManagerSystem";
 import LoadTopicsSystem from "../systems/LoadTopicsSystem";
+import AppInitSystem from "../../../systems/AppInitSystem";
 
 const ObservingTopicStory = () => {
   return (
     <React.StrictMode>
       <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
+      <AppInitSystem mockupData />
         <EntityCreator
           facets={[
             new TitleFacet({ title: "Sinus" }),
@@ -40,8 +42,8 @@ const ObservingTopicStory = () => {
         <StoriesInitSystem
           initialStory={Stories.OBSERVING_SCHOOL_SUBJECT_STORY}
         />
-        <SchoolSubjectsInitSystem mockupData />
-        <LoadTopicsSystem mockupData />
+        <SchoolSubjectsInitSystem  />
+        <LoadTopicsSystem  />
 
         <Collection />
       </LeanScopeClientApp>

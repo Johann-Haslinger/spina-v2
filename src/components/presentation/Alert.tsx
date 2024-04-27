@@ -2,9 +2,10 @@ import styled from "@emotion/styled/macro";
 import { motion } from "framer-motion";
 import { PropsWithChildren, useEffect, useRef, useState } from "react";
 import tw from "twin.macro";
+import { useSelectedTheme } from "../../features/collection/hooks/useSelectedTheme";
 
 const StyledAlertWrapper = styled.div`
-  ${tw`bg-white text-black w-10/12 md:w-64 mx-auto mt-72  backdrop-blur-lg bg-opacity-90 rounded-lg `}
+  ${tw`bg-white dark:bg-seconderyDark overflow-hidden  text-primatyText dark:text-primaryTextDark w-10/12 md:w-64 mx-auto mt-72  backdrop-blur-lg bg-opacity-90 rounded-lg `}
 `;
 
 const StyledAlertTitle = styled.div`
@@ -16,7 +17,7 @@ const StyledAlertSubTitle = styled.div`
 `;
 
 const StyledButtonWrapper = styled.div`
-  ${tw`border-[rgb(221,221,221)] border-t flex`}
+  ${tw`border-primaryBorder divide-x divide-primaryBorder dark:divide-primaryBorderDark dark:border-primaryBorderDark border-t flex`}
 `;
 
 interface AlertProps {
@@ -30,6 +31,7 @@ const Alert = (props: AlertProps & PropsWithChildren) => {
   const { visible = true, navigateBack, title, subTitle, children } = props;
   const [isAlertDisplayed, setIsAlertDisplayed] = useState(false);
   const alertRef = useRef<HTMLDivElement>(null);
+  const { isDarkMode } = useSelectedTheme();
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);
@@ -67,7 +69,11 @@ const Alert = (props: AlertProps & PropsWithChildren) => {
           position: "fixed",
         }}
         animate={{
-          backgroundColor: visible ? "#00000020" : "#0000000",
+          backgroundColor: visible
+            ? isDarkMode
+              ? "#00000080"
+              : "#00000020"
+            : "#0000000",
         }}
       >
         <motion.div

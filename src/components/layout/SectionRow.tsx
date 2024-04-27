@@ -6,7 +6,7 @@ type Type = "default" | "last";
 type Role = "default" | "destructive";
 
 const StyledSectionRowWrapper = styled.div<{ role: Role; type: Type }>`
-  ${tw`flex p-2 min-h-8 pt-0 pr-0 w-full`}
+  ${tw`flex py-1 min-h-8  pr-0 w-full`}
   ${({ role }) => role === "destructive" && tw`text-red-500`}
 `;
 

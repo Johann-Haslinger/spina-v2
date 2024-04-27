@@ -52,7 +52,7 @@ const NoteView = (
 
   return (
     <>
-      <LoadNoteTextSystem mockupData />
+      <LoadNoteTextSystem  />
 
       <View visibe={isVisible}>
         <NavigationBar>

@@ -10,8 +10,8 @@ import AppInitSystem from "../../../systems/AppInitSystem";
 import SchoolSubjectsInitSystem from "../../../systems/SchoolSubjectsInitSystem";
 import StoriesInitSystem from "../../../systems/StoriesInitSystem";
 import ViewManagerSystem from "../../../systems/ViewManagerSystem";
-import { Settings } from "../../settings";
 import Homeworks from "../../../pages/Homeworks";
+import { Settings } from "../../settings";
 
 const ObservingHomeworksStory = () => {
   return (
@@ -25,7 +25,7 @@ const ObservingHomeworksStory = () => {
           <ViewManagerSystem />
           <AppInitSystem />
 
-          <SchoolSubjectsInitSystem mockupData />
+          <SchoolSubjectsInitSystem  />
           <Homeworks mockup />
           <Sidebar />
           <Settings />

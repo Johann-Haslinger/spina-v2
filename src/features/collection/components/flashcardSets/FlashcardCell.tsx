@@ -16,10 +16,7 @@ const StyledFlashcardCellWrapper = styled.div<{
   backgroundColor: string;
   color: string;
 }>`
-  ${tw`w-full h-40  bg-tertiary rounded-lg p-3 transition-all hover:scale-105`}/* background-color: ${(
-    props
-  ) => props.backgroundColor};
-  color: ${(props) => props.color}; */
+  ${tw`w-full h-40 dark:bg-tertiaryDark text-primatyText dark:text-primaryTextDark bg-tertiary rounded-lg p-3 transition-all hover:scale-105`}
 `;
 
 const StyledTextWrapper = styled.div`
@@ -34,7 +31,7 @@ const StyledAnswerText = styled.div`
 `;
 
 const StyledProgressBarWrapper = styled.div<{ backgroundColor: string }>`
-  ${tw`flex items-center  rounded-full bg-white mt-3 `}
+  ${tw`flex items-center  rounded-full bg-secondery dark:bg-primaryDark mt-3 `}
 `;
 
 const StyledProgressBar = styled.div<{

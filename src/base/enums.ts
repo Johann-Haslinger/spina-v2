@@ -24,6 +24,7 @@ export enum Stories {
 }
 
 export enum AdditionalTags {
+  MOCKUP_DATA = "mockupData",
   NAVIGATE_BACK = "navigateBack",
   APP_STATE_ENTITY = "appStateEntity",
   SIDEBAR_VISIBLE = "sidebarVisible",

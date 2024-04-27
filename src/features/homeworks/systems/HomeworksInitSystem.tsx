@@ -12,6 +12,7 @@ import {
 import { dummyHomeworks } from "../../../base/dummy";
 import { DataTypes } from "../../../base/enums";
 import { dataTypeQuery } from "../../../utils/queries";
+import { useMockupData } from "../../../hooks/useMockupData";
 
 const fetchHomeworks = async () => {
   const fourteenDaysAgo = new Date(
@@ -31,8 +32,8 @@ const fetchHomeworks = async () => {
   return schoolSubjects || [];
 };
 
-const HomeworksInitSystem = (props: { mockupData?: boolean }) => {
-  const { mockupData } = props;
+const HomeworksInitSystem = () => {
+  const { mockupData } = useMockupData();
   const lsc = useContext(LeanScopeClientContext);
 
   useEffect(() => {

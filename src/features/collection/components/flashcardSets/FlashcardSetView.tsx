@@ -52,7 +52,7 @@ const FlashcardSetView = (
 
   return (
     <>
-      <LoadFlashcardsSystem mockupData />
+      <LoadFlashcardsSystem  />
 
       <View visibe={isVisible}>
         <NavigationBar>

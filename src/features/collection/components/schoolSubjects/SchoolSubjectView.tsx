@@ -24,7 +24,7 @@ import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { sortEntitiesByDateAdded } from "../../../../utils/sortEntitiesByTime";
 import { Tags } from "@leanscope/ecs-models";
 import TopicView from "../topics/TopicView";
-import { useSelectedTopic } from "../../hooks/useSelectedTopic";
+import LoadTopicsSystem from "../../systems/LoadTopicsSystem";
 
 const SchoolSubjectView = (props: TitleProps & EntityProps) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -40,6 +40,8 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
 
   return (
     <>
+      <LoadTopicsSystem />
+      
       <View visibe={isVisible}>
         <NavigationBar>
           <LuPlus onClick={openAddTopicSheet} />

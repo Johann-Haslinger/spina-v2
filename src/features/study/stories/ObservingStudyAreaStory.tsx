@@ -17,7 +17,7 @@ const ObservingStudyAreaStory = () => {
         <StoriesInitSystem
           initialStory={Stories.OBSERVING_COLLECTION_STORY}
         />
-        <SchoolSubjectsInitSystem mockupData />
+        <SchoolSubjectsInitSystem  />
         <Study />
       </LeanScopeClientApp>
     </React.StrictMode>

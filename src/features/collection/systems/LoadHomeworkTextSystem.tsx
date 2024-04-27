@@ -8,6 +8,7 @@ import {  useEffect } from "react";
 import { dummyText } from "../../../base/dummy";
 import { DataTypes } from "../../../base/enums";
 import supabaseClient from "../../../lib/supabase";
+import { useMockupData } from "../../../hooks/useMockupData";
 
 const fetchHomeworkText = async (homeworkId: string) => {
   const { data: text, error } = await supabaseClient
@@ -24,8 +25,8 @@ const fetchHomeworkText = async (homeworkId: string) => {
   return text.text || [];
 };
 
-const LoadHomeworkTextSystem = (props: { mockupData?: boolean }) => {
-  const { mockupData } = props;
+const LoadHomeworkTextSystem = () => {
+  const { mockupData } = useMockupData();
   const [selectedHomework] = useEntity(
     (e) => e.hasTag(DataTypes.HOMEWORK) && e.hasTag(Tags.SELECTED)
   );

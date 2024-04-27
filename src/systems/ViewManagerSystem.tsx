@@ -18,6 +18,7 @@ const ViewManagerSystem = () => {
 
     Stories.DELETE_FLASHCARD_SET_STORY,
     Stories.DELETE_HOMEWORK_STORY,
+    Stories.DELETE_NOTE_STORY,
   ]);
   const { isDarkMode } = useSelectedTheme();
   const [closingVews] = useEntities(
@@ -55,7 +56,7 @@ const ViewManagerSystem = () => {
   useEffect(() => {
     if (isSheetViewVisible) {
       if (!isDarkMode) {
-        setThemeColor("rgb(196,196,196)");
+        setThemeColor("rgb(214,214,214)");
       }
     } else {
       if (!isDarkMode) {

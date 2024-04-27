@@ -1,9 +1,12 @@
 import styled from "@emotion/styled";
-import React from "react";
 import tw from "twin.macro";
 
 const CardContainer = tw.div`
-    w-full p-0.5 flex flex-wrap rounded-lg h-32 transition-all md:hover:scale-105  bg-[rgb(234,234,234)]
+    w-full h-fit min-h-48 pb-4
+  `;
+
+const CardWrapper = tw.div`
+    w-full p-0.5 flex flex-wrap rounded-lg h-32 transition-all md:hover:scale-105 bg-tertiary dark:bg-tertiaryDark 
   `;
 
 const CardItem = tw.div`
@@ -35,8 +38,8 @@ const FlashcardSetThumbNail = (props: {
   const { color, title, onClick } = props;
 
   return (
-    <div onClick={onClick}>
-      <CardContainer>
+    <CardContainer onClick={onClick}>
+      <CardWrapper>
         {Array.from({ length: 4 }, (_, index) => index + 1).map((_, idx) => (
           <CardItem key={idx}>
             <StyledCardContent color={color}>
@@ -46,11 +49,11 @@ const FlashcardSetThumbNail = (props: {
             </StyledCardContent>
           </CardItem>
         ))}
-      </CardContainer>
+      </CardWrapper>
       <StyledCellTitle> {title || "Kein Titel"}</StyledCellTitle>
 
       <StyledResourceTypeText>Kartensatz</StyledResourceTypeText>
-    </div>
+    </CardContainer>
   );
 };
 

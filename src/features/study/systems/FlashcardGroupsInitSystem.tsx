@@ -7,6 +7,7 @@ import { dummyFlashcardSets, dummySchoolSubjects } from "../../../base/dummy";
 import { DataTypes } from "../../../base/enums";
 import { dataTypeQuery } from "../../../utils/queries";
 import supabaseClient from "../../../lib/supabase";
+import { useMockupData } from "../../../hooks/useMockupData";
 
 
 const fetchFlashcardSets = async () => {
@@ -22,8 +23,8 @@ const fetchFlashcardSets = async () => {
 
 
 
-const FlashcardGroupsInitSystem = (props: { mockupData?: boolean }) => {
-  const { mockupData } = props;
+const FlashcardGroupsInitSystem = () => {
+  const { mockupData } = useMockupData();
   const lsc = useContext(LeanScopeClientContext);
 
   useEffect(() => {

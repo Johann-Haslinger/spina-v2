@@ -7,11 +7,12 @@ import { TitleFacet, DateAddedFacet } from '../../../app/AdditionalFacets';
 import { dummyFlashcardSets, dummyNotes } from '../../../base/dummy';
 import { DataTypes } from '../../../base/enums';
 import { useSelectedTopic } from '../hooks/useSelectedTopic';
+import { useMockupData } from '../../../hooks/useMockupData';
 
 
 const fetchFlashcardSetsForTopic = async (topicId: string) => {
     const { data: flashcardSets, error } = await supabaseClient
-      .from("flashcardets")
+      .from("flashcardSets")
       .select("flashcardSetName, id, date_added")
       .eq("parentId", topicId);
   
@@ -23,8 +24,8 @@ const fetchFlashcardSetsForTopic = async (topicId: string) => {
     return flashcardSets || [];
   };
   
-  const LoadFlashcardSetsSystem = (props: { mockupData?: boolean }) => {
-    const { mockupData } = props;
+  const LoadFlashcardSetsSystem = () => {
+    const { mockupData } = useMockupData();
     const lsc = useContext(LeanScopeClientContext);
     const { selectedTopicId } = useSelectedTopic();
   

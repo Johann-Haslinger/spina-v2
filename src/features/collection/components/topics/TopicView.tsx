@@ -41,9 +41,9 @@ const TopicView = (props: TitleProps & EntityProps) => {
 
   return (
     <>
-      <LoadNotesSystem mockupData />
-      <LoadFlashcardSetsSystem mockupData />
-      <LoadHomeworksSystem mockupData />
+      <LoadNotesSystem  />
+      <LoadFlashcardSetsSystem  />
+      <LoadHomeworksSystem  />
 
       <View visibe={isVisible}>
         <NavigationBar>
@@ -66,7 +66,7 @@ const TopicView = (props: TitleProps & EntityProps) => {
             onMatch={NoteCell}
           />
         </CollectionGrid>
-        <Spacer />
+     
         <CollectionGrid>
           <EntityPropsMapper
             query={(e) =>
@@ -78,7 +78,7 @@ const TopicView = (props: TitleProps & EntityProps) => {
             onMatch={FlashcardSetCell}
           />
         </CollectionGrid>
-        <Spacer />
+      
         <CollectionGrid>
           <EntityPropsMapper
             query={(e) =>

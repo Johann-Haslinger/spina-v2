@@ -2,7 +2,7 @@ import {
   LeanScopeClientApp,
   LeanScopeClient,
 } from "@leanscope/api-client/node";
-import React, { useEffect } from "react";
+import React from "react";
 import Collection from "../../../pages/Collection";
 import SchoolSubjectsInitSystem from "../../../systems/SchoolSubjectsInitSystem";
 import ViewManagerSystem from "../../../systems/ViewManagerSystem";
@@ -12,11 +12,13 @@ import { EntityCreator } from "@leanscope/ecs-engine";
 import { DescriptionFacet, IdentifierFacet, OrderFacet, ParentFacet, Tags } from "@leanscope/ecs-models";
 import { TitleFacet } from "../../../app/AdditionalFacets";
 import LoadTopicsSystem from "../systems/LoadTopicsSystem";
+import AppInitSystem from "../../../systems/AppInitSystem";
 
 const ObservingFlashcardSetStory = () => {
 
   return (
     <React.StrictMode>
+       <AppInitSystem mockupData />
       <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
         <EntityCreator
           facets={[
@@ -50,8 +52,8 @@ const ObservingFlashcardSetStory = () => {
         <StoriesInitSystem
           initialStory={Stories.OBSERVING_SCHOOL_SUBJECT_STORY}
         />
-        <SchoolSubjectsInitSystem mockupData />
-        <LoadTopicsSystem mockupData />
+        <SchoolSubjectsInitSystem  />
+        <LoadTopicsSystem  />
 
         <Collection />
       </LeanScopeClientApp>

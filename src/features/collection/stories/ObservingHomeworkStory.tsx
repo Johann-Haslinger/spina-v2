@@ -12,11 +12,13 @@ import { EntityCreator } from "@leanscope/ecs-engine";
 import { DescriptionFacet, IdentifierFacet, OrderFacet, ParentFacet, Tags } from "@leanscope/ecs-models";
 import { DueDateFacet, TitleFacet } from "../../../app/AdditionalFacets";
 import LoadTopicsSystem from "../systems/LoadTopicsSystem";
+import AppInitSystem from "../../../systems/AppInitSystem";
 
 const ObservingHomeworkStory = () => {
 
   return (
     <React.StrictMode>
+       <AppInitSystem mockupData />
       <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
         <EntityCreator
           facets={[
@@ -51,8 +53,8 @@ const ObservingHomeworkStory = () => {
         <StoriesInitSystem
           initialStory={Stories.OBSERVING_SCHOOL_SUBJECT_STORY}
         />
-        <SchoolSubjectsInitSystem mockupData />
-        <LoadTopicsSystem mockupData />
+        <SchoolSubjectsInitSystem  />
+        <LoadTopicsSystem  />
 
         <Collection />
       </LeanScopeClientApp>

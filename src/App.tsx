@@ -23,7 +23,7 @@ function App() {
       <StoriesInitSystem initialStory={Stories.OBSERVING_COLLECTION_STORY} />
       <AppInitSystem />
       <ViewManagerSystem />
-      <LoadTopicsSystem />
+  
       <SchoolSubjectsInitSystem />
 
       <BrowserRouter>

@@ -12,6 +12,7 @@ import { TitleFacet } from "../../../app/AdditionalFacets";
 import Collection from "../../../pages/Collection";
 import SchoolSubjectsInitSystem from "../../../systems/SchoolSubjectsInitSystem";
 import StoriesInitSystem from "../../../systems/StoriesInitSystem";
+import AppInitSystem from "../../../systems/AppInitSystem";
 
 const ObservingSchoolSubjectStory = () => {
 
@@ -19,7 +20,7 @@ const ObservingSchoolSubjectStory = () => {
   return (
     <React.StrictMode>
       <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
-
+      <AppInitSystem mockupData />
         <EntityCreator
           facets={[
             new TitleFacet({ title: "Mathematik" }),
@@ -31,8 +32,8 @@ const ObservingSchoolSubjectStory = () => {
 
         <ViewManagerSystem />
         <StoriesInitSystem initialStory={Stories.OBSERVING_SCHOOL_SUBJECT_STORY} />
-        <SchoolSubjectsInitSystem mockupData />
-        <LoadTopicsSystem mockupData />
+        <SchoolSubjectsInitSystem  />
+        <LoadTopicsSystem  />
 
         <Collection />
       </LeanScopeClientApp>

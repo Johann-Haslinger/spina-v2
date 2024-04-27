@@ -51,7 +51,7 @@ const Homeworks = (props: { mockup?: boolean }) => {
 
   return (
     <>
-      <HomeworksInitSystem mockupData={mockup} />
+      <HomeworksInitSystem  />
 
       <View reducePaddingX viewType="baseView">
         <NavigationBar>

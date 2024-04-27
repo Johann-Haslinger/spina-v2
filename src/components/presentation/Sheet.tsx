@@ -53,11 +53,10 @@ const Sheet = (props: PropsWithChildren & SheetProps) => {
       <>
         <motion.div
           initial={{
-            opacity: 0,
-            backgroundColor: "black",
+            backgroundColor: "#0000010",
           }}
           animate={{
-            opacity: !isDarkMode && visible ? 0.2 : 0,
+            backgroundColor: visible ? isDarkMode ? "#00000080":  "#00000020" : "#0000000",
           }}
           style={{
             position: "fixed",

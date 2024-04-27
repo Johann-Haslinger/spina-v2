@@ -5,14 +5,14 @@ import { DataTypes } from "../../../base/enums";
 import { dataTypeQuery } from "../../../utils/queries";
 import { dummyText } from "../../../base/dummy";
 import supabaseClient from "../../../lib/supabase";
+import { useMockupData } from "../../../hooks/useMockupData";
 
-const LoadNoteTextSystem = (props: { mockupData?: boolean }) => {
-  const {  mockupData } = props;
+const LoadNoteTextSystem = () => {
+  const {  mockupData } = useMockupData();
   const [selectedNoteEntity] = useEntity(
     (e) => e.has(Tags.SELECTED) && dataTypeQuery(e, DataTypes.NOTE)
   );
  
-  const selectedNoteText = selectedNoteEntity?.get(TextFacet) 
   const selectedNoteId = selectedNoteEntity?.get(IdentifierFacet)?.props.guid;
 
   useEffect(() => {
@@ -37,7 +37,7 @@ const LoadNoteTextSystem = (props: { mockupData?: boolean }) => {
       selectedNoteEntity?.add(new TextFacet({ text: noteText }));
     };
 
-    if (selectedNoteEntity && !selectedNoteText) {
+    if (selectedNoteEntity) {
       loadNoteText();
     }
   }, [selectedNoteEntity]);

@@ -7,6 +7,7 @@ import { TitleFacet, DateAddedFacet, DueDateFacet } from "../../../app/Additiona
 import { dummyHomeworks } from "../../../base/dummy";
 import { DataTypes } from "../../../base/enums";
 import { useSelectedTopic } from "../hooks/useSelectedTopic";
+import { useMockupData } from "../../../hooks/useMockupData";
 
 const fetchHomeworksForTopic = async (topicId: string) => {
   const { data: homeworks, error } = await supabaseClient
@@ -22,8 +23,8 @@ const fetchHomeworksForTopic = async (topicId: string) => {
   return homeworks || [];
 };
 
-const LoadHomeworksSystem = (props: { mockupData?: boolean }) => {
-  const { mockupData } = props;
+const LoadHomeworksSystem = () => {
+  const { mockupData } = useMockupData();
   const lsc = useContext(LeanScopeClientContext);
   const { selectedTopicId } = useSelectedTopic();
 
