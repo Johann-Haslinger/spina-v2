@@ -33,7 +33,7 @@ const SectionRow = (props: PropsWithChildren & SectionRowProps) => {
 
   return (
     <StyledSectionRowWrapper onClick={onClick} type={type} role={role}>
-      {icon && <StyledIconWrapper role="destructive">{icon}</StyledIconWrapper>}
+      {icon && <StyledIconWrapper role={role}>{icon}</StyledIconWrapper>}
       <StyledSectionRowContent type={type}>{children}</StyledSectionRowContent>
     </StyledSectionRowWrapper>
   );

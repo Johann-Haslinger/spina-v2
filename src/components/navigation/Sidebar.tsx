@@ -20,7 +20,7 @@ import { useUserData } from "../../hooks/useUserData";
 import { useSelectedTheme } from "../../features/collection/hooks/useSelectedTheme";
 
 const StyledSettingsMenuWrapper = styled.div`
-  ${tw` px-2 py-2 dark:text-primaryTextDark w-56 h-52 bg-secondery  bg-opacity-95 backdrop-blur-xl dark:bg-primaryDark rounded-lg`}
+  ${tw` px-2 py-2 dark:text-primaryTextDark w-56 h-52 bg-secondery  bg-opacity-95 backdrop-blur-xl dark:bg-tertiaryDark rounded-lg`}
 `;
 
 const StyledEmailText = styled.div`
@@ -44,8 +44,8 @@ const StyledSettingsDivider = styled.div`
   ${tw`w-full h-0.5 dark:border-primaryBorderDark border-primaryBorder border-b `}
 `;
 const StyledSettingsWrapper = styled.div<{ isHoverd: boolean }>`
-  ${tw`flex w-[226px] cursor-pointer  hover:bg-primary dark:hover:bg-black   mx-1 absolute bottom-0 my-2 dark:text-white  overflow-hidden py-1 transition-all  rounded-xl space-x-4 items-center`}
-  ${({ isHoverd }) => isHoverd && tw`xl:bg-primary xl:dark:bg-black`}
+  ${tw`flex w-[226px] cursor-pointer  hover:bg-primary dark:hover:bg-tertiaryDark   mx-1 absolute bottom-0 my-2 dark:text-white  overflow-hidden py-1 transition-all  rounded-xl space-x-4 items-center`}
+  ${({ isHoverd }) => isHoverd && tw`xl:bg-primary xl:dark:bg-tertiaryDark`}
 `;
 
 const StyledProfileIcon = styled.div<{
@@ -157,7 +157,7 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
 };
 
 const StyledSidebarLinkWrapper = styled.div<{ isCurrent: boolean }>`
-  ${tw`flex my-1.5 dark:text-white hover:bg-secondery dark:hover:bg-black overflow-hidden py-3 transition-all px-2 rounded-lg space-x-4 items-center`}
+  ${tw`flex my-1.5 dark:text-white hover:bg-secondery dark:hover:bg-tertiaryDark overflow-hidden py-3 transition-all px-2 rounded-lg space-x-4 items-center`}
   ${({ isCurrent }) => isCurrent && tw``}
 `;
 const StyledNavLinkIcon = styled.div<{ color: string }>`

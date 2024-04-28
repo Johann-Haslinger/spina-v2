@@ -10,8 +10,8 @@ module.exports = {
     fontFamily: {},
     extend: {
       colors: {
-        // primaryColor:"#0B86D1",
-        primaryColor:"#000000",
+        primaryColor:"#0B86D1",
+        // primaryColor:"#000000",
         primary: "#000000",
         primatyText: "#1E1E1E",
         primaryTextDark: "#ffffff",
@@ -27,7 +27,7 @@ module.exports = {
         secondery: "#F6F6F6",
         seconderyDark: "#141414",
         tertiary: "rgb(234,234,234)",
-        tertiaryDark: "#141414",
+        tertiaryDark: "#1a1a1a",
       
       },
       borderColor: {

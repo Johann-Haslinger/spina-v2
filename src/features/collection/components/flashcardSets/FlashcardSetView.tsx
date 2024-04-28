@@ -5,6 +5,7 @@ import {
   CollectionGrid,
   NavBarButton,
   NavigationBar,
+  NoContentAddedHint,
   Spacer,
   Title,
   View,
@@ -25,6 +26,7 @@ import FlashcardCell from "./FlashcardCell";
 import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import {
+  IoAdd,
   IoCreateOutline,
   IoEllipsisHorizontalCircleOutline,
   IoTrashOutline,
@@ -34,6 +36,8 @@ import DeleteFlashcardSetAlert from "./DeleteFlashcardSetAlert";
 import { displayActionTexts } from "../../../../utils/selectDisplayText";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import EditFlashcardSheet from "./EditFlashcardSheet";
+import AddFlashcardsSheet from "./AddFlashcardsSheet";
+import { useEntityHasChildren } from "../../hooks/useEntityHasChildren";
 
 const FlashcardSetView = (
   props: TitleProps & EntityProps & IdentifierProps
@@ -43,6 +47,7 @@ const FlashcardSetView = (
   const isVisible = useIsViewVisible(entity);
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedTopicTitle } = useSelectedTopic();
+  const { hasChildren } = useEntityHasChildren(entity);
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
   const openEditFlashcardSetSheet = () =>
@@ -50,6 +55,8 @@ const FlashcardSetView = (
 
   const openDeleteFlashcardSetAlert = () =>
     lsc.stories.transitTo(Stories.DELETE_FLASHCARD_SET_STORY);
+  const openAddFlashcardsSheet = () =>
+    lsc.stories.transitTo(Stories.ADD_FLASHCARDS_STORY);
 
   return (
     <>
@@ -57,6 +64,9 @@ const FlashcardSetView = (
 
       <View visibe={isVisible}>
         <NavigationBar>
+          <NavBarButton onClick={openAddFlashcardsSheet}>
+            <IoAdd />
+          </NavBarButton>
           <NavBarButton
             content={
               <>
@@ -87,6 +97,7 @@ const FlashcardSetView = (
         </BackButton>
         <Title>{title}</Title>
         <Spacer size={8} />
+        {!hasChildren&& <NoContentAddedHint />}
         <CollectionGrid columnSize="large">
           <EntityPropsMapper
             query={(e) =>
@@ -111,6 +122,7 @@ const FlashcardSetView = (
 
       <EditFlashcardSetSheet />
       <DeleteFlashcardSetAlert />
+      <AddFlashcardsSheet />
     </>
   );
 };

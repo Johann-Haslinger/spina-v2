@@ -13,6 +13,7 @@ export enum Stories {
   ADD_HOMEWORK_STORY = "addHomeworkStory",
   ADD_FLASHCARD_GROUP_STORY = "addFlashcardGroupStory",
   ADD_RESOURCE_TO_TOPIC_STORY = "addResourceToTopicStory",
+  ADD_FLASHCARDS_STORY = "addFlashcardsStory",
 
 
   EDIT_FLASHCARD_STORY = "editFlashcardStory",

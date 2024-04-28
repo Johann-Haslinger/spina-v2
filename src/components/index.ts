@@ -26,6 +26,7 @@ export { default as FlexBox } from "./layout/FlexBox";
 export { default as ActionRow } from "./layout/ActionRow";
 export { default as Section } from "./layout/Section";
 export { default as SectionRow } from "./layout/SectionRow";
+export { default as ScrollableBox } from "./layout/ScrollableBox";
 
 
 // ----Navigation----
