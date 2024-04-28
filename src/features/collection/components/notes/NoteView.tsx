@@ -10,7 +10,7 @@ import {
   View,
 } from "../../../../components";
 import { useSelectedTopic } from "../../hooks/useSelectedTopic";
-import { TitleProps } from "../../../../app/AdditionalFacets";
+import { TitleFacet, TitleProps } from "../../../../app/AdditionalFacets";
 import { EntityProps } from "@leanscope/ecs-engine";
 import { IdentifierProps, TextProps } from "@leanscope/ecs-models";
 import { AdditionalTags, Stories } from "../../../../base/enums";
@@ -50,14 +50,24 @@ const NoteView = (
     }
   };
 
+  const handleTitleBlur = async (value: string) => {
+    entity.add(new TitleFacet({ title: value }));
+    const { error } = await supabaseClient
+      .from("notes")
+      .update({ title: value })
+      .eq("id", guid);
+
+    if (error) {
+      console.error("Error updating note title", error);
+    }
+  };
+
   return (
     <>
       <LoadNoteTextSystem />
 
       <View visibe={isVisible}>
-        <NavigationBar
-       
-        >
+        <NavigationBar>
           <NavBarButton
             content={
               <>
@@ -79,7 +89,9 @@ const NoteView = (
         <BackButton navigateBack={navigateBack}>
           {selectedTopicTitle}
         </BackButton>
-        <Title>{title}</Title>
+        <Title onBlur={handleTitleBlur} editable>
+          {title}
+        </Title>
         <Spacer />
         <TextEditor onBlur={handleTextBlur} value={text} />
       </View>

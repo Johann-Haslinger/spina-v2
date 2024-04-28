@@ -8,11 +8,12 @@ export enum Stories {
   OBSERVING_HOMEWORKS_STORY = "observingHomeworksStory",
   OBSERVING_NOTE_STORY = "observingNoteStory",
 
-
+  ADD_FLASHCARD_SET_STORY = "addFlashcardSetStory",
   ADD_TOPIC_STORY = "addTopicStory",
   ADD_HOMEWORK_STORY = "addHomeworkStory",
   ADD_FLASHCARD_GROUP_STORY = "addFlashcardGroupStory",
   ADD_RESOURCE_TO_TOPIC_STORY = "addResourceToTopicStory",
+
 
   EDIT_FLASHCARD_STORY = "editFlashcardStory",
   EDIT_FLASHCARD_SET_STORY = "editFlashcardSetStory",

@@ -64,7 +64,7 @@ const EditHomeworkSheet = () => {
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>
       <FlexBox>
-        <CancelButton>
+        <CancelButton onClick={navigateBack}>
           {displayButtonTexts(selectedLanguage).cancel}
         </CancelButton>
         {(newTitle !== selectedHomeworkTitle ||

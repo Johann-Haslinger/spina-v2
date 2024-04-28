@@ -14,7 +14,6 @@ import HomeworksInitSystem from "../features/homeworks/systems/HomeworksInitSyst
 import { dataTypeQuery } from "../utils/queries";
 import { DataTypes, Stories } from "../base/enums";
 import {
-  AddHomeworkSheet,
   HomeworkKanbanCell,
 } from "../features/homeworks";
 import { Entity, EntityPropsMapper } from "@leanscope/ecs-engine";
@@ -28,7 +27,7 @@ import { DueDateFacet, TitleFacet } from "../app/AdditionalFacets";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { sortEntitiesByDueDate } from "../utils/sortEntitiesByTime";
 import supabaseClient from "../lib/supabase";
-import { HomeworkView } from "../features/collection";
+import { AddHomeworkSheet, HomeworkView } from "../features/collection";
 
 const Homeworks = (props: { mockup?: boolean }) => {
   const lsc = useContext(LeanScopeClientContext);

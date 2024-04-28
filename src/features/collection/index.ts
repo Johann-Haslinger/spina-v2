@@ -5,4 +5,6 @@ export { default as FlashcardCell } from "./components/flashcardSets/FlashcardCe
 export { default as FlashcardSetView } from "./components/flashcardSets/FlashcardSetView";
 export { default as HomeworkView } from "./components/homeworks/HomeworkView";
 
+export {default as AddHomeworkSheet} from "./components/homeworks/AddHomeworkSheet";
+
 export { default as LoadHomeworkTextSystem } from "./systems/LoadHomeworkTextSystem";

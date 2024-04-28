@@ -50,6 +50,9 @@ import { displayActionTexts } from "../../../../utils/selectDisplayText";
 import DeleteTopicAlert from "./DeleteTopicAlert";
 import EditTopicSheet from "./EditTopicSheet";
 import { useEntityHasChildren } from "../../hooks/useEntityHasChildren";
+import AddHomeworkSheet from "../homeworks/AddHomeworkSheet";
+import AddFlashcardSetSheet from "../flashcardSets/AddFlashcardSetSheet";
+
 
 const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -171,6 +174,8 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
         onMatch={HomeworkView}
       />
 
+      <AddHomeworkSheet />
+      <AddFlashcardSetSheet />
       <AddResourceToTopicSheet />
       <DeleteTopicAlert />
       <EditTopicSheet />

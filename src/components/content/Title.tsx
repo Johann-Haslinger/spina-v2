@@ -1,34 +1,59 @@
+import React, { useEffect } from "react";
 import styled from "@emotion/styled";
-import  { PropsWithChildren } from "react";
+import { PropsWithChildren, useRef, useState } from "react";
 import tw from "twin.macro";
 
-type size = "small" | "medium" | "large"; 
+type size = "small" | "medium" | "large";
 
-
-const StyledTitle = styled.div<{size: size}>`
-  ${tw` dark:text-white text-primatyText font-black`}
-  ${({size}) => size === "small" && tw`text-2xl`}
-  ${({size}) => size === "medium" && tw`text-3xl`}
-  ${({size}) => size === "large" && tw`text-4xl`}
+const StyledTitle = styled.div<{ size: size; placeholderStyle: boolean }>`
+  ${tw` dark:text-white min-h-10 outline-none text-primatyText font-black`}
+  ${({ size }) => size === "small" && tw`text-2xl`}
+  ${({ size }) => size === "medium" && tw`text-3xl`}
+  ${({ size }) => size === "large" && tw`text-4xl`}
+  ${({ placeholderStyle }) =>
+    placeholderStyle &&
+    tw`text-placeholderText text-opacity-70 dark:text-placeholderText`}
 `;
-
 
 interface TitleProps {
   color?: string;
-  size?: size
+  size?: size;
+  editable?: boolean;
+  onBlur?: (value: string) => void;
 }
 
 const Title = (props: PropsWithChildren & TitleProps) => {
-  const { color, children, size = "medium" } = props;
+  const { color, children, size = "medium", editable, onBlur } = props;
+  const [isFocused, setIsFocused] = useState(false);
+  const titleRef = useRef<HTMLDivElement>(null);
+
+  const handleBlur = (e: React.FocusEvent<HTMLDivElement>) => {
+    onBlur && onBlur(e.currentTarget.textContent || "");
+    setIsFocused(false);
+  };
+
+  useEffect(() => {
+    if (!children && !isFocused && titleRef.current) {
+      titleRef.current.textContent = "Title";
+    } else if (!children && isFocused && titleRef.current) {
+      titleRef.current.textContent = "";
+    } else if (children && titleRef.current) {
+      titleRef.current.textContent = children as string;
+    }
+  }, [children, isFocused]);
+
   return (
     <StyledTitle
+      ref={titleRef}
+      onFocus={() => setIsFocused(true)}
+      placeholderStyle={!children && !isFocused}
+      contentEditable={editable}
+      onBlur={handleBlur}
       size={size}
       style={{
         color: color,
       }}
-    >
-      {children}
-    </StyledTitle>
+    />
   );
 };
 
