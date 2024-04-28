@@ -125,7 +125,7 @@ export const displayButtonTexts = (selectedLanguage: SupportedLanguages) => {
     back: getButtonText(ButtonTexts.BACK, selectedLanguage),
     save: getButtonText(ButtonTexts.SAVE, selectedLanguage),
     cancel: getButtonText(ButtonTexts.CANCEL, selectedLanguage),
-
+    delete: getButtonText(ButtonTexts.DELETE, selectedLanguage),
   };
 }
 
@@ -137,6 +137,15 @@ const getButtonText = (buttonText: ButtonTexts, selectedLanguage: SupportedLangu
           return "Zurück";
         case SupportedLanguages.EN:
           return "Back";
+        default:
+          return "";
+      }
+    case ButtonTexts.DELETE:
+      switch (selectedLanguage) {
+        case SupportedLanguages.DE:
+          return "Löschen";
+        case SupportedLanguages.EN:
+          return "Delete";
         default:
           return "";
       }

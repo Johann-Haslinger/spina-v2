@@ -18,6 +18,7 @@ module.exports = {
         seconderyText: "#86858A",
         seconderyTextDark: "#86858A",
         placeholderText: "#BDBDBD",
+        placeholderTextDark: "#595959",
        
       },
       backgroundColor: {

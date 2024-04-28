@@ -12,7 +12,7 @@ const StyledTitle = styled.div<{ size: size; placeholderStyle: boolean }>`
   ${({ size }) => size === "large" && tw`text-4xl`}
   ${({ placeholderStyle }) =>
     placeholderStyle &&
-    tw`text-placeholderText text-opacity-70 dark:text-placeholderText`}
+    tw`text-placeholderText text-opacity-70 dark:text-placeholderTextDark `}
 `;
 
 interface TitleProps {

@@ -3,7 +3,7 @@ import { PropsWithChildren } from "react";
 import tw from "twin.macro";
 
 const StyledSectionWrapper = styled.div`
-  ${tw`mt-1 rounded-xl py-1.5  bg-white text-primatyText dark:text-primaryTextDark dark:bg-primaryDark w-full`}
+  ${tw`mt-1 rounded-xl py-1.5  bg-white text-primatyText dark:text-primaryTextDark dark:bg-[#1a1a1a] w-full`}
 `;
 
 const Section = (props: PropsWithChildren) => {

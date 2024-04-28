@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   CancelButton,
   FlexBox,
@@ -24,6 +24,8 @@ import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { displayButtonTexts } from "../../../../utils/selectDisplayText";
 import supabaseClient from "../../../../lib/supabase";
 import { IdentifierProps } from "@leanscope/ecs-models";
+import { IoTrashOutline } from "react-icons/io5";
+import { LeanScopeClientContext } from "@leanscope/api-client/node";
 
 const EditFlashcardSheet = (
   props: QuestionProps &
@@ -32,6 +34,7 @@ const EditFlashcardSheet = (
     EntityProps &
     IdentifierProps
 ) => {
+  const lsc = useContext(LeanScopeClientContext);
   const { question, answer, masteryLevel, entity, guid } = props;
   const isVisible = useIsViewVisible(entity);
   const { selectedLanguage } = useSelectedLanguage();
@@ -59,6 +62,23 @@ const EditFlashcardSheet = (
     }
   };
 
+  const deleteFlashcard = async () => {
+    navigateBack();
+
+    setTimeout(async () => {
+      lsc.engine.removeEntity(entity);
+
+      const { error } = await supabaseClient
+        .from("flashCards")
+        .delete()
+        .eq("id", guid);
+
+      if (error) {
+        console.error("Error deleting flashcard: ", error);
+      }
+    }, 300);
+  };
+
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>
       <FlexBox>
@@ -84,6 +104,17 @@ const EditFlashcardSheet = (
             value={answerValue}
             onChange={(e) => setAnswerValue(e.target.value)}
           />
+        </SectionRow>
+      </Section>
+      <Spacer size={2} />
+      <Section>
+        <SectionRow
+          role="destructive"
+          type="last"
+          icon={<IoTrashOutline />}
+          onClick={deleteFlashcard}
+        >
+          {displayButtonTexts(selectedLanguage).delete}
         </SectionRow>
       </Section>
     </Sheet>

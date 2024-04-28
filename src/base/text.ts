@@ -16,7 +16,8 @@ export enum AlertTexts {
 export enum ButtonTexts {
     BACK,
     SAVE,
-    CANCEL
+    CANCEL,
+    DELETE,
 }
 
 export enum ActionTexts {
