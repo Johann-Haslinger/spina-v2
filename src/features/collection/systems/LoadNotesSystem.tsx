@@ -52,6 +52,7 @@ const LoadNotesSystem = () => {
             noteEntity.add(new IdentifierFacet({ guid: note.id }));
             noteEntity.add(new DateAddedFacet({ dateAdded: note.date_added }));
 
+            console.log("selectedTopicId", selectedTopicId);
             noteEntity.add(new ParentFacet({ parentId: selectedTopicId }));
             noteEntity.addTag(DataTypes.NOTE);
           }

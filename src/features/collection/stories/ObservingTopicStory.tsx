@@ -21,6 +21,7 @@ import LoadTopicsSystem from "../systems/LoadTopicsSystem";
 import AppInitSystem from "../../../systems/AppInitSystem";
 import { Sidebar } from "../../../components";
 import { BrowserRouter } from "react-router-dom";
+import { Settings } from "../../settings";
 
 const ObservingTopicStory = () => {
   return (
@@ -31,7 +32,7 @@ const ObservingTopicStory = () => {
             facets={[
               new TitleFacet({ title: "Sinus" }),
               new DescriptionFacet({ description: "Sinusfunktionen" }),
-              new IdentifierFacet({ guid: "0" }),
+              new IdentifierFacet({ guid: "100" }),
               new OrderFacet({ orderIndex: 1 }),
               new ParentFacet({ parentId: "1" }),
             ]}
@@ -55,6 +56,7 @@ const ObservingTopicStory = () => {
 
           <Collection />
           <Sidebar />
+          <Settings />
         </BrowserRouter>
       </LeanScopeClientApp>
     </React.StrictMode>

@@ -1,16 +1,15 @@
 import styled from "@emotion/styled";
-import React, { PropsWithChildren } from "react";
+import  { PropsWithChildren } from "react";
 import tw from "twin.macro";
 import { useAppState } from "../../features/collection/hooks/useAppState";
 import { ViSidebar, ViSidebarDark } from "../../assets/icons";
-import BackButton from "../buttons/BackButton";
 
 const StyledNavBarWrapper = styled.div`
-  ${tw`flex fixed px-4  z-[100]  bg-gradient-to-b from-[#F5F5F5]  to-[#f5f5f5d4] transition-all  backdrop-blur-2xl  md:px-6 pt-4 top-0 dark:text-white text-primatyText dark:bg-primaryDark    left-0 w-full justify-between   h-14 `}
+  ${tw`flex fixed px-4 bg-primary dark:bg-primaryDark  z-[100] transition-all    md:px-6 pt-4 top-0 dark:text-white text-primatyText left-0 w-full justify-between   h-14 `}
 `;
 
 const NavigationIconsWrapper = styled.div`
-  ${tw`flex items-center`}
+  ${tw`flex mr-6 items-center`}
 `;
 
 const ToolIconWrapper = styled.div`
@@ -34,8 +33,8 @@ interface NavigationBarProps {
   navigateBack?: () => void;
 }
 
-const NavigationBar = (props: PropsWithChildren & NavigationBarProps) => {
-  const { children, backButtonLabel, navigateBack } = props;
+const NavigationBar = (props: PropsWithChildren) => {
+  const { children, } = props;
   const { toggleSidebar } = useAppState();
 
   return (
@@ -49,9 +48,7 @@ const NavigationBar = (props: PropsWithChildren & NavigationBarProps) => {
             <ViSidebarDark />
           </StyledSidebarIcon>
         </NavigationIconsWrapper>
-        {navigateBack && (
-          <BackButton navigateBack={navigateBack}>{backButtonLabel}</BackButton>
-        )}
+       
       </StyledLeftSideWrapper>
 
       <ToolIconWrapper>{children}</ToolIconWrapper>

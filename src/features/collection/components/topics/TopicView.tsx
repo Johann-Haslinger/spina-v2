@@ -5,13 +5,17 @@ import {
   Divider,
   NavBarButton,
   NavigationBar,
+  NoContentAddedHint,
   SecondaryText,
   Spacer,
   Title,
   View,
 } from "../../../../components";
 import { TitleFacet, TitleProps } from "../../../../app/AdditionalFacets";
-import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
+import {
+  EntityProps,
+  EntityPropsMapper,
+} from "@leanscope/ecs-engine";
 import {
   DescriptionProps,
   IdentifierFacet,
@@ -31,7 +35,12 @@ import FlashcardSetCell from "../flashcardSets/FlashcardSetCell";
 import FlashcardSetView from "../flashcardSets/FlashcardSetView";
 import LoadFlashcardSetsSystem from "../../systems/LoadFlashcardSetsSystem";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { IoAdd, IoCreateOutline, IoEllipsisHorizontalCircleOutline, IoTrashOutline } from "react-icons/io5";
+import {
+  IoAdd,
+  IoCreateOutline,
+  IoEllipsisHorizontalCircleOutline,
+  IoTrashOutline,
+} from "react-icons/io5";
 import AddResourceToTopicSheet from "./AddResourceToTopicSheet";
 import HomeworkCell from "../homeworks/HomeworkCell";
 import HomeworkView from "../homeworks/HomeworkView";
@@ -40,6 +49,7 @@ import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { displayActionTexts } from "../../../../utils/selectDisplayText";
 import DeleteTopicAlert from "./DeleteTopicAlert";
 import EditTopicSheet from "./EditTopicSheet";
+import { useEntityHasChildren } from "../../hooks/useEntityHasChildren";
 
 const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -47,13 +57,15 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
   const isVisible = useIsViewVisible(entity);
   const { selectedSchoolSubjectTitle } = useSelectedSchoolSubject();
   const { selectedLanguage } = useSelectedLanguage();
+  const {hasChildren} = useEntityHasChildren(entity);
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
   const openAddResourceSheet = () =>
     lsc.stories.transitTo(Stories.ADD_RESOURCE_TO_TOPIC_STORY);
   const openEditTopicSheet = () =>
     lsc.stories.transitTo(Stories.EDIT_TOPIC_STORY);
-  const openDeleteTopicAlert = () => lsc.stories.transitTo(Stories.DELETE_TOPIC_STORY);
+  const openDeleteTopicAlert = () =>
+    lsc.stories.transitTo(Stories.DELETE_TOPIC_STORY);
 
   return (
     <>
@@ -62,7 +74,9 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
       <LoadHomeworksSystem />
 
       <View visibe={isVisible}>
-        <NavigationBar navigateBack={navigateBack} backButtonLabel={selectedSchoolSubjectTitle}>
+        <NavigationBar
+         
+        >
           <NavBarButton onClick={openAddResourceSheet}>
             <IoAdd />
           </NavBarButton>
@@ -90,15 +104,18 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
             <IoEllipsisHorizontalCircleOutline />
           </NavBarButton>
         </NavigationBar>
-        {/* <BackButton navigateBack={navigateBack}>
+        <BackButton navigateBack={navigateBack}>
           {selectedSchoolSubjectTitle}
-        </BackButton> */}
+        </BackButton>
         <Title>{title}</Title>
         <Spacer size={4} />
-        <SecondaryText>{props.description || "No Description added"}</SecondaryText>
+        <SecondaryText>
+          {props.description || "No Description added"}
+        </SecondaryText>
         <Spacer size={2} />
-        <Divider />
-        <Spacer size={2} />
+        
+        <Spacer  />
+        {!hasChildren && <NoContentAddedHint />}
         <CollectionGrid>
           <EntityPropsMapper
             query={(e) =>
@@ -157,7 +174,6 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
       <AddResourceToTopicSheet />
       <DeleteTopicAlert />
       <EditTopicSheet />
-      
     </>
   );
 };

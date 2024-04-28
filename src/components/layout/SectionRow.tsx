@@ -3,11 +3,12 @@ import { PropsWithChildren, ReactNode } from "react";
 import tw from "twin.macro";
 
 type Type = "default" | "last";
-type Role = "default" | "destructive";
+type Role = "default" | "destructive" | "button";
 
 const StyledSectionRowWrapper = styled.div<{ role: Role; type: Type }>`
-  ${tw`flex py-1 min-h-8  pr-0 w-full`}
+  ${tw`flex  min-h-8  pr-0 w-full`}
   ${({ role }) => role === "destructive" && tw`text-red-500`}
+  ${({ role }) => role === "button" && tw`text-primaryColor hover:opacity-50 transition-all `}
 `;
 
 const StyledIconWrapper = styled.div`
@@ -15,7 +16,7 @@ const StyledIconWrapper = styled.div`
 `;
 
 const StyledSectionRowContent = styled.div<{ type: Type }>`
-  ${tw`flex w-full ml-5 px-2  h-fit justify-between pr-3`}
+  ${tw`flex w-full ml-5 px-2 py-2 h-fit justify-between pr-3`}
   ${({ type }) =>
     type !== "last" && tw` border-b-[0.5px] border-[rgb(198,198,200)]`}
 `;

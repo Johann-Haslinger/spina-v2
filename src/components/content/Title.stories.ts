@@ -1,16 +1,16 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import "../../index.css"
-import NoContentAdded from "./NoContentAdded";
+import NoContentAddedHint from "./NoContentAddedHint";
 
 const meta = {
   title: "Components/Content/Title",
-  component: NoContentAdded,
+  component: NoContentAddedHint,
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout
     layout: "centered",
     
   },
-} satisfies Meta<typeof NoContentAdded>;
+} satisfies Meta<typeof NoContentAddedHint>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

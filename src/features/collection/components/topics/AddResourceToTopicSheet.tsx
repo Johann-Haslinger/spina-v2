@@ -1,9 +1,10 @@
 import React, { useContext } from "react";
-import { Sheet } from "../../../../components";
+import { CancelButton, FlexBox, Section, SectionRow, Sheet, Spacer } from "../../../../components";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { Stories } from "../../../../base/enums";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
+import { displayButtonTexts } from "../../../../utils/selectDisplayText";
 
 const AddResourceToTopicSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -15,7 +16,23 @@ const AddResourceToTopicSheet = () => {
 
   return (
     <Sheet navigateBack={navigateBack} visible={isVisible}>
-      <button onClick={navigateBack}>Cancel</button>
+      <FlexBox>
+        <CancelButton onClick={navigateBack}>
+          {displayButtonTexts(selectedLanguage).cancel}
+        </CancelButton>
+      </FlexBox>
+      <Spacer />
+      <Section>
+        <SectionRow role="button">
+            Note
+        </SectionRow>
+        <SectionRow role="button">
+          Flashcard Set
+        </SectionRow>
+        <SectionRow type="last" role="button">
+          Homework
+        </SectionRow>
+      </Section>
     </Sheet>
   );
 };

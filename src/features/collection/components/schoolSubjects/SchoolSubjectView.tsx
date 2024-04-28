@@ -12,9 +12,8 @@ import {
 } from "../../../../components";
 import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
-import { useSchoolSubjectColors } from "../../../../hooks/useSchoolSubjectColors";
 import { useSchoolSubjectTopics } from "../../hooks/useSchoolSubjectTopics";
-import NoContentAdded from "../../../../components/content/NoContentAdded";
+import NoContentAddedHint from "../../../../components/content/NoContentAddedHint";
 import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
 import TopicCell from "../topics/TopicCell";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
@@ -31,7 +30,6 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
   const lsc = useContext(LeanScopeClientContext);
   const { title, entity } = props;
   const isVisible = useIsViewVisible(entity);
-  const { color, backgroundColor } = useSchoolSubjectColors(props.entity);
   const { hasTopics } = useSchoolSubjectTopics(props.entity);
   const { selectedLanguage } = useSelectedLanguage();
 
@@ -44,16 +42,20 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
       <LoadTopicsSystem />
 
       <View visibe={isVisible}>
-        <NavigationBar navigateBack={navigateBack} backButtonLabel={displayHeaderTexts(selectedLanguage).collectionHeaderText} >
+        
+        <NavigationBar>
           <NavBarButton>
             <IoAdd onClick={openAddTopicSheet} />
           </NavBarButton>
         </NavigationBar>
-       
+
+        <BackButton navigateBack={navigateBack}>
+          {displayHeaderTexts(selectedLanguage).collectionHeaderText}
+        </BackButton>
         <Title>{title} </Title>
         <Spacer size={6} />
         {!hasTopics && (
-          <NoContentAdded backgroundColor={backgroundColor} color={color} />
+          <NoContentAddedHint />
         )}
         <CollectionGrid columnSize="large">
           <EntityPropsMapper

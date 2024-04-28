@@ -56,10 +56,7 @@ const FlashcardSetView = (
       <LoadFlashcardsSystem />
 
       <View visibe={isVisible}>
-        <NavigationBar
-          backButtonLabel={selectedTopicTitle}
-          navigateBack={navigateBack}
-        >
+        <NavigationBar>
           <NavBarButton
             content={
               <>
@@ -85,6 +82,9 @@ const FlashcardSetView = (
           </NavBarButton>
         </NavigationBar>
 
+        <BackButton navigateBack={navigateBack}>
+          {selectedTopicTitle}
+        </BackButton>
         <Title>{title}</Title>
         <Spacer size={8} />
         <CollectionGrid columnSize="large">

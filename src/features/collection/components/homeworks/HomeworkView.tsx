@@ -58,10 +58,10 @@ const HomeworkView = (
 
   return (
     <>
-      <LoadHomeworkTextSystem  />
+      <LoadHomeworkTextSystem />
 
       <View visibe={isVisible}>
-        <NavigationBar navigateBack={navigateBack} backButtonLabel={displayHeaderTexts(selectedLanguage).homeworksHeaderText}>
+        <NavigationBar>
           <NavBarButton
             content={
               <>
@@ -86,7 +86,10 @@ const HomeworkView = (
             <IoEllipsisHorizontalCircleOutline />
           </NavBarButton>
         </NavigationBar>
-   
+
+        <BackButton navigateBack={navigateBack}>
+          {displayHeaderTexts(selectedLanguage).homeworksHeaderText}
+        </BackButton>
         <Title>{title}</Title>
         <Spacer size={8} />
         <TextEditor onBlur={handleTextChange} value={text} />

@@ -12,6 +12,7 @@ export { default as Alert } from "./presentation/Alert";
 export { default as Title } from "./content/Title";
 export { default as TextEditor } from "./content/TextEditor";
 export { default as SecondaryText } from "./content/SecondaryText";
+export { default as NoContentAddedHint } from "./content/NoContentAddedHint";
 
 
 
