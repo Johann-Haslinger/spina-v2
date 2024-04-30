@@ -1,4 +1,4 @@
-import  { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import supabaseClient from "../../../lib/supabase";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
@@ -6,6 +6,7 @@ import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import {
   DateAddedFacet,
   DueDateFacet,
+  RelationshipFacet,
   StatusFacet,
   TitleFacet,
 } from "../../../app/AdditionalFacets";
@@ -21,7 +22,7 @@ const fetchHomeworks = async () => {
 
   const { data: schoolSubjects, error } = await supabaseClient
     .from("homeworks")
-    .select("title, id, dueDate, status, parentId")
+    .select("title, id, dueDate, status, parentId, relatedSubject")
     .gte("dueDate", fourteenDaysAgo);
 
   if (error) {
@@ -58,7 +59,9 @@ const HomeworksInitSystem = () => {
           );
           homeworkEntity.add(new StatusFacet({ status: homework.status }));
           homeworkEntity.add(new ParentFacet({ parentId: homework.parentId }));
-
+          homeworkEntity.add(
+            new RelationshipFacet({ relationship: homework.relatedSubject })
+          );
           homeworkEntity.addTag(DataTypes.HOMEWORK);
         }
       });

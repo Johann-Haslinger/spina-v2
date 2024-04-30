@@ -3,7 +3,7 @@ import {
 } from "@leanscope/ecs-engine";
 import { IdentifierFacet, StoryFacet, Tags } from "@leanscope/ecs-models";
 
-export function useIsSomeStoryCurrent(storyGuids: string[]) {
+export function useIsAnyStoryCurrent(storyGuids: string[]) {
   
   const [currentStoryEntitiesMatchingGuids] = useEntities(
     (entity) =>

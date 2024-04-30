@@ -106,7 +106,7 @@ const KanbanColumn = (props: {
 };
 
 const StyledKanbanWrapper = styled.div`
-  ${tw`flex overflow-hidden  transition-all space-x-3 w-full  h-fit  overflow-x-scroll `}
+  ${tw`flex overflow-hidden  transition-all space-x-2.5 w-full  h-fit  overflow-x-scroll `}
 `;
 interface KanbanProps {
   kanbanCell: (props: any) => ReactNode;

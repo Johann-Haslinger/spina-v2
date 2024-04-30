@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { DataTypes, Stories } from "../../../../base/enums";
 import {
@@ -18,6 +19,7 @@ import { useSchoolSubjectEntities } from "../../../../hooks/useSchoolSubjects";
 import { IdentifierFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
 import {
   DueDateFacet,
+  RelationshipFacet,
   StatusFacet,
   TitleFacet,
 } from "../../../../app/AdditionalFacets";
@@ -28,20 +30,43 @@ import { useUserData } from "../../../../hooks/useUserData";
 import supabaseClient from "../../../../lib/supabase";
 import { displayButtonTexts } from "../../../../utils/selectDisplayText";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
+import { useSelectedTopic } from "../../hooks/useSelectedTopic";
+import { useSchoolSubjectTopics } from "../../../../hooks/useSchoolSubjectTopics";
+import { IoCheckmarkCircle, IoEllipseOutline } from "react-icons/io5";
+import { useSelectedSchoolSubject } from "../../hooks/useSelectedSchoolSubject";
 
 const AddHomeworkSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Stories.ADD_HOMEWORK_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const schooolSubjectEntities = useSchoolSubjectEntities();
+  const { selectedTopicId: openTopicId } = useSelectedTopic();
+  const { selectedSchoolSubjectId: openSchoolSubjectId } =
+    useSelectedSchoolSubject();
+  const [selectedSchoolSubjectId, setSelectedSchoolSubjectId] =
+    useState<string>("");
   const [newHomework, setNewHomework] = useState({
     id: v4(),
     title: "",
     dueDate: "",
     parent: "",
     description: "",
+    relatedSchoolSubject: "",
   });
   const { userId } = useUserData();
+  const { schoolSubjectTopics, hasSchoolSubjectTopics } =
+    useSchoolSubjectTopics(selectedSchoolSubjectId);
+
+  useEffect(() => {
+    setNewHomework({
+      id: v4(),
+      title: "",
+      dueDate: "",
+      parent: "",
+      description: "",
+      relatedSchoolSubject: "",
+    });
+  }, [isVisible]);
 
   const navigateBack = () =>
     lsc.stories.transitTo(Stories.OBSERVING_HOMEWORKS_STORY);
@@ -53,8 +78,7 @@ const AddHomeworkSheet = () => {
     newHomeworkEntity.add(new IdentifierFacet({ guid: id }));
     newHomeworkEntity.add(
       new ParentFacet({
-        parentId:
-          parent || schooolSubjectEntities[0].get(IdentifierFacet)?.props.guid!,
+        parentId: openTopicId || parent,
       })
     );
     newHomeworkEntity.add(new TitleFacet({ title: title }));
@@ -64,19 +88,24 @@ const AddHomeworkSheet = () => {
         text: description,
       })
     );
+    newHomeworkEntity.add(
+      new RelationshipFacet({
+        relationship: openSchoolSubjectId || selectedSchoolSubjectId,
+      })
+    );
     newHomeworkEntity.add(new StatusFacet({ status: 1 }));
     newHomeworkEntity.add(DataTypes.HOMEWORK);
-
+console.log("openSchoolSubjectId", selectedSchoolSubjectId,)
     const { error } = await supabaseClient.from("homeworks").insert([
       {
         id: id,
         user_id: userId,
         title: title,
-        parentId:
-          parent || schooolSubjectEntities[0].get(IdentifierFacet)?.props.guid!,
+        parentId: openTopicId || parent,
         text: description,
         dueDate: dueDate,
         status: 1,
+        relatedSubject: openSchoolSubjectId || selectedSchoolSubjectId,
       },
     ]);
 
@@ -126,38 +155,74 @@ const AddHomeworkSheet = () => {
             />
           </FlexBox>
         </SectionRow>
-        <SectionRow type="last">
-          <FlexBox>
-            <p>School Subject</p>
-            <SelectInput
-              value={newHomework.parent}
-              onChange={(e) =>
-                setNewHomework({ ...newHomework, parent: e.target.value })
-              }
-            >
-              {schooolSubjectEntities.map((entity, idx) => {
-                const schoolSubjectId = entity.get(IdentifierFacet)?.props.guid;
-                const schoolSubjectTitle = entity.get(TitleFacet)?.props.title;
-                return (
-                  <option key={idx} value={schoolSubjectId}>
-                    {schoolSubjectTitle}
-                  </option>
-                );
-              })}
-            </SelectInput>
-          </FlexBox>
-        </SectionRow>
+        {!openTopicId && (
+          <SectionRow type="last">
+            <FlexBox>
+              <p>School Subject</p>
+              <SelectInput
+                value={selectedSchoolSubjectId}
+                onChange={(e) => setSelectedSchoolSubjectId(e.target.value)}
+              >
+                <option value="">None</option>
+                {schooolSubjectEntities.map((entity, idx) => {
+                  const schoolSubjectId =
+                    entity.get(IdentifierFacet)?.props.guid;
+                  const schoolSubjectTitle =
+                    entity.get(TitleFacet)?.props.title;
+                  return (
+                    <option key={idx} value={schoolSubjectId}>
+                      {schoolSubjectTitle}
+                    </option>
+                  );
+                })}
+              </SelectInput>
+            </FlexBox>
+          </SectionRow>
+        )}
       </Section>
-        <Spacer size={2} />
+      {(hasSchoolSubjectTopics || selectedSchoolSubjectId) && (
+          <>
+            <Spacer size={2} />
+            <Section>
+              {schoolSubjectTopics.map((topic, idx) => (
+                <SectionRow
+                  type={
+                    idx === schoolSubjectTopics.length - 1 ? "last" : "default"
+                  }
+                  key={idx}
+                  onClick={() =>
+                    setNewHomework({ ...newHomework, parent: topic.id })
+                  }
+                  icon={
+                    newHomework.parent === topic.id ? (
+                      <IoCheckmarkCircle />
+                    ) : (
+                      <IoEllipseOutline />
+                    )
+                  }
+                >
+                  {topic.title}
+                </SectionRow>
+              ))}
+              {!hasSchoolSubjectTopics && (
+                <SectionRow type="last">
+                  No topics for this school subject
+                </SectionRow>
+              )}
+            </Section>
+          </>
+        )}
+
+      <Spacer size={2} />
       <Section>
         <SectionRow type="last">
-        <TextAreaInput
-          value={newHomework.description}
-          onChange={(e) =>
-            setNewHomework({ ...newHomework, description: e.target.value })
-          }
-          placeholder="Description"
-        />
+          <TextAreaInput
+            value={newHomework.description}
+            onChange={(e) =>
+              setNewHomework({ ...newHomework, description: e.target.value })
+            }
+            placeholder="Description"
+          />
         </SectionRow>
       </Section>
     </Sheet>

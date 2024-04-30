@@ -162,9 +162,7 @@ const StyledSidebarLinkWrapper = styled.div<{ isCurrent: boolean }>`
 `;
 const StyledNavLinkIcon = styled.div<{ color: string }>`
   ${tw`text-2xl text-black dark:text-white dark:opacity-100 transition-all  px-1.5 rounded-full `}
-  /* color: ${({
-    color,
-  }) => color} */
+ 
 `;
 
 const SidebarLink = (props: {
@@ -175,11 +173,18 @@ const SidebarLink = (props: {
 }) => {
   const { title, path, idx, isFullWidth: isHoverd } = props;
   const { pathname } = useLocation();
-  const { toggleSettings, isSidebarVisible } = useAppState();
+  const { toggleSettings, isSettingVisible,  isSidebarVisible, toggleSidebar } = useAppState();
+
+  const handleClick = () => {
+    toggleSidebar();
+    if (isSettingVisible) {
+      toggleSettings();
+    }
+  }
 
   return (
     <NavLink to={path}>
-      <StyledSidebarLinkWrapper onClick={isSidebarVisible ? toggleSettings : undefined} isCurrent={path == pathname}>
+      <StyledSidebarLinkWrapper onClick={handleClick} isCurrent={path == pathname}>
         <StyledNavLinkIcon color={COLORS[idx]}>
           <NavigationLinkIcon navLink={title} />
         </StyledNavLinkIcon>

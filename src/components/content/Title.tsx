@@ -6,7 +6,7 @@ import tw from "twin.macro";
 type size = "small" | "medium" | "large";
 
 const StyledTitle = styled.div<{ size: size; placeholderStyle: boolean }>`
-  ${tw` dark:text-white min-h-10 outline-none text-primatyText font-black`}
+  ${tw` line-clamp-2 dark:text-white min-h-10 outline-none text-primatyText font-black`}
   ${({ size }) => size === "small" && tw`text-2xl`}
   ${({ size }) => size === "medium" && tw`text-3xl`}
   ${({ size }) => size === "large" && tw`text-4xl`}
@@ -27,11 +27,6 @@ const Title = (props: PropsWithChildren & TitleProps) => {
   const [isFocused, setIsFocused] = useState(false);
   const titleRef = useRef<HTMLDivElement>(null);
 
-  const handleBlur = (e: React.FocusEvent<HTMLDivElement>) => {
-    onBlur && onBlur(e.currentTarget.textContent || "");
-    setIsFocused(false);
-  };
-
   useEffect(() => {
     if (!children && !isFocused && titleRef.current) {
       titleRef.current.textContent = "Title";
@@ -42,8 +37,36 @@ const Title = (props: PropsWithChildren & TitleProps) => {
     }
   }, [children, isFocused]);
 
+  useEffect(() => {
+    if (titleRef.current) {
+      titleRef.current.textContent = titleRef.current.innerText;
+    }
+  }, [titleRef.current?.innerHTML]);
+
+  const handleBlur = (e: React.FocusEvent<HTMLDivElement>) => {
+    onBlur && onBlur(e.currentTarget.textContent || "");
+    setIsFocused(false);
+  };
+
+  const handlePaste = async (e: React.ClipboardEvent<HTMLParagraphElement>) => {
+    e.preventDefault();
+    const text = e.clipboardData.getData("text/html")
+      ? e.clipboardData.getData("text/html")
+      : e.clipboardData.getData("text/plain");
+
+    if (titleRef.current) {
+      titleRef.current.textContent = titleRef.current.textContent + text;
+    }
+  };
+
   return (
     <StyledTitle
+      onKeyPress={(e) => {
+        if (e.key === "Enter" || e.metaKey) {
+          e.preventDefault();
+        }
+      }}
+      onPaste={(e) => handlePaste(e)}
       ref={titleRef}
       onFocus={() => setIsFocused(true)}
       placeholderStyle={!children && !isFocused}
@@ -51,7 +74,7 @@ const Title = (props: PropsWithChildren & TitleProps) => {
       onBlur={handleBlur}
       size={size}
       style={{
-        color: color,
+        color: color
       }}
     />
   );

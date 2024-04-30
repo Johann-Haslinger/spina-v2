@@ -18,7 +18,7 @@ import { useUserData } from "../../../../hooks/useUserData";
 import { Entity } from "@leanscope/ecs-engine";
 import { IdentifierFacet, ParentFacet, Tags } from "@leanscope/ecs-models";
 import { DateAddedFacet } from "../../../../app/AdditionalFacets";
-import { useIsSomeStoryCurrent } from "../../../../hooks/useAreStoriesCurrent";
+import { useIsAnyStoryCurrent } from "../../../../hooks/useIsAnyStoryCurrent";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 
 const AddResourceToTopicSheet = () => {

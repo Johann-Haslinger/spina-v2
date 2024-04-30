@@ -12,7 +12,7 @@ import {
 } from "../../../../components";
 import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
-import { useSchoolSubjectTopics } from "../../hooks/useSchoolSubjectTopics";
+import { useSchoolSubjectTopicEntities } from "../../hooks/useSchoolSubjectTopicEntities";
 import NoContentAddedHint from "../../../../components/content/NoContentAddedHint";
 import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
 import TopicCell from "../topics/TopicCell";
@@ -30,7 +30,7 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
   const lsc = useContext(LeanScopeClientContext);
   const { title, entity } = props;
   const isVisible = useIsViewVisible(entity);
-  const { hasTopics } = useSchoolSubjectTopics(props.entity);
+  const { hasTopics } = useSchoolSubjectTopicEntities(props.entity);
   const { selectedLanguage } = useSelectedLanguage();
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
@@ -42,7 +42,6 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
       <LoadTopicsSystem />
 
       <View visibe={isVisible}>
-        
         <NavigationBar>
           <NavBarButton>
             <IoAdd onClick={openAddTopicSheet} />
@@ -52,11 +51,9 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
         <BackButton navigateBack={navigateBack}>
           {displayHeaderTexts(selectedLanguage).collectionHeaderText}
         </BackButton>
-        <Title>{title} </Title>
+        <Title>{title}</Title>
         <Spacer size={6} />
-        {!hasTopics && (
-          <NoContentAddedHint />
-        )}
+        {!hasTopics && <NoContentAddedHint />}
         <CollectionGrid columnSize="large">
           <EntityPropsMapper
             query={(e) =>

@@ -58,7 +58,7 @@ const EditFlashcardSetSheet = () => {
     <Sheet visible={isVisible} navigateBack={navigateBack}>
       <FlexBox>
       <CancelButton onClick={navigateBack}>
-          {displayButtonTexts(selectedLanguage).cancel}
+          {displayButtonTexts(selectedLanguage).back}
         </CancelButton>
         {newTitle !== selectedFlashcardSetTitle && (
          <SaveButton onClick={updateFlashcardSet}>

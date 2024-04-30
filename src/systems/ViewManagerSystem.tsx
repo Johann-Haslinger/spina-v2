@@ -3,10 +3,10 @@ import  { useEffect, useState } from "react";
 import { AdditionalTags, Stories } from "../base/enums";
 import { Tags } from "@leanscope/ecs-models";
 import { useSelectedTheme } from "../features/collection/hooks/useSelectedTheme";
-import { useIsSomeStoryCurrent } from "../hooks/useAreStoriesCurrent";
+import { useIsAnyStoryCurrent } from "../hooks/useIsAnyStoryCurrent";
 
 const ViewManagerSystem = () => {
-  const isSheetViewVisible = useIsSomeStoryCurrent([
+  const isSheetViewVisible = useIsAnyStoryCurrent([
     Stories.OBSERVING_SETTINGS_STORY,
 
     Stories.ADD_HOMEWORK_STORY,

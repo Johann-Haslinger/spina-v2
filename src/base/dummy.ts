@@ -81,6 +81,7 @@ export const dummyHomeworks = [
     createdAt: new Date().toISOString(),
     status: 1,
     parentId: "1",
+    relatedSubject: "1",
   },
   {
     id: "2",
@@ -89,6 +90,7 @@ export const dummyHomeworks = [
     createdAt: new Date().toISOString(),
     status: 1,
     parentId: "1",
+    relatedSubject: "1",
   },
   {
     id: "3",
@@ -97,6 +99,7 @@ export const dummyHomeworks = [
     createdAt: new Date().toISOString(),
     status: 1,
     parentId: "1",
+    relatedSubject: "1",
   },
   {
     id: "4",
@@ -105,6 +108,7 @@ export const dummyHomeworks = [
     createdAt: new Date().toISOString(),
     status: 2,
     parentId: "1",
+    relatedSubject: "1",
   },
   {
     id: "5",
@@ -113,6 +117,7 @@ export const dummyHomeworks = [
     createdAt: new Date().toISOString(),
     status: 2,
     parentId: "1",
+    relatedSubject: "1",
   },
 ];
 

@@ -77,3 +77,13 @@ export class AnswerFacet extends Facet<AnswerProps>{
     super(props);
   }
 }
+
+export interface RelationshipProps {
+  relationship: string;
+}
+
+export class RelationshipFacet extends Facet<RelationshipProps>{
+  constructor(props: RelationshipProps) {
+    super(props);
+  }
+} 

@@ -11,7 +11,7 @@ import { DataTypes } from "../../../base/enums";
 import supabaseClient from "../../../lib/supabase";
 import { dummyTopics } from "../../../base/dummy";
 import { useSelectedSchoolSubject } from "../hooks/useSelectedSchoolSubject";
-import { useSchoolSubjectTopics } from "../hooks/useSchoolSubjectTopics";
+import { useSchoolSubjectTopicEntities } from "../hooks/useSchoolSubjectTopicEntities";
 import { useMockupData } from "../../../hooks/useMockupData";
 
 const fetchTopicsForSchoolSubject = async (subjectId: string) => {
@@ -32,7 +32,7 @@ const LoadTopicsSystem = () => {
   const { mockupData } = useMockupData();
   const lsc = useContext(LeanScopeClientContext);
   const { selectedSchoolSubjectEntity, selectedSchoolSubjectId } = useSelectedSchoolSubject();
-  const { hasTopics } = useSchoolSubjectTopics(selectedSchoolSubjectEntity);
+  const { hasTopics } = useSchoolSubjectTopicEntities(selectedSchoolSubjectEntity);
 
   useEffect(() => {
     const initializeTopicEntities = async () => {
