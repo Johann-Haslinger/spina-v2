@@ -73,7 +73,7 @@ const NoteView = (
               <>
                 <ActionRow
                   isFirst
-                  isLast
+                  last
                   destructive
                   onClick={openDeleteAlert}
                   icon={<IoTrashOutline />}

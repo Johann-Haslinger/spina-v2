@@ -178,6 +178,8 @@ export const displayActionTexts = (selectedLanguage: SupportedLanguages) => {
     edit: getActionText(ActionTexts.EDIT, selectedLanguage),
     cancel: getActionText(ActionTexts.CANCEL, selectedLanguage),
     quiz: getActionText(ActionTexts.QUIZ, selectedLanguage),
+    note: getActionText(ActionTexts.NOTE, selectedLanguage),
+    flashcards: getActionText(ActionTexts.FLASHCARDS, selectedLanguage),
   };
 }
 
@@ -207,6 +209,24 @@ const getActionText = (actionText: ActionTexts, selectedLanguage: SupportedLangu
           return "Abfrage";
         case SupportedLanguages.EN:
           return "Quiz";
+        default:
+          return "";
+      }
+    case ActionTexts.NOTE:
+      switch (selectedLanguage) {
+        case SupportedLanguages.DE:
+          return "Mitschrift";
+        case SupportedLanguages.EN:
+          return "Note";
+        default:
+          return "";
+      }
+    case ActionTexts.FLASHCARDS:
+      switch (selectedLanguage) {
+        case SupportedLanguages.DE:
+          return "Karteikarten";
+        case SupportedLanguages.EN:
+          return "Flashcards";
         default:
           return "";
       }

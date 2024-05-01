@@ -76,7 +76,7 @@ const HomeworkView = (
                   onClick={openDeleteHomeworkAlert}
                   icon={<IoTrashOutline />}
                   destructive
-                  isLast
+                  last
                 >
                   {displayActionTexts(selectedLanguage).delete}
                 </ActionRow>

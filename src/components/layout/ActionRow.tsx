@@ -5,13 +5,13 @@ import tw from "twin.macro";
 const StyledActionRowWrapper = styled.div<{
   destructive?: boolean;
   isFirst?: boolean;
-  isLast?: boolean;
+  last?: boolean;
   hasSpace?: boolean;
 }>`
   ${tw`flex pl-6 justify-between p-2 w-full cursor-pointer dark:hover:bg-[rgb(27,27,27)] hover:bg-[rgb(235,232,233)] border-primaryBorder dark:border-primaryBorderDark `}
   ${({ destructive }) => destructive && tw`text-[#FF3B30]`};
   ${({ isFirst }) => isFirst && tw`rounded-t-lg pt-3`};
-  ${({ isLast }) => (isLast ? tw`rounded-b-lg` : tw`border-b`)};
+  ${({ last }) => (last ? tw`rounded-b-lg` : tw`border-b`)};
   ${({ hasSpace }) => hasSpace && tw`border-b-8`};
 `;
 const StyledActionRowIcon = styled.div`
@@ -25,13 +25,13 @@ interface ActionRowProps {
   onClick?: () => void;
   icon?: React.ReactNode;
   isFirst?: boolean;
-  isLast?: boolean;
+  last?: boolean;
   hasSpace?: boolean;
   destructive?: boolean;
 }
 
 const ActionRow = (props: PropsWithChildren & ActionRowProps) => {
-  const { children, onClick, icon, destructive, isLast, isFirst, hasSpace } =
+  const { children, onClick, icon, destructive, last, isFirst, hasSpace } =
     props;
 
   return (
@@ -39,7 +39,7 @@ const ActionRow = (props: PropsWithChildren & ActionRowProps) => {
       onClick={onClick}
       destructive={destructive}
       isFirst={isFirst}
-      isLast={isLast}
+      last={last}
     >
       <StyledActionRowText>{children}</StyledActionRowText>
       <StyledActionRowIcon>{icon}</StyledActionRowIcon>

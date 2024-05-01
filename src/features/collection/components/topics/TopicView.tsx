@@ -95,7 +95,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
                   onClick={openDeleteTopicAlert}
                   icon={<IoTrashOutline />}
                   destructive
-                  isLast
+                  last
                 >
                   {displayActionTexts(selectedLanguage).delete}
                 </ActionRow>
@@ -187,7 +187,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
         query={(e) =>
           dataTypeQuery(e, DataTypes.SUBTOPIC) && e.has(Tags.SELECTED)
         }
-        get={[[TitleFacet], []]}
+        get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
         onMatch={SubtopicView}
       />
 

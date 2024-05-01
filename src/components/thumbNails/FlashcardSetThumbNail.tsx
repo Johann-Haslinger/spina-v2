@@ -6,7 +6,7 @@ const CardContainer = tw.div`
   `;
 
 const CardWrapper = tw.div`
-    w-full p-0.5 flex flex-wrap rounded-lg h-32 transition-all md:hover:scale-105 bg-tertiary dark:bg-tertiaryDark 
+cursor-pointer   w-full p-0.5 flex flex-wrap rounded-lg h-32 transition-all md:hover:scale-105 bg-tertiary dark:bg-tertiaryDark 
   `;
 
 const CardItem = tw.div`

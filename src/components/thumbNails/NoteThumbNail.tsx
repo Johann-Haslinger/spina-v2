@@ -6,7 +6,7 @@ const StyledNoteCellWrapper = styled.div`
 `;
 
 const StyledNoteCellContainer = styled.div`
-  ${tw`w-full  space-x-1   p-1  items-center  flex  rounded-lg  h-32 transition-all md:hover:scale-105 bg-tertiary dark:bg-tertiaryDark `}
+  ${tw`w-full  space-x-1 cursor-pointer   p-1  items-center  flex  rounded-lg  h-32 transition-all md:hover:scale-105 bg-tertiary dark:bg-tertiaryDark `}
 `;
 
 const StyledNoteCellItem = styled.div<{ backgroundColor: string }>`

@@ -25,4 +25,6 @@ export enum ActionTexts {
     EDIT,
     CANCEL,
     QUIZ,
+    NOTE,
+    FLASHCARDS,
 } 

@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import tw from "twin.macro";
 
-type SpacerSize = 2 | 4 | 6 | 8 | 14 | 20;
+type SpacerSize = 1| 2 | 4 | 6 | 8 | 14 | 20;
 
 interface SpacerProps {
   size?: SpacerSize;
@@ -13,7 +13,7 @@ const StyledSpacer = styled.div<{ size: SpacerSize }>`
 `;
 
 const Spacer = (props: SpacerProps) => {
-  const { size = 6 } = props;
+  const { size = 4 } = props;
   return <StyledSpacer size={size} />;
 };
 

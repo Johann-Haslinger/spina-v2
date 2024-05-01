@@ -73,7 +73,7 @@ const FlashcardSetView = (
               <>
                 <ActionRow
                   isFirst
-                  isLast
+                  last
                   icon={<IoAlbumsOutline />}
                   onClick={() => openFlashcardQuizView()}
                 >
@@ -99,7 +99,7 @@ const FlashcardSetView = (
                 </ActionRow>
                 <ActionRow
                   destructive
-                  isLast
+                  last
                   icon={<IoTrashOutline />}
                   onClick={openDeleteFlashcardSetAlert}
                 >

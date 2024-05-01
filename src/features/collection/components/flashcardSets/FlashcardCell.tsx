@@ -16,7 +16,7 @@ const StyledFlashcardCellWrapper = styled.div<{
   backgroundColor: string;
   color: string;
 }>`
-  ${tw`w-full h-40 dark:bg-tertiaryDark text-primatyText dark:text-primaryTextDark bg-tertiary rounded-lg p-3 transition-all hover:scale-105`}
+  ${tw`w-full cursor-pointer h-40 dark:bg-tertiaryDark text-primatyText dark:text-primaryTextDark bg-tertiary rounded-lg p-3 transition-all hover:scale-105`}
 `;
 
 const StyledTextWrapper = styled.div`
