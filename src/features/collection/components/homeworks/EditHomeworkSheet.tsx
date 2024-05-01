@@ -82,7 +82,7 @@ const EditHomeworkSheet = () => {
             onChange={(e) => setNewTitle(e.target.value)}
           />
         </SectionRow>
-        <SectionRow type="last">
+        <SectionRow last>
           <FlexBox>
             <div> Due Date</div>
             <DateInput

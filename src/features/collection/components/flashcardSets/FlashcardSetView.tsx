@@ -10,12 +10,7 @@ import {
   Title,
   View,
 } from "../../../../components";
-import {
-  AnswerFacet,
-  MasteryLevelFacet,
-  QuestionFacet,
-  TitleProps,
-} from "../../../../app/AdditionalFacets";
+import { AnswerFacet, MasteryLevelFacet, QuestionFacet, TitleProps } from "../../../../app/AdditionalFacets";
 import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
 import { IdentifierFacet, IdentifierProps, Tags } from "@leanscope/ecs-models";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
@@ -40,10 +35,9 @@ import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import EditFlashcardSheet from "./EditFlashcardSheet";
 import AddFlashcardsSheet from "./AddFlashcardsSheet";
 import { useEntityHasChildren } from "../../hooks/useEntityHasChildren";
+import FlashcardQuizView from "../../../study/components/FlashcardQuizView";
 
-const FlashcardSetView = (
-  props: TitleProps & EntityProps & IdentifierProps
-) => {
+const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => {
   const lsc = useContext(LeanScopeClientContext);
   const { title, entity, guid } = props;
   const isVisible = useIsViewVisible(entity);
@@ -52,15 +46,11 @@ const FlashcardSetView = (
   const { hasChildren } = useEntityHasChildren(entity);
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
-  const openEditFlashcardSetSheet = () =>
-    lsc.stories.transitTo(Stories.EDIT_FLASHCARD_SET_STORY);
+  const openEditFlashcardSetSheet = () => lsc.stories.transitTo(Stories.EDIT_FLASHCARD_SET_STORY);
 
-  const openDeleteFlashcardSetAlert = () =>
-    lsc.stories.transitTo(Stories.DELETE_FLASHCARD_SET_STORY);
-  const openAddFlashcardsSheet = () =>
-    lsc.stories.transitTo(Stories.ADD_FLASHCARDS_STORY);
-  const openFlashcardQuizView = () =>
-    lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_QUIZ_STORY);
+  const openDeleteFlashcardSetAlert = () => lsc.stories.transitTo(Stories.DELETE_FLASHCARD_SET_STORY);
+  const openAddFlashcardsSheet = () => lsc.stories.transitTo(Stories.ADD_FLASHCARDS_STORY);
+  const openFlashcardQuizView = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_QUIZ_STORY);
 
   return (
     <>
@@ -71,12 +61,7 @@ const FlashcardSetView = (
           <NavBarButton
             content={
               <>
-                <ActionRow
-                  isFirst
-                  last
-                  icon={<IoAlbumsOutline />}
-                  onClick={() => openFlashcardQuizView()}
-                >
+                <ActionRow isFirst last icon={<IoAlbumsOutline />} onClick={() => openFlashcardQuizView()}>
                   {displayActionTexts(selectedLanguage).quiz}
                 </ActionRow>
               </>
@@ -90,19 +75,10 @@ const FlashcardSetView = (
           <NavBarButton
             content={
               <>
-                <ActionRow
-                  isFirst
-                  icon={<IoCreateOutline />}
-                  onClick={openEditFlashcardSetSheet}
-                >
+                <ActionRow isFirst icon={<IoCreateOutline />} onClick={openEditFlashcardSetSheet}>
                   {displayActionTexts(selectedLanguage).edit}
                 </ActionRow>
-                <ActionRow
-                  destructive
-                  last
-                  icon={<IoTrashOutline />}
-                  onClick={openDeleteFlashcardSetAlert}
-                >
+                <ActionRow destructive last icon={<IoTrashOutline />} onClick={openDeleteFlashcardSetAlert}>
                   {displayActionTexts(selectedLanguage).delete}
                 </ActionRow>
               </>
@@ -112,17 +88,13 @@ const FlashcardSetView = (
           </NavBarButton>
         </NavigationBar>
 
-        <BackButton navigateBack={navigateBack}>
-          {selectedTopicTitle}
-        </BackButton>
+        <BackButton navigateBack={navigateBack}>{selectedTopicTitle}</BackButton>
         <Title>{title}</Title>
         <Spacer size={8} />
         {!hasChildren && <NoContentAddedHint />}
         <CollectionGrid columnSize="large">
           <EntityPropsMapper
-            query={(e) =>
-              e.hasTag(DataTypes.FLASHCARD) && isChildOfQuery(e, entity)
-            }
+            query={(e) => e.hasTag(DataTypes.FLASHCARD) && isChildOfQuery(e, entity)}
             get={[[QuestionFacet, AnswerFacet, MasteryLevelFacet], []]}
             onMatch={FlashcardCell}
           />
@@ -130,19 +102,15 @@ const FlashcardSetView = (
       </View>
 
       <EntityPropsMapper
-        query={(e) =>
-          dataTypeQuery(e, DataTypes.FLASHCARD) && e.hasTag(Tags.SELECTED)
-        }
-        get={[
-          [QuestionFacet, AnswerFacet, MasteryLevelFacet, IdentifierFacet],
-          [],
-        ]}
+        query={(e) => dataTypeQuery(e, DataTypes.FLASHCARD) && e.hasTag(Tags.SELECTED)}
+        get={[[QuestionFacet, AnswerFacet, MasteryLevelFacet, IdentifierFacet], []]}
         onMatch={EditFlashcardSheet}
       />
 
       <EditFlashcardSetSheet />
       <DeleteFlashcardSetAlert />
       <AddFlashcardsSheet />
+      <FlashcardQuizView />
     </>
   );
 };

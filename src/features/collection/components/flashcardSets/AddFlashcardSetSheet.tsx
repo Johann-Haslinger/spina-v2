@@ -74,7 +74,7 @@ const AddFlashcardSetSheet = () => {
       </FlexBox>
       <Spacer />
       <Section>
-        <SectionRow type="last">
+        <SectionRow last>
           <TextInput
             value={flashcardSetTitle}
             onChange={(e) => setFlashcardSetTitle(e.target.value)}

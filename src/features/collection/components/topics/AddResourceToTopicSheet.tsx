@@ -82,7 +82,7 @@ const AddResourceToTopicSheet = () => {
         </SectionRow>
         <SectionRow
           onClick={() => lsc.stories.transitTo(Stories.ADD_HOMEWORK_STORY)}
-          type="last"
+         last
           role="button"
         >
           Homework

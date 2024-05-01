@@ -87,7 +87,7 @@ const EditTopicSheet = () => {
             placeholder="Title"
           />
         </SectionRow>
-        <SectionRow type="last">
+        <SectionRow last>
           <TextAreaInput
             value={newDescription}
             onChange={(e) => setNewDescription(e.target.value)}

@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import {
   CancelButton,
   FlexBox,
+  ProgressBar,
   SaveButton,
   Section,
   SectionRow,
@@ -26,14 +27,14 @@ import supabaseClient from "../../../../lib/supabase";
 import { IdentifierProps } from "@leanscope/ecs-models";
 import { IoTrashOutline } from "react-icons/io5";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import styled from "@emotion/styled";
+import tw from "twin.macro";
 
-const EditFlashcardSheet = (
-  props: QuestionProps &
-    AnswerProps &
-    MasteryLevelProps &
-    EntityProps &
-    IdentifierProps
-) => {
+const StyledMasteryLevelText = styled.div`
+  ${tw`lg:pl-10 px-4 dark:text-primaryTextDark`}
+`;
+
+const EditFlashcardSheet = (props: QuestionProps & AnswerProps & MasteryLevelProps & EntityProps & IdentifierProps) => {
   const lsc = useContext(LeanScopeClientContext);
   const { question, answer, masteryLevel, entity, guid } = props;
   const isVisible = useIsViewVisible(entity);
@@ -68,10 +69,7 @@ const EditFlashcardSheet = (
     setTimeout(async () => {
       lsc.engine.removeEntity(entity);
 
-      const { error } = await supabaseClient
-        .from("flashCards")
-        .delete()
-        .eq("id", guid);
+      const { error } = await supabaseClient.from("flashCards").delete().eq("id", guid);
 
       if (error) {
         console.error("Error deleting flashcard: ", error);
@@ -82,38 +80,32 @@ const EditFlashcardSheet = (
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>
       <FlexBox>
-        <CancelButton onClick={navigateBack}>
-          {displayButtonTexts(selectedLanguage).cancel}
-        </CancelButton>
+        <CancelButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</CancelButton>
         {(questionValue !== question || answerValue !== answer) && (
-          <SaveButton onClick={updateFlashcard}>
-            {displayButtonTexts(selectedLanguage).save}
-          </SaveButton>
+          <SaveButton onClick={updateFlashcard}>{displayButtonTexts(selectedLanguage).save}</SaveButton>
         )}
       </FlexBox>
       <Spacer />
       <Section>
         <SectionRow>
-          <TextAreaInput
-            value={questionValue}
-            onChange={(e) => setQuestionValue(e.target.value)}
-          />
+          <TextAreaInput value={questionValue} onChange={(e) => setQuestionValue(e.target.value)} />
         </SectionRow>
-        <SectionRow type="last">
-          <TextAreaInput
-            value={answerValue}
-            onChange={(e) => setAnswerValue(e.target.value)}
-          />
+        <SectionRow last>
+          <TextAreaInput value={answerValue} onChange={(e) => setAnswerValue(e.target.value)} />
         </SectionRow>
       </Section>
       <Spacer size={2} />
       <Section>
-        <SectionRow
-          role="destructive"
-          type="last"
-          icon={<IoTrashOutline />}
-          onClick={deleteFlashcard}
-        >
+        <SectionRow last>
+          <FlexBox>
+            <ProgressBar width={(masteryLevel / 5) * 100 + 2} />
+            <StyledMasteryLevelText>{(masteryLevel / 5) * 100}%</StyledMasteryLevelText>
+          </FlexBox>
+        </SectionRow>
+      </Section>
+      <Spacer size={2} />
+      <Section>
+        <SectionRow role="destructive" last icon={<IoTrashOutline />} onClick={deleteFlashcard}>
           {displayButtonTexts(selectedLanguage).delete}
         </SectionRow>
       </Section>

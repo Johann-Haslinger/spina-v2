@@ -15,20 +15,16 @@ import {
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { displayButtonTexts } from "../../../../utils/selectDisplayText";
-import { IoAdd, IoColorWandOutline, IoDownloadOutline } from "react-icons/io5";
-import { useSelectedFlashcardSet } from "../../hooks/useSelectedFlashcardSet";
+import { IoAdd, IoColorWandOutline } from "react-icons/io5";
 import { v4 } from "uuid";
 import { Entity } from "@leanscope/ecs-engine";
 import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
-import {
-  AnswerFacet,
-  MasteryLevelFacet,
-  QuestionFacet,
-} from "../../../../app/AdditionalFacets";
+import { AnswerFacet, MasteryLevelFacet, QuestionFacet } from "../../../../app/AdditionalFacets";
 import supabaseClient from "../../../../lib/supabase";
 import { useUserData } from "../../../../hooks/useUserData";
 import { generateFlashCards } from "../../../../utils/generateResources";
 import GeneratingIndecator from "../../../../components/content/GeneratingIndecator";
+import { useSeletedFlashcardGroup } from "../../hooks/useSelectedFlashcardGroup";
 
 type Flashcard = {
   question: string;
@@ -47,19 +43,14 @@ const AddFlashcardsSheet = () => {
   const isVisible = useIsStoryCurrent(Stories.ADD_FLASHCARDS_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const [flashcards, setFlashcards] = useState<Flashcard[]>([]);
-  const { selectedFlashcardSetId } = useSelectedFlashcardSet();
-  const [addFlashcardsMethod, setAddFlashcardsMethod] = useState<
-    AddFlashcardsMethods | undefined
-  >(undefined);
+  const { selectedFlashcardGroupId } = useSeletedFlashcardGroup();
+  const [addFlashcardsMethod, setAddFlashcardsMethod] = useState<AddFlashcardsMethods | undefined>(undefined);
   const { userId } = useUserData();
   const [generateFlashcardsPrompt, setGenerateFlashcardsPrompt] = useState("");
   const [isGeneratingFlashcards, setIsGeneratingFlashcards] = useState(false);
 
   useEffect(() => {
-    if (
-      flashcards[flashcards.length - 1] &&
-      flashcards[flashcards.length - 1].answer !== ""
-    ) {
+    if (flashcards[flashcards.length - 1] && flashcards[flashcards.length - 1].answer !== "") {
       setFlashcards([...flashcards, { question: "", answer: "" }]);
     }
   }, [flashcards[flashcards.length - 1]]);
@@ -70,12 +61,11 @@ const AddFlashcardsSheet = () => {
     setFlashcards([]);
   }, [isVisible]);
 
-  const navigateBack = () =>
-    lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_SET_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_SET_STORY);
 
   const saveFlashcards = async () => {
     navigateBack();
-    const parentId = selectedFlashcardSetId;
+    const parentId = selectedFlashcardGroupId;
     let addedFlashcards: {
       id: string;
       question: string;
@@ -95,9 +85,7 @@ const AddFlashcardsSheet = () => {
         lsc.engine.addEntity(newFlashcardEntity);
         newFlashcardEntity.add(new IdentifierFacet({ guid: flashcardId }));
         newFlashcardEntity.add(new ParentFacet({ parentId: parentId }));
-        newFlashcardEntity.add(
-          new QuestionFacet({ question: flashcard.question })
-        );
+        newFlashcardEntity.add(new QuestionFacet({ question: flashcard.question }));
         newFlashcardEntity.add(new AnswerFacet({ answer: flashcard.answer }));
         newFlashcardEntity.add(new MasteryLevelFacet({ masteryLevel: 0 }));
         newFlashcardEntity.add(DataTypes.FLASHCARD);
@@ -112,9 +100,7 @@ const AddFlashcardsSheet = () => {
         });
       });
 
-      const { error } = await supabaseClient
-        .from("flashCards")
-        .insert(addedFlashcards);
+      const { error } = await supabaseClient.from("flashCards").insert(addedFlashcards);
 
       if (error) {
         console.error("Error inserting flashcards", error);
@@ -133,13 +119,9 @@ const AddFlashcardsSheet = () => {
   return (
     <Sheet navigateBack={navigateBack} visible={isVisible}>
       <FlexBox>
-        <CancelButton onClick={navigateBack}>
-          {displayButtonTexts(selectedLanguage).cancel}
-        </CancelButton>
+        <CancelButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</CancelButton>
         {flashcards.length > 0 && (
-          <SaveButton onClick={saveFlashcards}>
-            {displayButtonTexts(selectedLanguage).save}
-          </SaveButton>
+          <SaveButton onClick={saveFlashcards}>{displayButtonTexts(selectedLanguage).save}</SaveButton>
         )}
       </FlexBox>
       <Spacer />
@@ -147,9 +129,7 @@ const AddFlashcardsSheet = () => {
         <Section>
           <SectionRow
             onClick={() => {
-              setAddFlashcardsMethod(
-                AddFlashcardsMethods.ADD_FLASHCARDS_MANUALLY
-              );
+              setAddFlashcardsMethod(AddFlashcardsMethods.ADD_FLASHCARDS_MANUALLY);
               setFlashcards([{ question: "", answer: "" }]);
             }}
             role="button"
@@ -158,63 +138,41 @@ const AddFlashcardsSheet = () => {
             Karte hinzufügen
           </SectionRow>
           <SectionRow
-            type="last"
-            onClick={() =>
-              setAddFlashcardsMethod(AddFlashcardsMethods.GENERATE_FLASHCARDS)
-            }
+           last
+            onClick={() => setAddFlashcardsMethod(AddFlashcardsMethods.GENERATE_FLASHCARDS)}
             role="button"
             icon={<IoColorWandOutline />}
           >
             Karten generieren
           </SectionRow>
-          {/* <SectionRow
-            onClick={() =>
-              setAddFlashcardsMethod(AddFlashcardsMethods.IMPORT_FLASHCARDS)
-            }
-            role="button"
-            icon={<IoDownloadOutline />}
-            type="last"
-          >
-            Karten importieren
-          </SectionRow> */}
         </Section>
       )}
-      {addFlashcardsMethod == AddFlashcardsMethods.GENERATE_FLASHCARDS &&
-        !isGeneratingFlashcards && (
-          <>
+      {addFlashcardsMethod == AddFlashcardsMethods.GENERATE_FLASHCARDS && !isGeneratingFlashcards && (
+        <>
+          <Section>
+            <SectionRow last>
+              <TextAreaInput
+                placeholder="Worüber möchtest du Karten erzeugen?"
+                onChange={(e) => setGenerateFlashcardsPrompt(e.target.value)}
+              />
+            </SectionRow>
+          </Section>
+          <Spacer size={2} />
+          {generateFlashcardsPrompt && (
             <Section>
-              <SectionRow type="last">
-                <TextAreaInput
-                  placeholder="Worüber möchtest du Karten erzeugen?"
-                  onChange={(e) => setGenerateFlashcardsPrompt(e.target.value)}
-                />
+              <SectionRow role="button" icon={<IoColorWandOutline />}last onClick={handleGenerateFlashcards}>
+                Karteikarten erzuegen
               </SectionRow>
             </Section>
-            <Spacer size={2} />
-            {generateFlashcardsPrompt && (
-              <Section>
-                <SectionRow
-                  role="button"
-                  icon={<IoColorWandOutline />}
-                  type="last"
-                  onClick={handleGenerateFlashcards}
-                >
-                  Karteikarten erzuegen
-                </SectionRow>
-              </Section>
-            )}
-          </>
-        )}
+          )}
+        </>
+      )}
       {isGeneratingFlashcards && <GeneratingIndecator />}
       <ScrollableBox>
         {flashcards.map((flashcard, index) => (
           <PreviewFlashcard
             updateFlashcard={(flashcard) =>
-              setFlashcards([
-                ...flashcards.slice(0, index),
-                flashcard,
-                ...flashcards.slice(index + 1),
-              ])
+              setFlashcards([...flashcards.slice(0, index), flashcard, ...flashcards.slice(index + 1)])
             }
             key={index}
             flashcard={flashcard}
@@ -227,10 +185,7 @@ const AddFlashcardsSheet = () => {
 
 export default AddFlashcardsSheet;
 
-const PreviewFlashcard = (props: {
-  flashcard: Flashcard;
-  updateFlashcard: (flashcard: Flashcard) => void;
-}) => {
+const PreviewFlashcard = (props: { flashcard: Flashcard; updateFlashcard: (flashcard: Flashcard) => void }) => {
   const { flashcard } = props;
 
   return (
@@ -240,18 +195,14 @@ const PreviewFlashcard = (props: {
           <TextAreaInput
             placeholder="Question"
             value={flashcard.question}
-            onChange={(e) =>
-              props.updateFlashcard({ ...flashcard, question: e.target.value })
-            }
+            onChange={(e) => props.updateFlashcard({ ...flashcard, question: e.target.value })}
           />
         </SectionRow>
-        <SectionRow type="last">
+        <SectionRow last>
           <TextAreaInput
             placeholder="Answer"
             value={flashcard.answer}
-            onChange={(e) =>
-              props.updateFlashcard({ ...flashcard, answer: e.target.value })
-            }
+            onChange={(e) => props.updateFlashcard({ ...flashcard, answer: e.target.value })}
           />
         </SectionRow>
       </Section>

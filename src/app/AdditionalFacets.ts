@@ -87,3 +87,13 @@ export class RelationshipFacet extends Facet<RelationshipProps>{
     super(props);
   }
 } 
+
+export interface LastReviewedProps {
+  lastReviewed: string;
+}
+
+export class LastReviewedFacet extends Facet<LastReviewedProps>{
+  constructor(props: LastReviewedProps) {
+    super(props);
+  }
+}

@@ -156,7 +156,7 @@ console.log("openSchoolSubjectId", selectedSchoolSubjectId,)
           </FlexBox>
         </SectionRow>
         {!openTopicId && (
-          <SectionRow type="last">
+          <SectionRow last>
             <FlexBox>
               <p>School Subject</p>
               <SelectInput
@@ -186,9 +186,7 @@ console.log("openSchoolSubjectId", selectedSchoolSubjectId,)
             <Section>
               {schoolSubjectTopics.map((topic, idx) => (
                 <SectionRow
-                  type={
-                    idx === schoolSubjectTopics.length - 1 ? "last" : "default"
-                  }
+                last={idx === schoolSubjectTopics.length - 1}
                   key={idx}
                   onClick={() =>
                     setNewHomework({ ...newHomework, parent: topic.id })
@@ -205,7 +203,7 @@ console.log("openSchoolSubjectId", selectedSchoolSubjectId,)
                 </SectionRow>
               ))}
               {!hasSchoolSubjectTopics && (
-                <SectionRow type="last">
+                <SectionRow last>
                   No topics for this school subject
                 </SectionRow>
               )}
@@ -215,7 +213,7 @@ console.log("openSchoolSubjectId", selectedSchoolSubjectId,)
 
       <Spacer size={2} />
       <Section>
-        <SectionRow type="last">
+        <SectionRow last>
           <TextAreaInput
             value={newHomework.description}
             onChange={(e) =>

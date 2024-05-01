@@ -49,3 +49,9 @@ export { SegmentedControl, SegmentedControlCell } from "./inputs/SegmentedContro
 
 export { default as NoteThumbNail } from "./thumbNails/NoteThumbNail";
 export { default as FlashcardSetThumbNail } from "./thumbNails/FlashcardSetThumbNail";
+
+
+// ------Status-----
+
+export { default as ProgressBar } from "./status/ProgressBar";
+export { default as GeneratingIndecator } from "./content/GeneratingIndecator";

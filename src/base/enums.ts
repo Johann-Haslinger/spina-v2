@@ -37,6 +37,8 @@ export enum AdditionalTags {
   SETTING_VISIBLE = "settingVisible",
   LIGHT_THEME = "lightMode",
   DARK_THEME = "darkMode",
+  ANSWERD_RIGHT = "answeredRight",
+  ANSWERD_WRONG = "answeredWrong",
 }
 
 export enum NavigationLinks {

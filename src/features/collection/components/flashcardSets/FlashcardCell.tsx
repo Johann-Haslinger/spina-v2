@@ -66,7 +66,7 @@ const FlashcardCell = (
       <StyledProgressBarWrapper backgroundColor={color}>
         <StyledProgressBar
           backgroundColor={backgroundColor}
-          width={((masteryLevel - 1) / 5) * 100 + 2 + "%"}
+          width={(masteryLevel  / 5) * 100 + 2 + "%"}
         />
       </StyledProgressBarWrapper>
     </StyledFlashcardCellWrapper>

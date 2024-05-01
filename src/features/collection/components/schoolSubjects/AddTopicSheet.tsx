@@ -112,7 +112,7 @@ const AddTopicSheet = () => {
             placeholder="Enter topic name"
           />
         </SectionRow>
-        <SectionRow type="last">
+        <SectionRow last>
           <TextAreaInput
             value={description}
             onChange={(e) => setDescription(e.target.value)}

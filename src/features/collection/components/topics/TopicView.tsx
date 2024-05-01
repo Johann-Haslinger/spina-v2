@@ -13,12 +13,7 @@ import {
 } from "../../../../components";
 import { TitleFacet, TitleProps } from "../../../../app/AdditionalFacets";
 import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
-import {
-  DescriptionProps,
-  IdentifierFacet,
-  Tags,
-  TextFacet,
-} from "@leanscope/ecs-models";
+import { DescriptionProps, IdentifierFacet, Tags, TextFacet } from "@leanscope/ecs-models";
 import { useSelectedSchoolSubject } from "../../hooks/useSelectedSchoolSubject";
 import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
@@ -32,12 +27,7 @@ import FlashcardSetCell from "../flashcardSets/FlashcardSetCell";
 import FlashcardSetView from "../flashcardSets/FlashcardSetView";
 import LoadFlashcardSetsSystem from "../../systems/LoadFlashcardSetsSystem";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import {
-  IoAdd,
-  IoCreateOutline,
-  IoEllipsisHorizontalCircleOutline,
-  IoTrashOutline,
-} from "react-icons/io5";
+import { IoAdd, IoCreateOutline, IoEllipsisHorizontalCircleOutline, IoTrashOutline } from "react-icons/io5";
 import AddResourceToTopicSheet from "./AddResourceToTopicSheet";
 import HomeworkCell from "../homeworks/HomeworkCell";
 import HomeworkView from "../homeworks/HomeworkView";
@@ -62,12 +52,9 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
   const { hasChildren } = useEntityHasChildren(entity);
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
-  const openAddResourceSheet = () =>
-    lsc.stories.transitTo(Stories.ADD_RESOURCE_TO_TOPIC_STORY);
-  const openEditTopicSheet = () =>
-    lsc.stories.transitTo(Stories.EDIT_TOPIC_STORY);
-  const openDeleteTopicAlert = () =>
-    lsc.stories.transitTo(Stories.DELETE_TOPIC_STORY);
+  const openAddResourceSheet = () => lsc.stories.transitTo(Stories.ADD_RESOURCE_TO_TOPIC_STORY);
+  const openEditTopicSheet = () => lsc.stories.transitTo(Stories.EDIT_TOPIC_STORY);
+  const openDeleteTopicAlert = () => lsc.stories.transitTo(Stories.DELETE_TOPIC_STORY);
 
   return (
     <>
@@ -84,19 +71,10 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
           <NavBarButton
             content={
               <>
-                <ActionRow
-                  isFirst
-                  onClick={openEditTopicSheet}
-                  icon={<IoCreateOutline />}
-                >
+                <ActionRow isFirst onClick={openEditTopicSheet} icon={<IoCreateOutline />}>
                   {displayActionTexts(selectedLanguage).edit}
                 </ActionRow>
-                <ActionRow
-                  onClick={openDeleteTopicAlert}
-                  icon={<IoTrashOutline />}
-                  destructive
-                  last
-                >
+                <ActionRow onClick={openDeleteTopicAlert} icon={<IoTrashOutline />} destructive last>
                   {displayActionTexts(selectedLanguage).delete}
                 </ActionRow>
               </>
@@ -105,14 +83,10 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
             <IoEllipsisHorizontalCircleOutline />
           </NavBarButton>
         </NavigationBar>
-        <BackButton navigateBack={navigateBack}>
-          {selectedSchoolSubjectTitle}
-        </BackButton>
+        <BackButton navigateBack={navigateBack}>{selectedSchoolSubjectTitle}</BackButton>
         <Title>{title}</Title>
         <Spacer size={4} />
-        <SecondaryText>
-          {props.description || "No Description added"}
-        </SecondaryText>
+        <SecondaryText>{props.description || "No Description added"}</SecondaryText>
         <Spacer size={2} />
 
         <Spacer />
@@ -120,9 +94,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
 
         <CollectionGrid>
           <EntityPropsMapper
-            query={(e) =>
-              dataTypeQuery(e, DataTypes.SUBTOPIC) && isChildOfQuery(e, entity)
-            }
+            query={(e) => dataTypeQuery(e, DataTypes.SUBTOPIC) && isChildOfQuery(e, entity)}
             sort={(a, b) => sortEntitiesByDateAdded(a, b)}
             get={[[TitleFacet], []]}
             onMatch={SubtopicCell}
@@ -131,9 +103,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
 
         <CollectionGrid>
           <EntityPropsMapper
-            query={(e) =>
-              dataTypeQuery(e, DataTypes.NOTE) && isChildOfQuery(e, entity)
-            }
+            query={(e) => dataTypeQuery(e, DataTypes.NOTE) && isChildOfQuery(e, entity)}
             sort={(a, b) => sortEntitiesByDateAdded(a, b)}
             get={[[TitleFacet], []]}
             onMatch={NoteCell}
@@ -142,10 +112,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
 
         <CollectionGrid>
           <EntityPropsMapper
-            query={(e) =>
-              dataTypeQuery(e, DataTypes.FLASHCARD_SET) &&
-              isChildOfQuery(e, entity)
-            }
+            query={(e) => dataTypeQuery(e, DataTypes.FLASHCARD_SET) && isChildOfQuery(e, entity)}
             get={[[TitleFacet, IdentifierFacet], []]}
             sort={(a, b) => sortEntitiesByDateAdded(a, b)}
             onMatch={FlashcardSetCell}
@@ -154,9 +121,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
 
         <CollectionGrid>
           <EntityPropsMapper
-            query={(e) =>
-              dataTypeQuery(e, DataTypes.HOMEWORK) && isChildOfQuery(e, entity)
-            }
+            query={(e) => dataTypeQuery(e, DataTypes.HOMEWORK) && isChildOfQuery(e, entity)}
             get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
             sort={(a, b) => sortEntitiesByDateAdded(a, b)}
             onMatch={HomeworkCell}
@@ -170,23 +135,17 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
         onMatch={NoteView}
       />
       <EntityPropsMapper
-        query={(e) =>
-          dataTypeQuery(e, DataTypes.FLASHCARD_SET) && e.has(Tags.SELECTED)
-        }
+        query={(e) => dataTypeQuery(e, DataTypes.FLASHCARD_SET) && e.has(Tags.SELECTED)}
         get={[[TitleFacet, IdentifierFacet], []]}
         onMatch={FlashcardSetView}
       />
       <EntityPropsMapper
-        query={(e) =>
-          dataTypeQuery(e, DataTypes.HOMEWORK) && e.has(Tags.SELECTED)
-        }
+        query={(e) => dataTypeQuery(e, DataTypes.HOMEWORK) && e.has(Tags.SELECTED)}
         get={[[TitleFacet, IdentifierFacet, TextFacet], []]}
         onMatch={HomeworkView}
       />
       <EntityPropsMapper
-        query={(e) =>
-          dataTypeQuery(e, DataTypes.SUBTOPIC) && e.has(Tags.SELECTED)
-        }
+        query={(e) => dataTypeQuery(e, DataTypes.SUBTOPIC) && e.has(Tags.SELECTED)}
         get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
         onMatch={SubtopicView}
       />
