@@ -12,10 +12,7 @@ import {
   View,
 } from "../../../../components";
 import { TitleFacet, TitleProps } from "../../../../app/AdditionalFacets";
-import {
-  EntityProps,
-  EntityPropsMapper,
-} from "@leanscope/ecs-engine";
+import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
 import {
   DescriptionProps,
   IdentifierFacet,
@@ -52,7 +49,9 @@ import EditTopicSheet from "./EditTopicSheet";
 import { useEntityHasChildren } from "../../hooks/useEntityHasChildren";
 import AddHomeworkSheet from "../homeworks/AddHomeworkSheet";
 import AddFlashcardSetSheet from "../flashcardSets/AddFlashcardSetSheet";
-
+import LoadSubtopicsSystem from "../../systems/LoadSubtopicsSystem";
+import SubtopicCell from "../subtopics/SubtopicCell";
+import SubtopicView from "../subtopics/SubtopicView";
 
 const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -60,7 +59,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
   const isVisible = useIsViewVisible(entity);
   const { selectedSchoolSubjectTitle } = useSelectedSchoolSubject();
   const { selectedLanguage } = useSelectedLanguage();
-  const {hasChildren} = useEntityHasChildren(entity);
+  const { hasChildren } = useEntityHasChildren(entity);
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
   const openAddResourceSheet = () =>
@@ -75,11 +74,10 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
       <LoadNotesSystem />
       <LoadFlashcardSetsSystem />
       <LoadHomeworksSystem />
+      <LoadSubtopicsSystem />
 
       <View visibe={isVisible}>
-        <NavigationBar
-         
-        >
+        <NavigationBar>
           <NavBarButton onClick={openAddResourceSheet}>
             <IoAdd />
           </NavBarButton>
@@ -116,9 +114,21 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
           {props.description || "No Description added"}
         </SecondaryText>
         <Spacer size={2} />
-        
-        <Spacer  />
+
+        <Spacer />
         {!hasChildren && <NoContentAddedHint />}
+
+        <CollectionGrid>
+          <EntityPropsMapper
+            query={(e) =>
+              dataTypeQuery(e, DataTypes.SUBTOPIC) && isChildOfQuery(e, entity)
+            }
+            sort={(a, b) => sortEntitiesByDateAdded(a, b)}
+            get={[[TitleFacet], []]}
+            onMatch={SubtopicCell}
+          />
+        </CollectionGrid>
+
         <CollectionGrid>
           <EntityPropsMapper
             query={(e) =>
@@ -172,6 +182,13 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
         }
         get={[[TitleFacet, IdentifierFacet, TextFacet], []]}
         onMatch={HomeworkView}
+      />
+      <EntityPropsMapper
+        query={(e) =>
+          dataTypeQuery(e, DataTypes.SUBTOPIC) && e.has(Tags.SELECTED)
+        }
+        get={[[TitleFacet], []]}
+        onMatch={SubtopicView}
       />
 
       <AddHomeworkSheet />

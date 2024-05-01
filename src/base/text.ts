@@ -23,5 +23,6 @@ export enum ButtonTexts {
 export enum ActionTexts {
     DELETE,
     EDIT,
-    CANCEL
+    CANCEL,
+    QUIZ,
 } 

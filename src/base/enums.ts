@@ -7,6 +7,7 @@ export enum Stories {
   OBSERVING_FLASHCARD_SET_STORY = "observingFlashcardSetStory",
   OBSERVING_HOMEWORKS_STORY = "observingHomeworksStory",
   OBSERVING_NOTE_STORY = "observingNoteStory",
+  OBSERVING_FLASHCARD_QUIZ_STORY = "observingFlashcardQuizStory",
 
   ADD_FLASHCARD_SET_STORY = "addFlashcardSetStory",
   ADD_TOPIC_STORY = "addTopicStory",
@@ -15,16 +16,17 @@ export enum Stories {
   ADD_RESOURCE_TO_TOPIC_STORY = "addResourceToTopicStory",
   ADD_FLASHCARDS_STORY = "addFlashcardsStory",
 
-
   EDIT_FLASHCARD_STORY = "editFlashcardStory",
   EDIT_FLASHCARD_SET_STORY = "editFlashcardSetStory",
   EDIT_HOMEWORK_STORY = "editHomeworkStory",
   EDIT_TOPIC_STORY = "editTopicStory",
+  EDIT_SUBTOPIC_STORY = "editSubtopicStory",
 
   DELETE_FLASHCARD_SET_STORY = "deleteFlashcardSetStory",
   DELETE_HOMEWORK_STORY = "deleteHomeworkStory",
   DELETE_TOPIC_STORY = "deleteTopicStory",
   DELETE_NOTE_STORY = "deleteNoteStory",
+  DELETE_SUBTOPIC_STORY = "deleteSubtopicStory",
 }
 
 export enum AdditionalTags {
@@ -55,6 +57,7 @@ export enum DataTypes {
   NOTE = "note",
   FLASHCARD_SET = "flashcardSet",
   FLASHCARD = "flashcard",
+  SUBTOPIC = "subTopic",
 }
 
 export enum SupportedLanguages {

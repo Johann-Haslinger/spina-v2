@@ -207,3 +207,25 @@ export const dummyNotes = [
     parentId: "1",
   },
 ];
+
+export const dummySubtopics = [
+  {
+    name: "Addition",
+    id: "1",
+    date_added: new Date().toISOString(),
+    parentId: "1",
+
+  }, 
+  {
+    name: "Subtraction",
+    id: "2",
+    date_added: new Date().toISOString(),
+    parentId: "1",
+  },
+  {
+    name: "Multiplication",
+    id: "3",
+    date_added: new Date().toISOString(),
+    parentId: "1",
+  },
+];

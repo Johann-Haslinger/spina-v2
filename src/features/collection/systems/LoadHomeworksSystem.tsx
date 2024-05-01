@@ -15,7 +15,6 @@ const fetchHomeworksForTopic = async (topicId: string) => {
     .select("title, id, createdAt, dueDate")
     .eq("parentId", topicId);
 
-    console.log(homeworks);
   if (error) {
     console.error("Error fetching homeworks:", error);
     return [];

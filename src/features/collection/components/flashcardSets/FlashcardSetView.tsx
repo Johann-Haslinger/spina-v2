@@ -27,8 +27,10 @@ import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import {
   IoAdd,
+  IoAlbumsOutline,
   IoCreateOutline,
   IoEllipsisHorizontalCircleOutline,
+  IoPlayOutline,
   IoTrashOutline,
 } from "react-icons/io5";
 import EditFlashcardSetSheet from "./EditFlashcardSetSheet";
@@ -57,6 +59,8 @@ const FlashcardSetView = (
     lsc.stories.transitTo(Stories.DELETE_FLASHCARD_SET_STORY);
   const openAddFlashcardsSheet = () =>
     lsc.stories.transitTo(Stories.ADD_FLASHCARDS_STORY);
+  const openFlashcardQuizView = () =>
+    lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_QUIZ_STORY);
 
   return (
     <>
@@ -64,6 +68,22 @@ const FlashcardSetView = (
 
       <View visibe={isVisible}>
         <NavigationBar>
+          <NavBarButton
+            content={
+              <>
+                <ActionRow
+                  isFirst
+                  isLast
+                  icon={<IoAlbumsOutline />}
+                  onClick={() => openFlashcardQuizView()}
+                >
+                  {displayActionTexts(selectedLanguage).quiz}
+                </ActionRow>
+              </>
+            }
+          >
+            <IoPlayOutline />
+          </NavBarButton>
           <NavBarButton onClick={openAddFlashcardsSheet}>
             <IoAdd />
           </NavBarButton>
@@ -97,7 +117,7 @@ const FlashcardSetView = (
         </BackButton>
         <Title>{title}</Title>
         <Spacer size={8} />
-        {!hasChildren&& <NoContentAddedHint />}
+        {!hasChildren && <NoContentAddedHint />}
         <CollectionGrid columnSize="large">
           <EntityPropsMapper
             query={(e) =>

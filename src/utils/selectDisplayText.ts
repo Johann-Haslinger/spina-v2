@@ -177,6 +177,7 @@ export const displayActionTexts = (selectedLanguage: SupportedLanguages) => {
     delete: getActionText(ActionTexts.DELETE, selectedLanguage),
     edit: getActionText(ActionTexts.EDIT, selectedLanguage),
     cancel: getActionText(ActionTexts.CANCEL, selectedLanguage),
+    quiz: getActionText(ActionTexts.QUIZ, selectedLanguage),
   };
 }
 
@@ -197,6 +198,15 @@ const getActionText = (actionText: ActionTexts, selectedLanguage: SupportedLangu
           return "Bearbeiten";
         case SupportedLanguages.EN:
           return "Edit";
+        default:
+          return "";
+      }
+    case ActionTexts.QUIZ:
+      switch (selectedLanguage) {
+        case SupportedLanguages.DE:
+          return "Abfrage";
+        case SupportedLanguages.EN:
+          return "Quiz";
         default:
           return "";
       }
