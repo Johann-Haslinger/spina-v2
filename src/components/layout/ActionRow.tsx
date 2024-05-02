@@ -4,13 +4,13 @@ import tw from "twin.macro";
 
 const StyledActionRowWrapper = styled.div<{
   destructive?: boolean;
-  isFirst?: boolean;
+   first?: boolean;
   last?: boolean;
   hasSpace?: boolean;
 }>`
   ${tw`flex pl-6 justify-between p-2 w-full cursor-pointer dark:hover:bg-[rgb(27,27,27)] hover:bg-[rgb(235,232,233)] border-primaryBorder dark:border-primaryBorderDark `}
   ${({ destructive }) => destructive && tw`text-[#FF3B30]`};
-  ${({ isFirst }) => isFirst && tw`rounded-t-lg pt-3`};
+  ${({  first }) =>  first && tw`rounded-t-lg pt-3`};
   ${({ last }) => (last ? tw`rounded-b-lg` : tw`border-b`)};
   ${({ hasSpace }) => hasSpace && tw`border-b-8`};
 `;
@@ -24,21 +24,21 @@ const StyledActionRowText = styled.p`
 interface ActionRowProps {
   onClick?: () => void;
   icon?: React.ReactNode;
-  isFirst?: boolean;
+   first?: boolean;
   last?: boolean;
   hasSpace?: boolean;
   destructive?: boolean;
 }
 
 const ActionRow = (props: PropsWithChildren & ActionRowProps) => {
-  const { children, onClick, icon, destructive, last, isFirst, hasSpace } =
+  const { children, onClick, icon, destructive, last,  first, hasSpace } =
     props;
 
   return (
     <StyledActionRowWrapper
       onClick={onClick}
       destructive={destructive}
-      isFirst={isFirst}
+       first={ first}
       last={last}
     >
       <StyledActionRowText>{children}</StyledActionRowText>

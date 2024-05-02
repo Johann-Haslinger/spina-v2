@@ -13,7 +13,7 @@ const NavigationIconsWrapper = styled.div`
 `;
 
 const ToolIconWrapper = styled.div`
-  ${tw`flex pr-4  space-x-4 lg:space-x-6 items-center`}
+  ${tw`flex pr-4  space-x-4 lg:space-x-8 items-center`}
 `;
 
 const StyledSidebarIcon = styled.div<{ type: "light" | "dark" }>`

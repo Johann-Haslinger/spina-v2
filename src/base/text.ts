@@ -27,4 +27,6 @@ export enum ActionTexts {
     QUIZ,
     NOTE,
     FLASHCARDS,
+    IMPROVE_TEXT,
+    GENERATE_FLASHCARDS,
 } 

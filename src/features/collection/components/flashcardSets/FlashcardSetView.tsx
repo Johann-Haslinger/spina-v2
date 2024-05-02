@@ -61,7 +61,7 @@ const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => 
           <NavBarButton
             content={
               <>
-                <ActionRow isFirst last icon={<IoAlbumsOutline />} onClick={() => openFlashcardQuizView()}>
+                <ActionRow  first last icon={<IoAlbumsOutline />} onClick={() => openFlashcardQuizView()}>
                   {displayActionTexts(selectedLanguage).quiz}
                 </ActionRow>
               </>
@@ -75,7 +75,7 @@ const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => 
           <NavBarButton
             content={
               <>
-                <ActionRow isFirst icon={<IoCreateOutline />} onClick={openEditFlashcardSetSheet}>
+                <ActionRow  first icon={<IoCreateOutline />} onClick={openEditFlashcardSetSheet}>
                   {displayActionTexts(selectedLanguage).edit}
                 </ActionRow>
                 <ActionRow destructive last icon={<IoTrashOutline />} onClick={openDeleteFlashcardSetAlert}>

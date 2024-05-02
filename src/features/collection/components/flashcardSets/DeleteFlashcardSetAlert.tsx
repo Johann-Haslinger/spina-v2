@@ -33,6 +33,15 @@ const DeleteFlashcardSetAlert = () => {
         if (error) {
           console.error("Error deleting flashcard set", error);
         }
+
+        const { error: flashcardsError } = await supabaseClient
+          .from("flashCards")
+          .delete()
+          .eq("parentId", selectedFlashcardSetId);
+
+        if (flashcardsError) {
+          console.error("Error deleting flashcards", flashcardsError);
+        }
       }
     }, 300);
   };

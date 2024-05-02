@@ -66,7 +66,7 @@ const HomeworkView = (
             content={
               <>
                 <ActionRow
-                  isFirst
+                   first
                   onClick={openEditHomeworkSheet}
                   icon={<IoCreateOutline />}
                 >

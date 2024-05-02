@@ -27,6 +27,9 @@ export enum Stories {
   DELETE_TOPIC_STORY = "deleteTopicStory",
   DELETE_NOTE_STORY = "deleteNoteStory",
   DELETE_SUBTOPIC_STORY = "deleteSubtopicStory",
+
+  GENERATE_IMPROVED_TEXT_STORY = "generateImprovedFlashcardsStory",
+  GENERATE_FLASHCARDS_STORY = "generateFlashcardsStory",
 }
 
 export enum AdditionalTags {

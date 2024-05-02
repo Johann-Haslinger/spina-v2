@@ -25,6 +25,7 @@ import { useUserData } from "../../../../hooks/useUserData";
 import { generateFlashCards } from "../../../../utils/generateResources";
 import GeneratingIndecator from "../../../../components/content/GeneratingIndecator";
 import { useSeletedFlashcardGroup } from "../../hooks/useSelectedFlashcardGroup";
+import PreviewFlashcard from "./PreviewFlashcard";
 
 type Flashcard = {
   question: string;
@@ -185,28 +186,3 @@ const AddFlashcardsSheet = () => {
 
 export default AddFlashcardsSheet;
 
-const PreviewFlashcard = (props: { flashcard: Flashcard; updateFlashcard: (flashcard: Flashcard) => void }) => {
-  const { flashcard } = props;
-
-  return (
-    <>
-      <Section>
-        <SectionRow>
-          <TextAreaInput
-            placeholder="Question"
-            value={flashcard.question}
-            onChange={(e) => props.updateFlashcard({ ...flashcard, question: e.target.value })}
-          />
-        </SectionRow>
-        <SectionRow last>
-          <TextAreaInput
-            placeholder="Answer"
-            value={flashcard.answer}
-            onChange={(e) => props.updateFlashcard({ ...flashcard, answer: e.target.value })}
-          />
-        </SectionRow>
-      </Section>
-      <Spacer size={2} />
-    </>
-  );
-};

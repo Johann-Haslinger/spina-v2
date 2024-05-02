@@ -19,7 +19,7 @@ import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 import { IdentifierFacet, IdentifierProps, Tags, TextFacet, TextProps } from "@leanscope/ecs-models";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { useSelectedTopic } from "../../hooks/useSelectedTopic";
-import { DataTypes, Stories } from "../../../../base/enums";
+import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
 import {
   IoAdd,
   IoAlbumsOutline,
@@ -52,7 +52,7 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
   const { selectedTopicTitle } = useSelectedTopic();
   const [subtopicViewState, setSubtopicViewState] = useState(SubtopicViewStates.NOTE);
 
-  const navigateBack = () => entity.removeTag(Tags.SELECTED);
+  const navigateBack = () => entity.add(AdditionalTags.NAVIGATE_BACK);
   const openDeleteAlert = () => lsc.stories.transitTo(Stories.DELETE_SUBTOPIC_STORY);
   const openEditSheet = () => lsc.stories.transitTo(Stories.EDIT_SUBTOPIC_STORY);
   const openAddFlashcardsSheet = () => lsc.stories.transitTo(Stories.ADD_FLASHCARDS_STORY);
@@ -82,7 +82,7 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
           <NavBarButton
             content={
               <>
-                <ActionRow isFirst last icon={<IoAlbumsOutline />} onClick={() => openFlashcardQuizView()}>
+                <ActionRow  first last icon={<IoAlbumsOutline />} onClick={() => openFlashcardQuizView()}>
                   {displayActionTexts(selectedLanguage).quiz}
                 </ActionRow>
               </>
@@ -93,7 +93,7 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
           <NavBarButton
             content={
               <>
-                <ActionRow icon={<IoCreateOutline />} onClick={openEditSheet} isFirst>
+                <ActionRow icon={<IoCreateOutline />} onClick={openEditSheet}  first>
                   {displayActionTexts(selectedLanguage).edit}
                 </ActionRow>
                 <ActionRow last destructive icon={<IoTrashOutline />} onClick={openDeleteAlert}>

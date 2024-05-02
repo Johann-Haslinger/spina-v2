@@ -1,12 +1,12 @@
-import { LeanScopeClientContext } from '@leanscope/api-client/node';
-import { useIsStoryCurrent } from '@leanscope/storyboarding';
-import React, { useContext } from 'react'
-import { Stories, AdditionalTags } from '../../../../base/enums';
-import { Alert, AlertButton } from '../../../../components';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
-import supabaseClient from '../../../../lib/supabase';
-import { displayActionTexts } from '../../../../utils/selectDisplayText';
-import { useSelectedSubtopic } from '../../hooks/useSelectedSubtopic';
+import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import { useIsStoryCurrent } from "@leanscope/storyboarding";
+import React, { useContext } from "react";
+import { Stories, AdditionalTags } from "../../../../base/enums";
+import { Alert, AlertButton } from "../../../../components";
+import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
+import supabaseClient from "../../../../lib/supabase";
+import { displayActionTexts } from "../../../../utils/selectDisplayText";
+import { useSelectedSubtopic } from "../../hooks/useSelectedSubtopic";
 
 const DeleteSubtopicAlert = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -14,8 +14,7 @@ const DeleteSubtopicAlert = () => {
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedSubtopicId, selectedSubtopicEntity } = useSelectedSubtopic();
 
-  const navigateBack = () =>
-    lsc.stories.transitTo(Stories.OBSERVING_TOPIC_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_TOPIC_STORY);
 
   const deleteSubtopic = async () => {
     navigateBack();
@@ -24,13 +23,28 @@ const DeleteSubtopicAlert = () => {
       if (selectedSubtopicEntity) {
         lsc.engine.removeEntity(selectedSubtopicEntity);
 
-        const { error } = await supabaseClient
-          .from("subTopics")
-          .delete()
-          .eq("id", selectedSubtopicId);
+        const { error: subtopicError } = await supabaseClient.from("subTopics").delete().eq("id", selectedSubtopicId);
 
-        if (error) {
-          console.error("Error deleting Subtopic", error);
+        if (subtopicError) {
+          console.error("Error deleting Subtopic", subtopicError);
+        }
+
+        const { error: knowledgeError } = await supabaseClient
+          .from("knowledges")
+          .delete()
+          .eq("parentId", selectedSubtopicId);
+
+        if (knowledgeError) {
+          console.error("Error deleting knowledge", knowledgeError);
+        }
+
+        const { error: flashcardsError } = await supabaseClient
+          .from("flashCards")
+          .delete()
+          .eq("parentId", selectedSubtopicId);
+
+        if (flashcardsError) {
+          console.error("Error deleting flashcards", flashcardsError);
         }
       }
     }, 300);
@@ -51,6 +65,6 @@ const DeleteSubtopicAlert = () => {
       </AlertButton>
     </Alert>
   );
-}
+};
 
-export default DeleteSubtopicAlert
+export default DeleteSubtopicAlert;

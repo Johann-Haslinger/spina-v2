@@ -71,7 +71,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
           <NavBarButton
             content={
               <>
-                <ActionRow isFirst onClick={openEditTopicSheet} icon={<IoCreateOutline />}>
+                <ActionRow  first onClick={openEditTopicSheet} icon={<IoCreateOutline />}>
                   {displayActionTexts(selectedLanguage).edit}
                 </ActionRow>
                 <ActionRow onClick={openDeleteTopicAlert} icon={<IoTrashOutline />} destructive last>
