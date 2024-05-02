@@ -97,3 +97,23 @@ export class LastReviewedFacet extends Facet<LastReviewedProps>{
     super(props);
   }
 }
+
+export interface EmailProps {
+  email: string;
+}
+
+export class EmailFacet extends Facet<EmailProps>{
+  constructor(props: EmailProps) {
+    super(props);
+  }
+}
+
+export interface UserSessionProps {
+  session: any
+}
+
+export class UserSessionFacet extends Facet<UserSessionProps>{
+  constructor(props: UserSessionProps) {
+    super(props);
+  }
+}

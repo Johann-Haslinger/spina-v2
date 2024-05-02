@@ -3,12 +3,15 @@ import { Entity } from "@leanscope/ecs-engine";
 import { AdditionalTags, SupportedLanguages } from "../base/enums";
 import { SelectedLanguageFacet as SelectedLanguageFacet } from "../app/AdditionalFacets";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import { IdentifierFacet } from "@leanscope/ecs-models";
 
 const AppInitSystem = (props: { mockupData?: boolean }) => {
   const lsc = useContext(LeanScopeClientContext);
   const { mockupData = false } = props;
 
   useEffect(() => {
+
+
     const appStateEntity = new Entity();
     lsc.engine.addEntity(appStateEntity);
     appStateEntity.add(
@@ -19,8 +22,7 @@ const AppInitSystem = (props: { mockupData?: boolean }) => {
     if (mockupData) {
       appStateEntity.add(AdditionalTags.MOCKUP_DATA);
     }
-
-    // Get theme from local storage
+    
     const storedTheme = localStorage.getItem("theme");
 
     if (storedTheme) {
@@ -36,6 +38,7 @@ const AppInitSystem = (props: { mockupData?: boolean }) => {
 
     return () => {
       lsc.engine.removeEntity(appStateEntity);
+  
     };
   }, []);
 

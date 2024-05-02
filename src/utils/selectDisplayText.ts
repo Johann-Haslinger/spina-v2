@@ -182,6 +182,7 @@ export const displayActionTexts = (selectedLanguage: SupportedLanguages) => {
     flashcards: getActionText(ActionTexts.FLASHCARDS, selectedLanguage),
     improveText: getActionText(ActionTexts.IMPROVE_TEXT, selectedLanguage),
     generateFlashcards: getActionText(ActionTexts.GENERATE_FLASHCARDS, selectedLanguage),
+    generatePodcast: getActionText(ActionTexts.GENERATE_PODCAST, selectedLanguage),
   };
 }
 
@@ -256,6 +257,15 @@ const getActionText = (actionText: ActionTexts, selectedLanguage: SupportedLangu
           return "Karten generieren";
         case SupportedLanguages.EN:
           return "Generate flashcards";
+        default:
+          return "";
+      }
+    case ActionTexts.GENERATE_PODCAST:
+      switch (selectedLanguage) {
+        case SupportedLanguages.DE:
+          return "Podcast generieren";
+        case SupportedLanguages.EN:
+          return "Generate podcast";
         default:
           return "";
       }

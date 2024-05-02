@@ -30,6 +30,7 @@ export enum Stories {
 
   GENERATE_IMPROVED_TEXT_STORY = "generateImprovedFlashcardsStory",
   GENERATE_FLASHCARDS_STORY = "generateFlashcardsStory",
+  GENERATE_PODCAST_STORY = "generatePodcastStory",
 }
 
 export enum AdditionalTags {

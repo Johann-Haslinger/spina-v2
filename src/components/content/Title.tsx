@@ -73,6 +73,7 @@ const Title = (props: PropsWithChildren & TitleProps) => {
       contentEditable={editable}
       onBlur={handleBlur}
       size={size}
+      onClick={()=> titleRef.current?.focus()}
       style={{
         color: color
       }}

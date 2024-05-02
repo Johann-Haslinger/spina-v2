@@ -23,9 +23,12 @@ import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
 import {
   IoAdd,
   IoAlbumsOutline,
+  IoColorWandOutline,
   IoCreateOutline,
   IoEllipsisHorizontalCircleOutline,
+  IoHeadsetOutline,
   IoPlayOutline,
+  IoSparklesOutline,
   IoTrashOutline,
 } from "react-icons/io5";
 import { displayActionTexts } from "../../../../utils/selectDisplayText";
@@ -57,6 +60,8 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
   const openEditSheet = () => lsc.stories.transitTo(Stories.EDIT_SUBTOPIC_STORY);
   const openAddFlashcardsSheet = () => lsc.stories.transitTo(Stories.ADD_FLASHCARDS_STORY);
   const openFlashcardQuizView = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_QUIZ_STORY);
+  const openImproveTextSheet = () => lsc.stories.transitTo(Stories.GENERATE_IMPROVED_TEXT_STORY);
+  const openGeneratePodcastSheet = () => lsc.stories.transitTo(Stories.GENERATE_PODCAST_STORY);
 
   const handleTextBlur = async (value: string) => {
     entity.add(new TextFacet({ text: value }));
@@ -82,7 +87,21 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
           <NavBarButton
             content={
               <>
-                <ActionRow  first last icon={<IoAlbumsOutline />} onClick={() => openFlashcardQuizView()}>
+              <ActionRow first icon={<IoHeadsetOutline />} onClick={openGeneratePodcastSheet}>
+                  {displayActionTexts(selectedLanguage).generatePodcast}
+                </ActionRow>
+                <ActionRow onClick={openImproveTextSheet} last icon={<IoSparklesOutline />}>
+                  {displayActionTexts(selectedLanguage).improveText}
+                </ActionRow>
+              </>
+            }
+          >
+            <IoColorWandOutline />
+          </NavBarButton>
+          <NavBarButton
+            content={
+              <>
+                <ActionRow first last icon={<IoAlbumsOutline />} onClick={() => openFlashcardQuizView()}>
                   {displayActionTexts(selectedLanguage).quiz}
                 </ActionRow>
               </>
@@ -93,7 +112,7 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
           <NavBarButton
             content={
               <>
-                <ActionRow icon={<IoCreateOutline />} onClick={openEditSheet}  first>
+                <ActionRow icon={<IoCreateOutline />} onClick={openEditSheet} first>
                   {displayActionTexts(selectedLanguage).edit}
                 </ActionRow>
                 <ActionRow last destructive icon={<IoTrashOutline />} onClick={openDeleteAlert}>
@@ -150,7 +169,6 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
       <DeleteSubtopicAlert />
       <AddFlashcardsSheet />
       <FlashcardQuizView />
-    
     </>
   );
 };

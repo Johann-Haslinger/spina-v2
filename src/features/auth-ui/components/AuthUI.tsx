@@ -6,7 +6,7 @@ import styled from "@emotion/styled/macro";
 import tw from "twin.macro";
 
 const StyledAuthWrapper = styled.div`
-  ${tw`flex bg-black justify-center items-center h-screen`}
+  ${tw`flex  justify-center items-center h-screen`}
 `;
 
 function AuthUI() {
@@ -43,7 +43,7 @@ function AuthUI() {
             //   }
             // },
           }}
-          theme="dark"
+          theme="light"
           // providers={["google"]}
           providers={[]}
         />
