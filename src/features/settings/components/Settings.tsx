@@ -7,7 +7,7 @@ import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 
 const Settings = () => {
   const { isSettingVisible, toggleSettings } = useAppState();
-  const { changeMode, isDarkMode } = useSelectedTheme();
+  const { changeTheme: changeMode, isDarkMode } = useSelectedTheme();
   const { selectedLanguage, changeLanguage } = useSelectedLanguage();
   const theme = isDarkMode ? SupportedThemes.DARK : SupportedThemes.LIGHT;
 

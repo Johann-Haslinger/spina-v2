@@ -13,7 +13,7 @@ import {
 } from "../../../../components";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import { displayButtonTexts } from "../../../../utils/selectDisplayText";
+import { displayButtonTexts, displayLabelTexts } from "../../../../utils/displayText";
 import { Entity } from "@leanscope/ecs-engine";
 import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { v4 } from "uuid";
@@ -78,7 +78,7 @@ const AddFlashcardSetSheet = () => {
           <TextInput
             value={flashcardSetTitle}
             onChange={(e) => setFlashcardSetTitle(e.target.value)}
-            placeholder="Flashcard Set Title"
+            placeholder={displayLabelTexts(selectedLanguage).title}
           />
         </SectionRow>
       </Section>

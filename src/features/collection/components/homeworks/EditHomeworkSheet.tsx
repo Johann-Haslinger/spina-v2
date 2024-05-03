@@ -16,7 +16,7 @@ import {
 } from "../../../../components";
 import { useSelectedHomework } from "../../hooks/useSelectedHomework";
 import supabaseClient from "../../../../lib/supabase";
-import { displayButtonTexts } from "../../../../utils/selectDisplayText";
+import { displayButtonTexts, displayLabelTexts } from "../../../../utils/displayText";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 
 const EditHomeworkSheet = () => {
@@ -80,11 +80,14 @@ const EditHomeworkSheet = () => {
           <TextInput
             value={newTitle}
             onChange={(e) => setNewTitle(e.target.value)}
+            placeholder={displayLabelTexts(selectedLanguage).title}
           />
         </SectionRow>
         <SectionRow last>
           <FlexBox>
-            <div> Due Date</div>
+            <div>
+              {displayLabelTexts(selectedLanguage).dueDate}
+            </div>
             <DateInput
               type="date"
               value={newDueDate}

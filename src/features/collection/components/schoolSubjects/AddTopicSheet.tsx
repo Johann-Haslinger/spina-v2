@@ -23,7 +23,7 @@ import {
 import { v4 } from "uuid";
 import { DateAddedFacet, TitleFacet } from "../../../../app/AdditionalFacets";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import { displayButtonTexts } from "../../../../utils/selectDisplayText";
+import { displayButtonTexts, displayLabelTexts } from "../../../../utils/displayText";
 import supabaseClient from "../../../../lib/supabase";
 import { getCompletion } from "../../../../utils/getCompletion";
 import { useUserData } from "../../../../hooks/useUserData";
@@ -109,14 +109,14 @@ const AddTopicSheet = () => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             type="text"
-            placeholder="Enter topic name"
+            placeholder={displayLabelTexts(selectedLanguage).title}
           />
         </SectionRow>
         <SectionRow last>
           <TextAreaInput
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="Enter topic description"
+            placeholder={displayLabelTexts(selectedLanguage).description}
           />
         </SectionRow>
       </Section>

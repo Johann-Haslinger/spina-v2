@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import { PropsWithChildren, useEffect, useRef, useState } from "react";
 import tw from "twin.macro";
 import { useSelectedTheme } from "../../features/collection/hooks/useSelectedTheme";
+import { displayAlertTexts } from "../../utils/displayText";
+import { useSelectedLanguage } from "../../hooks/useSelectedLanguage";
 
 const StyledAlertWrapper = styled.div`
   ${tw`bg-white dark:bg-seconderyDark overflow-hidden  text-primatyText dark:text-primaryTextDark w-10/12 md:w-64 mx-auto mt-72  backdrop-blur-lg bg-opacity-90 rounded-lg `}
@@ -23,15 +25,14 @@ const StyledButtonWrapper = styled.div`
 interface AlertProps {
   visible?: boolean;
   navigateBack?: () => void;
-  title?: string;
-  subTitle?: string;
 }
 
 const Alert = (props: AlertProps & PropsWithChildren) => {
-  const { visible = true, navigateBack, title, subTitle, children } = props;
+  const { visible = true, navigateBack,  children } = props;
   const [isAlertDisplayed, setIsAlertDisplayed] = useState(false);
   const alertRef = useRef<HTMLDivElement>(null);
   const { isDarkMode } = useSelectedTheme();
+  const { selectedLanguage } = useSelectedLanguage();
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);
@@ -69,11 +70,7 @@ const Alert = (props: AlertProps & PropsWithChildren) => {
           position: "fixed",
         }}
         animate={{
-          backgroundColor: visible
-            ? isDarkMode
-              ? "#00000080"
-              : "#00000020"
-            : "#0000000",
+          backgroundColor: visible ? (isDarkMode ? "#00000080" : "#00000020") : "#0000000",
         }}
       >
         <motion.div
@@ -82,8 +79,8 @@ const Alert = (props: AlertProps & PropsWithChildren) => {
           transition={{ duration: 0.2 }}
         >
           <StyledAlertWrapper ref={alertRef}>
-            <StyledAlertTitle>{title}</StyledAlertTitle>
-            <StyledAlertSubTitle> {subTitle}</StyledAlertSubTitle>
+            <StyledAlertTitle>{displayAlertTexts(selectedLanguage).deleteAlertTitle}</StyledAlertTitle>
+            <StyledAlertSubTitle> {displayAlertTexts(selectedLanguage).deleteAlertSubtitle}</StyledAlertSubTitle>
             <StyledButtonWrapper>{children}</StyledButtonWrapper>
           </StyledAlertWrapper>
         </motion.div>

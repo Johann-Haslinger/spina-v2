@@ -6,17 +6,15 @@ import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useSelectedFlashcardSet } from "../../hooks/useSelectedFlashcardSet";
 import supabaseClient from "../../../../lib/supabase";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import { displayActionTexts } from "../../../../utils/selectDisplayText";
+import { displayActionTexts } from "../../../../utils/displayText";
 
 const DeleteFlashcardSetAlert = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Stories.DELETE_FLASHCARD_SET_STORY);
   const { selectedLanguage } = useSelectedLanguage();
-  const { selectedFlashcardSetId, selectedFlashcardSetEntity } =
-    useSelectedFlashcardSet();
+  const { selectedFlashcardSetId, selectedFlashcardSetEntity } = useSelectedFlashcardSet();
 
-  const navigateBack = () =>
-    lsc.stories.transitTo(Stories.OBSERVING_TOPIC_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_TOPIC_STORY);
 
   const deleteFlashcardSet = async () => {
     navigateBack();
@@ -25,10 +23,7 @@ const DeleteFlashcardSetAlert = () => {
       if (selectedFlashcardSetEntity) {
         lsc.engine.removeEntity(selectedFlashcardSetEntity);
 
-        const { error } = await supabaseClient
-          .from("flashcardSets")
-          .delete()
-          .eq("id", selectedFlashcardSetId);
+        const { error } = await supabaseClient.from("flashcardSets").delete().eq("id", selectedFlashcardSetId);
 
         if (error) {
           console.error("Error deleting flashcard set", error);
@@ -47,12 +42,7 @@ const DeleteFlashcardSetAlert = () => {
   };
 
   return (
-    <Alert
-      navigateBack={navigateBack}
-      visible={isVisible}
-      title="Delete Flashcard Set"
-      subTitle="Are you sure you want to delete this flashcard set?"
-    >
+    <Alert navigateBack={navigateBack} visible={isVisible}>
       <AlertButton onClick={navigateBack} role="primary">
         {displayActionTexts(selectedLanguage).cancel}
       </AlertButton>

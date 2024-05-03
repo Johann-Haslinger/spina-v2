@@ -6,6 +6,8 @@ import styled from "@emotion/styled";
 import { DescriptionProps, Tags } from "@leanscope/ecs-models";
 import { IoBook } from "react-icons/io5";
 import { useAppState } from "../../hooks/useAppState";
+import { displayAlertTexts } from "../../../../utils/displayText";
+import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 
 const StyledTopicCellContainer = styled.div`
   ${tw` w-full cursor-pointer pb-6 h-fit`}
@@ -30,6 +32,7 @@ const TopicCell = (props: TitleProps & EntityProps & DescriptionProps) => {
   const { title, entity, description } = props;
   const { color, backgroundColor } = useTopicColor(entity);
   const { isSidebarVisible } = useAppState();
+  const {selectedLanguage} = useSelectedLanguage();
 
   const handleOpenTopic = () => {
     if (!isSidebarVisible) {
@@ -47,7 +50,7 @@ const TopicCell = (props: TitleProps & EntityProps & DescriptionProps) => {
         <IoBook />
       </StyledTopicCellWrapper>
       <StyledTopicTitle>{title}</StyledTopicTitle>
-      <StyledTopicDescription>{description || "No description added"}</StyledTopicDescription>
+      <StyledTopicDescription>{description || displayAlertTexts(selectedLanguage).noContentAddedTitle}</StyledTopicDescription>
     </StyledTopicCellContainer>
   );
 };

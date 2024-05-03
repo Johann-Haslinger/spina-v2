@@ -13,7 +13,7 @@ import {
 } from "../../../../components";
 import { useSelectedNote } from "../../hooks/useSelectedNote";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import { displayButtonTexts } from "../../../../utils/selectDisplayText";
+import { displayButtonTexts } from "../../../../utils/displayText";
 import PreviewFlashcard from "../flashcardSets/PreviewFlashcard";
 import { Entity } from "@leanscope/ecs-engine";
 import { IdentifierFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";

@@ -6,7 +6,7 @@ import { Stories } from '../../../../base/enums';
 import { Sheet, FlexBox, CancelButton, SaveButton, Spacer, Section, SectionRow, TextInput } from '../../../../components';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../../lib/supabase';
-import { displayButtonTexts } from '../../../../utils/selectDisplayText';
+import { displayButtonTexts, displayLabelTexts } from '../../../../utils/displayText';
 import { useSelectedSubtopic } from '../../hooks/useSelectedSubtopic';
 
 const EditSubtopicSheet = () => {
@@ -63,6 +63,7 @@ const EditSubtopicSheet = () => {
           <TextInput
             value={newTitle}
             onChange={(e) => setNewTitle(e.target.value)}
+            placeholder={displayLabelTexts(selectedLanguage).title}
           />
         </SectionRow>
       </Section>

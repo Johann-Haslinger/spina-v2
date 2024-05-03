@@ -4,7 +4,7 @@ import React, { PropsWithChildren, useState } from "react";
 import { IoArrowBack } from "react-icons/io5";
 import tw from "twin.macro";
 import { useSelectedLanguage } from "../../hooks/useSelectedLanguage";
-import { displayButtonTexts } from "../../utils/selectDisplayText";
+import { displayButtonTexts } from "../../utils/displayText";
 
 const StyledBackButtonWrapper = styled.div`
   ${tw`flex h-10 w-fit  dark:text-primaryTextDark text-sm space-x-2 items-center cursor-pointer`}

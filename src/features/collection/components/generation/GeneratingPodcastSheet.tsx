@@ -9,7 +9,7 @@ import { v4 } from "uuid";
 import { useSelectedNote } from "../../hooks/useSelectedNote";
 import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import supabaseClient from "../../../../lib/supabase";
-import { displayButtonTexts } from "../../../../utils/selectDisplayText";
+import { displayButtonTexts } from "../../../../utils/displayText";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import styled from "@emotion/styled/macro";
 import tw from "twin.macro";

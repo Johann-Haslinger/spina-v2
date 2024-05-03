@@ -6,11 +6,18 @@ export enum HeaderTexts {
   GROUPS,
   OVERVIEW,
   SETTINGS,
+  WHAT_TO_DO,
 }
 
 export enum AlertTexts {
   NO_CONTENT_ADDED_TITLE,
   NO_CONTENT_ADDED_SUBTITLE,
+  NO_DESCRIPTION,
+  NO_TOPICS,
+  NO_TITLE,
+  DELETE_ALERT_TITLE,
+  DELETE_ALERT_SUBTITLE,
+  NO_USER_SIGNED_IN,
 }
 
 export enum ButtonTexts {
@@ -18,7 +25,9 @@ export enum ButtonTexts {
   SAVE,
   CANCEL,
   DELETE,
-  DONE
+  DONE,
+  LOG_IN,
+  LOG_OUT
 }
 
 export enum ActionTexts {
@@ -31,4 +40,12 @@ export enum ActionTexts {
   IMPROVE_TEXT,
   GENERATE_FLASHCARDS,
   GENERATE_PODCAST,
+}
+
+export enum LabelTexts {
+  TITLE,
+  DESCRIPTION,
+  SCHOOL_SUBJECT,
+  DUE_DATE,
+  SELECT,
 }

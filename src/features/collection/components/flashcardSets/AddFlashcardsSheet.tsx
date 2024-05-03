@@ -14,7 +14,7 @@ import {
 } from "../../../../components";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import { displayButtonTexts } from "../../../../utils/selectDisplayText";
+import { displayButtonTexts } from "../../../../utils/displayText";
 import { IoAdd, IoColorWandOutline } from "react-icons/io5";
 import { v4 } from "uuid";
 import { Entity } from "@leanscope/ecs-engine";

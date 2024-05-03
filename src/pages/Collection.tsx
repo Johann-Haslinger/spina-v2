@@ -12,7 +12,7 @@ import {
   Title,
   View,
 } from "../components";
-import { displayHeaderTexts } from "../utils/selectDisplayText";
+import { displayHeaderTexts } from "../utils/displayText";
 import { useSelectedLanguage } from "../hooks/useSelectedLanguage";
 
 const Collection = () => {

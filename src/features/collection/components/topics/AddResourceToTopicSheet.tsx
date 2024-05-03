@@ -10,7 +10,7 @@ import {
 import { DataTypes, Stories } from "../../../../base/enums";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import { displayButtonTexts } from "../../../../utils/selectDisplayText";
+import { displayButtonTexts, displayDataTypeTexts } from "../../../../utils/displayText";
 import { v4 } from "uuid";
 import supabaseClient from "../../../../lib/supabase";
 import { useSelectedTopic } from "../../hooks/useSelectedTopic";
@@ -72,20 +72,20 @@ const AddResourceToTopicSheet = () => {
 
       <Section>
         <SectionRow onClick={addNote} role="button">
-          Note
+          {displayDataTypeTexts(selectedLanguage).note}
         </SectionRow>
         <SectionRow
           onClick={() => lsc.stories.transitTo(Stories.ADD_FLASHCARD_SET_STORY)}
           role="button"
         >
-          Flashcard Set
+         {displayDataTypeTexts(selectedLanguage).flashcardSet}
         </SectionRow>
         <SectionRow
           onClick={() => lsc.stories.transitTo(Stories.ADD_HOMEWORK_STORY)}
          last
           role="button"
         >
-          Homework
+          {displayDataTypeTexts(selectedLanguage).homework}
         </SectionRow>
       </Section>
     </Sheet>

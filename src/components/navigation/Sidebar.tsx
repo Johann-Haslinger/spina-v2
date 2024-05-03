@@ -4,20 +4,17 @@ import { motion } from "framer-motion";
 import tw from "twin.macro";
 import { COLOR_ITEMS, COLORS, NAV_LINKS } from "../../base/constants";
 import NavigationLinkIcon from "./NavigationLinkIcon";
-import { NavigationLinks } from "../../base/enums";
+import { NavigationLinks, SupportedLanguages } from "../../base/enums";
 import { ViSpina, ViSpinaColored } from "../../assets/icons";
 import { NavLink, useLocation } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { useWindowDimensions } from "../../hooks/useWindowDimensions";
 import { useAppState } from "../../features/collection/hooks/useAppState";
-import {
-  IoHelpOutline,
-  IoLogInOutline,
-  IoLogOutOutline,
-  IoSettingsOutline,
-} from "react-icons/io5";
+import { IoHelpOutline, IoLogInOutline, IoLogOutOutline, IoSettingsOutline } from "react-icons/io5";
 import { useUserData } from "../../hooks/useUserData";
 import { useSelectedTheme } from "../../features/collection/hooks/useSelectedTheme";
+import { displayButtonTexts, displayHeaderTexts } from "../../utils/displayText";
+import { useSelectedLanguage } from "../../hooks/useSelectedLanguage";
 
 const StyledSettingsMenuWrapper = styled.div`
   ${tw` px-2 py-2 dark:text-primaryTextDark w-56 h-52 bg-secondery  bg-opacity-95 backdrop-blur-xl dark:bg-tertiaryDark rounded-lg`}
@@ -64,9 +61,9 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
   const { isFullWidth } = props;
   const { color, backgroundColor } = COLOR_ITEMS[1];
   const { toggleSettings } = useAppState();
+  const { selectedLanguage } = useSelectedLanguage();
   const { userEmail, signedIn, signOut } = useUserData();
-  const [isSettingsQuickMenuVisible, setIsSettingsQuickMenuVisible] =
-    useState(false);
+  const [isSettingsQuickMenuVisible, setIsSettingsQuickMenuVisible] = useState(false);
   const settingsQuickMenuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -119,37 +116,33 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
             <StyledSettingsMenuIcon>
               <IoHelpOutline />
             </StyledSettingsMenuIcon>
-            What to do
+            {displayHeaderTexts(selectedLanguage).whatToDoHeaderText}
           </StyledHelpText>
           <StyledSettingsText onClick={toggleSettings}>
             <StyledSettingsMenuIcon>
               <IoSettingsOutline />
             </StyledSettingsMenuIcon>
-            Settings
+            {displayHeaderTexts(selectedLanguage).settingsHeaderText}
           </StyledSettingsText>
           <StyledSettingsDivider />
           <StyledAccountStatusText onClick={() => signedIn && signOut()}>
-            <StyledSettingsMenuIcon>
-              {signedIn ? <IoLogOutOutline /> : <IoLogInOutline />}
-            </StyledSettingsMenuIcon>
-            {signedIn ? "Logout" : "Login"}
+            <StyledSettingsMenuIcon>{signedIn ? <IoLogOutOutline /> : <IoLogInOutline />}</StyledSettingsMenuIcon>
+            {signedIn ? displayButtonTexts(selectedLanguage).logOut : displayButtonTexts(selectedLanguage).logIn}
           </StyledAccountStatusText>
         </StyledSettingsMenuWrapper>
       </motion.div>
       <StyledSettingsWrapper
-        onClick={() =>
-          setIsSettingsQuickMenuVisible(!isSettingsQuickMenuVisible)
-        }
+        onClick={() => setIsSettingsQuickMenuVisible(!isSettingsQuickMenuVisible)}
         isHoverd={isSettingsQuickMenuVisible}
       >
         <StyledProfileIcon color={color} backgroundColor={backgroundColor}>
-          J
+          S
         </StyledProfileIcon>
         <motion.div
           initial={{ x: -10, opacity: 0 }}
           animate={{ x: isFullWidth ? 0 : -10, opacity: isFullWidth ? 1 : 0 }}
         >
-          <StyledProfileText>Johann</StyledProfileText>
+          <StyledProfileText>User</StyledProfileText>
         </motion.div>
       </StyledSettingsWrapper>
     </>
@@ -162,25 +155,37 @@ const StyledSidebarLinkWrapper = styled.div<{ isCurrent: boolean }>`
 `;
 const StyledNavLinkIcon = styled.div<{ color: string }>`
   ${tw`text-2xl text-black dark:text-white dark:opacity-100 transition-all  px-1.5 rounded-full `}
- 
 `;
 
-const SidebarLink = (props: {
-  title: NavigationLinks;
-  path: string;
-  idx: number;
-  isFullWidth: boolean;
-}) => {
+const selectNavLinkText = (navLink: NavigationLinks, selectedLanguage: SupportedLanguages) => {
+  switch (navLink) {
+    case NavigationLinks.COLLECTION:
+      return displayHeaderTexts(selectedLanguage).collectionHeaderText;
+    case NavigationLinks.HOMEWORKS:
+      return displayHeaderTexts(selectedLanguage).homeworksHeaderText;
+    case NavigationLinks.EXAMS:
+      return displayHeaderTexts(selectedLanguage).examsHeaderText;
+    case NavigationLinks.OVERVIEW:
+      return displayHeaderTexts(selectedLanguage).overviewHeaderText;
+    case NavigationLinks.GROUPS:
+      return displayHeaderTexts(selectedLanguage).groupsHeaderText;
+    default:
+      return "";
+  }
+};
+
+const SidebarLink = (props: { title: NavigationLinks; path: string; idx: number; isFullWidth: boolean }) => {
   const { title, path, idx, isFullWidth: isHoverd } = props;
+  const { selectedLanguage } = useSelectedLanguage();
   const { pathname } = useLocation();
-  const { toggleSettings, isSettingVisible,  isSidebarVisible, toggleSidebar } = useAppState();
+  const { toggleSettings, isSettingVisible, isSidebarVisible, toggleSidebar } = useAppState();
 
   const handleClick = () => {
     toggleSidebar();
     if (isSettingVisible) {
       toggleSettings();
     }
-  }
+  };
 
   return (
     <NavLink to={path}>
@@ -189,11 +194,8 @@ const SidebarLink = (props: {
           <NavigationLinkIcon navLink={title} />
         </StyledNavLinkIcon>
 
-        <motion.div
-          initial={{ x: -10, opacity: 0 }}
-          animate={{ x: isHoverd ? 0 : -10, opacity: isHoverd ? 1 : 0 }}
-        >
-          {title}
+        <motion.div initial={{ x: -10, opacity: 0 }} animate={{ x: isHoverd ? 0 : -10, opacity: isHoverd ? 1 : 0 }}>
+          {selectNavLinkText(title, selectedLanguage)}
         </motion.div>
       </StyledSidebarLinkWrapper>
     </NavLink>
@@ -209,8 +211,8 @@ const StyledSidebarWrapper = styled.div<{ isFullWidth: boolean }>`
 
 const Sidebar = () => {
   const { isSidebarVisible, toggleSidebar } = useAppState();
-  const {isDarkMode}  = useSelectedTheme();
-   const { width } = useWindowDimensions();
+  const { isDarkMode } = useSelectedTheme();
+  const { width } = useWindowDimensions();
   const [isHoverd, setIsHoverd] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const isMobile = width < 1280;
@@ -225,11 +227,7 @@ const Sidebar = () => {
   }, [isSidebarVisible]);
 
   const handleClickOutside = (e: MouseEvent) => {
-    if (
-      isSidebarVisible &&
-      sidebarRef.current &&
-      !sidebarRef.current.contains(e.target as Node)
-    ) {
+    if (isSidebarVisible && sidebarRef.current && !sidebarRef.current.contains(e.target as Node)) {
       toggleSidebar();
     }
   };
@@ -259,18 +257,10 @@ const Sidebar = () => {
       }}
     >
       <StyledSidebarWrapper isFullWidth={isFullWidth}>
-        <StyledSpinaIcon>
-         {isDarkMode ? <ViSpinaColored /> : <ViSpina />}
-        </StyledSpinaIcon>
+        <StyledSpinaIcon>{isDarkMode ? <ViSpinaColored /> : <ViSpina />}</StyledSpinaIcon>
 
         {NAV_LINKS.map((navLink, idx) => (
-          <SidebarLink
-            isFullWidth={isFullWidth}
-            key={idx}
-            idx={idx}
-            title={navLink.title}
-            path={navLink.path}
-          />
+          <SidebarLink isFullWidth={isFullWidth} key={idx} idx={idx} title={navLink.title} path={navLink.path} />
         ))}
         <SettingsLink isFullWidth={isFullWidth} />
       </StyledSidebarWrapper>

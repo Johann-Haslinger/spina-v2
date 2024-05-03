@@ -8,7 +8,7 @@ import {
   View,
 } from "../components";
 import { useSelectedLanguage } from "../hooks/useSelectedLanguage";
-import { displayHeaderTexts } from "../utils/selectDisplayText";
+import { displayHeaderTexts } from "../utils/displayText";
 import { IoAdd } from "react-icons/io5";
 import { EntityPropsMapper } from "@leanscope/ecs-engine";
 import { dataTypeQuery } from "../utils/queries";

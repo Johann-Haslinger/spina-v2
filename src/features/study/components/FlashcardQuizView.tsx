@@ -19,7 +19,7 @@ import {
   IoHeadset,
 } from "react-icons/io5";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
-import { displayButtonTexts } from "../../../utils/selectDisplayText";
+import { displayButtonTexts } from "../../../utils/displayText";
 import { useTimer } from "../../../hooks/useTimer";
 import { IdentifierFacet } from "@leanscope/ecs-models";
 import { useUserData } from "../../../hooks/useUserData";

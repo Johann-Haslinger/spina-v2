@@ -22,7 +22,7 @@ import { EntityProps } from "@leanscope/ecs-engine";
 import { AdditionalTags } from "../../../../base/enums";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import { displayButtonTexts } from "../../../../utils/selectDisplayText";
+import { displayButtonTexts } from "../../../../utils/displayText";
 import supabaseClient from "../../../../lib/supabase";
 import { IdentifierProps } from "@leanscope/ecs-models";
 import { IoTrashOutline } from "react-icons/io5";

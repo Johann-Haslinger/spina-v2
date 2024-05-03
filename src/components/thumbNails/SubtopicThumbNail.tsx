@@ -1,5 +1,7 @@
 import styled from "@emotion/styled";
 import tw from "twin.macro";
+import { useSelectedLanguage } from "../../hooks/useSelectedLanguage";
+import { displayAlertTexts, displayDataTypeTexts } from "../../utils/displayText";
 
 const StyledSubtopicCellWrapper = styled.div`
   ${tw`pb-4 min-h-48 `}
@@ -64,7 +66,8 @@ const SubtopicThumbNail = (props: {
   onClick?: () => void;
   type?: string;
 }) => {
-  const { color, title, onClick, type = "Unterthema" } = props;
+  const { selectedLanguage } = useSelectedLanguage();
+  const { color, title, onClick, type = displayDataTypeTexts(selectedLanguage).subTopic } = props;
 
   return (
     <StyledSubtopicCellWrapper onClick={onClick}>
@@ -77,7 +80,7 @@ const SubtopicThumbNail = (props: {
         </CardWrapper>
       </StyledSubtopicCellContainer>
 
-      <StyledSubtopicCellTitle>{title || "Kein Titel"}</StyledSubtopicCellTitle>
+      <StyledSubtopicCellTitle>{title || displayAlertTexts(selectedLanguage).noTitle}</StyledSubtopicCellTitle>
 
       <StyledResourceTypeText>{type} </StyledResourceTypeText>
     </StyledSubtopicCellWrapper>

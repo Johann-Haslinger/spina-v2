@@ -1,10 +1,10 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
-import  { useContext } from "react";
+import { useContext } from "react";
 import { Stories, AdditionalTags } from "../../../../base/enums";
 import { Alert, AlertButton } from "../../../../components";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import { displayActionTexts } from "../../../../utils/selectDisplayText";
+import { displayActionTexts } from "../../../../utils/displayText";
 import { useSelectedNote } from "../../hooks/useSelectedNote";
 import supabaseClient from "../../../../lib/supabase";
 
@@ -14,8 +14,7 @@ const DeleteNoteAlert = () => {
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedNoteId, selectedNoteEntity } = useSelectedNote();
 
-  const navigateBack = () =>
-    lsc.stories.transitTo(Stories.OBSERVING_TOPIC_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_TOPIC_STORY);
 
   const deleteNote = async () => {
     navigateBack();
@@ -24,10 +23,7 @@ const DeleteNoteAlert = () => {
       if (selectedNoteEntity) {
         lsc.engine.removeEntity(selectedNoteEntity);
 
-        const { error } = await supabaseClient
-          .from("notes")
-          .delete()
-          .eq("id", selectedNoteId);
+        const { error } = await supabaseClient.from("notes").delete().eq("id", selectedNoteId);
 
         if (error) {
           console.error("Error deleting note", error);
@@ -37,12 +33,7 @@ const DeleteNoteAlert = () => {
   };
 
   return (
-    <Alert
-      navigateBack={navigateBack}
-      visible={isVisible}
-      title="Delete Note"
-      subTitle="Are you sure you want to delete this note?"
-    >
+    <Alert navigateBack={navigateBack} visible={isVisible}>
       <AlertButton onClick={navigateBack} role="primary">
         {displayActionTexts(selectedLanguage).cancel}
       </AlertButton>

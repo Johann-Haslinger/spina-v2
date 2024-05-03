@@ -16,7 +16,7 @@ import {
 } from "../../../../components";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../../lib/supabase";
-import { displayButtonTexts } from "../../../../utils/selectDisplayText";
+import { displayButtonTexts, displayLabelTexts } from "../../../../utils/displayText";
 import { useSelectedTopic } from "../../hooks/useSelectedTopic";
 import { DescriptionFacet } from "@leanscope/ecs-models";
 
@@ -84,14 +84,14 @@ const EditTopicSheet = () => {
           <TextInput
             value={newTitle}
             onChange={(e) => setNewTitle(e.target.value)}
-            placeholder="Title"
+            placeholder={displayLabelTexts(selectedLanguage).title}
           />
         </SectionRow>
         <SectionRow last>
           <TextAreaInput
             value={newDescription}
             onChange={(e) => setNewDescription(e.target.value)}
-            placeholder="Description"
+            placeholder={displayLabelTexts(selectedLanguage).description}
           />
         </SectionRow>
       </Section>

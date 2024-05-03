@@ -39,7 +39,7 @@ import {
   IoSparklesOutline,
   IoTrashOutline,
 } from "react-icons/io5";
-import { displayActionTexts } from "../../../../utils/selectDisplayText";
+import { displayActionTexts } from "../../../../utils/displayText";
 import EditSubtopicSheet from "./EditSubtopicSheet";
 import DeleteSubtopicAlert from "./DeleteSubtopicAlert";
 import LoadSubtopicResourcesSystem from "../../systems/LoadSubtopicResourcesSystem";

@@ -1,5 +1,7 @@
 import styled from "@emotion/styled";
 import tw from "twin.macro";
+import { useSelectedLanguage } from "../../hooks/useSelectedLanguage";
+import { displayAlertTexts, displayDataTypeTexts } from "../../utils/displayText";
 
 const CardContainer = tw.div`
     w-full h-fit min-h-48 pb-4
@@ -30,12 +32,9 @@ const StyledResourceTypeText = styled.p`
   ${tw`text-sm  text-seconderyText dark:text-seconderyTextDark `}
 `;
 
-const FlashcardSetThumbNail = (props: {
-  color: string;
-  title: string;
-  onClick?: () => void;
-}) => {
+const FlashcardSetThumbNail = (props: { color: string; title: string; onClick?: () => void }) => {
   const { color, title, onClick } = props;
+  const { selectedLanguage } = useSelectedLanguage();
 
   return (
     <CardContainer onClick={onClick}>
@@ -50,9 +49,9 @@ const FlashcardSetThumbNail = (props: {
           </CardItem>
         ))}
       </CardWrapper>
-      <StyledCellTitle> {title || "Kein Titel"}</StyledCellTitle>
+      <StyledCellTitle> {title || displayAlertTexts(selectedLanguage).noTitle}</StyledCellTitle>
 
-      <StyledResourceTypeText>Kartensatz</StyledResourceTypeText>
+      <StyledResourceTypeText>{displayDataTypeTexts(selectedLanguage).flashcardSet}</StyledResourceTypeText>
     </CardContainer>
   );
 };

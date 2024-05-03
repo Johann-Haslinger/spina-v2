@@ -30,7 +30,7 @@ import {
 } from "react-icons/io5";
 import EditFlashcardSetSheet from "./EditFlashcardSetSheet";
 import DeleteFlashcardSetAlert from "./DeleteFlashcardSetAlert";
-import { displayActionTexts } from "../../../../utils/selectDisplayText";
+import { displayActionTexts } from "../../../../utils/displayText";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import EditFlashcardSheet from "./EditFlashcardSheet";
 import AddFlashcardsSheet from "./AddFlashcardsSheet";

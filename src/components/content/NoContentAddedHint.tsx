@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import tw from "twin.macro";
-import { displayAlertTexts } from "../../utils/selectDisplayText";
+import { displayAlertTexts } from "../../utils/displayText";
 import { useSelectedLanguage } from "../../hooks/useSelectedLanguage";
 
 const StyledNoConttentAddedWrapper = styled.div`

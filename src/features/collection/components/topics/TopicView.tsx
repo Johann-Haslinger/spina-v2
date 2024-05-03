@@ -33,7 +33,7 @@ import HomeworkCell from "../homeworks/HomeworkCell";
 import HomeworkView from "../homeworks/HomeworkView";
 import LoadHomeworksSystem from "../../systems/LoadHomeworksSystem";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import { displayActionTexts } from "../../../../utils/selectDisplayText";
+import { displayActionTexts, displayAlertTexts } from "../../../../utils/displayText";
 import DeleteTopicAlert from "./DeleteTopicAlert";
 import EditTopicSheet from "./EditTopicSheet";
 import { useEntityHasChildren } from "../../hooks/useEntityHasChildren";
@@ -86,7 +86,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
         <BackButton navigateBack={navigateBack}>{selectedSchoolSubjectTitle}</BackButton>
         <Title>{title}</Title>
         <Spacer size={4} />
-        <SecondaryText>{props.description || "No Description added"}</SecondaryText>
+        <SecondaryText>{props.description || displayAlertTexts(selectedLanguage).noDescription}</SecondaryText>
         <Spacer size={2} />
 
         <Spacer />

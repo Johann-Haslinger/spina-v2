@@ -16,7 +16,7 @@ import {
 import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
 import { IoAdd } from "react-icons/io5";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
-import { displayHeaderTexts } from "../../../utils/selectDisplayText";
+import { displayHeaderTexts } from "../../../utils/displayText";
 import { useIsViewVisible } from "../../../hooks/useIsViewVisible";
 import { AdditionalTags, DataTypes } from "../../../base/enums";
 import { dataTypeQuery, isChildOfQuery } from "../../../utils/queries";

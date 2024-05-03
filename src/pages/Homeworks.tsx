@@ -8,7 +8,7 @@ import {
   View,
 } from "../components";
 import { IoAdd } from "react-icons/io5";
-import { displayHeaderTexts } from "../utils/selectDisplayText";
+import { displayHeaderTexts } from "../utils/displayText";
 import { useSelectedLanguage } from "../hooks/useSelectedLanguage";
 import HomeworksInitSystem from "../features/homeworks/systems/HomeworksInitSystem";
 import { dataTypeQuery } from "../utils/queries";

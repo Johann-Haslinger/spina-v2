@@ -5,7 +5,7 @@ import { Stories, AdditionalTags } from "../../../../base/enums";
 import { Alert, AlertButton } from "../../../../components";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../../lib/supabase";
-import { displayActionTexts } from "../../../../utils/selectDisplayText";
+import { displayActionTexts } from "../../../../utils/displayText";
 import { useSelectedSubtopic } from "../../hooks/useSelectedSubtopic";
 
 const DeleteSubtopicAlert = () => {
@@ -51,12 +51,7 @@ const DeleteSubtopicAlert = () => {
   };
 
   return (
-    <Alert
-      navigateBack={navigateBack}
-      visible={isVisible}
-      title="Delete Subtopic"
-      subTitle="Are you sure you want to delete this Subtopic?"
-    >
+    <Alert navigateBack={navigateBack} visible={isVisible}>
       <AlertButton onClick={navigateBack} role="primary">
         {displayActionTexts(selectedLanguage).cancel}
       </AlertButton>

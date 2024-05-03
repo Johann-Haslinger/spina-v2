@@ -18,7 +18,7 @@ import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
 import TopicCell from "../topics/TopicCell";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import AddTopicSheet from "./AddTopicSheet";
-import { displayHeaderTexts } from "../../../../utils/selectDisplayText";
+import { displayHeaderTexts } from "../../../../utils/displayText";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { sortEntitiesByDateAdded } from "../../../../utils/sortEntitiesByTime";
 import { DescriptionFacet, Tags } from "@leanscope/ecs-models";

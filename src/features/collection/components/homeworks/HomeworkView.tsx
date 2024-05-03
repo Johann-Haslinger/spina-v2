@@ -18,7 +18,7 @@ import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import {
   displayActionTexts,
   displayHeaderTexts,
-} from "../../../../utils/selectDisplayText";
+} from "../../../../utils/displayText";
 import supabaseClient from "../../../../lib/supabase";
 import {
   IoCreateOutline,

@@ -17,18 +17,13 @@ import {
 import { useContext, useState } from "react";
 import { useSchoolSubjectEntities } from "../../../../hooks/useSchoolSubjects";
 import { IdentifierFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
-import {
-  DueDateFacet,
-  RelationshipFacet,
-  StatusFacet,
-  TitleFacet,
-} from "../../../../app/AdditionalFacets";
+import { DueDateFacet, RelationshipFacet, StatusFacet, TitleFacet } from "../../../../app/AdditionalFacets";
 import { Entity } from "@leanscope/ecs-engine";
 import { v4 } from "uuid";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useUserData } from "../../../../hooks/useUserData";
 import supabaseClient from "../../../../lib/supabase";
-import { displayButtonTexts } from "../../../../utils/selectDisplayText";
+import { displayAlertTexts, displayButtonTexts, displayLabelTexts } from "../../../../utils/displayText";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { useSelectedTopic } from "../../hooks/useSelectedTopic";
 import { useSchoolSubjectTopics } from "../../../../hooks/useSchoolSubjectTopics";
@@ -41,10 +36,8 @@ const AddHomeworkSheet = () => {
   const { selectedLanguage } = useSelectedLanguage();
   const schooolSubjectEntities = useSchoolSubjectEntities();
   const { selectedTopicId: openTopicId } = useSelectedTopic();
-  const { selectedSchoolSubjectId: openSchoolSubjectId } =
-    useSelectedSchoolSubject();
-  const [selectedSchoolSubjectId, setSelectedSchoolSubjectId] =
-    useState<string>("");
+  const { selectedSchoolSubjectId: openSchoolSubjectId } = useSelectedSchoolSubject();
+  const [selectedSchoolSubjectId, setSelectedSchoolSubjectId] = useState<string>("");
   const [newHomework, setNewHomework] = useState({
     id: v4(),
     title: "",
@@ -54,8 +47,7 @@ const AddHomeworkSheet = () => {
     relatedSchoolSubject: "",
   });
   const { userId } = useUserData();
-  const { schoolSubjectTopics, hasSchoolSubjectTopics } =
-    useSchoolSubjectTopics(selectedSchoolSubjectId);
+  const { schoolSubjectTopics, hasSchoolSubjectTopics } = useSchoolSubjectTopics(selectedSchoolSubjectId);
 
   useEffect(() => {
     setNewHomework({
@@ -68,8 +60,7 @@ const AddHomeworkSheet = () => {
     });
   }, [isVisible]);
 
-  const navigateBack = () =>
-    lsc.stories.transitTo(Stories.OBSERVING_HOMEWORKS_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_HOMEWORKS_STORY);
 
   const addHomework = async () => {
     const { title, dueDate, parent, description, id } = newHomework;
@@ -95,7 +86,7 @@ const AddHomeworkSheet = () => {
     );
     newHomeworkEntity.add(new StatusFacet({ status: 1 }));
     newHomeworkEntity.add(DataTypes.HOMEWORK);
-console.log("openSchoolSubjectId", selectedSchoolSubjectId,)
+    console.log("openSchoolSubjectId", selectedSchoolSubjectId);
     const { error } = await supabaseClient.from("homeworks").insert([
       {
         id: id,
@@ -119,56 +110,40 @@ console.log("openSchoolSubjectId", selectedSchoolSubjectId,)
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>
       <FlexBox>
-        <CancelButton onClick={navigateBack}>
-          {displayButtonTexts(selectedLanguage).cancel}
-        </CancelButton>
+        <CancelButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</CancelButton>
 
-        {newHomework.title &&
-          newHomework.dueDate &&
-          schooolSubjectEntities.length !== 0 && (
-            <SaveButton onClick={addHomework}>
-              {displayButtonTexts(selectedLanguage).save}
-            </SaveButton>
-          )}
+        {newHomework.title && newHomework.dueDate && schooolSubjectEntities.length !== 0 && (
+          <SaveButton onClick={addHomework}>{displayButtonTexts(selectedLanguage).save}</SaveButton>
+        )}
       </FlexBox>
       <Spacer />
       <Section>
         <SectionRow>
           <TextInput
             value={newHomework.title}
-            onChange={(e) =>
-              setNewHomework({ ...newHomework, title: e.target.value })
-            }
-            placeholder="Title"
+            onChange={(e) => setNewHomework({ ...newHomework, title: e.target.value })}
+            placeholder={displayLabelTexts(selectedLanguage).title}
           />
         </SectionRow>
         <SectionRow>
           <FlexBox>
-            <p>Due Date</p>
+            <p>{displayLabelTexts(selectedLanguage).dueDate} </p>
             <DateInput
               value={newHomework.dueDate}
-              onChange={(e) =>
-                setNewHomework({ ...newHomework, dueDate: e.target.value })
-              }
+              onChange={(e) => setNewHomework({ ...newHomework, dueDate: e.target.value })}
               type="date"
-              placeholder="Due date"
             />
           </FlexBox>
         </SectionRow>
         {!openTopicId && (
           <SectionRow last>
             <FlexBox>
-              <p>School Subject</p>
-              <SelectInput
-                value={selectedSchoolSubjectId}
-                onChange={(e) => setSelectedSchoolSubjectId(e.target.value)}
-              >
-                <option value="">None</option>
+              <p>{displayLabelTexts(selectedLanguage).schoolSubject}</p>
+              <SelectInput value={selectedSchoolSubjectId} onChange={(e) => setSelectedSchoolSubjectId(e.target.value)}>
+                <option value="">{displayLabelTexts(selectedLanguage).select}</option>
                 {schooolSubjectEntities.map((entity, idx) => {
-                  const schoolSubjectId =
-                    entity.get(IdentifierFacet)?.props.guid;
-                  const schoolSubjectTitle =
-                    entity.get(TitleFacet)?.props.title;
+                  const schoolSubjectId = entity.get(IdentifierFacet)?.props.guid;
+                  const schoolSubjectTitle = entity.get(TitleFacet)?.props.title;
                   return (
                     <option key={idx} value={schoolSubjectId}>
                       {schoolSubjectTitle}
@@ -181,45 +156,31 @@ console.log("openSchoolSubjectId", selectedSchoolSubjectId,)
         )}
       </Section>
       {(hasSchoolSubjectTopics || selectedSchoolSubjectId) && (
-          <>
-            <Spacer size={2} />
-            <Section>
-              {schoolSubjectTopics.map((topic, idx) => (
-                <SectionRow
+        <>
+          <Spacer size={2} />
+          <Section>
+            {schoolSubjectTopics.map((topic, idx) => (
+              <SectionRow
                 last={idx === schoolSubjectTopics.length - 1}
-                  key={idx}
-                  onClick={() =>
-                    setNewHomework({ ...newHomework, parent: topic.id })
-                  }
-                  icon={
-                    newHomework.parent === topic.id ? (
-                      <IoCheckmarkCircle />
-                    ) : (
-                      <IoEllipseOutline />
-                    )
-                  }
-                >
-                  {topic.title}
-                </SectionRow>
-              ))}
-              {!hasSchoolSubjectTopics && (
-                <SectionRow last>
-                  No topics for this school subject
-                </SectionRow>
-              )}
-            </Section>
-          </>
-        )}
+                key={idx}
+                onClick={() => setNewHomework({ ...newHomework, parent: topic.id })}
+                icon={newHomework.parent === topic.id ? <IoCheckmarkCircle /> : <IoEllipseOutline />}
+              >
+                {topic.title}
+              </SectionRow>
+            ))}
+            {!hasSchoolSubjectTopics && <SectionRow last>{displayAlertTexts(selectedLanguage).noTopics}</SectionRow>}
+          </Section>
+        </>
+      )}
 
       <Spacer size={2} />
       <Section>
         <SectionRow last>
           <TextAreaInput
             value={newHomework.description}
-            onChange={(e) =>
-              setNewHomework({ ...newHomework, description: e.target.value })
-            }
-            placeholder="Description"
+            onChange={(e) => setNewHomework({ ...newHomework, description: e.target.value })}
+            placeholder={displayLabelTexts(selectedLanguage).description}
           />
         </SectionRow>
       </Section>

@@ -4,7 +4,7 @@ import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { DataTypes, Stories } from "../../../../base/enums";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import { displayButtonTexts } from "../../../../utils/selectDisplayText";
+import { displayButtonTexts } from "../../../../utils/displayText";
 import { useSelectedNote } from "../../hooks/useSelectedNote";
 import { useSelectedSubtopic } from "../../hooks/useSelectedSubtopic";
 import { generateImprovedText } from "../../../../utils/generateResources";

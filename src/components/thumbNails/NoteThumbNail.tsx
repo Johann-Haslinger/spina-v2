@@ -1,5 +1,7 @@
 import styled from "@emotion/styled";
 import tw from "twin.macro";
+import { useSelectedLanguage } from "../../hooks/useSelectedLanguage";
+import { displayAlertTexts, displayDataTypeTexts } from "../../utils/displayText";
 
 const StyledNoteCellWrapper = styled.div`
   ${tw`pb-4 min-h-48 `}
@@ -55,7 +57,8 @@ const NoteThumbNail = (props: {
   onClick?: () => void;
   type?: string;
 }) => {
-  const { color, title, onClick, type = "Mitschrift" } = props;
+  const {selectedLanguage} = useSelectedLanguage();
+  const { color, title, onClick, type = displayDataTypeTexts(selectedLanguage).note } = props;
 
   return (
     <StyledNoteCellWrapper onClick={onClick}>
@@ -74,7 +77,7 @@ const NoteThumbNail = (props: {
         ))}
       </StyledNoteCellContainer>
 
-      <StyledNoteCellTitle>{title || "Kein Titel"}</StyledNoteCellTitle>
+      <StyledNoteCellTitle>{title || displayAlertTexts(selectedLanguage).noTitle}</StyledNoteCellTitle>
 
       <StyledResourceTypeText>{type} </StyledResourceTypeText>
     </StyledNoteCellWrapper>

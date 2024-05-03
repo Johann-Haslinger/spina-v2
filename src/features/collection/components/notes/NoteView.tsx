@@ -24,7 +24,7 @@ import {
   IoSparklesOutline,
   IoTrashOutline,
 } from "react-icons/io5";
-import { displayActionTexts } from "../../../../utils/selectDisplayText";
+import { displayActionTexts } from "../../../../utils/displayText";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import DeleteNoteAlert from "./DeleteNoteAlert";

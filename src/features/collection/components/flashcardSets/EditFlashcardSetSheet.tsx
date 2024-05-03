@@ -15,7 +15,7 @@ import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useSelectedFlashcardSet } from "../../hooks/useSelectedFlashcardSet";
 import { TitleFacet } from "../../../../app/AdditionalFacets";
 import supabaseClient from "../../../../lib/supabase";
-import { displayButtonTexts } from "../../../../utils/selectDisplayText";
+import { displayButtonTexts, displayLabelTexts } from "../../../../utils/displayText";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 
 const EditFlashcardSetSheet = () => {
@@ -72,6 +72,7 @@ const EditFlashcardSetSheet = () => {
           <TextInput
             value={newTitle}
             onChange={(e) => setNewTitle(e.target.value)}
+            placeholder={displayLabelTexts(selectedLanguage).title}
           />
         </SectionRow>
       </Section>
