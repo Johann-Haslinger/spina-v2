@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import  { useContext, useState } from "react";
 import {
   CancelButton,
   FlexBox,
@@ -11,7 +11,7 @@ import {
   TextInput,
 } from "../../../../components";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
-import { DataTypes, Stories, SupportedLanguages } from "../../../../base/enums";
+import { DataTypes, Stories } from "../../../../base/enums";
 import { useSelectedSchoolSubject } from "../../hooks/useSelectedSchoolSubject";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";

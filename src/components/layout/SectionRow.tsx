@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { PropsWithChildren, ReactNode } from "react";
 import tw from "twin.macro";
 
-type Type = "default" | "last";
+
 type Role = "default" | "destructive" | "button";
 
 const StyledSectionRowWrapper = styled.div<{ role: Role}>`

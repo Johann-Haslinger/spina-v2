@@ -1,5 +1,5 @@
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import {

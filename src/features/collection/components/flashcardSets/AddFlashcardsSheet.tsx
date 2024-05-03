@@ -1,5 +1,5 @@
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
-import React, { useContext, useEffect, useState } from "react";
+import  { Fragment, useContext, useEffect, useState } from "react";
 import { DataTypes, Stories } from "../../../../base/enums";
 import {
   CancelButton,
@@ -149,7 +149,7 @@ const AddFlashcardsSheet = () => {
         </Section>
       )}
       {addFlashcardsMethod == AddFlashcardsMethods.GENERATE_FLASHCARDS && !isGeneratingFlashcards && (
-        <>
+        <Fragment>
           <Section>
             <SectionRow last>
               <TextAreaInput
@@ -166,7 +166,7 @@ const AddFlashcardsSheet = () => {
               </SectionRow>
             </Section>
           )}
-        </>
+      </Fragment>
       )}
       {isGeneratingFlashcards && <GeneratingIndecator />}
       <ScrollableBox>

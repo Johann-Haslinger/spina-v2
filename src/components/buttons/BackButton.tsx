@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { motion } from "framer-motion";
-import React, { PropsWithChildren, useState } from "react";
+import  { PropsWithChildren, useState } from "react";
 import { IoArrowBack } from "react-icons/io5";
 import tw from "twin.macro";
 import { useSelectedLanguage } from "../../hooks/useSelectedLanguage";

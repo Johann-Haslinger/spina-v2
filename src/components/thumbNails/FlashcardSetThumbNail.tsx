@@ -20,9 +20,7 @@ const StyledCardContent = styled.div<{ color: string }>`
   background-color: ${({ color }) => color};
 `;
 
-const CardDot = tw.div`
-    w-4 mt-1 mb-2 h-1 rounded-full bg-white opacity-40
-  `;
+
 
 const StyledCellTitle = styled.p`
   ${tw`mt-2 text-sm   line-clamp-2  dark:text-primaryTextDark `}

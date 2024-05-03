@@ -1,4 +1,3 @@
-import React from "react";
 import { useAppState } from "../../collection/hooks/useAppState";
 import { Sheet } from "../../../components";
 import { useSelectedTheme } from "../../collection/hooks/useSelectedTheme";
@@ -14,17 +13,11 @@ const Settings = () => {
   return (
     <Sheet visible={isSettingVisible} navigateBack={toggleSettings}>
       Settings
-      <select
-        value={theme}
-        onChange={(e) => changeMode(e.target.value as SupportedThemes)}
-      >
+      <select value={theme} onChange={(e) => changeMode(e.target.value as SupportedThemes)}>
         <option value={SupportedThemes.DARK}>Dark</option>
         <option value={SupportedThemes.LIGHT}>Light</option>
       </select>
-      <select
-        value={selectedLanguage}
-        onChange={(e) => changeLanguage(e.target.value as SupportedLanguages)}
-      >
+      <select value={selectedLanguage} onChange={(e) => changeLanguage(e.target.value as SupportedLanguages)}>
         {Object.values(SupportedLanguages).map((language) => (
           <option key={language} value={language}>
             {language}

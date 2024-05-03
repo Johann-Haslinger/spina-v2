@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import {
   CancelButton,
   FlexBox,
@@ -9,7 +9,6 @@ import {
   Sheet,
   Spacer,
   TextAreaInput,
-  TextInput,
 } from "../../../../components";
 import {
   AnswerFacet,

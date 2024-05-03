@@ -1,7 +1,7 @@
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { PropsWithChildren, ReactNode } from "react";
 import { Entity, useEntities } from "@leanscope/ecs-engine";
-import { DateAddedFacet, StatusFacet } from "../../app/AdditionalFacets";
+import { StatusFacet } from "../../app/AdditionalFacets";
 import { IdentifierFacet } from "@leanscope/ecs-models";
 import styled from "@emotion/styled/macro";
 import tw from "twin.macro";
@@ -55,9 +55,7 @@ const KanbanColumn = (props: {
   kanbanCell: (props: any) => ReactNode;
 }) => {
   const { statusId, statusLabel, query, kanbanCell, sortingRule } = props;
-  const [columEntities] = useEntities(
-    (e) => e.get(StatusFacet)?.props.status == Number(statusId) && query(e)
-  );
+  const [columEntities] = useEntities((e) => e.get(StatusFacet)?.props.status == Number(statusId) && query(e));
 
   const { backgroundColor, color } = selectColorItemForColoumn(statusId);
 
@@ -67,7 +65,7 @@ const KanbanColumn = (props: {
         {statusLabel}
       </StyledStatusWrapper>
       <Droppable key={statusId} droppableId={`droppable-${statusId}`}>
-        {(provided, snapshot) => (
+        {(provided) => (
           <div
             style={{
               height: "100%",
@@ -79,17 +77,9 @@ const KanbanColumn = (props: {
               const draggableId = entity.get(IdentifierFacet)?.props.guid;
               return (
                 draggableId && (
-                  <Draggable
-                    key={draggableId}
-                    draggableId={draggableId}
-                    index={idx}
-                  >
+                  <Draggable key={draggableId} draggableId={draggableId} index={idx}>
                     {(provided) => (
-                      <div
-                        ref={provided.innerRef}
-                        {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                      >
+                      <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                         {kanbanCell({ entity, backgroundColor, color })}
                       </div>
                     )}
@@ -140,14 +130,11 @@ const Kanban = (props: KanbanProps & PropsWithChildren) => {
         newStatus = 5;
       }
       const draggedItemId = result.draggableId;
-      const draggedEntity = kanbanEntities.find(
-        (e) => e.get(IdentifierFacet)?.props.guid === draggedItemId
-      );
+      const draggedEntity = kanbanEntities.find((e) => e.get(IdentifierFacet)?.props.guid === draggedItemId);
       if (newStatus && draggedEntity) {
         draggedEntity?.add(new StatusFacet({ status: newStatus }));
-        updateEntityStatus(draggedEntity, newStatus)
+        updateEntityStatus(draggedEntity, newStatus);
       }
-     
     }
   };
 
@@ -155,13 +142,7 @@ const Kanban = (props: KanbanProps & PropsWithChildren) => {
     <DragDropContext onDragEnd={handleDragEnd}>
       <StyledKanbanWrapper>
         {Object.entries(statusStates).map(([statusId, statusLabel], idx) => (
-          <KanbanColumn
-            idx={idx}
-            {...props}
-            statusId={statusId}
-            statusLabel={statusLabel}
-            key={statusId}
-          />
+          <KanbanColumn idx={idx} {...props} statusId={statusId} statusLabel={statusLabel} key={statusId} />
         ))}
       </StyledKanbanWrapper>
     </DragDropContext>

@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "@emotion/styled";
 import { motion } from "framer-motion";
 import tw from "twin.macro";
@@ -7,7 +6,7 @@ import NavigationLinkIcon from "./NavigationLinkIcon";
 import { NavigationLinks, SupportedLanguages } from "../../base/enums";
 import { ViSpina, ViSpinaColored } from "../../assets/icons";
 import { NavLink, useLocation } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { useWindowDimensions } from "../../hooks/useWindowDimensions";
 import { useAppState } from "../../features/collection/hooks/useAppState";
 import { IoHelpOutline, IoLogInOutline, IoLogOutOutline, IoSettingsOutline } from "react-icons/io5";
@@ -90,7 +89,7 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
   }, [isFullWidth]);
 
   return (
-    <>
+    <Fragment>
       <motion.div
         ref={settingsQuickMenuRef}
         style={{
@@ -145,7 +144,7 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
           <StyledProfileText>User</StyledProfileText>
         </motion.div>
       </StyledSettingsWrapper>
-    </>
+    </Fragment>
   );
 };
 
@@ -178,7 +177,7 @@ const SidebarLink = (props: { title: NavigationLinks; path: string; idx: number;
   const { title, path, idx, isFullWidth: isHoverd } = props;
   const { selectedLanguage } = useSelectedLanguage();
   const { pathname } = useLocation();
-  const { toggleSettings, isSettingVisible, isSidebarVisible, toggleSidebar } = useAppState();
+  const { toggleSettings, isSettingVisible, toggleSidebar } = useAppState();
 
   const handleClick = () => {
     toggleSidebar();

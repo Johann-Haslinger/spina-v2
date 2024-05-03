@@ -1,56 +1,37 @@
-import React, { useContext } from "react";
-import {
-  Kanban,
-  NavBarButton,
-  NavigationBar,
-  Spacer,
-  Title,
-  View,
-} from "../components";
+import { Fragment, useContext } from "react";
+import { Kanban, NavBarButton, NavigationBar, Spacer, Title, View } from "../components";
 import { IoAdd } from "react-icons/io5";
 import { displayHeaderTexts } from "../utils/displayText";
 import { useSelectedLanguage } from "../hooks/useSelectedLanguage";
 import HomeworksInitSystem from "../features/homeworks/systems/HomeworksInitSystem";
 import { dataTypeQuery } from "../utils/queries";
 import { DataTypes, Stories } from "../base/enums";
-import {
-  HomeworkKanbanCell,
-} from "../features/homeworks";
+import { HomeworkKanbanCell } from "../features/homeworks";
 import { Entity, EntityPropsMapper } from "@leanscope/ecs-engine";
-import {
-  IdentifierFacet,
-  ParentFacet,
-  Tags,
-  TextFacet,
-} from "@leanscope/ecs-models";
+import { IdentifierFacet, ParentFacet, Tags, TextFacet } from "@leanscope/ecs-models";
 import { DueDateFacet, TitleFacet } from "../app/AdditionalFacets";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { sortEntitiesByDueDate } from "../utils/sortEntitiesByTime";
 import supabaseClient from "../lib/supabase";
 import { AddHomeworkSheet, HomeworkView } from "../features/collection";
 
-const Homeworks = (props: { mockup?: boolean }) => {
+const Homeworks = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const { mockup } = props;
   const { selectedLanguage } = useSelectedLanguage();
 
-  const openAddHomeworkSheet = () =>
-    lsc.stories.transitTo(Stories.ADD_HOMEWORK_STORY);
+  const openAddHomeworkSheet = () => lsc.stories.transitTo(Stories.ADD_HOMEWORK_STORY);
 
   const updateHomeworkStatus = async (homework: Entity, status: number) => {
     const homeworkId = homework.get(IdentifierFacet)?.props.guid;
-    const { error } = await supabaseClient
-      .from("homeworks")
-      .update({ status })
-      .eq("id", homeworkId);
+    const { error } = await supabaseClient.from("homeworks").update({ status }).eq("id", homeworkId);
     if (error) {
       console.error("Error updating homework status", error);
     }
   };
 
   return (
-    <>
-      <HomeworksInitSystem  />
+    <Fragment>
+      <HomeworksInitSystem />
 
       <View reducePaddingX viewType="baseView">
         <NavigationBar>
@@ -58,9 +39,7 @@ const Homeworks = (props: { mockup?: boolean }) => {
             <IoAdd />
           </NavBarButton>
         </NavigationBar>
-        <Title size="large">
-          {displayHeaderTexts(selectedLanguage).homeworksHeaderText}
-        </Title>
+        <Title size="large">{displayHeaderTexts(selectedLanguage).homeworksHeaderText}</Title>
         <Spacer />
         <Kanban
           updateEntityStatus={updateHomeworkStatus}
@@ -71,17 +50,12 @@ const Homeworks = (props: { mockup?: boolean }) => {
       </View>
 
       <EntityPropsMapper
-        query={(e) =>
-          dataTypeQuery(e, DataTypes.HOMEWORK) && e.has(Tags.SELECTED)
-        }
-        get={[
-          [TitleFacet, DueDateFacet, ParentFacet, TextFacet, IdentifierFacet],
-          [],
-        ]}
+        query={(e) => dataTypeQuery(e, DataTypes.HOMEWORK) && e.has(Tags.SELECTED)}
+        get={[[TitleFacet, DueDateFacet, ParentFacet, TextFacet, IdentifierFacet], []]}
         onMatch={HomeworkView}
       />
       <AddHomeworkSheet />
-    </>
+      </Fragment>
   );
 };
 

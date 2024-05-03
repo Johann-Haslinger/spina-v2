@@ -1,31 +1,35 @@
-import { LeanScopeClientContext } from '@leanscope/api-client/node';
-import { useIsStoryCurrent } from '@leanscope/storyboarding';
-import React, { useContext, useEffect, useState } from 'react'
-import { TitleFacet } from '../../../../app/AdditionalFacets';
-import { Stories } from '../../../../base/enums';
-import { Sheet, FlexBox, CancelButton, SaveButton, Spacer, Section, SectionRow, TextInput } from '../../../../components';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
-import supabaseClient from '../../../../lib/supabase';
-import { displayButtonTexts, displayLabelTexts } from '../../../../utils/displayText';
-import { useSelectedSubtopic } from '../../hooks/useSelectedSubtopic';
+import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import { useIsStoryCurrent } from "@leanscope/storyboarding";
+import { useContext, useEffect, useState } from "react";
+import { TitleFacet } from "../../../../app/AdditionalFacets";
+import { Stories } from "../../../../base/enums";
+import {
+  Sheet,
+  FlexBox,
+  CancelButton,
+  SaveButton,
+  Spacer,
+  Section,
+  SectionRow,
+  TextInput,
+} from "../../../../components";
+import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
+import supabaseClient from "../../../../lib/supabase";
+import { displayButtonTexts, displayLabelTexts } from "../../../../utils/displayText";
+import { useSelectedSubtopic } from "../../hooks/useSelectedSubtopic";
 
 const EditSubtopicSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Stories.EDIT_SUBTOPIC_STORY);
   const { selectedLanguage } = useSelectedLanguage();
-  const {
-    selectedSubtopicTitle,
-    selectedSubtopicEntity,
-    selectedSubtopicId,
-  } = useSelectedSubtopic();
+  const { selectedSubtopicTitle, selectedSubtopicEntity, selectedSubtopicId } = useSelectedSubtopic();
   const [newTitle, setNewTitle] = useState(selectedSubtopicTitle);
 
   useEffect(() => {
     setNewTitle(selectedSubtopicTitle);
   }, [selectedSubtopicTitle]);
 
-  const navigateBack = () =>
-    lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_SET_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_SET_STORY);
 
   const updateSubtopic = async () => {
     if (newTitle) {
@@ -48,13 +52,9 @@ const EditSubtopicSheet = () => {
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>
       <FlexBox>
-        <CancelButton onClick={navigateBack}>
-          {displayButtonTexts(selectedLanguage).back}
-        </CancelButton>
+        <CancelButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).back}</CancelButton>
         {newTitle !== selectedSubtopicTitle && (
-          <SaveButton onClick={updateSubtopic}>
-            {displayButtonTexts(selectedLanguage).save}
-          </SaveButton>
+          <SaveButton onClick={updateSubtopic}>{displayButtonTexts(selectedLanguage).save}</SaveButton>
         )}
       </FlexBox>
       <Spacer />
@@ -69,6 +69,6 @@ const EditSubtopicSheet = () => {
       </Section>
     </Sheet>
   );
-}
+};
 
-export default EditSubtopicSheet
+export default EditSubtopicSheet;

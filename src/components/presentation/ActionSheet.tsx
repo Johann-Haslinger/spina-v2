@@ -1,6 +1,6 @@
 import styled from "@emotion/styled/macro";
-import { delay, motion } from "framer-motion";
-import { PropsWithChildren, useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { PropsWithChildren, useEffect, useRef } from "react";
 import tw from "twin.macro";
 
 const StyledActionSheetWrapper = styled.div`
@@ -31,7 +31,7 @@ const ActionSheet = (props: PropsWithChildren & ActionSheetProps) => {
     };
   }, []);
 
-  const handleClickOutside = (e: MouseEvent) => {
+  const handleClickOutside = () => {
     if (refOne.current) {
       navigateBack();
     }

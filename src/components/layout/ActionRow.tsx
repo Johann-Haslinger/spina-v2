@@ -31,7 +31,7 @@ interface ActionRowProps {
 }
 
 const ActionRow = (props: PropsWithChildren & ActionRowProps) => {
-  const { children, onClick, icon, destructive, last,  first, hasSpace } =
+  const { children, onClick, icon, destructive, last,  first } =
     props;
 
   return (

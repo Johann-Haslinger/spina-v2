@@ -18,15 +18,12 @@ import { useUserData } from "../../../../hooks/useUserData";
 import { Entity } from "@leanscope/ecs-engine";
 import { IdentifierFacet, ParentFacet, Tags } from "@leanscope/ecs-models";
 import { DateAddedFacet } from "../../../../app/AdditionalFacets";
-import { useIsAnyStoryCurrent } from "../../../../hooks/useIsAnyStoryCurrent";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 
 const AddResourceToTopicSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Stories.ADD_RESOURCE_TO_TOPIC_STORY);
-  const isSelectingAddingMethod = useIsStoryCurrent(
-    Stories.ADD_RESOURCE_TO_TOPIC_STORY
-  );
+
 
   const { selectedTopicId } = useSelectedTopic();
   const { selectedLanguage } = useSelectedLanguage();

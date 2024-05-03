@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import { color } from "framer-motion";
 import tw from "twin.macro";
 
 const StyledProgressBarWrapper = styled.div`

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { AdditionalTags, DataTypes, Stories } from "../../../base/enums";
 import { FlexBox, View } from "../../../components";
@@ -84,7 +84,7 @@ const FlashcardQuizView = () => {
   const { userId } = useUserData();
 
   useEffect(() => {
-   if (isVisible) {
+    if (isVisible) {
       startTimer();
     }
     setCurrentFlashcardIndex(0);
@@ -141,58 +141,57 @@ const FlashcardQuizView = () => {
   };
 
   return (
-      <View overlaySidebar visibe={isVisible}>
-        <StyledStatusBarWrapper>
-          <FlexBox>
-            <StyledBackButtonWrapper onClick={handleBackButtonClick}>
-              <IoChevronBack />
-              <StyledBackButtonText>
-                {selectedFlashcardGroupTitle || displayButtonTexts(selectedLanguage).back}
-              </StyledBackButtonText>
-            </StyledBackButtonWrapper>
-            <StyledTalkingModeButton>
-              <IoHeadset />
-            </StyledTalkingModeButton>
-          </FlexBox>
-          <StyledProgressBarWrapper>
-            <StyledProgressBar width={(currentFlashcardIndex / flashcardEntities.length) * 100 + 1} />
-          </StyledProgressBarWrapper>
+    <View overlaySidebar visibe={isVisible}>
+      <StyledStatusBarWrapper>
+        <FlexBox>
+          <StyledBackButtonWrapper onClick={handleBackButtonClick}>
+            <IoChevronBack />
+            <StyledBackButtonText>
+              {selectedFlashcardGroupTitle || displayButtonTexts(selectedLanguage).back}
+            </StyledBackButtonText>
+          </StyledBackButtonWrapper>
+          <StyledTalkingModeButton>
+            <IoHeadset />
+          </StyledTalkingModeButton>
+        </FlexBox>
+        <StyledProgressBarWrapper>
+          <StyledProgressBar width={(currentFlashcardIndex / flashcardEntities.length) * 100 + 1} />
+        </StyledProgressBarWrapper>
 
-          <StyledFlashcardsStatusWrapper>
-            <div>
-              <StyledStatusText>Abgefragte Karten</StyledStatusText>
-              <StyledQueriedFlashcardsStatusWrapper>
-                <IoFileTray />
-                <StyledFlashcardCountText>{currentFlashcardIndex}</StyledFlashcardCountText>
-              </StyledQueriedFlashcardsStatusWrapper>
-            </div>
+        <StyledFlashcardsStatusWrapper>
+          <div>
+            <StyledStatusText>Abgefragte Karten</StyledStatusText>
+            <StyledQueriedFlashcardsStatusWrapper>
+              <IoFileTray />
+              <StyledFlashcardCountText>{currentFlashcardIndex}</StyledFlashcardCountText>
+            </StyledQueriedFlashcardsStatusWrapper>
+          </div>
 
-            <div>
-              <StyledStatusText>Verbleibende Karten</StyledStatusText>
-              <StyledRemaningFlashcardsStatusWrapper>
-                <StyledFlashcardCountText>{flashcardEntities.length - currentFlashcardIndex}</StyledFlashcardCountText>
-                <IoFileTray />
-              </StyledRemaningFlashcardsStatusWrapper>
-            </div>
-          </StyledFlashcardsStatusWrapper>
-        </StyledStatusBarWrapper>
+          <div>
+            <StyledStatusText>Verbleibende Karten</StyledStatusText>
+            <StyledRemaningFlashcardsStatusWrapper>
+              <StyledFlashcardCountText>{flashcardEntities.length - currentFlashcardIndex}</StyledFlashcardCountText>
+              <IoFileTray />
+            </StyledRemaningFlashcardsStatusWrapper>
+          </div>
+        </StyledFlashcardsStatusWrapper>
+      </StyledStatusBarWrapper>
 
-        {currentFlashcardIndex === flashcardEntities.length && <FlashcardQuizEndCard elapsedTime={elapsedTime} />}
+      {currentFlashcardIndex === flashcardEntities.length && <FlashcardQuizEndCard elapsedTime={elapsedTime} />}
 
-        {flashcardEntities
-          .filter((e) => isChildOfQuery(e, selectedFlashcardGroupEntity))
-          .map((flashcardEntity, index) => (
-            <FlashcardCell
-              navigateToNextFlashcard={() => setCurrentFlashcardIndex((prev) => prev + 1)}
-              flashcardEntity={flashcardEntity}
-              currentFlashcardIndex={currentFlashcardIndex}
-              flashcardIndex={index}
-              key={index}
-            />
-          ))}
-      </View>
-    )
-
+      {flashcardEntities
+        .filter((e) => isChildOfQuery(e, selectedFlashcardGroupEntity))
+        .map((flashcardEntity, index) => (
+          <FlashcardCell
+            navigateToNextFlashcard={() => setCurrentFlashcardIndex((prev) => prev + 1)}
+            flashcardEntity={flashcardEntity}
+            currentFlashcardIndex={currentFlashcardIndex}
+            flashcardIndex={index}
+            key={index}
+          />
+        ))}
+    </View>
+  );
 };
 const StyledFlashcardQuizEndCardWrapper = styled.div`
   ${tw` dark:text-primaryTextDark absolute top-0 right-0  left-0 flex justify-center items-center h-full w-full `}

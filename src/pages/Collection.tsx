@@ -1,4 +1,3 @@
-import React from "react";
 import { EntityPropsMapper } from "@leanscope/ecs-engine";
 import { dataTypeQuery } from "../utils/queries";
 import { DataTypes } from "../base/enums";
@@ -14,12 +13,13 @@ import {
 } from "../components";
 import { displayHeaderTexts } from "../utils/displayText";
 import { useSelectedLanguage } from "../hooks/useSelectedLanguage";
+import { Fragment } from "react/jsx-runtime";
 
 const Collection = () => {
   const { selectedLanguage } = useSelectedLanguage();
 
   return (
-    <>
+    <Fragment>
       <View viewType="baseView">
         <NavigationBar></NavigationBar>
         <Title size="large">
@@ -43,7 +43,7 @@ const Collection = () => {
         onMatch={SchoolSubjectView}
       />
       
-    </>
+      </Fragment>
   );
 };
 

@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "@emotion/styled";
 import { PropsWithChildren, ReactNode, useState } from "react";
 import tw from "twin.macro";
@@ -9,10 +8,9 @@ const StyledNavBarButton = styled.div`
 `;
 
 interface NavBarButtonProps {
-  onClick?: () => void
-content?: ReactNode
+  onClick?: () => void;
+  content?: ReactNode;
 }
-
 
 const NavBarButton = (props: PropsWithChildren & NavBarButtonProps) => {
   const { children, onClick, content } = props;
@@ -22,16 +20,16 @@ const NavBarButton = (props: PropsWithChildren & NavBarButtonProps) => {
     onClick && onClick();
     if (content) {
       setIsSheetVisible(true);
-    } 
-  }
+    }
+  };
 
   return (
-    <>
+    <div>
       <StyledNavBarButton onClick={handleClick}>{children}</StyledNavBarButton>
       <ActionSheet visible={isSheetVisible} navigateBack={() => setIsSheetVisible(false)}>
         {content}
       </ActionSheet>
-    </>
+    </div>
   );
 };
 

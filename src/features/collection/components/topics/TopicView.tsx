@@ -1,8 +1,7 @@
-import React, { useContext } from "react";
+import { Fragment, useContext } from "react";
 import {
   ActionRow,
   CollectionGrid,
-  Divider,
   NavBarButton,
   NavigationBar,
   NoContentAddedHint,
@@ -57,7 +56,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
   const openDeleteTopicAlert = () => lsc.stories.transitTo(Stories.DELETE_TOPIC_STORY);
 
   return (
-    <>
+    <Fragment>
       <LoadNotesSystem />
       <LoadFlashcardSetsSystem />
       <LoadHomeworksSystem />
@@ -70,14 +69,14 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
           </NavBarButton>
           <NavBarButton
             content={
-              <>
-                <ActionRow  first onClick={openEditTopicSheet} icon={<IoCreateOutline />}>
+              <Fragment>
+                <ActionRow first onClick={openEditTopicSheet} icon={<IoCreateOutline />}>
                   {displayActionTexts(selectedLanguage).edit}
                 </ActionRow>
                 <ActionRow onClick={openDeleteTopicAlert} icon={<IoTrashOutline />} destructive last>
                   {displayActionTexts(selectedLanguage).delete}
                 </ActionRow>
-              </>
+              </Fragment>
             }
           >
             <IoEllipsisHorizontalCircleOutline />
@@ -155,7 +154,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
       <AddResourceToTopicSheet />
       <DeleteTopicAlert />
       <EditTopicSheet />
-    </>
+    </Fragment>
   );
 };
 

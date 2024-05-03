@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { Fragment, useContext } from "react";
 import {
   ActionRow,
   BackButton,
@@ -39,7 +39,7 @@ import FlashcardQuizView from "../../../study/components/FlashcardQuizView";
 
 const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => {
   const lsc = useContext(LeanScopeClientContext);
-  const { title, entity, guid } = props;
+  const { title, entity } = props;
   const isVisible = useIsViewVisible(entity);
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedTopicTitle } = useSelectedTopic();
@@ -53,18 +53,18 @@ const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => 
   const openFlashcardQuizView = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_QUIZ_STORY);
 
   return (
-    <>
+    <Fragment>
       <LoadFlashcardsSystem />
 
       <View visibe={isVisible}>
         <NavigationBar>
           <NavBarButton
             content={
-              <>
-                <ActionRow  first last icon={<IoAlbumsOutline />} onClick={() => openFlashcardQuizView()}>
+              <Fragment>
+                <ActionRow first last icon={<IoAlbumsOutline />} onClick={() => openFlashcardQuizView()}>
                   {displayActionTexts(selectedLanguage).quiz}
                 </ActionRow>
-              </>
+              </Fragment>
             }
           >
             <IoPlayOutline />
@@ -74,14 +74,14 @@ const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => 
           </NavBarButton>
           <NavBarButton
             content={
-              <>
-                <ActionRow  first icon={<IoCreateOutline />} onClick={openEditFlashcardSetSheet}>
+              <Fragment>
+                <ActionRow first icon={<IoCreateOutline />} onClick={openEditFlashcardSetSheet}>
                   {displayActionTexts(selectedLanguage).edit}
                 </ActionRow>
                 <ActionRow destructive last icon={<IoTrashOutline />} onClick={openDeleteFlashcardSetAlert}>
                   {displayActionTexts(selectedLanguage).delete}
                 </ActionRow>
-              </>
+              </Fragment>
             }
           >
             <IoEllipsisHorizontalCircleOutline />
@@ -111,7 +111,7 @@ const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => 
       <DeleteFlashcardSetAlert />
       <AddFlashcardsSheet />
       <FlashcardQuizView />
-    </>
+    </Fragment>
   );
 };
 

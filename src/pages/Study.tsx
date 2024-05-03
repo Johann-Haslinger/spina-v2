@@ -1,12 +1,5 @@
-import React, { useContext } from "react";
-import {
-  CollectionGrid,
-  NavBarButton,
-  NavigationBar,
-  Spacer,
-  Title,
-  View,
-} from "../components";
+import { Fragment, useContext } from "react";
+import { CollectionGrid, NavBarButton, NavigationBar, Spacer, Title, View } from "../components";
 import { useSelectedLanguage } from "../hooks/useSelectedLanguage";
 import { displayHeaderTexts } from "../utils/displayText";
 import { IoAdd } from "react-icons/io5";
@@ -25,15 +18,15 @@ import AddFlashcardGroupSheet from "../features/study/components/AddFlashcardGro
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 
 const Study = () => {
-  const lsc = useContext(LeanScopeClientContext)
+  const lsc = useContext(LeanScopeClientContext);
   const { selectedLanguage } = useSelectedLanguage();
 
   const openAddFlashcardGroupSheet = () => lsc.stories.transitTo(Stories.ADD_FLASHCARD_GROUP_STORY);
 
   return (
-    <>
-      <FlashcardGroupsInitSystem  />
-      <LoadFlashcardsSystem  />
+    <Fragment>
+      <FlashcardGroupsInitSystem />
+      <LoadFlashcardsSystem />
 
       <View viewType="baseView">
         <NavigationBar>
@@ -57,7 +50,7 @@ const Study = () => {
         onMatch={FlashcardGroupView}
       />
       <AddFlashcardGroupSheet />
-    </>
+      </Fragment>
   );
 };
 

@@ -1,9 +1,9 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
-import { IdentifierFacet, OrderFacet } from "@leanscope/ecs-models";
-import React, { useContext, useEffect } from "react";
+import { IdentifierFacet } from "@leanscope/ecs-models";
+import  { useContext, useEffect } from "react";
 import { DateAddedFacet, TitleFacet } from "../../../app/AdditionalFacets";
-import { dummyFlashcardSets, dummySchoolSubjects } from "../../../base/dummy";
+import { dummyFlashcardSets } from "../../../base/dummy";
 import { DataTypes } from "../../../base/enums";
 import { dataTypeQuery } from "../../../utils/queries";
 import supabaseClient from "../../../lib/supabase";
@@ -31,7 +31,7 @@ const FlashcardGroupsInitSystem = () => {
     const initializeFlashcardGroupEntities = async () => {
       const flashcardSets = mockupData ? dummyFlashcardSets :  await fetchFlashcardSets();
 
-      flashcardSets.forEach((flashcardSet, idx) => {
+      flashcardSets.forEach((flashcardSet) => {
         const isExisting = lsc.engine.entities.some(
           (e) => e.get(IdentifierFacet)?.props.guid === flashcardSet.id  && dataTypeQuery(e, DataTypes.FLASHCARD_GROUP)
         );

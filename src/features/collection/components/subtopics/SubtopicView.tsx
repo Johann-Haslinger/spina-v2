@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { Fragment, useContext, useState } from "react";
 import {
   AnswerFacet,
   DateAddedFacet,
@@ -86,7 +86,7 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
   };
 
   return (
-    <>
+    <Fragment>
       <LoadSubtopicResourcesSystem />
 
       <View visibe={isVisible}>
@@ -98,39 +98,39 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
           )}
           <NavBarButton
             content={
-              <>
+              <Fragment>
                 <ActionRow first icon={<IoHeadsetOutline />} onClick={openGeneratePodcastSheet}>
                   {displayActionTexts(selectedLanguage).generatePodcast}
                 </ActionRow>
                 <ActionRow onClick={openImproveTextSheet} last icon={<IoSparklesOutline />}>
                   {displayActionTexts(selectedLanguage).improveText}
                 </ActionRow>
-              </>
+              </Fragment>
             }
           >
             <IoColorWandOutline />
           </NavBarButton>
           <NavBarButton
             content={
-              <>
+              <Fragment>
                 <ActionRow first last icon={<IoAlbumsOutline />} onClick={() => openFlashcardQuizView()}>
                   {displayActionTexts(selectedLanguage).quiz}
                 </ActionRow>
-              </>
+              </Fragment>
             }
           >
             <IoPlayOutline />
           </NavBarButton>
           <NavBarButton
             content={
-              <>
+              <Fragment>
                 <ActionRow icon={<IoCreateOutline />} onClick={openEditSheet} first>
                   {displayActionTexts(selectedLanguage).edit}
                 </ActionRow>
                 <ActionRow last destructive icon={<IoTrashOutline />} onClick={openDeleteAlert}>
                   {displayActionTexts(selectedLanguage).delete}
                 </ActionRow>
-              </>
+              </Fragment>
             }
           >
             <IoEllipsisHorizontalCircleOutline />
@@ -183,11 +183,10 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
         onMatch={EditFlashcardSheet}
       />
       <EntityPropsMapper
-       query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.PODCAST)}
-       get={[[TitleFacet, DateAddedFacet, SourceFacet], []]}
-       onMatch={PodcastSheet}
+        query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.PODCAST)}
+        get={[[TitleFacet, DateAddedFacet, SourceFacet], []]}
+        onMatch={PodcastSheet}
       />
-
 
       <EditSubtopicSheet />
       <DeleteSubtopicAlert />
@@ -195,7 +194,7 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
       <FlashcardQuizView />
       <GeneratingPodcastSheet />
       <GenerateImprovedTextSheet />
-    </>
+    </Fragment>
   );
 };
 

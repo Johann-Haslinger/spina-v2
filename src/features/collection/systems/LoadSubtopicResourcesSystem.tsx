@@ -27,19 +27,6 @@ const fetchFlashcardsForSubtopic = async (parentId: string) => {
   return flashcards || [];
 };
 
-const fetchSubtopicText = async (parentId: string) => {
-  const { data: subtopicTextData, error } = await supabaseClient
-    .from("knowledges")
-    .select("text")
-    .eq("parentId", parentId)
-    .single();
-
-  if (error) {
-    console.error("error fetching subtopic text", error);
-    return;
-  }
-  return subtopicTextData?.text;
-};
 
 const LoadSubtopicResourcesSystem = () => {
   const { mockupData } = useMockupData();

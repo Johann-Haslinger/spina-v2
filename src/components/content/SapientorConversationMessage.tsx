@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import TypingAnimationInnerHTML from "./TypingAnimationInnerHTML";
 import Spacer from "../layout/Spacer";
 import styled from "@emotion/styled/macro";

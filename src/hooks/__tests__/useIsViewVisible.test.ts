@@ -1,4 +1,3 @@
-import { LeanScopeClient } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
 import { Tags } from "@leanscope/ecs-models";
 import { useIsViewVisible } from "../useIsViewVisible";

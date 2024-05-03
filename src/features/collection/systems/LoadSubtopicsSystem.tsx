@@ -1,11 +1,8 @@
-import React, { useContext, useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { useMockupData } from "../../../hooks/useMockupData";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
-import {
-  IdentifierFacet,
-  ParentFacet,
-} from "@leanscope/ecs-models";
+import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { TitleFacet, DateAddedFacet } from "../../../app/AdditionalFacets";
 import { dummySubtopics } from "../../../base/dummy";
 import { DataTypes } from "../../../base/enums";
@@ -22,7 +19,7 @@ const fetchSubtopicsForSchoolSubject = async (subjectId: string) => {
     console.error("Error fetching Subtopics:", error);
     return [];
   }
-console.log(subtopics)
+  console.log(subtopics);
   return subtopics || [];
 };
 
@@ -31,19 +28,14 @@ const LoadSubtopicsSystem = () => {
   const lsc = useContext(LeanScopeClientContext);
   const { selectedTopicId } = useSelectedTopic();
 
-
   useEffect(() => {
     const initializeSubtopicEntities = async () => {
       if (selectedTopicId) {
-        const Subtopics = mockupData
-          ? dummySubtopics
-          : await fetchSubtopicsForSchoolSubject(selectedTopicId);
+        const Subtopics = mockupData ? dummySubtopics : await fetchSubtopicsForSchoolSubject(selectedTopicId);
 
         Subtopics.forEach((topic) => {
           const isExisting = lsc.engine.entities.some(
-            (e) =>
-              e.get(IdentifierFacet)?.props.guid === topic.id &&
-              e.hasTag(DataTypes.SUBTOPIC)
+            (e) => e.get(IdentifierFacet)?.props.guid === topic.id && e.hasTag(DataTypes.SUBTOPIC)
           );
 
           if (!isExisting) {
@@ -51,20 +43,16 @@ const LoadSubtopicsSystem = () => {
             lsc.engine.addEntity(topicEntity);
             topicEntity.add(new TitleFacet({ title: topic.name }));
             topicEntity.add(new IdentifierFacet({ guid: topic.id }));
-            topicEntity.add(
-              new DateAddedFacet({ dateAdded: topic.date_added })
-            );
+            topicEntity.add(new DateAddedFacet({ dateAdded: topic.date_added }));
 
-            topicEntity.add(
-              new ParentFacet({ parentId: selectedTopicId })
-            );
+            topicEntity.add(new ParentFacet({ parentId: selectedTopicId }));
             topicEntity.addTag(DataTypes.SUBTOPIC);
           }
         });
       }
     };
 
-    if (selectedTopicId ) {
+    if (selectedTopicId) {
       initializeSubtopicEntities();
     }
   }, [selectedTopicId, mockupData]);

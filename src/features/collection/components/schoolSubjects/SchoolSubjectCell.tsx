@@ -20,7 +20,7 @@ const StyledTitle = styled.p`
 `;
 
 const SchoolSubjectCell = (props: TitleProps & OrderProps & EntityProps) => {
-  const { title, entity, orderIndex } = props;
+  const { title, entity } = props;
   const { isSidebarVisible } = useAppState();
   const { color, backgroundColor } = useSchoolSubjectColors(props.entity);
 
@@ -31,11 +31,7 @@ const SchoolSubjectCell = (props: TitleProps & OrderProps & EntityProps) => {
   };
 
   return (
-    <StyledCellWrapper
-      backgroundColor={backgroundColor}
-      color={color}
-      onClick={handleOpenSchoolSubject}
-    >
+    <StyledCellWrapper backgroundColor={backgroundColor} color={color} onClick={handleOpenSchoolSubject}>
       <StyledTitle>{title.slice(0, 2)}</StyledTitle>
     </StyledCellWrapper>
   );

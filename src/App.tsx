@@ -1,4 +1,3 @@
-import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { NavigationLinks, Stories } from "./base/enums";
 import { Collection, Exams, Groups, Homeworks, Overview, Study } from "./pages/Index";
@@ -7,22 +6,20 @@ import ViewManagerSystem from "./systems/ViewManagerSystem";
 import StoriesInitSystem from "./systems/StoriesInitSystem";
 import { Sidebar } from "./components";
 import AppInitSystem from "./systems/AppInitSystem";
-import { useUserData } from "./hooks/useUserData";
 import { AuthUI } from "./features/auth-ui";
 import { Settings } from "./features/settings";
 import { formatNavLinkAsPath } from "./utils/formatNavLinkAsPath";
 import UserInitSystem from "./systems/UserInitSystem";
 import { useSession } from "./hooks/useSession";
+import { Fragment } from "react/jsx-runtime";
 
 function App() {
   const { session } = useSession();
 
   return !session ? (
-    <>
-      <AuthUI />
-    </>
+    <AuthUI />
   ) : (
-    <>
+    <Fragment>
       <UserInitSystem />
       <StoriesInitSystem initialStory={Stories.OBSERVING_COLLECTION_STORY} />
       <AppInitSystem />
@@ -42,7 +39,7 @@ function App() {
         <Sidebar />
         <Settings />
       </BrowserRouter>
-    </>
+    </Fragment>
   );
 }
 2;

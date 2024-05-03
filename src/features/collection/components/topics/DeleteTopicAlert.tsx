@@ -1,6 +1,6 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { Stories, AdditionalTags } from "../../../../base/enums";
 import { Alert, AlertButton } from "../../../../components";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
@@ -14,8 +14,7 @@ const DeleteTopicAlert = () => {
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedTopicId, selectedTopicEntity } = useSelectedTopic();
 
-  const navigateBack = () =>
-    lsc.stories.transitTo(Stories.OBSERVING_TOPIC_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_TOPIC_STORY);
 
   const deleteTopic = async () => {
     navigateBack();
@@ -24,10 +23,7 @@ const DeleteTopicAlert = () => {
       if (selectedTopicEntity) {
         lsc.engine.removeEntity(selectedTopicEntity);
 
-        const { error } = await supabaseClient
-          .from("topics")
-          .delete()
-          .eq("id", selectedTopicId);
+        const { error } = await supabaseClient.from("topics").delete().eq("id", selectedTopicId);
 
         if (error) {
           console.error("Error deleting Topic", error);
@@ -37,11 +33,7 @@ const DeleteTopicAlert = () => {
   };
 
   return (
-    <Alert
-      navigateBack={navigateBack}
-      visible={isVisible}
-    
-    >
+    <Alert navigateBack={navigateBack} visible={isVisible}>
       <AlertButton onClick={navigateBack} role="primary">
         {displayActionTexts(selectedLanguage).cancel}
       </AlertButton>

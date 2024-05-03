@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CancelButton, FlexBox, GeneratingIndecator, SaveButton, Sheet } from "../../../../components";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { Stories } from "../../../../base/enums";
@@ -31,6 +31,7 @@ const GeneratingPodcastSheet = () => {
     const handleGeneratePodcast = async () => {
       setIsGenerating(true);
       const podcastTranscript = await new Promise((resolve) => setTimeout(resolve, 500));
+      console.log("Podcast transcript", podcastTranscript);
       const podcastAudio = await new Promise((resolve) => setTimeout(resolve, 500));
 
       const newPodcastId = v4();

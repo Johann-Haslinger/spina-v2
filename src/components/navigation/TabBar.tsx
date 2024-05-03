@@ -1,9 +1,5 @@
-import React from 'react'
-
 const TabBar = () => {
-  return (
-    <div>TabBar</div>
-  )
-}
+  return <div>TabBar</div>;
+};
 
-export default TabBar
+export default TabBar;

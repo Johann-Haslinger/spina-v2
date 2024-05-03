@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { Fragment, useEffect } from "react";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { DataTypes, Stories } from "../../../../base/enums";
 import {
@@ -156,7 +156,7 @@ const AddHomeworkSheet = () => {
         )}
       </Section>
       {(hasSchoolSubjectTopics || selectedSchoolSubjectId) && (
-        <>
+        <Fragment>
           <Spacer size={2} />
           <Section>
             {schoolSubjectTopics.map((topic, idx) => (
@@ -171,7 +171,7 @@ const AddHomeworkSheet = () => {
             ))}
             {!hasSchoolSubjectTopics && <SectionRow last>{displayAlertTexts(selectedLanguage).noTopics}</SectionRow>}
           </Section>
-        </>
+        </Fragment>
       )}
 
       <Spacer size={2} />

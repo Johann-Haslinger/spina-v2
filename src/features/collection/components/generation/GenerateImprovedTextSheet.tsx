@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CancelButton, FlexBox, GeneratingIndecator, SaveButton, Sheet } from "../../../../components";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { DataTypes, Stories } from "../../../../base/enums";
@@ -11,7 +11,6 @@ import { generateImprovedText } from "../../../../utils/generateResources";
 import SapientorConversationMessage from "../../../../components/content/SapientorConversationMessage";
 import { TextFacet } from "@leanscope/ecs-models";
 import supabaseClient from "../../../../lib/supabase";
-import { dummyText } from "../../../../base/dummy";
 
 const GenerateImprovedTextSheet = () => {
   const lsc = useContext(LeanScopeClientContext);

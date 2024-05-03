@@ -28,10 +28,6 @@ const StyledLeftSideWrapper = styled.div`
   ${tw`flex xl:pl-14 items-center`}
 `;
 
-interface NavigationBarProps {
-  backButtonLabel?: string;
-  navigateBack?: () => void;
-}
 
 const NavigationBar = (props: PropsWithChildren) => {
   const { children, } = props;

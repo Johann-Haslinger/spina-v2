@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import { Fragment, useContext } from "react";
 import {
   ActionRow,
   BackButton,
@@ -62,32 +62,32 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
   };
 
   return (
-    <>
+    <Fragment>
       <LoadNoteTextSystem />
 
       <View visibe={isVisible}>
         <NavigationBar>
           <NavBarButton
             content={
-              <>
+              <Fragment>
                 <ActionRow first icon={<IoAlbumsOutline />} onClick={openGenerateFlashcardsSheet}>
                   {displayActionTexts(selectedLanguage).generateFlashcards}
                 </ActionRow>
                 <ActionRow onClick={openImproveTextSheet} last icon={<IoSparklesOutline />}>
                   {displayActionTexts(selectedLanguage).improveText}
                 </ActionRow>
-              </>
+              </Fragment>
             }
           >
             <IoColorWandOutline />
           </NavBarButton>
           <NavBarButton
             content={
-              <>
+              <Fragment>
                 <ActionRow first last destructive onClick={openDeleteAlert} icon={<IoTrashOutline />}>
                   {displayActionTexts(selectedLanguage).delete}
                 </ActionRow>
-              </>
+              </Fragment>
             }
           >
             <IoEllipsisHorizontalCircleOutline />
@@ -104,7 +104,7 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
       <DeleteNoteAlert />
       <GenerateFlashcardsSheet />
       <GenerateImprovedTextSheet />
-    </>
+    </Fragment>
   );
 };
 
