@@ -59,6 +59,12 @@ const Title = (props: PropsWithChildren & TitleProps) => {
     }
   };
 
+  useEffect(() => {
+   if (isFocused && titleRef.current) {
+    titleRef.current.focus();
+    }
+  }, [isFocused]);
+
   return (
     <StyledTitle
       onKeyPress={(e) => {

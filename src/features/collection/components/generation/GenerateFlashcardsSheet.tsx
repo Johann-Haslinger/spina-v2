@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState } from "react";
 import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import {
-  BackButton,
   CancelButton,
   FlexBox,
   GeneratingIndecator,
@@ -16,7 +15,6 @@ import { useSelectedNote } from "../../hooks/useSelectedNote";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { displayButtonTexts } from "../../../../utils/selectDisplayText";
 import PreviewFlashcard from "../flashcardSets/PreviewFlashcard";
-import { generateFlashCards } from "../../../../utils/generateResources";
 import { Entity } from "@leanscope/ecs-engine";
 import { IdentifierFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
 import { QuestionFacet, AnswerFacet, MasteryLevelFacet, TitleFacet } from "../../../../app/AdditionalFacets";
@@ -24,11 +22,18 @@ import supabaseClient from "../../../../lib/supabase";
 import { v4 } from "uuid";
 import { useUserData } from "../../../../hooks/useUserData";
 import { dummyFlashcards } from "../../../../base/dummy";
+import SapientorConversationMessage from "../../../../components/content/SapientorConversationMessage";
+import styled from "@emotion/styled";
+import tw from "twin.macro";
 
 type Flashcard = {
   question: string;
   answer: string;
 };
+
+const StyledPreviewCardsWrapper = styled.div`
+  ${tw`w-full md:px-4`}
+`;
 
 const GenerateFlashcardsSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -44,9 +49,15 @@ const GenerateFlashcardsSheet = () => {
     const generateFlashcards = async () => {
       setIsGenerating(true);
       // const flashcards = await generateFlashCards(selectedNoteText || "");
-      const flashcards =dummyFlashcards
-      setGeneratedFlashcards(flashcards);
-      setIsGenerating(false);
+      setTimeout(() => {
+        const flashcards = dummyFlashcards;
+
+        setIsGenerating(false);
+
+        setTimeout(() => {
+          setGeneratedFlashcards(flashcards);
+        }, 200);
+      }, 400);
     };
 
     if (isVisible && selectedNoteText && generatedFlashcards.length === 0) {
@@ -157,19 +168,29 @@ const GenerateFlashcardsSheet = () => {
       <Spacer />
       {isGenerating && <GeneratingIndecator />}
       <ScrollableBox>
-        {generatedFlashcards.map((flashcard, index) => (
-          <PreviewFlashcard
-            updateFlashcard={(flashcard) =>
-              setGeneratedFlashcards([
-                ...generatedFlashcards.slice(0, index),
-                flashcard,
-                ...generatedFlashcards.slice(index + 1),
-              ])
-            }
-            key={index}
-            flashcard={flashcard}
+        {!isGenerating && (
+          <SapientorConversationMessage
+            message={{
+              role: "gpt",
+              message: `Passen die Karteikarten so für dich?<br/> <br/> `,
+            }}
           />
-        ))}
+        )}
+        <StyledPreviewCardsWrapper>
+          {generatedFlashcards.map((flashcard, index) => (
+            <PreviewFlashcard
+              updateFlashcard={(flashcard) =>
+                setGeneratedFlashcards([
+                  ...generatedFlashcards.slice(0, index),
+                  flashcard,
+                  ...generatedFlashcards.slice(index + 1),
+                ])
+              }
+              key={index}
+              flashcard={flashcard}
+            />
+          ))}
+        </StyledPreviewCardsWrapper>
       </ScrollableBox>
     </Sheet>
   );

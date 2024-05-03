@@ -51,24 +51,21 @@ export const dummyTopics = [
     topicName: "Addition",
     id: "1",
     date_added: new Date().toISOString(),
-    topicDescription:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    topicDescription: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     parentId: "0",
   },
   {
     topicName: "Subtraction",
     id: "2",
     date_added: new Date().toISOString(),
-    topicDescription:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    topicDescription: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     parentId: "0",
   },
   {
     topicName: "Multiplication",
     id: "3",
     date_added: new Date().toISOString(),
-    topicDescription:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    topicDescription: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     parentId: "0",
   },
 ];
@@ -214,8 +211,7 @@ export const dummySubtopics = [
     id: "1",
     date_added: new Date().toISOString(),
     parentId: "1",
-
-  }, 
+  },
   {
     name: "Subtraction",
     id: "2",
@@ -229,3 +225,5 @@ export const dummySubtopics = [
     parentId: "1",
   },
 ];
+
+export const dummyAudio = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";

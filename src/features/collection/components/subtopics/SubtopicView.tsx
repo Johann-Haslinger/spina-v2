@@ -1,5 +1,13 @@
 import React, { useContext, useState } from "react";
-import { AnswerFacet, MasteryLevelFacet, QuestionFacet, TitleProps } from "../../../../app/AdditionalFacets";
+import {
+  AnswerFacet,
+  DateAddedFacet,
+  MasteryLevelFacet,
+  QuestionFacet,
+  SourceFacet,
+  TitleFacet,
+  TitleProps,
+} from "../../../../app/AdditionalFacets";
 import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
 import {
   ActionRow,
@@ -41,6 +49,10 @@ import EditFlashcardSheet from "../flashcardSets/EditFlashcardSheet";
 import supabaseClient from "../../../../lib/supabase";
 import AddFlashcardsSheet from "../flashcardSets/AddFlashcardsSheet";
 import FlashcardQuizView from "../../../study/components/FlashcardQuizView";
+import GeneratingPodcastSheet from "../generation/GeneratingPodcastSheet";
+import GenerateImprovedTextSheet from "../generation/GenerateImprovedTextSheet";
+import PodcastCell from "../podcasts/PodcastCell";
+import PodcastSheet from "../podcasts/PodcastSheet";
 
 enum SubtopicViewStates {
   NOTE,
@@ -87,7 +99,7 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
           <NavBarButton
             content={
               <>
-              <ActionRow first icon={<IoHeadsetOutline />} onClick={openGeneratePodcastSheet}>
+                <ActionRow first icon={<IoHeadsetOutline />} onClick={openGeneratePodcastSheet}>
                   {displayActionTexts(selectedLanguage).generatePodcast}
                 </ActionRow>
                 <ActionRow onClick={openImproveTextSheet} last icon={<IoSparklesOutline />}>
@@ -144,7 +156,13 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
             {displayActionTexts(selectedLanguage).flashcards}
           </SegmentedControlCell>
         </SegmentedControl>
+
         <Spacer size={6} />
+        <EntityPropsMapper
+          query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.PODCAST)}
+          get={[[TitleFacet, DateAddedFacet], []]}
+          onMatch={PodcastCell}
+        />
 
         {subtopicViewState == SubtopicViewStates.NOTE ? (
           <TextEditor onBlur={handleTextBlur} value={text} />
@@ -164,11 +182,19 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
         get={[[AnswerFacet, QuestionFacet, IdentifierFacet, MasteryLevelFacet], []]}
         onMatch={EditFlashcardSheet}
       />
+      <EntityPropsMapper
+       query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.PODCAST)}
+       get={[[TitleFacet, DateAddedFacet, SourceFacet], []]}
+       onMatch={PodcastSheet}
+      />
+
 
       <EditSubtopicSheet />
       <DeleteSubtopicAlert />
       <AddFlashcardsSheet />
       <FlashcardQuizView />
+      <GeneratingPodcastSheet />
+      <GenerateImprovedTextSheet />
     </>
   );
 };

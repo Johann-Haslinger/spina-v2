@@ -9,9 +9,9 @@ import { useSelectedNote } from "../../hooks/useSelectedNote";
 import { useSelectedSubtopic } from "../../hooks/useSelectedSubtopic";
 import { generateImprovedText } from "../../../../utils/generateResources";
 import SapientorConversationMessage from "../../../../components/content/SapientorConversationMessage";
-import { dummyText } from "../../../../base/dummy";
 import { TextFacet } from "@leanscope/ecs-models";
 import supabaseClient from "../../../../lib/supabase";
+import { dummyText } from "../../../../base/dummy";
 
 const GenerateImprovedTextSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -24,14 +24,16 @@ const GenerateImprovedTextSheet = () => {
 
   useEffect(() => {
     const handleGenerateImprovedText = async () => {
+      setIsGenerating(true);
       const textToImprove = selectedNoteText || selectedSubtopicText || "";
+      console.log("textToImprove", textToImprove);
       if (textToImprove === "") return;
       setTimeout(async () => {
         const imporvedText = await generateImprovedText(textToImprove);
         // const imporvedText = dummyText;
         setGeneratedText(imporvedText);
         setIsGenerating(false);
-      }, 400);
+      }, 600);
     };
 
     if (isVisible && generatedText === "") {
@@ -77,14 +79,16 @@ const GenerateImprovedTextSheet = () => {
         )}
       </FlexBox>
       {isGenerating && <GeneratingIndecator />}
-      <SapientorConversationMessage
-        message={{
-          role: "gpt",
-          message: `Passt das so für dich?<br/> <br/>
+      {!isGenerating && (
+        <SapientorConversationMessage
+          message={{
+            role: "gpt",
+            message: `Passt das so für dich?<br/> <br/>
            ${generatedText}
            <br/><br/>`,
-        }}
-      />
+          }}
+        />
+      )}
     </Sheet>
   );
 };

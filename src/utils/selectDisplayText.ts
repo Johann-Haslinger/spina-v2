@@ -24,8 +24,8 @@ const getHeaderText = (headerText: HeaderTexts, selectedLanguage: SupportedLangu
         default:
           return "";
       }
-    
-      case HeaderTexts.STUDY:
+
+    case HeaderTexts.STUDY:
       switch (selectedLanguage) {
         case SupportedLanguages.DE:
           return "Lernen";
@@ -34,7 +34,7 @@ const getHeaderText = (headerText: HeaderTexts, selectedLanguage: SupportedLangu
         default:
           return "";
       }
-    
+
     case HeaderTexts.HOMEWORKS:
       switch (selectedLanguage) {
         case SupportedLanguages.DE:
@@ -85,13 +85,12 @@ const getHeaderText = (headerText: HeaderTexts, selectedLanguage: SupportedLangu
   }
 };
 
-
 export const displayAlertTexts = (selectedLanguage: SupportedLanguages) => {
   return {
     noContentAddedTitle: getAlertText(AlertTexts.NO_CONTENT_ADDED_TITLE, selectedLanguage),
     noContentAddedSubtitle: getAlertText(AlertTexts.NO_CONTENT_ADDED_SUBTITLE, selectedLanguage),
   };
-}
+};
 
 const getAlertText = (alertText: AlertTexts, selectedLanguage: SupportedLanguages) => {
   switch (alertText) {
@@ -112,8 +111,6 @@ const getAlertText = (alertText: AlertTexts, selectedLanguage: SupportedLanguage
           return "It looks like you haven't added any content yet";
         default:
           return "";
-        
-
       }
     default:
       return "";
@@ -126,8 +123,9 @@ export const displayButtonTexts = (selectedLanguage: SupportedLanguages) => {
     save: getButtonText(ButtonTexts.SAVE, selectedLanguage),
     cancel: getButtonText(ButtonTexts.CANCEL, selectedLanguage),
     delete: getButtonText(ButtonTexts.DELETE, selectedLanguage),
+    done: getButtonText(ButtonTexts.DONE, selectedLanguage),
   };
-}
+};
 
 const getButtonText = (buttonText: ButtonTexts, selectedLanguage: SupportedLanguages) => {
   switch (buttonText) {
@@ -167,6 +165,15 @@ const getButtonText = (buttonText: ButtonTexts, selectedLanguage: SupportedLangu
         default:
           return "";
       }
+    case ButtonTexts.DONE:
+      switch (selectedLanguage) {
+        case SupportedLanguages.DE:
+          return "Fertig";
+        case SupportedLanguages.EN:
+          return "Done";
+        default:
+          return "";
+      }
     default:
       return "";
   }
@@ -184,7 +191,7 @@ export const displayActionTexts = (selectedLanguage: SupportedLanguages) => {
     generateFlashcards: getActionText(ActionTexts.GENERATE_FLASHCARDS, selectedLanguage),
     generatePodcast: getActionText(ActionTexts.GENERATE_PODCAST, selectedLanguage),
   };
-}
+};
 
 const getActionText = (actionText: ActionTexts, selectedLanguage: SupportedLanguages) => {
   switch (actionText) {

@@ -18,6 +18,7 @@ export enum ButtonTexts {
   SAVE,
   CANCEL,
   DELETE,
+  DONE
 }
 
 export enum ActionTexts {

@@ -117,3 +117,13 @@ export class UserSessionFacet extends Facet<UserSessionProps>{
     super(props);
   }
 }
+
+export interface SourceProps {
+  source: string;
+}
+
+export class SourceFacet extends Facet<SourceProps>{
+  constructor(props: SourceProps) {
+    super(props);
+  }
+}

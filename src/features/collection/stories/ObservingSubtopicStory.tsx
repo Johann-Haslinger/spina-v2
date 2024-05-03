@@ -16,7 +16,7 @@ import {
   ParentFacet,
   Tags,
 } from "@leanscope/ecs-models";
-import { TitleFacet } from "../../../app/AdditionalFacets";
+import { DateAddedFacet, TitleFacet } from "../../../app/AdditionalFacets";
 import LoadTopicsSystem from "../systems/LoadTopicsSystem";
 import { Sidebar } from "../../../components";
 import { BrowserRouter } from "react-router-dom";
@@ -28,6 +28,16 @@ const ObservingSubtopicStory = () => {
     <React.StrictMode>
       <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
         <BrowserRouter>
+        <EntityCreator
+            facets={[
+              new TitleFacet({ title: "Sinus Exercise Podcast" }),
+              new DateAddedFacet({ dateAdded: new Date().toISOString() }),
+              new IdentifierFacet({ guid: "101" }),
+              new OrderFacet({ orderIndex: 1 }),
+              new ParentFacet({ parentId: "100" }),
+            ]}
+            tags={[DataTypes.PODCAST]}
+          />
           <EntityCreator
             facets={[
               new TitleFacet({ title: "Sinus Exercise" }),

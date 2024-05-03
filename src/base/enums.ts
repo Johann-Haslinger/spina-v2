@@ -8,6 +8,7 @@ export enum Stories {
   OBSERVING_HOMEWORKS_STORY = "observingHomeworksStory",
   OBSERVING_NOTE_STORY = "observingNoteStory",
   OBSERVING_FLASHCARD_QUIZ_STORY = "observingFlashcardQuizStory",
+  OBSERVING_SUBTOPIC_STORY = "observingSubtopicStory",
 
   ADD_FLASHCARD_SET_STORY = "addFlashcardSetStory",
   ADD_TOPIC_STORY = "addTopicStory",
@@ -64,6 +65,7 @@ export enum DataTypes {
   FLASHCARD_SET = "flashcardSet",
   FLASHCARD = "flashcard",
   SUBTOPIC = "subTopic",
+  PODCAST = "podcast",
 }
 
 export enum SupportedLanguages {

@@ -12,7 +12,7 @@ interface SheetProps {
 
 
 const StyledSheetWrapper = styled.div`
-  ${tw`p-4 overflow-hidden lg:px-8 dark:bg-seconderyDark transition-all dark:text-primaryTextDark w-full md:h-[90%] mx-auto mt-[2.5%]  h-[95%] md:w-8/12 bg-opacity-95 backdrop-blur-xl  md:rounded-2xl rounded-t-xl  bg-primary`}
+  ${tw`p-4 overflow-hidden lg:px-8 dark:bg-seconderyDark transition-all dark:text-primaryTextDark w-full md:h-[90%] mx-auto mt-[6%] md:mt-[2.5%]  h-[97%] md:w-8/12 bg-opacity-95 backdrop-blur-xl  md:rounded-2xl rounded-t-xl  bg-primary`}
 `;
 
 const Sheet = (props: PropsWithChildren & SheetProps) => {
@@ -77,8 +77,9 @@ const Sheet = (props: PropsWithChildren & SheetProps) => {
             position: "fixed",
             width: "100%",
             height: "100%",
-            top: 0,
+     
             left: 0,
+            bottom: 0,
             zIndex: 100,
           }}
         >
