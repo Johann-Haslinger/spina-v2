@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { Fragment, useContext, useEffect } from "react";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { AdditionalTags, DataTypes, Stories } from "../../../base/enums";
 import { FlexBox, View } from "../../../components";
@@ -19,7 +19,7 @@ import {
   IoHeadset,
 } from "react-icons/io5";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
-import { displayButtonTexts } from "../../../utils/displayText";
+import { displayButtonTexts, displayLabelTexts } from "../../../utils/displayText";
 import { useTimer } from "../../../hooks/useTimer";
 import { IdentifierFacet } from "@leanscope/ecs-models";
 import { useUserData } from "../../../hooks/useUserData";
@@ -160,7 +160,9 @@ const FlashcardQuizView = () => {
 
         <StyledFlashcardsStatusWrapper>
           <div>
-            <StyledStatusText>Abgefragte Karten</StyledStatusText>
+            <StyledStatusText>
+              {displayLabelTexts(selectedLanguage).queriedCards}
+            </StyledStatusText>
             <StyledQueriedFlashcardsStatusWrapper>
               <IoFileTray />
               <StyledFlashcardCountText>{currentFlashcardIndex}</StyledFlashcardCountText>
@@ -168,7 +170,9 @@ const FlashcardQuizView = () => {
           </div>
 
           <div>
-            <StyledStatusText>Verbleibende Karten</StyledStatusText>
+            <StyledStatusText>
+              {displayLabelTexts(selectedLanguage).remainingCards}
+            </StyledStatusText>
             <StyledRemaningFlashcardsStatusWrapper>
               <StyledFlashcardCountText>{flashcardEntities.length - currentFlashcardIndex}</StyledFlashcardCountText>
               <IoFileTray />
@@ -211,6 +215,8 @@ const FlashcardQuizEndCard = (props: { elapsedTime: number }) => {
   const wrongAnswerdFlashcardsCount = wrongAnswerdFlashcards.length;
 
   const sessionFlashCardsCount = rightAnswerdFlashcardsCount + wrongAnswerdFlashcardsCount;
+
+  // TODO: Add dynamic text
 
   return (
     <StyledFlashcardQuizEndCardWrapper>
@@ -289,6 +295,7 @@ const FlashcardCell = (props: {
   navigateToNextFlashcard: () => void;
 }) => {
   const { flashcardEntity, currentFlashcardIndex, flashcardIndex, navigateToNextFlashcard } = props;
+  const {selectedLanguage} = useSelectedLanguage();
   const [isDisplayed, setIsDisplayed] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
   const isCurrent = currentFlashcardIndex === flashcardIndex;
@@ -316,7 +323,7 @@ const FlashcardCell = (props: {
 
   return (
     isDisplayed && (
-      <>
+      <Fragment>
         <StyledFlashcardCellContainer>
           <motion.div
             transition={{ type: "just" }}
@@ -356,14 +363,18 @@ const FlashcardCell = (props: {
         <StyledNavButtonAreaWrapper>
           <StyledNavButton onClick={handleRightAnswerClick}>
             <IoCheckmarkCircle />
-            <StyledNavButtonText>Richtig</StyledNavButtonText>
+            <StyledNavButtonText>
+              {displayButtonTexts(selectedLanguage).true}
+            </StyledNavButtonText>
           </StyledNavButton>
           <StyledNavButton onClick={handleWrongAnswerClick}>
-            <StyledNavButtonText>Falsch</StyledNavButtonText>
+            <StyledNavButtonText>
+              {displayButtonTexts(selectedLanguage).false}
+            </StyledNavButtonText>
             <IoCloseCircle />
           </StyledNavButton>
         </StyledNavButtonAreaWrapper>
-      </>
+      </Fragment>
     )
   );
 };

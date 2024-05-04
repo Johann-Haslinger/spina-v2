@@ -1,206 +1,225 @@
 export const HEADER_TEXT_DATA = {
-  COLLECTION: {
-    DE: "Sammlung",
-    EN: "Collection",
+  collection: {
+    de: "Sammlung",
+    en: "Collection",
   },
-  STUDY: {
-    DE: "Lernen",
-    EN: "Study",
+  study: {
+    de: "Lernen",
+    en: "Study",
   },
-
-  HOMEWORKS: {
-    DE: "Hausaufgaben",
-    EN: "Homeworks",
+  homeworks: {
+    de: "Hausaufgaben",
+    en: "Homeworks",
   },
-  EXAMS: {
-    DE: "Prüfungen",
-    EN: "Exams",
+  exams: {
+    de: "Prüfungen",
+    en: "Exams",
   },
-  GROUPS: {
-    DE: "Gruppen",
-    EN: "Groups",
+  groups: {
+    de: "Gruppen",
+    en: "Groups",
   },
-  OVERVIEW: {
-    DE: "Übersicht",
-    EN: "Overview",
+  overview: {
+    de: "Übersicht",
+    en: "Overview",
   },
-  SETTINGS: {
-    DE: "Einstellungen",
-    EN: "Settings",
+  settings: {
+    de: "Einstellungen",
+    en: "Settings",
   },
-  WHAT_TO_DO: {
-    DE: "Was möchtest du tun?",
-    EN: "What to do?",
+  what_to_do: {
+    de: "Was möchtest du tun",
+    en: "What to do",
   },
 };
-
 export const ALERT_TEXT_DATA = {
-  NO_CONTENT_ADDED_TITLE: {
-    DE: "Kein Inhalt hinzugefügt",
-    EN: "No content added",
+  no_content_added_title: {
+    de: "Kein Inhalt hinzugefügt",
+    en: "No content added",
   },
-  NO_CONTENT_ADDED_SUBTITLE: {
-    DE: "Es siht so aus, als hättest du noch keine Inhalte hinzugefügt.",
-    EN: "AIt looks like you haven't added any content yet.",
+  no_content_added_subtitle: {
+    de: "Es siht so aus, als hättest du noch keine Inhalte hinzugefügt.",
+    en: "AIt looks like you haven't added any content yet.",
   },
-  NO_DESCRIPTION: {
-    DE: "Keine Beschreibung",
-    EN: "No description",
+  no_description: {
+    de: "Keine Beschreibung",
+    en: "No description",
   },
-  NO_TOPICS: {
-    DE: "Du hast noch keine Themen hinzugefügt",
-    EN: "You haven't added any topics yet",
+  no_topics: {
+    de: "Du hast noch keine Themen hinzugefügt",
+    en: "You haven't added any topics yet",
   },
-  NO_TITLE: {
-    DE: "Kein Titel",
-    EN: "No title",
+  no_title: {
+    de: "Kein Titel",
+    en: "No title",
   },
-  DELETE_ALERT_TITLE: {
-    DE: "Bist du sicher?",
-    EN: "Are you sure?",
+  delete_alert_title: {
+    de: "Bist du sicher?",
+    en: "Are you sure?",
   },
-  DELETE_ALERT_SUBTITLE: {
-    DE: "Möchtest du diesen Inhalt wirklich löschen?",
-    EN: "Do you really want to delete this content?",
+  delete_alert_subtitle: {
+    de: "Möchtest du diesen Inhalt wirklich löschen?",
+    en: "Do you really want to delete this content?",
   },
-  NO_USER_SIGNED_IN: {
-    DE: "Kein Benutzer angemeldet ",
-    EN: "No user signed in",
+  no_user_signed_in: {
+    de: "Kein Benutzer angemeldet ",
+    en: "No user signed in",
   },
 };
 
 export const BUTTON_TEXT_DATA = {
-  BACK: {
-    DE: "Zurück",
-    EN: "Back",
+  back: {
+    de: "Zurück",
+    en: "Back",
   },
-  SAVE: {
-    DE: "Speichern",
-    EN: "Save",
+  save: {
+    de: "Speichern",
+    en: "Save",
   },
-  CANCEL: {
-    DE: "Abbrechen",
-    EN: "Cancel",
+  cancel: {
+    de: "Abbrechen",
+    en: "Cancel",
   },
-  DELETE: {
-    DE: "Löschen",
-    EN: "Delete",
+  delete: {
+    de: "Löschen",
+    en: "delete",
   },
-  DONE: {
-    DE: "Fertig",
-    EN: "Done",
+  done: {
+    de: "Fertig",
+    en: "Done",
   },
-  LOG_IN: {
-    DE: "Einloggen",
-    EN: "Log in",
+  log_in: {
+    de: "Einloggen",
+    en: "Log in",
   },
-  LOG_OUT: {
-    DE: "Ausloggen",
-    EN: "Log out",
+  log_out: {
+    de: "Ausloggen",
+    en: "Log out",
+  },
+  false: {
+    de: "Falsch",
+    en: "False",
+  },
+  true: {
+    de: "Richtig",
+    en: "True",
   },
 };
-
 export const ACTION_TEXT_DATA = {
-  DELETE: {
-    DE: "Löschen",
-    EN: "Delete",
+  delete: {
+    de: "Löschen",
+    en: "delete",
   },
-  EDIT: {
-    DE: "Bearbeiten",
-    EN: "Edit",
+  edit: {
+    de: "Bearbeiten",
+    en: "Edit",
   },
-  CANCEL: {
-    DE: "Abbrechen",
-    EN: "Cancel",
+  cancel: {
+    de: "Abbrechen",
+    en: "Cancel",
   },
-  QUIZ: {
-    DE: "Abfragen",
-    EN: "Quiz",
+  quiz: {
+    de: "Abfragen",
+    en: "Quiz",
   },
-  NOTE: {
-    DE: "Notiz",
-    EN: "Note",
+  note: {
+    de: "Notiz",
+    en: "Note",
   },
-  FLASHCARDS: {
-    DE: "Karteikarten",
-    EN: "Flashcards",
+  flashcards: {
+    de: "Karteikarten",
+    en: "Flashcards",
   },
-  IMPROVE_TEXT: {
-    DE: "Text verbessern",
-    EN: "Improve text",
+  improve_text: {
+    de: "Text verbessern",
+    en: "Improve text",
   },
-  GENERATE_FLASHCARDS: {
-    DE: "Karteikarten generieren",
-    EN: "Generate flashcards",
+  generate_flashcards: {
+    de: "Karteikarten generieren",
+    en: "Generate flashcards",
   },
-  GENERATE_PODCAST: {
-    DE: "Podcast generieren",
-    EN: "Generate podcast",
+  generate_podcast: {
+    de: "Podcast generieren",
+    en: "Generate podcast",
   },
 };
-
 export const LABEL_TEXT_DATA = {
-  TITLE: {
-    DE: "Titel",
-    EN: "Title",
+  title: {
+    de: "Titel",
+    en: "Title",
   },
-  DESCRIPTION: {
-    DE: "Beschreibung",
-    EN: "Description",
+  description: {
+    de: "Beschreibung",
+    en: "description",
   },
-  SCHOOL_SUBJECT: {
-    DE: "Schulfach",
-    EN: "School subject",
+  school_subject: {
+    de: "Schulfach",
+    en: "School subject",
   },
-  DUE_DATE: {
-    DE: "Zieldatum",
-    EN: "Due date",
+  due_date: {
+    de: "Zieldatum",
+    en: "Due date",
   },
-  SELECT: {
-    DE: "Auswählen",
-    EN: "Select",
+  select: {
+    de: "Auswählen",
+    en: "Select",
   },
+  queried_cards: {
+    de: "Abgefragte Karten",
+    en: "Queried cards",
+  },
+  remaining_cards: {
+    de: "Verbleibende Karten",
+    en: "Remaining cards",
+  },
+  theme: {
+    de: "Theme",
+    en: "Theme",
+  },
+  language: {
+    de: "Sprache",
+    en: "Language",
+  },  
 };
-
 export const DATA_TYPE_TEXT_DATA = {
-  NOTE: {
-    DE: "Mitschrift",
-    EN: "Note",
+  note: {
+    de: "Mitschrift",
+    en: "Note",
   },
-  HOMEWORK: {
-    DE: "Hausaufgabe",
-    EN: "Homework",
+  homework: {
+    de: "Hausaufgabe",
+    en: "Homework",
   },
-  FLASHCARD_GROUP: {
-    DE: "Karteikartengruppe",
-    EN: "Flashcard group",
+  flashcard_group: {
+    de: "Karteikartengruppe",
+    en: "Flashcard group",
   },
-  EXAM: {
-    DE: "Prüfung",
-    EN: "Exam",
+  exam: {
+    de: "Prüfung",
+    en: "Exam",
   },
-  SCHOOL_SUBJECT: {
-    DE: "Schulfach",
-    EN: "School subject",
+  school_subject: {
+    de: "Schulfach",
+    en: "School subject",
   },
-  TOPIC: {
-    DE: "Thema",
-    EN: "Topic",
+  topic: {
+    de: "Thema",
+    en: "Topic",
   },
-  FLASHCARD_SET: {
-    DE: "Karteikartenset",
-    EN: "Flashcard set",
+  flashcard_set: {
+    de: "Karteikartenset",
+    en: "Flashcard set",
   },
-  FLASHCARD: {
-    DE: "Karteikarte",
-    EN: "Flashcard",
+  flashcard: {
+    de: "Karteikarte",
+    en: "Flashcard",
   },
-  SUBTOPIC: {
-    DE: "Unterthema",
-    EN: "Subtopic",
+  subtopic: {
+    de: "Unterthema",
+    en: "Subtopic",
   },
-  PODCAST: {
-    DE: "Podcast",
-    EN: "Podcast",
+  podcast: {
+    de: "Podcast",
+    en: "Podcast",
   },
 };
