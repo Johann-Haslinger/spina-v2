@@ -9,6 +9,7 @@ export enum Stories {
   OBSERVING_NOTE_STORY = "observingNoteStory",
   OBSERVING_FLASHCARD_QUIZ_STORY = "observingFlashcardQuizStory",
   OBSERVING_SUBTOPIC_STORY = "observingSubtopicStory",
+  OBSERVING_PODCASTS_COLLECTION = "observingPodcastsCollection",
 
   ADD_FLASHCARD_SET_STORY = "addFlashcardSetStory",
   ADD_TOPIC_STORY = "addTopicStory",
@@ -32,6 +33,8 @@ export enum Stories {
   GENERATE_IMPROVED_TEXT_STORY = "generateImprovedFlashcardsStory",
   GENERATE_FLASHCARDS_STORY = "generateFlashcardsStory",
   GENERATE_PODCAST_STORY = "generatePodcastStory",
+
+  
 }
 
 export enum AdditionalTags {
@@ -44,6 +47,8 @@ export enum AdditionalTags {
   DARK_THEME = "darkMode",
   ANSWERD_RIGHT = "answeredRight",
   ANSWERD_WRONG = "answeredWrong",
+  PLAYING = "playing",
+  PAUSED = "paused",
 }
 
 export enum NavigationLinks {

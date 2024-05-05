@@ -19,7 +19,7 @@ const StyledIconWrapper = styled.div<{ role: Role}>`
 const StyledSectionRowContent = styled.div<{ last: boolean }>`
   ${tw`flex w-full ml-3 px-2 py-2 h-fit justify-between pr-3`}
   ${({ last }) =>
-    !last && tw` border-b-[0.5px] border-primaryBorder dark:border-primaryBorderDark`}
+    !last && tw` border-b-[0.5px] transition-all border-primaryBorder dark:border-primaryBorderDark`}
 `;
 
 interface SectionRowProps {

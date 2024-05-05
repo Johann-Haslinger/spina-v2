@@ -227,3 +227,57 @@ export const dummySubtopics = [
 ];
 
 export const dummyAudio = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
+
+export const dummyPodcasts = [
+  {
+    title: "Podcast 1",
+    id: "1",
+    createdAt: new Date().toISOString(),
+  },
+   {
+    title: "Podcast 2",
+    id: "2",
+    createdAt: new Date().toISOString(),
+  },
+  {
+    title: "Podcast 3",
+    id: "3",
+    createdAt: new Date().toISOString(),
+  },
+  {
+    title: "Podcast 4",
+    id: "4",
+    createdAt: new Date().toISOString(),
+  },
+  {
+    title: "Podcast 5",
+    id: "5",
+    createdAt: new Date().toISOString(),
+  },
+  {
+    title: "Podcast 6",
+    id: "6",
+    createdAt: new Date().toISOString(),
+  },
+  {
+    title: "Podcast 7",
+    id: "7",
+    createdAt: new Date().toISOString(),
+  },
+  {
+    title: "Podcast 8",
+    id: "8",
+    createdAt: new Date().toISOString(),
+  },
+  {
+    title: "Podcast 9",
+    id: "9",
+    createdAt: new Date().toISOString(),
+  },
+  {
+    title: "Podcast 10",
+    id: "10",
+    createdAt: new Date().toISOString(),
+  },
+  
+];

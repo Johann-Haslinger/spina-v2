@@ -31,6 +31,10 @@ export const HEADER_TEXT_DATA = {
     de: "Was möchtest du tun",
     en: "What to do",
   },
+  podcast_collection: {
+    de: "Podcasts",
+    en: "Podcasts",
+  },
 };
 export const ALERT_TEXT_DATA = {
   no_content_added_title: {

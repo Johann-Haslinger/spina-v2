@@ -4,7 +4,6 @@ import {
   DateAddedFacet,
   MasteryLevelFacet,
   QuestionFacet,
-  SourceFacet,
   TitleFacet,
   TitleProps,
 } from "../../../../app/AdditionalFacets";
@@ -51,8 +50,7 @@ import AddFlashcardsSheet from "../flashcardSets/AddFlashcardsSheet";
 import FlashcardQuizView from "../../../study/components/FlashcardQuizView";
 import GeneratingPodcastSheet from "../generation/GeneratingPodcastSheet";
 import GenerateImprovedTextSheet from "../generation/GenerateImprovedTextSheet";
-import PodcastCell from "../podcasts/PodcastCell";
-import PodcastSheet from "../podcasts/PodcastSheet";
+import SubTopicPodcastCell from "../podcasts/SubTopicPodcastCell";
 
 enum SubtopicViewStates {
   NOTE,
@@ -161,7 +159,7 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
         <EntityPropsMapper
           query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.PODCAST)}
           get={[[TitleFacet, DateAddedFacet], []]}
-          onMatch={PodcastCell}
+          onMatch={SubTopicPodcastCell}
         />
 
         {subtopicViewState == SubtopicViewStates.NOTE ? (
@@ -182,11 +180,11 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
         get={[[AnswerFacet, QuestionFacet, IdentifierFacet, MasteryLevelFacet], []]}
         onMatch={EditFlashcardSheet}
       />
-      <EntityPropsMapper
+      {/* <EntityPropsMapper
         query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.PODCAST)}
         get={[[TitleFacet, DateAddedFacet, SourceFacet], []]}
         onMatch={PodcastSheet}
-      />
+      /> */}
 
       <EditSubtopicSheet />
       <DeleteSubtopicAlert />

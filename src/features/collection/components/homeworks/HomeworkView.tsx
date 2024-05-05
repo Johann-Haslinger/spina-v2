@@ -64,7 +64,7 @@ const HomeworkView = (props: EntityProps & TitleProps & TextProps & IdentifierPr
           </NavBarButton>
         </NavigationBar>
 
-        <BackButton navigateBack={navigateBack}>{displayHeaderTexts(selectedLanguage).homeworksHeaderText}</BackButton>
+        <BackButton navigateBack={navigateBack}>{displayHeaderTexts(selectedLanguage).homeworks}</BackButton>
         <Title>{title}</Title>
         <Spacer size={8} />
         <TextEditor onBlur={handleTextChange} value={text} />

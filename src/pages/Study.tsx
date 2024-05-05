@@ -34,7 +34,7 @@ const Study = () => {
             <IoAdd />
           </NavBarButton>
         </NavigationBar>
-        <Title>{displayHeaderTexts(selectedLanguage).studyHeaderText}</Title>
+        <Title>{displayHeaderTexts(selectedLanguage).study}</Title>
         <Spacer />
         <CollectionGrid>
           <EntityPropsMapper

@@ -29,6 +29,7 @@ import { useSelectedTopic } from "../../hooks/useSelectedTopic";
 import { useSchoolSubjectTopics } from "../../../../hooks/useSchoolSubjectTopics";
 import { IoCheckmarkCircle, IoEllipseOutline } from "react-icons/io5";
 import { useSelectedSchoolSubject } from "../../hooks/useSelectedSchoolSubject";
+import { useLocation } from "react-router";
 
 const AddHomeworkSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -48,6 +49,8 @@ const AddHomeworkSheet = () => {
   });
   const { userId } = useUserData();
   const { schoolSubjectTopics, hasSchoolSubjectTopics } = useSchoolSubjectTopics(selectedSchoolSubjectId);
+  const location = useLocation();
+  const inCollectionVisible = location.pathname.includes("/collection");
 
   useEffect(() => {
     setNewHomework({
@@ -125,7 +128,7 @@ const AddHomeworkSheet = () => {
             placeholder={displayLabelTexts(selectedLanguage).title}
           />
         </SectionRow>
-        <SectionRow>
+        <SectionRow last={inCollectionVisible}>
           <FlexBox>
             <p>{displayLabelTexts(selectedLanguage).dueDate} </p>
             <DateInput
@@ -135,7 +138,7 @@ const AddHomeworkSheet = () => {
             />
           </FlexBox>
         </SectionRow>
-        {!openTopicId && (
+        {!inCollectionVisible && (
           <SectionRow last>
             <FlexBox>
               <p>{displayLabelTexts(selectedLanguage).schoolSubject}</p>

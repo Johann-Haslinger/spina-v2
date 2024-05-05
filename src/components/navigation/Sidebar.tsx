@@ -3,17 +3,63 @@ import { motion } from "framer-motion";
 import tw from "twin.macro";
 import { COLOR_ITEMS, COLORS, NAV_LINKS } from "../../base/constants";
 import NavigationLinkIcon from "./NavigationLinkIcon";
-import { NavigationLinks, SupportedLanguages } from "../../base/enums";
+import { DataTypes, NavigationLinks, SupportedLanguages } from "../../base/enums";
 import { ViSpina, ViSpinaColored } from "../../assets/icons";
 import { NavLink, useLocation } from "react-router-dom";
 import { Fragment, useEffect, useRef, useState } from "react";
 import { useWindowDimensions } from "../../hooks/useWindowDimensions";
 import { useAppState } from "../../features/collection/hooks/useAppState";
-import { IoHelpOutline, IoLogInOutline, IoLogOutOutline, IoSettingsOutline } from "react-icons/io5";
+import { IoHelpOutline, IoLogInOutline, IoLogOutOutline, IoPause, IoPlay, IoSettingsOutline } from "react-icons/io5";
 import { useUserData } from "../../hooks/useUserData";
 import { useSelectedTheme } from "../../features/collection/hooks/useSelectedTheme";
 import { displayButtonTexts, displayHeaderTexts } from "../../utils/displayText";
 import { useSelectedLanguage } from "../../hooks/useSelectedLanguage";
+import { usePlayingPodcast } from "../../features/collection/hooks/usePlayingPodcast";
+import PodcastSheet from "../../features/collection/components/podcasts/PodcastSheet";
+import { EntityPropsMapper } from "@leanscope/ecs-engine";
+import { TitleFacet, DateAddedFacet, SourceFacet } from "../../app/AdditionalFacets";
+import { dataTypeQuery } from "../../utils/queries";
+import { Tags } from "@leanscope/ecs-models";
+
+const StyledSelectedPodcasrCellWrapper = styled.div<{ visible: boolean }>`
+  ${tw`flex mx-1 z-10 w-[226px] cursor-pointer  hover:bg-primary dark:hover:bg-tertiaryDark   absolute bottom-14 my-2 dark:text-white  overflow-hidden py-1 transition-all  rounded-xl space-x-4 items-center`}
+  ${({ visible }) => !visible && tw`hidden`}
+`;
+
+const StyledSelectedPodcastIcon = styled.div`
+  ${tw`text-2xl hover:scale-110 bg-primary dark:bg-tertiaryDark transition-all font-black mx-1 size-10 rounded-lg flex items-center justify-center`}
+`;
+const StyledPodcastTitle = styled.div`
+  ${tw`text-sm pr-2 line-clamp-1 font-semibold`}
+`;
+const StyledPodcastSubtitile = styled.div`
+  ${tw`text-sm line-clamp-1 text-seconderyText`}
+`;
+
+const SelectedPodcastCell = (props: { isFullWidth: boolean }) => {
+  const { isFullWidth } = props;
+  const { playingPodcastEntity, playingPodcastTitle, isPlaying, setIsPaused } = usePlayingPodcast();
+
+  const openPodcastSheet = () => playingPodcastEntity?.add(Tags.SELECTED);
+
+  return (
+    <Fragment>
+      <StyledSelectedPodcasrCellWrapper visible={playingPodcastEntity ? true : false}>
+        <StyledSelectedPodcastIcon onClick={() => (isPlaying ? setIsPaused(true) : setIsPaused(false))}>
+          {isPlaying ? <IoPause /> : <IoPlay />}
+        </StyledSelectedPodcastIcon>
+        <motion.div
+          initial={{ x: -10, opacity: 0 }}
+          animate={{ x: isFullWidth ? 0 : -10, opacity: isFullWidth ? 1 : 0 }}
+          onClick={openPodcastSheet}
+        >
+          <StyledPodcastTitle>{playingPodcastTitle}</StyledPodcastTitle>
+          <StyledPodcastSubtitile>Podcast</StyledPodcastSubtitile>
+        </motion.div>
+      </StyledSelectedPodcasrCellWrapper>
+    </Fragment>
+  );
+};
 
 const StyledSettingsMenuWrapper = styled.div`
   ${tw` px-2 py-2 dark:text-primaryTextDark w-56 h-52 bg-secondery  bg-opacity-95 backdrop-blur-xl dark:bg-tertiaryDark rounded-lg`}
@@ -48,7 +94,7 @@ const StyledProfileIcon = styled.div<{
   color: string;
   backgroundColor: string;
 }>`
-  ${tw`text-2xl hover:opacity-90 transition-all font-black mx-1 size-10 rounded-lg flex items-center justify-center`}
+  ${tw`text-2xl hover:opacity-80 transition-all font-black mx-1 size-10 rounded-lg flex items-center justify-center`}
   color: ${({ color }) => color};
   background-color: ${({ backgroundColor }) => backgroundColor};
 `;
@@ -102,10 +148,12 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
         initial={{
           bottom: 55,
           opacity: 0,
+          zIndex: 0,
         }}
         animate={{
           bottom: isSettingsQuickMenuVisible ? 65 : 55,
           opacity: isSettingsQuickMenuVisible ? 1 : 0,
+          zIndex: isSettingsQuickMenuVisible ? 20 : 0,
         }}
       >
         <StyledSettingsMenuWrapper>
@@ -115,13 +163,13 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
             <StyledSettingsMenuIcon>
               <IoHelpOutline />
             </StyledSettingsMenuIcon>
-            {displayHeaderTexts(selectedLanguage).whatToDoHeaderText}
+            {displayHeaderTexts(selectedLanguage).whatToDo}
           </StyledHelpText>
           <StyledSettingsText onClick={toggleSettings}>
             <StyledSettingsMenuIcon>
               <IoSettingsOutline />
             </StyledSettingsMenuIcon>
-            {displayHeaderTexts(selectedLanguage).settingsHeaderText}
+            {displayHeaderTexts(selectedLanguage).settings}
           </StyledSettingsText>
           <StyledSettingsDivider />
           <StyledAccountStatusText onClick={() => signedIn && signOut()}>
@@ -159,15 +207,15 @@ const StyledNavLinkIcon = styled.div<{ color: string }>`
 const selectNavLinkText = (navLink: NavigationLinks, selectedLanguage: SupportedLanguages) => {
   switch (navLink) {
     case NavigationLinks.COLLECTION:
-      return displayHeaderTexts(selectedLanguage).collectionHeaderText;
+      return displayHeaderTexts(selectedLanguage).collection;
     case NavigationLinks.HOMEWORKS:
-      return displayHeaderTexts(selectedLanguage).homeworksHeaderText;
+      return displayHeaderTexts(selectedLanguage).homeworks;
     case NavigationLinks.EXAMS:
-      return displayHeaderTexts(selectedLanguage).examsHeaderText;
+      return displayHeaderTexts(selectedLanguage).exams;
     case NavigationLinks.OVERVIEW:
-      return displayHeaderTexts(selectedLanguage).overviewHeaderText;
+      return displayHeaderTexts(selectedLanguage).overview;
     case NavigationLinks.GROUPS:
-      return displayHeaderTexts(selectedLanguage).groupsHeaderText;
+      return displayHeaderTexts(selectedLanguage).groups;
     default:
       return "";
   }
@@ -232,38 +280,47 @@ const Sidebar = () => {
   };
 
   return (
-    <motion.div
-      ref={sidebarRef}
-      onHoverStart={() => setIsHoverd(true)}
-      onHoverEnd={() => setIsHoverd(false)}
-      style={{
-        position: "fixed",
-        height: isMobile ? "98%" : "96%",
-        top: isMobile ? "1%" : "2%",
-        left: isMobile ? "14px" : "1%",
-      }}
-      initial={{
-        width: 72,
-        x: -100,
-      }}
-      transition={{
-        duration: isMobile ? 0.2 : 0.6,
-        type: isMobile ? "tween" : "spring",
-      }}
-      animate={{
-        width: isFullWidth ? 250 : 72,
-        x: isVisible ? 0 : -300,
-      }}
-    >
-      <StyledSidebarWrapper isFullWidth={isFullWidth}>
-        <StyledSpinaIcon>{isDarkMode ? <ViSpinaColored /> : <ViSpina />}</StyledSpinaIcon>
+    <Fragment>
+      <motion.div
+        ref={sidebarRef}
+        onHoverStart={() => setIsHoverd(true)}
+        onHoverEnd={() => setIsHoverd(false)}
+        style={{
+          position: "fixed",
+          height: isMobile ? "98%" : "96%",
+          top: isMobile ? "1%" : "2%",
+          left: isMobile ? "14px" : "1%",
+        }}
+        initial={{
+          width: 72,
+          x: -100,
+        }}
+        transition={{
+          duration: isMobile ? 0.2 : 0.6,
+          type: isMobile ? "tween" : "spring",
+        }}
+        animate={{
+          width: isFullWidth ? 250 : 72,
+          x: isVisible ? 0 : -300,
+        }}
+      >
+        <StyledSidebarWrapper isFullWidth={isFullWidth}>
+          <StyledSpinaIcon>{isDarkMode ? <ViSpinaColored /> : <ViSpina />}</StyledSpinaIcon>
 
-        {NAV_LINKS.map((navLink, idx) => (
-          <SidebarLink isFullWidth={isFullWidth} key={idx} idx={idx} title={navLink.title} path={navLink.path} />
-        ))}
-        <SettingsLink isFullWidth={isFullWidth} />
-      </StyledSidebarWrapper>
-    </motion.div>
+          {NAV_LINKS.map((navLink, idx) => (
+            <SidebarLink isFullWidth={isFullWidth} key={idx} idx={idx} title={navLink.title} path={navLink.path} />
+          ))}
+          <SelectedPodcastCell isFullWidth={isFullWidth} />
+          <SettingsLink isFullWidth={isFullWidth} />
+        </StyledSidebarWrapper>
+      </motion.div>
+
+      <EntityPropsMapper
+        query={(e) => dataTypeQuery(e, DataTypes.PODCAST)}
+        get={[[TitleFacet, DateAddedFacet, SourceFacet], []]}
+        onMatch={PodcastSheet}
+      />
+    </Fragment>
   );
 };
 

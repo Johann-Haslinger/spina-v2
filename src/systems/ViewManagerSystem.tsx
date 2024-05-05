@@ -1,5 +1,5 @@
 import { useEntities } from "@leanscope/ecs-engine";
-import  { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AdditionalTags, Stories } from "../base/enums";
 import { Tags } from "@leanscope/ecs-models";
 import { useSelectedTheme } from "../features/collection/hooks/useSelectedTheme";
@@ -12,18 +12,28 @@ const ViewManagerSystem = () => {
     Stories.ADD_HOMEWORK_STORY,
     Stories.ADD_TOPIC_STORY,
     Stories.ADD_RESOURCE_TO_TOPIC_STORY,
+    Stories.ADD_FLASHCARD_GROUP_STORY,
+    Stories.ADD_FLASHCARD_SET_STORY,
+    Stories.ADD_FLASHCARDS_STORY,
 
+    Stories.EDIT_FLASHCARD_STORY,
     Stories.EDIT_FLASHCARD_SET_STORY,
     Stories.EDIT_HOMEWORK_STORY,
+    Stories.EDIT_TOPIC_STORY,
+    Stories.EDIT_SUBTOPIC_STORY,
 
     Stories.DELETE_FLASHCARD_SET_STORY,
     Stories.DELETE_HOMEWORK_STORY,
     Stories.DELETE_NOTE_STORY,
+    Stories.DELETE_TOPIC_STORY,
+    Stories.DELETE_SUBTOPIC_STORY,
+
+    Stories.GENERATE_FLASHCARDS_STORY,
+    Stories.GENERATE_PODCAST_STORY,
+    Stories.GENERATE_IMPROVED_TEXT_STORY,
   ]);
   const { isDarkMode } = useSelectedTheme();
-  const [closingVews] = useEntities(
-    (e) => e.hasTag(Tags.SELECTED) && e.hasTag(AdditionalTags.NAVIGATE_BACK)
-  );
+  const [closingVews] = useEntities((e) => e.hasTag(Tags.SELECTED) && e.hasTag(AdditionalTags.NAVIGATE_BACK));
   const [themeColor, setThemeColor] = useState("#F5F5F5");
 
   useEffect(() => {

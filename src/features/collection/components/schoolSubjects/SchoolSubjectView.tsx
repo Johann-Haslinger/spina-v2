@@ -39,7 +39,7 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
           </NavBarButton>
         </NavigationBar>
 
-        <BackButton navigateBack={navigateBack}>{displayHeaderTexts(selectedLanguage).collectionHeaderText}</BackButton>
+        <BackButton navigateBack={navigateBack}>{displayHeaderTexts(selectedLanguage).collection}</BackButton>
         <Title>{title}</Title>
         <Spacer size={6} />
         {!hasTopics && <NoContentAddedHint />}

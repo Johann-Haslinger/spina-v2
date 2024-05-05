@@ -10,14 +10,15 @@ import {
 
 export const displayHeaderTexts = (selectedLanguage: SupportedLanguages) => {
   return {
-    collectionHeaderText: HEADER_TEXT_DATA.collection[selectedLanguage],
-    homeworksHeaderText: HEADER_TEXT_DATA.homeworks[selectedLanguage],
-    studyHeaderText: HEADER_TEXT_DATA.study[selectedLanguage],
-    examsHeaderText: HEADER_TEXT_DATA.exams[selectedLanguage],
-    groupsHeaderText: HEADER_TEXT_DATA.groups[selectedLanguage],
-    overviewHeaderText: HEADER_TEXT_DATA.overview[selectedLanguage],
-    settingsHeaderText: HEADER_TEXT_DATA.settings[selectedLanguage],
-    whatToDoHeaderText: HEADER_TEXT_DATA.what_to_do[selectedLanguage],
+    collection: HEADER_TEXT_DATA.collection[selectedLanguage],
+    homeworks: HEADER_TEXT_DATA.homeworks[selectedLanguage],
+    study: HEADER_TEXT_DATA.study[selectedLanguage],
+    exams: HEADER_TEXT_DATA.exams[selectedLanguage],
+    groups: HEADER_TEXT_DATA.groups[selectedLanguage],
+    overview: HEADER_TEXT_DATA.overview[selectedLanguage],
+    settings: HEADER_TEXT_DATA.settings[selectedLanguage],
+    whatToDo: HEADER_TEXT_DATA.what_to_do[selectedLanguage],
+    podcastCollection: HEADER_TEXT_DATA.podcast_collection[selectedLanguage],
   };
 };
 export const displayAlertTexts = (selectedLanguage: SupportedLanguages) => {

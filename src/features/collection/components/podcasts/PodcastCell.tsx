@@ -1,42 +1,57 @@
 import styled from "@emotion/styled/macro";
 import { DateAddedProps, TitleProps } from "../../../../app/AdditionalFacets";
-import tw from "twin.macro";
-import { IoHeadset } from "react-icons/io5";
-import { useSelectedSchoolSubjectColor } from "../../hooks/useSelectedSchoolSubjectColor";
 import { EntityProps } from "@leanscope/ecs-engine";
 import { Tags } from "@leanscope/ecs-models";
+import tw from "twin.macro";
+import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
+import { displayAlertTexts } from "../../../../utils/displayText";
+import { IoEllipsisHorizontal, IoHeadset } from "react-icons/io5";
+import { FlexBox } from "../../../../components";
 
 const StyledPodcastCellWrapper = styled.div`
-  ${tw`flex space-x-4 items-center pb-16 pt-6 w-full h-16 `}
-`;
-const StyledPodcastIconWrapper = styled.div<{ backgroundColor: string }>`
-  ${tw`size-11 hover:scale-110 transition-all flex items-center justify-center rounded text-xl text-white text-opacity-40`}
-  background-color: ${(props) => props.backgroundColor};
+  ${tw`hover:bg-tertiary items-center flex space-x-4 rounded-lg transition-all  hover:dark:bg-tertiaryDark p-2`}
 `;
 
+const StyledPodcastIcon = styled.div`
+  ${tw`size-10 rounded  text-white  bg-blue-800 flex items-center justify-center`}
+`;
 const StyledPodcastTitle = styled.p`
-  ${tw` dark:text-white text-primatyText font-semibold line-clamp-2`}
+  ${tw`font-semibold line-clamp-1`}
 `;
-
 const StyledPodcastSubtitle = styled.p`
-  ${tw`text-seconderyText line-clamp-2 `}
+  ${tw`text-sm text-seconderyText dark:text-seconderyTextDark line-clamp-1`}
+`;
+const StyledPodcastActionsWrapper = styled.div`
+  ${tw`flex space-x-2 pr-2`}
 `;
 
 const PodcastCell = (props: TitleProps & DateAddedProps & EntityProps) => {
   const { title, dateAdded, entity } = props;
-  const { backgroundColor } = useSelectedSchoolSubjectColor();
+  const { selectedLanguage } = useSelectedLanguage();
 
-  const openPodcast = () => entity.addTag(Tags.SELECTED);
+  const openPodcast = () => entity.add(Tags.SELECTED);
 
   return (
-    <StyledPodcastCellWrapper>
-      <StyledPodcastIconWrapper onClick={openPodcast} backgroundColor={backgroundColor}>
+    <StyledPodcastCellWrapper onClick={openPodcast}>
+      <StyledPodcastIcon>
         <IoHeadset />
-      </StyledPodcastIconWrapper>
-      <div>
-        <StyledPodcastTitle>{title}</StyledPodcastTitle>
-        <StyledPodcastSubtitle>{new Date(dateAdded).toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' })}</StyledPodcastSubtitle>
-      </div>
+      </StyledPodcastIcon>
+      <FlexBox>
+        <div>
+          <StyledPodcastTitle>{title || displayAlertTexts(selectedLanguage).noTitle}</StyledPodcastTitle>
+          <StyledPodcastSubtitle>
+            {" "}
+            {new Date(dateAdded).toLocaleDateString("de", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+          </StyledPodcastSubtitle>
+        </div>
+        <StyledPodcastActionsWrapper>
+          <IoEllipsisHorizontal />
+        </StyledPodcastActionsWrapper>
+      </FlexBox>
     </StyledPodcastCellWrapper>
   );
 };

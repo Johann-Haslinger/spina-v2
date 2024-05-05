@@ -37,7 +37,7 @@ const FlashcardGroupView = (props: TitleProps & EntityProps) => {
         </NavBarButton>
       </NavigationBar>
       <BackButton navigateBack={navigateBack}>
-        {displayHeaderTexts(selectedLanguage).studyHeaderText}
+        {displayHeaderTexts(selectedLanguage).study}
       </BackButton>
       <Title>{title}</Title>
       <Spacer size={6}/>

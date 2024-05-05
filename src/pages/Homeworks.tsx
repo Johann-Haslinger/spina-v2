@@ -39,7 +39,7 @@ const Homeworks = () => {
             <IoAdd />
           </NavBarButton>
         </NavigationBar>
-        <Title size="large">{displayHeaderTexts(selectedLanguage).homeworksHeaderText}</Title>
+        <Title size="large">{displayHeaderTexts(selectedLanguage).homeworks}</Title>
         <Spacer />
         <Kanban
           updateEntityStatus={updateHomeworkStatus}

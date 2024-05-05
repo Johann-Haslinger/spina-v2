@@ -1,5 +1,5 @@
 import { useAppState } from "../../collection/hooks/useAppState";
-import { SaveButton, Section, SectionRow, Sheet, Spacer } from "../../../components";
+import { FlexBox, SaveButton, Section, SectionRow, SelectInput, Sheet, Spacer } from "../../../components";
 import { useSelectedTheme } from "../../collection/hooks/useSelectedTheme";
 import { SupportedLanguages, SupportedThemes } from "../../../base/enums";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
@@ -11,28 +11,38 @@ const Settings = () => {
   const { selectedLanguage, changeLanguage } = useSelectedLanguage();
   const theme = isDarkMode ? SupportedThemes.DARK : SupportedThemes.LIGHT;
 
+  const navigateBack = () => toggleSettings();
+
   return (
     <Sheet visible={isSettingVisible} navigateBack={toggleSettings}>
-      <SaveButton>{displayButtonTexts(selectedLanguage).done}</SaveButton>
+      <SaveButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).done}</SaveButton>
       <Spacer />
       <Section>
         <SectionRow>
-          <p>
-            {displayLabelTexts(selectedLanguage).theme}
-          </p>
+          <FlexBox>
+            <p>{displayLabelTexts(selectedLanguage).theme}</p>
+            <SelectInput value={theme} onChange={(e) => changeMode(e.target.value as SupportedThemes)}>
+              <option value={SupportedThemes.DARK}>Dark</option>
+              <option value={SupportedThemes.LIGHT}>Light</option>
+            </SelectInput>
+          </FlexBox>
+        </SectionRow>
+        <SectionRow last>
+          <FlexBox>
+            <p>{displayLabelTexts(selectedLanguage).language}</p>
+            <SelectInput
+              value={selectedLanguage}
+              onChange={(e) => changeLanguage(e.target.value as SupportedLanguages)}
+            >
+              {Object.values(SupportedLanguages).map((language) => (
+                <option key={language} value={language}>
+                  {language}
+                </option>
+              ))}
+            </SelectInput>
+          </FlexBox>
         </SectionRow>
       </Section>
-      <select value={theme} onChange={(e) => changeMode(e.target.value as SupportedThemes)}>
-        <option value={SupportedThemes.DARK}>Dark</option>
-        <option value={SupportedThemes.LIGHT}>Light</option>
-      </select>
-      <select value={selectedLanguage} onChange={(e) => changeLanguage(e.target.value as SupportedLanguages)}>
-        {Object.values(SupportedLanguages).map((language) => (
-          <option key={language} value={language}>
-            {language}
-          </option>
-        ))}
-      </select>
     </Sheet>
   );
 };
