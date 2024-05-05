@@ -29,7 +29,7 @@ const GenerateImprovedTextSheet = () => {
       if (textToImprove === "") return;
       setTimeout(async () => {
         const imporvedText = await generateImprovedText(textToImprove);
-        // const imporvedText = dummyText;
+
         setGeneratedText(imporvedText);
         setIsGenerating(false);
       }, 600);

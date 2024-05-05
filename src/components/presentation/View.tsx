@@ -3,8 +3,9 @@ import { motion } from "framer-motion";
 import { Fragment, PropsWithChildren, useEffect, useState } from "react";
 import tw from "twin.macro";
 
-const StyledViewContainer = styled.div`
+const StyledViewContainer = styled.div<{backgroundColor?: string}>`
   ${tw`  w-screen transition-all h-screen  bg-primary dark:bg-primaryDark  backdrop-blur-2xl `}
+  background-color: ${({ backgroundColor }) => backgroundColor};
 `;
 
 const StyledViewWrapper = styled.div`
@@ -26,10 +27,11 @@ interface ViewProps {
   visibe?: boolean;
   reducePaddingX?: boolean;
   overlaySidebar?: boolean;
+  backgroundColor?: string;
 }
 const View = (props: ViewProps & PropsWithChildren) => {
   const [isDisplayed, setIsDisplayed] = useState(false);
-  const { viewType = "overlayView", visibe = true, children, reducePaddingX, overlaySidebar } = props;
+  const { viewType = "overlayView", visibe = true, children, reducePaddingX, overlaySidebar, backgroundColor } = props;
 
   useEffect(() => {
     if (visibe) {
@@ -74,7 +76,7 @@ const View = (props: ViewProps & PropsWithChildren) => {
             x: visibe ? 0 : "100%",
           }}
         >
-          <StyledViewContainer>
+          <StyledViewContainer backgroundColor={backgroundColor}>
             <StyledViewWrapper>
               <StyledViewContent isOverlayView={viewType == "overlayView"} reducePaddingX={reducePaddingX}>
                 {children}

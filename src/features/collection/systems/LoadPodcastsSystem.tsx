@@ -5,12 +5,26 @@ import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { DataTypes, Stories } from "../../../base/enums";
 import { Entity } from "@leanscope/ecs-engine";
 import { DateAddedFacet, TitleFacet } from "../../../app/AdditionalFacets";
-import { IdentifierFacet } from "@leanscope/ecs-models";
+import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { useMockupData } from "../../../hooks/useMockupData";
 import { dummyPodcasts } from "../../../base/dummy";
+import { useSelectedTopic } from "../hooks/useSelectedTopic";
 
 const fetchPodcasts = async () => {
   const { data: podcasts, error } = await supabaseClient.from("podcasts").select("title, createdAt, id").limit(10);
+
+  if (error) {
+    console.error("Error fetching podcasts", error);
+  }
+
+  return podcasts || [];
+};
+
+const fetchPodcastsForTopic = async (parentId: string) => {
+  const { data: podcasts, error } = await supabaseClient
+    .from("podcasts")
+    .select("title, createdAt, id")
+    .eq("parentId", parentId);
 
   if (error) {
     console.error("Error fetching podcasts", error);
@@ -23,10 +37,15 @@ const LoadPodcastsSystem = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isPodcastCollectionVisible = useIsStoryCurrent(Stories.OBSERVING_PODCASTS_COLLECTION);
   const { mockupData } = useMockupData();
+  const { selectedTopicId } = useSelectedTopic();
 
   useEffect(() => {
     const initializePodcastEntities = async () => {
-      const podcasts = mockupData ? dummyPodcasts : await fetchPodcasts();
+      const podcasts = mockupData
+        ? dummyPodcasts.slice(0, 6)
+        : selectedTopicId
+        ? await fetchPodcastsForTopic(selectedTopicId)
+        : await fetchPodcasts();
 
       podcasts.forEach((podcast) => {
         const isExisting = lsc.engine.entities.some(
@@ -40,14 +59,18 @@ const LoadPodcastsSystem = () => {
           newPodcastEntity.add(new DateAddedFacet({ dateAdded: podcast.createdAt }));
           newPodcastEntity.add(new TitleFacet({ title: podcast.title }));
           newPodcastEntity.addTag(DataTypes.PODCAST);
+
+          if (selectedTopicId) {
+            newPodcastEntity.add(new ParentFacet({ parentId: selectedTopicId }));
+          }
         }
       });
     };
 
-    if (isPodcastCollectionVisible) {
+    if (isPodcastCollectionVisible || selectedTopicId) {
       initializePodcastEntities();
     }
-  }, [isPodcastCollectionVisible]);
+  }, [isPodcastCollectionVisible, mockupData, selectedTopicId]);
 
   return null;
 };

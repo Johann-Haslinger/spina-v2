@@ -16,7 +16,7 @@ import { displayHeaderTexts } from "../../../../utils/displayText";
 import { EntityPropsMapper, useEntities } from "@leanscope/ecs-engine";
 import { dataTypeQuery } from "../../../../utils/queries";
 import { DateAddedFacet, TitleFacet } from "../../../../app/AdditionalFacets";
-import PodcastCell from "./PodcastCell";
+import PodcastRow from "./PodcastRow";
 import { sortEntitiesByDateAdded } from "../../../../utils/sortEntitiesByTime";
 import { IoAdd } from "react-icons/io5";
 import LoadPodcastsSystem from "../../systems/LoadPodcastsSystem";
@@ -48,7 +48,7 @@ const PodcastCollectionView = () => {
           query={(e) => dataTypeQuery(e, DataTypes.PODCAST)}
           get={[[TitleFacet, DateAddedFacet], []]}
           sort={sortEntitiesByDateAdded}
-          onMatch={PodcastCell}
+          onMatch={PodcastRow}
         />
       </View>
     </Fragment>

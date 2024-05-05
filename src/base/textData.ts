@@ -139,7 +139,7 @@ export const ACTION_TEXT_DATA = {
     en: "Improve text",
   },
   generate_flashcards: {
-    de: "Karteikarten generieren",
+    de: "Karten generieren",
     en: "Generate flashcards",
   },
   generate_podcast: {

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FlexBox, Sheet } from "../../../../components";
-import { SourceProps, TitleProps } from "../../../../app/AdditionalFacets";
+import { DateAddedProps, SourceProps, TitleProps } from "../../../../app/AdditionalFacets";
 import { EntityProps, useEntities } from "@leanscope/ecs-engine";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 import { AdditionalTags } from "../../../../base/enums";
@@ -51,7 +51,7 @@ const StyledTimeBarText = styled.div`
 `;
 
 const StyledButtonWrapper = styled.div<{ color: string }>`
-  ${tw` mt-4  items-center  space-x-12  py-4  rounded-full w-full flex justify-between mx-auto text-5xl`}/* color: ${(
+  ${tw` mt-4 text-[#656565c2] dark:text-white  items-center  space-x-12  py-4  rounded-full w-full flex justify-between mx-auto text-5xl`}/* color: ${(
     props
   ) => props.color}; */
 `;
@@ -61,11 +61,11 @@ const StyledPauseButtonWrapper = styled.div`
 `;
 
 const StyledPauseButtonStroke = styled.div<{ color: string }>`
-  ${tw`h-9 w-3 bg-white rounded`}/* background-color: ${(props) => props.color}; */
+  ${tw`h-9 w-3 bg-[#656565c2] dark:bg-white rounded`}/* background-color: ${(props) => props.color}; */
 `;
 
-const PodcastSheet = (props: TitleProps & SourceProps & EntityProps) => {
-  const { title, source, entity } = props;
+const PodcastSheet = (props: TitleProps & SourceProps & EntityProps & DateAddedProps) => {
+  const { title, source, entity, dateAdded } = props;
   const isVisible = useIsViewVisible(entity);
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [duration, setDuration] = useState<number>(0);
@@ -148,7 +148,13 @@ const PodcastSheet = (props: TitleProps & SourceProps & EntityProps) => {
 
           <StyleldPodcastInfoWrapper>
             <StyledPodcastTitle>{title}</StyledPodcastTitle>
-            <StyledPodcastSubTitle>Sapientor</StyledPodcastSubTitle>
+            <StyledPodcastSubTitle>
+            {new Date(dateAdded).toLocaleDateString("de", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+            </StyledPodcastSubTitle>
           </StyleldPodcastInfoWrapper>
 
           <StyledTimeBar

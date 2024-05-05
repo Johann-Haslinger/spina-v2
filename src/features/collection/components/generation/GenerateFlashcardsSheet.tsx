@@ -21,10 +21,10 @@ import { QuestionFacet, AnswerFacet, MasteryLevelFacet, TitleFacet } from "../..
 import supabaseClient from "../../../../lib/supabase";
 import { v4 } from "uuid";
 import { useUserData } from "../../../../hooks/useUserData";
-import { dummyFlashcards } from "../../../../base/dummy";
 import SapientorConversationMessage from "../../../../components/content/SapientorConversationMessage";
 import styled from "@emotion/styled";
 import tw from "twin.macro";
+import { generateFlashCards } from "../../../../utils/generateResources";
 
 type Flashcard = {
   question: string;
@@ -48,16 +48,12 @@ const GenerateFlashcardsSheet = () => {
   useEffect(() => {
     const generateFlashcards = async () => {
       setIsGenerating(true);
-      // const flashcards = await generateFlashCards(selectedNoteText || "");
+      const flashcards = await generateFlashCards(selectedNoteText || "");
+      setIsGenerating(false);
+
       setTimeout(() => {
-        const flashcards = dummyFlashcards;
-
-        setIsGenerating(false);
-
-        setTimeout(() => {
-          setGeneratedFlashcards(flashcards);
-        }, 200);
-      }, 400);
+        setGeneratedFlashcards(flashcards);
+      }, 200);
     };
 
     if (isVisible && selectedNoteText && generatedFlashcards.length === 0) {

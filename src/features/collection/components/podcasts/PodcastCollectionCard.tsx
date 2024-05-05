@@ -6,7 +6,7 @@ import tw from "twin.macro";
 import { Stories } from "../../../../base/enums";
 
 const StyledCellWrapper = styled.div`
-  ${tw`  w-full flex bg-blue-800   cursor-pointer  items-center justify-center pr-3 text-8xl hover:text-9xl hover:scale-105  transition-all h-40`}
+  ${tw`  w-full flex bg-blue-800 text-white  cursor-pointer  items-center justify-center pr-3 text-8xl hover:text-9xl hover:scale-105  transition-all h-40`}
 `;
 
 const PodcastCollectionCard = () => {

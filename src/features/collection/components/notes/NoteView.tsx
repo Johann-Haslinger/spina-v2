@@ -10,10 +10,10 @@ import {
   View,
 } from "../../../../components";
 import { useSelectedTopic } from "../../hooks/useSelectedTopic";
-import { TitleFacet, TitleProps } from "../../../../app/AdditionalFacets";
-import { EntityProps } from "@leanscope/ecs-engine";
+import { DateAddedFacet, TitleFacet, TitleProps } from "../../../../app/AdditionalFacets";
+import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
 import { IdentifierProps, TextFacet, TextProps } from "@leanscope/ecs-models";
-import { AdditionalTags, Stories } from "../../../../base/enums";
+import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 import LoadNoteTextSystem from "../../systems/LoadNoteTextSystem";
 import supabaseClient from "../../../../lib/supabase";
@@ -21,6 +21,7 @@ import {
   IoAlbumsOutline,
   IoColorWandOutline,
   IoEllipsisHorizontalCircleOutline,
+  IoHeadsetOutline,
   IoSparklesOutline,
   IoTrashOutline,
 } from "react-icons/io5";
@@ -30,6 +31,10 @@ import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import DeleteNoteAlert from "./DeleteNoteAlert";
 import GenerateFlashcardsSheet from "../generation/GenerateFlashcardsSheet";
 import GenerateImprovedTextSheet from "../generation/GenerateImprovedTextSheet";
+import { isChildOfQuery, dataTypeQuery } from "../../../../utils/queries";
+import PodcastRow from "../podcasts/PodcastRow";
+import GeneratingPodcastSheet from "../generation/GeneratingPodcastSheet";
+import LoadNotePodcastsSystem from "../../systems/LoadNotePodcastsSystem";
 
 const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -42,6 +47,7 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
   const openDeleteAlert = () => lsc.stories.transitTo(Stories.DELETE_NOTE_STORY);
   const openImproveTextSheet = () => lsc.stories.transitTo(Stories.GENERATE_IMPROVED_TEXT_STORY);
   const openGenerateFlashcardsSheet = () => lsc.stories.transitTo(Stories.GENERATE_FLASHCARDS_STORY);
+  const openGeneratePodcastSheet = () => lsc.stories.transitTo(Stories.GENERATE_PODCAST_STORY);
 
   const handleTextBlur = async (value: string) => {
     entity.add(new TextFacet({ text: value }));
@@ -64,13 +70,17 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
   return (
     <Fragment>
       <LoadNoteTextSystem />
+      <LoadNotePodcastsSystem />
 
       <View visibe={isVisible}>
         <NavigationBar>
           <NavBarButton
             content={
               <Fragment>
-                <ActionRow first icon={<IoAlbumsOutline />} onClick={openGenerateFlashcardsSheet}>
+                <ActionRow first icon={<IoHeadsetOutline />} onClick={openGeneratePodcastSheet}>
+                  {displayActionTexts(selectedLanguage).generatePodcast}
+                </ActionRow>
+                <ActionRow icon={<IoAlbumsOutline />} onClick={openGenerateFlashcardsSheet}>
                   {displayActionTexts(selectedLanguage).generateFlashcards}
                 </ActionRow>
                 <ActionRow onClick={openImproveTextSheet} last icon={<IoSparklesOutline />}>
@@ -97,13 +107,21 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
         <Title onBlur={handleTitleBlur} editable>
           {title}
         </Title>
+        <Spacer size={2} />
+        <EntityPropsMapper
+          query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.PODCAST)}
+          get={[[TitleFacet, DateAddedFacet], []]}
+          onMatch={PodcastRow}
+        />
         <Spacer />
+
         <TextEditor onBlur={handleTextBlur} value={text} />
       </View>
 
       <DeleteNoteAlert />
       <GenerateFlashcardsSheet />
       <GenerateImprovedTextSheet />
+      <GeneratingPodcastSheet />
     </Fragment>
   );
 };

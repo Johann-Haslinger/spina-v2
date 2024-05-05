@@ -25,9 +25,10 @@ import { IdentifierFacet } from "@leanscope/ecs-models";
 import { useUserData } from "../../../hooks/useUserData";
 import supabaseClient from "../../../lib/supabase";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import { useSelectedSchoolSubjectColor } from "../../collection/hooks/useSelectedSchoolSubjectColor";
 
 const StyledStatusBarWrapper = styled.div`
-  ${tw` px-4 z-20 md:px-20 absolute left-0 top-14 lg:top-20 w-full `}
+  ${tw` px-4 z-20 md:px-20 text-white absolute left-0 top-14 lg:top-20 w-full `}
 `;
 
 const StyledBackButtonWrapper = styled.div`
@@ -44,9 +45,10 @@ const StyledTalkingModeButton = styled.div`
 const StyledProgressBarWrapper = styled.div`
   ${tw` dark:bg-seconderyDark bg-tertiary  overflow-hidden mb-4 h-fit w-full  rounded-full `}
 `;
-const StyledProgressBar = styled.div<{ width: number }>`
-  ${tw`transition-all dark:bg-white bg-primaryColor h-1 rounded-full`}
+const StyledProgressBar = styled.div<{ width: number, backgroundColor: string }>`
+  ${tw`transition-all dark:bg-white  h-1 rounded-full`}
   width: ${(props) => props.width}%;
+  background-color: ${(props) => props.backgroundColor};
 `;
 
 const StyledFlashcardsStatusWrapper = styled.div`
@@ -74,6 +76,7 @@ const formatElapsedTime = (timeInSeconds: number) => {
 
 const FlashcardQuizView = () => {
   const lsc = useContext(LeanScopeClientContext);
+  const { backgroundColor, color } = useSelectedSchoolSubjectColor();
   const isVisible = useIsStoryCurrent(Stories.OBSERVING_FLASHCARD_QUIZ_STORY);
   const { selectedFlashcardGroupEntity } = useSeletedFlashcardGroup();
   const [flashcardEntities] = useEntities((e) => dataTypeQuery(e, DataTypes.FLASHCARD));
@@ -141,7 +144,7 @@ const FlashcardQuizView = () => {
   };
 
   return (
-    <View overlaySidebar visibe={isVisible}>
+    <View backgroundColor={backgroundColor} overlaySidebar visibe={isVisible}>
       <StyledStatusBarWrapper>
         <FlexBox>
           <StyledBackButtonWrapper onClick={handleBackButtonClick}>
@@ -155,14 +158,12 @@ const FlashcardQuizView = () => {
           </StyledTalkingModeButton>
         </FlexBox>
         <StyledProgressBarWrapper>
-          <StyledProgressBar width={(currentFlashcardIndex / flashcardEntities.length) * 100 + 1} />
+          <StyledProgressBar backgroundColor={color} width={(currentFlashcardIndex / flashcardEntities.length) * 100 + 1} />
         </StyledProgressBarWrapper>
 
         <StyledFlashcardsStatusWrapper>
           <div>
-            <StyledStatusText>
-              {displayLabelTexts(selectedLanguage).queriedCards}
-            </StyledStatusText>
+            <StyledStatusText>{displayLabelTexts(selectedLanguage).queriedCards}</StyledStatusText>
             <StyledQueriedFlashcardsStatusWrapper>
               <IoFileTray />
               <StyledFlashcardCountText>{currentFlashcardIndex}</StyledFlashcardCountText>
@@ -170,9 +171,7 @@ const FlashcardQuizView = () => {
           </div>
 
           <div>
-            <StyledStatusText>
-              {displayLabelTexts(selectedLanguage).remainingCards}
-            </StyledStatusText>
+            <StyledStatusText>{displayLabelTexts(selectedLanguage).remainingCards}</StyledStatusText>
             <StyledRemaningFlashcardsStatusWrapper>
               <StyledFlashcardCountText>{flashcardEntities.length - currentFlashcardIndex}</StyledFlashcardCountText>
               <IoFileTray />
@@ -207,6 +206,7 @@ const StyledDoneIcon = styled.div`
 
 const FlashcardQuizEndCard = (props: { elapsedTime: number }) => {
   const { elapsedTime } = props;
+  const { backgroundColor } = useSelectedSchoolSubjectColor();
   const [isFlipped, setIsFlipped] = useState(false);
   const [rightAnswerdFlashcards] = useEntities((e) => e.has(AdditionalTags.ANSWERD_RIGHT));
   const [wrongAnswerdFlashcards] = useEntities((e) => e.has(AdditionalTags.ANSWERD_WRONG));
@@ -240,7 +240,7 @@ const FlashcardQuizEndCard = (props: { elapsedTime: number }) => {
                 <IoCheckmarkCircleOutline />
               </StyledDoneIcon>
             ) : (
-              <StyledAnswerText>
+              <StyledAnswerText color={backgroundColor} >
                 <p>
                   Abgefragte Karten: {sessionFlashCardsCount} {sessionFlashCardsCount == 1 ? "Karte" : "Karten"}
                 </p>
@@ -269,16 +269,18 @@ const StyledFlashcardWrapper = styled.div`
   ${tw`bg-tertiary mx-auto pb-12  cursor-pointer flex items-center  w-11/12 md:w-8/12 lg:w-1/2 h-60 dark:bg-tertiaryDark  p-4 rounded-2xl dark:shadow-md`}
 `;
 
-const StyledQuestionText = styled.div`
-  ${tw`text-lg text-center mx-auto w-fit font-semibold`}
+const StyledQuestionText = styled.div<{color: string}>`
+  ${tw`text-lg text-center mx-auto w-fit font-bold dark:text-primaryTextDark`}
+  color: ${(props) => props.color};
 `;
 
-const StyledAnswerText = styled.div`
-  ${tw`text-lg text-center mx-auto w-fit scale-x-[-1]`}
+const StyledAnswerText = styled.div<{color: string}>`
+  ${tw`text-lg text-center mx-auto w-fit scale-x-[-1]  dark:text-primaryTextDark`}
+  color: ${(props) => props.color};
 `;
 
 const StyledNavButtonAreaWrapper = styled.div`
-  ${tw`flex text-primaryColor dark:text-primaryTextDark lg:px-20 px-6 justify-between absolute left-0 lg:bottom-8 bottom-4 w-full`}
+  ${tw`flex text-white lg:px-20 px-6 justify-between absolute left-0 lg:bottom-8 bottom-4 w-full`}
 `;
 
 const StyledNavButton = styled.div`
@@ -295,12 +297,13 @@ const FlashcardCell = (props: {
   navigateToNextFlashcard: () => void;
 }) => {
   const { flashcardEntity, currentFlashcardIndex, flashcardIndex, navigateToNextFlashcard } = props;
-  const {selectedLanguage} = useSelectedLanguage();
+  const { selectedLanguage } = useSelectedLanguage();
   const [isDisplayed, setIsDisplayed] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
   const isCurrent = currentFlashcardIndex === flashcardIndex;
   const question = flashcardEntity.get(QuestionFacet)?.props.question;
   const answer = flashcardEntity.get(AnswerFacet)?.props.answer;
+  const { backgroundColor } = useSelectedSchoolSubjectColor();
 
   useEffect(() => {
     if (isCurrent) {
@@ -351,9 +354,9 @@ const FlashcardCell = (props: {
             >
               <StyledFlashcardWrapper>
                 {isFlipped ? (
-                  <StyledAnswerText>{answer}</StyledAnswerText>
+                  <StyledAnswerText color={backgroundColor}>{answer}</StyledAnswerText>
                 ) : (
-                  <StyledQuestionText>{question}</StyledQuestionText>
+                  <StyledQuestionText color={backgroundColor}>{question}</StyledQuestionText>
                 )}
               </StyledFlashcardWrapper>
             </motion.div>
@@ -363,14 +366,10 @@ const FlashcardCell = (props: {
         <StyledNavButtonAreaWrapper>
           <StyledNavButton onClick={handleRightAnswerClick}>
             <IoCheckmarkCircle />
-            <StyledNavButtonText>
-              {displayButtonTexts(selectedLanguage).true}
-            </StyledNavButtonText>
+            <StyledNavButtonText>{displayButtonTexts(selectedLanguage).true}</StyledNavButtonText>
           </StyledNavButton>
           <StyledNavButton onClick={handleWrongAnswerClick}>
-            <StyledNavButtonText>
-              {displayButtonTexts(selectedLanguage).false}
-            </StyledNavButtonText>
+            <StyledNavButtonText>{displayButtonTexts(selectedLanguage).false}</StyledNavButtonText>
             <IoCloseCircle />
           </StyledNavButton>
         </StyledNavButtonAreaWrapper>

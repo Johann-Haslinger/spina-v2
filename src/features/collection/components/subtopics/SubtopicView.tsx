@@ -50,7 +50,7 @@ import AddFlashcardsSheet from "../flashcardSets/AddFlashcardsSheet";
 import FlashcardQuizView from "../../../study/components/FlashcardQuizView";
 import GeneratingPodcastSheet from "../generation/GeneratingPodcastSheet";
 import GenerateImprovedTextSheet from "../generation/GenerateImprovedTextSheet";
-import SubTopicPodcastCell from "../podcasts/SubTopicPodcastCell";
+import PodcastRow from "../podcasts/PodcastRow";
 
 enum SubtopicViewStates {
   NOTE,
@@ -155,13 +155,14 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
           </SegmentedControlCell>
         </SegmentedControl>
 
-        <Spacer size={6} />
+        <Spacer />
         <EntityPropsMapper
           query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.PODCAST)}
           get={[[TitleFacet, DateAddedFacet], []]}
-          onMatch={SubTopicPodcastCell}
+          onMatch={PodcastRow}
         />
 
+        <Spacer />
         {subtopicViewState == SubtopicViewStates.NOTE ? (
           <TextEditor onBlur={handleTextBlur} value={text} />
         ) : (
