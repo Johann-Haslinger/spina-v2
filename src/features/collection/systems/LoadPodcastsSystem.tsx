@@ -26,15 +26,21 @@ const LoadPodcastsSystem = () => {
 
   useEffect(() => {
     const initializePodcastEntities = async () => {
-      const podcasts = mockupData ? dummyPodcasts :  await fetchPodcasts();
+      const podcasts = mockupData ? dummyPodcasts : await fetchPodcasts();
 
       podcasts.forEach((podcast) => {
-        const newPodcastEntity = new Entity();
-        lsc.engine.addEntity(newPodcastEntity);
-        newPodcastEntity.add(new IdentifierFacet({ guid: podcast.id }));
-        newPodcastEntity.add(new DateAddedFacet({ dateAdded: podcast.createdAt }));
-        newPodcastEntity.add(new TitleFacet({ title: podcast.title }));
-        newPodcastEntity.addTag(DataTypes.PODCAST);
+        const isExisting = lsc.engine.entities.some(
+          (e) => e.get(IdentifierFacet)?.props.guid === podcast.id && e.hasTag(DataTypes.PODCAST)
+        );
+
+        if (!isExisting) {
+          const newPodcastEntity = new Entity();
+          lsc.engine.addEntity(newPodcastEntity);
+          newPodcastEntity.add(new IdentifierFacet({ guid: podcast.id }));
+          newPodcastEntity.add(new DateAddedFacet({ dateAdded: podcast.createdAt }));
+          newPodcastEntity.add(new TitleFacet({ title: podcast.title }));
+          newPodcastEntity.addTag(DataTypes.PODCAST);
+        }
       });
     };
 

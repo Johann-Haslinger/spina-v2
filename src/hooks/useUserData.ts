@@ -9,7 +9,7 @@ import { displayAlertTexts } from "../utils/displayText";
 export const useUserData = () => {
   const { selectedLanguage } = useSelectedLanguage();
   const [userEntity] = useEntity((e) => e.get(IdentifierFacet)?.props.guid === "user");
-  const userId = userEntity?.get(IdentifierFacet)?.props.guid;
+  const userId = userEntity?.get(IdentifierFacet)?.props.displayName;
   const userEmail = userEntity?.get(EmailFacet)?.props.email;
   const userName = userEntity?.get(NameFacet)?.props.firstName;
   const [sessionProps] = useEntityFacets(userEntity, UserSessionFacet);

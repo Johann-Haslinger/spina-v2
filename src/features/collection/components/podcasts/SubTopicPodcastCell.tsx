@@ -5,6 +5,8 @@ import { IoHeadset } from "react-icons/io5";
 import { useSelectedSchoolSubjectColor } from "../../hooks/useSelectedSchoolSubjectColor";
 import { EntityProps } from "@leanscope/ecs-engine";
 import { Tags } from "@leanscope/ecs-models";
+import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
+import { displayAlertTexts } from "../../../../utils/displayText";
 
 const StyledPodcastCellWrapper = styled.div`
   ${tw`flex space-x-4 items-center pb-16 pt-6 w-full h-16 `}
@@ -25,6 +27,7 @@ const StyledPodcastSubtitle = styled.p`
 const SubTopicPodcastCell = (props: TitleProps & DateAddedProps & EntityProps) => {
   const { title, dateAdded, entity } = props;
   const { backgroundColor } = useSelectedSchoolSubjectColor();
+  const {selectedLanguage} = useSelectedLanguage();
 
   const openPodcast = () => entity.addTag(Tags.SELECTED);
 
@@ -34,7 +37,7 @@ const SubTopicPodcastCell = (props: TitleProps & DateAddedProps & EntityProps) =
         <IoHeadset />
       </StyledPodcastIconWrapper>
       <div>
-        <StyledPodcastTitle>{title}</StyledPodcastTitle>
+        <StyledPodcastTitle>{title || displayAlertTexts(selectedLanguage).noTitle}</StyledPodcastTitle>
         <StyledPodcastSubtitle>{new Date(dateAdded).toLocaleDateString('de-DE', { day: 'numeric', month: 'long', year: 'numeric' })}</StyledPodcastSubtitle>
       </div>
     </StyledPodcastCellWrapper>

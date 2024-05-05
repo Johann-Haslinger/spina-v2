@@ -16,7 +16,7 @@ const base64toBlob = (base64Data: string, contentType: string) => {
 };
 
 const LoadPodcastAudioSystem = () => {
-  const { selectedPodcastEntity, selectedPodcastId } = useSelectedPodcast();
+  const { selectedPodcastEntity, selectedPodcastId, selectedPodcastSource } = useSelectedPodcast();
   const { mockupData } = useMockupData();
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const LoadPodcastAudioSystem = () => {
       console.log("fetchPodcastAudio", selectedPodcastEntity, audioUrl);
     };
 
-    if (selectedPodcastId) {
+    if (selectedPodcastId && !selectedPodcastSource) {
       fetchPodcastAudio();
     }
   }, [selectedPodcastId]);

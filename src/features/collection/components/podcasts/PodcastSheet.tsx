@@ -14,6 +14,8 @@ import { useSelectedPodcast } from "../../hooks/useSelectedPodcast";
 import { usePlayingPodcast } from "../../hooks/usePlayingPodcast";
 import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntityComponents";
 
+
+
 const StyledPodcastPlayerWrapper = styled.div`
   ${tw`h-full   text-primatyText dark:text-primaryTextDark px-4 lg:px-12 w-full`}
 `;
@@ -73,10 +75,10 @@ const PodcastSheet = (props: TitleProps & SourceProps & EntityProps) => {
   const { setIsPaused } = usePlayingPodcast();
   const [isPlaying] = useEntityHasTags(entity, AdditionalTags.PLAYING);
   const [playingPodcastEntities] = useEntities((e) => e.has(AdditionalTags.PLAYING) || e.has(AdditionalTags.PAUSED));
+  const [audioUrl, setAudioUrl] = useState<string>("");
 
   useEffect(() => {
     if (selectedPodcastEntity) {
-      console.log("playingPodcastEntities", playingPodcastEntities);
       playingPodcastEntities.forEach((playingPodcastEntity) => {
         playingPodcastEntity.remove(AdditionalTags.PLAYING);
         playingPodcastEntity.remove(AdditionalTags.PAUSED);
@@ -96,9 +98,12 @@ const PodcastSheet = (props: TitleProps & SourceProps & EntityProps) => {
 
   useEffect(() => {
     const audio = audioRef.current;
+    setAudioUrl(source);
+    console.log("source", source);
 
     if (audio) {
       setIsPlaying(true);
+
       audio.addEventListener("loadedmetadata", () => {
         setDuration(audio.duration);
       });
@@ -131,7 +136,7 @@ const PodcastSheet = (props: TitleProps & SourceProps & EntityProps) => {
   return (
     <>
       <LoadPodcastAudioSystem />
-      <audio ref={audioRef} src={source} onTimeUpdate={handleTimeUpdate} />
+      <audio src={audioUrl} ref={audioRef} onTimeUpdate={handleTimeUpdate} />
 
       <Sheet navigateBack={navigateBack} visible={isVisible}>
         <StyledPodcastPlayerWrapper>
