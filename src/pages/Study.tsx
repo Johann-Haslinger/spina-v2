@@ -16,6 +16,7 @@ import { IdentifierFacet, Tags } from "@leanscope/ecs-models";
 import AddFlashcardGroupSheet from "../features/study/components/AddFlashcardGroupSheet";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { FlashcardSetView } from "../features/collection";
+import LernplanSection from "../features/study/components/LernplanSection";
 
 const Study = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -35,6 +36,8 @@ const Study = () => {
           </NavBarButton>
         </NavigationBar>
         <Title>{displayHeaderTexts(selectedLanguage).study}</Title>
+        <Spacer />
+        <LernplanSection />
         <Spacer />
         <CollectionGrid>
           <EntityPropsMapper
