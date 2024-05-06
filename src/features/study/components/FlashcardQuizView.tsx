@@ -43,11 +43,11 @@ const StyledTalkingModeButton = styled.div`
 `;
 
 const StyledProgressBarWrapper = styled.div`
-  ${tw` dark:bg-seconderyDark bg-tertiary  overflow-hidden mb-4 h-fit w-full  rounded-full `}
+  ${tw` dark:bg-seconderyDark bg-tertiary bg-opacity-50  overflow-hidden mb-4 h-fit w-full  rounded-full `}
 `;
-const StyledProgressBar = styled.div<{ width: number, backgroundColor: string }>`
+const StyledProgressBar = styled.div<{ width?: number, backgroundColor: string }>`
   ${tw`transition-all dark:bg-white  h-1 rounded-full`}
-  width: ${(props) => props.width}%;
+  width: ${(props) => props.width || 1}%;
   background-color: ${(props) => props.backgroundColor};
 `;
 
@@ -144,7 +144,7 @@ const FlashcardQuizView = () => {
   };
 
   return (
-    <View backgroundColor={backgroundColor} overlaySidebar visibe={isVisible}>
+    <View backgroundColor={backgroundColor} overlaySidebar visible={isVisible}>
       <StyledStatusBarWrapper>
         <FlexBox>
           <StyledBackButtonWrapper onClick={handleBackButtonClick}>
@@ -158,7 +158,7 @@ const FlashcardQuizView = () => {
           </StyledTalkingModeButton>
         </FlexBox>
         <StyledProgressBarWrapper>
-          <StyledProgressBar backgroundColor={color} width={(currentFlashcardIndex / flashcardEntities.length) * 100 + 1} />
+          <StyledProgressBar backgroundColor={color} width={(currentFlashcardIndex || 0 / flashcardEntities.length || 1) * 100 + 1} />
         </StyledProgressBarWrapper>
 
         <StyledFlashcardsStatusWrapper>
@@ -200,8 +200,9 @@ const StyledFlashcardQuizEndCardWrapper = styled.div`
   ${tw` dark:text-primaryTextDark absolute top-0 right-0  left-0 flex justify-center items-center h-full w-full `}
 `;
 
-const StyledDoneIcon = styled.div`
+const StyledDoneIcon = styled.div<{ color: string }>`
   ${tw`text-8xl mx-auto mt-8`}
+  color: ${(props) => props.color};
 `;
 
 const FlashcardQuizEndCard = (props: { elapsedTime: number }) => {
@@ -236,7 +237,7 @@ const FlashcardQuizEndCard = (props: { elapsedTime: number }) => {
         >
           <StyledFlashcardWrapper>
             {!isFlipped ? (
-              <StyledDoneIcon>
+              <StyledDoneIcon color={backgroundColor}>
                 <IoCheckmarkCircleOutline />
               </StyledDoneIcon>
             ) : (

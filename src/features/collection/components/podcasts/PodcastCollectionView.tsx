@@ -33,7 +33,7 @@ const PodcastCollectionView = () => {
     <Fragment>
       <LoadPodcastsSystem />
 
-      <View visibe={isVisible}>
+      <View visible={isVisible}>
         <NavigationBar>
           <NavBarButton>
             <IoAdd />

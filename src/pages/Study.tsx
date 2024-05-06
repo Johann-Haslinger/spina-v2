@@ -9,13 +9,13 @@ import { DataTypes, Stories } from "../base/enums";
 import {
   FlashcardGroupCell,
   FlashcardGroupsInitSystem,
-  FlashcardGroupView,
   LoadFlashcardsSystem,
 } from "../features/study";
-import { TitleFacet } from "../app/AdditionalFacets";
-import { Tags } from "@leanscope/ecs-models";
+import { DateAddedFacet, TitleFacet } from "../app/AdditionalFacets";
+import { IdentifierFacet, Tags } from "@leanscope/ecs-models";
 import AddFlashcardGroupSheet from "../features/study/components/AddFlashcardGroupSheet";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import { FlashcardSetView } from "../features/collection";
 
 const Study = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -39,18 +39,18 @@ const Study = () => {
         <CollectionGrid>
           <EntityPropsMapper
             query={(e) => dataTypeQuery(e, DataTypes.FLASHCARD_GROUP)}
-            get={[[TitleFacet], []]}
+            get={[[TitleFacet, DateAddedFacet], []]}
             onMatch={FlashcardGroupCell}
           />
         </CollectionGrid>
       </View>
       <EntityPropsMapper
-        query={(e) => e.has(DataTypes.FLASHCARD_GROUP) && e.has(Tags.SELECTED)}
-        get={[[TitleFacet], []]}
-        onMatch={FlashcardGroupView}
+        query={(e) => e.has(DataTypes.FLASHCARD_GROUP) && e.has(DataTypes.FLASHCARD_SET) && e.has(Tags.SELECTED)}
+        get={[[TitleFacet, IdentifierFacet], []]}
+        onMatch={FlashcardSetView}
       />
       <AddFlashcardGroupSheet />
-      </Fragment>
+    </Fragment>
   );
 };
 

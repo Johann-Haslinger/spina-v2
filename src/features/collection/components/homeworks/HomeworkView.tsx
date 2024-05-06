@@ -46,7 +46,7 @@ const HomeworkView = (props: EntityProps & TitleProps & TextProps & IdentifierPr
     <Fragment>
       <LoadHomeworkTextSystem />
 
-      <View visibe={isVisible}>
+      <View visible={isVisible}>
         <NavigationBar>
           <NavBarButton
             content={

@@ -208,6 +208,8 @@ const selectNavLinkText = (navLink: NavigationLinks, selectedLanguage: Supported
   switch (navLink) {
     case NavigationLinks.COLLECTION:
       return displayHeaderTexts(selectedLanguage).collection;
+    case NavigationLinks.STUDY:
+      return displayHeaderTexts(selectedLanguage).study;
     case NavigationLinks.HOMEWORKS:
       return displayHeaderTexts(selectedLanguage).homeworks;
     case NavigationLinks.EXAMS:

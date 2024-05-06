@@ -30,7 +30,7 @@ const FlashcardGroupView = (props: TitleProps & EntityProps) => {
   const navigateBack = () => entity.add(AdditionalTags.NAVIGATE_BACK);
 
   return (
-    <View visibe={isVisible}>
+    <View visible={isVisible}>
       <NavigationBar>
         <NavBarButton>
           <IoAdd />

@@ -11,7 +11,7 @@ import { useMockupData } from "../../../hooks/useMockupData";
 
 
 const fetchFlashcardSets = async () => {
-  const { data: flashcardSets, error } = await supabaseClient.from("flashcardSets").select("flashcardSetName, id, date_added");
+  const { data: flashcardSets, error } = await supabaseClient.from("flashcardSets").select("flashcardSetName, id, date_added").limit(10);
 
   if (error) {
     console.error("Error fetching flashcardSets:", error);
@@ -28,7 +28,7 @@ const FlashcardGroupsInitSystem = () => {
   const lsc = useContext(LeanScopeClientContext);
 
   useEffect(() => {
-    const initializeFlashcardGroupEntities = async () => {
+    const initializeFlashcardSetEntities = async () => {
       const flashcardSets = mockupData ? dummyFlashcardSets :  await fetchFlashcardSets();
 
       flashcardSets.forEach((flashcardSet) => {
@@ -47,11 +47,12 @@ const FlashcardGroupsInitSystem = () => {
             new IdentifierFacet({ guid: flashcardSet.id })
           );
           flashcardGroupEntity.addTag(DataTypes.FLASHCARD_GROUP);
+          flashcardGroupEntity.addTag(DataTypes.FLASHCARD_SET);
         }
       });
     };
 
-    initializeFlashcardGroupEntities();
+    initializeFlashcardSetEntities();
   }, []);
 
   return null;

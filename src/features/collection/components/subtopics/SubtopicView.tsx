@@ -87,7 +87,7 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
     <Fragment>
       <LoadSubtopicResourcesSystem />
 
-      <View visibe={isVisible}>
+      <View visible={isVisible}>
         <NavigationBar>
           {subtopicViewState == SubtopicViewStates.FLASHCARDS && (
             <NavBarButton onClick={openAddFlashcardsSheet}>

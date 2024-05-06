@@ -47,7 +47,6 @@ const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => 
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
   const openEditFlashcardSetSheet = () => lsc.stories.transitTo(Stories.EDIT_FLASHCARD_SET_STORY);
-
   const openDeleteFlashcardSetAlert = () => lsc.stories.transitTo(Stories.DELETE_FLASHCARD_SET_STORY);
   const openAddFlashcardsSheet = () => lsc.stories.transitTo(Stories.ADD_FLASHCARDS_STORY);
   const openFlashcardQuizView = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_QUIZ_STORY);
@@ -56,7 +55,7 @@ const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => 
     <Fragment>
       <LoadFlashcardsSystem />
 
-      <View visibe={isVisible}>
+      <View visible={isVisible}>
         <NavigationBar>
           <NavBarButton
             content={

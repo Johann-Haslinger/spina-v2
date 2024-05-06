@@ -62,7 +62,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
       <LoadHomeworksSystem />
       <LoadSubtopicsSystem />
 
-      <View visibe={isVisible}>
+      <View visible={isVisible}>
         <NavigationBar>
           <NavBarButton onClick={openAddResourceSheet}>
             <IoAdd />
