@@ -11,8 +11,7 @@ const StyledTitle = styled.div<{ size: size; placeholderStyle: boolean }>`
   ${({ size }) => size === "medium" && tw`text-3xl`}
   ${({ size }) => size === "large" && tw`text-4xl`}
   ${({ placeholderStyle }) =>
-    placeholderStyle &&
-    tw`text-placeholderText text-opacity-70 dark:text-placeholderTextDark `}
+    placeholderStyle && tw`text-placeholderText text-opacity-70 dark:text-placeholderTextDark `}
 `;
 
 interface TitleProps {
@@ -59,12 +58,6 @@ const Title = (props: PropsWithChildren & TitleProps) => {
     }
   };
 
-  useEffect(() => {
-   if (isFocused && titleRef.current) {
-    titleRef.current.focus();
-    }
-  }, [isFocused]);
-
   return (
     <StyledTitle
       onKeyPress={(e) => {
@@ -73,15 +66,14 @@ const Title = (props: PropsWithChildren & TitleProps) => {
         }
       }}
       onPaste={(e) => handlePaste(e)}
+      onClick={() => setIsFocused(true)}
       ref={titleRef}
-      onFocus={() => setIsFocused(true)}
       placeholderStyle={!children && !isFocused}
       contentEditable={editable}
       onBlur={handleBlur}
       size={size}
-      onClick={()=> titleRef.current?.focus()}
       style={{
-        color: color
+        color: color,
       }}
     />
   );
