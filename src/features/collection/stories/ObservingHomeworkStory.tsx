@@ -4,10 +4,10 @@ import {
 } from "@leanscope/api-client/node";
 import React from "react";
 import Collection from "../../../pages/Collection";
-import SchoolSubjectsInitSystem from "../../../systems/SchoolSubjectsInitSystem";
+import InitializeSchoolSubjectsSystem from "../../../systems/InitializeSchoolSubjectsSystem";
 import ViewManagerSystem from "../../../systems/ViewManagerSystem";
 import { DataTypes, Stories } from "../../../base/enums";
-import StoriesInitSystem from "../../../systems/StoriesInitSystem";
+import InitializeStoriesSystem from "../../../systems/InitializeStoriesSystem";
 import { EntityCreator } from "@leanscope/ecs-engine";
 import {
   DescriptionFacet,
@@ -17,7 +17,7 @@ import {
   Tags,
 } from "@leanscope/ecs-models";
 import { DueDateFacet, TitleFacet } from "../../../app/AdditionalFacets";
-import AppInitSystem from "../../../systems/AppInitSystem";
+import InitializeAppSystem from "../../../systems/InitializeAppSystem";
 
 const ObservingHomeworkStory = () => {
   return (
@@ -52,14 +52,14 @@ const ObservingHomeworkStory = () => {
           tags={[DataTypes.TOPIC, Tags.SELECTED]}
         />
 
-        <StoriesInitSystem
+        <InitializeStoriesSystem
           initialStory={Stories.OBSERVING_SCHOOL_SUBJECT_STORY}
         />
-        <AppInitSystem mockupData />
+        <InitializeAppSystem mockupData />
 
         <ViewManagerSystem />
 
-        <SchoolSubjectsInitSystem />
+        <InitializeSchoolSubjectsSystem />
 
         <Collection />
       </LeanScopeClientApp>

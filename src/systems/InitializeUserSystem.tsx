@@ -5,7 +5,7 @@ import { useContext, useEffect } from "react";
 import supabaseClient from "../lib/supabase";
 import { EmailFacet } from "../app/AdditionalFacets";
 
-const UserInitSystem = () => {
+const InitializeUserSystem = () => {
   const lsc = useContext(LeanScopeClientContext);
 
   useEffect(() => {
@@ -33,4 +33,4 @@ const UserInitSystem = () => {
   return null;
 };
 
-export default UserInitSystem;
+export default InitializeUserSystem;

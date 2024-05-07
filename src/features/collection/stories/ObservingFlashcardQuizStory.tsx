@@ -4,10 +4,10 @@ import {
 } from "@leanscope/api-client/node";
 import React from "react";
 import Collection from "../../../pages/Collection";
-import SchoolSubjectsInitSystem from "../../../systems/SchoolSubjectsInitSystem";
+import InitializeSchoolSubjectsSystem from "../../../systems/InitializeSchoolSubjectsSystem";
 import ViewManagerSystem from "../../../systems/ViewManagerSystem";
 import { DataTypes, Stories } from "../../../base/enums";
-import StoriesInitSystem from "../../../systems/StoriesInitSystem";
+import InitializeStoriesSystem from "../../../systems/InitializeStoriesSystem";
 import { EntityCreator } from "@leanscope/ecs-engine";
 import {
   DescriptionFacet,
@@ -18,13 +18,13 @@ import {
 } from "@leanscope/ecs-models";
 import { TitleFacet } from "../../../app/AdditionalFacets";
 import LoadTopicsSystem from "../systems/LoadTopicsSystem";
-import AppInitSystem from "../../../systems/AppInitSystem";
+import InitializeAppSystem from "../../../systems/InitializeAppSystem";
 
 const ObservingFlashcardQuizStory = () => {
   return (
     <React.StrictMode>
       <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
-      <StoriesInitSystem
+      <InitializeStoriesSystem
           initialStory={Stories.OBSERVING_FLASHCARD_QUIZ_STORY}
         />
 
@@ -57,10 +57,10 @@ const ObservingFlashcardQuizStory = () => {
         />
 
        
-        <AppInitSystem mockupData />
+        <InitializeAppSystem mockupData />
         <ViewManagerSystem />
 
-        <SchoolSubjectsInitSystem />
+        <InitializeSchoolSubjectsSystem />
         <LoadTopicsSystem />
 
         <Collection />

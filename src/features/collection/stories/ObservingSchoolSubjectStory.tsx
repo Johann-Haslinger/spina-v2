@@ -10,9 +10,9 @@ import { DataTypes, Stories } from "../../../base/enums";
 import { IdentifierFacet, OrderFacet, Tags } from "@leanscope/ecs-models";
 import { TitleFacet } from "../../../app/AdditionalFacets";
 import Collection from "../../../pages/Collection";
-import SchoolSubjectsInitSystem from "../../../systems/SchoolSubjectsInitSystem";
-import StoriesInitSystem from "../../../systems/StoriesInitSystem";
-import AppInitSystem from "../../../systems/AppInitSystem";
+import InitializeSchoolSubjectsSystem from "../../../systems/InitializeSchoolSubjectsSystem";
+import InitializeStoriesSystem from "../../../systems/InitializeStoriesSystem";
+import InitializeAppSystem from "../../../systems/InitializeAppSystem";
 
 const ObservingSchoolSubjectStory = () => {
   return (
@@ -26,13 +26,13 @@ const ObservingSchoolSubjectStory = () => {
           ]}
           tags={[DataTypes.SCHOOL_SUBJECT, Tags.SELECTED]}
         />
-        <StoriesInitSystem
+        <InitializeStoriesSystem
           initialStory={Stories.OBSERVING_SCHOOL_SUBJECT_STORY}
         />
         <ViewManagerSystem />
-        <AppInitSystem mockupData />
+        <InitializeAppSystem mockupData />
 
-        <SchoolSubjectsInitSystem />
+        <InitializeSchoolSubjectsSystem />
         <LoadTopicsSystem />
 
         <Collection />

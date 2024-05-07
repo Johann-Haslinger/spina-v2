@@ -33,7 +33,7 @@ const fetchHomeworks = async () => {
   return schoolSubjects || [];
 };
 
-const HomeworksInitSystem = () => {
+const InitializeHomeworksSystem = () => {
   const { mockupData } = useMockupData();
   const lsc = useContext(LeanScopeClientContext);
 
@@ -73,4 +73,4 @@ const HomeworksInitSystem = () => {
   return null;
 };
 
-export default HomeworksInitSystem;
+export default InitializeHomeworksSystem;

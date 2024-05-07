@@ -3,7 +3,7 @@ import { Kanban, NavBarButton, NavigationBar, Spacer, Title, View } from "../com
 import { IoAdd } from "react-icons/io5";
 import { displayHeaderTexts } from "../utils/displayText";
 import { useSelectedLanguage } from "../hooks/useSelectedLanguage";
-import HomeworksInitSystem from "../features/homeworks/systems/HomeworksInitSystem";
+import InitializeHomeworksSystem from "../features/homeworks/systems/InitializeHomeworksSystem";
 import { dataTypeQuery } from "../utils/queries";
 import { DataTypes, Stories } from "../base/enums";
 import { HomeworkKanbanCell } from "../features/homeworks";
@@ -31,7 +31,7 @@ const Homeworks = () => {
 
   return (
     <Fragment>
-      <HomeworksInitSystem />
+      <InitializeHomeworksSystem />
 
       <View reducePaddingX viewType="baseView">
         <NavigationBar>

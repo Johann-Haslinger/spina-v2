@@ -2,7 +2,7 @@ import { Stories } from "../base/enums";
 import { EntityCreator } from "@leanscope/ecs-engine";
 import { IdentifierFacet, StoryFacet, Tags } from "@leanscope/ecs-models";
 
-const StoriesInitSystem = (props: { initialStory?: Stories }) => {
+const InitializeStoriesSystem = (props: { initialStory?: Stories }) => {
   const { initialStory = Stories.OBSERVING_COLLECTION_STORY } = props;
   return Object.values(Stories).map((guid) => (
     <EntityCreator
@@ -19,4 +19,4 @@ const StoriesInitSystem = (props: { initialStory?: Stories }) => {
   ));
 };
 
-export default StoriesInitSystem;
+export default InitializeStoriesSystem;
