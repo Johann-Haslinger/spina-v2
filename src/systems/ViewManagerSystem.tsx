@@ -8,6 +8,7 @@ import { useIsAnyStoryCurrent } from "../hooks/useIsAnyStoryCurrent";
 const ViewManagerSystem = () => {
   const isSheetViewVisible = useIsAnyStoryCurrent([
     Stories.OBSERVING_SETTINGS_STORY,
+    Stories.OBSERVING_PODCAST_STORY,
 
     Stories.ADD_HOMEWORK_STORY,
     Stories.ADD_TOPIC_STORY,
