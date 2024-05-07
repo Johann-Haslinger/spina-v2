@@ -41,7 +41,7 @@ const StyledStatusWrapper = styled.div<{
   backgroundColor: string;
   color: string;
 }>`
-  ${tw`px-2 mb-2 font-black pt-1`}
+  ${tw`px-2  mb-2 font-black pt-1`}
   background-color: ${({ backgroundColor }) => backgroundColor};
   color: ${({ color }) => color};
 `;

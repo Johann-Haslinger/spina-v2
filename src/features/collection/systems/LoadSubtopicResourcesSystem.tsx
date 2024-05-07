@@ -82,7 +82,7 @@ const LoadSubtopicResourcesSystem = () => {
             lsc.engine.addEntity(podcastEntity);
             podcastEntity.add(new IdentifierFacet({ guid: podcast.id }));
             podcastEntity.add(new ParentFacet({ parentId: selectedSubtopicId }));
-            podcastEntity.add(new TitleFacet({ title: podcast.title || ""}));
+            podcastEntity.add(new TitleFacet({ title: podcast.title || "" }));
             podcastEntity.add(new DateAddedFacet({ dateAdded: podcast.createdAt }));
             podcastEntity.addTag(DataTypes.PODCAST);
           }
@@ -91,24 +91,26 @@ const LoadSubtopicResourcesSystem = () => {
     };
 
     const initializeSubtopicText = async () => {
-      let subtopicText;
-      if (mockupData) {
-        subtopicText = dummyText;
-      } else {
-        const { data: subtopicTextData, error } = await supabaseClient
-          .from("knowledges")
-          .select("text")
-          .eq("parentId", selectedSubtopicId)
-          .single();
+      if (selectedSubtopicId) {
+        let subtopicText;
+        if (mockupData) {
+          subtopicText = dummyText;
+        } else {
+          const { data: subtopicTextData, error } = await supabaseClient
+            .from("knowledges")
+            .select("text")
+            .eq("parentId", selectedSubtopicId)
+            .single();
 
-        if (error) {
-          console.error("error fetching subtopic text", error);
-          return;
+          if (error) {
+            console.error("error fetching subtopic text", error);
+            return;
+          }
+          subtopicText = subtopicTextData?.text;
         }
-        subtopicText = subtopicTextData?.text;
-      }
 
-      selectedSubtopicEntity?.add(new TextFacet({ text: subtopicText }));
+        selectedSubtopicEntity?.add(new TextFacet({ text: subtopicText }));
+      }
     };
 
     initializeSubtopicText();

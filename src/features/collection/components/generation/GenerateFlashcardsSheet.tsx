@@ -136,8 +136,7 @@ const GenerateFlashcardsSheet = () => {
           text: selectedNoteText,
           parentId: parentId,
         };
-        console.log("newKnowledge", newKnowledge);
-
+   
         const { error: knowledgeError } = await supabaseClient.from("knowledges").insert([newKnowledge]);
 
         if (knowledgeError) {

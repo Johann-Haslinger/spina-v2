@@ -15,6 +15,6 @@ export const useSelectedSchoolSubjectColor = () => {
 
     return { backgroundColor, color };
   }else {
-    return { backgroundColor: "blue", color: "white" };
+    return { backgroundColor: "#00965F", color: "white" };
   }
 };

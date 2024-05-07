@@ -99,7 +99,7 @@ const PodcastSheet = (props: TitleProps & SourceProps & EntityProps & DateAddedP
   useEffect(() => {
     const audio = audioRef.current;
     setAudioUrl(source);
-    console.log("source", source);
+
 
     if (audio) {
       setIsPlaying(true);

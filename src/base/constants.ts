@@ -32,7 +32,7 @@ export const NAV_LINKS = [
   // },
 ];
 
-export const COLORS = ["#F4CF54", "#00965F", "#0B86D1", "#B9A0FF", "#F4BAB5", "#EE7A2C"];
+export const COLORS = ["#F4CF54", "#00965F", "#0B86D1", "#B9A0FF", "#F4BAB5", "#EE7A2C", "#446DFF"];
 
 export const COLOR_ITEMS: { color: string; backgroundColor: string }[] = [
   {
@@ -56,7 +56,12 @@ export const COLOR_ITEMS: { color: string; backgroundColor: string }[] = [
     backgroundColor: "#F4BAB5",
   },
   {
+    color: "#B9A0FF",
+    backgroundColor: "#446DFF",
+  },
+  {
     color: "#F4CF54",
     backgroundColor: "#EE7A2C",
   },
+ 
 ];

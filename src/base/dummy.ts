@@ -126,16 +126,19 @@ export const dummyFlashcardSets = [
     id: "1",
     flashcardSetName: "Addition",
     date_added: new Date().toISOString(),
+    bookmarked: false,
   },
   {
     id: "2",
     flashcardSetName: "Subtraction",
     date_added: new Date().toISOString(),
+    bookmarked: false,
   },
   {
     id: "3",
     flashcardSetName: "Multiplication",
     date_added: new Date().toISOString(),
+    bookmarked: true,
   },
 ];
 
@@ -211,18 +214,21 @@ export const dummySubtopics = [
     id: "1",
     date_added: new Date().toISOString(),
     parentId: "1",
+    bookmarked: false,
   },
   {
     name: "Subtraction",
     id: "2",
     date_added: new Date().toISOString(),
     parentId: "1",
+    bookmarked: true,
   },
   {
     name: "Multiplication",
     id: "3",
     date_added: new Date().toISOString(),
     parentId: "1",
+    bookmarked: false,
   },
 ];
 

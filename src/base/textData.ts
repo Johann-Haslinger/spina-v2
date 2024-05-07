@@ -42,7 +42,7 @@ export const ALERT_TEXT_DATA = {
     en: "No content added",
   },
   no_content_added_subtitle: {
-    de: "Es siht so aus, als hättest du noch keine Inhalte hinzugefügt.",
+    de: "Es sieht so aus, als hättest du noch keine Inhalte hinzugefügt.",
     en: "AIt looks like you haven't added any content yet.",
   },
   no_description: {

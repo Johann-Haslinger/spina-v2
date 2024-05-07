@@ -25,7 +25,7 @@ const GenerateImprovedTextSheet = () => {
     const handleGenerateImprovedText = async () => {
       setIsGenerating(true);
       const textToImprove = selectedNoteText || selectedSubtopicText || "";
-      console.log("textToImprove", textToImprove);
+
       if (textToImprove === "") return;
       setTimeout(async () => {
         const imporvedText = await generateImprovedText(textToImprove);

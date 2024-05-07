@@ -75,7 +75,7 @@ const GeneratingPodcastSheet = () => {
           newPodcastEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
           newPodcastEntity.add(DataTypes.PODCAST);
 
-          console.log("newPodcastEntity", newPodcastEntity);
+
 
           const { error } = await supabaseClient
             .from("podcasts")

@@ -30,6 +30,8 @@ import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
 import {
   IoAdd,
   IoAlbumsOutline,
+  IoBookmark,
+  IoBookmarkOutline,
   IoColorWandOutline,
   IoCreateOutline,
   IoEllipsisHorizontalCircleOutline,
@@ -51,6 +53,7 @@ import FlashcardQuizView from "../../../study/components/FlashcardQuizView";
 import GeneratingPodcastSheet from "../generation/GeneratingPodcastSheet";
 import GenerateImprovedTextSheet from "../generation/GenerateImprovedTextSheet";
 import PodcastRow from "../podcasts/PodcastRow";
+import { useBookmarked } from "../../../study/hooks/useBookmarked";
 
 enum SubtopicViewStates {
   NOTE,
@@ -64,6 +67,7 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedTopicTitle } = useSelectedTopic();
   const [subtopicViewState, setSubtopicViewState] = useState(SubtopicViewStates.NOTE);
+  const { isBookmarked, toggleBookmark } = useBookmarked(entity);
 
   const navigateBack = () => entity.add(AdditionalTags.NAVIGATE_BACK);
   const openDeleteAlert = () => lsc.stories.transitTo(Stories.DELETE_SUBTOPIC_STORY);
@@ -94,6 +98,7 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
               <IoAdd />
             </NavBarButton>
           )}
+          <NavBarButton onClick={toggleBookmark}>{isBookmarked ? <IoBookmark /> : <IoBookmarkOutline />}</NavBarButton>
           <NavBarButton
             content={
               <Fragment>
