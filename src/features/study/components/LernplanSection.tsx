@@ -11,20 +11,20 @@ import { useContext } from "react";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 
 const StyledLernplanSectionWrapper = styled.div`
-  ${tw`w-full mb-2 h-40 space-x-2 flex    transition-all `}
+  ${tw`w-full mb-2  space-y-2 md:space-y-0 md:space-x-2 md:flex    transition-all `}
 `;
 const StyledFlashcardGroupWrapper = styled.div`
-  ${tw`w-3/4 rounded-lg  flex flex-shrink-0  overflow-x-scroll`}
+  ${tw`md:w-3/4 w-full rounded-lg  flex flex-shrink-0  overflow-x-scroll`}
   background-color: #00965F;
 `;
 
 const StyledPlayIconContainer = styled.div`
-  ${tw`w-1/4 h-full rounded-lg   flex items-center justify-center `}
+  ${tw`md:w-1/4 w-full h-40 rounded-lg   flex items-center justify-center `}
   background-color: #00965F;
 `;
 
 const StyledPlayIconWrapper = styled.div`
-  ${tw`text-6xl hover:opacity-50 transition-all rounded-full bg-white text-white p-4  bg-opacity-20 `}
+  ${tw`text-6xl md:hover:opacity-50 transition-all rounded-full bg-white text-white p-4  bg-opacity-20 `}
 `;
 
 const LernplanSection = () => {
@@ -61,7 +61,7 @@ const StyledFlashcardGroupCellContainer = styled.div`
 `;
 
 const StyledFlashcardGroupCellWrapper = styled.div`
-  ${tw`w-full min-w-64 hover:scale-[0.91] transition-all h-40`}
+  ${tw`w-full min-w-64 md:hover:scale-[0.91] transition-all h-40`}
 `;
 
 const LernplanFlashcardGroupCell = (props: TitleProps & EntityProps & DateAddedProps) => (

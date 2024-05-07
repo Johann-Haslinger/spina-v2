@@ -22,12 +22,12 @@ import { dataTypeQuery } from "../../utils/queries";
 import { Tags } from "@leanscope/ecs-models";
 
 const StyledSelectedPodcasrCellWrapper = styled.div<{ visible: boolean }>`
-  ${tw`flex mx-1 z-10 w-[226px] cursor-pointer  hover:bg-primary dark:hover:bg-tertiaryDark   absolute bottom-14 my-2 dark:text-white  overflow-hidden py-1 transition-all  rounded-xl space-x-4 items-center`}
+  ${tw`flex mx-1 z-10 w-[226px] cursor-pointer  md:hover:bg-primary dark:hover:bg-tertiaryDark   absolute bottom-14 my-2 dark:text-white  overflow-hidden py-1 transition-all  rounded-xl space-x-4 items-center`}
   ${({ visible }) => !visible && tw`hidden`}
 `;
 
 const StyledSelectedPodcastIcon = styled.div`
-  ${tw`text-2xl hover:scale-110 bg-primary dark:bg-tertiaryDark transition-all font-black mx-1 size-10 rounded-lg flex items-center justify-center`}
+  ${tw`text-2xl md:hover:scale-110 bg-primary dark:bg-tertiaryDark transition-all font-black mx-1 size-10 rounded-lg flex items-center justify-center`}
 `;
 const StyledPodcastTitle = styled.div`
   ${tw`text-sm pr-2 line-clamp-1 font-semibold`}
@@ -70,14 +70,14 @@ const StyledEmailText = styled.div`
 `;
 
 const StyledHelpText = styled.div`
-  ${tw`w-full px-1 py-3  transition-all hover:opacity-50 flex items-center `}
+  ${tw`w-full px-1 py-3  transition-all md:hover:opacity-50 flex items-center `}
 `;
 
 const StyledSettingsText = styled.div`
-  ${tw`w-full px-1 pb-3  transition-all hover:opacity-50  pt-1 flex items-center  `}
+  ${tw`w-full px-1 pb-3  transition-all md:hover:opacity-50  pt-1 flex items-center  `}
 `;
 const StyledAccountStatusText = styled.div`
-  ${tw`w-full px-1 py-3  transition-all hover:opacity-50   flex items-center `}
+  ${tw`w-full px-1 py-3  transition-all md:hover:opacity-50   flex items-center `}
 `;
 const StyledSettingsMenuIcon = styled.div`
   ${tw`text-base mr-3 `}
@@ -86,7 +86,7 @@ const StyledSettingsDivider = styled.div`
   ${tw`w-full h-0.5 dark:border-primaryBorderDark border-primaryBorder border-b `}
 `;
 const StyledSettingsWrapper = styled.div<{ isHoverd: boolean }>`
-  ${tw`flex w-[226px] cursor-pointer  hover:bg-primary dark:hover:bg-tertiaryDark   mx-1 absolute bottom-0 my-2 dark:text-white  overflow-hidden py-1 transition-all  rounded-xl space-x-4 items-center`}
+  ${tw`flex w-[226px] cursor-pointer  md:hover:bg-primary dark:hover:bg-tertiaryDark   mx-1 absolute bottom-0 my-2 dark:text-white  overflow-hidden py-1 transition-all  rounded-xl space-x-4 items-center`}
   ${({ isHoverd }) => isHoverd && tw`xl:bg-primary xl:dark:bg-tertiaryDark`}
 `;
 
@@ -94,7 +94,7 @@ const StyledProfileIcon = styled.div<{
   color: string;
   backgroundColor: string;
 }>`
-  ${tw`text-2xl hover:opacity-80 transition-all font-black mx-1 size-10 rounded-lg flex items-center justify-center`}
+  ${tw`text-2xl md:hover:opacity-80 transition-all font-black mx-1 size-10 rounded-lg flex items-center justify-center`}
   color: ${({ color }) => color};
   background-color: ${({ backgroundColor }) => backgroundColor};
 `;
@@ -197,7 +197,7 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
 };
 
 const StyledSidebarLinkWrapper = styled.div<{ isCurrent: boolean }>`
-  ${tw`flex my-1.5 dark:text-white hover:bg-secondery dark:hover:bg-tertiaryDark overflow-hidden py-3 transition-all px-2 rounded-lg space-x-4 items-center`}
+  ${tw`flex my-1.5 dark:text-white md:hover:bg-secondery dark:hover:bg-tertiaryDark overflow-hidden py-3 transition-all px-2 rounded-lg space-x-4 items-center`}
   ${({ isCurrent }) => isCurrent && tw``}
 `;
 const StyledNavLinkIcon = styled.div<{ color: string }>`
@@ -252,7 +252,7 @@ const SidebarLink = (props: { title: NavigationLinks; path: string; idx: number;
 };
 
 const StyledSpinaIcon = styled.div`
-  ${tw`w-5 h-5 hover:scale-90 transition-all  mb-12 ml-2.5 scale-75`}
+  ${tw`w-5 h-5 md:hover:scale-90 transition-all  mb-12 ml-2.5 scale-75`}
 `;
 const StyledSidebarWrapper = styled.div<{ isFullWidth: boolean }>`
   ${tw`h-full  pt-6 bg-white dark:bg-seconderyDark  transition-all  px-2 rounded-xl backdrop-blur-2xl bg-opacity-95  `}
