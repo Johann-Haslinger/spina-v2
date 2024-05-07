@@ -23,6 +23,8 @@ import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import {
   IoAdd,
   IoAlbumsOutline,
+  IoBookmark,
+  IoBookmarkOutline,
   IoCreateOutline,
   IoEllipsisHorizontalCircleOutline,
   IoPlayOutline,
@@ -36,6 +38,7 @@ import EditFlashcardSheet from "./EditFlashcardSheet";
 import AddFlashcardsSheet from "./AddFlashcardsSheet";
 import { useEntityHasChildren } from "../../hooks/useEntityHasChildren";
 import FlashcardQuizView from "../../../study/components/FlashcardQuizView";
+import { useBookmarked } from "../../../study/hooks/useBookmarked";
 
 const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -44,10 +47,10 @@ const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => 
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedTopicTitle } = useSelectedTopic();
   const { hasChildren } = useEntityHasChildren(entity);
+  const { isBookmarked, toggleBookmark } = useBookmarked(entity);
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
   const openEditFlashcardSetSheet = () => lsc.stories.transitTo(Stories.EDIT_FLASHCARD_SET_STORY);
-
   const openDeleteFlashcardSetAlert = () => lsc.stories.transitTo(Stories.DELETE_FLASHCARD_SET_STORY);
   const openAddFlashcardsSheet = () => lsc.stories.transitTo(Stories.ADD_FLASHCARDS_STORY);
   const openFlashcardQuizView = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_QUIZ_STORY);
@@ -56,8 +59,9 @@ const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => 
     <Fragment>
       <LoadFlashcardsSystem />
 
-      <View visibe={isVisible}>
+      <View visible={isVisible}>
         <NavigationBar>
+          <NavBarButton onClick={toggleBookmark}>{isBookmarked ? <IoBookmark /> : <IoBookmarkOutline />}</NavBarButton>
           <NavBarButton
             content={
               <Fragment>
@@ -90,7 +94,7 @@ const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => 
 
         <BackButton navigateBack={navigateBack}>{selectedTopicTitle}</BackButton>
         <Title>{title}</Title>
-        <Spacer size={8} />
+        <Spacer />
         {!hasChildren && <NoContentAddedHint />}
         <CollectionGrid columnSize="large">
           <EntityPropsMapper

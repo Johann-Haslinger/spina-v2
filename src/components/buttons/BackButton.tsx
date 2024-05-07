@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 import { motion } from "framer-motion";
-import  { PropsWithChildren, useState } from "react";
+import { PropsWithChildren, useState } from "react";
 import { IoArrowBack } from "react-icons/io5";
 import tw from "twin.macro";
 import { useSelectedLanguage } from "../../hooks/useSelectedLanguage";
@@ -14,10 +14,11 @@ const StyledBackButtonIcon = styled.div`
   ${tw`text-lg`}
 `;
 
-const BackButton = (props: PropsWithChildren &  {
-  navigateBack?: () => void;
-
-}) => {
+const BackButton = (
+  props: PropsWithChildren & {
+    navigateBack?: () => void;
+  }
+) => {
   const { navigateBack, children } = props;
   const [isHovered, setIsHovered] = useState(false);
   const { selectedLanguage } = useSelectedLanguage();
@@ -38,11 +39,7 @@ const BackButton = (props: PropsWithChildren &  {
           <IoArrowBack />
         </StyledBackButtonIcon>
       </motion.div>
-      <p>
-        {children
-          ? children
-          : displayButtonTexts(selectedLanguage).back}
-      </p>
+      <p>{children ? children : displayButtonTexts(selectedLanguage).back}</p>
     </StyledBackButtonWrapper>
   );
 };

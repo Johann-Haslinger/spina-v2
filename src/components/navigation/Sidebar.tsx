@@ -201,13 +201,15 @@ const StyledSidebarLinkWrapper = styled.div<{ isCurrent: boolean }>`
   ${({ isCurrent }) => isCurrent && tw``}
 `;
 const StyledNavLinkIcon = styled.div<{ color: string }>`
-  ${tw`text-2xl text-black dark:text-white dark:opacity-100 transition-all  px-1.5 rounded-full `}
+  ${tw`text-2xl  dark:text-white dark:opacity-100 transition-all  px-1.5 rounded-full `}
 `;
 
 const selectNavLinkText = (navLink: NavigationLinks, selectedLanguage: SupportedLanguages) => {
   switch (navLink) {
     case NavigationLinks.COLLECTION:
       return displayHeaderTexts(selectedLanguage).collection;
+    case NavigationLinks.STUDY:
+      return displayHeaderTexts(selectedLanguage).study;
     case NavigationLinks.HOMEWORKS:
       return displayHeaderTexts(selectedLanguage).homeworks;
     case NavigationLinks.EXAMS:

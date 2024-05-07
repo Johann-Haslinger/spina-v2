@@ -11,9 +11,9 @@ const ObservingPodcastCollection = () => {
   return (
     <React.StrictMode>
       <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
-      <StoriesInitSystem initialStory={Stories.OBSERVING_PODCASTS_COLLECTION} />
+        <StoriesInitSystem initialStory={Stories.OBSERVING_PODCASTS_COLLECTION} />
         <AppInitSystem mockupData />
-     
+
         <ViewManagerSystem />
         <SchoolSubjectsInitSystem />
         <Collection />

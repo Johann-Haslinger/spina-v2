@@ -9,7 +9,7 @@ import { AnswerFacet, LastReviewedFacet, MasteryLevelFacet, QuestionFacet } from
 import styled from "@emotion/styled/macro";
 import tw from "twin.macro";
 import { motion } from "framer-motion";
-import { isChildOfQuery, dataTypeQuery } from "../../../utils/queries";
+import { dataTypeQuery } from "../../../utils/queries";
 import {
   IoCheckmarkCircle,
   IoCheckmarkCircleOutline,
@@ -21,11 +21,73 @@ import {
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import { displayButtonTexts, displayLabelTexts } from "../../../utils/displayText";
 import { useTimer } from "../../../hooks/useTimer";
-import { IdentifierFacet } from "@leanscope/ecs-models";
+import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { useUserData } from "../../../hooks/useUserData";
 import supabaseClient from "../../../lib/supabase";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useSelectedSchoolSubjectColor } from "../../collection/hooks/useSelectedSchoolSubjectColor";
+import { useSelectedSubtopic } from "../../collection/hooks/useSelectedSubtopic";
+import { useBookmarkedFlashcardGroups } from "../hooks/useBookmarkedFlashcardGroups";
+import { useIsAnyStoryCurrent } from "../../../hooks/useIsAnyStoryCurrent";
+
+const useFlashcardQuizEntities = () => {
+  const lsc = useContext(LeanScopeClientContext);
+  const isBookmarkedQuiz = useIsStoryCurrent(Stories.OBSERVING_BOOKMARKED_FLASHCARD_GROUP_QUIZ_STORY);
+  const { bookmarkedFlashcardGroupEntities } = useBookmarkedFlashcardGroups();
+  const [allFlashcardEntities] = useEntities((e) => dataTypeQuery(e, DataTypes.FLASHCARD));
+  const { selectedFlashcardGroupId } = useSeletedFlashcardGroup();
+  const { selectedSubtopicId } = useSelectedSubtopic();
+  const [selectedFlashcardEntities, setSelectedFlashcardEntities] = useState<readonly Entity[]>([]);
+
+  useEffect(() => {
+    if (isBookmarkedQuiz) {
+      let flashcardEntities: Entity[] = [];
+      bookmarkedFlashcardGroupEntities.forEach(async (bookmarkedFlashcardGroup) => {
+        const id = bookmarkedFlashcardGroup.get(IdentifierFacet)?.props.guid;
+
+        if (id) {
+          const { data: flashcards, error } = await supabaseClient
+            .from("flashCards")
+            .select("answer, question, id")
+            .eq("parentId", id);
+          if (error) {
+            console.error("Error fetching flashcards:", error);
+          }
+
+          flashcards?.forEach((flashcard) => {
+            const entity = new Entity();
+            lsc.engine.addEntity(entity);
+            flashcardEntities.push(entity);
+            entity.add(new IdentifierFacet({ guid: flashcard.id }));
+            entity.add(new QuestionFacet({ question: flashcard.question }));
+            entity.add(new AnswerFacet({ answer: flashcard.answer }));
+            entity.add(new ParentFacet({ parentId: id }));
+            entity.add(DataTypes.FLASHCARD);
+          });
+        }
+      });
+      setSelectedFlashcardEntities(flashcardEntities);
+    } else {
+      if (selectedSubtopicId) {
+        setSelectedFlashcardEntities(
+          allFlashcardEntities.filter(
+            (flashcardEntity) => flashcardEntity.get(ParentFacet)?.props.parentId === selectedSubtopicId
+          )
+        );
+      } else if (selectedFlashcardGroupId) {
+        setSelectedFlashcardEntities(
+          allFlashcardEntities.filter(
+            (flashcardEntity) => flashcardEntity.get(ParentFacet)?.props.parentId === selectedFlashcardGroupId
+          )
+        );
+      } else {
+        setSelectedFlashcardEntities(allFlashcardEntities);
+      }
+    }
+  }, [selectedFlashcardGroupId, selectedSubtopicId, bookmarkedFlashcardGroupEntities, isBookmarkedQuiz]);
+
+  return selectedFlashcardEntities;
+};
 
 const StyledStatusBarWrapper = styled.div`
   ${tw` px-4 z-20 md:px-20 text-white absolute left-0 top-14 lg:top-20 w-full `}
@@ -43,11 +105,11 @@ const StyledTalkingModeButton = styled.div`
 `;
 
 const StyledProgressBarWrapper = styled.div`
-  ${tw` dark:bg-seconderyDark bg-tertiary  overflow-hidden mb-4 h-fit w-full  rounded-full `}
+  ${tw` dark:bg-seconderyDark bg-tertiary bg-opacity-50  overflow-hidden mb-4 h-fit w-full  rounded-full `}
 `;
-const StyledProgressBar = styled.div<{ width: number, backgroundColor: string }>`
+const StyledProgressBar = styled.div<{ width?: number; backgroundColor: string }>`
   ${tw`transition-all dark:bg-white  h-1 rounded-full`}
-  width: ${(props) => props.width}%;
+  width: ${(props) => props.width || 1}%;
   background-color: ${(props) => props.backgroundColor};
 `;
 
@@ -77,9 +139,11 @@ const formatElapsedTime = (timeInSeconds: number) => {
 const FlashcardQuizView = () => {
   const lsc = useContext(LeanScopeClientContext);
   const { backgroundColor, color } = useSelectedSchoolSubjectColor();
-  const isVisible = useIsStoryCurrent(Stories.OBSERVING_FLASHCARD_QUIZ_STORY);
-  const { selectedFlashcardGroupEntity } = useSeletedFlashcardGroup();
-  const [flashcardEntities] = useEntities((e) => dataTypeQuery(e, DataTypes.FLASHCARD));
+  const isVisible = useIsAnyStoryCurrent([
+    Stories.OBSERVING_FLASHCARD_QUIZ_STORY,
+    Stories.OBSERVING_BOOKMARKED_FLASHCARD_GROUP_QUIZ_STORY,
+  ]);
+  const flashcardEntities = useFlashcardQuizEntities();
   const [currentFlashcardIndex, setCurrentFlashcardIndex] = useState(0);
   const { selectedLanguage } = useSelectedLanguage();
   const { elapsedTime, startTimer, stopTimer } = useTimer();
@@ -144,7 +208,7 @@ const FlashcardQuizView = () => {
   };
 
   return (
-    <View backgroundColor={backgroundColor} overlaySidebar visibe={isVisible}>
+    <View backgroundColor={backgroundColor} overlaySidebar visible={isVisible}>
       <StyledStatusBarWrapper>
         <FlexBox>
           <StyledBackButtonWrapper onClick={handleBackButtonClick}>
@@ -158,7 +222,10 @@ const FlashcardQuizView = () => {
           </StyledTalkingModeButton>
         </FlexBox>
         <StyledProgressBarWrapper>
-          <StyledProgressBar backgroundColor={color} width={(currentFlashcardIndex / flashcardEntities.length) * 100 + 1} />
+          <StyledProgressBar
+            backgroundColor={color}
+            width={((currentFlashcardIndex || 0) / (flashcardEntities.length || 1)) * 100 + 1}
+          />
         </StyledProgressBarWrapper>
 
         <StyledFlashcardsStatusWrapper>
@@ -182,17 +249,15 @@ const FlashcardQuizView = () => {
 
       {currentFlashcardIndex === flashcardEntities.length && <FlashcardQuizEndCard elapsedTime={elapsedTime} />}
 
-      {flashcardEntities
-        .filter((e) => isChildOfQuery(e, selectedFlashcardGroupEntity))
-        .map((flashcardEntity, index) => (
-          <FlashcardCell
-            navigateToNextFlashcard={() => setCurrentFlashcardIndex((prev) => prev + 1)}
-            flashcardEntity={flashcardEntity}
-            currentFlashcardIndex={currentFlashcardIndex}
-            flashcardIndex={index}
-            key={index}
-          />
-        ))}
+      {flashcardEntities.map((flashcardEntity, index) => (
+        <FlashcardCell
+          navigateToNextFlashcard={() => setCurrentFlashcardIndex((prev) => prev + 1)}
+          flashcardEntity={flashcardEntity}
+          currentFlashcardIndex={currentFlashcardIndex}
+          flashcardIndex={index}
+          key={index}
+        />
+      ))}
     </View>
   );
 };
@@ -200,8 +265,9 @@ const StyledFlashcardQuizEndCardWrapper = styled.div`
   ${tw` dark:text-primaryTextDark absolute top-0 right-0  left-0 flex justify-center items-center h-full w-full `}
 `;
 
-const StyledDoneIcon = styled.div`
+const StyledDoneIcon = styled.div<{ color: string }>`
   ${tw`text-8xl mx-auto mt-8`}
+  color: ${(props) => props.color};
 `;
 
 const FlashcardQuizEndCard = (props: { elapsedTime: number }) => {
@@ -236,11 +302,11 @@ const FlashcardQuizEndCard = (props: { elapsedTime: number }) => {
         >
           <StyledFlashcardWrapper>
             {!isFlipped ? (
-              <StyledDoneIcon>
+              <StyledDoneIcon color={backgroundColor}>
                 <IoCheckmarkCircleOutline />
               </StyledDoneIcon>
             ) : (
-              <StyledAnswerText color={backgroundColor} >
+              <StyledAnswerText color={backgroundColor}>
                 <p>
                   Abgefragte Karten: {sessionFlashCardsCount} {sessionFlashCardsCount == 1 ? "Karte" : "Karten"}
                 </p>
@@ -269,12 +335,12 @@ const StyledFlashcardWrapper = styled.div`
   ${tw`bg-tertiary mx-auto pb-12  cursor-pointer flex items-center  w-11/12 md:w-8/12 lg:w-1/2 h-60 dark:bg-tertiaryDark  p-4 rounded-2xl dark:shadow-md`}
 `;
 
-const StyledQuestionText = styled.div<{color: string}>`
+const StyledQuestionText = styled.div<{ color: string }>`
   ${tw`text-lg text-center mx-auto w-fit font-bold dark:text-primaryTextDark`}
   color: ${(props) => props.color};
 `;
 
-const StyledAnswerText = styled.div<{color: string}>`
+const StyledAnswerText = styled.div<{ color: string }>`
   ${tw`text-lg text-center mx-auto w-fit scale-x-[-1]  dark:text-primaryTextDark`}
   color: ${(props) => props.color};
 `;

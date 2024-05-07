@@ -19,7 +19,6 @@ const fetchSubtopicsForSchoolSubject = async (subjectId: string) => {
     console.error("Error fetching Subtopics:", error);
     return [];
   }
-  console.log(subtopics);
   return subtopics || [];
 };
 

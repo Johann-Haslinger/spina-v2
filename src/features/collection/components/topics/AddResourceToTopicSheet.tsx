@@ -33,7 +33,7 @@ const AddResourceToTopicSheet = () => {
     lsc.stories.transitTo(Stories.OBSERVING_TOPIC_STORY);
 
   const addNote = async () => {
-    console.log("selectedTopicId", selectedTopicId);
+
     if (selectedTopicId) {
       navigateBack();
       const noteId = v4();

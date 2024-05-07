@@ -72,7 +72,7 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
       <LoadNoteTextSystem />
       <LoadNotePodcastsSystem />
 
-      <View visibe={isVisible}>
+      <View visible={isVisible}>
         <NavigationBar>
           <NavBarButton
             content={

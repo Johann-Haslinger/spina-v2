@@ -41,7 +41,7 @@ const EditHomeworkSheet = () => {
     lsc.stories.transitTo(Stories.OBSERVING_HOMEWORKS_STORY);
 
   const updateHomework = async () => {
-    console.log("updateHomework", newDueDate, newTitle);
+
     if (newTitle && newDueDate) {
       navigateBack();
       selectedHomeworkEntity?.add(new TitleFacet({ title: newTitle }));

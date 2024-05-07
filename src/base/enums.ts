@@ -10,6 +10,7 @@ export enum Stories {
   OBSERVING_FLASHCARD_QUIZ_STORY = "observingFlashcardQuizStory",
   OBSERVING_SUBTOPIC_STORY = "observingSubtopicStory",
   OBSERVING_PODCASTS_COLLECTION = "observingPodcastsCollection",
+  OBSERVING_BOOKMARKED_FLASHCARD_GROUP_QUIZ_STORY = "observingBookmarkedFlashcardGroupQuizStory",
 
   ADD_FLASHCARD_SET_STORY = "addFlashcardSetStory",
   ADD_TOPIC_STORY = "addTopicStory",
@@ -49,6 +50,7 @@ export enum AdditionalTags {
   ANSWERD_WRONG = "answeredWrong",
   PLAYING = "playing",
   PAUSED = "paused",
+  BOOKMARKED = "bookmarked",
 }
 
 export enum NavigationLinks {

@@ -24,24 +24,33 @@ const StyledViewContent = styled.div<{
 
 interface ViewProps {
   viewType?: "baseView" | "overlayView";
-  visibe?: boolean;
+  visible?: boolean;
   reducePaddingX?: boolean;
   overlaySidebar?: boolean;
   backgroundColor?: string;
 }
 const View = (props: ViewProps & PropsWithChildren) => {
   const [isDisplayed, setIsDisplayed] = useState(false);
-  const { viewType = "overlayView", visibe = true, children, reducePaddingX, overlaySidebar, backgroundColor } = props;
+  const { viewType = "overlayView", visible = true, children, reducePaddingX, overlaySidebar, backgroundColor } = props;
 
   useEffect(() => {
-    if (visibe) {
+    let timeoutId: NodeJS.Timeout;
+
+    if (visible) {
       setIsDisplayed(true);
     } else {
-      setTimeout(() => {
+      timeoutId = setTimeout(() => {
         setIsDisplayed(false);
       }, 300);
     }
-  }, [visibe]);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [visible]);
+  
+
+
 
   return (
     isDisplayed && (
@@ -58,7 +67,7 @@ const View = (props: ViewProps & PropsWithChildren) => {
             height: "100%",
           }}
           animate={{
-            opacity: visibe ? 0.2 : 0,
+            opacity: visible ? 0.2 : 0,
           }}
         />
         <motion.div
@@ -73,7 +82,7 @@ const View = (props: ViewProps & PropsWithChildren) => {
             type: "tween",
           }}
           animate={{
-            x: visibe ? 0 : "100%",
+            x: visible ? 0 : "100%",
           }}
         >
           <StyledViewContainer backgroundColor={backgroundColor}>

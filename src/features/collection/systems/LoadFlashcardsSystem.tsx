@@ -63,6 +63,7 @@ const LoadFlashcardsSystem = () => {
             flashcardEntity.add(new ParentFacet({ parentId: selectedFlashcardGroupId }));
 
             flashcardEntity.addTag(DataTypes.FLASHCARD);
+            
           }
         });
       }

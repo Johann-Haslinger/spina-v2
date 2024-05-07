@@ -8,7 +8,7 @@ import { IoHeadset, IoPlayBack, IoPlay, IoPlayForward } from "react-icons/io5";
 import LoadPodcastAudioSystem from "../../systems/LoadPodcastAudioSystem";
 import tw from "twin.macro";
 import styled from "@emotion/styled";
-import { formatTime } from "../../../../utils/formatTime";
+import { formatCounterTime } from "../../../../utils/formatTime";
 import { useSelectedSchoolSubjectColor } from "../../hooks/useSelectedSchoolSubjectColor";
 import { useSelectedPodcast } from "../../hooks/useSelectedPodcast";
 import { usePlayingPodcast } from "../../hooks/usePlayingPodcast";
@@ -99,7 +99,7 @@ const PodcastSheet = (props: TitleProps & SourceProps & EntityProps & DateAddedP
   useEffect(() => {
     const audio = audioRef.current;
     setAudioUrl(source);
-    console.log("source", source);
+
 
     if (audio) {
       setIsPlaying(true);
@@ -167,8 +167,8 @@ const PodcastSheet = (props: TitleProps & SourceProps & EntityProps & DateAddedP
             onMouseUp={() => setIsPlaying(true)}
           />
           <FlexBox>
-            <StyledTimeBarText>{formatTime(currentTime)}</StyledTimeBarText>
-            <StyledTimeBarText>{formatTime(duration - currentTime)}</StyledTimeBarText>
+            <StyledTimeBarText>{formatCounterTime(currentTime)}</StyledTimeBarText>
+            <StyledTimeBarText>{formatCounterTime(duration - currentTime)}</StyledTimeBarText>
           </FlexBox>
 
           <StyledButtonWrapper color={backgroundColor}>

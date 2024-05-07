@@ -89,7 +89,7 @@ const AddHomeworkSheet = () => {
     );
     newHomeworkEntity.add(new StatusFacet({ status: 1 }));
     newHomeworkEntity.add(DataTypes.HOMEWORK);
-    console.log("openSchoolSubjectId", selectedSchoolSubjectId);
+
     const { error } = await supabaseClient.from("homeworks").insert([
       {
         id: id,

@@ -32,7 +32,7 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
     <Fragment>
       <LoadTopicsSystem />
 
-      <View visibe={isVisible}>
+      <View visible={isVisible}>
         <NavigationBar>
           <NavBarButton>
             <IoAdd onClick={openAddTopicSheet} />

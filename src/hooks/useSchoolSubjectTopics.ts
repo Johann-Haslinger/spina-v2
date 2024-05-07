@@ -29,7 +29,7 @@ export const useSchoolSubjectTopics = (schoolSubjectId: string) => {
       }
     };
 
-    if (schoolSubjectId) {
+    if (schoolSubjectId && schoolSubjectId.length > 0) {
       fetchSchoolSubjectTopics();
     }
   }, [schoolSubjectId]);

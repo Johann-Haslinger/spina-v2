@@ -23,7 +23,7 @@ export const usePlayingPodcast = () => {
   };
 
   const setIsPaused = (value: boolean) => {
-    console.log("playingPodcastEntity", playingPodcastEntity)
+
     if (value) {
       playingPodcastEntity?.addTag(AdditionalTags.PAUSED);
       playingPodcastEntity?.removeTag(AdditionalTags.PLAYING);
