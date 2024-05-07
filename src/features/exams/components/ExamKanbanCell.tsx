@@ -1,19 +1,17 @@
 import styled from "@emotion/styled";
 import { Entity } from "@leanscope/ecs-engine";
 import { useEntityFacets } from "@leanscope/ecs-engine/react-api/hooks/useEntityFacets";
-import tw from "twin.macro";
-import { RelationshipFacet, TitleFacet } from "../../../app/AdditionalFacets";
 import { Tags } from "@leanscope/ecs-models";
-import { useDaysUntilDue } from "../../../hooks/useDaysUntilDue";
 import { motion } from "framer-motion";
+import tw from "twin.macro";
+import { TitleFacet, RelationshipFacet } from "../../../app/AdditionalFacets";
+import { useDaysUntilDue } from "../../../hooks/useDaysUntilDue";
 import { useSchoolSubject } from "../../../hooks/useSchoolSubject";
-import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
-import { displayAlertTexts } from "../../../utils/displayText";
 
-const StyledHomeworkCellContainer = styled.div`
+const StyledExamCellContainer = styled.div`
   ${tw`w-full  transition-all h-32 px-2 py-1`}
 `;
-const StyledHomeworkCellWrapper = styled.div<{
+const StyledExamCellWrapper = styled.div<{
   backgroundColor: string;
   color: string;
 }>`
@@ -22,34 +20,34 @@ const StyledHomeworkCellWrapper = styled.div<{
   color: ${(props) => props.backgroundColor};
 `;
 
-const StyledHomeworkCellTitle = styled.div`
+const StyledExamCellTitle = styled.div`
   ${tw`text-lg line-clamp-2 font-black`}
 `;
-const StyledHomeworkCellSubtitle = styled.div`
+const StyledExamCellSubtitle = styled.div`
   ${tw` text-sm font-medium line-clamp-2`}
 `;
 
 
 
-const HomeworkKanbanCell = (pops: {
+const ExamKanbanCell = (pops: {
   entity: Entity;
   backgroundColor: string;
   color: string;
 }) => {
   const { entity, backgroundColor, color } = pops;
-const {selectedLanguage} = useSelectedLanguage();
+
   const [titleProps, relationShipProps ] = useEntityFacets(
     entity,
     TitleFacet, RelationshipFacet
   );
   const daysUntilDue = useDaysUntilDue(entity);
-  const title = titleProps?.title || displayAlertTexts(selectedLanguage).noTitle;
+  const title = titleProps?.title || "No Title";
   const relatedSchoolSubjectId = relationShipProps?.relationship
   const {schoolSubjectTitle} = useSchoolSubject(relatedSchoolSubjectId);
 
 
 
-  const handleOpenHomework = () => entity.add(Tags.SELECTED);
+  const handleOpenExam = () => entity.add(Tags.SELECTED);
 
   return (
     <motion.div
@@ -62,19 +60,19 @@ const {selectedLanguage} = useSelectedLanguage();
         y: 0,
       }}
     >
-      <StyledHomeworkCellContainer onClick={handleOpenHomework}>
-        <StyledHomeworkCellWrapper
+      <StyledExamCellContainer onClick={handleOpenExam}>
+        <StyledExamCellWrapper
           backgroundColor={backgroundColor}
           color={color}
         >
-          <StyledHomeworkCellTitle>{title}</StyledHomeworkCellTitle>
-          <StyledHomeworkCellSubtitle>
+          <StyledExamCellTitle>{title}</StyledExamCellTitle>
+          <StyledExamCellSubtitle>
             {schoolSubjectTitle}, {daysUntilDue}
-          </StyledHomeworkCellSubtitle>
-        </StyledHomeworkCellWrapper>
-      </StyledHomeworkCellContainer>
+          </StyledExamCellSubtitle>
+        </StyledExamCellWrapper>
+      </StyledExamCellContainer>
     </motion.div>
   );
 };
 
-export default HomeworkKanbanCell;
+export default ExamKanbanCell

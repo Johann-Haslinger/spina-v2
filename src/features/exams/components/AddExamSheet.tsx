@@ -1,6 +1,7 @@
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import {
   CancelButton,
+  DateInput,
   FlexBox,
   SaveButton,
   Section,
@@ -30,12 +31,13 @@ const AddExamSheet = () => {
   const { schoolSubjectTopics, hasSchoolSubjectTopics } = useSchoolSubjectTopics(selectedSchoolSubjectId);
   const [newExam, setNewExam] = useState({
     title: "",
+    dueDate: "",
     parent: "",
   });
 
   useEffect(() => {
     if (!isVisible) {
-      setNewExam({ title: "", parent: "" });
+      setNewExam({ title: "", parent: "", dueDate: ""});
     }
   }, [isVisible]);
 
@@ -58,7 +60,16 @@ const AddExamSheet = () => {
             onChange={(e) => setNewExam({ ...newExam, title: e.target.value })}
           />
         </SectionRow>
-
+        <SectionRow >
+          <FlexBox>
+            <p>{displayLabelTexts(selectedLanguage).dueDate} </p>
+            <DateInput
+              value={newExam.dueDate}
+              onChange={(e) => setNewExam({ ...newExam, dueDate: e.target.value })}
+              type="date"
+            />
+          </FlexBox>
+        </SectionRow>
         <SectionRow last>
           <FlexBox>
             <p>{displayLabelTexts(selectedLanguage).schoolSubject}</p>
