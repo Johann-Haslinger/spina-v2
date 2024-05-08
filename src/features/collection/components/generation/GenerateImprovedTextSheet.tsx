@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { CancelButton, FlexBox, GeneratingIndecator, SaveButton, Sheet } from "../../../../components";
+import { CancelButton, FlexBox, GeneratingIndecator, SaveButton, ScrollableBox, Sheet } from "../../../../components";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { DataTypes, Stories } from "../../../../base/enums";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
@@ -78,16 +78,18 @@ const GenerateImprovedTextSheet = () => {
         )}
       </FlexBox>
       {isGenerating && <GeneratingIndecator />}
-      {!isGenerating && (
-        <SapientorConversationMessage
-          message={{
-            role: "gpt",
-            message: `Passt das so für dich?<br/> <br/>
+      <ScrollableBox>
+        {!isGenerating && (
+          <SapientorConversationMessage
+            message={{
+              role: "gpt",
+              message: `Passt das so für dich?<br/> <br/>
            ${generatedText}
            <br/><br/>`,
-          }}
-        />
-      )}
+            }}
+          />
+        )}
+      </ScrollableBox>
     </Sheet>
   );
 };

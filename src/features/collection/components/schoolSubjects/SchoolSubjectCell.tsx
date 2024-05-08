@@ -10,7 +10,7 @@ const StyledCellWrapper = styled.div<{
   backgroundColor: string;
   color: string;
 }>`
-  ${tw` p-2.5 w-full flex    cursor-pointer  items-end  text-7xl hover:text-8xl hover:scale-105  transition-all h-40`}
+  ${tw` p-2.5 w-full flex    cursor-pointer  items-end  text-7xl md:hover:text-8xl md:hover:scale-105  transition-all h-40`}
   background-color: ${({ backgroundColor }) => backgroundColor};
   color: ${({ color }) => color};
 `;

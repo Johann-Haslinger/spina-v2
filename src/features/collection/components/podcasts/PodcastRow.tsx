@@ -10,7 +10,7 @@ import { FlexBox } from "../../../../components";
 import { useSelectedSchoolSubjectColor } from "../../hooks/useSelectedSchoolSubjectColor";
 
 const StyledPodcastRowWrapper = styled.div`
-  ${tw`hover:bg-tertiary items-center flex space-x-4 rounded-lg transition-all  hover:dark:bg-seconderyDark p-2`}
+  ${tw`hover:bg-tertiary items-center flex space-x-4 rounded-lg transition-all  md:hover:dark:bg-seconderyDark p-2`}
 `;
 
 const StyledPodcastIcon = styled.div<{ color: string }>`

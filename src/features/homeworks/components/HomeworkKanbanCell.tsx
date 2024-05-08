@@ -17,7 +17,7 @@ const StyledHomeworkCellWrapper = styled.div<{
   backgroundColor: string;
   color: string;
 }>`
-  ${tw`h-full  transition-all hover:scale-105  px-2.5 pt-2  w-full`}
+  ${tw`h-full  transition-all md:hover:scale-105  px-2.5 pt-2  w-full`}
   background-color: ${(props) => props.color};
   color: ${(props) => props.backgroundColor};
 `;

@@ -11,7 +11,7 @@ import {  Stories } from "../../../base/enums";
 import { useBookmarked } from "../hooks/useBookmarked";
 
 const StyledFlashcardGroupCellWrapper = styled.div`
-  ${tw`w-full h-40 p-3 rounded-lg text-white transition-all hover:scale-105`}
+  ${tw`w-full h-40 p-3 rounded-lg text-white transition-all md:hover:scale-105`}
 
   background-color: #00965F;
 `;
@@ -23,7 +23,7 @@ const StyledFlashcardGroupCellSubtitle = styled.div`
 `;
 
 const StyledIconWrapper = styled.div`
-  ${tw`bg-white w-fit mb-2 hover:opacity-50 transition-all  text-lg rounded-full p-1.5 bg-opacity-20`}
+  ${tw`bg-white w-fit mb-2 md:hover:opacity-50 transition-all  text-lg rounded-full p-1.5 bg-opacity-20`}
 `;
 
 const StyledButtonWrapper = styled.div`

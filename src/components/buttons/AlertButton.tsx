@@ -5,7 +5,7 @@ import tw from "twin.macro";
 type AlertButtonRole = "destructive" | "primary" | "secondary";
 
 const StyledAlertutton = styled.div<{ role: AlertButtonRole }>`
-  ${tw`w-1/2 p-2 cursor-pointer transition-all hover:bg-[rgba(212,211,211,0.24)] text-center `}
+  ${tw`w-1/2 p-2 cursor-pointer transition-all md:hover:bg-[rgba(212,211,211,0.24)] text-center `}
   ${({ role }) => {
     switch (role) {
       case "destructive":

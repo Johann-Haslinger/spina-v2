@@ -55,7 +55,7 @@ const InitializeFlashcardGroupsSystem = () => {
         if (!isExisting) {
           const flashcardGroupEntity = new Entity();
           lsc.engine.addEntity(flashcardGroupEntity);
-          flashcardGroupEntity.add(new DateAddedFacet({ dateAdded: flashcardSet.date_added }));
+          flashcardGroupEntity.add(new DateAddedFacet({ dateAdded: flashcardSet.date_added || new Date().toISOString()}));
           flashcardGroupEntity.add(new TitleFacet({ title: flashcardSet.flashcardSetName }));
           flashcardGroupEntity.add(new IdentifierFacet({ guid: flashcardSet.id }));
           flashcardGroupEntity.addTag(DataTypes.FLASHCARD_SET);
@@ -80,7 +80,7 @@ const InitializeFlashcardGroupsSystem = () => {
         if (!isExisting) {
           const subtopicEntity = new Entity();
           lsc.engine.addEntity(subtopicEntity);
-          subtopicEntity.add(new DateAddedFacet({ dateAdded: subtopic.date_added }));
+          subtopicEntity.add(new DateAddedFacet({ dateAdded: subtopic.date_added  || new Date().toISOString()}));
           subtopicEntity.add(new TitleFacet({ title: subtopic.name }));
           subtopicEntity.add(new IdentifierFacet({ guid: subtopic.id }));
           subtopicEntity.addTag(DataTypes.SUBTOPIC);

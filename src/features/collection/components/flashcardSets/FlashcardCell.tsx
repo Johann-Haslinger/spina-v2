@@ -11,7 +11,7 @@ import { useSelectedSchoolSubjectColor } from "../../hooks/useSelectedSchoolSubj
 const StyledFlashcardCellWrapper = styled.div<{
   backgroundColor: string;
 }>`
-  ${tw`w-full cursor-pointer h-40 dark:bg-tertiaryDark text-white  rounded-lg p-3 transition-all hover:scale-105`}
+  ${tw`w-full cursor-pointer h-40 dark:bg-tertiaryDark text-white  rounded-lg p-3 transition-all md:hover:scale-105`}
   background-color: ${(props) => props.backgroundColor};
 `;
 

@@ -101,7 +101,7 @@ const StyledBackButtonText = styled.div`
   ${tw`text-sm`}
 `;
 const StyledTalkingModeButton = styled.div`
-  ${tw`transition-all cursor-pointer mb-4 hover:opacity-50 text-lg`}
+  ${tw`transition-all cursor-pointer mb-4 md:hover:opacity-50 text-lg`}
 `;
 
 const StyledProgressBarWrapper = styled.div`
@@ -350,7 +350,7 @@ const StyledNavButtonAreaWrapper = styled.div`
 `;
 
 const StyledNavButton = styled.div`
-  ${tw`flex text-lg cursor-pointer hover:opacity-50 transition-all items-center`}
+  ${tw`flex text-lg cursor-pointer md:hover:opacity-50 transition-all items-center`}
 `;
 const StyledNavButtonText = styled.div`
   ${tw`px-4 text-base`}
