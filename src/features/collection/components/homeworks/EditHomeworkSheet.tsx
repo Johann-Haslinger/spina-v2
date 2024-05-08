@@ -56,7 +56,7 @@ const EditHomeworkSheet = () => {
         .eq("id", selectedHomeworkId);
 
       if (error) {
-        console.error("Error updating flashcard set", error);
+        console.error("Error updating homework set", error);
       }
     }
   };

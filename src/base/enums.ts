@@ -26,12 +26,14 @@ export enum Stories {
   EDIT_HOMEWORK_STORY = "editHomeworkStory",
   EDIT_TOPIC_STORY = "editTopicStory",
   EDIT_SUBTOPIC_STORY = "editSubtopicStory",
+  EDIT_EXAM_STORY = "editExamStory",
 
   DELETE_FLASHCARD_SET_STORY = "deleteFlashcardSetStory",
   DELETE_HOMEWORK_STORY = "deleteHomeworkStory",
   DELETE_TOPIC_STORY = "deleteTopicStory",
   DELETE_NOTE_STORY = "deleteNoteStory",
   DELETE_SUBTOPIC_STORY = "deleteSubtopicStory",
+  DELETE_EXAM_STORY = "deleteExamStory",
 
   GENERATE_IMPROVED_TEXT_STORY = "generateImprovedFlashcardsStory",
   GENERATE_FLASHCARDS_STORY = "generateFlashcardsStory",
