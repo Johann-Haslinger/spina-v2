@@ -1,19 +1,13 @@
-import { useEntity } from "@leanscope/ecs-engine";
-import { IdentifierFacet, Tags, TextFacet } from "@leanscope/ecs-models";
-import  { useEffect } from "react";
-import { DataTypes } from "../../../base/enums";
-import { dataTypeQuery } from "../../../utils/queries";
+import { TextFacet } from "@leanscope/ecs-models";
+import { useEffect } from "react";
 import { dummyText } from "../../../base/dummy";
 import supabaseClient from "../../../lib/supabase";
 import { useMockupData } from "../../../hooks/useMockupData";
+import { useSelectedNote } from "../hooks/useSelectedNote";
 
 const LoadNoteTextSystem = () => {
-  const {  mockupData } = useMockupData();
-  const [selectedNoteEntity] = useEntity(
-    (e) => e.has(Tags.SELECTED) && dataTypeQuery(e, DataTypes.NOTE)
-  );
- 
-  const selectedNoteId = selectedNoteEntity?.get(IdentifierFacet)?.props.guid;
+  const { mockupData } = useMockupData();
+  const { selectedNoteEntity, selectedNoteId } = useSelectedNote();
 
   useEffect(() => {
     const loadNoteText = async () => {

@@ -7,10 +7,14 @@ import { useSelectedLanguage } from "../hooks/useSelectedLanguage";
 import { displayHeaderTexts } from "../utils/displayText";
 import InitializeExamsSystem from "../features/exams/systems/InitializeExamsSystem";
 import AddExamSheet from "../features/exams/components/AddExamSheet";
-import { sortEntitiesByDueDate } from "../utils/sortEntitiesByTime";
+import { sortEntitiesByDateAdded, sortEntitiesByDueDate } from "../utils/sortEntitiesByTime";
 import ExamKanbanCell from "../features/exams/components/ExamKanbanCell";
 import { dataTypeQuery } from "../utils/queries";
 import { useExamStatus } from "../features/exams/hooks/useExamStatus";
+import { EntityPropsMapper } from "@leanscope/ecs-engine";
+import { IdentifierFacet, Tags, TextFacet } from "@leanscope/ecs-models";
+import { TitleFacet } from "../app/AdditionalFacets";
+import ExamView from "../features/exams/components/ExamView";
 
 const Exams = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -40,6 +44,12 @@ const Exams = () => {
         />
       </View>
 
+      <EntityPropsMapper
+        query={(e) => dataTypeQuery(e, DataTypes.EXAM) && e.has(Tags.SELECTED)}
+        get={[[TitleFacet, IdentifierFacet, TextFacet], []]}
+        sort={sortEntitiesByDateAdded}
+        onMatch={ExamView}
+      />
       <AddExamSheet />
     </Fragment>
   );
