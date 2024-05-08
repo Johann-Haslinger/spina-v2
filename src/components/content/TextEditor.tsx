@@ -24,22 +24,12 @@ const TextEditor = (props: { onBlur?: (newValue: string) => void; value?: string
     };
   }, [textEditorRef.current?.innerHTML, onBlur]);
 
-  useEffect(() => {
-    const saveInterval = setInterval(() => {
-      if (onBlur && textEditorRef.current) {
-        onBlur(textEditorRef.current.innerHTML);
-      }
-    }, 30000);
-
-    return () => clearInterval(saveInterval);
-  }, [onBlur]);
-
   return (
     <StyledTextEditorWrapper
       ref={textEditorRef}
-      onBlur={(e) => onBlur && onBlur(e.currentTarget.innerHTML)}
-      dangerouslySetInnerHTML={{ __html: value || ""}}
-      contentEditable
+      contentEditable="plaintext-only"
+      onBlur={() => onBlur && textEditorRef.current && onBlur(textEditorRef.current.innerHTML)}
+      dangerouslySetInnerHTML={{ __html: value || "" }}
     />
   );
 };
