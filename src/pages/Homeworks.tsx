@@ -3,35 +3,28 @@ import { Kanban, NavBarButton, NavigationBar, Spacer, Title, View } from "../com
 import { IoAdd } from "react-icons/io5";
 import { displayHeaderTexts } from "../utils/displayText";
 import { useSelectedLanguage } from "../hooks/useSelectedLanguage";
-import HomeworksInitSystem from "../features/homeworks/systems/HomeworksInitSystem";
+import InitializeHomeworksSystem from "../features/homeworks/systems/InitializeHomeworksSystem";
 import { dataTypeQuery } from "../utils/queries";
 import { DataTypes, Stories } from "../base/enums";
 import { HomeworkKanbanCell } from "../features/homeworks";
-import { Entity, EntityPropsMapper } from "@leanscope/ecs-engine";
+import { EntityPropsMapper } from "@leanscope/ecs-engine";
 import { IdentifierFacet, ParentFacet, Tags, TextFacet } from "@leanscope/ecs-models";
 import { DueDateFacet, TitleFacet } from "../app/AdditionalFacets";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { sortEntitiesByDueDate } from "../utils/sortEntitiesByTime";
-import supabaseClient from "../lib/supabase";
 import { AddHomeworkSheet, HomeworkView } from "../features/collection";
+import { useHomeworkStatus } from "../features/homeworks/hooks/useHomeworkStatus";
 
 const Homeworks = () => {
   const lsc = useContext(LeanScopeClientContext);
   const { selectedLanguage } = useSelectedLanguage();
+  const { updateHomeworkStatus } = useHomeworkStatus();
 
   const openAddHomeworkSheet = () => lsc.stories.transitTo(Stories.ADD_HOMEWORK_STORY);
 
-  const updateHomeworkStatus = async (homework: Entity, status: number) => {
-    const homeworkId = homework.get(IdentifierFacet)?.props.guid;
-    const { error } = await supabaseClient.from("homeworks").update({ status }).eq("id", homeworkId);
-    if (error) {
-      console.error("Error updating homework status", error);
-    }
-  };
-
   return (
     <Fragment>
-      <HomeworksInitSystem />
+      <InitializeHomeworksSystem />
 
       <View reducePaddingX viewType="baseView">
         <NavigationBar>
@@ -55,7 +48,7 @@ const Homeworks = () => {
         onMatch={HomeworkView}
       />
       <AddHomeworkSheet />
-      </Fragment>
+    </Fragment>
   );
 };
 

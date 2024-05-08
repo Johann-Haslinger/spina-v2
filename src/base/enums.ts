@@ -11,6 +11,7 @@ export enum Stories {
   OBSERVING_SUBTOPIC_STORY = "observingSubtopicStory",
   OBSERVING_PODCASTS_COLLECTION = "observingPodcastsCollection",
   OBSERVING_BOOKMARKED_FLASHCARD_GROUP_QUIZ_STORY = "observingBookmarkedFlashcardGroupQuizStory",
+  OBSERVING_EXAMS_STORY = "observingExamsStory",
   OBSERVING_PODCAST_STORY = "observingPodcastStory",
 
   ADD_FLASHCARD_SET_STORY = "addFlashcardSetStory",
@@ -19,18 +20,21 @@ export enum Stories {
   ADD_FLASHCARD_GROUP_STORY = "addFlashcardGroupStory",
   ADD_RESOURCE_TO_TOPIC_STORY = "addResourceToTopicStory",
   ADD_FLASHCARDS_STORY = "addFlashcardsStory",
+  ADD_EXAM_STORY = "addExamStory",
 
   EDIT_FLASHCARD_STORY = "editFlashcardStory",
   EDIT_FLASHCARD_SET_STORY = "editFlashcardSetStory",
   EDIT_HOMEWORK_STORY = "editHomeworkStory",
   EDIT_TOPIC_STORY = "editTopicStory",
   EDIT_SUBTOPIC_STORY = "editSubtopicStory",
+  EDIT_EXAM_STORY = "editExamStory",
 
   DELETE_FLASHCARD_SET_STORY = "deleteFlashcardSetStory",
   DELETE_HOMEWORK_STORY = "deleteHomeworkStory",
   DELETE_TOPIC_STORY = "deleteTopicStory",
   DELETE_NOTE_STORY = "deleteNoteStory",
   DELETE_SUBTOPIC_STORY = "deleteSubtopicStory",
+  DELETE_EXAM_STORY = "deleteExamStory",
 
   GENERATE_IMPROVED_TEXT_STORY = "generateImprovedFlashcardsStory",
   GENERATE_FLASHCARDS_STORY = "generateFlashcardsStory",

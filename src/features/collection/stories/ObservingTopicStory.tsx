@@ -14,11 +14,11 @@ import React from "react";
 import { TitleFacet } from "../../../app/AdditionalFacets";
 import { DataTypes, Stories } from "../../../base/enums";
 import Collection from "../../../pages/Collection";
-import SchoolSubjectsInitSystem from "../../../systems/SchoolSubjectsInitSystem";
-import StoriesInitSystem from "../../../systems/StoriesInitSystem";
+import InitializeSchoolSubjectsSystem from "../../../systems/InitializeSchoolSubjectsSystem";
+import InitializeStoriesSystem from "../../../systems/InitializeStoriesSystem";
 import ViewManagerSystem from "../../../systems/ViewManagerSystem";
 import LoadTopicsSystem from "../systems/LoadTopicsSystem";
-import AppInitSystem from "../../../systems/AppInitSystem";
+import InitializeAppSystem from "../../../systems/InitializeAppSystem";
 import { Sidebar } from "../../../components";
 import { BrowserRouter } from "react-router-dom";
 import { Settings } from "../../settings";
@@ -46,12 +46,12 @@ const ObservingTopicStory = () => {
             ]}
             tags={[DataTypes.SCHOOL_SUBJECT, Tags.SELECTED]}
           />
-          <StoriesInitSystem
+          <InitializeStoriesSystem
             initialStory={Stories.OBSERVING_SCHOOL_SUBJECT_STORY}
           />
-          <AppInitSystem mockupData />
+          <InitializeAppSystem mockupData />
           <ViewManagerSystem />
-          <SchoolSubjectsInitSystem />
+          <InitializeSchoolSubjectsSystem />
           <LoadTopicsSystem />
 
           <Collection />

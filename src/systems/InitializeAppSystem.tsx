@@ -4,7 +4,7 @@ import { AdditionalTags, SupportedLanguages } from "../base/enums";
 import { SelectedLanguageFacet as SelectedLanguageFacet } from "../app/AdditionalFacets";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 
-const AppInitSystem = (props: { mockupData?: boolean }) => {
+const InitializeAppSystem = (props: { mockupData?: boolean }) => {
   const lsc = useContext(LeanScopeClientContext);
   const { mockupData = false } = props;
 
@@ -47,4 +47,4 @@ const AppInitSystem = (props: { mockupData?: boolean }) => {
   return null;
 };
 
-export default AppInitSystem;
+export default InitializeAppSystem;

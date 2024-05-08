@@ -1,11 +1,11 @@
 import { LeanScopeClientApp, LeanScopeClient } from "@leanscope/api-client/node";
 import React from "react";
 import Collection from "../../../pages/Collection";
-import SchoolSubjectsInitSystem from "../../../systems/SchoolSubjectsInitSystem";
+import InitializeSchoolSubjectsSystem from "../../../systems/InitializeSchoolSubjectsSystem";
 import ViewManagerSystem from "../../../systems/ViewManagerSystem";
 import { Stories } from "../../../base/enums";
-import StoriesInitSystem from "../../../systems/StoriesInitSystem";
-import AppInitSystem from "../../../systems/AppInitSystem";
+import InitializeStoriesSystem from "../../../systems/InitializeStoriesSystem";
+import InitializeAppSystem from "../../../systems/InitializeAppSystem";
 import { Sidebar } from "../../../components";
 import { BrowserRouter } from "react-router-dom";
 
@@ -14,10 +14,10 @@ const ObservingCollectionStory = () => {
     <React.StrictMode>
       <BrowserRouter>
         <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
-          <StoriesInitSystem initialStory={Stories.OBSERVING_COLLECTION_STORY} />
-          <AppInitSystem mockupData />
+          <InitializeStoriesSystem initialStory={Stories.OBSERVING_COLLECTION_STORY} />
+          <InitializeAppSystem mockupData />
           <ViewManagerSystem />
-          <SchoolSubjectsInitSystem />
+          <InitializeSchoolSubjectsSystem />
           <Collection />
           <Sidebar />
         </LeanScopeClientApp>

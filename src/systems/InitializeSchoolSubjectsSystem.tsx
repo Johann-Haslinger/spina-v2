@@ -22,7 +22,7 @@ const fetchSchoolSubjects = async () => {
   return schoolSubjects || [];
 };
 
-const SchoolSubjectsInitSystem = () => {
+const InitializeSchoolSubjectsSystem = () => {
   const { mockupData } = useMockupData();
   const lsc = useContext(LeanScopeClientContext);
 
@@ -60,4 +60,4 @@ const SchoolSubjectsInitSystem = () => {
   return null;
 };
 
-export default SchoolSubjectsInitSystem;
+export default InitializeSchoolSubjectsSystem;

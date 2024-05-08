@@ -112,7 +112,7 @@ export const BUTTON_TEXT_DATA = {
 export const ACTION_TEXT_DATA = {
   delete: {
     de: "Löschen",
-    en: "delete",
+    en: "Delete",
   },
   edit: {
     de: "Bearbeiten",

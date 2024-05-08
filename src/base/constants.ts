@@ -17,10 +17,10 @@ export const NAV_LINKS = [
     title: NavigationLinks.HOMEWORKS,
     path: formatNavLinkAsPath(NavigationLinks.HOMEWORKS),
   },
-  // {
-  //   title: NavigationLinks.EXAMS,
-  //   path: formatNavLinkAsPath(NavigationLinks.EXAMS),
-  // },
+  {
+    title: NavigationLinks.EXAMS,
+    path: formatNavLinkAsPath(NavigationLinks.EXAMS),
+  },
   {
     title: NavigationLinks.COLLECTION,
     path: formatNavLinkAsPath(NavigationLinks.COLLECTION),

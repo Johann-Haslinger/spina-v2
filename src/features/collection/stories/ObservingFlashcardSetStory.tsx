@@ -1,15 +1,15 @@
 import { LeanScopeClientApp, LeanScopeClient } from "@leanscope/api-client/node";
 import React from "react";
 import Collection from "../../../pages/Collection";
-import SchoolSubjectsInitSystem from "../../../systems/SchoolSubjectsInitSystem";
+import InitializeSchoolSubjectsSystem from "../../../systems/InitializeSchoolSubjectsSystem";
 import ViewManagerSystem from "../../../systems/ViewManagerSystem";
 import { DataTypes, Stories } from "../../../base/enums";
-import StoriesInitSystem from "../../../systems/StoriesInitSystem";
+import InitializeStoriesSystem from "../../../systems/InitializeStoriesSystem";
 import { EntityCreator } from "@leanscope/ecs-engine";
 import { DescriptionFacet, IdentifierFacet, OrderFacet, ParentFacet, Tags } from "@leanscope/ecs-models";
 import { TitleFacet } from "../../../app/AdditionalFacets";
 import LoadTopicsSystem from "../systems/LoadTopicsSystem";
-import AppInitSystem from "../../../systems/AppInitSystem";
+import InitializeAppSystem from "../../../systems/InitializeAppSystem";
 import { BrowserRouter } from "react-router-dom";
 
 const ObservingFlashcardSetStory = () => {
@@ -17,7 +17,7 @@ const ObservingFlashcardSetStory = () => {
     <React.StrictMode>
       <BrowserRouter>
         <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
-          <StoriesInitSystem initialStory={Stories.OBSERVING_SCHOOL_SUBJECT_STORY} />
+          <InitializeStoriesSystem initialStory={Stories.OBSERVING_SCHOOL_SUBJECT_STORY} />
 
           <EntityCreator
             facets={[
@@ -47,10 +47,10 @@ const ObservingFlashcardSetStory = () => {
             tags={[DataTypes.SCHOOL_SUBJECT, Tags.SELECTED]}
           />
 
-          <AppInitSystem mockupData />
+          <InitializeAppSystem mockupData />
           <ViewManagerSystem />
 
-          <SchoolSubjectsInitSystem />
+          <InitializeSchoolSubjectsSystem />
           <LoadTopicsSystem />
 
           <Collection />

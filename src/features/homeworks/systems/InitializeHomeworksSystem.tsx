@@ -20,7 +20,7 @@ const fetchHomeworks = async () => {
     new Date().getTime() - 7 * 24 * 60 * 60 * 1000
   ).toISOString();
 
-  const { data: schoolSubjects, error } = await supabaseClient
+  const { data: homeworks, error } = await supabaseClient
     .from("homeworks")
     .select("title, id, dueDate, status, parentId, relatedSubject")
     .gte("dueDate", fourteenDaysAgo);
@@ -30,10 +30,10 @@ const fetchHomeworks = async () => {
     return [];
   }
 
-  return schoolSubjects || [];
+  return homeworks || [];
 };
 
-const HomeworksInitSystem = () => {
+const InitializeHomeworksSystem = () => {
   const { mockupData } = useMockupData();
   const lsc = useContext(LeanScopeClientContext);
 
@@ -68,9 +68,9 @@ const HomeworksInitSystem = () => {
     };
 
     initializeHomeworkEntities();
-  }, []);
+  }, [mockupData]);
 
   return null;
 };
 
-export default HomeworksInitSystem;
+export default InitializeHomeworksSystem;

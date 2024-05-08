@@ -1,15 +1,15 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { NavigationLinks, Stories } from "./base/enums";
 import { Collection, Exams, Groups, Homeworks, Overview, Study } from "./pages/Index";
-import SchoolSubjectsInitSystem from "./systems/SchoolSubjectsInitSystem";
+import InitializeSchoolSubjectsSystem from "./systems/InitializeSchoolSubjectsSystem";
 import ViewManagerSystem from "./systems/ViewManagerSystem";
-import StoriesInitSystem from "./systems/StoriesInitSystem";
+import InitializeStoriesSystem from "./systems/InitializeStoriesSystem";
 import { Sidebar } from "./components";
-import AppInitSystem from "./systems/AppInitSystem";
+import InitializeAppSystem from "./systems/InitializeAppSystem";
 import { AuthUI } from "./features/auth-ui";
 import { Settings } from "./features/settings";
 import { formatNavLinkAsPath } from "./utils/formatNavLinkAsPath";
-import UserInitSystem from "./systems/UserInitSystem";
+import InitializeUserSystem from "./systems/InitializeUserSystem";
 import { useSession } from "./hooks/useSession";
 import { Fragment } from "react/jsx-runtime";
 
@@ -20,11 +20,11 @@ function App() {
     <AuthUI />
   ) : (
     <Fragment>
-      <UserInitSystem />
-      <StoriesInitSystem initialStory={Stories.OBSERVING_COLLECTION_STORY} />
-      <AppInitSystem />
+      <InitializeUserSystem />
+      <InitializeStoriesSystem initialStory={Stories.OBSERVING_COLLECTION_STORY} />
+      <InitializeAppSystem />
       <ViewManagerSystem />
-      <SchoolSubjectsInitSystem />
+      <InitializeSchoolSubjectsSystem />
 
       <BrowserRouter>
         <Routes>

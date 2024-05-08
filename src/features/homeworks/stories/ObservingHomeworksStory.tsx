@@ -3,9 +3,9 @@ import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import { Stories } from "../../../base/enums";
 import { Sidebar } from "../../../components";
-import AppInitSystem from "../../../systems/AppInitSystem";
-import SchoolSubjectsInitSystem from "../../../systems/SchoolSubjectsInitSystem";
-import StoriesInitSystem from "../../../systems/StoriesInitSystem";
+import InitializeAppSystem from "../../../systems/InitializeAppSystem";
+import InitializeSchoolSubjectsSystem from "../../../systems/InitializeSchoolSubjectsSystem";
+import InitializeStoriesSystem from "../../../systems/InitializeStoriesSystem";
 import ViewManagerSystem from "../../../systems/ViewManagerSystem";
 import Homeworks from "../../../pages/Homeworks";
 import { Settings } from "../../settings";
@@ -15,11 +15,11 @@ const ObservingHomeworksStory = () => {
     <React.StrictMode>
       <BrowserRouter>
         <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
-          <StoriesInitSystem initialStory={Stories.OBSERVING_COLLECTION_STORY} />
+          <InitializeStoriesSystem initialStory={Stories.OBSERVING_COLLECTION_STORY} />
           <ViewManagerSystem />
-          <AppInitSystem />
+          <InitializeAppSystem />
 
-          <SchoolSubjectsInitSystem />
+          <InitializeSchoolSubjectsSystem />
           <Homeworks />
           <Sidebar />
           <Settings />

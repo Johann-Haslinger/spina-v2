@@ -39,7 +39,7 @@ const fetchSubtopics = async () => {
   return subtopics || [];
 };
 
-const FlashcardGroupsInitSystem = () => {
+const InitializeFlashcardGroupsSystem = () => {
   const { mockupData } = useMockupData();
   const lsc = useContext(LeanScopeClientContext);
 
@@ -101,4 +101,4 @@ const FlashcardGroupsInitSystem = () => {
   return null;
 };
 
-export default FlashcardGroupsInitSystem;
+export default InitializeFlashcardGroupsSystem;
