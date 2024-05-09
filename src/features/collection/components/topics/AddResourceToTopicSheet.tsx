@@ -22,7 +22,7 @@ import { useIsStoryCurrent } from "@leanscope/storyboarding";
 
 const AddResourceToTopicSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.ADD_RESOURCE_TO_TOPIC_STORY);
+  const isVisible = useIsStoryCurrent(Stories.ADDING_RESOURCE_TO_TOPIC_STORY);
 
 
   const { selectedTopicId } = useSelectedTopic();
@@ -72,13 +72,13 @@ const AddResourceToTopicSheet = () => {
           {displayDataTypeTexts(selectedLanguage).note}
         </SectionRow>
         <SectionRow
-          onClick={() => lsc.stories.transitTo(Stories.ADD_FLASHCARD_SET_STORY)}
+          onClick={() => lsc.stories.transitTo(Stories.ADDING_FLASHCARD_SET_STORY)}
           role="button"
         >
          {displayDataTypeTexts(selectedLanguage).flashcardSet}
         </SectionRow>
         <SectionRow
-          onClick={() => lsc.stories.transitTo(Stories.ADD_HOMEWORK_STORY)}
+          onClick={() => lsc.stories.transitTo(Stories.ADDING_HOMEWORK_STORY)}
          last
           role="button"
         >

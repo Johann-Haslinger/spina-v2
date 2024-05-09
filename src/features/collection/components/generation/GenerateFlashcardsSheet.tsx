@@ -37,7 +37,7 @@ const StyledPreviewCardsWrapper = styled.div`
 
 const GenerateFlashcardsSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.GENERATE_FLASHCARDS_STORY);
+  const isVisible = useIsStoryCurrent(Stories.GENERATING_FLASHCARDS_STORY);
   const [generatedFlashcards, setGeneratedFlashcards] = useState<Flashcard[]>([]);
   const { selectedNoteTitle, selectedNoteText, selectedNoteId, selectedNoteParentId, selectedNoteEntity } =
     useSelectedNote();

@@ -20,7 +20,7 @@ import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 
 const EditFlashcardSetSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.EDIT_FLASHCARD_SET_STORY);
+  const isVisible = useIsStoryCurrent(Stories.EDITING_FLASHCARD_SET_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const {
     selectedFlashcardSetTitle,

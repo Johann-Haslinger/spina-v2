@@ -44,10 +44,10 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
   const isVisible = useIsViewVisible(entity);
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
-  const openDeleteAlert = () => lsc.stories.transitTo(Stories.DELETE_NOTE_STORY);
-  const openImproveTextSheet = () => lsc.stories.transitTo(Stories.GENERATE_IMPROVED_TEXT_STORY);
-  const openGenerateFlashcardsSheet = () => lsc.stories.transitTo(Stories.GENERATE_FLASHCARDS_STORY);
-  const openGeneratePodcastSheet = () => lsc.stories.transitTo(Stories.GENERATE_PODCAST_STORY);
+  const openDeleteAlert = () => lsc.stories.transitTo(Stories.DELETING_NOTE_STORY);
+  const openImproveTextSheet = () => lsc.stories.transitTo(Stories.GENERATING_IMPROVED_TEXT_STORY);
+  const openGenerateFlashcardsSheet = () => lsc.stories.transitTo(Stories.GENERATING_FLASHCARDS_STORY);
+  const openGeneratePodcastSheet = () => lsc.stories.transitTo(Stories.GENERATING_PODCAST_STORY);
 
   const handleTextBlur = async (value: string) => {
     entity.add(new TextFacet({ text: value }));

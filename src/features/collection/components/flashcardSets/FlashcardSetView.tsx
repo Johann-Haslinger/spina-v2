@@ -25,9 +25,12 @@ import {
   IoAlbumsOutline,
   IoBookmark,
   IoBookmarkOutline,
+  IoColorWandOutline,
   IoCreateOutline,
   IoEllipsisHorizontalCircleOutline,
+  IoHeadsetOutline,
   IoPlayOutline,
+  IoSparklesOutline,
   IoTrashOutline,
 } from "react-icons/io5";
 import EditFlashcardSetSheet from "./EditFlashcardSetSheet";
@@ -50,10 +53,14 @@ const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => 
   const { isBookmarked, toggleBookmark } = useBookmarked(entity);
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
-  const openEditFlashcardSetSheet = () => lsc.stories.transitTo(Stories.EDIT_FLASHCARD_SET_STORY);
-  const openDeleteFlashcardSetAlert = () => lsc.stories.transitTo(Stories.DELETE_FLASHCARD_SET_STORY);
-  const openAddFlashcardsSheet = () => lsc.stories.transitTo(Stories.ADD_FLASHCARDS_STORY);
+  const openEditFlashcardSetSheet = () => lsc.stories.transitTo(Stories.EDITING_FLASHCARD_SET_STORY);
+  const openDeleteFlashcardSetAlert = () => lsc.stories.transitTo(Stories.DELETING_FLASHCARD_SET_STORY);
+  const openAddFlashcardsSheet = () => lsc.stories.transitTo(Stories.ADDING_FLASHCARDS_STORY);
   const openFlashcardQuizView = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_QUIZ_STORY);
+  const openGeneratePodcastSheet = () => lsc.stories.transitTo(Stories.GENERATING_PODCAST_STORY);
+  const openGenerateTextSheet = () => lsc.stories.transitTo(Stories.GENERATING_TEXT_FROM_FLASHCARDS_STORY);
+
+
 
   return (
     <Fragment>
@@ -61,7 +68,20 @@ const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => 
 
       <View visible={isVisible}>
         <NavigationBar>
-          <NavBarButton onClick={toggleBookmark}>{isBookmarked ? <IoBookmark /> : <IoBookmarkOutline />}</NavBarButton>
+          <NavBarButton
+            content={
+              <Fragment>
+                <ActionRow first icon={<IoHeadsetOutline />} onClick={openGeneratePodcastSheet}>
+                  {displayActionTexts(selectedLanguage).generatePodcast}
+                </ActionRow>
+                <ActionRow onClick={openGenerateTextSheet} last icon={<IoSparklesOutline />}>
+                  {displayActionTexts(selectedLanguage).generateText}
+                </ActionRow>
+              </Fragment>
+            }
+          >
+            <IoColorWandOutline />
+          </NavBarButton>
           <NavBarButton
             content={
               <Fragment>
@@ -81,6 +101,11 @@ const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => 
               <Fragment>
                 <ActionRow first icon={<IoCreateOutline />} onClick={openEditFlashcardSetSheet}>
                   {displayActionTexts(selectedLanguage).edit}
+                </ActionRow>
+                <ActionRow icon={isBookmarked ? <IoBookmark /> : <IoBookmarkOutline />} onClick={toggleBookmark}>
+                  {isBookmarked
+                    ? displayActionTexts(selectedLanguage).unbookmark
+                    : displayActionTexts(selectedLanguage).bookmark}
                 </ActionRow>
                 <ActionRow destructive last icon={<IoTrashOutline />} onClick={openDeleteFlashcardSetAlert}>
                   {displayActionTexts(selectedLanguage).delete}

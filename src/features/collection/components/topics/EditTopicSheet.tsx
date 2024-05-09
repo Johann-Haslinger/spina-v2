@@ -22,7 +22,7 @@ import { DescriptionFacet } from "@leanscope/ecs-models";
 
 const EditTopicSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.EDIT_TOPIC_STORY);
+  const isVisible = useIsStoryCurrent(Stories.EDITING_TOPIC_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedTopicTitle, selectedTopicDescription, selectedTopicEntity, selectedTopicId } = useSelectedTopic();
   const [newTitle, setNewTitle] = useState(selectedTopicTitle);

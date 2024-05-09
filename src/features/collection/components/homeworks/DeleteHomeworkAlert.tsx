@@ -10,7 +10,7 @@ import supabaseClient from "../../../../lib/supabase";
 
 const DeleteHomeworkAlert = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.DELETE_HOMEWORK_STORY);
+  const isVisible = useIsStoryCurrent(Stories.DELETING_HOMEWORK_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedHomeworkId, selectedHomeworkEntity } = useSelectedHomework();
 

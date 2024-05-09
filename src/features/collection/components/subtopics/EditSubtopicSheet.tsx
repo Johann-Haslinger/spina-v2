@@ -20,7 +20,7 @@ import { useSelectedSubtopic } from "../../hooks/useSelectedSubtopic";
 
 const EditSubtopicSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.EDIT_SUBTOPIC_STORY);
+  const isVisible = useIsStoryCurrent(Stories.EDITING_SUBTOPIC_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedSubtopicTitle, selectedSubtopicEntity, selectedSubtopicId } = useSelectedSubtopic();
   const [newTitle, setNewTitle] = useState(selectedSubtopicTitle);

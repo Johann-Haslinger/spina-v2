@@ -21,7 +21,7 @@ const Exams = () => {
   const { selectedLanguage } = useSelectedLanguage();
   const { updateExamStatus } = useExamStatus();
 
-  const openAddExamSheet = () => lsc.stories.transitTo(Stories.ADD_EXAM_STORY);
+  const openAddExamSheet = () => lsc.stories.transitTo(Stories.ADDING_EXAM_STORY);
 
   return (
     <Fragment>

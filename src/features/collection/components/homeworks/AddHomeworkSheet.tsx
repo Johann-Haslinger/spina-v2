@@ -33,7 +33,7 @@ import { useLocation } from "react-router";
 
 const AddHomeworkSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.ADD_HOMEWORK_STORY);
+  const isVisible = useIsStoryCurrent(Stories.ADDING_HOMEWORK_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const schooolSubjectEntities = useSchoolSubjectEntities();
   const { selectedTopicId: openTopicId } = useSelectedTopic();

@@ -26,7 +26,7 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
   const { selectedLanguage } = useSelectedLanguage();
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
-  const openAddTopicSheet = () => lsc.stories.transitTo(Stories.ADD_TOPIC_STORY);
+  const openAddTopicSheet = () => lsc.stories.transitTo(Stories.ADDING_TOPIC_STORY);
 
   return (
     <Fragment>

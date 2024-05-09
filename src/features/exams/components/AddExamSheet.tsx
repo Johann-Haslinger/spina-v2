@@ -28,7 +28,7 @@ import { useUserData } from "../../../hooks/useUserData";
 
 const AddExamSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.ADD_EXAM_STORY);
+  const isVisible = useIsStoryCurrent(Stories.ADDING_EXAM_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const schooolSubjectEntities = useSchoolSubjectEntities();
   const [selectedSchoolSubjectId, setSelectedSchoolSubjectId] = useState<string>("");

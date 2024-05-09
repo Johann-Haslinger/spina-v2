@@ -8,7 +8,7 @@ import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 
 const AddFlashcardGroupSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.ADD_FLASHCARD_GROUP_STORY);
+  const isVisible = useIsStoryCurrent(Stories.ADDING_FLASHCARD_GROUP_STORY);
   const { selectedLanguage } = useSelectedLanguage();
 
   const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_GROUPS_STORY);

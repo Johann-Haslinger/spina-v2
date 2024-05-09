@@ -33,15 +33,15 @@ type Flashcard = {
 };
 
 enum AddFlashcardsMethods {
-  ADD_FLASHCARDS_MANUALLY,
-  GENERATE_FLASHCARDS,
+  ADDING_FLASHCARDS_MANUALLY,
+  GENERATING_FLASHCARDS,
   IMPORT_FLASHCARDS,
   DONE,
 }
 
 const AddFlashcardsSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.ADD_FLASHCARDS_STORY);
+  const isVisible = useIsStoryCurrent(Stories.ADDING_FLASHCARDS_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const [flashcards, setFlashcards] = useState<Flashcard[]>([]);
   const { selectedFlashcardGroupId } = useSeletedFlashcardGroup();
@@ -130,7 +130,7 @@ const AddFlashcardsSheet = () => {
         <Section>
           <SectionRow
             onClick={() => {
-              setAddFlashcardsMethod(AddFlashcardsMethods.ADD_FLASHCARDS_MANUALLY);
+              setAddFlashcardsMethod(AddFlashcardsMethods.ADDING_FLASHCARDS_MANUALLY);
               setFlashcards([{ question: "", answer: "" }]);
             }}
             role="button"
@@ -140,7 +140,7 @@ const AddFlashcardsSheet = () => {
           </SectionRow>
           <SectionRow
            last
-            onClick={() => setAddFlashcardsMethod(AddFlashcardsMethods.GENERATE_FLASHCARDS)}
+            onClick={() => setAddFlashcardsMethod(AddFlashcardsMethods.GENERATING_FLASHCARDS)}
             role="button"
             icon={<IoColorWandOutline />}
           >
@@ -148,7 +148,7 @@ const AddFlashcardsSheet = () => {
           </SectionRow>
         </Section>
       )}
-      {addFlashcardsMethod == AddFlashcardsMethods.GENERATE_FLASHCARDS && !isGeneratingFlashcards && (
+      {addFlashcardsMethod == AddFlashcardsMethods.GENERATING_FLASHCARDS && !isGeneratingFlashcards && (
         <Fragment>
           <Section>
             <SectionRow last>

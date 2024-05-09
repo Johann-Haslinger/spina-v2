@@ -10,7 +10,7 @@ import { useSelectedSubtopic } from "../../hooks/useSelectedSubtopic";
 
 const DeleteSubtopicAlert = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.DELETE_SUBTOPIC_STORY);
+  const isVisible = useIsStoryCurrent(Stories.DELETING_SUBTOPIC_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedSubtopicId, selectedSubtopicEntity } = useSelectedSubtopic();
 

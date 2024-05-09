@@ -14,7 +14,7 @@ import supabaseClient from "../../../../lib/supabase";
 
 const GenerateImprovedTextSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.GENERATE_IMPROVED_TEXT_STORY);
+  const isVisible = useIsStoryCurrent(Stories.GENERATING_IMPROVED_TEXT_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const [generatedText, setGeneratedText] = useState<string>("");
   const [isGenerating, setIsGenerating] = useState(false);

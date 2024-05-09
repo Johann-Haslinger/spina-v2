@@ -70,12 +70,12 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
   const { isBookmarked, toggleBookmark } = useBookmarked(entity);
 
   const navigateBack = () => entity.add(AdditionalTags.NAVIGATE_BACK);
-  const openDeleteAlert = () => lsc.stories.transitTo(Stories.DELETE_SUBTOPIC_STORY);
-  const openEditSheet = () => lsc.stories.transitTo(Stories.EDIT_SUBTOPIC_STORY);
-  const openAddFlashcardsSheet = () => lsc.stories.transitTo(Stories.ADD_FLASHCARDS_STORY);
+  const openDeleteAlert = () => lsc.stories.transitTo(Stories.DELETING_SUBTOPIC_STORY);
+  const openEditSheet = () => lsc.stories.transitTo(Stories.EDITING_SUBTOPIC_STORY);
+  const openAddFlashcardsSheet = () => lsc.stories.transitTo(Stories.ADDING_FLASHCARDS_STORY);
   const openFlashcardQuizView = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_QUIZ_STORY);
-  const openImproveTextSheet = () => lsc.stories.transitTo(Stories.GENERATE_IMPROVED_TEXT_STORY);
-  const openGeneratePodcastSheet = () => lsc.stories.transitTo(Stories.GENERATE_PODCAST_STORY);
+  const openImproveTextSheet = () => lsc.stories.transitTo(Stories.GENERATING_IMPROVED_TEXT_STORY);
+  const openGeneratePodcastSheet = () => lsc.stories.transitTo(Stories.GENERATING_PODCAST_STORY);
 
   const handleTextBlur = async (value: string) => {
     entity.add(new TextFacet({ text: value }));
@@ -98,7 +98,7 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
               <IoAdd />
             </NavBarButton>
           )}
-          <NavBarButton onClick={toggleBookmark}>{isBookmarked ? <IoBookmark /> : <IoBookmarkOutline />}</NavBarButton>
+
           <NavBarButton
             content={
               <Fragment>
@@ -129,6 +129,11 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
               <Fragment>
                 <ActionRow icon={<IoCreateOutline />} onClick={openEditSheet} first>
                   {displayActionTexts(selectedLanguage).edit}
+                </ActionRow>
+                <ActionRow icon={isBookmarked ? <IoBookmark /> : <IoBookmarkOutline />} onClick={toggleBookmark}>
+                  {isBookmarked
+                    ? displayActionTexts(selectedLanguage).unbookmark
+                    : displayActionTexts(selectedLanguage).bookmark}
                 </ActionRow>
                 <ActionRow last destructive icon={<IoTrashOutline />} onClick={openDeleteAlert}>
                   {displayActionTexts(selectedLanguage).delete}

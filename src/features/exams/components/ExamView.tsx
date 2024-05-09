@@ -31,8 +31,8 @@ const ExamView = (props: TitleProps & TextProps & IdentifierProps & EntityProps)
   const { selectedLanguage } = useSelectedLanguage();
 
   const navigateBack = () => entity.add(AdditionalTags.NAVIGATE_BACK);
-  const openEditExamSheet = () => lsc.stories.transitTo(Stories.EDIT_EXAM_STORY);
-  const openDeleteExamAlert = () => lsc.stories.transitTo(Stories.DELETE_EXAM_STORY);
+  const openEditExamSheet = () => lsc.stories.transitTo(Stories.EDITING_EXAM_STORY);
+  const openDeleteExamAlert = () => lsc.stories.transitTo(Stories.DELETING_EXAM_STORY);
 
   const handleTextBlur = async (value: string) => {
     entity.add(new TextFacet({ text: value }));

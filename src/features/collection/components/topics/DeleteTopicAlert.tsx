@@ -10,7 +10,7 @@ import { useSelectedTopic } from "../../hooks/useSelectedTopic";
 
 const DeleteTopicAlert = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.DELETE_TOPIC_STORY);
+  const isVisible = useIsStoryCurrent(Stories.DELETING_TOPIC_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedTopicId, selectedTopicEntity } = useSelectedTopic();
 

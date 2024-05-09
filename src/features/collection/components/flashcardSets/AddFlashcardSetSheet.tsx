@@ -28,7 +28,7 @@ import { useSchoolSubjectTopics } from "../../../../hooks/useSchoolSubjectTopics
 
 const AddFlashcardSetSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.ADD_FLASHCARD_SET_STORY);
+  const isVisible = useIsStoryCurrent(Stories.ADDING_FLASHCARD_SET_STORY);
   const [selectedSchoolSubjectId, setSelectedSchoolSubjectId] = useState<string>("");
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedTopicId } = useSelectedTopic();

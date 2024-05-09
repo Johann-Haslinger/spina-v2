@@ -34,7 +34,7 @@ const StyledDoneIconWrapper = styled.div`
 
 const GeneratingPodcastSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.GENERATE_PODCAST_STORY);
+  const isVisible = useIsStoryCurrent(Stories.GENERATING_PODCAST_STORY);
   const { selectedSubtopicText, selectedSubtopicId, selectedSubtopicTitle } = useSelectedSubtopic();
   const { selectedNoteText, selectedNoteId, selectedNoteTitle } = useSelectedNote();
   const [isGenerating, setIsGenerating] = useState(false);

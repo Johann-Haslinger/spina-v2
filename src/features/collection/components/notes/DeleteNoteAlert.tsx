@@ -10,7 +10,7 @@ import supabaseClient from "../../../../lib/supabase";
 
 const DeleteNoteAlert = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.DELETE_NOTE_STORY);
+  const isVisible = useIsStoryCurrent(Stories.DELETING_NOTE_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedNoteId, selectedNoteEntity } = useSelectedNote();
 

@@ -28,8 +28,8 @@ export const displayAlertTexts = (selectedLanguage: SupportedLanguages) => {
     noDescription: ALERT_TEXT_DATA.no_description[selectedLanguage],
     noTopics: ALERT_TEXT_DATA.no_topics[selectedLanguage],
     noTitle: ALERT_TEXT_DATA.no_title[selectedLanguage],
-    deleteAlertTitle: ALERT_TEXT_DATA.delete_alert_title[selectedLanguage],
-    deleteAlertSubtitle: ALERT_TEXT_DATA.delete_alert_subtitle[selectedLanguage],
+    deleteAlertTitle: ALERT_TEXT_DATA.DELETING_alert_title[selectedLanguage],
+    deleteAlertSubtitle: ALERT_TEXT_DATA.DELETING_alert_subtitle[selectedLanguage],
     noUserSignedIn: ALERT_TEXT_DATA.no_user_signed_in[selectedLanguage],
   };
 };
@@ -59,6 +59,9 @@ export const displayActionTexts = (selectedLanguage: SupportedLanguages) => {
     improveText: ACTION_TEXT_DATA.improve_text[selectedLanguage],
     generateFlashcards: ACTION_TEXT_DATA.generate_flashcards[selectedLanguage],
     generatePodcast: ACTION_TEXT_DATA.generate_podcast[selectedLanguage],
+    generateText: ACTION_TEXT_DATA.generate_text[selectedLanguage],
+    unbookmark: ACTION_TEXT_DATA.unbookmark[selectedLanguage],
+    bookmark: ACTION_TEXT_DATA.bookmark[selectedLanguage],
   };
 };
 

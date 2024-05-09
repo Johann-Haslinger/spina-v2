@@ -20,7 +20,7 @@ const Homeworks = () => {
   const { selectedLanguage } = useSelectedLanguage();
   const { updateHomeworkStatus } = useHomeworkStatus();
 
-  const openAddHomeworkSheet = () => lsc.stories.transitTo(Stories.ADD_HOMEWORK_STORY);
+  const openAddHomeworkSheet = () => lsc.stories.transitTo(Stories.ADDING_HOMEWORK_STORY);
 
   return (
     <Fragment>

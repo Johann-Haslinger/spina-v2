@@ -10,7 +10,7 @@ import { displayActionTexts } from "../../../../utils/displayText";
 
 const DeleteFlashcardSetAlert = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.DELETE_FLASHCARD_SET_STORY);
+  const isVisible = useIsStoryCurrent(Stories.DELETING_FLASHCARD_SET_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedFlashcardSetId, selectedFlashcardSetEntity } = useSelectedFlashcardSet();
 

@@ -26,7 +26,7 @@ import { useUserData } from "../../../../hooks/useUserData";
 
 const AddTopicSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.ADD_TOPIC_STORY);
+  const isVisible = useIsStoryCurrent(Stories.ADDING_TOPIC_STORY);
   const { selectedSchoolSubjectId } = useSelectedSchoolSubject();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");

@@ -21,7 +21,7 @@ import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 
 const EditHomeworkSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.EDIT_HOMEWORK_STORY);
+  const isVisible = useIsStoryCurrent(Stories.EDITING_HOMEWORK_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const {
     selectedHomeworkTitle,

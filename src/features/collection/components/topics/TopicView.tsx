@@ -51,9 +51,9 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
   const { hasChildren } = useEntityHasChildren(entity);
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
-  const openAddResourceSheet = () => lsc.stories.transitTo(Stories.ADD_RESOURCE_TO_TOPIC_STORY);
-  const openEditTopicSheet = () => lsc.stories.transitTo(Stories.EDIT_TOPIC_STORY);
-  const openDeleteTopicAlert = () => lsc.stories.transitTo(Stories.DELETE_TOPIC_STORY);
+  const openAddResourceSheet = () => lsc.stories.transitTo(Stories.ADDING_RESOURCE_TO_TOPIC_STORY);
+  const openEditTopicSheet = () => lsc.stories.transitTo(Stories.EDITING_TOPIC_STORY);
+  const openDeleteTopicAlert = () => lsc.stories.transitTo(Stories.DELETING_TOPIC_STORY);
 
   return (
     <Fragment>

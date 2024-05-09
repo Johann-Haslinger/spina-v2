@@ -11,7 +11,7 @@ import { useSelectedExam } from "../hooks/useSelectedExam";
 
 const DeleteExamAlert = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.DELETE_EXAM_STORY);
+  const isVisible = useIsStoryCurrent(Stories.DELETING_EXAM_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedExamId, selectedExamEntity } = useSelectedExam();
 

@@ -44,7 +44,7 @@ const FlashcardCell = (props: QuestionProps & AnswerProps & EntityProps & Master
   const { backgroundColor } = useSelectedSchoolSubjectColor();
 
   const openFlashcard = () => {
-    lsc.stories.transitTo(Stories.EDIT_FLASHCARD_STORY);
+    lsc.stories.transitTo(Stories.EDITING_FLASHCARD_STORY);
     entity.add(Tags.SELECTED);
   };
 

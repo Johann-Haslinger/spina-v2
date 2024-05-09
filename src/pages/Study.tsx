@@ -24,7 +24,7 @@ const Study = () => {
   const { selectedLanguage } = useSelectedLanguage();
   const { existFlashcardGroups } = useFlashcardGroups();
 
-  const openAddFlashcardGroupSheet = () => lsc.stories.transitTo(Stories.ADD_FLASHCARD_SET_STORY);
+  const openAddFlashcardGroupSheet = () => lsc.stories.transitTo(Stories.ADDING_FLASHCARD_SET_STORY);
 
   return (
     <Fragment>

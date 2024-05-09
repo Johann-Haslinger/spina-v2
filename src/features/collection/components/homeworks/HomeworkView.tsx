@@ -39,8 +39,8 @@ const HomeworkView = (props: EntityProps & TitleProps & TextProps & IdentifierPr
     }
   };
 
-  const openEditHomeworkSheet = () => lsc.stories.transitTo(Stories.EDIT_HOMEWORK_STORY);
-  const openDeleteHomeworkAlert = () => lsc.stories.transitTo(Stories.DELETE_HOMEWORK_STORY);
+  const openEditHomeworkSheet = () => lsc.stories.transitTo(Stories.EDITING_HOMEWORK_STORY);
+  const openDeleteHomeworkAlert = () => lsc.stories.transitTo(Stories.DELETING_HOMEWORK_STORY);
 
   return (
     <Fragment>

@@ -21,7 +21,7 @@ import { useSelectedExam } from "../hooks/useSelectedExam";
 
 const EditExamSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.EDIT_EXAM_STORY);
+  const isVisible = useIsStoryCurrent(Stories.EDITING_EXAM_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedExamTitle, selectedExamEntity, selectedExamId, selectedExamDueDate } = useSelectedExam();
   const [newTitle, setNewTitle] = useState(selectedExamTitle);

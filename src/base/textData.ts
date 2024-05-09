@@ -57,11 +57,11 @@ export const ALERT_TEXT_DATA = {
     de: "Kein Titel",
     en: "No title",
   },
-  delete_alert_title: {
+  DELETING_alert_title: {
     de: "Bist du sicher?",
     en: "Are you sure?",
   },
-  delete_alert_subtitle: {
+  DELETING_alert_subtitle: {
     de: "Möchtest du diesen Inhalt wirklich löschen?",
     en: "Do you really want to delete this content?",
   },
@@ -145,6 +145,18 @@ export const ACTION_TEXT_DATA = {
   generate_podcast: {
     de: "Podcast generieren",
     en: "Generate podcast",
+  },
+  generate_text: {
+    de: "Text generieren",
+    en: "Generate text",
+  },
+  unbookmark: {
+    de: "Markierung entfernen",
+    en: "Remove bookmark",
+  },
+  bookmark: {
+    de: "Merken",
+    en: "Set bookmark",
   },
 };
 export const LABEL_TEXT_DATA = {
