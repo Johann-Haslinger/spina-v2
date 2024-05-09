@@ -12,7 +12,7 @@ import { useAppState } from "../../features/collection/hooks/useAppState";
 import { IoHelpOutline, IoLogInOutline, IoLogOutOutline, IoPause, IoPlay, IoSettingsOutline } from "react-icons/io5";
 import { useUserData } from "../../hooks/useUserData";
 import { useSelectedTheme } from "../../features/collection/hooks/useSelectedTheme";
-import { displayButtonTexts, displayHeaderTexts } from "../../utils/displayText";
+import { displayAlertTexts, displayButtonTexts, displayHeaderTexts } from "../../utils/displayText";
 import { useSelectedLanguage } from "../../hooks/useSelectedLanguage";
 import { usePlayingPodcast } from "../../features/collection/hooks/usePlayingPodcast";
 import PodcastSheet from "../../features/collection/components/podcasts/PodcastSheet";
@@ -27,7 +27,7 @@ const StyledSelectedPodcasrCellWrapper = styled.div<{ visible: boolean }>`
 `;
 
 const StyledSelectedPodcastIcon = styled.div`
-  ${tw`text-2xl md:hover:scale-110 bg-primary dark:bg-tertiaryDark transition-all font-black mx-1 size-10 rounded-lg flex items-center justify-center`}
+  ${tw`text-2xl text-primaryColor dark:text-white md:hover:scale-110 bg-primary dark:bg-tertiaryDark transition-all font-black mx-1 size-10 rounded-lg flex items-center justify-center`}
 `;
 const StyledPodcastTitle = styled.div`
   ${tw`text-sm pr-2 line-clamp-1 font-semibold`}
@@ -39,6 +39,7 @@ const StyledPodcastSubtitile = styled.div`
 const SelectedPodcastCell = (props: { isFullWidth: boolean }) => {
   const { isFullWidth } = props;
   const { playingPodcastEntity, playingPodcastTitle, isPlaying, setIsPaused } = usePlayingPodcast();
+  const { selectedLanguage } = useSelectedLanguage();
 
   const openPodcastSheet = () => playingPodcastEntity?.add(Tags.SELECTED);
 
@@ -53,7 +54,7 @@ const SelectedPodcastCell = (props: { isFullWidth: boolean }) => {
           animate={{ x: isFullWidth ? 0 : -10, opacity: isFullWidth ? 1 : 0 }}
           onClick={openPodcastSheet}
         >
-          <StyledPodcastTitle>{playingPodcastTitle}</StyledPodcastTitle>
+          <StyledPodcastTitle>{playingPodcastTitle || displayAlertTexts(selectedLanguage).noTitle}</StyledPodcastTitle>
           <StyledPodcastSubtitile>Podcast</StyledPodcastSubtitile>
         </motion.div>
       </StyledSelectedPodcasrCellWrapper>

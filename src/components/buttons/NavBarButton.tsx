@@ -4,7 +4,7 @@ import tw from "twin.macro";
 import ActionSheet from "../presentation/ActionSheet";
 
 const StyledNavBarButton = styled.div`
-  ${tw`text-2xl text-[#325FFF] cursor-pointer transition-all dark:text-primaryTextDark md:hover:opacity-50`}
+  ${tw`text-2xl text-primaryColor cursor-pointer transition-all dark:text-primaryTextDark md:hover:opacity-50`}
 `;
 
 interface NavBarButtonProps {

@@ -4,16 +4,17 @@ import { PropsWithChildren, useEffect, useRef } from "react";
 import tw from "twin.macro";
 
 const StyledActionSheetWrapper = styled.div`
-  ${tw` bg-[rgb(244,244,244)] dark:bg-seconderyDark bg-opacity-80 w-full dark:shadow-[0px_0px_60px_0px_rgba(255, 255, 255, 0.13)] shadow-[0px_0px_60px_0px_rgba(0,0,0,0.13)] text-primatyText dark:text-primaryTextDark  backdrop-blur-2xl rounded-lg `}
+  ${tw` bg-[rgb(244,244,244)] mt-4  dark:bg-seconderyDark bg-opacity-80 w-full dark:shadow-[0px_0px_60px_0px_rgba(255, 255, 255, 0.13)] shadow-[0px_0px_60px_0px_rgba(0,0,0,0.13)] text-primatyText dark:text-primaryTextDark  backdrop-blur-2xl rounded-lg `}
 `;
 
 interface ActionSheetProps {
   visible: boolean;
   navigateBack: () => void;
+  direction?: "left" | "right";
 }
 
 const ActionSheet = (props: PropsWithChildren & ActionSheetProps) => {
-  const { visible, children, navigateBack } = props;
+  const { visible, children, navigateBack, direction  = "right"} = props;
   const refOne = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -44,8 +45,7 @@ const ActionSheet = (props: PropsWithChildren & ActionSheetProps) => {
         opacity: 0,
         scale: 0.0,
         position: "absolute",
-        top: "4rem",
-        right: "0.75rem",
+        right: direction === "right" ? 12 : "auto",
         width: "14rem",
       }}
       animate={{ opacity: visible ? 1 : 0, scale: visible ? 1 : 0.0 }}
