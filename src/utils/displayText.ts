@@ -19,6 +19,7 @@ export const displayHeaderTexts = (selectedLanguage: SupportedLanguages) => {
     settings: HEADER_TEXT_DATA.settings[selectedLanguage],
     whatToDo: HEADER_TEXT_DATA.what_to_do[selectedLanguage],
     podcastCollection: HEADER_TEXT_DATA.podcast_collection[selectedLanguage],
+    bookmarkCollection: HEADER_TEXT_DATA.bookmark_collection[selectedLanguage],
   };
 };
 export const displayAlertTexts = (selectedLanguage: SupportedLanguages) => {

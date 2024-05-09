@@ -3,9 +3,6 @@ import { AnswerProps, MasteryLevelProps, QuestionProps } from "../../../../app/A
 import { EntityProps } from "@leanscope/ecs-engine";
 import tw from "twin.macro";
 import { Tags } from "@leanscope/ecs-models";
-import { useContext } from "react";
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { Stories } from "../../../../base/enums";
 import { useSelectedSchoolSubjectColor } from "../../hooks/useSelectedSchoolSubjectColor";
 
 const StyledFlashcardCellWrapper = styled.div<{
@@ -39,14 +36,10 @@ const StyledProgressBar = styled.div<{
 `;
 
 const FlashcardCell = (props: QuestionProps & AnswerProps & EntityProps & MasteryLevelProps) => {
-  const lsc = useContext(LeanScopeClientContext);
   const { question, answer, entity, masteryLevel = 0 } = props;
   const { backgroundColor } = useSelectedSchoolSubjectColor();
 
-  const openFlashcard = () => {
-    lsc.stories.transitTo(Stories.EDITING_FLASHCARD_STORY);
-    entity.add(Tags.SELECTED);
-  };
+  const openFlashcard = () => entity.add(Tags.SELECTED);
 
   return (
     <StyledFlashcardCellWrapper onClick={openFlashcard} backgroundColor={backgroundColor}>
@@ -56,7 +49,7 @@ const FlashcardCell = (props: QuestionProps & AnswerProps & EntityProps & Master
         <StyledAnswerText>{answer}</StyledAnswerText>
       </StyledTextWrapper>
       <StyledProgressBarWrapper>
-        <StyledProgressBar width={((masteryLevel ?  masteryLevel  : 0) / 5) * 100 + 2 + "%"} />
+        <StyledProgressBar width={((masteryLevel ? masteryLevel : 0) / 5) * 100 + 2 + "%"} />
       </StyledProgressBarWrapper>
     </StyledFlashcardCellWrapper>
   );

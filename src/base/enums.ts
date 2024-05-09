@@ -13,6 +13,7 @@ export enum Stories {
   OBSERVING_BOOKMARKED_FLASHCARD_GROUP_QUIZ_STORY = "observingBookmarkedFlashcardGroupQuizStory",
   OBSERVING_EXAMS_STORY = "observingExamsStory",
   OBSERVING_PODCAST_STORY = "observingPodcastStory",
+  OBSERVING_BOOKMARK_COLLECTION_STORY = "observingBookmarkCollectionStory",
 
   ADDING_FLASHCARD_SET_STORY = "addFlashcardSetStory",
   ADDING_TOPIC_STORY = "addTopicStory",

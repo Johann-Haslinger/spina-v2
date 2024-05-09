@@ -127,18 +127,21 @@ export const dummyFlashcardSets = [
     flashcardSetName: "Addition",
     date_added: new Date().toISOString(),
     bookmarked: false,
+    parentId: "1",
   },
   {
     id: "2",
     flashcardSetName: "Subtraction",
     date_added: new Date().toISOString(),
     bookmarked: false,
+    parentId: "1",
   },
   {
     id: "3",
     flashcardSetName: "Multiplication",
     date_added: new Date().toISOString(),
     bookmarked: true,
+    parentId: "1",
   },
 ];
 
@@ -239,51 +242,61 @@ export const dummyPodcasts = [
     title: "Podcast 1",
     id: "1",
     createdAt: new Date().toISOString(),
+     parentId: "1",
   },
   {
     title: "Podcast 2",
     id: "2",
     createdAt: new Date().toISOString(),
+    parentId: "1",
   },
   {
     title: "Podcast 3",
     id: "3",
     createdAt: new Date().toISOString(),
+    parentId: "1",
   },
   {
     title: "Podcast 4",
     id: "4",
     createdAt: new Date().toISOString(),
+    parentId: "1",
   },
   {
     title: "Podcast 5",
     id: "5",
     createdAt: new Date().toISOString(),
+    parentId: "1",
   },
   {
     title: "Podcast 6",
     id: "6",
     createdAt: new Date().toISOString(),
+    parentId: "1",
   },
   {
     title: "Podcast 7",
     id: "7",
     createdAt: new Date().toISOString(),
+    parentId: "1",
   },
   {
     title: "Podcast 8",
     id: "8",
     createdAt: new Date().toISOString(),
+    parentId: "1",
   },
   {
     title: "Podcast 9",
     id: "9",
     createdAt: new Date().toISOString(),
+    parentId: "1",
   },
   {
     title: "Podcast 10",
     id: "10",
     createdAt: new Date().toISOString(),
+    parentId: "1",
   },
 ];
 

@@ -24,10 +24,10 @@ const Sheet = (props: PropsWithChildren & SheetProps) => {
     return () => {
       document.removeEventListener("click", handleClickOutside, true);
     };
-  }, [navigateBack]);
+  }, [navigateBack, sheetRef.current]);
 
   const handleClickOutside = (e: MouseEvent) => {
-    if (sheetRef.current && navigateBack && !sheetRef.current.contains(e.target as Node)) {
+    if (sheetRef.current && !sheetRef.current.contains(e.target as Node)) {
       navigateBack();
     }
   };

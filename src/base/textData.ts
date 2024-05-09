@@ -35,7 +35,13 @@ export const HEADER_TEXT_DATA = {
     de: "Podcasts",
     en: "Podcasts",
   },
+  bookmark_collection: {
+    de: "Markierungen",
+    en: "Bookmarks",
+  },
+  
 };
+
 export const ALERT_TEXT_DATA = {
   no_content_added_title: {
     de: "Kein Inhalt hinzugefügt",
@@ -151,7 +157,7 @@ export const ACTION_TEXT_DATA = {
     en: "Generate text",
   },
   unbookmark: {
-    de: "Markierung entfernen",
+    de: "Markierung lösen",
     en: "Remove bookmark",
   },
   bookmark: {

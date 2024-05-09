@@ -11,7 +11,12 @@ import { Settings } from "./features/settings";
 import { formatNavLinkAsPath } from "./utils/formatNavLinkAsPath";
 import InitializeUserSystem from "./systems/InitializeUserSystem";
 import { useSession } from "./hooks/useSession";
-import { Fragment } from "react/jsx-runtime";
+import styled from "@emotion/styled";
+import tw from "twin.macro";
+
+const StyledContentWrapper = styled.div`
+${tw`w-screen h-screen bg-primary dark:bg-primaryDark`}
+`
 
 function App() {
   const { session } = useSession();
@@ -19,7 +24,7 @@ function App() {
   return !session ? (
     <AuthUI />
   ) : (
-    <Fragment>
+    <StyledContentWrapper>
       <InitializeUserSystem />
       <InitializeStoriesSystem initialStory={Stories.OBSERVING_COLLECTION_STORY} />
       <InitializeAppSystem />
@@ -39,7 +44,7 @@ function App() {
         <Sidebar />
         <Settings />
       </BrowserRouter>
-    </Fragment>
+    </StyledContentWrapper>
   );
 }
 2;

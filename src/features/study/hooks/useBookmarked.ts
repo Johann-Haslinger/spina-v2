@@ -18,10 +18,26 @@ const changeSubtopicBookmarkedStatus = async (status: boolean, id: string) => {
   }
 };
 
+const changeFlashcardBookmarkedStatus = async (status: boolean, id: string) => {
+  const { error } = await supabaseClient.from("flashCards").update({ bookmarked: status }).eq("id", id);
+  if (error) {
+    console.error("Error updating flashcards:", error);
+  }
+};
+
+const changeNoteBookmarkedStatus = async (status: boolean, id: string) => {
+  const { error } = await supabaseClient.from("notes").update({ bookmarked: status }).eq("id", id);
+  if (error) {
+    console.error("Error updating notes:", error);
+  }
+};
+
 export const useBookmarked = (entity: Entity) => {
   const [isBookmarked] = useEntityHasTags(entity, AdditionalTags.BOOKMARKED);
   const [isFlashcardSet] = useEntityHasTags(entity, DataTypes.FLASHCARD_SET);
   const [isSubtopic] = useEntityHasTags(entity, DataTypes.SUBTOPIC);
+  const [isNote] = useEntityHasTags(entity, DataTypes.NOTE);
+  const [isFlashcard] = useEntityHasTags(entity, DataTypes.FLASHCARD);
   const id = entity.get(IdentifierFacet)?.props.guid;
 
   const toggleBookmark = async () => {
@@ -32,6 +48,10 @@ export const useBookmarked = (entity: Entity) => {
           await changeFlashcardSetBookmarkedStatus(false, id);
         } else if (isSubtopic) {
           await changeSubtopicBookmarkedStatus(false, id);
+        } else if (isFlashcard) {
+          await changeFlashcardBookmarkedStatus(false, id);
+        } else if (isNote) {
+          await changeNoteBookmarkedStatus(false, id);
         }
       } else {
         entity.addTag(AdditionalTags.BOOKMARKED);
@@ -39,6 +59,10 @@ export const useBookmarked = (entity: Entity) => {
           await changeFlashcardSetBookmarkedStatus(true, id);
         } else if (isSubtopic) {
           await changeSubtopicBookmarkedStatus(true, id);
+        } else if (isFlashcard) {
+          await changeFlashcardBookmarkedStatus(true, id);
+        } else if (isNote) {
+          await changeNoteBookmarkedStatus(true, id);
         }
       }
     }

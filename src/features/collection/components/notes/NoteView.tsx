@@ -19,6 +19,8 @@ import LoadNoteTextSystem from "../../systems/LoadNoteTextSystem";
 import supabaseClient from "../../../../lib/supabase";
 import {
   IoAlbumsOutline,
+  IoBookmark,
+  IoBookmarkOutline,
   IoColorWandOutline,
   IoEllipsisHorizontalCircleOutline,
   IoHeadsetOutline,
@@ -35,6 +37,7 @@ import { isChildOfQuery, dataTypeQuery } from "../../../../utils/queries";
 import PodcastRow from "../podcasts/PodcastRow";
 import GeneratePodcastSheet from "../generation/GeneratePodcastSheet";
 import LoadNotePodcastsSystem from "../../systems/LoadNotePodcastsSystem";
+import { useBookmarked } from "../../../study/hooks/useBookmarked";
 
 const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -42,6 +45,7 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
   const { selectedTopicTitle } = useSelectedTopic();
   const { selectedLanguage } = useSelectedLanguage();
   const isVisible = useIsViewVisible(entity);
+  const { isBookmarked, toggleBookmark } = useBookmarked(entity);
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
   const openDeleteAlert = () => lsc.stories.transitTo(Stories.DELETING_NOTE_STORY);
@@ -94,6 +98,11 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
           <NavBarButton
             content={
               <Fragment>
+                <ActionRow first icon={isBookmarked ? <IoBookmark /> : <IoBookmarkOutline />} onClick={toggleBookmark}>
+                  {isBookmarked
+                    ? displayActionTexts(selectedLanguage).unbookmark
+                    : displayActionTexts(selectedLanguage).bookmark}
+                </ActionRow>
                 <ActionRow first last destructive onClick={openDeleteAlert} icon={<IoTrashOutline />}>
                   {displayActionTexts(selectedLanguage).delete}
                 </ActionRow>

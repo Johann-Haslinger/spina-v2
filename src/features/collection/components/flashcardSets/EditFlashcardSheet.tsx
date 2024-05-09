@@ -21,13 +21,14 @@ import { EntityProps } from "@leanscope/ecs-engine";
 import { AdditionalTags } from "../../../../base/enums";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import { displayButtonTexts } from "../../../../utils/displayText";
+import { displayActionTexts, displayButtonTexts } from "../../../../utils/displayText";
 import supabaseClient from "../../../../lib/supabase";
 import { IdentifierProps } from "@leanscope/ecs-models";
-import { IoTrashOutline } from "react-icons/io5";
+import { IoBookmark, IoBookmarkOutline, IoTrashOutline } from "react-icons/io5";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import styled from "@emotion/styled";
 import tw from "twin.macro";
+import { useBookmarked } from "../../../study/hooks/useBookmarked";
 
 const StyledMasteryLevelText = styled.div`
   ${tw`lg:pl-10 px-4 dark:text-primaryTextDark`}
@@ -40,6 +41,7 @@ const EditFlashcardSheet = (props: QuestionProps & AnswerProps & MasteryLevelPro
   const { selectedLanguage } = useSelectedLanguage();
   const [questionValue, setQuestionValue] = useState(question);
   const [answerValue, setAnswerValue] = useState(answer);
+  const { isBookmarked, toggleBookmark } = useBookmarked(entity);
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
 
@@ -103,6 +105,20 @@ const EditFlashcardSheet = (props: QuestionProps & AnswerProps & MasteryLevelPro
         </SectionRow>
       </Section>
       <Spacer size={2} />
+      <Section>
+        <SectionRow
+          last
+          role="button"
+          icon={isBookmarked ? <IoBookmark /> : <IoBookmarkOutline />}
+          onClick={toggleBookmark}
+        >
+          {isBookmarked
+            ? displayActionTexts(selectedLanguage).unbookmark
+            : displayActionTexts(selectedLanguage).bookmark}
+        </SectionRow>
+      </Section>
+      <Spacer size={2} />
+
       <Section>
         <SectionRow role="destructive" last icon={<IoTrashOutline />} onClick={deleteFlashcard}>
           {displayButtonTexts(selectedLanguage).delete}
