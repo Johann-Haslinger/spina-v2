@@ -40,6 +40,7 @@ export enum Stories {
   GENERATING_FLASHCARDS_STORY = "generateFlashcardsStory",
   GENERATING_PODCAST_STORY = "generatePodcastStory",
   GENERATING_TEXT_FROM_FLASHCARDS_STORY = "generateTextFromFlashcardsStory",
+  GENERATING_PODCAST_FROM_FLASHCARDS_STORY = "generatePodcastFromFlashcardsStory",
 
   
 }

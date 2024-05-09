@@ -50,7 +50,7 @@ import EditFlashcardSheet from "../flashcardSets/EditFlashcardSheet";
 import supabaseClient from "../../../../lib/supabase";
 import AddFlashcardsSheet from "../flashcardSets/AddFlashcardsSheet";
 import FlashcardQuizView from "../../../study/components/FlashcardQuizView";
-import GeneratingPodcastSheet from "../generation/GeneratingPodcastSheet";
+import GeneratePodcastSheet from "../generation/GeneratePodcastSheet";
 import GenerateImprovedTextSheet from "../generation/GenerateImprovedTextSheet";
 import PodcastRow from "../podcasts/PodcastRow";
 import { useBookmarked } from "../../../study/hooks/useBookmarked";
@@ -201,7 +201,7 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
       <DeleteSubtopicAlert />
       <AddFlashcardsSheet />
       <FlashcardQuizView />
-      <GeneratingPodcastSheet />
+      <GeneratePodcastSheet />
       <GenerateImprovedTextSheet />
     </Fragment>
   );

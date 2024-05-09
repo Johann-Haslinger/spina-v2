@@ -27,12 +27,10 @@ const GenerateImprovedTextSheet = () => {
       const textToImprove = selectedNoteText || selectedSubtopicText || "";
 
       if (textToImprove === "") return;
-      setTimeout(async () => {
-        const imporvedText = await generateImprovedText(textToImprove);
+      const imporvedText = await generateImprovedText(textToImprove);
 
-        setGeneratedText(imporvedText);
-        setIsGenerating(false);
-      }, 600);
+      setGeneratedText(imporvedText);
+      setIsGenerating(false);
     };
 
     if (isVisible && generatedText === "") {

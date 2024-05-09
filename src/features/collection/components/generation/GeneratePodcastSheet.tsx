@@ -4,7 +4,7 @@ import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { DataTypes, Stories } from "../../../../base/enums";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useSelectedSubtopic } from "../../hooks/useSelectedSubtopic";
-import { Entity } from "@leanscope/ecs-engine";
+import { Entity, useEntities } from "@leanscope/ecs-engine";
 import { v4 } from "uuid";
 import { useSelectedNote } from "../../hooks/useSelectedNote";
 import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
@@ -14,9 +14,13 @@ import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import styled from "@emotion/styled/macro";
 import tw from "twin.macro";
 import { IoCheckmarkCircle } from "react-icons/io5";
-import { DateAddedFacet, SourceFacet, TitleFacet } from "../../../../app/AdditionalFacets";
+import { AnswerFacet, DateAddedFacet, QuestionFacet, SourceFacet, TitleFacet } from "../../../../app/AdditionalFacets";
 import { useUserData } from "../../../../hooks/useUserData";
 import { getAudioFromText, getCompletion } from "../../../../utils/getCompletion";
+import { useIsAnyStoryCurrent } from "../../../../hooks/useIsAnyStoryCurrent";
+import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
+import { useSelectedFlashcardSet } from "../../hooks/useSelectedFlashcardSet";
+
 
 function base64toBlob(base64Data: string, contentType: string) {
   const byteCharacters = atob(base64Data);
@@ -32,21 +36,36 @@ const StyledDoneIconWrapper = styled.div`
   ${tw`flex mt-40 lg:mt-48 text-[#00965F] items-center justify-center lg:text-[12rem] text-9xl`}
 `;
 
-const GeneratingPodcastSheet = () => {
+const GeneratePodcastSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.GENERATING_PODCAST_STORY);
+  const isVisible = useIsAnyStoryCurrent([
+    Stories.GENERATING_PODCAST_STORY,
+    Stories.GENERATING_PODCAST_FROM_FLASHCARDS_STORY,
+  ]);
+  const generatePodcastFromFlashcards = useIsStoryCurrent(Stories.GENERATING_PODCAST_FROM_FLASHCARDS_STORY);
   const { selectedSubtopicText, selectedSubtopicId, selectedSubtopicTitle } = useSelectedSubtopic();
   const { selectedNoteText, selectedNoteId, selectedNoteTitle } = useSelectedNote();
+  const { selectedFlashcardSetEntity, selectedFlashcardSetId, selectedFlashcardSetTitle } = useSelectedFlashcardSet();
   const [isGenerating, setIsGenerating] = useState(false);
   const { selectedLanguage } = useSelectedLanguage();
   const { userId } = useUserData();
+  const [flashcardEntities] = useEntities((e) => dataTypeQuery(e, DataTypes.FLASHCARD));
 
   useEffect(() => {
     const handleGeneratePodcast = async () => {
       setIsGenerating(true);
 
-      const text = selectedNoteText || selectedSubtopicText;
-      const title = selectedNoteTitle || selectedSubtopicTitle || "";
+      const text = generatePodcastFromFlashcards
+        ? flashcardEntities
+            .filter((e) => isChildOfQuery(e, selectedFlashcardSetEntity))
+            .map((entity) => {
+              const question = entity.get(QuestionFacet)?.props.question;
+              const answer = entity.get(AnswerFacet)?.props.answer;
+              return `${question} ${answer}` + "\n";
+            })
+            .join(" ")
+        : selectedNoteText || selectedSubtopicText;
+      const title = selectedFlashcardSetTitle || selectedNoteTitle || selectedSubtopicTitle || "";
 
       const generatinPodcastTranscriptPrompt = `
       Erstelle bitte einen Podcast, der auf dem folgenden Text basiert, um die Inhalte des Textes zu lernen:
@@ -59,7 +78,7 @@ const GeneratingPodcastSheet = () => {
 
       if (audioBase64) {
         const newPodcastId = v4();
-        const parentId = selectedNoteId || selectedSubtopicId;
+        const parentId = selectedFlashcardSetId || selectedNoteId || selectedSubtopicId;
 
         const audioBlob = base64toBlob(audioBase64, "audio/mpeg");
         const audioUrl = URL.createObjectURL(audioBlob).toString();
@@ -74,8 +93,6 @@ const GeneratingPodcastSheet = () => {
           newPodcastEntity.add(new ParentFacet({ parentId: parentId }));
           newPodcastEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
           newPodcastEntity.add(DataTypes.PODCAST);
-
-
 
           const { error } = await supabaseClient
             .from("podcasts")
@@ -115,4 +132,4 @@ const GeneratingPodcastSheet = () => {
   );
 };
 
-export default GeneratingPodcastSheet;
+export default GeneratePodcastSheet;

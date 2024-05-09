@@ -75,7 +75,7 @@ const AddFlashcardSetSheet = () => {
     <Sheet visible={isVisible} navigateBack={navigateBack}>
       <FlexBox>
         <CancelButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</CancelButton>
-        {newFlashcardSet.title && (!inCollectionVisible || newFlashcardSet.parent) && (
+        {newFlashcardSet.title && (inCollectionVisible || newFlashcardSet.parent) && (
           <SaveButton onClick={addFlashcardSet}>{displayButtonTexts(selectedLanguage).save}</SaveButton>
         )}
       </FlexBox>

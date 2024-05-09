@@ -33,7 +33,7 @@ import GenerateFlashcardsSheet from "../generation/GenerateFlashcardsSheet";
 import GenerateImprovedTextSheet from "../generation/GenerateImprovedTextSheet";
 import { isChildOfQuery, dataTypeQuery } from "../../../../utils/queries";
 import PodcastRow from "../podcasts/PodcastRow";
-import GeneratingPodcastSheet from "../generation/GeneratingPodcastSheet";
+import GeneratePodcastSheet from "../generation/GeneratePodcastSheet";
 import LoadNotePodcastsSystem from "../../systems/LoadNotePodcastsSystem";
 
 const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps) => {
@@ -121,7 +121,7 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
       <DeleteNoteAlert />
       <GenerateFlashcardsSheet />
       <GenerateImprovedTextSheet />
-      <GeneratingPodcastSheet />
+      <GeneratePodcastSheet />
     </Fragment>
   );
 };

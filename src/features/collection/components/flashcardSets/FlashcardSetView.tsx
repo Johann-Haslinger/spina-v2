@@ -10,7 +10,7 @@ import {
   Title,
   View,
 } from "../../../../components";
-import { AnswerFacet, MasteryLevelFacet, QuestionFacet, TitleProps } from "../../../../app/AdditionalFacets";
+import { AnswerFacet, DateAddedFacet, MasteryLevelFacet, QuestionFacet, TitleFacet, TitleProps } from "../../../../app/AdditionalFacets";
 import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
 import { IdentifierFacet, IdentifierProps, Tags } from "@leanscope/ecs-models";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
@@ -42,6 +42,10 @@ import AddFlashcardsSheet from "./AddFlashcardsSheet";
 import { useEntityHasChildren } from "../../hooks/useEntityHasChildren";
 import FlashcardQuizView from "../../../study/components/FlashcardQuizView";
 import { useBookmarked } from "../../../study/hooks/useBookmarked";
+import GenerateTextFromFlashcardsSheet from "../generation/GenerateTextFromFlashcardsSheet";
+import LoadFlashcardSetPodcastsSystem from "../../systems/LoadFlashcardSetPodcastsSystem";
+import GeneratePodcastSheet from "../generation/GeneratePodcastSheet";
+import PodcastRow from "../podcasts/PodcastRow";
 
 const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -65,6 +69,7 @@ const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => 
   return (
     <Fragment>
       <LoadFlashcardsSystem />
+      <LoadFlashcardSetPodcastsSystem />
 
       <View visible={isVisible}>
         <NavigationBar>
@@ -119,6 +124,12 @@ const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => 
 
         <BackButton navigateBack={navigateBack}>{selectedTopicTitle}</BackButton>
         <Title>{title}</Title>
+        <Spacer size={2} />
+        <EntityPropsMapper
+          query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.PODCAST)}
+          get={[[TitleFacet, DateAddedFacet], []]}
+          onMatch={PodcastRow}
+        />
         <Spacer />
         {!hasChildren && <NoContentAddedHint />}
         <CollectionGrid columnSize="large">
@@ -140,6 +151,8 @@ const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => 
       <DeleteFlashcardSetAlert />
       <AddFlashcardsSheet />
       <FlashcardQuizView />
+      <GenerateTextFromFlashcardsSheet />
+      <GeneratePodcastSheet />
     </Fragment>
   );
 };
