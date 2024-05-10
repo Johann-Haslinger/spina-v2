@@ -7,7 +7,6 @@ import {
   Title,
   View,
 } from "../../../../components";
-import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { DataTypes, Stories } from "../../../../base/enums";
 import { Fragment, useContext } from "react";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
@@ -20,10 +19,14 @@ import PodcastRow from "./PodcastRow";
 import { sortEntitiesByDateAdded } from "../../../../utils/sortEntitiesByTime";
 import { IoAdd } from "react-icons/io5";
 import LoadPodcastsSystem from "../../systems/LoadPodcastsSystem";
+import { useIsAnyStoryCurrent } from "../../../../hooks/useIsAnyStoryCurrent";
+import DeletePodcastAlert from "./DeletePodcastAlert";
 
 const PodcastCollectionView = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.OBSERVING_PODCASTS_COLLECTION);
+  const isVisible = useIsAnyStoryCurrent([
+    Stories.OBSERVING_PODCASTS_COLLECTION, Stories.DELETING_PODCAST_STORY,
+  ]);
   const { selectedLanguage } = useSelectedLanguage();
   const [podcastEntities] = useEntities((e) => dataTypeQuery(e, DataTypes.PODCAST));
 
@@ -51,6 +54,8 @@ const PodcastCollectionView = () => {
           onMatch={PodcastRow}
         />
       </View>
+
+      <DeletePodcastAlert />
     </Fragment>
   );
 };

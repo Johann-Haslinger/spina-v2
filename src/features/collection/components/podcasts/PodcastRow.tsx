@@ -9,6 +9,8 @@ import { IoBookmarkOutline, IoEllipsisHorizontal, IoHeadset, IoTrashOutline } fr
 import { ActionRow, ActionSheet, FlexBox } from "../../../../components";
 import { useSelectedSchoolSubjectColor } from "../../hooks/useSelectedSchoolSubjectColor";
 import { Fragment, useState } from "react";
+import { AdditionalTags } from "../../../../base/enums";
+import DeletePodcastAlert from "./DeletePodcastAlert";
 
 const StyledPodcastRowWrapper = styled.div`
   ${tw`hover:bg-tertiary cursor-pointer items-center flex space-x-4 rounded-lg transition-all  md:hover:dark:bg-seconderyDark p-2`}
@@ -39,6 +41,7 @@ const PodcastRow = (props: TitleProps & DateAddedProps & EntityProps) => {
   const [isActionMenuOpen, setIsActionMenuOpen] = useState(false);
 
   const openPodcast = () => entity.add(Tags.SELECTED);
+  const openDeleteAlert = () => entity.add(AdditionalTags.DELETE);
 
   return (
     <Fragment>
@@ -63,16 +66,18 @@ const PodcastRow = (props: TitleProps & DateAddedProps & EntityProps) => {
           <StyledPodcastActionsWrapper onClick={() => setIsActionMenuOpen(true)}>
             <IoEllipsisHorizontal />
             <ActionSheet direction="left" navigateBack={() => setIsActionMenuOpen(false)} visible={isActionMenuOpen}>
-              <ActionRow first icon={<IoBookmarkOutline/>}>
+              <ActionRow first icon={<IoBookmarkOutline />}>
                 {displayActionTexts(selectedLanguage).bookmark}
               </ActionRow>
-              <ActionRow last destructive icon={<IoTrashOutline/>}>
+              <ActionRow onClick={openDeleteAlert} last destructive icon={<IoTrashOutline />}>
                 {displayActionTexts(selectedLanguage).delete}
               </ActionRow>
             </ActionSheet>
           </StyledPodcastActionsWrapper>
         </FlexBox>
       </StyledPodcastRowWrapper>
+
+      <DeletePodcastAlert />
     </Fragment>
   );
 };

@@ -20,6 +20,8 @@ export const displayHeaderTexts = (selectedLanguage: SupportedLanguages) => {
     whatToDo: HEADER_TEXT_DATA.what_to_do[selectedLanguage],
     podcastCollection: HEADER_TEXT_DATA.podcast_collection[selectedLanguage],
     bookmarkCollection: HEADER_TEXT_DATA.bookmark_collection[selectedLanguage],
+    podcasts: HEADER_TEXT_DATA.podcasts[selectedLanguage],
+    flashcards: HEADER_TEXT_DATA.flashcards[selectedLanguage],
   };
 };
 export const displayAlertTexts = (selectedLanguage: SupportedLanguages) => {
@@ -63,6 +65,7 @@ export const displayActionTexts = (selectedLanguage: SupportedLanguages) => {
     generateText: ACTION_TEXT_DATA.generate_text[selectedLanguage],
     unbookmark: ACTION_TEXT_DATA.unbookmark[selectedLanguage],
     bookmark: ACTION_TEXT_DATA.bookmark[selectedLanguage],
+    generateLearnVideo: ACTION_TEXT_DATA.generate_learn_video[selectedLanguage],
   };
 };
 

@@ -4,16 +4,16 @@ import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntit
 
 export const useSelectedTheme = () => {
   const [appStateEntity] = useEntity((e) => e.has(AdditionalTags.APP_STATE_ENTITY));
-  const [darkTheme] = useEntityHasTags(appStateEntity, AdditionalTags.DARK_THEME);
+  const [darkTheme] = useEntityHasTags(appStateEntity, SupportedThemes.DARK);
   
   const changeTheme = (theme: SupportedThemes) => {
     if (theme === SupportedThemes.DARK) {
-      appStateEntity?.add(AdditionalTags.DARK_THEME);
-      appStateEntity?.remove(AdditionalTags.LIGHT_THEME);
+      appStateEntity?.add(SupportedThemes.DARK);
+      appStateEntity?.remove(SupportedThemes.LIGHT);
       localStorage.setItem("theme", SupportedThemes.DARK);
     } else {
-      appStateEntity?.add(AdditionalTags.LIGHT_THEME);
-      appStateEntity?.remove(AdditionalTags.DARK_THEME);
+      appStateEntity?.add(SupportedThemes.LIGHT);
+      appStateEntity?.remove(SupportedThemes.DARK);
       localStorage.setItem("theme", SupportedThemes.LIGHT);
     }
   };

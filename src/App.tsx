@@ -30,8 +30,9 @@ function App() {
       <InitializeAppSystem />
       <ViewManagerSystem />
       <InitializeSchoolSubjectsSystem />
-
+    
       <BrowserRouter>
+      <Sidebar />
         <Routes>
           <Route path="/" element={<Collection />} />
           <Route path={formatNavLinkAsPath(NavigationLinks.OVERVIEW)} element={<Overview />} />
@@ -41,7 +42,7 @@ function App() {
           <Route path={formatNavLinkAsPath(NavigationLinks.COLLECTION)} element={<Collection />} />
           <Route path={formatNavLinkAsPath(NavigationLinks.GROUPS)} element={<Groups />} />
         </Routes>
-        <Sidebar />
+     
         <Settings />
       </BrowserRouter>
     </StyledContentWrapper>

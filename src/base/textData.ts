@@ -39,6 +39,14 @@ export const HEADER_TEXT_DATA = {
     de: "Markierungen",
     en: "Bookmarks",
   },
+  podcasts: {
+    de: "Podcasts",
+    en: "Podcasts",
+  },
+  flashcards: {
+    de: "Karteikarten",
+    en: "Flashcards",
+  },
   
 };
 
@@ -163,6 +171,10 @@ export const ACTION_TEXT_DATA = {
   bookmark: {
     de: "Merken",
     en: "Set bookmark",
+  },
+  generate_learn_video: {
+    de: "Lernvideo generieren",
+    en: "Generate video",
   },
 };
 export const LABEL_TEXT_DATA = {

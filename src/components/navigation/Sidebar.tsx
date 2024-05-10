@@ -22,7 +22,7 @@ import { dataTypeQuery } from "../../utils/queries";
 import { Tags } from "@leanscope/ecs-models";
 
 const StyledSelectedPodcasrCellWrapper = styled.div<{ visible: boolean }>`
-  ${tw`flex mx-1 z-10 w-[226px] cursor-pointer  md:hover:bg-primary dark:hover:bg-tertiaryDark   absolute bottom-14 my-2 dark:text-white  overflow-hidden py-1 transition-all  rounded-xl space-x-4 items-center`}
+  ${tw`flex mx-1 w-[226px] cursor-pointer  md:hover:bg-primary dark:hover:bg-tertiaryDark   absolute bottom-14 my-2 dark:text-white  overflow-hidden py-1 transition-all  rounded-xl space-x-4 items-center`}
   ${({ visible }) => !visible && tw`hidden`}
 `;
 
@@ -149,12 +149,10 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
         initial={{
           bottom: 55,
           opacity: 0,
-          zIndex: 0,
         }}
         animate={{
           bottom: isSettingsQuickMenuVisible ? 65 : 55,
           opacity: isSettingsQuickMenuVisible ? 1 : 0,
-          zIndex: isSettingsQuickMenuVisible ? 20 : 0,
         }}
       >
         <StyledSettingsMenuWrapper>
@@ -293,6 +291,7 @@ const Sidebar = () => {
           height: isMobile ? "98%" : "96%",
           top: isMobile ? "1%" : "2%",
           left: isMobile ? "14px" : "1%",
+          zIndex: 20,
         }}
         initial={{
           width: 72,

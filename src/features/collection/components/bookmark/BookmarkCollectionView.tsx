@@ -16,7 +16,13 @@ import { displayHeaderTexts } from "../../../../utils/displayText";
 import { EntityPropsMapper, useEntities } from "@leanscope/ecs-engine";
 import InitializeBookmarkedResourcesSystem from "../../systems/InitializeBookmarkedResourcesSystem";
 import { TextFacet, IdentifierFacet, Tags } from "@leanscope/ecs-models";
-import { AnswerFacet, MasteryLevelFacet, QuestionFacet, TitleFacet } from "../../../../app/AdditionalFacets";
+import {
+  AnswerFacet,
+  DateAddedFacet,
+  MasteryLevelFacet,
+  QuestionFacet,
+  TitleFacet,
+} from "../../../../app/AdditionalFacets";
 import { dataTypeQuery } from "../../../../utils/queries";
 import { sortEntitiesByDateAdded } from "../../../../utils/sortEntitiesByTime";
 import FlashcardSetCell from "../flashcardSets/FlashcardSetCell";
@@ -29,12 +35,16 @@ import SubtopicCell from "../subtopics/SubtopicCell";
 import SubtopicView from "../subtopics/SubtopicView";
 import FlashcardCell from "../flashcardSets/FlashcardCell";
 import EditFlashcardSetSheet from "../flashcardSets/EditFlashcardSetSheet";
+import PodcastRow from "../podcasts/PodcastRow";
+import DeletePodcastAlert from "../podcasts/DeletePodcastAlert";
 
 const BookmarkCollectionView = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Stories.OBSERVING_BOOKMARK_COLLECTION_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const [bookmarkedEntities] = useEntities((e) => e.has(AdditionalTags.BOOKMARKED));
+  const [bookmarkedPodcasts] = useEntities((e) => e.has(AdditionalTags.BOOKMARKED) && dataTypeQuery(e, DataTypes.PODCAST));
+  const [bookmarkedFlashcards] = useEntities((e) => e.has(AdditionalTags.BOOKMARKED) && dataTypeQuery(e, DataTypes.FLASHCARD));
 
   const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_COLLECTION_STORY);
 
@@ -85,6 +95,8 @@ const BookmarkCollectionView = () => {
           />
         </CollectionGrid>
 
+        <Spacer size={8} />
+        {bookmarkedFlashcards.length > 0 && <Title size="small">{displayHeaderTexts(selectedLanguage).flashcards}</Title>}
         <Spacer />
         <CollectionGrid columnSize="large">
           <EntityPropsMapper
@@ -93,6 +105,13 @@ const BookmarkCollectionView = () => {
             onMatch={FlashcardCell}
           />
         </CollectionGrid>
+        <Spacer size={8} />  
+        {bookmarkedPodcasts.length > 0 && <Title size="small" >{displayHeaderTexts(selectedLanguage).podcasts}</Title>} 
+        <EntityPropsMapper
+          query={(e) => dataTypeQuery(e, DataTypes.PODCAST) && e.has(AdditionalTags.BOOKMARKED)}
+          get={[[TitleFacet, DateAddedFacet], []]}
+          onMatch={PodcastRow}
+        />
       </View>
 
       <EntityPropsMapper
@@ -120,6 +139,8 @@ const BookmarkCollectionView = () => {
         get={[[AnswerFacet, QuestionFacet, MasteryLevelFacet, IdentifierFacet], []]}
         onMatch={EditFlashcardSetSheet}
       />
+
+      <DeletePodcastAlert />
     </Fragment>
   );
 };

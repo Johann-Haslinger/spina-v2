@@ -51,13 +51,16 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
             onMatch={TopicCell}
           />
         </CollectionGrid>
-        <AddTopicSheet />
       </View>
+
       <EntityPropsMapper
         query={(e) => dataTypeQuery(e, DataTypes.TOPIC) && e.hasTag(Tags.SELECTED)}
         get={[[TitleFacet, DescriptionFacet], []]}
         onMatch={TopicView}
       />
+
+      <AddTopicSheet />
+      
     </Fragment>
   );
 };

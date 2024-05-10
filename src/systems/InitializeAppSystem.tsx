@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { Entity } from "@leanscope/ecs-engine";
-import { AdditionalTags, SupportedLanguages } from "../base/enums";
+import { AdditionalTags, SupportedLanguages, SupportedThemes } from "../base/enums";
 import { SelectedLanguageFacet as SelectedLanguageFacet } from "../app/AdditionalFacets";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 
@@ -12,7 +12,7 @@ const InitializeAppSystem = (props: { mockupData?: boolean }) => {
     const appStateEntity = new Entity();
     lsc.engine.addEntity(appStateEntity);
     appStateEntity.add(AdditionalTags.APP_STATE_ENTITY);
-    appStateEntity.add(AdditionalTags.LIGHT_THEME);
+    appStateEntity.add(SupportedThemes.LIGHT);
     if (mockupData) {
       appStateEntity.add(AdditionalTags.MOCKUP_DATA);
     }
@@ -20,10 +20,10 @@ const InitializeAppSystem = (props: { mockupData?: boolean }) => {
     const storedTheme = localStorage.getItem("theme");
 
     if (storedTheme) {
-      appStateEntity.add(storedTheme === "dark" ? AdditionalTags.DARK_THEME : AdditionalTags.LIGHT_THEME);
+      appStateEntity.add(storedTheme === "dark" ? SupportedThemes.DARK : SupportedThemes.LIGHT);
     } else {
-      localStorage.setItem("theme", AdditionalTags.LIGHT_THEME);
-      appStateEntity.add(AdditionalTags.LIGHT_THEME);
+      localStorage.setItem("theme", SupportedThemes.LIGHT);
+      appStateEntity.add(SupportedThemes.LIGHT);
     }
 
     const storedLanguage = localStorage.getItem("language");
@@ -31,12 +31,9 @@ const InitializeAppSystem = (props: { mockupData?: boolean }) => {
     if (storedLanguage) {
       appStateEntity.add(
         new SelectedLanguageFacet({
-          selectedLanguage: storedLanguage == "de" ? SupportedLanguages.DE : SupportedLanguages.EN,
+          selectedLanguage: storedLanguage == "en" ? SupportedLanguages.EN : SupportedLanguages.DE,
         })
       );
-    } else {
-      localStorage.setItem("language", SupportedLanguages.EN);
-      appStateEntity.add(new SelectedLanguageFacet({ selectedLanguage: SupportedLanguages.EN }));
     }
 
     return () => {

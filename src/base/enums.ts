@@ -36,29 +36,32 @@ export enum Stories {
   DELETING_NOTE_STORY = "deleteNoteStory",
   DELETING_SUBTOPIC_STORY = "deleteSubtopicStory",
   DELETING_EXAM_STORY = "deleteExamStory",
-
+  
   GENERATING_IMPROVED_TEXT_STORY = "generateImprovedFlashcardsStory",
   GENERATING_FLASHCARDS_STORY = "generateFlashcardsStory",
   GENERATING_PODCAST_STORY = "generatePodcastStory",
   GENERATING_TEXT_FROM_FLASHCARDS_STORY = "generateTextFromFlashcardsStory",
   GENERATING_PODCAST_FROM_FLASHCARDS_STORY = "generatePodcastFromFlashcardsStory",
+  GENERATING_LEARN_VIDEO_STORY = "generateLearnVideoStory",
+
 
   
 }
 
 export enum AdditionalTags {
-  MOCKUP_DATA = "mockupData",
-  NAVIGATE_BACK = "navigateBack",
-  APP_STATE_ENTITY = "appStateEntity",
-  SIDEBAR_VISIBLE = "sidebarVisible",
-  SETTING_VISIBLE = "settingVisible",
-  LIGHT_THEME = "lightMode",
-  DARK_THEME = "darkMode",
-  ANSWERD_RIGHT = "answeredRight",
-  ANSWERD_WRONG = "answeredWrong",
-  PLAYING = "playing",
-  PAUSED = "paused",
-  BOOKMARKED = "bookmarked",
+  MOCKUP_DATA,
+  NAVIGATE_BACK,
+  APP_STATE_ENTITY,
+  SIDEBAR_VISIBLE,
+  SETTING_VISIBLE,
+  LIGHT_THEME,
+  DARK_THEME,
+  ANSWERD_RIGHT,
+  ANSWERD_WRONG,
+  PLAYING,
+  PAUSED,
+  BOOKMARKED,
+  DELETE
 }
 
 export enum NavigationLinks {
