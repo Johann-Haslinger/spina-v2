@@ -19,14 +19,12 @@ import PodcastRow from "./PodcastRow";
 import { sortEntitiesByDateAdded } from "../../../../utils/sortEntitiesByTime";
 import { IoAdd } from "react-icons/io5";
 import LoadPodcastsSystem from "../../systems/LoadPodcastsSystem";
-import { useIsAnyStoryCurrent } from "../../../../hooks/useIsAnyStoryCurrent";
 import DeletePodcastAlert from "./DeletePodcastAlert";
+import { useIsStoryCurrent } from "@leanscope/storyboarding";
 
 const PodcastCollectionView = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsAnyStoryCurrent([
-    Stories.OBSERVING_PODCASTS_COLLECTION, Stories.DELETING_PODCAST_STORY,
-  ]);
+  const isVisible = useIsStoryCurrent(Stories.OBSERVING_PODCASTS_COLLECTION);
   const { selectedLanguage } = useSelectedLanguage();
   const [podcastEntities] = useEntities((e) => dataTypeQuery(e, DataTypes.PODCAST));
 
