@@ -24,7 +24,7 @@ const fetchHomeworksForTopic = async (topicId: string) => {
 };
 
 const LoadHomeworksSystem = () => {
-  const { mockupData } = useMockupData();
+  const { mockupData, shouldFetchFromSupabase } = useMockupData();
   const lsc = useContext(LeanScopeClientContext);
   const { selectedTopicId } = useSelectedTopic();
 
@@ -33,7 +33,7 @@ const LoadHomeworksSystem = () => {
       if (selectedTopicId) {
         const homeworks = mockupData
           ? dummyHomeworks
-          : await fetchHomeworksForTopic(selectedTopicId);
+          : shouldFetchFromSupabase ?  await fetchHomeworksForTopic(selectedTopicId) : []
 
         homeworks.forEach((homework) => {
           const isExisting = lsc.engine.entities.some(

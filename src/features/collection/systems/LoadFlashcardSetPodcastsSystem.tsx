@@ -7,27 +7,33 @@ import { DataTypes } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedFlashcardSet } from "../hooks/useSelectedFlashcardSet";
+import { dummyPodcasts } from "../../../base/dummy";
+
+const fetchPodcastForFlashcardSet = async (flashcardSetId: string) => {
+  const { data: podcasts, error } = await supabaseClient
+    .from("podcasts")
+    .select("title, id, createdAt")
+    .eq("parentId", flashcardSetId);
+
+  if (error) {
+    console.error("Error fetching FlashcardSet podcasts:", error);
+    return;
+  }
+
+  return podcasts;
+};
 
 const LoadFlashcardSetPodcastsSystem = () => {
   const lsc = useContext(LeanScopeClientContext);
   const { selectedFlashcardSetId } = useSelectedFlashcardSet();
-  const { mockupData } = useMockupData();
+  const { mockupData, shouldFetchFromSupabase } = useMockupData();
 
   useEffect(() => {
     const initializeFlashcardSetPodcast = async () => {
       if (selectedFlashcardSetId) {
-        const { data: podcast, error } = await supabaseClient
-          .from("podcasts")
-          .select("title, id, createdAt")
-          .eq("parentId", selectedFlashcardSetId)
-          .single();
-
-        if (error) {
-          console.error("Error fetching FlashcardSet podcast:", error);
-          return;
-        }
-
-        if (podcast) {
+        const podcasts = mockupData ? dummyPodcasts.slice(0, 1) : shouldFetchFromSupabase ? await fetchPodcastForFlashcardSet(selectedFlashcardSetId) : [];
+        
+        podcasts?.forEach((podcast) => {
           const isExisting = lsc.engine.entities.some(
             (e) => e.get(IdentifierFacet)?.props.guid === podcast.id && e.hasTag(DataTypes.PODCAST)
           );
@@ -41,7 +47,7 @@ const LoadFlashcardSetPodcastsSystem = () => {
             podcastEntity.add(new DateAddedFacet({ dateAdded: podcast.createdAt }));
             podcastEntity.addTag(DataTypes.PODCAST);
           }
-        }
+        });
       }
     };
 

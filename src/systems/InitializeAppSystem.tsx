@@ -15,6 +15,8 @@ const InitializeAppSystem = (props: { mockupData?: boolean }) => {
     appStateEntity.add(SupportedThemes.LIGHT);
     if (mockupData) {
       appStateEntity.add(AdditionalTags.MOCKUP_DATA);
+    }else {
+      appStateEntity.add(AdditionalTags.ONLINE);
     }
 
     const storedTheme = localStorage.getItem("theme");

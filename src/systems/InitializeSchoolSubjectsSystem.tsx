@@ -23,14 +23,14 @@ const fetchSchoolSubjects = async () => {
 };
 
 const InitializeSchoolSubjectsSystem = () => {
-  const { mockupData } = useMockupData();
+  const { mockupData, shouldFetchFromSupabase } = useMockupData();
   const lsc = useContext(LeanScopeClientContext);
 
   useEffect(() => {
     const initializeSchoolSubjectEntities = async () => {
       const schoolSubjects = mockupData
         ? dummySchoolSubjects
-        : await fetchSchoolSubjects();
+        : shouldFetchFromSupabase ?  await fetchSchoolSubjects() : [];
 
       schoolSubjects.forEach((schoolSubject, idx) => {
         const isExisting = lsc.engine.entities.some(

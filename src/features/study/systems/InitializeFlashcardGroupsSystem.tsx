@@ -40,12 +40,12 @@ const fetchSubtopics = async () => {
 };
 
 const InitializeFlashcardGroupsSystem = () => {
-  const { mockupData } = useMockupData();
+  const { mockupData, shouldFetchFromSupabase } = useMockupData();
   const lsc = useContext(LeanScopeClientContext);
 
   useEffect(() => {
     const initializeFlashcardSetEntities = async () => {
-      const flashcardSets = mockupData ? dummyFlashcardSets : await fetchFlashcardSets();
+      const flashcardSets = mockupData ? dummyFlashcardSets : shouldFetchFromSupabase ?  await fetchFlashcardSets() : []
 
       flashcardSets.forEach((flashcardSet) => {
         const isExisting = lsc.engine.entities.some(

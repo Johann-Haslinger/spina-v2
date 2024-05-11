@@ -28,7 +28,7 @@ const fetchFlashcardsForFlashcardGroup = async (parentId: string) => {
 };
 
 const LoadFlashcardsSystem = () => {
-  const { mockupData } = useMockupData();
+  const { mockupData, shouldFetchFromSupabase } = useMockupData();
   const lsc = useContext(LeanScopeClientContext);
   const [selectedFlashcardGroupEntity] = useEntity(
     (e) =>
@@ -42,7 +42,7 @@ const LoadFlashcardsSystem = () => {
       if (selectedFlashcardGroupId) {
         const flashcards = mockupData
           ? dummyFlashcards
-          : await fetchFlashcardsForFlashcardGroup(selectedFlashcardGroupId);
+          : shouldFetchFromSupabase ?  await fetchFlashcardsForFlashcardGroup(selectedFlashcardGroupId) : []
 
         flashcards.forEach((flashcard) => {
           const isExisting = lsc.engine.entities.some(

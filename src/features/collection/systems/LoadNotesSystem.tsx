@@ -27,7 +27,7 @@ const fetchNotesForTopic = async (topicId: string) => {
 };
 
 const LoadNotesSystem = () => {
-  const { mockupData } =useMockupData();
+  const { mockupData, shouldFetchFromSupabase } =useMockupData();
   const lsc = useContext(LeanScopeClientContext);
   const { selectedTopicId } = useSelectedTopic();
 
@@ -36,7 +36,7 @@ const LoadNotesSystem = () => {
       if (selectedTopicId) {
         const notes = mockupData
           ? dummyNotes
-          : await fetchNotesForTopic(selectedTopicId);
+          : shouldFetchFromSupabase ?  await fetchNotesForTopic(selectedTopicId) : []
 
         notes.forEach((note) => {
           const isExisting = lsc.engine.entities.some(

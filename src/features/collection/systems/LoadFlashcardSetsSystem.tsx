@@ -24,14 +24,14 @@ const fetchFlashcardSetsForTopic = async (topicId: string) => {
 };
 
 const LoadFlashcardSetsSystem = () => {
-  const { mockupData } = useMockupData();
+  const { mockupData, shouldFetchFromSupabase } = useMockupData();
   const lsc = useContext(LeanScopeClientContext);
   const { selectedTopicId } = useSelectedTopic();
 
   useEffect(() => {
     const initializeFlashcardSetEntities = async () => {
       if (selectedTopicId) {
-        const flashcardSets = mockupData ? dummyFlashcardSets : await fetchFlashcardSetsForTopic(selectedTopicId);
+        const flashcardSets = mockupData ? dummyFlashcardSets : shouldFetchFromSupabase ?  await fetchFlashcardSetsForTopic(selectedTopicId) : []
 
         flashcardSets.forEach((flashcardSet) => {
           const isExisting = lsc.engine.entities.some(

@@ -95,5 +95,6 @@ export const displayDataTypeTexts = (selectedLanguage: SupportedLanguages) => {
     flashcard: DATA_TYPE_TEXT_DATA.flashcard[selectedLanguage],
     subTopic: DATA_TYPE_TEXT_DATA.subtopic[selectedLanguage],
     podcast: DATA_TYPE_TEXT_DATA.podcast[selectedLanguage],
+    lernvideo: DATA_TYPE_TEXT_DATA.lernvideo[selectedLanguage],
   };
 };

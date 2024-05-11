@@ -256,4 +256,8 @@ export const DATA_TYPE_TEXT_DATA = {
     de: "Podcast",
     en: "Podcast",
   },
+  lernvideo: {
+    de: "Lernvideo",
+    en: "Lernvideo",
+  },
 };

@@ -61,7 +61,8 @@ export enum AdditionalTags {
   PLAYING,
   PAUSED,
   BOOKMARKED,
-  DELETE
+  DELETE,
+  ONLINE,
 }
 
 export enum NavigationLinks {
@@ -84,6 +85,7 @@ export enum DataTypes {
   FLASHCARD = "flashcard",
   SUBTOPIC = "subTopic",
   PODCAST = "podcast",
+  LERNVIDEO = "lernVideo",
 }
 
 export enum SupportedLanguages {

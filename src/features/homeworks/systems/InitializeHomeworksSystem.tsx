@@ -34,12 +34,12 @@ const fetchHomeworks = async () => {
 };
 
 const InitializeHomeworksSystem = () => {
-  const { mockupData } = useMockupData();
+  const { mockupData, shouldFetchFromSupabase } = useMockupData();
   const lsc = useContext(LeanScopeClientContext);
 
   useEffect(() => {
     const initializeHomeworkEntities = async () => {
-      const homeworks = mockupData ? dummyHomeworks : await fetchHomeworks();
+      const homeworks = mockupData ? dummyHomeworks : shouldFetchFromSupabase ?  await fetchHomeworks() : [];
 
       homeworks.forEach((homework) => {
         const isExisting = lsc.engine.entities.some(

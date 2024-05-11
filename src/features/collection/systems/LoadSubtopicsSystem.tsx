@@ -23,14 +23,18 @@ const fetchSubtopicsForSchoolSubject = async (subjectId: string) => {
 };
 
 const LoadSubtopicsSystem = () => {
-  const { mockupData } = useMockupData();
+  const { mockupData, shouldFetchFromSupabase } = useMockupData();
   const lsc = useContext(LeanScopeClientContext);
   const { selectedTopicId } = useSelectedTopic();
 
   useEffect(() => {
     const initializeSubtopicEntities = async () => {
       if (selectedTopicId) {
-        const Subtopics = mockupData ? dummySubtopics : await fetchSubtopicsForSchoolSubject(selectedTopicId);
+        const Subtopics = mockupData
+          ? dummySubtopics
+          : shouldFetchFromSupabase
+          ? await fetchSubtopicsForSchoolSubject(selectedTopicId)
+          : [];
 
         Subtopics.forEach((topic) => {
           const isExisting = lsc.engine.entities.some(
@@ -51,9 +55,7 @@ const LoadSubtopicsSystem = () => {
       }
     };
 
-    if (selectedTopicId) {
-      initializeSubtopicEntities();
-    }
+    initializeSubtopicEntities();
   }, [selectedTopicId, mockupData]);
 
   return null;

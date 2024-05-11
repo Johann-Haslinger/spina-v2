@@ -7,27 +7,37 @@ import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { TitleFacet, DateAddedFacet } from "../../../app/AdditionalFacets";
 import { DataTypes } from "../../../base/enums";
 import supabaseClient from "../../../lib/supabase";
+import { dummyPodcasts } from "../../../base/dummy";
+
+const fetchPodcastsForNote = async (noteId: string) => {
+  const { data: podcasts, error } = await supabaseClient
+    .from("podcasts")
+    .select("title, id, createdAt")
+    .eq("parentId", noteId);
+
+  if (error) {
+    console.error("Error fetching note podcasts:", error);
+    return;
+  }
+
+  return podcasts;
+};
 
 const LoadNotePodcastsSystem = () => {
   const lsc = useContext(LeanScopeClientContext);
   const { selectedNoteId } = useSelectedNote();
-  const { mockupData } = useMockupData();
+  const { mockupData, shouldFetchFromSupabase } = useMockupData();
 
   useEffect(() => {
     const initializeNotePodcast = async () => {
       if (selectedNoteId) {
-        const { data: podcast, error } = await supabaseClient
-          .from("podcasts")
-          .select("title, id, createdAt")
-          .eq("parentId", selectedNoteId)
-          .single();
+        const podcasts = mockupData
+          ? dummyPodcasts.slice(0, 1)
+          : shouldFetchFromSupabase
+          ? await fetchPodcastsForNote(selectedNoteId)
+          : [];
 
-        if (error) {
-          console.error("Error fetching note podcast:", error);
-          return;
-        }
-
-        if (podcast) {
+        podcasts?.forEach((podcast) => {
           const isExisting = lsc.engine.entities.some(
             (e) => e.get(IdentifierFacet)?.props.guid === podcast.id && e.hasTag(DataTypes.PODCAST)
           );
@@ -41,7 +51,7 @@ const LoadNotePodcastsSystem = () => {
             podcastEntity.add(new DateAddedFacet({ dateAdded: podcast.createdAt }));
             podcastEntity.addTag(DataTypes.PODCAST);
           }
-        }
+        });
       }
     };
 

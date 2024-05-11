@@ -83,11 +83,11 @@ const fetchBookmarkedNotes = async () => {
 const InitializeBookmarkedResourcesSystem = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isBookmarkCollectionVisible = useIsStoryCurrent(Stories.OBSERVING_BOOKMARK_COLLECTION_STORY);
-  const { mockupData } = useMockupData();
+  const { mockupData, shouldFetchFromSupabase } = useMockupData();
 
   useEffect(() => {
     const initializeBookmarkedFlashcards = async () => {
-      const flashcards = mockupData ? dummyFlashcards : await fetchBookmarkedFlashcards();
+      const flashcards = mockupData ? dummyFlashcards : shouldFetchFromSupabase?  await fetchBookmarkedFlashcards() : [];
       flashcards.forEach((flashcard) => {
         const isExisting = lsc.engine.entities.some(
           (e) => e.get(IdentifierFacet)?.props.guid === flashcard.id && e.hasTag(DataTypes.FLASHCARD)
@@ -107,7 +107,7 @@ const InitializeBookmarkedResourcesSystem = () => {
 
     };
     const initializeBookmarkedPodcasts = async () => {
-      const podcasts = mockupData ? dummyPodcasts : await fetchBookmarkedPodcasts();
+      const podcasts = mockupData ? dummyPodcasts : shouldFetchFromSupabase  ?  await fetchBookmarkedPodcasts() : [];
       podcasts.forEach((podcast) => {
         const isExisting = lsc.engine.entities.some(
           (e) => e.get(IdentifierFacet)?.props.guid === podcast.id && e.hasTag(DataTypes.PODCAST)
@@ -126,7 +126,7 @@ const InitializeBookmarkedResourcesSystem = () => {
       });
     };
     const initializeBookmarkedFlashcardSets = async () => {
-      const flashcardSets = mockupData ? dummyFlashcardSets : await fetchBookmarkedFlashcardSets();
+      const flashcardSets = mockupData ? dummyFlashcardSets : shouldFetchFromSupabase ?  await fetchBookmarkedFlashcardSets() : [];
       flashcardSets.forEach((flashcardSet) => {
         const isExisting = lsc.engine.entities.some(
           (e) => e.get(IdentifierFacet)?.props.guid === flashcardSet.id && e.hasTag(DataTypes.FLASHCARD_SET)
@@ -145,7 +145,7 @@ const InitializeBookmarkedResourcesSystem = () => {
       });
     };
     const initializeBookmarkedSubtopics = async () => {
-      const subtopics = mockupData ? dummySubtopics : await fetchBookmarkedSubtopics();
+      const subtopics = mockupData ? dummySubtopics : shouldFetchFromSupabase?  await fetchBookmarkedSubtopics() : [];
       subtopics.forEach((subtopic) => {
         const isExisting = lsc.engine.entities.some(
           (e) => e.get(IdentifierFacet)?.props.guid === subtopic.id && e.hasTag(DataTypes.SUBTOPIC)
@@ -164,7 +164,7 @@ const InitializeBookmarkedResourcesSystem = () => {
       });
     };
     const initializeBookmarkedNotes = async () => {
-      const notes = mockupData ? dummyNotes : await fetchBookmarkedNotes();
+      const notes = mockupData ? dummyNotes : shouldFetchFromSupabase ?  await fetchBookmarkedNotes() : [];
       notes.forEach((note) => {
         const isExisting = lsc.engine.entities.some(
           (e) => e.get(IdentifierFacet)?.props.guid === note.id && e.hasTag(DataTypes.NOTE)

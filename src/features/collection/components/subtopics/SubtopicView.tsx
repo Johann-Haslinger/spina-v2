@@ -39,7 +39,7 @@ import {
   IoPlayOutline,
   IoSparklesOutline,
   IoTrashOutline,
-  IoVideocam,
+  IoVideocamOutline,
 } from "react-icons/io5";
 import { displayActionTexts } from "../../../../utils/displayText";
 import EditSubtopicSheet from "./EditSubtopicSheet";
@@ -55,6 +55,9 @@ import GeneratePodcastSheet from "../generation/GeneratePodcastSheet";
 import GenerateImprovedTextSheet from "../generation/GenerateImprovedTextSheet";
 import PodcastRow from "../podcasts/PodcastRow";
 import { useBookmarked } from "../../../study/hooks/useBookmarked";
+import LernvideoView from "../lernVideos/LernvideoView";
+import LernvideoRow from "../lernVideos/LernvideoRow";
+
 
 enum SubtopicViewStates {
   NOTE,
@@ -107,7 +110,7 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
                 <ActionRow first icon={<IoHeadsetOutline />} onClick={openGeneratePodcastSheet}>
                   {displayActionTexts(selectedLanguage).generatePodcast}
                 </ActionRow>
-                <ActionRow icon={<IoVideocam/>}  onClick={openGenerateLernVideoSheet}>
+                <ActionRow icon={<IoVideocamOutline/>}  onClick={openGenerateLernVideoSheet}>
                   {displayActionTexts(selectedLanguage).generateLearnVideo}
                 </ActionRow>
                 <ActionRow onClick={openImproveTextSheet} last icon={<IoSparklesOutline />}>
@@ -176,6 +179,11 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
           get={[[TitleFacet, DateAddedFacet], []]}
           onMatch={PodcastRow}
         />
+        <EntityPropsMapper 
+          query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.LERNVIDEO)}
+          get={[[TitleFacet, DateAddedFacet], []]}
+          onMatch={LernvideoRow}
+        />
 
         <Spacer />
         {subtopicViewState == SubtopicViewStates.NOTE ? (
@@ -196,11 +204,11 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
         get={[[AnswerFacet, QuestionFacet, IdentifierFacet, MasteryLevelFacet], []]}
         onMatch={EditFlashcardSheet}
       />
-      {/* <EntityPropsMapper
-        query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.PODCAST)}
-        get={[[TitleFacet, DateAddedFacet, SourceFacet], []]}
-        onMatch={PodcastSheet}
-      /> */}
+   <EntityPropsMapper
+   query={(e) => e.hasTag(Tags.SELECTED) && dataTypeQuery(e, DataTypes.LERNVIDEO)}
+    get={[[TitleFacet, DateAddedFacet, IdentifierFacet], []]}
+    onMatch={LernvideoView}
+  />
 
       <EditSubtopicSheet />
       <DeleteSubtopicAlert />

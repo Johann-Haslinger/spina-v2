@@ -5,35 +5,29 @@ import supabaseClient from "../../../lib/supabase";
 import { useMockupData } from "../../../hooks/useMockupData";
 import { useSelectedNote } from "../hooks/useSelectedNote";
 
+const fetchNoteText = async (noteId: string) => {
+  const { data: noteTextData, error } = await supabaseClient.from("notes").select("text").eq("id", noteId).single();
+
+  if (error) {
+    console.error("error fetching note text", error);
+    return;
+  }
+  return noteTextData?.text;
+};
+
 const LoadNoteTextSystem = () => {
-  const { mockupData } = useMockupData();
+  const { mockupData, shouldFetchFromSupabase } = useMockupData();
   const { selectedNoteEntity, selectedNoteId } = useSelectedNote();
 
   useEffect(() => {
     const loadNoteText = async () => {
-      let noteText;
-      if (mockupData) {
-        noteText = dummyText;
-      } else {
-        const { data: noteTextData, error } = await supabaseClient
-          .from("notes")
-          .select("text")
-          .eq("id", selectedNoteId)
-          .single();
-
-        if (error) {
-          console.error("error fetching note text", error);
-          return;
-        }
-        noteText = noteTextData?.text;
+      if (selectedNoteId) {
+        const noteText = mockupData ? dummyText : shouldFetchFromSupabase && (await fetchNoteText(selectedNoteId));
+        selectedNoteEntity?.add(new TextFacet({ text: noteText }));
       }
-
-      selectedNoteEntity?.add(new TextFacet({ text: noteText }));
     };
 
-    if (selectedNoteEntity) {
-      loadNoteText();
-    }
+    loadNoteText();
   }, [selectedNoteEntity, mockupData]);
 
   return null;

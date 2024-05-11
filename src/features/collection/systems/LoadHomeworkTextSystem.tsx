@@ -26,7 +26,7 @@ const fetchHomeworkText = async (homeworkId: string) => {
 };
 
 const LoadHomeworkTextSystem = () => {
-  const { mockupData } = useMockupData();
+  const { mockupData, shouldFetchFromSupabase } = useMockupData();
  
   const [selectedHomework] = useEntity(
     (e) => e.hasTag(DataTypes.HOMEWORK) && e.hasTag(Tags.SELECTED)
@@ -38,7 +38,7 @@ const LoadHomeworkTextSystem = () => {
       if (selectedHomeworkId) {
         const homeworkText = mockupData
           ? dummyText
-          : await fetchHomeworkText(selectedHomeworkId);
+          :shouldFetchFromSupabase && await fetchHomeworkText(selectedHomeworkId);
 
         if (homeworkText) {
           selectedHomework?.add(new TextFacet({ text: homeworkText }));

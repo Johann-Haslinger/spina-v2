@@ -1,32 +1,32 @@
-import styled from "@emotion/styled/macro";
-import { DateAddedProps, TitleProps } from "../../../../app/AdditionalFacets";
+import styled from "@emotion/styled";
 import { EntityProps } from "@leanscope/ecs-engine";
 import { Tags } from "@leanscope/ecs-models";
-import tw from "twin.macro";
-import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import { displayActionTexts, displayAlertTexts, displayDataTypeTexts } from "../../../../utils/displayText";
-import { IoBookmarkOutline, IoEllipsisHorizontal, IoHeadset, IoTrashOutline } from "react-icons/io5";
-import { ActionRow, ActionSheet, FlexBox } from "../../../../components";
-import { useSelectedSchoolSubjectColor } from "../../hooks/useSelectedSchoolSubjectColor";
 import { Fragment, useState } from "react";
+import {  IoEllipsisHorizontal, IoBookmarkOutline, IoTrashOutline, IoVideocam } from "react-icons/io5";
+import tw from "twin.macro";
+import { TitleProps, DateAddedProps } from "../../../../app/AdditionalFacets";
 import { AdditionalTags } from "../../../../base/enums";
-import DeletePodcastAlert from "./DeletePodcastAlert";
+import { FlexBox, ActionSheet, ActionRow } from "../../../../components";
+import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
+import { displayAlertTexts, displayActionTexts, displayDataTypeTexts } from "../../../../utils/displayText";
+import { useSelectedSchoolSubjectColor } from "../../hooks/useSelectedSchoolSubjectColor";
+import DeleteLernvideoAlert from "./DeleteLernvideoAlert";
 
-const StyledPodcastRowWrapper = styled.div`
+const StyledLernvideoRowWrapper = styled.div`
   ${tw`hover:bg-tertiary cursor-pointer items-center flex space-x-4 rounded-lg transition-all  md:hover:dark:bg-seconderyDark p-2`}
 `;
 
-const StyledPodcastIcon = styled.div<{ color: string }>`
+const StyledLernvideoIcon = styled.div<{ color: string }>`
   ${tw` !size-10 rounded  text-white  flex items-center justify-center`}
   background-color: ${({ color }) => color};
 `;
-const StyledPodcastTitle = styled.p`
+const StyledLernvideoTitle = styled.p`
   ${tw`font-semibold line-clamp-1`}
 `;
-const StyledPodcastSubtitle = styled.p`
+const StyledLernvideoSubtitle = styled.p`
   ${tw`text-sm text-seconderyText dark:text-seconderyTextDark line-clamp-1`}
 `;
-const StyledPodcastActionsWrapper = styled.div`
+const StyledLernvideoActionsWrapper = styled.div`
   ${tw`flex space-y-2 justify-end  pr-2`}
 `;
 
@@ -34,37 +34,37 @@ const StyledLeftSideWrapper = styled.div`
   ${tw`flex space-x-2 w-full items-center`}
 `;
 
-const PodcastRow = (props: TitleProps & DateAddedProps & EntityProps) => {
+const LernvideoRow = (props: TitleProps & DateAddedProps & EntityProps) => {
   const { backgroundColor } = useSelectedSchoolSubjectColor();
   const { title, dateAdded, entity } = props;
   const { selectedLanguage } = useSelectedLanguage();
   const [isActionMenuOpen, setIsActionMenuOpen] = useState(false);
 
-  const openPodcast = () => entity.add(Tags.SELECTED);
+  const openLernvideo = () => entity.add(Tags.SELECTED);
   const openDeleteAlert = () => entity.add(AdditionalTags.DELETE);
 
   return (
     <Fragment>
-      <StyledPodcastRowWrapper>
+      <StyledLernvideoRowWrapper>
         <FlexBox>
-          <StyledLeftSideWrapper onClick={openPodcast}>
-            <StyledPodcastIcon color={backgroundColor || "blue"}>
-              <IoHeadset />
-            </StyledPodcastIcon>
+          <StyledLeftSideWrapper onClick={openLernvideo}>
+            <StyledLernvideoIcon color={backgroundColor || "blue"}>
+              <IoVideocam />
+            </StyledLernvideoIcon>
 
             <div>
-              <StyledPodcastTitle>{title || displayAlertTexts(selectedLanguage).noTitle}</StyledPodcastTitle>
-              <StyledPodcastSubtitle>
-                {displayDataTypeTexts(selectedLanguage).podcast}{", "}
+              <StyledLernvideoTitle>{title || displayAlertTexts(selectedLanguage).noTitle}</StyledLernvideoTitle>
+              <StyledLernvideoSubtitle>
+              {displayDataTypeTexts(selectedLanguage).lernvideo}{", "}
                 {new Date(dateAdded).toLocaleDateString("de", {
                   year: "numeric",
                   month: "long",
                   day: "numeric",
                 })}
-              </StyledPodcastSubtitle>
+              </StyledLernvideoSubtitle>
             </div>
           </StyledLeftSideWrapper>
-          <StyledPodcastActionsWrapper onClick={() => setIsActionMenuOpen(true)}>
+          <StyledLernvideoActionsWrapper onClick={() => setIsActionMenuOpen(true)}>
             <IoEllipsisHorizontal />
             <ActionSheet direction="left" navigateBack={() => setIsActionMenuOpen(false)} visible={isActionMenuOpen}>
               <ActionRow first icon={<IoBookmarkOutline />}>
@@ -74,13 +74,12 @@ const PodcastRow = (props: TitleProps & DateAddedProps & EntityProps) => {
                 {displayActionTexts(selectedLanguage).delete}
               </ActionRow>
             </ActionSheet>
-          </StyledPodcastActionsWrapper>
+          </StyledLernvideoActionsWrapper>
         </FlexBox>
-      </StyledPodcastRowWrapper>
+      </StyledLernvideoRowWrapper>
 
-      <DeletePodcastAlert />
+      <DeleteLernvideoAlert />
     </Fragment>
   );
 };
-
-export default PodcastRow;
+export default LernvideoRow;
