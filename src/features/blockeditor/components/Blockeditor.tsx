@@ -1,13 +1,15 @@
 import React, { ChangeEvent, Fragment } from "react";
 import { ActionRow, NavBarButton, NavigationBar, PrimaryButton, Spacer, Title } from "../../../components";
 import InitializeBlockeditorSystem from "../systems/InitializeBlockeditorSystem";
-import { useBlockeditor } from "../hooks/useBlockeditor";
+import { useCurrentBlockeditor } from "../hooks/useCurrentBlockeditor";
 import { IoAdd, IoColorWandOutline, IoEllipsisHorizontalCircleOutline, IoSparklesOutline } from "react-icons/io5";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import { displayActionTexts, displayButtonTexts } from "../../../utils/displayText";
 import { changeBlockeditorState } from "../functions/changeBlockeditorState";
 import UpdateBlockStateSystem from "../systems/UpdateBlockStateSystem";
 import { useOutsideBlockareaClick } from "../hooks/useOutsideBlockareaClick";
+import ComponentRenderer from "./ComponentRenderer";
+import LoadBlocksSystem from "../systems/LoadBlocksSystem";
 
 // function getTextTypeForString(textType: string): TextTypes {
 //   if (textType === "Titel") {
@@ -51,24 +53,17 @@ interface BlockeditorProps {
   hideAddBlockButton?: boolean;
 }
 
-const Blockeditor: React.FC<BlockeditorProps> = ({
-  id,
-  title,
-  customHeaderArea,
-
-  customOptionRows,
-
-  hideAddBlockButton,
-  customGenerateOptionRows,
-  customContent,
-}) => {
+const Blockeditor = (props: BlockeditorProps) => {
+  const { id, title, customHeaderArea, customOptionRows, hideAddBlockButton, customGenerateOptionRows, customContent } =
+    props;
   const { selectedLanguage } = useSelectedLanguage();
-  const { blockeditorState, blockeditorEntity } = useBlockeditor();
+  const { blockeditorState, blockeditorEntity } = useCurrentBlockeditor();
   const { blocksAreaRef, addBlockAreaRef } = useOutsideBlockareaClick();
 
   return (
     <Fragment>
       <InitializeBlockeditorSystem blockeditorId={id} />
+      <LoadBlocksSystem />
       <UpdateBlockStateSystem />
 
       <NavigationBar>
@@ -93,7 +88,7 @@ const Blockeditor: React.FC<BlockeditorProps> = ({
 
             {!hideAddBlockButton && (
               <NavBarButton>
-                <IoAdd onClick={() => changeBlockeditorState(blockeditorEntity).create} />
+                <IoAdd onClick={() => changeBlockeditorState(blockeditorEntity, "create")} />
               </NavBarButton>
             )}
 
@@ -102,7 +97,7 @@ const Blockeditor: React.FC<BlockeditorProps> = ({
             </NavBarButton>
           </Fragment>
         ) : (
-          <PrimaryButton onClick={() => changeBlockeditorState(blockeditorEntity).view}>
+          <PrimaryButton onClick={() => changeBlockeditorState(blockeditorEntity, "view")}>
             {displayButtonTexts(selectedLanguage).done}
           </PrimaryButton>
         )}
@@ -116,17 +111,7 @@ const Blockeditor: React.FC<BlockeditorProps> = ({
       ) : (
         <Fragment>
           <div ref={blocksAreaRef}>
-            {/* <ComponentRenderer
-              handleUpdateBlocksLocally={handleUpdateBlocksLocally}
-              handleDeletetBlockLocally={deleteBlock}
-              handleAddBlockLocally={handleAddBlock}
-              handleUpdateBlockLocally={handleUpdateBlockLocally}
-              handleChangeBlockPressedState={handleChangeBlockPressedState}
-              BlockeditorState={blockeditorState}
-              handleChangeBlockeditorState={handleChangeBlockeditorState}
-              id={id}
-              blocks={blocks}
-            /> */}
+            <ComponentRenderer />
             {/* <EditMenu
               backfuction={() => handleChangeBlockeditorState("view")}
               handleAddBlockLocally={handleAddBlock}

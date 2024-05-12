@@ -1,12 +1,9 @@
 import { Entity } from "@leanscope/ecs-engine";
 import { BlockeditorStateFacet } from "../../../app/additionalFacets";
+import { BlockeditorState } from "../../../base/types";
 
-export const changeBlockeditorState = (blockeditorEntity?: Entity) => {
-  return {
-    view: blockeditorEntity?.add(new BlockeditorStateFacet({ blockeditorState: "view" })),
-    create: blockeditorEntity?.add(new BlockeditorStateFacet({ blockeditorState: "create" })),
-    edit: blockeditorEntity?.add(new BlockeditorStateFacet({ blockeditorState: "edit" })),
-    delete: blockeditorEntity?.add(new BlockeditorStateFacet({ blockeditorState: "delete" })),
-    write: blockeditorEntity?.add(new BlockeditorStateFacet({ blockeditorState: "write" })),
-  };
+export const changeBlockeditorState = (blockeditorEntity?: Entity, newBlockeditorState?: BlockeditorState) => {
+  if (blockeditorEntity && newBlockeditorState) {
+    blockeditorEntity.add(new BlockeditorStateFacet({ blockeditorState: newBlockeditorState }));
+  }
 };

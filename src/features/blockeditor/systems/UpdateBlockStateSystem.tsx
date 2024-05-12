@@ -1,10 +1,10 @@
 import { useEffect } from "react";
-import { useBlockeditor } from "../hooks/useBlockeditor";
+import { useCurrentBlockeditor } from "../hooks/useCurrentBlockeditor";
 import { useBlockEntities } from "../hooks/useBlockEntities";
 import { Tags } from "@leanscope/ecs-models";
 
 const UpdateBlockStateSystem = () => {
-  const { blockeditorState, blockeditorEntity } = useBlockeditor();
+  const { blockeditorState, blockeditorEntity } = useCurrentBlockeditor();
   const { blockEntities } = useBlockEntities(blockeditorEntity);
 
   useEffect(() => {

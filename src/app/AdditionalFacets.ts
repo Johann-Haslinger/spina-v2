@@ -1,4 +1,4 @@
-import { SupportedLanguages } from "../base/enums";
+import { Blocktypes, SupportedLanguages } from "../base/enums";
 import { Facet } from "../base/facet";
 import { BlockeditorState } from "../base/types";
 
@@ -135,6 +135,16 @@ export interface BlockeditorStateProps {
 
 export class BlockeditorStateFacet extends Facet<BlockeditorStateProps> {
   constructor(props: BlockeditorStateProps) {
+    super(props);
+  }
+}
+
+export interface BlocktypeProps{
+  blocktype: Blocktypes
+}
+
+export class BlocktypeFacet extends Facet<BlocktypeProps> {
+  constructor(props: BlocktypeProps) {
     super(props);
   }
 }

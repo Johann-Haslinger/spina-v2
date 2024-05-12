@@ -3,7 +3,7 @@ import "../../../index.css"
 import ObservingBlockeditorStory from "./ObservingBlockeditorStory";
 
 const meta = {
-  title: "Stories/Collection/ObservingBlockeditorStory",
+  title: "Stories/Blockeditor/ObservingBlockeditorStory",
   component: ObservingBlockeditorStory,
   parameters: {
     // More on how to position stories at: https://storybook.js.org/docs/configure/story-layout

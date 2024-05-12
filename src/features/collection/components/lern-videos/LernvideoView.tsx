@@ -6,8 +6,8 @@ import { IdentifierProps } from "@leanscope/ecs-models";
 import { View } from "../../../../components";
 
 import { useEffect, useRef } from "react";
-import { dummyBase64Audio } from "../../../../base/dummy";
 import { dummyBase64Image } from "../../../../base/dummyBase64Image";
+import { dummyBase64Audio } from "../../../../base/dummyBase64Audio";
 
 interface Media {
   audio: string;
