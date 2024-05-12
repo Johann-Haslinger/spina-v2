@@ -58,7 +58,6 @@ import { useBookmarked } from "../../../study/hooks/useBookmarked";
 import LernvideoView from "../lernVideos/LernvideoView";
 import LernvideoRow from "../lernVideos/LernvideoRow";
 
-
 enum SubtopicViewStates {
   NOTE,
   FLASHCARDS,
@@ -110,9 +109,9 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
                 <ActionRow first icon={<IoHeadsetOutline />} onClick={openGeneratePodcastSheet}>
                   {displayActionTexts(selectedLanguage).generatePodcast}
                 </ActionRow>
-                <ActionRow icon={<IoVideocamOutline/>}  onClick={openGenerateLernVideoSheet}>
+                {/* <ActionRow icon={<IoVideocamOutline />} onClick={openGenerateLernVideoSheet}>
                   {displayActionTexts(selectedLanguage).generateLearnVideo}
-                </ActionRow>
+                </ActionRow> */}
                 <ActionRow onClick={openImproveTextSheet} last icon={<IoSparklesOutline />}>
                   {displayActionTexts(selectedLanguage).improveText}
                 </ActionRow>
@@ -179,7 +178,7 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
           get={[[TitleFacet, DateAddedFacet], []]}
           onMatch={PodcastRow}
         />
-        <EntityPropsMapper 
+        <EntityPropsMapper
           query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.LERNVIDEO)}
           get={[[TitleFacet, DateAddedFacet], []]}
           onMatch={LernvideoRow}
@@ -204,11 +203,11 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
         get={[[AnswerFacet, QuestionFacet, IdentifierFacet, MasteryLevelFacet], []]}
         onMatch={EditFlashcardSheet}
       />
-   <EntityPropsMapper
-   query={(e) => e.hasTag(Tags.SELECTED) && dataTypeQuery(e, DataTypes.LERNVIDEO)}
-    get={[[TitleFacet, DateAddedFacet, IdentifierFacet], []]}
-    onMatch={LernvideoView}
-  />
+      <EntityPropsMapper
+        query={(e) => e.hasTag(Tags.SELECTED) && dataTypeQuery(e, DataTypes.LERNVIDEO)}
+        get={[[TitleFacet, DateAddedFacet, IdentifierFacet], []]}
+        onMatch={LernvideoView}
+      />
 
       <EditSubtopicSheet />
       <DeleteSubtopicAlert />
