@@ -52,7 +52,7 @@ const LoadFlashcardSetPodcastsSystem = () => {
     };
 
     initializeFlashcardSetPodcast();
-  }, [selectedFlashcardSetId, mockupData]);
+  }, [selectedFlashcardSetId, mockupData, shouldFetchFromSupabase]);
 
   return null;
 };

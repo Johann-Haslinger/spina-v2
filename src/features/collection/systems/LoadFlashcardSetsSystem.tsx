@@ -53,7 +53,7 @@ const LoadFlashcardSetsSystem = () => {
     };
 
     initializeFlashcardSetEntities();
-  }, [selectedTopicId, mockupData]);
+  }, [selectedTopicId, mockupData, shouldFetchFromSupabase]);
 
   return null;
 };

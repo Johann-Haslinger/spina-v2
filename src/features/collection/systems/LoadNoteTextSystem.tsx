@@ -28,7 +28,7 @@ const LoadNoteTextSystem = () => {
     };
 
     loadNoteText();
-  }, [selectedNoteEntity, mockupData]);
+  }, [selectedNoteEntity, mockupData,shouldFetchFromSupabase]);
 
   return null;
 };

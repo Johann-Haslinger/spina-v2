@@ -33,12 +33,12 @@ const fetchExams = async () => {
 };
 
 const InitializeExamsSystem = () => {
-  const { mockupData } = useMockupData();
+  const { mockupData, shouldFetchFromSupabase } = useMockupData();
   const lsc = useContext(LeanScopeClientContext);
 
   useEffect(() => {
     const initializeexamEntities = async () => {
-      const exams = mockupData ? dummyExams : await fetchExams();
+      const exams = mockupData ? dummyExams : shouldFetchFromSupabase ?  await fetchExams() : []
 
       exams.forEach((exam) => {
         const isExisting = lsc.engine.entities.some(
@@ -61,7 +61,7 @@ const InitializeExamsSystem = () => {
     };
 
     initializeexamEntities();
-  }, [mockupData]);
+  }, [mockupData, shouldFetchFromSupabase]);
 
   return null;
 };

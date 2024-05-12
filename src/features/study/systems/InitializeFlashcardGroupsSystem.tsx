@@ -96,7 +96,7 @@ const InitializeFlashcardGroupsSystem = () => {
 
     initializeSubtopicEntities();
     initializeFlashcardSetEntities();
-  }, [mockupData]);
+  }, [mockupData, shouldFetchFromSupabase]);
 
   return null;
 };

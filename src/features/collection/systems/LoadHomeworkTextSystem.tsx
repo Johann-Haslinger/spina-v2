@@ -49,7 +49,7 @@ const LoadHomeworkTextSystem = () => {
     if (selectedHomework) {
       loadHomeworkText();
     }
-  }, [selectedHomework, mockupData]);
+  }, [selectedHomework, mockupData, shouldFetchFromSupabase]);
 
   return null;
 };

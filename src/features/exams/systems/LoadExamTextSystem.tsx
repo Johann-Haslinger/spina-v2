@@ -6,7 +6,7 @@ import supabaseClient from "../../../lib/supabase";
 import { useSelectedExam } from "../hooks/useSelectedExam";
 
 const LoadExamTextSystem = () => {
-  const { mockupData } = useMockupData();
+  const { mockupData, shouldFetchFromSupabase } = useMockupData();
   const { selectedExamEntity, selectedExamId } = useSelectedExam();
 
   useEffect(() => {
@@ -14,7 +14,7 @@ const LoadExamTextSystem = () => {
       let examText;
       if (mockupData) {
         examText = dummyText;
-      } else {
+      } else if (shouldFetchFromSupabase) {
         const { data: examTextData, error } = await supabaseClient
           .from("exams")
           .select("text")
@@ -34,7 +34,7 @@ const LoadExamTextSystem = () => {
     if (selectedExamEntity) {
       loadExamText();
     }
-  }, [selectedExamEntity, mockupData]);
+  }, [selectedExamEntity, mockupData, shouldFetchFromSupabase]);
 
   return null;
 };

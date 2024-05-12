@@ -70,7 +70,7 @@ const LoadFlashcardsSystem = () => {
     };
 
     initializeFlashcardEntities();
-  }, [selectedFlashcardGroupId, mockupData]);
+  }, [selectedFlashcardGroupId, mockupData, shouldFetchFromSupabase]);
 
   return null;
 };

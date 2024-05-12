@@ -56,7 +56,7 @@ const LoadNotePodcastsSystem = () => {
     };
 
     initializeNotePodcast();
-  }, [selectedNoteId, mockupData]);
+  }, [selectedNoteId, mockupData, shouldFetchFromSupabase]);
 
   return null;
 };

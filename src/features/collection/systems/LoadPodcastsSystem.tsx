@@ -72,7 +72,7 @@ const LoadPodcastsSystem = () => {
     };
 
     initializePodcastEntities();
-  }, [isPodcastCollectionVisible, mockupData, selectedTopicId]);
+  }, [isPodcastCollectionVisible, mockupData, selectedTopicId, shouldFetchFromSupabase]);
 
   return null;
 };

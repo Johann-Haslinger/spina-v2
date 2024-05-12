@@ -60,7 +60,7 @@ const LoadHomeworksSystem = () => {
     };
 
     initializeHomeworkEntities();
-  }, [selectedTopicId, mockupData]);
+  }, [selectedTopicId, mockupData, shouldFetchFromSupabase]);
 
   return null;
 };

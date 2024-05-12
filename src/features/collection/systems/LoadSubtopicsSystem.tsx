@@ -56,7 +56,7 @@ const LoadSubtopicsSystem = () => {
     };
 
     initializeSubtopicEntities();
-  }, [selectedTopicId, mockupData]);
+  }, [selectedTopicId, mockupData, shouldFetchFromSupabase]);
 
   return null;
 };

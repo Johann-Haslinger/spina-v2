@@ -190,7 +190,7 @@ const InitializeBookmarkedResourcesSystem = () => {
       initializeBookmarkedSubtopics();
       initializeBookmarkedNotes();
     }
-  }, [isBookmarkCollectionVisible, mockupData]);
+  }, [isBookmarkCollectionVisible, mockupData, shouldFetchFromSupabase]);
 
   return null;
 };

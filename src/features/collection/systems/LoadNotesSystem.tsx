@@ -59,7 +59,7 @@ const LoadNotesSystem = () => {
     };
 
     initializeNoteEntities();
-  }, [selectedTopicId, mockupData]);
+  }, [selectedTopicId, mockupData, shouldFetchFromSupabase]);
 
   return null;
 };

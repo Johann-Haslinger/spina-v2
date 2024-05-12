@@ -68,7 +68,7 @@ const InitializeHomeworksSystem = () => {
     };
 
     initializeHomeworkEntities();
-  }, [mockupData]);
+  }, [mockupData, shouldFetchFromSupabase]);
 
   return null;
 };

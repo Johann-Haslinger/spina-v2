@@ -60,7 +60,7 @@ const LoadTopicsSystem = () => {
     };
 
     initializeTopicEntities();
-  }, [selectedSchoolSubjectId, mockupData]);
+  }, [selectedSchoolSubjectId, mockupData, shouldFetchFromSupabase]);
 
   return null;
 };

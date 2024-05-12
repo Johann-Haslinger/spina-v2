@@ -3,7 +3,7 @@ import { useSelectedPodcast } from "../hooks/useSelectedPodcast";
 import supabaseClient from "../../../lib/supabase";
 import { SourceFacet } from "../../../app/AdditionalFacets";
 import { useMockupData } from "../../../hooks/useMockupData";
-import {  dummyBase64Audio } from "../../../base/dummy";
+import { dummyBase64Audio } from "../../../base/dummy";
 
 const base64toBlob = (base64Data: string, contentType: string) => {
   const byteCharacters = atob(base64Data);
@@ -49,7 +49,7 @@ const LoadPodcastAudioSystem = () => {
     };
 
     loadPodcastAudio();
-  }, [selectedPodcastId]);
+  }, [selectedPodcastId, shouldFetchFromSupabase]);
 
   return null;
 };
