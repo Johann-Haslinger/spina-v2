@@ -12,7 +12,7 @@ import {
   AnswerFacet,
   TitleFacet,
   DateAddedFacet,
-} from "../../../app/AdditionalFacets";
+} from "../../../app/additionalFacets";
 import { DataTypes } from "../../../base/enums";
 
 const fetchFlashcardsForSubtopic = async (parentId: string) => {

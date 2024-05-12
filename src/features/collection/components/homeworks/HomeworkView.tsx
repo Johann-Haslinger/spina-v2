@@ -10,7 +10,7 @@ import {
   View,
 } from "../../../../components";
 import { EntityProps } from "@leanscope/ecs-engine";
-import { TitleProps } from "../../../../app/AdditionalFacets";
+import { TitleProps } from "../../../../app/additionalFacets";
 import { IdentifierProps, TextProps } from "@leanscope/ecs-models";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 import { AdditionalTags, Stories } from "../../../../base/enums";

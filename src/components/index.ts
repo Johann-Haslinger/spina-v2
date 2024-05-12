@@ -34,8 +34,8 @@ export { default as Sidebar } from "./navigation/Sidebar";
 export { default as NavBarButton } from "./buttons/NavBarButton";
 export { default as BackButton } from "./buttons/BackButton";
 export { default as AlertButton } from "./buttons/AlertButton";
-export { default as CancelButton } from "./buttons/CancelButton";
-export { default as SaveButton } from "./buttons/SaveButton";
+export { default as SecondaryButton } from "./buttons/SecondaryButton";
+export { default as PrimaryButton } from "./buttons/PrimaryButton";
 
 // ----Inputs----
 

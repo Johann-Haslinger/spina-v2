@@ -1,7 +1,7 @@
 import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { PropsWithChildren, ReactNode } from "react";
 import { Entity, useEntities } from "@leanscope/ecs-engine";
-import { StatusFacet } from "../../app/AdditionalFacets";
+import { StatusFacet } from "../../app/additionalFacets";
 import { IdentifierFacet } from "@leanscope/ecs-models";
 import styled from "@emotion/styled/macro";
 import tw from "twin.macro";

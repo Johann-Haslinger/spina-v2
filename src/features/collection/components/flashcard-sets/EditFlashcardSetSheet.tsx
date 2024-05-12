@@ -1,9 +1,9 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useContext, useEffect, useState } from "react";
 import {
-  CancelButton,
+  SecondaryButton,
   FlexBox,
-  SaveButton,
+  PrimaryButton,
   Section,
   SectionRow,
   Sheet,
@@ -13,7 +13,7 @@ import {
 import { Stories } from "../../../../base/enums";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useSelectedFlashcardSet } from "../../hooks/useSelectedFlashcardSet";
-import { TitleFacet } from "../../../../app/AdditionalFacets";
+import { TitleFacet } from "../../../../app/additionalFacets";
 import supabaseClient from "../../../../lib/supabase";
 import { displayButtonTexts, displayLabelTexts } from "../../../../utils/displayText";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
@@ -57,13 +57,13 @@ const EditFlashcardSetSheet = () => {
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>
       <FlexBox>
-        <CancelButton onClick={navigateBack}>
+        <SecondaryButton onClick={navigateBack}>
           {displayButtonTexts(selectedLanguage).back}
-        </CancelButton>
+        </SecondaryButton>
         {newTitle !== selectedFlashcardSetTitle && (
-          <SaveButton onClick={updateFlashcardSet}>
+          <PrimaryButton onClick={updateFlashcardSet}>
             {displayButtonTexts(selectedLanguage).save}
-          </SaveButton>
+          </PrimaryButton>
         )}
       </FlexBox>
       <Spacer />

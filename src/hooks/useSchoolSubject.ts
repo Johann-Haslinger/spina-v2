@@ -2,7 +2,7 @@ import { useEntity } from "@leanscope/ecs-engine";
 import { dataTypeQuery } from "../utils/queries";
 import { IdentifierFacet } from "@leanscope/ecs-models";
 import { DataTypes } from "../base/enums";
-import { TitleFacet } from "../app/AdditionalFacets";
+import { TitleFacet } from "../app/additionalFacets";
 
 export const useSchoolSubject = (schoolSubjectId?: string) => {
   const [schoolSubjectEntity] = useEntity(

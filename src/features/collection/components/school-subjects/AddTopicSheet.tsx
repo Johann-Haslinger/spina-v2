@@ -1,8 +1,8 @@
 import { useContext, useState } from "react";
 import {
-  CancelButton,
+  SecondaryButton,
   FlexBox,
-  SaveButton,
+  PrimaryButton,
   Section,
   SectionRow,
   Sheet,
@@ -17,7 +17,7 @@ import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
 import { DescriptionFacet, IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { v4 } from "uuid";
-import { DateAddedFacet, TitleFacet } from "../../../../app/AdditionalFacets";
+import { DateAddedFacet, TitleFacet } from "../../../../app/additionalFacets";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { displayButtonTexts, displayLabelTexts } from "../../../../utils/displayText";
 import supabaseClient from "../../../../lib/supabase";
@@ -76,8 +76,8 @@ const AddTopicSheet = () => {
   return (
     <Sheet navigateBack={navigateBack} visible={isVisible}>
       <FlexBox>
-        <CancelButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</CancelButton>
-        {title !== "" && <SaveButton onClick={addTopic}>{displayButtonTexts(selectedLanguage).save}</SaveButton>}
+        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
+        {title !== "" && <PrimaryButton onClick={addTopic}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>}
       </FlexBox>
       <Spacer />
       <Section>

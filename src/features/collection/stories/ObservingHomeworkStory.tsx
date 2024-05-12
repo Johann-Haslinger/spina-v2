@@ -16,7 +16,7 @@ import {
   ParentFacet,
   Tags,
 } from "@leanscope/ecs-models";
-import { DueDateFacet, TitleFacet } from "../../../app/AdditionalFacets";
+import { DueDateFacet, TitleFacet } from "../../../app/additionalFacets";
 import InitializeAppSystem from "../../../systems/InitializeAppSystem";
 
 const ObservingHomeworkStory = () => {

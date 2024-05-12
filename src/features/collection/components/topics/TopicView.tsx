@@ -10,7 +10,7 @@ import {
   Title,
   View,
 } from "../../../../components";
-import { TitleFacet, TitleProps } from "../../../../app/AdditionalFacets";
+import { TitleFacet, TitleProps } from "../../../../app/additionalFacets";
 import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
 import { DescriptionProps, IdentifierFacet, Tags, TextFacet } from "@leanscope/ecs-models";
 import { useSelectedSchoolSubject } from "../../hooks/useSelectedSchoolSubject";

@@ -1,9 +1,9 @@
 import { useContext, useState } from "react";
 import {
-  CancelButton,
+  SecondaryButton,
   FlexBox,
   ProgressBar,
-  SaveButton,
+  PrimaryButton,
   Section,
   SectionRow,
   Sheet,
@@ -16,7 +16,7 @@ import {
   MasteryLevelProps,
   QuestionFacet,
   QuestionProps,
-} from "../../../../app/AdditionalFacets";
+} from "../../../../app/additionalFacets";
 import { EntityProps } from "@leanscope/ecs-engine";
 import { AdditionalTags } from "../../../../base/enums";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
@@ -81,9 +81,9 @@ const EditFlashcardSheet = (props: QuestionProps & AnswerProps & MasteryLevelPro
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>
       <FlexBox>
-        <CancelButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</CancelButton>
+        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
         {(questionValue !== question || answerValue !== answer) && (
-          <SaveButton onClick={updateFlashcard}>{displayButtonTexts(selectedLanguage).save}</SaveButton>
+          <PrimaryButton onClick={updateFlashcard}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
         )}
       </FlexBox>
       <Spacer />

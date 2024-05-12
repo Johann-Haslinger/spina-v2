@@ -2,7 +2,7 @@ import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
 import { IdentifierFacet } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
-import { DateAddedFacet, TitleFacet } from "../../../app/AdditionalFacets";
+import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
 import { dummyFlashcardSets, dummySubtopics } from "../../../base/dummy";
 import { AdditionalTags, DataTypes } from "../../../base/enums";
 import { dataTypeQuery } from "../../../utils/queries";

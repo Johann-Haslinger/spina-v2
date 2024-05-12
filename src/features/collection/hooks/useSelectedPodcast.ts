@@ -2,7 +2,7 @@ import { useEntity } from "@leanscope/ecs-engine";
 import { dataTypeQuery } from "../../../utils/queries";
 import { AdditionalTags, DataTypes } from "../../../base/enums";
 import { IdentifierFacet, Tags } from "@leanscope/ecs-models";
-import { SourceFacet, TitleFacet } from "../../../app/AdditionalFacets";
+import { SourceFacet, TitleFacet } from "../../../app/additionalFacets";
 import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntityComponents";
 
 export const useSelectedPodcast = () => {

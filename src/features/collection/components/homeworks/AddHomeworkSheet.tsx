@@ -2,10 +2,10 @@ import { Fragment, useEffect } from "react";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { DataTypes, Stories } from "../../../../base/enums";
 import {
-  CancelButton,
+  SecondaryButton,
   DateInput,
   FlexBox,
-  SaveButton,
+  PrimaryButton,
   Section,
   SectionRow,
   SelectInput,
@@ -17,7 +17,7 @@ import {
 import { useContext, useState } from "react";
 import { useSchoolSubjectEntities } from "../../../../hooks/useSchoolSubjects";
 import { IdentifierFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
-import { DueDateFacet, RelationshipFacet, StatusFacet, TitleFacet } from "../../../../app/AdditionalFacets";
+import { DueDateFacet, RelationshipFacet, StatusFacet, TitleFacet } from "../../../../app/additionalFacets";
 import { Entity } from "@leanscope/ecs-engine";
 import { v4 } from "uuid";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
@@ -113,10 +113,10 @@ const AddHomeworkSheet = () => {
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>
       <FlexBox>
-        <CancelButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</CancelButton>
+        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
 
         {newHomework.title && newHomework.dueDate && schooolSubjectEntities.length !== 0 && (
-          <SaveButton onClick={addHomework}>{displayButtonTexts(selectedLanguage).save}</SaveButton>
+          <PrimaryButton onClick={addHomework}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
         )}
       </FlexBox>
       <Spacer />

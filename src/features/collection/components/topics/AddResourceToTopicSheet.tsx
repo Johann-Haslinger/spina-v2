@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { CancelButton, FlexBox, Section, SectionRow, Sheet, Spacer } from "../../../../components";
+import { SecondaryButton, FlexBox, Section, SectionRow, Sheet, Spacer } from "../../../../components";
 import { DataTypes, Stories } from "../../../../base/enums";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
@@ -10,7 +10,7 @@ import { useSelectedTopic } from "../../hooks/useSelectedTopic";
 import { useUserData } from "../../../../hooks/useUserData";
 import { Entity } from "@leanscope/ecs-engine";
 import { IdentifierFacet, ParentFacet, Tags } from "@leanscope/ecs-models";
-import { DateAddedFacet } from "../../../../app/AdditionalFacets";
+import { DateAddedFacet } from "../../../../app/additionalFacets";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { IoAdd } from "react-icons/io5";
 
@@ -50,7 +50,7 @@ const AddResourceToTopicSheet = () => {
   return (
     <Sheet navigateBack={navigateBack} visible={isVisible}>
       <FlexBox>
-        <CancelButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</CancelButton>
+        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
       </FlexBox>
       <Spacer />
 

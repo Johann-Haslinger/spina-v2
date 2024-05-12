@@ -86,6 +86,7 @@ export enum DataTypes {
   SUBTOPIC = "subTopic",
   PODCAST = "podcast",
   LERNVIDEO = "lernVideo",
+  BLOCK = "block",
 }
 
 export enum SupportedLanguages {

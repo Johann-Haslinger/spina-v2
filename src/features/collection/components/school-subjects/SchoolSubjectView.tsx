@@ -1,5 +1,5 @@
 import { Fragment, useContext } from "react";
-import { TitleFacet, TitleProps } from "../../../../app/AdditionalFacets";
+import { TitleFacet, TitleProps } from "../../../../app/additionalFacets";
 import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
 import { BackButton, CollectionGrid, NavBarButton, NavigationBar, Spacer, Title, View } from "../../../../components";
 import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";

@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { CancelButton, FlexBox, GeneratingIndecator, SaveButton, ScrollableBox, Sheet } from "../../../../components";
+import { SecondaryButton, FlexBox, GeneratingIndecator, PrimaryButton, ScrollableBox, Sheet } from "../../../../components";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { DataTypes, Stories } from "../../../../base/enums";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
@@ -70,9 +70,9 @@ const GenerateImprovedTextSheet = () => {
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>
       <FlexBox>
-        <CancelButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</CancelButton>
+        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
         {generatedText !== "" && (
-          <SaveButton onClick={saveImprovedText}> {displayButtonTexts(selectedLanguage).save}</SaveButton>
+          <PrimaryButton onClick={saveImprovedText}> {displayButtonTexts(selectedLanguage).save}</PrimaryButton>
         )}
       </FlexBox>
       {isGenerating && <GeneratingIndecator />}

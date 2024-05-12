@@ -1,9 +1,9 @@
 import { useSelectedFlashcardSet } from "../../hooks/useSelectedFlashcardSet";
 import {
-  CancelButton,
+  SecondaryButton,
   FlexBox,
   GeneratingIndecator,
-  SaveButton,
+  PrimaryButton,
   ScrollableBox,
   Sheet,
   Spacer,
@@ -14,7 +14,7 @@ import { useContext, useEffect, useState } from "react";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { displayButtonTexts } from "../../../../utils/displayText";
-import { AnswerFacet, QuestionFacet, TitleFacet } from "../../../../app/AdditionalFacets";
+import { AnswerFacet, QuestionFacet, TitleFacet } from "../../../../app/additionalFacets";
 import { Entity, useEntities } from "@leanscope/ecs-engine";
 import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
 import { generateImprovedText } from "../../../../utils/generateResources";
@@ -122,9 +122,9 @@ const GenerateTextFromFlashcardsSheet = () => {
   return (
     <Sheet navigateBack={navigateBack} visible={isVisible}>
       <FlexBox>
-        <CancelButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</CancelButton>
+        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
         {!isGenerating && generatedText !== "" && (
-          <SaveButton onClick={saveText}>{displayButtonTexts(selectedLanguage).save}</SaveButton>
+          <PrimaryButton onClick={saveText}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
         )}
       </FlexBox>
       <Spacer />

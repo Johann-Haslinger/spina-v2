@@ -3,7 +3,7 @@ import supabaseClient from "../../../lib/supabase";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
 import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
-import { TitleFacet, DateAddedFacet } from "../../../app/AdditionalFacets";
+import { TitleFacet, DateAddedFacet } from "../../../app/additionalFacets";
 import { dummyFlashcardSets } from "../../../base/dummy";
 import { DataTypes } from "../../../base/enums";
 import { useSelectedTopic } from "../hooks/useSelectedTopic";

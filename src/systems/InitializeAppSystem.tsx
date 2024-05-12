@@ -1,7 +1,7 @@
 import { useContext, useEffect } from "react";
 import { Entity } from "@leanscope/ecs-engine";
 import { AdditionalTags, SupportedLanguages, SupportedThemes } from "../base/enums";
-import { SelectedLanguageFacet as SelectedLanguageFacet } from "../app/AdditionalFacets";
+import { SelectedLanguageFacet as SelectedLanguageFacet } from "../app/additionalFacets";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 
 const InitializeAppSystem = (props: { mockupData?: boolean }) => {

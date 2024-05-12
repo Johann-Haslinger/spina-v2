@@ -2,9 +2,9 @@ import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { Fragment, useContext, useState } from "react";
 import { DataTypes, Stories } from "../../../../base/enums";
 import {
-  CancelButton,
+  SecondaryButton,
   FlexBox,
-  SaveButton,
+  PrimaryButton,
   Section,
   SectionRow,
   SelectInput,
@@ -18,7 +18,7 @@ import { displayAlertTexts, displayButtonTexts, displayLabelTexts } from "../../
 import { Entity } from "@leanscope/ecs-engine";
 import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { v4 } from "uuid";
-import { DateAddedFacet, TitleFacet } from "../../../../app/AdditionalFacets";
+import { DateAddedFacet, TitleFacet } from "../../../../app/additionalFacets";
 import { useSelectedTopic } from "../../hooks/useSelectedTopic";
 import supabaseClient from "../../../../lib/supabase";
 import { useUserData } from "../../../../hooks/useUserData";
@@ -74,9 +74,9 @@ const AddFlashcardSetSheet = () => {
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>
       <FlexBox>
-        <CancelButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</CancelButton>
+        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
         {newFlashcardSet.title && (inCollectionVisible || newFlashcardSet.parent) && (
-          <SaveButton onClick={addFlashcardSet}>{displayButtonTexts(selectedLanguage).save}</SaveButton>
+          <PrimaryButton onClick={addFlashcardSet}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
         )}
       </FlexBox>
       <Spacer />

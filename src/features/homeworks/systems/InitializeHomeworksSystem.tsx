@@ -9,7 +9,7 @@ import {
   RelationshipFacet,
   StatusFacet,
   TitleFacet,
-} from "../../../app/AdditionalFacets";
+} from "../../../app/additionalFacets";
 import { dummyHomeworks } from "../../../base/dummy";
 import { DataTypes } from "../../../base/enums";
 import { dataTypeQuery } from "../../../utils/queries";

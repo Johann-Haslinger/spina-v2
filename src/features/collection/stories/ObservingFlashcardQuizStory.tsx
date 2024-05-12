@@ -16,7 +16,7 @@ import {
   ParentFacet,
   Tags,
 } from "@leanscope/ecs-models";
-import { TitleFacet } from "../../../app/AdditionalFacets";
+import { TitleFacet } from "../../../app/additionalFacets";
 import LoadTopicsSystem from "../systems/LoadTopicsSystem";
 import InitializeAppSystem from "../../../systems/InitializeAppSystem";
 

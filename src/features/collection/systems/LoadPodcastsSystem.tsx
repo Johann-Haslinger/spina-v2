@@ -4,7 +4,7 @@ import supabaseClient from "../../../lib/supabase";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { DataTypes, Stories } from "../../../base/enums";
 import { Entity } from "@leanscope/ecs-engine";
-import { DateAddedFacet, TitleFacet } from "../../../app/AdditionalFacets";
+import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
 import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { useMockupData } from "../../../hooks/useMockupData";
 import { dummyPodcasts } from "../../../base/dummy";

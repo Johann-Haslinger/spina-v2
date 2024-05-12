@@ -10,7 +10,7 @@ import {
   Title,
   View,
 } from "../../../../components";
-import { AnswerFacet, DateAddedFacet, MasteryLevelFacet, QuestionFacet, TitleFacet, TitleProps } from "../../../../app/AdditionalFacets";
+import { AnswerFacet, DateAddedFacet, MasteryLevelFacet, QuestionFacet, TitleFacet, TitleProps } from "../../../../app/additionalFacets";
 import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
 import { IdentifierFacet, IdentifierProps, Tags } from "@leanscope/ecs-models";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";

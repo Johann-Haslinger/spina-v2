@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { CancelButton, FlexBox, GeneratingIndecator, SaveButton, Sheet } from "../../../../components";
+import { SecondaryButton, FlexBox, GeneratingIndecator, PrimaryButton, Sheet } from "../../../../components";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { DataTypes, Stories } from "../../../../base/enums";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
@@ -14,7 +14,7 @@ import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import styled from "@emotion/styled/macro";
 import tw from "twin.macro";
 import { IoCheckmarkCircle } from "react-icons/io5";
-import { AnswerFacet, DateAddedFacet, QuestionFacet, SourceFacet, TitleFacet } from "../../../../app/AdditionalFacets";
+import { AnswerFacet, DateAddedFacet, QuestionFacet, SourceFacet, TitleFacet } from "../../../../app/additionalFacets";
 import { useUserData } from "../../../../hooks/useUserData";
 import { getAudioFromText, getCompletion } from "../../../../utils/getCompletion";
 import { useIsAnyStoryCurrent } from "../../../../hooks/useIsAnyStoryCurrent";
@@ -118,9 +118,9 @@ const GeneratePodcastSheet = () => {
     <Sheet visible={isVisible} navigateBack={navigateBack}>
       <FlexBox>
         {isGenerating && (
-          <CancelButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</CancelButton>
+          <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
         )}
-        {!isGenerating && <SaveButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).done}</SaveButton>}
+        {!isGenerating && <PrimaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).done}</PrimaryButton>}
       </FlexBox>
       {isGenerating && <GeneratingIndecator />}
       {!isGenerating && (

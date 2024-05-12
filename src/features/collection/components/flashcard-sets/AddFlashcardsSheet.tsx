@@ -2,9 +2,9 @@ import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import  { Fragment, useContext, useEffect, useState } from "react";
 import { DataTypes, Stories } from "../../../../base/enums";
 import {
-  CancelButton,
+  SecondaryButton,
   FlexBox,
-  SaveButton,
+  PrimaryButton,
   ScrollableBox,
   Section,
   SectionRow,
@@ -19,7 +19,7 @@ import { IoAdd, IoColorWandOutline } from "react-icons/io5";
 import { v4 } from "uuid";
 import { Entity } from "@leanscope/ecs-engine";
 import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
-import { AnswerFacet, MasteryLevelFacet, QuestionFacet } from "../../../../app/AdditionalFacets";
+import { AnswerFacet, MasteryLevelFacet, QuestionFacet } from "../../../../app/additionalFacets";
 import supabaseClient from "../../../../lib/supabase";
 import { useUserData } from "../../../../hooks/useUserData";
 import { generateFlashCards } from "../../../../utils/generateResources";
@@ -120,9 +120,9 @@ const AddFlashcardsSheet = () => {
   return (
     <Sheet navigateBack={navigateBack} visible={isVisible}>
       <FlexBox>
-        <CancelButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</CancelButton>
+        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
         {flashcards.length > 0 && (
-          <SaveButton onClick={saveFlashcards}>{displayButtonTexts(selectedLanguage).save}</SaveButton>
+          <PrimaryButton onClick={saveFlashcards}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
         )}
       </FlexBox>
       <Spacer />
