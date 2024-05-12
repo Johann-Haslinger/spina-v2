@@ -47,8 +47,8 @@ export { SegmentedControl, SegmentedControlCell } from "./inputs/SegmentedContro
 
 // ---ThumbNails---
 
-export { default as NoteThumbNail } from "./thumbNails/NoteThumbNail";
-export { default as FlashcardSetThumbNail } from "./thumbNails/FlashcardSetThumbNail";
+export { default as NoteThumbNail } from "./thumb-nails/NoteThumbNail";
+export { default as FlashcardSetThumbNail } from "./thumb-nails/FlashcardSetThumbNail";
 
 
 // ------Status-----

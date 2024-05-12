@@ -39,24 +39,24 @@ import {
   IoPlayOutline,
   IoSparklesOutline,
   IoTrashOutline,
-  IoVideocamOutline,
+  
 } from "react-icons/io5";
 import { displayActionTexts } from "../../../../utils/displayText";
 import EditSubtopicSheet from "./EditSubtopicSheet";
 import DeleteSubtopicAlert from "./DeleteSubtopicAlert";
 import LoadSubtopicResourcesSystem from "../../systems/LoadSubtopicResourcesSystem";
 import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
-import FlashcardCell from "../flashcardSets/FlashcardCell";
-import EditFlashcardSheet from "../flashcardSets/EditFlashcardSheet";
+import FlashcardCell from "../flashcard-sets/FlashcardCell";
+import EditFlashcardSheet from "../flashcard-sets/EditFlashcardSheet";
 import supabaseClient from "../../../../lib/supabase";
-import AddFlashcardsSheet from "../flashcardSets/AddFlashcardsSheet";
+import AddFlashcardsSheet from "../flashcard-sets/AddFlashcardsSheet";
 import FlashcardQuizView from "../../../study/components/FlashcardQuizView";
 import GeneratePodcastSheet from "../generation/GeneratePodcastSheet";
 import GenerateImprovedTextSheet from "../generation/GenerateImprovedTextSheet";
 import PodcastRow from "../podcasts/PodcastRow";
 import { useBookmarked } from "../../../study/hooks/useBookmarked";
-import LernvideoView from "../lernVideos/LernvideoView";
-import LernvideoRow from "../lernVideos/LernvideoRow";
+import LernvideoView from "../lern-videos/LernvideoView";
+import LernvideoRow from "../lern-videos/LernvideoRow";
 
 enum SubtopicViewStates {
   NOTE,
@@ -79,7 +79,7 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
   const openFlashcardQuizView = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_QUIZ_STORY);
   const openImproveTextSheet = () => lsc.stories.transitTo(Stories.GENERATING_IMPROVED_TEXT_STORY);
   const openGeneratePodcastSheet = () => lsc.stories.transitTo(Stories.GENERATING_PODCAST_STORY);
-  const openGenerateLernVideoSheet = () => lsc.stories.transitTo(Stories.GENERATING_LEARN_VIDEO_STORY);
+  // const openGenerateLernVideoSheet = () => lsc.stories.transitTo(Stories.GENERATING_LEARN_VIDEO_STORY);
 
   const handleTextBlur = async (value: string) => {
     entity.add(new TextFacet({ text: value }));

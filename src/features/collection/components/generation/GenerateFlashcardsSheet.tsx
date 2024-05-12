@@ -14,7 +14,7 @@ import {
 import { useSelectedNote } from "../../hooks/useSelectedNote";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { displayButtonTexts } from "../../../../utils/displayText";
-import PreviewFlashcard from "../flashcardSets/PreviewFlashcard";
+import PreviewFlashcard from "../flashcard-sets/PreviewFlashcard";
 import { Entity } from "@leanscope/ecs-engine";
 import { IdentifierFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
 import { QuestionFacet, AnswerFacet, MasteryLevelFacet, TitleFacet } from "../../../../app/AdditionalFacets";

@@ -25,16 +25,16 @@ import {
 } from "../../../../app/AdditionalFacets";
 import { dataTypeQuery } from "../../../../utils/queries";
 import { sortEntitiesByDateAdded } from "../../../../utils/sortEntitiesByTime";
-import FlashcardSetCell from "../flashcardSets/FlashcardSetCell";
-import FlashcardSetView from "../flashcardSets/FlashcardSetView";
+import FlashcardSetCell from "../flashcard-sets/FlashcardSetCell";
+import FlashcardSetView from "../flashcard-sets/FlashcardSetView";
 import HomeworkCell from "../homeworks/HomeworkCell";
 import HomeworkView from "../homeworks/HomeworkView";
 import NoteCell from "../notes/NoteCell";
 import NoteView from "../notes/NoteView";
 import SubtopicCell from "../subtopics/SubtopicCell";
 import SubtopicView from "../subtopics/SubtopicView";
-import FlashcardCell from "../flashcardSets/FlashcardCell";
-import EditFlashcardSetSheet from "../flashcardSets/EditFlashcardSetSheet";
+import FlashcardCell from "../flashcard-sets/FlashcardCell";
+import EditFlashcardSetSheet from "../flashcard-sets/EditFlashcardSetSheet";
 import PodcastRow from "../podcasts/PodcastRow";
 import DeletePodcastAlert from "../podcasts/DeletePodcastAlert";
 

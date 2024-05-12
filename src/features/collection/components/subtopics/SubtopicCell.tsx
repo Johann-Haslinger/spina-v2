@@ -1,7 +1,7 @@
 import { EntityProps } from "@leanscope/ecs-engine";
 import { TitleProps } from "../../../../app/AdditionalFacets";
 import { Tags } from "@leanscope/ecs-models";
-import SubtopicThumbNail from "../../../../components/thumbNails/SubtopicThumbNail";
+import SubtopicThumbNail from "../../../../components/thumb-nails/SubtopicThumbNail";
 import { useSelectedSchoolSubjectColor } from "../../hooks/useSelectedSchoolSubjectColor";
 
 const SubtopicCell = (props: EntityProps & TitleProps) => {

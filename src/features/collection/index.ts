@@ -1,8 +1,8 @@
-export { default as SchoolSubjectCell } from "./components/schoolSubjects/SchoolSubjectCell";
-export { default as SchoolSubjectView } from "./components/schoolSubjects/SchoolSubjectView";
+export { default as SchoolSubjectCell } from "./components/school-subjects/SchoolSubjectCell";
+export { default as SchoolSubjectView } from "./components/school-subjects/SchoolSubjectView";
 export { default as LoadFlashcardsSystem } from "./systems/LoadFlashcardsSystem";
-export { default as FlashcardCell } from "./components/flashcardSets/FlashcardCell";
-export { default as FlashcardSetView } from "./components/flashcardSets/FlashcardSetView";
+export { default as FlashcardCell } from "./components/flashcard-sets/FlashcardCell";
+export { default as FlashcardSetView } from "./components/flashcard-sets/FlashcardSetView";
 export { default as HomeworkView } from "./components/homeworks/HomeworkView";
 export { default as PodcastCollectionView } from "./components/podcasts/PodcastCollectionView";
 export { default as AddHomeworkSheet } from "./components/homeworks/AddHomeworkSheet";

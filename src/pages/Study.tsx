@@ -16,7 +16,7 @@ import { sortEntitiesByDateAdded } from "../utils/sortEntitiesByTime";
 import { useFlashcardGroups } from "../features/study/hooks/useFlashcardGroups";
 import SubtopicView from "../features/collection/components/subtopics/SubtopicView";
 import LoadSubtopicResourcesSystem from "../features/collection/systems/LoadSubtopicResourcesSystem";
-import AddFlashcardSetSheet from "../features/collection/components/flashcardSets/AddFlashcardSetSheet";
+import AddFlashcardSetSheet from "../features/collection/components/flashcard-sets/AddFlashcardSetSheet";
 import FlashcardQuizView from "../features/study/components/FlashcardQuizView";
 
 const Study = () => {
