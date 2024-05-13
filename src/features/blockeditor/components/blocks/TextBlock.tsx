@@ -1,14 +1,15 @@
-import { EntityProps } from '@leanscope/ecs-engine'
-import { OrderProps, TextProps } from '@leanscope/ecs-models'
-import BlockOutline from './BlockOutline'
+import { EntityProps } from "@leanscope/ecs-engine";
+import { FloatOrderProps, ParentProps, TextProps } from "@leanscope/ecs-models";
+import BlockOutline from "./BlockOutline";
+import BlockTexteditor from "./BlockTexteditor";
 
-const TextBlock = (props: TextProps & EntityProps & OrderProps) => {
-  const { text, entity, orderIndex } = props
+const TextBlock = (props: TextProps & EntityProps  & ParentProps  & FloatOrderProps) => {
+  const { entity, index } = props;
   return (
-   <BlockOutline index={orderIndex || 0} blockEntity={entity}>
-      {text}
-   </BlockOutline>
-  )
-}
+    <BlockOutline index={index || 0} blockEntity={entity}>
+      <BlockTexteditor {...props} />
+    </BlockOutline>
+  );
+};
 
-export default TextBlock
+export default TextBlock;

@@ -61,6 +61,7 @@ export enum AdditionalTags {
   DELETE,
   ONLINE,
   CONTENT_EDITABLE,
+  FOCUSED
 }
 
 export enum NavigationLinks {
@@ -102,4 +103,23 @@ export enum Blocktypes {
   DIVIDER = "divider",
   IMAGE = "image",
   PAGE = "page",
+  LIST = "list",
+  TODO = "todo",
+}
+
+export enum Texttypes {
+  TITLE = "Titel",
+  SUBTITLE = "Untertitel",
+  HEADING = "Überschrift",
+  BOLD = "Fett",
+  NORMAL = "Normal",
+  CAPTION = "Beschriftung",
+  UNDERLINE = "Unterstrichen",
+  ITALIC = "Kursiv",
+}
+
+export enum ListStyles {
+  BULLET = "bullet",
+  NUMBER = "number",
+  UNORDERED = "unordered",
 }

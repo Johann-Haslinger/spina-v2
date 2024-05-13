@@ -1,5 +1,5 @@
 import { EntityPropsMapper } from "@leanscope/ecs-engine";
-import { IdentifierFacet, OrderFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
+import { IdentifierFacet, FloatOrderFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
 import { BlocktypeFacet } from "../../../app/additionalFacets";
 import { useCurrentBlockeditor } from "../hooks/useCurrentBlockeditor";
 import { DataTypes } from "../../../base/enums";
@@ -102,7 +102,7 @@ const ComponentRenderer = () => {
             <div ref={provided.innerRef} {...provided.droppableProps}>
               <EntityPropsMapper
                 query={(e) => e.get(ParentFacet)?.props.parentId == blockeditorId && e.has(DataTypes.BLOCK)}
-                get={[[IdentifierFacet, BlocktypeFacet, TextFacet, OrderFacet], []]}
+                get={[[IdentifierFacet, ParentFacet,  BlocktypeFacet, TextFacet, FloatOrderFacet], []]}
                 sort={sortEntitiesByOrder}
                 onMatch={Blockrenderer}
               />

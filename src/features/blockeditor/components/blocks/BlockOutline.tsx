@@ -4,15 +4,13 @@ import React, { PropsWithChildren, useEffect, useRef, useState } from "react";
 import { Draggable } from "react-beautiful-dnd";
 import { useCurrentBlockeditor } from "../../hooks/useCurrentBlockeditor";
 import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntityComponents";
-import { changeBlockeditorState } from "../../functions/changeBlockeditorState";
 import { AdditionalTags } from "../../../../base/enums";
 import tw from "twin.macro";
 import styled from "@emotion/styled";
 
 const StyledBlockWrapper = styled.div<{ isPressed: boolean; hidePaddingY: boolean }>`
-  ${tw`md:mb-1  px-2 transition-all  mb-0.5  rounded-md w-full  flex h-fit `}
-  ${({ isPressed }) =>
-    isPressed ? tw`bg-[rgb(225,241,254)]  dark:bg-tertiaryDark     z-40  select-none ` : tw`border-white`};
+  ${tw`md:mb-1  px-2  mb-0.5  rounded-md w-full  flex h-fit `}
+  ${({ isPressed }) => (isPressed ? tw`bg-primaryColor  bg-opacity-10 dark:bg-opacity-100 dark:bg-seconderyDark   z-40  select-none ` : tw`border-white`)};
   ${({ hidePaddingY }) => (hidePaddingY ? tw`py-0 min-h-[32px]` : tw`py-1 min-h-[40px]`)};
 `;
 
@@ -21,13 +19,13 @@ const StyledContentWrapper = styled.div`
 `;
 
 const StyledSelectionIndicatorWrapper = styled.div<{ isEdeting: boolean }>`
-  ${tw`w-6 h-full  transition-all flex items-center absolute top-0 right-0`}
+  ${tw`w-6 h-full   flex items-center absolute top-0 right-0`}
   ${({ isEdeting }) => (isEdeting ? tw`visible` : tw`invisible`)}
 `;
 
 const StyledSelectionIndicator = styled.div<{ isVisible: boolean }>`
-  ${tw`w-3 h-3  transition-all  select-none rounded-full border border-[rgb(212,212,212)]`}
-  ${({ isVisible }) => (isVisible ? tw`bg-primary` : tw``)}
+  ${tw`w-3 h-3  select-none rounded-full border `}
+  ${({ isVisible }) => (isVisible ? tw` border-primaryColor dark:border-white dark:bg-white bg-primaryColor` : tw`dark:border-white border-[rgb(212,212,212)]`)}
 `;
 
 interface BlockOutlineProps {
@@ -38,7 +36,7 @@ interface BlockOutlineProps {
 
 const BlockOutline = (props: BlockOutlineProps & PropsWithChildren) => {
   const { blockEntity, index, hidePaddingY, children } = props;
-  const { blockeditorState, blockeditorEntity } = useCurrentBlockeditor();
+  const { blockeditorState } = useCurrentBlockeditor();
   const isEditing = blockeditorState === "edit";
   const [isPressed] = useEntityHasTags(blockEntity, Tags.SELECTED);
   const blockId = blockEntity.get(IdentifierFacet)?.props.guid;
@@ -71,8 +69,6 @@ const BlockOutline = (props: BlockOutlineProps & PropsWithChildren) => {
 
   const toggleIsBlockPressed = () => {
     if (blockeditorState !== "write") {
-      changeBlockeditorState(blockeditorEntity, "edit");
-
       if (!isPressed) {
         blockEntity.removeTag(AdditionalTags.CONTENT_EDITABLE);
         blockEntity.add(Tags.SELECTED);

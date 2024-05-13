@@ -1,4 +1,4 @@
-import { Blocktypes, SupportedLanguages } from "../base/enums";
+import { Blocktypes, ListStyles, SupportedLanguages, Texttypes } from "../base/enums";
 import { Facet } from "../base/facet";
 import { BlockeditorState } from "../base/types";
 
@@ -145,6 +145,36 @@ export interface BlocktypeProps{
 
 export class BlocktypeFacet extends Facet<BlocktypeProps> {
   constructor(props: BlocktypeProps) {
+    super(props);
+  }
+}
+
+export interface TexttypeProps{
+  texttype: Texttypes
+}
+
+export class TexttypeFacet extends Facet<TexttypeProps> {
+  constructor(props: TexttypeProps) {
+    super(props);
+  }
+}
+
+export interface ListStyleProps{
+  listStyle: ListStyles
+}
+
+export class ListStyleFacet extends Facet<ListStyleProps> {
+  constructor(props: ListStyleProps) {
+    super(props);
+  }
+}
+
+export interface TodoStateFacetProps {
+  todoState: number
+}
+
+export class TodoStateFacet extends Facet<TodoStateFacetProps> {
+  constructor(props: TodoStateFacetProps) {
     super(props);
   }
 }

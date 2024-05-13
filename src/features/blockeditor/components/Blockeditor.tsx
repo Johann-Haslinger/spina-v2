@@ -7,9 +7,14 @@ import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import { displayActionTexts, displayButtonTexts } from "../../../utils/displayText";
 import { changeBlockeditorState } from "../functions/changeBlockeditorState";
 import UpdateBlockStateSystem from "../systems/UpdateBlockStateSystem";
-import { useOutsideBlockareaClick } from "../hooks/useOutsideBlockareaClick";
+
 import ComponentRenderer from "./ComponentRenderer";
 import LoadBlocksSystem from "../systems/LoadBlocksSystem";
+import ChangeBlockeditorStateSystem from "../systems/ChangeBlockeditorStateSystem";
+import { useClickOutsideBlockEditorHandler } from "../hooks/useClickOutsideBlockEditorHandler";
+import { useEntities } from "@leanscope/ecs-engine";
+import { DataTypes } from "../../../base/enums";
+import { ParentFacet } from "@leanscope/ecs-models";
 
 // function getTextTypeForString(textType: string): TextTypes {
 //   if (textType === "Titel") {
@@ -58,15 +63,18 @@ const Blockeditor = (props: BlockeditorProps) => {
     props;
   const { selectedLanguage } = useSelectedLanguage();
   const { blockeditorState, blockeditorEntity } = useCurrentBlockeditor();
-  const { blocksAreaRef, addBlockAreaRef } = useOutsideBlockareaClick();
+  const { blocksAreaRef, addBlockAreaRef } = useClickOutsideBlockEditorHandler();
+  const [blockEntities]  = useEntities((e)=> e.has(DataTypes.BLOCK) && e.get(ParentFacet)?.props.parentId === id)
 
   return (
     <Fragment>
       <InitializeBlockeditorSystem blockeditorId={id} />
       <LoadBlocksSystem />
       <UpdateBlockStateSystem />
+      <ChangeBlockeditorStateSystem />
 
       <NavigationBar>
+        {blockEntities.length}
         {blockeditorState === "view" ? (
           <Fragment>
             <NavBarButton
