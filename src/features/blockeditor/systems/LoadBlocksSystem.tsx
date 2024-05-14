@@ -4,7 +4,7 @@ import { useCurrentBlockeditor } from "../hooks/useCurrentBlockeditor";
 import { dummyBlocks } from "../../../base/dummy";
 import { Entity } from "@leanscope/ecs-engine";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { IdentifierFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
+import { FloatOrderFacet, IdentifierFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
 import { BlocktypeFacet, TexttypeFacet } from "../../../app/additionalFacets";
 import {  DataTypes } from "../../../base/enums";
 
@@ -37,8 +37,9 @@ const LoadBlocksSystem = () => {
             newBlockEntity.add(new BlocktypeFacet({ blocktype: block.blockType }));
             newBlockEntity.add(new TexttypeFacet({ texttype: block.textType }));
             newBlockEntity.add(new TextFacet({ text: block.content }));
+            newBlockEntity.add(new FloatOrderFacet({ index: block.order }));
             newBlockEntity.add(DataTypes.BLOCK);
-            console.log(newBlockEntity);
+
           }
         });
       }

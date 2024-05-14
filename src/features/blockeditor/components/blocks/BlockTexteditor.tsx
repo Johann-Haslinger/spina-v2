@@ -103,11 +103,11 @@ const handleEnterPress = (lsc: ILeanScopeClient, blockEntity: Entity, texteditor
   const newtext = blockText?.substring(0, cursorPosition);
   const cuttedtext = blockText?.substring(cursorPosition);
 
+  blockEntity.removeTag(AdditionalTags.FOCUSED);
   blockEntity.add(new TextFacet({ text: newtext }));
 
   if (textEditor) {
     textEditor.innerHTML = newtext;
-    textEditor.blur();
   }
 
   const newTextBlockOrder =
@@ -127,7 +127,31 @@ const handleEnterPress = (lsc: ILeanScopeClient, blockEntity: Entity, texteditor
   addBlock(lsc, newBlockEntity);
 };
 
-const handleBackspacePressWithoutText = (
+const handleBackspacePressWithoutText = (lsc: ILeanScopeClient, blockEntity: Entity) => {
+  const blockType = blockEntity?.get(BlocktypeFacet)?.props.blocktype || Blocktypes.TEXT;
+
+  if (blockType === Blocktypes.TEXT) {
+    const lowerBlockEntity = getNextLowerOrderEntity(lsc, blockEntity);
+    const lowerBlockType = lowerBlockEntity?.get(BlocktypeFacet)?.props.blocktype;
+    deleteBlock(lsc, blockEntity);
+    console.log("lowerBlockEntity", lowerBlockEntity);
+    lowerBlockEntity?.add(AdditionalTags.FOCUSED);
+
+    if (
+      lowerBlockEntity &&
+      (lowerBlockType === Blocktypes.TEXT || lowerBlockType === Blocktypes.LIST || lowerBlockType === Blocktypes.TODO)
+    ) {
+      lowerBlockEntity.add(AdditionalTags.FOCUSED);
+    }
+  } else {
+    blockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.TEXT }));
+
+    // TODO: Add change to supabase
+
+    // const { error } = await supabase.from("blocks").update({ type: "text" }).eq("id", id);
+  }
+};
+const handleBackSpacePressWithText = (
   lsc: ILeanScopeClient,
   blockEntity: Entity,
   texteditorRef: RefObject<HTMLDivElement>
@@ -147,29 +171,6 @@ const handleBackspacePressWithoutText = (
     higherBlock?.add(AdditionalTags.FOCUSED);
 
     deleteBlock(lsc, blockEntity);
-  }
-};
-const handleBackSpacePressWithText = (lsc: ILeanScopeClient, blockEntity: Entity) => {
-  const blockType = blockEntity?.get(BlocktypeFacet)?.props.blocktype || Blocktypes.TEXT;
-
-  if (blockType === Blocktypes.TEXT) {
-    const lowerBlockEntity = getNextLowerOrderEntity(lsc, blockEntity);
-    const lowerBlockType = lowerBlockEntity?.get(BlocktypeFacet)?.props.blocktype;
-
-    deleteBlock(lsc, blockEntity);
-
-    if (
-      lowerBlockEntity &&
-      (lowerBlockType === Blocktypes.TEXT || lowerBlockType === Blocktypes.LIST || lowerBlockType === Blocktypes.TODO)
-    ) {
-      lowerBlockEntity.add(AdditionalTags.FOCUSED);
-    }
-  } else {
-    blockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.TEXT }));
-
-    // TODO: Add change to supabase
-
-    // const { error } = await supabase.from("blocks").update({ type: "text" }).eq("id", id);
   }
 };
 
@@ -273,10 +274,10 @@ const BlockTexteditor = (props: EntityProps & TextProps & ParentProps) => {
       case "Backspace":
         if (text.trim().length === 0) {
           e.preventDefault();
-          handleBackspacePressWithoutText(lsc, entity, texteditorRef);
+          handleBackspacePressWithoutText(lsc, entity);
         } else if (text.trim().length > 0 && caretPosition === 0) {
           e.preventDefault();
-          handleBackSpacePressWithText(lsc, entity);
+          handleBackSpacePressWithText(lsc, entity, texteditorRef);
         }
         break;
       case "ArrowUp":

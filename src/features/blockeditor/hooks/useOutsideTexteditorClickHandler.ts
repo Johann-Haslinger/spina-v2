@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 import { AdditionalTags } from "../../../base/enums";
 
 export const useTexteditorRef = (entity: Entity) => {
-  const isFocused = useEntityHasTags(entity, AdditionalTags.FOCUSED);
+  const [isFocused] = useEntityHasTags(entity, AdditionalTags.FOCUSED);
   const texteditorRef = useRef<HTMLDivElement>(null);
 
   const handleClickOutside = (e: MouseEvent) => {
@@ -20,24 +20,23 @@ export const useTexteditorRef = (entity: Entity) => {
     };
   }, []);
 
- 
-
   useEffect(() => {
-    if (isFocused) {
-      if (texteditorRef.current) {
-        texteditorRef.current.focus();
-        const range = document.createRange();
-        const selection = window.getSelection();
-        if (selection) {
-          range.selectNodeContents(texteditorRef.current);
-          range.collapse(false);
-          selection.removeAllRanges();
-          selection.addRange(range);
-        }
-      }
-    } else {
-      if (texteditorRef.current) {
-        texteditorRef.current.blur();
+    const texteditor = texteditorRef.current;
+    if (texteditor) {
+      if (isFocused) {
+        setTimeout(() => {
+          texteditor.focus();
+          const range = document.createRange();
+          const selection = window.getSelection();
+          if (selection) {
+            range.selectNodeContents(texteditor);
+            range.collapse(false);
+            selection.removeAllRanges();
+            selection.addRange(range);
+          }
+        }, 1);
+      } else {
+        texteditor.blur();
       }
     }
   }, [isFocused]);
