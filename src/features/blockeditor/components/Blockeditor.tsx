@@ -12,9 +12,7 @@ import ComponentRenderer from "./ComponentRenderer";
 import LoadBlocksSystem from "../systems/LoadBlocksSystem";
 import ChangeBlockeditorStateSystem from "../systems/ChangeBlockeditorStateSystem";
 import { useClickOutsideBlockEditorHandler } from "../hooks/useClickOutsideBlockEditorHandler";
-import { useEntities } from "@leanscope/ecs-engine";
-import { DataTypes } from "../../../base/enums";
-import { ParentFacet } from "@leanscope/ecs-models";
+
 
 // function getTextTypeForString(textType: string): TextTypes {
 //   if (textType === "Titel") {
@@ -64,7 +62,6 @@ const Blockeditor = (props: BlockeditorProps) => {
   const { selectedLanguage } = useSelectedLanguage();
   const { blockeditorState, blockeditorEntity } = useCurrentBlockeditor();
   const { blocksAreaRef, addBlockAreaRef } = useClickOutsideBlockEditorHandler();
-  const [blockEntities]  = useEntities((e)=> e.has(DataTypes.BLOCK) && e.get(ParentFacet)?.props.parentId === id)
 
   return (
     <Fragment>
@@ -74,7 +71,6 @@ const Blockeditor = (props: BlockeditorProps) => {
       <ChangeBlockeditorStateSystem />
 
       <NavigationBar>
-        {blockEntities.length}
         {blockeditorState === "view" ? (
           <Fragment>
             <NavBarButton

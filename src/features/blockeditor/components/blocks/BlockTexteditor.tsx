@@ -3,9 +3,7 @@ import {
   IdentifierFacet,
   FloatOrderFacet,
   ParentFacet,
-  ParentProps,
   TextFacet,
-  TextProps,
 } from "@leanscope/ecs-models";
 import { FormEvent, Fragment, RefObject, useContext, useState } from "react";
 import { BlocktypeFacet, ListStyleFacet, TexttypeFacet, TodoStateFacet } from "../../../../app/additionalFacets";
@@ -103,28 +101,32 @@ const handleEnterPress = (lsc: ILeanScopeClient, blockEntity: Entity, texteditor
   const newtext = blockText?.substring(0, cursorPosition);
   const cuttedtext = blockText?.substring(cursorPosition);
 
-  blockEntity.removeTag(AdditionalTags.FOCUSED);
-  blockEntity.add(new TextFacet({ text: newtext }));
+  if (blockType == Blocktypes.TEXT || textEditor?.innerHTML !== "") {
+    blockEntity.removeTag(AdditionalTags.FOCUSED);
+    blockEntity.add(new TextFacet({ text: newtext }));
 
-  if (textEditor) {
-    textEditor.innerHTML = newtext;
+    if (textEditor) {
+      textEditor.innerHTML = newtext;
+    }
+
+    const newTextBlockOrder =
+      getHighestOrder(lsc, blockEntity) === blockOrder
+        ? blockOrder + 1
+        : findNumberBetween(blockOrder, getNextHigherOrder(lsc, blockEntity));
+
+    const newBlockEntity = new Entity();
+    newBlockEntity.add(new IdentifierFacet({ guid: v4() }));
+    newBlockEntity.add(new FloatOrderFacet({ index: newTextBlockOrder }));
+    newBlockEntity.add(new ParentFacet({ parentId: blockEntity?.get(ParentFacet)?.props.parentId || "" }));
+    newBlockEntity.add(new TextFacet({ text: cuttedtext }));
+    newBlockEntity.add(new BlocktypeFacet({ blocktype: blockType }));
+    newBlockEntity.add(DataTypes.BLOCK);
+    newBlockEntity.add(AdditionalTags.FOCUSED);
+
+    addBlock(lsc, newBlockEntity);
+  } else {
+    blockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.TEXT }));
   }
-
-  const newTextBlockOrder =
-    getHighestOrder(lsc, blockEntity) === blockOrder
-      ? blockOrder + 1
-      : findNumberBetween(blockOrder, getNextHigherOrder(lsc, blockEntity));
-
-  const newBlockEntity = new Entity();
-  newBlockEntity.add(new IdentifierFacet({ guid: v4() }));
-  newBlockEntity.add(new FloatOrderFacet({ index: newTextBlockOrder }));
-  newBlockEntity.add(new ParentFacet({ parentId: blockEntity?.get(ParentFacet)?.props.parentId || "" }));
-  newBlockEntity.add(new TextFacet({ text: cuttedtext }));
-  newBlockEntity.add(new BlocktypeFacet({ blocktype: blockType }));
-  newBlockEntity.add(DataTypes.BLOCK);
-  newBlockEntity.add(AdditionalTags.FOCUSED);
-
-  addBlock(lsc, newBlockEntity);
 };
 
 const handleBackspacePressWithoutText = (lsc: ILeanScopeClient, blockEntity: Entity) => {
@@ -211,9 +213,11 @@ const StyledTexteditor = styled.div`
   ${tw`w-full h-full py-1 !select-none outline-none cursor-text`}
 `;
 
-const BlockTexteditor = (props: EntityProps & TextProps & ParentProps) => {
+const BlockTexteditor = (props: EntityProps) => {
   const lsc = useContext(LeanScopeClientContext);
-  const { entity, text, parentId } = props;
+  const { entity } = props;
+  const text = entity.get(TextFacet)?.props.text || "";
+  const parentId = entity.get(ParentFacet)?.props.parentId || "";
   const texttype = entity.get(TexttypeFacet)?.props.texttype || Texttypes.NORMAL;
   const { blockeditorState, blockeditorEntity } = useCurrentBlockeditor();
   const { userId } = useUserData();

@@ -5,7 +5,7 @@ import { useCurrentBlockeditor } from "../hooks/useCurrentBlockeditor";
 import { DataTypes } from "../../../base/enums";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { sortEntitiesByOrder } from "../../../utils/sortEntitiesByOrder";
-import Blockrenderer from "./Blockrenderer";
+import BlockRenderer from "./BlockRenderer";
 
 // const recalculateOrder = (startIndex: number, endIndex: number, sortedBlocks: Block[]) => {
 //   const startOrder = sortedBlocks[startIndex].order;
@@ -104,7 +104,7 @@ const ComponentRenderer = () => {
                 query={(e) => e.get(ParentFacet)?.props.parentId == blockeditorId && e.has(DataTypes.BLOCK)}
                 get={[[IdentifierFacet, ParentFacet,  BlocktypeFacet, TextFacet, FloatOrderFacet], []]}
                 sort={sortEntitiesByOrder}
-                onMatch={Blockrenderer}
+                onMatch={BlockRenderer}
               />
 
               {provided.placeholder}
