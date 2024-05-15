@@ -5,7 +5,7 @@ import { dummyBlocks } from "../../../base/dummy";
 import { Entity } from "@leanscope/ecs-engine";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { FloatOrderFacet, IdentifierFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
-import { BlocktypeFacet, TexttypeFacet } from "../../../app/additionalFacets";
+import { BlocktypeFacet, TexttypeFacet } from "../../../app/a";
 import {  DataTypes } from "../../../base/enums";
 
 const fetchBlocks = async (blockeditorId: string) => {

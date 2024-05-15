@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useSelectedPodcast } from "../hooks/useSelectedPodcast";
 import supabaseClient from "../../../lib/supabase";
-import { SourceFacet } from "../../../app/additionalFacets";
+import { SourceFacet } from "../../../app/a";
 import { useMockupData } from "../../../hooks/useMockupData";
 import { dummyBase64Audio } from "../../../base/dummyBase64Audio";
 

@@ -2,7 +2,7 @@ import { EntityProps } from "@leanscope/ecs-engine";
 import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntityComponents";
 import { Tags } from "@leanscope/ecs-models";
 import { useEffect } from "react";
-import { TexttypeFacet } from "../../../app/additionalFacets";
+import { TexttypeFacet } from "../../../app/a";
 import { useCurrentBlockeditor } from "../hooks/useCurrentBlockeditor";
 import { Texttypes } from "../../../base/enums";
 

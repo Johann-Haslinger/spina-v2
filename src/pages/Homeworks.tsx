@@ -9,7 +9,7 @@ import { DataTypes, Stories } from "../base/enums";
 import { HomeworkKanbanCell } from "../features/homeworks";
 import { EntityPropsMapper } from "@leanscope/ecs-engine";
 import { IdentifierFacet, ParentFacet, Tags, TextFacet } from "@leanscope/ecs-models";
-import { DueDateFacet, TitleFacet } from "../app/additionalFacets";
+import { DueDateFacet, TitleFacet } from "../app/a";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { sortEntitiesByDueDate } from "../utils/sortEntitiesByTime";
 import { AddHomeworkSheet, HomeworkView } from "../features/collection";

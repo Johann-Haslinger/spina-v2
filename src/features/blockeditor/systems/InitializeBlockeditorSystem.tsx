@@ -2,7 +2,7 @@ import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity, useEntities } from "@leanscope/ecs-engine";
 import { IdentifierFacet } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
-import { BlockeditorStateFacet } from "../../../app/additionalFacets";
+import { BlockeditorStateFacet } from "../../../app/a";
 
 const InitializeBlockeditorSystem = (props: { blockeditorId: string }) => {
   const { blockeditorId } = props;

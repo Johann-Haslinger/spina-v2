@@ -8,7 +8,7 @@ import { EntityCreator } from "@leanscope/ecs-engine";
 import LoadTopicsSystem from "../systems/LoadTopicsSystem";
 import { DataTypes, Stories } from "../../../base/enums";
 import { IdentifierFacet, OrderFacet, Tags } from "@leanscope/ecs-models";
-import { TitleFacet } from "../../../app/additionalFacets";
+import { TitleFacet } from "../../../app/a";
 import Collection from "../../../pages/Collection";
 import InitializeSchoolSubjectsSystem from "../../../systems/InitializeSchoolSubjectsSystem";
 import InitializeStoriesSystem from "../../../systems/InitializeStoriesSystem";

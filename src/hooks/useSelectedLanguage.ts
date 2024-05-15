@@ -1,6 +1,6 @@
 import { SupportedLanguages } from "../base/enums";
 import { useAppState } from "../features/collection/hooks/useAppState";
-import { SelectedLanguageFacet } from "../app/additionalFacets";
+import { SelectedLanguageFacet } from "../app/a";
 
 export const useSelectedLanguage = () => {
   const { appStateEntity } = useAppState();

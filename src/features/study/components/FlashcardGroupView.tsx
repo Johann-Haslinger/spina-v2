@@ -12,7 +12,7 @@ import {
   MasteryLevelFacet,
   QuestionFacet,
   TitleProps,
-} from "../../../app/additionalFacets";
+} from "../../../app/a";
 import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
 import { IoAdd } from "react-icons/io5";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";

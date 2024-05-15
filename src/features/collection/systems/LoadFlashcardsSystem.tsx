@@ -6,7 +6,7 @@ import {
   Tags,
 } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
-import { AnswerFacet, MasteryLevelFacet, QuestionFacet } from "../../../app/additionalFacets";
+import { AnswerFacet, MasteryLevelFacet, QuestionFacet } from "../../../app/a";
 import { dummyFlashcards } from "../../../base/dummy";
 import { DataTypes } from "../../../base/enums";
 import supabaseClient from "../../../lib/supabase";

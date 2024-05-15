@@ -5,7 +5,7 @@ import { FlexBox, View } from "../../../components";
 import { useSeletedFlashcardGroup } from "../../collection/hooks/useSelectedFlashcardGroup";
 import { useState } from "react";
 import { Entity, useEntities } from "@leanscope/ecs-engine";
-import { AnswerFacet, LastReviewedFacet, MasteryLevelFacet, QuestionFacet } from "../../../app/additionalFacets";
+import { AnswerFacet, LastReviewedFacet, MasteryLevelFacet, QuestionFacet } from "../../../app/a";
 import styled from "@emotion/styled/macro";
 import tw from "twin.macro";
 import { motion } from "framer-motion";

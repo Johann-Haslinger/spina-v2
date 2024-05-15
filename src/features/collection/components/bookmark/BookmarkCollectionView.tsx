@@ -22,7 +22,7 @@ import {
   MasteryLevelFacet,
   QuestionFacet,
   TitleFacet,
-} from "../../../../app/additionalFacets";
+} from "../../../../app/a";
 import { dataTypeQuery } from "../../../../utils/queries";
 import { sortEntitiesByDateAdded } from "../../../../utils/sortEntitiesByTime";
 import FlashcardSetCell from "../flashcard-sets/FlashcardSetCell";

@@ -19,7 +19,7 @@ import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import { useSchoolSubjectEntities } from "../../../hooks/useSchoolSubjects";
 import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { IoCheckmarkCircle, IoEllipseOutline } from "react-icons/io5";
-import { DueDateFacet, RelationshipFacet, StatusFacet, TitleFacet } from "../../../app/additionalFacets";
+import { DueDateFacet, RelationshipFacet, StatusFacet, TitleFacet } from "../../../app/a";
 import { useSchoolSubjectTopics } from "../../../hooks/useSchoolSubjectTopics";
 import { Entity } from "@leanscope/ecs-engine";
 import supabaseClient from "../../../lib/supabase";

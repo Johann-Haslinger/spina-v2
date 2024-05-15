@@ -1,5 +1,5 @@
 import { FlashcardSetThumbNail } from "../../../../components";
-import { TitleProps } from "../../../../app/additionalFacets";
+import { TitleProps } from "../../../../app/a";
 import { EntityProps } from "@leanscope/ecs-engine";
 import { useSelectedSchoolSubjectColor } from "../../hooks/useSelectedSchoolSubjectColor";
 import { Tags } from "@leanscope/ecs-models";

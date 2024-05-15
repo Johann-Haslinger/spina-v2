@@ -1,5 +1,5 @@
 import { EntityProps } from "@leanscope/ecs-engine";
-import { TitleProps } from "../../../../app/additionalFacets";
+import { TitleProps } from "../../../../app/a";
 import { Tags } from "@leanscope/ecs-models";
 import SubtopicThumbNail from "../../../../components/thumb-nails/SubtopicThumbNail";
 import { useSelectedSchoolSubjectColor } from "../../hooks/useSelectedSchoolSubjectColor";

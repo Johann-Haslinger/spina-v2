@@ -1,5 +1,5 @@
 import { EntityProps } from "@leanscope/ecs-engine";
-import { DateAddedProps, TitleProps } from "../../../../app/additionalFacets";
+import { DateAddedProps, TitleProps } from "../../../../app/a";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 import { Fragment } from "react/jsx-runtime";
 import { IdentifierProps } from "@leanscope/ecs-models";

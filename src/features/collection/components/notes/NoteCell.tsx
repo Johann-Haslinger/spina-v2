@@ -1,4 +1,4 @@
-import { TitleProps } from "../../../../app/additionalFacets";
+import { TitleProps } from "../../../../app/a";
 import { EntityProps } from "@leanscope/ecs-engine";
 import { Tags } from "@leanscope/ecs-models";
 import { useSelectedSchoolSubjectColor } from "../../hooks/useSelectedSchoolSubjectColor";

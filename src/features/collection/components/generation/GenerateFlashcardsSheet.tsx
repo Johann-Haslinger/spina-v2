@@ -17,7 +17,7 @@ import { displayButtonTexts } from "../../../../utils/displayText";
 import PreviewFlashcard from "../flashcard-sets/PreviewFlashcard";
 import { Entity } from "@leanscope/ecs-engine";
 import { IdentifierFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
-import { QuestionFacet, AnswerFacet, MasteryLevelFacet, TitleFacet } from "../../../../app/additionalFacets";
+import { QuestionFacet, AnswerFacet, MasteryLevelFacet, TitleFacet } from "../../../../app/a";
 import supabaseClient from "../../../../lib/supabase";
 import { v4 } from "uuid";
 import { useUserData } from "../../../../hooks/useUserData";

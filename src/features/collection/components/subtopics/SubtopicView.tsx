@@ -6,7 +6,7 @@ import {
   QuestionFacet,
   TitleFacet,
   TitleProps,
-} from "../../../../app/additionalFacets";
+} from "../../../../app/a";
 import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
 import {
   ActionRow,

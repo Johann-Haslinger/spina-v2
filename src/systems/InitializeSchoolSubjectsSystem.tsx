@@ -2,7 +2,7 @@ import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useContext, useEffect } from "react";
 import supabaseClient from "../lib/supabase";
 import { Entity } from "@leanscope/ecs-engine";
-import { TitleFacet } from "../app/additionalFacets";
+import { TitleFacet } from "../app/a";
 import { IdentifierFacet, OrderFacet } from "@leanscope/ecs-models";
 import { DataTypes } from "../base/enums";
 import { dummySchoolSubjects } from "../base/dummy";

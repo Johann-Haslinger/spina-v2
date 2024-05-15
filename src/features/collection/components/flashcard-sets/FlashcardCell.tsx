@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { AnswerProps, MasteryLevelProps, QuestionProps } from "../../../../app/additionalFacets";
+import { AnswerProps, MasteryLevelProps, QuestionProps } from "../../../../app/a";
 import { EntityProps } from "@leanscope/ecs-engine";
 import tw from "twin.macro";
 import { Tags } from "@leanscope/ecs-models";

@@ -16,7 +16,7 @@ import {
   MasteryLevelProps,
   QuestionFacet,
   QuestionProps,
-} from "../../../../app/additionalFacets";
+} from "../../../../app/a";
 import { EntityProps } from "@leanscope/ecs-engine";
 import { AdditionalTags } from "../../../../base/enums";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";

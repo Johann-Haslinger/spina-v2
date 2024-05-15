@@ -1,4 +1,4 @@
-import { TitleProps } from "../../../../app/additionalFacets";
+import { TitleProps } from "../../../../app/a";
 import { EntityProps } from "@leanscope/ecs-engine";
 import { useTopicColor } from "../../hooks/useTopicColor";
 import tw from "twin.macro";

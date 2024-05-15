@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 import { ILeanScopeClient } from "@leanscope/api-client/interfaces";
 import { v4 } from "uuid";
 import { addBlock } from "../../../functions/addBlock";
-import { BlocktypeFacet, TitleFacet } from "../../../../../app/additionalFacets";
+import { BlocktypeFacet, TitleFacet } from "../../../../../app/a";
 import { sortEntitiesByOrder } from "../../../../../utils/sortEntitiesByOrder";
 import {
   IoColorPalette,

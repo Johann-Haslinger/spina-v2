@@ -8,7 +8,7 @@ import {
   DateAddedFacet,
   StatusFacet,
   RelationshipFacet,
-} from "../../../app/additionalFacets";
+} from "../../../app/a";
 
 import { DataTypes } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
