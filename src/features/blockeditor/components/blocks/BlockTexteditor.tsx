@@ -1,7 +1,7 @@
 import { Entity, EntityProps } from "@leanscope/ecs-engine";
 import { IdentifierFacet, FloatOrderFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
 import { FormEvent, Fragment, RefObject, useContext, useState } from "react";
-import { BlocktypeFacet, ListStyleFacet, TexttypeFacet, TodoStateFacet } from "../../../../app/a";
+import { BlocktypeFacet, ListStyleFacet, TexttypeFacet, TodoStateFacet } from "../../../../app/additionalFacets";
 import styled from "@emotion/styled";
 import tw from "twin.macro";
 import { useCurrentBlockeditor } from "../../hooks/useCurrentBlockeditor";

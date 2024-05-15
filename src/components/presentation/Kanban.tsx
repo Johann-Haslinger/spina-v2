@@ -5,7 +5,7 @@ import { IdentifierFacet } from "@leanscope/ecs-models";
 import styled from "@emotion/styled/macro";
 import tw from "twin.macro";
 import { COLOR_ITEMS } from "../../base/constants";
-import { StatusFacet } from "../../app/a";
+import { StatusFacet } from "../../app/additionalFacets";
 
 const selectColorItemForColoumn = (statusId: string) => {
   switch (statusId) {

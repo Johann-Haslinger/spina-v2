@@ -4,7 +4,7 @@ import { Tags } from "@leanscope/ecs-models";
 import { Fragment, useState } from "react";
 import {  IoEllipsisHorizontal, IoBookmarkOutline, IoTrashOutline, IoVideocam } from "react-icons/io5";
 import tw from "twin.macro";
-import { TitleProps, DateAddedProps } from "../../../../app/a";
+import { TitleProps, DateAddedProps } from "../../../../app/additionalFacets";
 import { AdditionalTags } from "../../../../base/enums";
 import { FlexBox, ActionSheet, ActionRow } from "../../../../components";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";

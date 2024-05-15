@@ -1,7 +1,7 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext, useState, useEffect } from "react";
-import { TitleFacet, DueDateFacet } from "../../../app/a";
+import { TitleFacet, DueDateFacet } from "../../../app/additionalFacets";
 import { Stories } from "../../../base/enums";
 import {
   Sheet,

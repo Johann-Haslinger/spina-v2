@@ -7,7 +7,7 @@ import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { dummyFlashcards, dummyFlashcardSets, dummyNotes, dummyPodcasts, dummySubtopics } from "../../../base/dummy";
 import { Entity } from "@leanscope/ecs-engine";
 import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
-import { TitleFacet, DateAddedFacet, AnswerFacet, MasteryLevelFacet, QuestionFacet } from "../../../app/a";
+import { TitleFacet, DateAddedFacet, AnswerFacet, MasteryLevelFacet, QuestionFacet } from "../../../app/additionalFacets";
 
 const fetchBookmarkedFlashcardSets = async () => {
   const { data: flashcardSets, error } = await supabaseClient

@@ -10,7 +10,7 @@ import {
   View,
 } from "../../../../components";
 import { useSelectedTopic } from "../../hooks/useSelectedTopic";
-import { DateAddedFacet, TitleFacet, TitleProps } from "../../../../app/a";
+import { DateAddedFacet, TitleFacet, TitleProps } from "../../../../app/additionalFacets";
 import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
 import { IdentifierProps, TextFacet, TextProps } from "@leanscope/ecs-models";
 import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";

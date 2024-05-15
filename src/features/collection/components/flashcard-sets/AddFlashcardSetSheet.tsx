@@ -18,7 +18,7 @@ import { displayAlertTexts, displayButtonTexts, displayLabelTexts } from "../../
 import { Entity } from "@leanscope/ecs-engine";
 import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { v4 } from "uuid";
-import { DateAddedFacet, TitleFacet } from "../../../../app/a";
+import { DateAddedFacet, TitleFacet } from "../../../../app/additionalFacets";
 import { useSelectedTopic } from "../../hooks/useSelectedTopic";
 import supabaseClient from "../../../../lib/supabase";
 import { useUserData } from "../../../../hooks/useUserData";

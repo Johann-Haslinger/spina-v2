@@ -14,7 +14,7 @@ import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import styled from "@emotion/styled/macro";
 import tw from "twin.macro";
 import { IoCheckmarkCircle } from "react-icons/io5";
-import { AnswerFacet, DateAddedFacet, QuestionFacet, SourceFacet, TitleFacet } from "../../../../app/a";
+import { AnswerFacet, DateAddedFacet, QuestionFacet, SourceFacet, TitleFacet } from "../../../../app/additionalFacets";
 import { useUserData } from "../../../../hooks/useUserData";
 import { getAudioFromText, getCompletion } from "../../../../utils/getCompletion";
 import { useIsAnyStoryCurrent } from "../../../../hooks/useIsAnyStoryCurrent";

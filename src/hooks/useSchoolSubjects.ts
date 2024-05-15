@@ -1,6 +1,6 @@
 import { Entity, useEntities } from "@leanscope/ecs-engine";
 import { IdentifierFacet } from "@leanscope/ecs-models";
-import { TitleFacet } from "../app/a";
+import { TitleFacet } from "../app/additionalFacets";
 import { DataTypes } from "../base/enums";
 
 export const useSchoolSubjectEntities = (): readonly Entity[] => {

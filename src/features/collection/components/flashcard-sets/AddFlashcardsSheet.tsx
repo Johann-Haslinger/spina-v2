@@ -19,7 +19,7 @@ import { IoAdd, IoColorWandOutline } from "react-icons/io5";
 import { v4 } from "uuid";
 import { Entity } from "@leanscope/ecs-engine";
 import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
-import { AnswerFacet, MasteryLevelFacet, QuestionFacet } from "../../../../app/a";
+import { AnswerFacet, MasteryLevelFacet, QuestionFacet } from "../../../../app/additionalFacets";
 import supabaseClient from "../../../../lib/supabase";
 import { useUserData } from "../../../../hooks/useUserData";
 import { generateFlashCards } from "../../../../utils/generateResources";

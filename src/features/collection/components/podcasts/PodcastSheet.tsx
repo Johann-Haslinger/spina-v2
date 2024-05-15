@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FlexBox, Sheet } from "../../../../components";
-import { DateAddedProps, SourceProps, TitleProps } from "../../../../app/a";
+import { DateAddedProps, SourceProps, TitleProps } from "../../../../app/additionalFacets";
 import { EntityProps, useEntities } from "@leanscope/ecs-engine";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 import { AdditionalTags } from "../../../../base/enums";

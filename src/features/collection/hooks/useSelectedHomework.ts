@@ -2,7 +2,7 @@ import { useEntity } from "@leanscope/ecs-engine";
 import { dataTypeQuery } from "../../../utils/queries";
 import { DataTypes } from "../../../base/enums";
 import { IdentifierFacet, Tags } from "@leanscope/ecs-models";
-import { DueDateFacet, TitleFacet } from "../../../app/a";
+import { DueDateFacet, TitleFacet } from "../../../app/additionalFacets";
 
 export const useSelectedHomework = () => {
   const [selectedHomeworkEntity] = useEntity(

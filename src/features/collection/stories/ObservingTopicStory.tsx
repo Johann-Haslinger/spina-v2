@@ -11,7 +11,7 @@ import {
   Tags,
 } from "@leanscope/ecs-models";
 import React from "react";
-import { TitleFacet } from "../../../app/a";
+import { TitleFacet } from "../../../app/additionalFacets";
 import { DataTypes, Stories } from "../../../base/enums";
 import Collection from "../../../pages/Collection";
 import InitializeSchoolSubjectsSystem from "../../../systems/InitializeSchoolSubjectsSystem";

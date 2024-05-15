@@ -13,7 +13,7 @@ import { dataTypeQuery } from "../utils/queries";
 import { useExamStatus } from "../features/exams/hooks/useExamStatus";
 import { EntityPropsMapper } from "@leanscope/ecs-engine";
 import { IdentifierFacet, Tags, TextFacet } from "@leanscope/ecs-models";
-import { TitleFacet } from "../app/a";
+import { TitleFacet } from "../app/additionalFacets";
 import ExamView from "../features/exams/components/ExamView";
 
 const Exams = () => {

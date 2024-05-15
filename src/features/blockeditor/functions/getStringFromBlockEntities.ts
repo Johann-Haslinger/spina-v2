@@ -1,5 +1,5 @@
 import { Entity } from "@leanscope/ecs-engine";
-import { BlocktypeFacet, TexttypeFacet, TodoStateFacet } from "../../../app/a";
+import { BlocktypeFacet, TexttypeFacet, TodoStateFacet } from "../../../app/additionalFacets";
 import { TextFacet } from "@leanscope/ecs-models";
 import { Texttypes } from "../../../base/enums";
 

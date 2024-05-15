@@ -1,5 +1,5 @@
 import { IdentifierProps, TextFacet, TextProps } from "@leanscope/ecs-models";
-import { TitleProps } from "../../../app/a";
+import { TitleProps } from "../../../app/additionalFacets";
 import { EntityProps } from "@leanscope/ecs-engine";
 import { Fragment } from "react/jsx-runtime";
 import {

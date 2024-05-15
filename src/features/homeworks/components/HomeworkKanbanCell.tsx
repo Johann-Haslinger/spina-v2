@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { Entity } from "@leanscope/ecs-engine";
 import { useEntityFacets } from "@leanscope/ecs-engine/react-api/hooks/useEntityFacets";
 import tw from "twin.macro";
-import { RelationshipFacet, TitleFacet } from "../../../app/a";
+import { RelationshipFacet, TitleFacet } from "../../../app/additionalFacets";
 import { Tags } from "@leanscope/ecs-models";
 import { useDaysUntilDue } from "../../../hooks/useDaysUntilDue";
 import { motion } from "framer-motion";

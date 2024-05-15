@@ -1,5 +1,5 @@
 import { Tags } from "@leanscope/ecs-models";
-import { DateAddedProps, TitleProps } from "../../../app/a";
+import { DateAddedProps, TitleProps } from "../../../app/additionalFacets";
 import { EntityProps } from "@leanscope/ecs-engine";
 import styled from "@emotion/styled/macro";
 import tw from "twin.macro";

@@ -4,7 +4,7 @@ import { EntityProps } from "@leanscope/ecs-engine";
 import BlockTexteditor from "./BlockTexteditor";
 import styled from "@emotion/styled";
 import tw from "twin.macro";
-import { ListStyleFacet } from "../../../../app/a";
+import { ListStyleFacet } from "../../../../app/additionalFacets";
 import { ListStyles } from "../../../../base/enums";
 
 const StyledContentWrapper = styled.div`

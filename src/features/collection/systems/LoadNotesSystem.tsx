@@ -5,7 +5,7 @@ import {
   ParentFacet,
 } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
-import { DateAddedFacet, TitleFacet } from "../../../app/a";
+import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
 import { dummyNotes } from "../../../base/dummy";
 import { DataTypes } from "../../../base/enums";
 import supabaseClient from "../../../lib/supabase";

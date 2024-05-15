@@ -1,6 +1,6 @@
 import { EntityPropsMapper } from "@leanscope/ecs-engine";
 import { IdentifierFacet, FloatOrderFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
-import { BlocktypeFacet } from "../../../app/a";
+import { BlocktypeFacet } from "../../../app/additionalFacets";
 import { useCurrentBlockeditor } from "../hooks/useCurrentBlockeditor";
 import { DataTypes } from "../../../base/enums";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";

@@ -2,7 +2,7 @@ import { useEntity } from "@leanscope/ecs-engine";
 import { dataTypeQuery } from "../../../utils/queries";
 import { DataTypes } from "../../../base/enums";
 import { IdentifierFacet, Tags, TextFacet } from "@leanscope/ecs-models";
-import { TitleFacet } from "../../../app/a";
+import { TitleFacet } from "../../../app/additionalFacets";
 
 export const useSelectedSubtopic = () => {
   const [selectedSubtopicEntity] = useEntity(

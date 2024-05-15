@@ -7,7 +7,7 @@ import { EntityPropsMapper } from "@leanscope/ecs-engine";
 import { dataTypeQuery } from "../utils/queries";
 import { DataTypes, Stories } from "../base/enums";
 import { FlashcardGroupCell, InitializeFlashcardGroupsSystem, LoadFlashcardsSystem } from "../features/study";
-import { DateAddedFacet, TitleFacet } from "../app/a";
+import { DateAddedFacet, TitleFacet } from "../app/additionalFacets";
 import { IdentifierFacet, Tags, TextFacet } from "@leanscope/ecs-models";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { FlashcardSetView } from "../features/collection";

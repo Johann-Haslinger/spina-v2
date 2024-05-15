@@ -17,7 +17,7 @@ import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
 import { DescriptionFacet, IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { v4 } from "uuid";
-import { DateAddedFacet, TitleFacet } from "../../../../app/a";
+import { DateAddedFacet, TitleFacet } from "../../../../app/additionalFacets";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { displayButtonTexts, displayLabelTexts } from "../../../../utils/displayText";
 import supabaseClient from "../../../../lib/supabase";

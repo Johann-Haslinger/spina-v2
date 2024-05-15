@@ -17,7 +17,7 @@ import {
 import { useContext, useState } from "react";
 import { useSchoolSubjectEntities } from "../../../../hooks/useSchoolSubjects";
 import { IdentifierFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
-import { DueDateFacet, RelationshipFacet, StatusFacet, TitleFacet } from "../../../../app/a";
+import { DueDateFacet, RelationshipFacet, StatusFacet, TitleFacet } from "../../../../app/additionalFacets";
 import { Entity } from "@leanscope/ecs-engine";
 import { v4 } from "uuid";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";

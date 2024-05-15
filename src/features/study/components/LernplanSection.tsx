@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
 import tw from "twin.macro";
 import { AdditionalTags, DataTypes, Stories } from "../../../base/enums";
-import { TitleFacet, DateAddedFacet, DateAddedProps, TitleProps } from "../../../app/a";
+import { TitleFacet, DateAddedFacet, DateAddedProps, TitleProps } from "../../../app/additionalFacets";
 import FlashcardGroupCell from "./FlashcardGroupCell";
 import { IoPlay } from "react-icons/io5";
 import { useBookmarkedFlashcardGroups } from "../hooks/useBookmarkedFlashcardGroups";

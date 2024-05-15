@@ -14,7 +14,7 @@ import { useContext, useEffect, useState } from "react";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { displayButtonTexts } from "../../../../utils/displayText";
-import { AnswerFacet, QuestionFacet, TitleFacet } from "../../../../app/a";
+import { AnswerFacet, QuestionFacet, TitleFacet } from "../../../../app/additionalFacets";
 import { Entity, useEntities } from "@leanscope/ecs-engine";
 import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
 import { generateImprovedText } from "../../../../utils/generateResources";

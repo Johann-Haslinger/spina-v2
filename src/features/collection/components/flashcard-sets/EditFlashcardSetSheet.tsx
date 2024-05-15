@@ -13,7 +13,7 @@ import {
 import { Stories } from "../../../../base/enums";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useSelectedFlashcardSet } from "../../hooks/useSelectedFlashcardSet";
-import { TitleFacet } from "../../../../app/a";
+import { TitleFacet } from "../../../../app/additionalFacets";
 import supabaseClient from "../../../../lib/supabase";
 import { displayButtonTexts, displayLabelTexts } from "../../../../utils/displayText";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
