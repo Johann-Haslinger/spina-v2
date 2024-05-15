@@ -5,7 +5,8 @@ import { useCurrentBlockeditor } from "../hooks/useCurrentBlockeditor";
 import { DataTypes } from "../../../base/enums";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { sortEntitiesByOrder } from "../../../utils/sortEntitiesByOrder";
-import BlockRenderer from "./BlockRenderer";
+import BlockRenderer from "./Blockrenderer";
+
 
 // const updateBlockOrder = (blocks: Block[]): Block[] => {
 //   // Filter blocks without order and sort the rest
