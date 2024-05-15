@@ -39,7 +39,6 @@ import {
   IoPlayOutline,
   IoSparklesOutline,
   IoTrashOutline,
-  IoVideocamOutline,
 } from "react-icons/io5";
 import { displayActionTexts } from "../../../../utils/displayText";
 import EditSubtopicSheet from "./EditSubtopicSheet";
@@ -79,7 +78,6 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
   const openFlashcardQuizView = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_QUIZ_STORY);
   const openImproveTextSheet = () => lsc.stories.transitTo(Stories.GENERATING_IMPROVED_TEXT_STORY);
   const openGeneratePodcastSheet = () => lsc.stories.transitTo(Stories.GENERATING_PODCAST_STORY);
-  const openGenerateLernVideoSheet = () => lsc.stories.transitTo(Stories.GENERATING_LEARN_VIDEO_STORY);
 
   const handleTextBlur = async (value: string) => {
     entity.add(new TextFacet({ text: value }));
