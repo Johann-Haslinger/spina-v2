@@ -14,6 +14,7 @@ export enum Stories {
   OBSERVING_EXAMS_STORY = "observingExamsStory",
   OBSERVING_PODCAST_STORY = "observingPodcastStory",
   OBSERVING_BOOKMARK_COLLECTION_STORY = "observingBookmarkCollectionStory",
+  OBSERVING_BLOCKEDITOR_STORY = "observingBlockeditorStory",
 
   ADDING_FLASHCARD_SET_STORY = "addFlashcardSetStory",
   ADDING_TOPIC_STORY = "addTopicStory",
@@ -36,6 +37,7 @@ export enum Stories {
   DELETING_NOTE_STORY = "deleteNoteStory",
   DELETING_SUBTOPIC_STORY = "deleteSubtopicStory",
   DELETING_EXAM_STORY = "deleteExamStory",
+  DELETING_BLOCKS_STORY = "deleteBlocksStory",
 
   GENERATING_IMPROVED_TEXT_STORY = "generateImprovedFlashcardsStory",
   GENERATING_FLASHCARDS_STORY = "generateFlashcardsStory",

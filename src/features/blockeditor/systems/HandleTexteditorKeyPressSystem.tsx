@@ -18,13 +18,19 @@ const HandleTexteditorKeyPressSystem = (props: EntityProps) => {
         e.preventDefault();
         switch (e.key) {
           case "b":
-            entity.add(new TexttypeFacet({ texttype: textType === Texttypes.BOLD ? Texttypes.NORMAL : Texttypes.BOLD }));
+            entity.add(
+              new TexttypeFacet({ texttype: textType === Texttypes.BOLD ? Texttypes.NORMAL : Texttypes.BOLD })
+            );
             break;
           case "u":
-            entity.add(new TexttypeFacet({ texttype: textType === Texttypes.UNDERLINE ? Texttypes.NORMAL : Texttypes.UNDERLINE }));
+            entity.add(
+              new TexttypeFacet({ texttype: textType === Texttypes.UNDERLINE ? Texttypes.NORMAL : Texttypes.UNDERLINE })
+            );
             break;
           case "i":
-            entity.add(new TexttypeFacet({ texttype: textType === Texttypes.ITALIC ? Texttypes.NORMAL : Texttypes.ITALIC }));
+            entity.add(
+              new TexttypeFacet({ texttype: textType === Texttypes.ITALIC ? Texttypes.NORMAL : Texttypes.ITALIC })
+            );
             break;
         }
       }
@@ -34,7 +40,7 @@ const HandleTexteditorKeyPressSystem = (props: EntityProps) => {
     return () => {
       window.removeEventListener("keypress", handleKeyPress);
     };
-  }, [isPressed, textType]);
+  }, [isPressed, blockeditorState, entity, textType]);
 
   return null;
 };

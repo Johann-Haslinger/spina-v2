@@ -1,10 +1,5 @@
 import { Entity, EntityProps } from "@leanscope/ecs-engine";
-import {
-  IdentifierFacet,
-  FloatOrderFacet,
-  ParentFacet,
-  TextFacet,
-} from "@leanscope/ecs-models";
+import { IdentifierFacet, FloatOrderFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
 import { FormEvent, Fragment, RefObject, useContext, useState } from "react";
 import { BlocktypeFacet, ListStyleFacet, TexttypeFacet, TodoStateFacet } from "../../../../app/additionalFacets";
 import styled from "@emotion/styled";
@@ -31,6 +26,7 @@ import {
   getNextHigherOrderEntity,
   getNextLowerOrderEntity,
 } from "../../functions/orderHelper";
+import { useEntityFacets } from "@leanscope/ecs-engine/react-api/hooks/useEntityFacets";
 
 const updateTextBlockToListBlock = (blockEntity: Entity) => {
   blockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.LIST }));
@@ -218,11 +214,13 @@ const BlockTexteditor = (props: EntityProps) => {
   const { entity } = props;
   const text = entity.get(TextFacet)?.props.text || "";
   const parentId = entity.get(ParentFacet)?.props.parentId || "";
-  const texttype = entity.get(TexttypeFacet)?.props.texttype || Texttypes.NORMAL;
+  const [texttypeProps] = useEntityFacets(entity, TexttypeFacet);
+  const texttype = texttypeProps?.texttype || Texttypes.NORMAL;
   const { blockeditorState, blockeditorEntity } = useCurrentBlockeditor();
   const { userId } = useUserData();
   const [initinalBlocktext] = useState<string>(text);
   const { texteditorRef } = useTexteditorRef(entity);
+
   const isBlockEditable = blockeditorState === "write" || blockeditorState === "view";
 
   // const sanitizer = dompurify.sanitize;
@@ -313,7 +311,6 @@ const BlockTexteditor = (props: EntityProps) => {
   return (
     <Fragment>
       <HandleTexteditorKeyPressSystem entity={entity} />
-
       <StyledTexteditor
         onKeyDown={handleKeyDown}
         onBlur={handleBlur}

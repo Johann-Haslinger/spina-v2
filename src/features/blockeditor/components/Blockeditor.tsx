@@ -7,12 +7,17 @@ import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import { displayActionTexts, displayButtonTexts } from "../../../utils/displayText";
 import { changeBlockeditorState } from "../functions/changeBlockeditorState";
 import UpdateBlockStateSystem from "../systems/UpdateBlockStateSystem";
-
 import ComponentRenderer from "./ComponentRenderer";
 import LoadBlocksSystem from "../systems/LoadBlocksSystem";
 import ChangeBlockeditorStateSystem from "../systems/ChangeBlockeditorStateSystem";
 import { useClickOutsideBlockEditorHandler } from "../hooks/useClickOutsideBlockEditorHandler";
+import tw from "twin.macro";
+import styled from "@emotion/styled";
+import Editmenu from "./menus/edit-menu/Editmenu";
 
+const StyledTitleWrapper = styled.div`
+  ${tw`px-2`}
+`;
 
 // function getTextTypeForString(textType: string): TextTypes {
 //   if (textType === "Titel") {
@@ -106,36 +111,32 @@ const Blockeditor = (props: BlockeditorProps) => {
           </PrimaryButton>
         )}
       </NavigationBar>
-
-      <Title>{title}</Title>
-      {customHeaderArea ? customHeaderArea : null}
-      <Spacer />
+      <StyledTitleWrapper>
+        <Title>{title}</Title>
+        {customHeaderArea ? customHeaderArea : null}
+        <Spacer />
+      </StyledTitleWrapper>
       {customContent ? (
         customContent
       ) : (
         <Fragment>
           <div ref={blocksAreaRef}>
             <ComponentRenderer />
-            {/* <EditMenu
-              backfuction={() => handleChangeBlockeditorState("view")}
-              handleAddBlockLocally={handleAddBlock}
-              handleUpdateBlockLocally={handleUpdateBlockLocally}
-              deleteBlockLocally={deleteBlock}
-              blocks={blocks}
-              handleChangeBlockeditorState={handleChangeBlockeditorState}
-              BlockeditorState={blockeditorState}
-            />
-            <CreateMenu
+           
+      <Editmenu />
+            {/* <CreateMenu
               parentId={id}
               handleChangeBlockeditorState={handleChangeBlockeditorState}
               BlockeditorState={blockeditorState}
               blocks={blocks}
               handleAddBlockLocally={handleAddBlock}
-            /> */}
+            /> */} 
           </div>
           <div ref={addBlockAreaRef}></div>
         </Fragment>
       )}
+
+
     </Fragment>
   );
 };

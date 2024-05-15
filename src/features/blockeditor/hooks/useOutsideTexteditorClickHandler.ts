@@ -10,6 +10,7 @@ export const useTexteditorRef = (entity: Entity) => {
   const handleClickOutside = (e: MouseEvent) => {
     if (texteditorRef.current && !texteditorRef.current.contains(e.target as Node)) {
       texteditorRef.current.blur();
+      entity.remove(AdditionalTags.FOCUSED);
     }
   };
 

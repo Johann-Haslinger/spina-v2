@@ -58,9 +58,9 @@ const useTodoClickHandler = (entity: Entity) => {
 const StyledTodoIconWrapper = styled.div<{ todoState: number }>`
   ${tw`text-xl`}
   ${({ todoState }) => `
-    ${todoState == 1 ? tw`text-seconderyText dark:text-seconderyTextDark` : ""}
-    ${todoState == 2 ? tw`text-primary` : ""}
-    ${todoState == 0 ? tw`text-[rgb(212,212,212)]` : ""} 
+    ${todoState == 1 ? tw`text-primaryColor dark:text-seconderyTextDark` : ""}
+    ${todoState == 2 ? tw`text-primaryColor dark:text-primaryTextDark` : ""}
+    ${todoState == 0 ? tw` text-primaryColor dark:text-primaryTextDark` : ""} 
   `}
 `;
 

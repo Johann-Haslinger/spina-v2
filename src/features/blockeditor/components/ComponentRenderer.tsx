@@ -7,30 +7,6 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { sortEntitiesByOrder } from "../../../utils/sortEntitiesByOrder";
 import BlockRenderer from "./BlockRenderer";
 
-// const recalculateOrder = (startIndex: number, endIndex: number, sortedBlocks: Block[]) => {
-//   const startOrder = sortedBlocks[startIndex].order;
-//   const endOrder = sortedBlocks[endIndex].order;
-
-//   const nextHigherOrder = getNextHigherOrder(endOrder, sortedBlocks) || 1;
-//   const nextLowerOrder = getNextLowerOrder(endOrder, sortedBlocks) || 1;
-
-//   let newOrder = 1;
-
-//   if (endIndex > startIndex) {
-//     // Block wurde unterhalb platziert
-//     newOrder = findNumberBetween(nextHigherOrder, endOrder);
-//   } else {
-//     // Block wurde oberhalb platziert
-//     newOrder = findNumberBetween(nextLowerOrder, endOrder);
-//   }
-
-//   if (startOrder && endOrder) {
-//     return newOrder;
-//   } else {
-//     return 1;
-//   }
-// };
-
 // const updateBlockOrder = (blocks: Block[]): Block[] => {
 //   // Filter blocks without order and sort the rest
 //   const orderedBlocks = blocks.filter((block) => block.order !== undefined).sort((a, b) => a.order - b.order);
