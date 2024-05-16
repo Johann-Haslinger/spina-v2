@@ -15,7 +15,7 @@ import { BlocktypeFacet } from "../../../../app/additionalFacets";
 import { getHighestOrder } from "../../functions/orderHelper";
 
 const StyledCreateMenuWrapper = styled.div`
-  ${tw`bg-white  dark:bg-seconderyDark h-20 overflow-y-clip  rounded-lg pr-1 flex  md:overflow-hidden  w-11/12 md:w-[30rem]  shadow-[0_0px_40px_1px_rgba(0,0,0,0.12)]`}
+  ${tw`bg-white dark:bg-opacity-40 bg-opacity-40 backdrop-blur-xl dark:bg-seconderyDark h-20 overflow-y-clip  rounded-lg pr-1 flex  md:overflow-hidden  w-11/12 md:w-[30rem]  shadow-[0_0px_40px_1px_rgba(0,0,0,0.12)]`}
 `;
 
 const StyledCreateMenuContainer = styled.div`
@@ -134,9 +134,9 @@ const CreateOption = (props: { isVisible: boolean; option: option }) => {
     newImageBlock.add(new IdentifierFacet({ guid: v4() }));
     newImageBlock.add(new ImageFacet({ imageSrc: url || "" }));
     newImageBlock.add(new BlocktypeFacet({ blocktype: Blocktypes.IMAGE }));
-    newImageBlock.add(new FloatOrderFacet({ index: getHighestOrder(lsc, blockeditorId || "") }));
+    newImageBlock.add(new FloatOrderFacet({ index: getHighestOrder(lsc, blockeditorId || "") + 1 }));
     newImageBlock.add(new ParentFacet({ parentId: blockeditorId || "" }));
-    newImageBlock.add(DataTypes.BLOCK)
+    newImageBlock.add(DataTypes.BLOCK);
 
     addBlock(lsc, newImageBlock);
   };
@@ -145,9 +145,9 @@ const CreateOption = (props: { isVisible: boolean; option: option }) => {
     const newDividerBlock = new Entity();
     newDividerBlock.add(new IdentifierFacet({ guid: v4() }));
     newDividerBlock.add(new BlocktypeFacet({ blocktype: Blocktypes.DIVIDER }));
-    newDividerBlock.add(new FloatOrderFacet({ index: getHighestOrder(lsc, blockeditorId || "") }));
+    newDividerBlock.add(new FloatOrderFacet({ index: getHighestOrder(lsc, blockeditorId || "") + 1 }));
     newDividerBlock.add(new ParentFacet({ parentId: blockeditorId || "" }));
-    newDividerBlock.add(DataTypes.BLOCK)
+    newDividerBlock.add(DataTypes.BLOCK);
 
     addBlock(lsc, newDividerBlock);
   };
@@ -233,7 +233,7 @@ const Createmenu = () => {
       ref={menuRef}
       transition={{ type: "Tween" }}
       animate={{ y: !isVisible ? 200 : 0 }}
-      initial={{ y: 200, position: "fixed", bottom: 28, left: 0 }}
+      initial={{ y: 200, position: "fixed", bottom: 20, left: 0 }}
       drag="y"
       dragConstraints={{ top: 0, bottom: 0 }}
     >

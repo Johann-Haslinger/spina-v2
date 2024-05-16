@@ -19,7 +19,7 @@ const StyledContentWrapper = styled.div`
 `;
 
 const StyledSelectionIndicatorWrapper = styled.div<{ isEdeting: boolean }>`
-  ${tw`w-6 h-full   flex items-center absolute top-0 right-0`}
+  ${tw`w-6 h-full z-20   flex items-center absolute top-0 right-0`}
   ${({ isEdeting }) => (isEdeting ? tw`visible` : tw`invisible`)}
 `;
 

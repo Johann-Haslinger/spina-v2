@@ -37,11 +37,11 @@ type Option = {
 };
 
 const StyledMenuContainer = styled.div`
-  ${tw` flex  absolute left-0 bottom-8 right-0 justify-center w-screen`}
+  ${tw` flex  absolute left-0 bottom-5 right-0 justify-center w-screen`}
 `;
 
 const StyledMenuWrapper = styled.div`
-  ${tw`bg-primary dark:bg-tertiaryDark  overflow-x-scroll  flex-auto mx-auto h-20 overflow-y-clip  rounded-lg pr-1 flex  md:overflow-hidden  w-11/12 md:w-[30rem]  dark:shadow-[0px_0px_60px_0px_rgba(255, 255, 255, 0.13)] shadow-[0_0px_40px_1px_rgba(0,0,0,0.12)]`}
+  ${tw`bg-primary dark:bg-tertiaryDark dark:bg-opacity-40 bg-opacity-40 backdrop-blur-xl overflow-x-scroll  flex-auto mx-auto h-20 overflow-y-clip  rounded-lg pr-1 flex  md:overflow-hidden  w-11/12 md:w-[30rem]  dark:shadow-[0px_0px_60px_0px_rgba(255, 255, 255, 0.13)] shadow-[0_0px_40px_1px_rgba(0,0,0,0.12)]`}
 `;
 
 const groupSelectedBlocks = (lsc: ILeanScopeClient) => {
