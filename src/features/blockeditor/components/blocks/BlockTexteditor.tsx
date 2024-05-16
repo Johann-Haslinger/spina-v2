@@ -106,7 +106,7 @@ const handleEnterPress = (lsc: ILeanScopeClient, blockEntity: Entity, texteditor
     }
 
     const newTextBlockOrder =
-      getHighestOrder(lsc, blockEntity) === blockOrder
+      getHighestOrder(lsc, blockEntity.get(ParentFacet)?.props.parentId || "") === blockOrder
         ? blockOrder + 1
         : findNumberBetween(blockOrder, getNextHigherOrder(lsc, blockEntity));
 

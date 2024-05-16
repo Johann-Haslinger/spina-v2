@@ -107,6 +107,8 @@ export enum Blocktypes {
   PAGE = "page",
   LIST = "list",
   TODO = "todo",
+  TABLE = "table",
+  CODE = "code",
 }
 
 export enum Texttypes {

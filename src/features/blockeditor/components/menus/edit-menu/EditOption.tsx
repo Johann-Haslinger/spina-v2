@@ -4,13 +4,14 @@ import { useState, useEffect, Fragment } from "react";
 import { DataTypes } from "../../../../../base/enums";
 import styled from "@emotion/styled";
 import tw from "twin.macro";
+import { motion } from "framer-motion";
 
 type Option = {
   name: string;
   icon: React.ReactNode;
   color?: string;
   bgColor?: string;
-  content?: React.ReactNode | null ;
+  content?: React.ReactNode | null;
   customFunc?: () => void;
   isLarge?: boolean;
 };
@@ -38,10 +39,9 @@ const StyledOptionTextWrapper = styled.p`
 `;
 
 const EditOption: React.FC<EditOptionProps> = ({ option, isVisible, canShow }) => {
-  const { name, icon, color, bgColor, customFunc } = option;
+  const { name, icon, color, bgColor, customFunc, content } = option;
   const [selectedBlockEntities] = useEntities((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);
-  console.log("isOptionsVisible", isOptionsVisible);
   const [show, setShow] = useState(false);
 
   useEffect(() => {
@@ -63,11 +63,11 @@ const EditOption: React.FC<EditOptionProps> = ({ option, isVisible, canShow }) =
     }
   };
 
-  // const handleDragEnd = (event: MouseEvent, info: any) => {
-  //   if (info.offset.y >= 1) {
-  //     setIsOptionsVisible(false);
-  //   }
-  // };
+  const handleDragEnd = (_: any, info: any) => {
+    if (info.offset.y >= 1) {
+      setIsOptionsVisible(false);
+    }
+  };
 
   return (
     <Fragment>
@@ -78,26 +78,17 @@ const EditOption: React.FC<EditOptionProps> = ({ option, isVisible, canShow }) =
         </StyledOptionWrapper>
       )}
 
-      {/* {isVisible && pressedBlocks.length > 0 && (
-        <div className="w-screen left-0 fixed flex justify-center z-40">
-          <motion.div
-            transition={{ type: 'Tween' }}
-            animate={{ y: isOptionsVisible && isVisible && content ? 0 : 300 }}
-            initial={{ y: 200 }}
-            className={`bg-white z-40 rounded-lg md:w-[31rem] px-4 w-11/12 fixed bottom-7 shadow-[0_0px_40px_1px_rgba(0,0,0,0.12)] ${
-              isLarge ? 'h-60' : 'h-40'
-            }`}
-            drag="y"
-            dragConstraints={{ top: 0, bottom: 200 }}
-            onDragEnd={handleDragEnd}
-          >
-            <div className="w-full flex justify-center">
-              <div className="w-8 mt-1.5 h-1 rounded-full bg-input-white-bg" />
-            </div>
-            {content}
-          </motion.div>
-        </div>
-      )} */}
+      <motion.div
+        style={{ zIndex: 40 }}
+        transition={{ type: "Tween" }}
+        animate={{ y: isOptionsVisible && isVisible && content ? 0 : 300 }}
+        initial={{ y: 200, position: "fixed", left: 0, right: 0, width: "100%", bottom: 28 }}
+        drag="y"
+        dragConstraints={{ top: 0, bottom: 200 }}
+        onDragEnd={handleDragEnd}
+      >
+        {content}
+      </motion.div>
     </Fragment>
   );
 };

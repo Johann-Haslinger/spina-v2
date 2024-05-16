@@ -14,6 +14,7 @@ import { useClickOutsideBlockEditorHandler } from "../hooks/useClickOutsideBlock
 import tw from "twin.macro";
 import styled from "@emotion/styled";
 import Editmenu from "./menus/edit-menu/Editmenu";
+import Createmenu from "./menus/Createmenu";
 
 const StyledTitleWrapper = styled.div`
   ${tw`px-2`}
@@ -122,21 +123,13 @@ const Blockeditor = (props: BlockeditorProps) => {
         <Fragment>
           <div ref={blocksAreaRef}>
             <ComponentRenderer />
-           
-      <Editmenu />
-            {/* <CreateMenu
-              parentId={id}
-              handleChangeBlockeditorState={handleChangeBlockeditorState}
-              BlockeditorState={blockeditorState}
-              blocks={blocks}
-              handleAddBlockLocally={handleAddBlock}
-            /> */} 
+
+            <Editmenu />
+            <Createmenu />
           </div>
           <div ref={addBlockAreaRef}></div>
         </Fragment>
       )}
-
-
     </Fragment>
   );
 };

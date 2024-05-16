@@ -56,7 +56,6 @@ const BlockOutline = (props: BlockOutlineProps & PropsWithChildren) => {
 
   useEffect(() => {
     if (!isEditing) {
-      blockEntity.remove(Tags.SELECTED);
       blockEntity.addTag(AdditionalTags.CONTENT_EDITABLE);
     }
   }, [isEditing]);

@@ -22,7 +22,7 @@ export const getNextHigherOrder = (lsc: ILeanScopeClient, blockEntity: Entity) =
     }
   }
 
-  const heighestOrder = getHighestOrder(lsc, blockEntity);
+  const heighestOrder = getHighestOrder(lsc, blockEntity.get(ParentFacet)?.props.parentId || "");
   return heighestOrder + 1;
 };
 
@@ -94,9 +94,9 @@ export const getNextHigherOrderEntity = (lsc: ILeanScopeClient, blockEntity: Ent
 
 export const findNumberBetween = (num1: number, num2: number): number => (num1 + num2) / 2;
 
-export const getHighestOrder = (lsc: ILeanScopeClient, blockEntity: Entity) => {
+export const getHighestOrder = (lsc: ILeanScopeClient, parentId: string) => {
   const blockEntities = lsc.engine.entities.filter(
-    (e) => e.has(DataTypes.BLOCK) && e.get(ParentFacet)?.props.parentId === blockEntity.get(ParentFacet)?.props.parentId
+    (e) => e.has(DataTypes.BLOCK) && e.get(ParentFacet)?.props.parentId === parentId
   );
 
   const sortedEntities = blockEntities.slice().sort((a, b) => {

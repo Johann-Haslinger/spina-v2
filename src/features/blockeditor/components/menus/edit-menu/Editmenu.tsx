@@ -24,6 +24,7 @@ import { COLOR_ITEMS } from "../../../../../base/constants";
 import HandleKeyPresEditMenuSystem from "../../../systems/HandleKeyPresEditMenuSystem";
 import EditOption from "./EditOption";
 import DeleteBlocksAlert from "../../DeleteBlocksAlert";
+import StyleOptions from "./StyleOptions";
 
 type Option = {
   name: string;
@@ -109,7 +110,7 @@ const Editmenu = () => {
   const lsc = useContext(LeanScopeClientContext);
   const { blockeditorState } = useCurrentBlockeditor();
   const isVisible = blockeditorState === "edit";
-  
+
   const openDeleteSheet = () => lsc.stories.transitTo(Stories.DELETING_BLOCKS_STORY);
 
   const editOptions = [
@@ -118,12 +119,7 @@ const Editmenu = () => {
       icon: <IoColorPalette />,
       color: COLOR_ITEMS[3].color,
       bgColor: COLOR_ITEMS[3].backgroundColor,
-      content:
-        // <StyleOptions
-        //   handleUpdateBlockLocally={handleUpdateBlockLocally}
-        //   pressedBlocks={pressedBlocks as (TextBlock | TodoBlock)[]}
-        // />
-        null,
+      content: <StyleOptions />,
       canShow: showStyleOptionQuery,
     },
     {
