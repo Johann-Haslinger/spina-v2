@@ -6,7 +6,7 @@ import tw from "twin.macro";
 import { v4 } from "uuid";
 import { COLOR_ITEMS } from "../../../../base/constants";
 import { useCurrentBlockeditor } from "../../hooks/useCurrentBlockeditor";
-import { Blocktypes } from "../../../../base/enums";
+import { Blocktypes, DataTypes } from "../../../../base/enums";
 import { addBlock } from "../../functions/addBlock";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
@@ -136,6 +136,7 @@ const CreateOption = (props: { isVisible: boolean; option: option }) => {
     newImageBlock.add(new BlocktypeFacet({ blocktype: Blocktypes.IMAGE }));
     newImageBlock.add(new FloatOrderFacet({ index: getHighestOrder(lsc, blockeditorId || "") }));
     newImageBlock.add(new ParentFacet({ parentId: blockeditorId || "" }));
+    newImageBlock.add(DataTypes.BLOCK)
 
     addBlock(lsc, newImageBlock);
   };
@@ -146,6 +147,7 @@ const CreateOption = (props: { isVisible: boolean; option: option }) => {
     newDividerBlock.add(new BlocktypeFacet({ blocktype: Blocktypes.DIVIDER }));
     newDividerBlock.add(new FloatOrderFacet({ index: getHighestOrder(lsc, blockeditorId || "") }));
     newDividerBlock.add(new ParentFacet({ parentId: blockeditorId || "" }));
+    newDividerBlock.add(DataTypes.BLOCK)
 
     addBlock(lsc, newDividerBlock);
   };
