@@ -13,6 +13,7 @@ import { Entity } from "@leanscope/ecs-engine";
 import { FloatOrderFacet, IdentifierFacet, ImageFacet, ParentFacet } from "@leanscope/ecs-models";
 import { BlocktypeFacet } from "../../../../app/additionalFacets";
 import { getHighestOrder } from "../../functions/orderHelper";
+import { changeBlockeditorState } from "../../functions/changeBlockeditorState";
 
 const StyledCreateMenuWrapper = styled.div`
   ${tw`bg-white dark:bg-opacity-40 bg-opacity-40 backdrop-blur-xl dark:bg-seconderyDark h-20 overflow-y-clip  rounded-lg pr-1 flex  md:overflow-hidden  w-11/12 md:w-[30rem]  shadow-[0_0px_40px_1px_rgba(0,0,0,0.12)]`}
@@ -68,7 +69,7 @@ const CreateOption = (props: { isVisible: boolean; option: option }) => {
   const [isSelectingImageSrc, setIsSelectingImageSrc] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const { blockType, icon, color, bgColor } = option;
-  const { blockeditorId } = useCurrentBlockeditor();
+  const { blockeditorId, blockeditorEntity } = useCurrentBlockeditor();
 
   useEffect(() => {
     if (isSelectingImageSrc && fileInputRef.current !== null) {
@@ -161,6 +162,8 @@ const CreateOption = (props: { isVisible: boolean; option: option }) => {
         addDividerBlock();
         break;
     }
+
+    changeBlockeditorState(blockeditorEntity, "view");
   };
 
   return (

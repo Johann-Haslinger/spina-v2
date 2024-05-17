@@ -63,7 +63,8 @@ export enum AdditionalTags {
   DELETE,
   ONLINE,
   CONTENT_EDITABLE,
-  FOCUSED
+  FOCUSED,
+  OPEN
 }
 
 export enum NavigationLinks {

@@ -1,7 +1,7 @@
 import { Fragment, useContext } from "react";
 import { useCurrentBlockeditor } from "../../../hooks/useCurrentBlockeditor";
 import { Entity } from "@leanscope/ecs-engine";
-import { Blocktypes, DataTypes, Stories } from "../../../../../base/enums";
+import { AdditionalTags, Blocktypes, DataTypes, Stories } from "../../../../../base/enums";
 import { FloatOrderFacet, IdentifierFacet, ParentFacet, Tags, TextFacet } from "@leanscope/ecs-models";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import tw from "twin.macro";
@@ -41,7 +41,7 @@ const StyledMenuContainer = styled.div`
 `;
 
 const StyledMenuWrapper = styled.div`
-  ${tw`bg-primary dark:bg-tertiaryDark dark:bg-opacity-40 bg-opacity-40 backdrop-blur-xl overflow-x-scroll  flex-auto mx-auto h-20 overflow-y-clip  rounded-lg pr-1 flex  md:overflow-hidden  w-11/12 md:w-[30rem]  dark:shadow-[0px_0px_60px_0px_rgba(255, 255, 255, 0.13)] shadow-[0_0px_40px_1px_rgba(0,0,0,0.12)]`}
+  ${tw`bg-primary dark:bg-tertiaryDark dark:bg-opacity-40 bg-opacity-40 backdrop-blur-xl flex-auto mx-auto h-20   rounded-lg pr-1 flex    w-11/12 md:w-[30rem]  dark:shadow-[0px_0px_60px_0px_rgba(255, 255, 255, 0.13)] shadow-[0_0px_40px_1px_rgba(0,0,0,0.12)]`}
 `;
 
 const groupSelectedBlocks = (lsc: ILeanScopeClient) => {
@@ -78,6 +78,7 @@ const addContentToSelectedBlock = async (lsc: ILeanScopeClient) => {
   const firstSelectedBlockEntity = selectedBlockEntities[0];
 
   firstSelectedBlockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.PAGE }));
+  firstSelectedBlockEntity.add(AdditionalTags.OPEN);
 
   // TODO: Update the block type of the selected block in the database
 };
@@ -140,7 +141,7 @@ const Editmenu = () => {
       icon: <IoArrowForwardCircleOutline />,
       color: COLOR_ITEMS[2].color,
       bgColor: COLOR_ITEMS[2].backgroundColor,
-      customFunc: addContentToSelectedBlock,
+      customFunc: () => addContentToSelectedBlock(lsc),
       canShow: showAddContentOptionQuery,
     },
     {

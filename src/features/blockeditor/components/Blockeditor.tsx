@@ -1,10 +1,10 @@
 import React, { ChangeEvent, Fragment } from "react";
-import { ActionRow, NavBarButton, NavigationBar, PrimaryButton, Spacer, Title } from "../../../components";
+import { ActionRow, BackButton, NavBarButton, NavigationBar, PrimaryButton, Spacer, Title } from "../../../components";
 import InitializeBlockeditorSystem from "../systems/InitializeBlockeditorSystem";
 import { useCurrentBlockeditor } from "../hooks/useCurrentBlockeditor";
 import { IoAdd, IoColorWandOutline, IoEllipsisHorizontalCircleOutline, IoSparklesOutline } from "react-icons/io5";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
-import { displayActionTexts, displayButtonTexts } from "../../../utils/displayText";
+import { displayActionTexts, displayAlertTexts, displayButtonTexts } from "../../../utils/displayText";
 import { changeBlockeditorState } from "../functions/changeBlockeditorState";
 import UpdateBlockStateSystem from "../systems/UpdateBlockStateSystem";
 import ComponentRenderer from "./ComponentRenderer";
@@ -15,42 +15,50 @@ import tw from "twin.macro";
 import styled from "@emotion/styled";
 import Editmenu from "./menus/edit-menu/Editmenu";
 import Createmenu from "./menus/Createmenu";
+import { useEntity } from "@leanscope/ecs-engine";
+import { IdentifierFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
 
 const StyledTitleWrapper = styled.div`
   ${tw`px-2`}
 `;
 
-// function getTextTypeForString(textType: string): TextTypes {
-//   if (textType === "Titel") {
-//     return TextTypes.TITLE;
-//   }
-//   if (textType === "Untertitel") {
-//     return TextTypes.SUBTITLE;
-//   }
-//   if (textType == "Fett") {
-//     return TextTypes.BOLD;
-//   }
-//   if (textType === "Kursiv") {
-//     return TextTypes.ITALIC;
-//   }
-//   if (textType === "Unterstrichen") {
-//     return TextTypes.UNDERLINE;
-//   }
-//   if (textType === "Beschriftung") {
-//     return TextTypes.CAPTION;
-//   }
-//   if (textType === "Überschrift") {
-//     return TextTypes.HEADING;
-//   }
-//   if (textType === "Normal") {
-//     return TextTypes.NORMAL;
-//   }
-//   return TextTypes.NORMAL;
-// }
+const StyledAddBlockArea = styled.div`
+  ${tw`h-96 w-full `}
+`;
+
+// const AddNewBlockSystem = () => {
+//   const lsc = useContext(LeanScopeClientContext);
+//   const { blockeditorId } = useCurrentBlockeditor();
+//   const [blockEntities] = useEntities(
+//     (e) => e.has(DataTypes.BLOCK) && e.get(IdentifierFacet)?.props.guid === blockeditorId
+//   );
+
+//   useEffect(() => {
+//     setTimeout(() => {
+//       if (blockEntities.length === 0) {
+//         {
+//           const newBlockEntity = new Entity();
+//           newBlockEntity.add(new IdentifierFacet({ guid: v4() }));
+//           newBlockEntity.add(new ParentFacet({ parentId: blockeditorId }));
+//           newBlockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.TEXT }));
+//           newBlockEntity.add(new TexttypeFacet({ texttype: Texttypes.NORMAL }));
+//           newBlockEntity.add(new FloatOrderFacet({ index: 1 }));
+//           newBlockEntity.add(DataTypes.BLOCK);
+//           newBlockEntity.add(AdditionalTags.FOCUSED);
+
+//           addBlock(lsc, newBlockEntity);
+//         }
+//       }
+//     }, 300);
+//   }, [blockEntities.length, blockeditorId]);
+
+//   return null;
+// };
 
 interface BlockeditorProps {
   id: string;
-  title: string;
+  title?: string;
+  navigateBack?: () => void;
   customHeaderArea?: React.ReactNode;
   onHeaderBlur?: (e: ChangeEvent<HTMLParagraphElement>) => void;
   generateBlocksString?: string;
@@ -59,19 +67,22 @@ interface BlockeditorProps {
   onBlockGenerate?: () => void;
   customEditOptions?: React.ReactNode;
   customContent?: React.ReactNode;
-  hideAddBlockButton?: boolean;
 }
 
 const Blockeditor = (props: BlockeditorProps) => {
-  const { id, title, customHeaderArea, customOptionRows, hideAddBlockButton, customGenerateOptionRows, customContent } =
+  const { id, title, customHeaderArea, customOptionRows, customGenerateOptionRows, customContent, navigateBack } =
     props;
   const { selectedLanguage } = useSelectedLanguage();
-  const { blockeditorState, blockeditorEntity } = useCurrentBlockeditor();
+  const { blockeditorState, blockeditorEntity, blockeditorId } = useCurrentBlockeditor();
   const { blocksAreaRef, addBlockAreaRef } = useClickOutsideBlockEditorHandler();
+  const [parentEntity] = useEntity(
+    (e) => e.get(IdentifierFacet)?.props.guid === blockeditorEntity?.get(ParentFacet)?.props.parentId
+  );
+  const backbuttonLabel = parentEntity?.get(TextFacet)?.props.text;
 
   return (
     <Fragment>
-      <InitializeBlockeditorSystem blockeditorId={id} />
+      <InitializeBlockeditorSystem initinalOpen blockeditorId={id} />
       <LoadBlocksSystem />
       <UpdateBlockStateSystem />
       <ChangeBlockeditorStateSystem />
@@ -96,11 +107,9 @@ const Blockeditor = (props: BlockeditorProps) => {
               <IoColorWandOutline />
             </NavBarButton>
 
-            {!hideAddBlockButton && (
-              <NavBarButton>
-                <IoAdd onClick={() => changeBlockeditorState(blockeditorEntity, "create")} />
-              </NavBarButton>
-            )}
+            <NavBarButton>
+              <IoAdd onClick={() => changeBlockeditorState(blockeditorEntity, "create")} />
+            </NavBarButton>
 
             <NavBarButton content={customOptionRows ? customOptionRows : null}>
               <IoEllipsisHorizontalCircleOutline />
@@ -113,7 +122,8 @@ const Blockeditor = (props: BlockeditorProps) => {
         )}
       </NavigationBar>
       <StyledTitleWrapper>
-        <Title>{title}</Title>
+        {navigateBack && <BackButton navigateBack={navigateBack}>{backbuttonLabel}</BackButton>}
+        <Title>{title || displayAlertTexts(selectedLanguage).noTitle}</Title>
         {customHeaderArea ? customHeaderArea : null}
         <Spacer />
       </StyledTitleWrapper>
@@ -123,13 +133,21 @@ const Blockeditor = (props: BlockeditorProps) => {
         <Fragment>
           <div ref={blocksAreaRef}>
             <ComponentRenderer />
-
-            <Editmenu />
-            <Createmenu />
+            {id == blockeditorId && (
+              <Fragment>
+                <Editmenu />
+                <Createmenu />
+              </Fragment>
+            )}
           </div>
-          <div ref={addBlockAreaRef}></div>
+          <StyledAddBlockArea ref={addBlockAreaRef} />
         </Fragment>
       )}
+      {/* <EntityPropsMapper
+        query={(e) => e.has(DataTypes.BLOCK) && e.has(Tags.CURRENT) && e.get(IdentifierFacet)?.props.guid !== id}
+        get={[[TextFacet, IdentifierFacet], []]}
+        onMatch={FurtherView}
+      /> */}
     </Fragment>
   );
 };

@@ -82,7 +82,7 @@ const EditOption: React.FC<EditOptionProps> = ({ option, isVisible, canShow }) =
         style={{ zIndex: 40 }}
         transition={{ type: "Tween" }}
         animate={{ y: isOptionsVisible && isVisible && content ? 0 : 300 }}
-        initial={{ y: 200, position: "fixed", left: 0, right: 0, width: "100%", bottom: 28 }}
+        initial={{ y: 200, position: "fixed", left: 0, right: 0, width: "100%", bottom: 4 }}
         drag="y"
         dragConstraints={{ top: 0, bottom: 200 }}
         onDragEnd={handleDragEnd}

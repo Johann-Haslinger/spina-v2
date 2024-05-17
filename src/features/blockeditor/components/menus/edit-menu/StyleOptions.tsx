@@ -30,7 +30,7 @@ const StyledOptionRowWarpper = styled.div`
 `;
 
 const StyledMoreOptionSheetWrapper = styled.div`
-  ${tw`bg-white dark:bg-seconderyDark pt-2 h-44  ml-2 rounded-xl px-4 md:w-[32rem]  w-11/12   shadow-[0_0px_40px_1px_rgba(0,0,0,0.12)]`}
+  ${tw`bg-white relative right-4 dark:bg-seconderyDark pt-2 h-44  ml-2 rounded-xl px-4 md:w-[32rem]  w-11/12   shadow-[0_0px_40px_1px_rgba(0,0,0,0.12)]`}
 `;
 
 const StyledBackIcon = styled.div`
@@ -53,9 +53,6 @@ const StyledOptionWrapper = styled.div<{ isSelected: boolean }>`
       : tw` border-white border-opacity-0`}
 `;
 
-const StyledMoreOptionSsheetContainer = styled.div`
-  ${tw` flex w-screen justify-center `}
-`;
 
 const useSelectedBlockTypes = () => {
   const [selectedBlocks] = useEntities((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
@@ -285,7 +282,7 @@ const StyleOptions = () => {
             textType={Texttypes.UNDERLINE}
             currentTextType={currentTextType}
             updateSelectedBlocksTextType={updateSelectedBlocksTextType}
-            customIcon={<div style={{ textDecoration: "underline"}}>U</div>}
+            customIcon={<div style={{ textDecoration: "underline" }}>U</div>}
           />
           <TextTypeOption
             textType={Texttypes.ITALIC}
@@ -302,12 +299,12 @@ const StyleOptions = () => {
         initial={{
           y: 600,
           position: "fixed",
-          bottom: 32,
-
+          bottom: 10,
           width: "100%",
           right: 0,
           left: 0,
-          zIndex: 40,
+
+          zIndex: 100,
         }}
         drag="y"
         dragConstraints={{ top: 0, bottom: 200 }}
@@ -315,53 +312,51 @@ const StyleOptions = () => {
           if (info.offset.y >= 1) setIsMoreTextOptionsVisible(false);
         }}
       >
-        <StyledMoreOptionSsheetContainer>
-          <StyledMoreOptionSheetWrapper>
-            <StyledBackIcon />
+        <StyledMoreOptionSheetWrapper>
+          <StyledBackIcon />
 
-            <StyledFurtherOptionRowWrapper>
-              <TextTypeOption
-                textType={Texttypes.TITLE}
-                currentTextType={currentTextType}
-                updateSelectedBlocksTextType={updateSelectedBlocksTextType}
-              />
-              <TextTypeOption
-                textType={Texttypes.SUBTITLE}
-                currentTextType={currentTextType}
-                updateSelectedBlocksTextType={updateSelectedBlocksTextType}
-              />
-              <TextTypeOption
-                textType={Texttypes.HEADING}
-                currentTextType={currentTextType}
-                updateSelectedBlocksTextType={updateSelectedBlocksTextType}
-              />
-            </StyledFurtherOptionRowWrapper>
-            <StyledSecondFurtherOptionRowWrapper>
-              <TextTypeOption
-                textType={Texttypes.BOLD}
-                currentTextType={currentTextType}
-                updateSelectedBlocksTextType={updateSelectedBlocksTextType}
-              />
-              <TextTypeOption
-                textType={Texttypes.NORMAL}
-                currentTextType={currentTextType}
-                updateSelectedBlocksTextType={updateSelectedBlocksTextType}
-              />
-              <TextTypeOption
-                textType={Texttypes.CAPTION}
-                currentTextType={currentTextType}
-                updateSelectedBlocksTextType={updateSelectedBlocksTextType}
-              />
-            </StyledSecondFurtherOptionRowWrapper>
-            <StyledSecondFurtherOptionRowWrapper>
-              <BlockTypeOption
-                blockType={Blocktypes.PAGE}
-                currentBlockType={currentBlockType}
-                updateSelectedBlocksBlockType={updateSelectedBlocksBlockType}
-              />
-            </StyledSecondFurtherOptionRowWrapper>
-          </StyledMoreOptionSheetWrapper>
-        </StyledMoreOptionSsheetContainer>
+          <StyledFurtherOptionRowWrapper>
+            <TextTypeOption
+              textType={Texttypes.TITLE}
+              currentTextType={currentTextType}
+              updateSelectedBlocksTextType={updateSelectedBlocksTextType}
+            />
+            <TextTypeOption
+              textType={Texttypes.SUBTITLE}
+              currentTextType={currentTextType}
+              updateSelectedBlocksTextType={updateSelectedBlocksTextType}
+            />
+            <TextTypeOption
+              textType={Texttypes.HEADING}
+              currentTextType={currentTextType}
+              updateSelectedBlocksTextType={updateSelectedBlocksTextType}
+            />
+          </StyledFurtherOptionRowWrapper>
+          <StyledSecondFurtherOptionRowWrapper>
+            <TextTypeOption
+              textType={Texttypes.BOLD}
+              currentTextType={currentTextType}
+              updateSelectedBlocksTextType={updateSelectedBlocksTextType}
+            />
+            <TextTypeOption
+              textType={Texttypes.NORMAL}
+              currentTextType={currentTextType}
+              updateSelectedBlocksTextType={updateSelectedBlocksTextType}
+            />
+            <TextTypeOption
+              textType={Texttypes.CAPTION}
+              currentTextType={currentTextType}
+              updateSelectedBlocksTextType={updateSelectedBlocksTextType}
+            />
+          </StyledSecondFurtherOptionRowWrapper>
+          <StyledSecondFurtherOptionRowWrapper>
+            <BlockTypeOption
+              blockType={Blocktypes.PAGE}
+              currentBlockType={currentBlockType}
+              updateSelectedBlocksBlockType={updateSelectedBlocksBlockType}
+            />
+          </StyledSecondFurtherOptionRowWrapper>
+        </StyledMoreOptionSheetWrapper>
       </motion.div>
     </>
   );
