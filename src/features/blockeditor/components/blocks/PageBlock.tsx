@@ -69,15 +69,20 @@ const PageBlock = (props: EntityProps & FloatOrderProps) => {
     // const parentBlockeditorEntity = lsc.engine.entities.find(
     //   (e) => e.has(BlockeditorStateFacet) && e.get(IdentifierFacet)?.props.guid === entity.get(ParentFacet)?.props.parentId
     // );
-    entity.remove(Tags.SELECTED)
-    changeBlockeditorState(blockeditorEntity, "view");
-    const lscparentBlockeditorEntity = lsc.engine.entities.find((e) => e.get(IdentifierFacet)?.props.guid === parentBlockeditorEntity?.get(IdentifierFacet)?.props.guid);
+    if (isPageViewVisible) {
+      entity.remove(Tags.SELECTED);
+      changeBlockeditorState(blockeditorEntity, "view");
+    }
+    const lscparentBlockeditorEntity = lsc.engine.entities.find(
+      (e) => e.get(IdentifierFacet)?.props.guid === parentBlockeditorEntity?.get(IdentifierFacet)?.props.guid
+    );
 
     if (isPageViewVisible) {
       blockeditorEntity?.add(new IdentifierFacet({ guid: id || "" }));
     } else {
-    
-      blockeditorEntity?.add(new IdentifierFacet({ guid: lscparentBlockeditorEntity?.get(IdentifierFacet)?.props.guid || "" }));
+      blockeditorEntity?.add(
+        new IdentifierFacet({ guid: lscparentBlockeditorEntity?.get(IdentifierFacet)?.props.guid || "" })
+      );
     }
   }, [isPageViewVisible, pageBlockEditorEntity]);
 

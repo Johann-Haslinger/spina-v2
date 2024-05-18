@@ -12,13 +12,8 @@ import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useEntityFacets } from "@leanscope/ecs-engine/react-api/hooks/useEntityFacets";
 import { useCurrentBlockeditor } from "../../../hooks/useCurrentBlockeditor";
 
-const StyledFurtherOptionSheetWrapper = styled.div<{ isLarge?: boolean }>`
-  ${tw`bg-white pt-2 dark:bg-seconderyDark mx-auto z-40 rounded-xl md:w-[31rem] px-4 w-11/12 shadow-[0_0px_40px_1px_rgba(0,0,0,0.12)] `}
-  ${({ isLarge }) => isLarge && tw`h-60`}
-`;
-
 const StyledOptionRow2Wrapper = styled.div`
-  ${tw`flex  w-full  overflow-x-scroll  h-16  items-center justify-between `}
+  ${tw`flex space-x-1 w-full  overflow-x-scroll  h-16  items-center justify-between `}
 `;
 
 const StyledMoreButton = styled.div`
@@ -52,7 +47,6 @@ const StyledOptionWrapper = styled.div<{ isSelected: boolean }>`
       ? tw`text-primaryColor  bg-primaryColor bg-opacity-10 border-primaryColor`
       : tw` border-white border-opacity-0`}
 `;
-
 
 const useSelectedBlockTypes = () => {
   const [selectedBlocks] = useEntities((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
@@ -192,11 +186,14 @@ const updateSelectedBlocksTextType = (lsc: ILeanScopeClient, newTextType: Textty
   const selectedBlockEntities = lsc.engine.entities.filter((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
   selectedBlockEntities.forEach(async (blockEntity) => {
     const blockType = blockEntity.get(BlocktypeFacet)?.props.blocktype;
-    if (blockType === Blocktypes.TEXT || blockType === Blocktypes.TODO || blockType === Blocktypes.LIST) {
-      blockEntity.add(new TexttypeFacet({ texttype: newTextType }));
 
-      // TODO: Update the text type of the selected blocks in the database
+    if (blockType !== Blocktypes.TEXT && blockType !== Blocktypes.TODO && blockType !== Blocktypes.LIST) {
+      blockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.TEXT }));
     }
+
+    blockEntity.add(new TexttypeFacet({ texttype: newTextType }));
+
+    // TODO: Update the text type of the selected blocks in the database
   });
 };
 
@@ -218,6 +215,8 @@ const updateSelectedBlocksBlockType = async (lsc: ILeanScopeClient, newBlockType
       blockEntity.add(new ListStyleFacet({ listStyle: ListStyles.UNORDERED }));
     } else if (newBlockType === Blocktypes.PAGE) {
       blockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.PAGE }));
+    } else if (newBlockType === Blocktypes.TEXT) {
+      blockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.TEXT }));
     }
 
     // TODO: Update the block type of the selected blocks in the database
@@ -232,66 +231,64 @@ const StyleOptions = () => {
   useEffect(() => {
     setIsMoreTextOptionsVisible(false);
   }, [blockeditorState]);
+
   return (
     <>
-      <StyledFurtherOptionSheetWrapper>
-        <StyledBackIcon />
-        <StyledOptionRow2Wrapper>
-          <TextTypeOption
-            textType={Texttypes.HEADING}
-            currentTextType={currentTextType}
-            updateSelectedBlocksTextType={updateSelectedBlocksTextType}
-          />
-          <TextTypeOption
-            textType={Texttypes.NORMAL}
-            currentTextType={currentTextType}
-            updateSelectedBlocksTextType={updateSelectedBlocksTextType}
-          />
-          <BlockTypeOption
-            blockType={Blocktypes.PAGE}
-            currentBlockType={currentBlockType}
-            updateSelectedBlocksBlockType={updateSelectedBlocksBlockType}
-          />
-          <StyledMoreButton
-            onClick={() => {
-              setIsMoreTextOptionsVisible(true);
-            }}
-          >
-            Mehr
-          </StyledMoreButton>
-        </StyledOptionRow2Wrapper>
+      <StyledOptionRow2Wrapper>
+        <TextTypeOption
+          textType={Texttypes.HEADING}
+          currentTextType={currentTextType}
+          updateSelectedBlocksTextType={updateSelectedBlocksTextType}
+        />
+        <TextTypeOption
+          textType={Texttypes.NORMAL}
+          currentTextType={currentTextType}
+          updateSelectedBlocksTextType={updateSelectedBlocksTextType}
+        />
+        <BlockTypeOption
+          blockType={Blocktypes.PAGE}
+          currentBlockType={currentBlockType}
+          updateSelectedBlocksBlockType={updateSelectedBlocksBlockType}
+        />
+        <StyledMoreButton
+          onClick={() => {
+            setIsMoreTextOptionsVisible(true);
+          }}
+        >
+          Mehr
+        </StyledMoreButton>
+      </StyledOptionRow2Wrapper>
 
-        <StyledOptionRowWarpper>
-          <BlockTypeOption
-            blockType={Blocktypes.TODO}
-            currentBlockType={currentBlockType}
-            updateSelectedBlocksBlockType={updateSelectedBlocksBlockType}
-          />
-          <BlockTypeOption
-            blockType={Blocktypes.LIST}
-            currentBlockType={currentBlockType}
-            updateSelectedBlocksBlockType={updateSelectedBlocksBlockType}
-          />
-          <TextTypeOption
-            customIcon={<div>B</div>}
-            textType={Texttypes.BOLD}
-            currentTextType={currentTextType}
-            updateSelectedBlocksTextType={updateSelectedBlocksTextType}
-          />
-          <TextTypeOption
-            textType={Texttypes.UNDERLINE}
-            currentTextType={currentTextType}
-            updateSelectedBlocksTextType={updateSelectedBlocksTextType}
-            customIcon={<div style={{ textDecoration: "underline" }}>U</div>}
-          />
-          <TextTypeOption
-            textType={Texttypes.ITALIC}
-            currentTextType={currentTextType}
-            updateSelectedBlocksTextType={updateSelectedBlocksTextType}
-            customIcon={<p className="italic  font-serif ">I</p>}
-          />
-        </StyledOptionRowWarpper>
-      </StyledFurtherOptionSheetWrapper>
+      <StyledOptionRowWarpper>
+        <BlockTypeOption
+          blockType={Blocktypes.TODO}
+          currentBlockType={currentBlockType}
+          updateSelectedBlocksBlockType={updateSelectedBlocksBlockType}
+        />
+        <BlockTypeOption
+          blockType={Blocktypes.LIST}
+          currentBlockType={currentBlockType}
+          updateSelectedBlocksBlockType={updateSelectedBlocksBlockType}
+        />
+        <TextTypeOption
+          customIcon={<div>B</div>}
+          textType={Texttypes.BOLD}
+          currentTextType={currentTextType}
+          updateSelectedBlocksTextType={updateSelectedBlocksTextType}
+        />
+        <TextTypeOption
+          textType={Texttypes.UNDERLINE}
+          currentTextType={currentTextType}
+          updateSelectedBlocksTextType={updateSelectedBlocksTextType}
+          customIcon={<div style={{ textDecoration: "underline" }}>U</div>}
+        />
+        <TextTypeOption
+          textType={Texttypes.ITALIC}
+          currentTextType={currentTextType}
+          updateSelectedBlocksTextType={updateSelectedBlocksTextType}
+          customIcon={<p className="italic  font-serif ">I</p>}
+        />
+      </StyledOptionRowWarpper>
 
       <motion.div
         transition={{ type: "Tween" }}

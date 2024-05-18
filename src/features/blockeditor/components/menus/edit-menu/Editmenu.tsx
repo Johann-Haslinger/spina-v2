@@ -1,7 +1,7 @@
 import { Fragment, useContext } from "react";
 import { useCurrentBlockeditor } from "../../../hooks/useCurrentBlockeditor";
 import { Entity } from "@leanscope/ecs-engine";
-import { AdditionalTags, Blocktypes, DataTypes, Stories } from "../../../../../base/enums";
+import { AdditionalTags, Blocktypes, DataTypes, Stories, Texttypes } from "../../../../../base/enums";
 import { FloatOrderFacet, IdentifierFacet, ParentFacet, Tags, TextFacet } from "@leanscope/ecs-models";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import tw from "twin.macro";
@@ -10,7 +10,7 @@ import { motion } from "framer-motion";
 import { ILeanScopeClient } from "@leanscope/api-client/interfaces";
 import { v4 } from "uuid";
 import { addBlock } from "../../../functions/addBlock";
-import { BlocktypeFacet, TitleFacet } from "../../../../../app/additionalFacets";
+import { BlocktypeFacet, TexttypeFacet, TitleFacet } from "../../../../../app/additionalFacets";
 import { sortEntitiesByOrder } from "../../../../../utils/sortEntitiesByOrder";
 import {
   IoColorPalette,
@@ -25,6 +25,8 @@ import HandleKeyPresEditMenuSystem from "../../../systems/HandleKeyPresEditMenuS
 import EditOption from "./EditOption";
 import DeleteBlocksAlert from "../../DeleteBlocksAlert";
 import StyleOptions from "./StyleOptions";
+import ActionOptions from "./ActionOptions";
+import { changeBlockeditorState } from "../../../functions/changeBlockeditorState";
 
 type Option = {
   name: string;
@@ -76,9 +78,21 @@ const groupSelectedBlocks = (lsc: ILeanScopeClient) => {
 const addContentToSelectedBlock = async (lsc: ILeanScopeClient) => {
   const selectedBlockEntities = lsc.engine.entities.filter((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
   const firstSelectedBlockEntity = selectedBlockEntities[0];
+  const firstSelectedBlockId = firstSelectedBlockEntity.get(IdentifierFacet)?.props.guid || "";
 
   firstSelectedBlockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.PAGE }));
   firstSelectedBlockEntity.add(AdditionalTags.OPEN);
+
+  const newBlockEntity = new Entity();
+  newBlockEntity.add(new IdentifierFacet({ guid: v4() }));
+  newBlockEntity.add(new ParentFacet({ parentId: firstSelectedBlockId }));
+  newBlockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.TEXT }));
+  newBlockEntity.add(new TexttypeFacet({ texttype: Texttypes.NORMAL }));
+  newBlockEntity.add(new FloatOrderFacet({ index: 1 }));
+  newBlockEntity.add(DataTypes.BLOCK);
+  newBlockEntity.add(AdditionalTags.FOCUSED);
+
+  addBlock(lsc, newBlockEntity);
 
   // TODO: Update the block type of the selected block in the database
 };
@@ -87,7 +101,12 @@ const showStyleOptionQuery = (pressedBlocks: readonly Entity[]) => {
   return pressedBlocks.every((block) => {
     const blocktype = block.get(BlocktypeFacet)?.props.blocktype;
 
-    return blocktype === Blocktypes.TEXT || blocktype === Blocktypes.TODO || blocktype === Blocktypes.LIST;
+    return (
+      blocktype === Blocktypes.TEXT ||
+      blocktype === Blocktypes.TODO ||
+      blocktype === Blocktypes.LIST ||
+      blocktype === Blocktypes.PAGE
+    );
   });
 };
 
@@ -109,7 +128,7 @@ const showGroupOptionQuery = (pressedBlocks: readonly Entity[]) => pressedBlocks
 
 const Editmenu = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const { blockeditorState } = useCurrentBlockeditor();
+  const { blockeditorState, blockeditorEntity } = useCurrentBlockeditor();
   const isVisible = blockeditorState === "edit";
 
   const openDeleteSheet = () => lsc.stories.transitTo(Stories.DELETING_BLOCKS_STORY);
@@ -149,7 +168,7 @@ const Editmenu = () => {
       icon: <IoArrowForwardCircleOutline />,
       color: COLOR_ITEMS[4].color,
       bgColor: COLOR_ITEMS[4].backgroundColor,
-      customFunc: groupSelectedBlocks,
+      customFunc: () => groupSelectedBlocks(lsc),
       canShow: showGroupOptionQuery,
     },
     {
@@ -157,15 +176,8 @@ const Editmenu = () => {
       icon: <IoShareOutline />,
       color: COLOR_ITEMS[1].color,
       bgColor: COLOR_ITEMS[1].backgroundColor,
-      content:
-        // <ActionOptions
-        //   backfuction={backfuction}
-        //   blocks={blocks}
-        //   handleDeleteBlockLocally={deleteBlockLocally}
-        //   handleAddBlockLocally={handleAddBlockLocally}
-        //   pressedBlocks={pressedBlocks}
-        // />
-        null,
+      content: <ActionOptions backfuction={() => changeBlockeditorState(blockeditorEntity, "view")} />,
+
       canShow: () => true,
     },
     {

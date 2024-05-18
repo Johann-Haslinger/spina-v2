@@ -22,6 +22,15 @@ interface EditOptionProps {
   canShow: (pressedBlocks: readonly Entity[]) => boolean;
 }
 
+const StyledBackIcon = styled.div`
+  ${tw`w-8 h-1 rounded-full dark:bg-white dark:bg-opacity-5   bg-tertiary mx-auto`}
+`;
+
+const StyledFurtherOptionSheetWrapper = styled.div<{ isLarge?: boolean }>`
+  ${tw`bg-white pt-2 dark:bg-seconderyDark mx-auto z-40 rounded-xl md:w-[31rem] px-4 w-11/12 shadow-[0_0px_40px_1px_rgba(0,0,0,0.12)] `}
+  ${({ isLarge }) => isLarge && tw`h-60`}
+`;
+
 const StyledOptionWrapper = styled.div<{ color?: string; backgroundColor?: string }>`
   ${tw`w-full hover:opacity-80 transition-all min-w-[4rem] p-2 bg-opacity-10  text-white rounded-lg mr-0 m-1`}
   ${({ color, backgroundColor }) => `
@@ -87,7 +96,11 @@ const EditOption: React.FC<EditOptionProps> = ({ option, isVisible, canShow }) =
         dragConstraints={{ top: 0, bottom: 200 }}
         onDragEnd={handleDragEnd}
       >
-        {content}
+        <StyledFurtherOptionSheetWrapper>
+          {" "}
+          <StyledBackIcon />
+          {content}
+        </StyledFurtherOptionSheetWrapper>
       </motion.div>
     </Fragment>
   );

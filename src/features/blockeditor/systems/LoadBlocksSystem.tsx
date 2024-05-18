@@ -6,9 +6,7 @@ import { Entity } from "@leanscope/ecs-engine";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { FloatOrderFacet, IdentifierFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
 import { BlocktypeFacet, TexttypeFacet } from "../../../app/additionalFacets";
-import { AdditionalTags, Blocktypes, DataTypes, Texttypes } from "../../../base/enums";
-import { v4 } from "uuid";
-import { addBlock } from "../functions/addBlock";
+import { DataTypes } from "../../../base/enums";
 
 const fetchBlocks = async (blockeditorId: string) => {
   console.log(blockeditorId);
@@ -49,20 +47,6 @@ const LoadBlocksSystem = () => {
             newBlockEntity.add(DataTypes.BLOCK);
           }
         });
-
-        console.log("shouldFetchFromSupabase", shouldFetchFromSupabase);
-        if (shouldFetchFromSupabase || (mockupData && blocks.length === 0)) {
-          const newBlockEntity = new Entity();
-          newBlockEntity.add(new IdentifierFacet({ guid: v4() }));
-          newBlockEntity.add(new ParentFacet({ parentId: blockeditorId }));
-          newBlockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.TEXT }));
-          newBlockEntity.add(new TexttypeFacet({ texttype: Texttypes.NORMAL }));
-          newBlockEntity.add(new FloatOrderFacet({ index: 1 }));
-          newBlockEntity.add(DataTypes.BLOCK);
-          newBlockEntity.add(AdditionalTags.FOCUSED);
-
-          addBlock(lsc, newBlockEntity);
-        }
       }
     };
 

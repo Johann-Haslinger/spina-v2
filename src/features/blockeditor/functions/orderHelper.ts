@@ -98,15 +98,18 @@ export const getHighestOrder = (lsc: ILeanScopeClient, parentId: string) => {
   const blockEntities = lsc.engine.entities.filter(
     (e) => e.has(DataTypes.BLOCK) && e.get(ParentFacet)?.props.parentId === parentId
   );
+  if (blockEntities.length === 0) {
+    return 0;
+  } else {
+    const sortedEntities = blockEntities.slice().sort((a, b) => {
+      const orderA = a.get(FloatOrderFacet)?.props.index || 0;
+      const orderB = b.get(FloatOrderFacet)?.props.index || 0;
+      return orderA - orderB;
+    });
+    let highestOrder = sortedEntities[sortedEntities.length - 1].get(FloatOrderFacet)?.props.index;
 
-  const sortedEntities = blockEntities.slice().sort((a, b) => {
-    const orderA = a.get(FloatOrderFacet)?.props.index || 0;
-    const orderB = b.get(FloatOrderFacet)?.props.index || 0;
-    return orderA - orderB;
-  });
-  let highestOrder = sortedEntities[sortedEntities.length - 1].get(FloatOrderFacet)?.props.index;
-
-  return highestOrder || 0;
+    return highestOrder || 0;
+  }
 };
 
 export const getNewHighestOrder = (blockEntities: readonly Entity[]) => {
