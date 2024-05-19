@@ -54,7 +54,6 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
           title={title}
           backbuttonLabel={selectedTopicTitle}
           navigateBack={navigateBack}
-          customActionRows
           customHeaderArea={
             <div>
               <EntityPropsMapper
@@ -74,7 +73,7 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
               </ActionRow>
             </Fragment>
           }
-          customEditOptions={
+          customActionRows={
             <Fragment>
               <ActionRow first icon={isBookmarked ? <IoBookmark /> : <IoBookmarkOutline />} onClick={toggleBookmark}>
                 {isBookmarked

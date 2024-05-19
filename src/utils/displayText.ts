@@ -66,6 +66,7 @@ export const displayActionTexts = (selectedLanguage: SupportedLanguages) => {
     unbookmark: ACTION_TEXT_DATA.unbookmark[selectedLanguage],
     bookmark: ACTION_TEXT_DATA.bookmark[selectedLanguage],
     generateLearnVideo: ACTION_TEXT_DATA.generate_learn_video[selectedLanguage],
+    addFlashcards: ACTION_TEXT_DATA.add_flashcards[selectedLanguage],
   };
 };
 

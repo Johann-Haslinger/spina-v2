@@ -1,23 +1,23 @@
-import React, {  Fragment, useContext } from "react";
-import { ActionRow, BackButton, NavBarButton, NavigationBar, PrimaryButton, Spacer, Title } from "../../../components";
-import InitializeBlockeditorSystem from "../systems/InitializeBlockeditorSystem";
-import { useCurrentBlockeditor } from "../hooks/useCurrentBlockeditor";
+import styled from "@emotion/styled";
+import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import React, { Fragment, useContext } from "react";
 import { IoAdd, IoColorWandOutline, IoEllipsisHorizontalCircleOutline, IoSparklesOutline } from "react-icons/io5";
+import tw from "twin.macro";
+import { Stories } from "../../../base/enums";
+import { ActionRow, BackButton, NavBarButton, NavigationBar, PrimaryButton, Spacer, Title } from "../../../components";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import { displayActionTexts, displayAlertTexts, displayButtonTexts } from "../../../utils/displayText";
+import GenerateImprovedTextSheet from "../../collection/components/generation/GenerateImprovedTextSheet";
 import { changeBlockeditorState } from "../functions/changeBlockeditorState";
+import { useClickOutsideBlockEditorHandler } from "../hooks/useClickOutsideBlockEditorHandler";
+import { useCurrentBlockeditor } from "../hooks/useCurrentBlockeditor";
+import ChangeBlockeditorStateSystem from "../systems/ChangeBlockeditorStateSystem";
+import InitializeBlockeditorSystem from "../systems/InitializeBlockeditorSystem";
+import LoadBlocksSystem from "../systems/LoadBlocksSystem";
 import UpdateBlockStateSystem from "../systems/UpdateBlockStateSystem";
 import ComponentRenderer from "./ComponentRenderer";
-import LoadBlocksSystem from "../systems/LoadBlocksSystem";
-import ChangeBlockeditorStateSystem from "../systems/ChangeBlockeditorStateSystem";
-import { useClickOutsideBlockEditorHandler } from "../hooks/useClickOutsideBlockEditorHandler";
-import tw from "twin.macro";
-import styled from "@emotion/styled";
-import Editmenu from "./menus/edit-menu/Editmenu";
 import Createmenu from "./menus/Createmenu";
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { Stories } from "../../../base/enums";
-import GenerateImprovedTextSheet from "../../collection/components/generation/GenerateImprovedTextSheet";
+import Editmenu from "./menus/edit-menu/Editmenu";
 
 const StyledTitleWrapper = styled.div`
   ${tw`px-2`}
@@ -122,7 +122,7 @@ const Blockeditor = (props: BlockeditorProps) => {
               <IoAdd onClick={() => changeBlockeditorState(blockeditorEntity, "create")} />
             </NavBarButton>
 
-            <NavBarButton content={customActionRows ? customActionRows : null}>
+            <NavBarButton content={customActionRows}>
               <IoEllipsisHorizontalCircleOutline />
             </NavBarButton>
           </Fragment>

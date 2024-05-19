@@ -176,6 +176,10 @@ export const ACTION_TEXT_DATA = {
     de: "Lernvideo generieren",
     en: "Generate video",
   },
+  add_flashcards: {
+    de: "Karten hinzufügen",
+    en: "Add flashcards",
+  },
 };
 export const LABEL_TEXT_DATA = {
   title: {

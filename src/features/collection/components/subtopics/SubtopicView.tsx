@@ -1,4 +1,16 @@
+import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
+import { IdentifierFacet, IdentifierProps, Tags, TextProps } from "@leanscope/ecs-models";
 import { Fragment, useContext, useState } from "react";
+import {
+  IoAdd,
+  IoAlbumsOutline,
+  IoBookmark,
+  IoBookmarkOutline,
+  IoCreateOutline,
+  IoHeadsetOutline,
+  IoTrashOutline,
+} from "react-icons/io5";
 import {
   AnswerFacet,
   DateAddedFacet,
@@ -7,56 +19,34 @@ import {
   TitleFacet,
   TitleProps,
 } from "../../../../app/additionalFacets";
-import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
+import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
 import {
   ActionRow,
-  BackButton,
   CollectionGrid,
-  NavBarButton,
-  NavigationBar,
   SegmentedControl,
   SegmentedControlCell,
   Spacer,
-  TextEditor,
-  Title,
   View,
 } from "../../../../components";
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
-import { IdentifierFacet, IdentifierProps, Tags, TextFacet, TextProps } from "@leanscope/ecs-models";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import { useSelectedTopic } from "../../hooks/useSelectedTopic";
-import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
-import {
-  IoAdd,
-  IoAlbumsOutline,
-  IoBookmark,
-  IoBookmarkOutline,
-  IoColorWandOutline,
-  IoCreateOutline,
-  IoEllipsisHorizontalCircleOutline,
-  IoHeadsetOutline,
-  IoPlayOutline,
-  IoSparklesOutline,
-  IoTrashOutline,
-  
-} from "react-icons/io5";
 import { displayActionTexts } from "../../../../utils/displayText";
-import EditSubtopicSheet from "./EditSubtopicSheet";
-import DeleteSubtopicAlert from "./DeleteSubtopicAlert";
-import LoadSubtopicResourcesSystem from "../../systems/LoadSubtopicResourcesSystem";
 import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
-import FlashcardCell from "../flashcard-sets/FlashcardCell";
-import EditFlashcardSheet from "../flashcard-sets/EditFlashcardSheet";
-import supabaseClient from "../../../../lib/supabase";
-import AddFlashcardsSheet from "../flashcard-sets/AddFlashcardsSheet";
+import Blockeditor from "../../../blockeditor/components/Blockeditor";
 import FlashcardQuizView from "../../../study/components/FlashcardQuizView";
-import GeneratePodcastSheet from "../generation/GeneratePodcastSheet";
-import GenerateImprovedTextSheet from "../generation/GenerateImprovedTextSheet";
-import PodcastRow from "../podcasts/PodcastRow";
 import { useBookmarked } from "../../../study/hooks/useBookmarked";
-import LernvideoView from "../lern-videos/LernvideoView";
+import { useSelectedTopic } from "../../hooks/useSelectedTopic";
+import LoadSubtopicResourcesSystem from "../../systems/LoadSubtopicResourcesSystem";
+import AddFlashcardsSheet from "../flashcard-sets/AddFlashcardsSheet";
+import EditFlashcardSheet from "../flashcard-sets/EditFlashcardSheet";
+import FlashcardCell from "../flashcard-sets/FlashcardCell";
+import GenerateImprovedTextSheet from "../generation/GenerateImprovedTextSheet";
+import GeneratePodcastSheet from "../generation/GeneratePodcastSheet";
 import LernvideoRow from "../lern-videos/LernvideoRow";
+import LernvideoView from "../lern-videos/LernvideoView";
+import PodcastRow from "../podcasts/PodcastRow";
+import DeleteSubtopicAlert from "./DeleteSubtopicAlert";
+import EditSubtopicSheet from "./EditSubtopicSheet";
 
 enum SubtopicViewStates {
   NOTE,
@@ -65,7 +55,7 @@ enum SubtopicViewStates {
 
 const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierProps) => {
   const lsc = useContext(LeanScopeClientContext);
-  const { title, entity, text, guid } = props;
+  const { title, entity, guid } = props;
   const isVisible = useIsViewVisible(entity);
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedTopicTitle } = useSelectedTopic();
@@ -77,125 +67,97 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
   const openEditSheet = () => lsc.stories.transitTo(Stories.EDITING_SUBTOPIC_STORY);
   const openAddFlashcardsSheet = () => lsc.stories.transitTo(Stories.ADDING_FLASHCARDS_STORY);
   const openFlashcardQuizView = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_QUIZ_STORY);
-  const openImproveTextSheet = () => lsc.stories.transitTo(Stories.GENERATING_IMPROVED_TEXT_STORY);
   const openGeneratePodcastSheet = () => lsc.stories.transitTo(Stories.GENERATING_PODCAST_STORY);
   // const openGenerateLernVideoSheet = () => lsc.stories.transitTo(Stories.GENERATING_LEARN_VIDEO_STORY);
-
-  const handleTextBlur = async (value: string) => {
-    entity.add(new TextFacet({ text: value }));
-
-    const { error } = await supabaseClient.from("knowledges").update({ text: value }).eq("parentId", guid);
-
-    if (error) {
-      console.error("Error updating subtopic text", error);
-    }
-  };
 
   return (
     <Fragment>
       <LoadSubtopicResourcesSystem />
 
       <View visible={isVisible}>
-        <NavigationBar>
-          {subtopicViewState == SubtopicViewStates.FLASHCARDS && (
-            <NavBarButton onClick={openAddFlashcardsSheet}>
-              <IoAdd />
-            </NavBarButton>
-          )}
+        <Blockeditor
+          id={guid}
+          title={title}
+          backbuttonLabel={selectedTopicTitle}
+          navigateBack={navigateBack}
+          customActionRows={
+            <Fragment>
+              <ActionRow icon={<IoCreateOutline />} onClick={openEditSheet} first>
+                {displayActionTexts(selectedLanguage).edit}
+              </ActionRow>
+              <ActionRow icon={<IoAdd />} onClick={openAddFlashcardsSheet}>
+                {displayActionTexts(selectedLanguage).addFlashcards}
+              </ActionRow>
+              <ActionRow icon={isBookmarked ? <IoBookmark /> : <IoBookmarkOutline />} onClick={toggleBookmark}>
+                {isBookmarked
+                  ? displayActionTexts(selectedLanguage).unbookmark
+                  : displayActionTexts(selectedLanguage).bookmark}
+              </ActionRow>
 
-          <NavBarButton
-            content={
-              <Fragment>
-                <ActionRow first icon={<IoHeadsetOutline />} onClick={openGeneratePodcastSheet}>
-                  {displayActionTexts(selectedLanguage).generatePodcast}
-                </ActionRow>
-                {/* <ActionRow icon={<IoVideocamOutline />} onClick={openGenerateLernVideoSheet}>
+              <ActionRow last destructive icon={<IoTrashOutline />} onClick={openDeleteAlert}>
+                {displayActionTexts(selectedLanguage).delete}
+              </ActionRow>
+            </Fragment>
+          }
+          customGenerateActionRows={
+            <Fragment>
+              {/* <ActionRow icon={<IoVideocamOutline />} onClick={openGenerateLernVideoSheet}>
                   {displayActionTexts(selectedLanguage).generateLearnVideo}
                 </ActionRow> */}
-                <ActionRow onClick={openImproveTextSheet} last icon={<IoSparklesOutline />}>
-                  {displayActionTexts(selectedLanguage).improveText}
-                </ActionRow>
-              </Fragment>
-            }
-          >
-            <IoColorWandOutline />
-          </NavBarButton>
-          <NavBarButton
-            content={
-              <Fragment>
-                <ActionRow first last icon={<IoAlbumsOutline />} onClick={() => openFlashcardQuizView()}>
-                  {displayActionTexts(selectedLanguage).quiz}
-                </ActionRow>
-              </Fragment>
-            }
-          >
-            <IoPlayOutline />
-          </NavBarButton>
-          <NavBarButton
-            content={
-              <Fragment>
-                <ActionRow icon={<IoCreateOutline />} onClick={openEditSheet} first>
-                  {displayActionTexts(selectedLanguage).edit}
-                </ActionRow>
-                <ActionRow icon={isBookmarked ? <IoBookmark /> : <IoBookmarkOutline />} onClick={toggleBookmark}>
-                  {isBookmarked
-                    ? displayActionTexts(selectedLanguage).unbookmark
-                    : displayActionTexts(selectedLanguage).bookmark}
-                </ActionRow>
-                <ActionRow last destructive icon={<IoTrashOutline />} onClick={openDeleteAlert}>
-                  {displayActionTexts(selectedLanguage).delete}
-                </ActionRow>
-              </Fragment>
-            }
-          >
-            <IoEllipsisHorizontalCircleOutline />
-          </NavBarButton>
-        </NavigationBar>
+              <ActionRow last first icon={<IoHeadsetOutline />} onClick={openGeneratePodcastSheet}>
+                {displayActionTexts(selectedLanguage).generatePodcast}
+              </ActionRow>
+            </Fragment>
+          }
+          customEditOptions={
+            <ActionRow first last icon={<IoAlbumsOutline />} onClick={() => openFlashcardQuizView()}>
+              {displayActionTexts(selectedLanguage).quiz}
+            </ActionRow>
+          }
+          customHeaderArea={
+            <div>
+              <SegmentedControl>
+                <SegmentedControlCell
+                  active={subtopicViewState == SubtopicViewStates.NOTE}
+                  onClick={() => setSubtopicViewState(SubtopicViewStates.NOTE)}
+                  first
+                >
+                  {displayActionTexts(selectedLanguage).note}
+                </SegmentedControlCell>
+                <SegmentedControlCell
+                  active={subtopicViewState == SubtopicViewStates.FLASHCARDS}
+                  onClick={() => setSubtopicViewState(SubtopicViewStates.FLASHCARDS)}
+                  leftNeighbourActive={subtopicViewState == SubtopicViewStates.NOTE}
+                >
+                  {displayActionTexts(selectedLanguage).flashcards}
+                </SegmentedControlCell>
+              </SegmentedControl>
 
-        <BackButton navigateBack={navigateBack}>{selectedTopicTitle}</BackButton>
-        <Title>{title}</Title>
-        <Spacer size={1} />
-        <SegmentedControl>
-          <SegmentedControlCell
-            active={subtopicViewState == SubtopicViewStates.NOTE}
-            onClick={() => setSubtopicViewState(SubtopicViewStates.NOTE)}
-            first
-          >
-            {displayActionTexts(selectedLanguage).note}
-          </SegmentedControlCell>
-          <SegmentedControlCell
-            active={subtopicViewState == SubtopicViewStates.FLASHCARDS}
-            onClick={() => setSubtopicViewState(SubtopicViewStates.FLASHCARDS)}
-            leftNeighbourActive={subtopicViewState == SubtopicViewStates.NOTE}
-          >
-            {displayActionTexts(selectedLanguage).flashcards}
-          </SegmentedControlCell>
-        </SegmentedControl>
-
-        <Spacer />
-        <EntityPropsMapper
-          query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.PODCAST)}
-          get={[[TitleFacet, DateAddedFacet], []]}
-          onMatch={PodcastRow}
+              <Spacer />
+              <EntityPropsMapper
+                query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.PODCAST)}
+                get={[[TitleFacet, DateAddedFacet], []]}
+                onMatch={PodcastRow}
+              />
+              <EntityPropsMapper
+                query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.LERNVIDEO)}
+                get={[[TitleFacet, DateAddedFacet], []]}
+                onMatch={LernvideoRow}
+              />
+            </div>
+          }
+          customContent={
+            subtopicViewState == SubtopicViewStates.FLASHCARDS && (
+              <CollectionGrid columnSize="large">
+                <EntityPropsMapper
+                  query={(e) => dataTypeQuery(e, DataTypes.FLASHCARD) && isChildOfQuery(e, entity)}
+                  get={[[QuestionFacet, AnswerFacet, MasteryLevelFacet], []]}
+                  onMatch={FlashcardCell}
+                />
+              </CollectionGrid>
+            )
+          }
         />
-        <EntityPropsMapper
-          query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.LERNVIDEO)}
-          get={[[TitleFacet, DateAddedFacet], []]}
-          onMatch={LernvideoRow}
-        />
-
-        <Spacer />
-        {subtopicViewState == SubtopicViewStates.NOTE ? (
-          <TextEditor onBlur={handleTextBlur} value={text} />
-        ) : (
-          <CollectionGrid columnSize="large">
-            <EntityPropsMapper
-              query={(e) => dataTypeQuery(e, DataTypes.FLASHCARD) && isChildOfQuery(e, entity)}
-              get={[[QuestionFacet, AnswerFacet, MasteryLevelFacet], []]}
-              onMatch={FlashcardCell}
-            />
-          </CollectionGrid>
-        )}
       </View>
 
       <EntityPropsMapper
