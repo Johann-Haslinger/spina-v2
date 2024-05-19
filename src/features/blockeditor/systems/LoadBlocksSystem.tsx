@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useMockupData } from "../../../hooks/useMockupData";
 import { useCurrentBlockeditor } from "../hooks/useCurrentBlockeditor";
 import { dummyBlocks } from "../../../base/dummy";
@@ -7,6 +7,11 @@ import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { FloatOrderFacet, IdentifierFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
 import { BlocktypeFacet, TexttypeFacet } from "../../../app/additionalFacets";
 import { DataTypes } from "../../../base/enums";
+import { useSelectedHomework } from "../../collection/hooks/useSelectedHomework";
+import { useSelectedNote } from "../../collection/hooks/useSelectedNote";
+import { useSelectedSubtopic } from "../../collection/hooks/useSelectedSubtopic";
+import { addBlockEntitiesFromString } from "../functions/addBlockEntitiesFromString";
+import { useUserData } from "../../../hooks/useUserData";
 
 const fetchBlocks = async (blockeditorId: string) => {
   console.log(blockeditorId);
@@ -18,6 +23,11 @@ const LoadBlocksSystem = () => {
   const lsc = useContext(LeanScopeClientContext);
   const { mockupData, shouldFetchFromSupabase } = useMockupData();
   const { blockeditorId } = useCurrentBlockeditor();
+  const { selectedHomeworkText } = useSelectedHomework();
+  const { selectedNoteText } = useSelectedNote();
+  const { selectedSubtopicText } = useSelectedSubtopic();
+  const { userId } = useUserData();
+  const [addedText, setAddedText] = useState(false);
 
   useEffect(() => {
     const loadBlocks = async () => {
@@ -29,6 +39,14 @@ const LoadBlocksSystem = () => {
           : shouldFetchFromSupabase
           ? await fetchBlocks(blockeditorId)
           : [];
+        const resouceText = selectedSubtopicText || selectedHomeworkText || selectedNoteText;
+
+        if (resouceText && !addedText) {
+          await addBlockEntitiesFromString(lsc, resouceText, blockeditorId, userId);
+          setAddedText(true);
+      
+          // TODO: Remove text add update to newNoteStatus in supabase
+        }
 
         blocks.forEach((block) => {
           const isExisting = lsc.engine.entities.some(

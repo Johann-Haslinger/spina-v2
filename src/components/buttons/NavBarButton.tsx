@@ -3,8 +3,9 @@ import { PropsWithChildren, ReactNode, useState } from "react";
 import tw from "twin.macro";
 import ActionSheet from "../presentation/ActionSheet";
 
-const StyledNavBarButton = styled.div`
+const StyledNavBarButton = styled.div<{isPressed: boolean}>`
   ${tw`text-2xl text-primaryColor cursor-pointer transition-all dark:text-primaryTextDark md:hover:opacity-50`}
+  ${({ isPressed }) => isPressed && tw`opacity-50`}
 `;
 
 interface NavBarButtonProps {
@@ -25,8 +26,8 @@ const NavBarButton = (props: PropsWithChildren & NavBarButtonProps) => {
 
   return (
     <div>
-      <StyledNavBarButton onClick={handleClick}>{children}</StyledNavBarButton>
-      <ActionSheet visible={isSheetVisible} navigateBack={() => setIsSheetVisible(false)}>
+      <StyledNavBarButton isPressed={isSheetVisible} onClick={handleClick}>{children}</StyledNavBarButton>
+      <ActionSheet  visible={isSheetVisible} navigateBack={() => setIsSheetVisible(false)}>
         {content}
       </ActionSheet>
     </div>

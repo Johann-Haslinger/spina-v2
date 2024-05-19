@@ -132,7 +132,7 @@ const handleBackspacePressWithoutText = (lsc: ILeanScopeClient, blockEntity: Ent
     const lowerBlockEntity = getNextLowerOrderEntity(lsc, blockEntity);
     const lowerBlockType = lowerBlockEntity?.get(BlocktypeFacet)?.props.blocktype;
     deleteBlock(lsc, blockEntity);
-    console.log("lowerBlockEntity", lowerBlockEntity);
+
     lowerBlockEntity?.add(AdditionalTags.FOCUSED);
 
     if (

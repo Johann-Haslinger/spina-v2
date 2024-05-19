@@ -20,7 +20,7 @@ import { getAudioFromText, getCompletion } from "../../../../utils/getCompletion
 import { useIsAnyStoryCurrent } from "../../../../hooks/useIsAnyStoryCurrent";
 import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
 import { useSelectedFlashcardSet } from "../../hooks/useSelectedFlashcardSet";
-
+import { useVisibleBlocks } from "../../../blockeditor/hooks/useVisibleBlocks";
 
 function base64toBlob(base64Data: string, contentType: string) {
   const byteCharacters = atob(base64Data);
@@ -43,13 +43,14 @@ const GeneratePodcastSheet = () => {
     Stories.GENERATING_PODCAST_FROM_FLASHCARDS_STORY,
   ]);
   const generatePodcastFromFlashcards = useIsStoryCurrent(Stories.GENERATING_PODCAST_FROM_FLASHCARDS_STORY);
-  const { selectedSubtopicText, selectedSubtopicId, selectedSubtopicTitle } = useSelectedSubtopic();
-  const { selectedNoteText, selectedNoteId, selectedNoteTitle } = useSelectedNote();
+  const { selectedSubtopicId, selectedSubtopicTitle } = useSelectedSubtopic();
+  const { selectedNoteId, selectedNoteTitle } = useSelectedNote();
   const { selectedFlashcardSetEntity, selectedFlashcardSetId, selectedFlashcardSetTitle } = useSelectedFlashcardSet();
   const [isGenerating, setIsGenerating] = useState(false);
   const { selectedLanguage } = useSelectedLanguage();
   const { userId } = useUserData();
   const [flashcardEntities] = useEntities((e) => dataTypeQuery(e, DataTypes.FLASHCARD));
+  const { visibleText } = useVisibleBlocks();
 
   useEffect(() => {
     const handleGeneratePodcast = async () => {
@@ -64,7 +65,7 @@ const GeneratePodcastSheet = () => {
               return `${question} ${answer}` + "\n";
             })
             .join(" ")
-        : selectedNoteText || selectedSubtopicText;
+        : visibleText;
       const title = selectedFlashcardSetTitle || selectedNoteTitle || selectedSubtopicTitle || "";
 
       const generatinPodcastTranscriptPrompt = `
@@ -120,7 +121,9 @@ const GeneratePodcastSheet = () => {
         {isGenerating && (
           <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
         )}
-        {!isGenerating && <PrimaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).done}</PrimaryButton>}
+        {!isGenerating && (
+          <PrimaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).done}</PrimaryButton>
+        )}
       </FlexBox>
       {isGenerating && <GeneratingIndecator />}
       {!isGenerating && (

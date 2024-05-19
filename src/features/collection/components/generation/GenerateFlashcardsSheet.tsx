@@ -25,6 +25,8 @@ import SapientorConversationMessage from "../../../../components/content/Sapient
 import styled from "@emotion/styled";
 import tw from "twin.macro";
 import { generateFlashCards } from "../../../../utils/generateResources";
+import { useVisibleBlocks } from "../../../blockeditor/hooks/useVisibleBlocks";
+
 
 type Flashcard = {
   question: string;
@@ -44,11 +46,12 @@ const GenerateFlashcardsSheet = () => {
   const { selectedLanguage } = useSelectedLanguage();
   const [isGenerating, setIsGenerating] = useState(false);
   const { userId } = useUserData();
+  const { visibleText } = useVisibleBlocks();
 
   useEffect(() => {
     const generateFlashcards = async () => {
       setIsGenerating(true);
-      const flashcards = await generateFlashCards(selectedNoteText || "");
+      const flashcards = await generateFlashCards(visibleText || "");
       setIsGenerating(false);
 
       setTimeout(() => {
@@ -56,10 +59,10 @@ const GenerateFlashcardsSheet = () => {
       }, 200);
     };
 
-    if (isVisible && selectedNoteText && generatedFlashcards.length === 0) {
+    if (isVisible && visibleText && generatedFlashcards.length === 0) {
       generateFlashcards();
     }
-  }, [isVisible, selectedNoteText]);
+  }, [isVisible, visibleText]);
 
   const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_SET_STORY);
 
@@ -129,18 +132,6 @@ const GenerateFlashcardsSheet = () => {
 
         if (subtopicsError) {
           console.error("Error inserting subtopic", subtopicsError);
-        }
-        const newKnowledge = {
-          user_id: userId,
-          id: v4(),
-          text: selectedNoteText,
-          parentId: parentId,
-        };
-   
-        const { error: knowledgeError } = await supabaseClient.from("knowledges").insert([newKnowledge]);
-
-        if (knowledgeError) {
-          console.error("Error inserting knowledge", knowledgeError);
         }
 
         const { error: noteError } = await supabaseClient.from("notes").delete().eq("id", selectedNoteId);

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, Fragment } from "react";
+import React, {  Fragment, useContext } from "react";
 import { ActionRow, BackButton, NavBarButton, NavigationBar, PrimaryButton, Spacer, Title } from "../../../components";
 import InitializeBlockeditorSystem from "../systems/InitializeBlockeditorSystem";
 import { useCurrentBlockeditor } from "../hooks/useCurrentBlockeditor";
@@ -15,8 +15,9 @@ import tw from "twin.macro";
 import styled from "@emotion/styled";
 import Editmenu from "./menus/edit-menu/Editmenu";
 import Createmenu from "./menus/Createmenu";
-import { useEntity } from "@leanscope/ecs-engine";
-import { IdentifierFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
+import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import { Stories } from "../../../base/enums";
+import GenerateImprovedTextSheet from "../../collection/components/generation/GenerateImprovedTextSheet";
 
 const StyledTitleWrapper = styled.div`
   ${tw`px-2`}
@@ -60,25 +61,34 @@ interface BlockeditorProps {
   title?: string;
   navigateBack?: () => void;
   customHeaderArea?: React.ReactNode;
-  onHeaderBlur?: (e: ChangeEvent<HTMLParagraphElement>) => void;
+  handleTitleBlur?: (value: string) => void;
   generateBlocksString?: string;
-  customOptionRows?: React.ReactNode;
-  customGenerateOptionRows?: React.ReactNode;
+  customActionRows?: React.ReactNode;
+  customGenerateActionRows?: React.ReactNode;
   onBlockGenerate?: () => void;
   customEditOptions?: React.ReactNode;
   customContent?: React.ReactNode;
+  backbuttonLabel?: string;
 }
 
 const Blockeditor = (props: BlockeditorProps) => {
-  const { id, title, customHeaderArea, customOptionRows, customGenerateOptionRows, customContent, navigateBack } =
-    props;
+  const lsc = useContext(LeanScopeClientContext);
+  const {
+    id,
+    title,
+    customHeaderArea,
+    customActionRows,
+    customGenerateActionRows,
+    customContent,
+    navigateBack,
+    handleTitleBlur,
+    backbuttonLabel,
+  } = props;
   const { selectedLanguage } = useSelectedLanguage();
   const { blockeditorState, blockeditorEntity, blockeditorId } = useCurrentBlockeditor();
   const { blocksAreaRef, addBlockAreaRef } = useClickOutsideBlockEditorHandler();
-  const [parentEntity] = useEntity(
-    (e) => e.get(IdentifierFacet)?.props.guid === blockeditorEntity?.get(ParentFacet)?.props.parentId
-  );
-  const backbuttonLabel = parentEntity?.get(TextFacet)?.props.text;
+
+  const openImproveTextSheet = () => lsc.stories.transitTo(Stories.GENERATING_IMPROVED_TEXT_STORY);
 
   return (
     <Fragment>
@@ -96,11 +106,12 @@ const Blockeditor = (props: BlockeditorProps) => {
                   <ActionRow
                     icon={<IoSparklesOutline />}
                     first
-                    last={customGenerateOptionRows !== undefined ? false : true}
+                    onClick={openImproveTextSheet}
+                    last={customGenerateActionRows !== undefined ? false : true}
                   >
                     {displayActionTexts(selectedLanguage).improveText}
                   </ActionRow>
-                  {customGenerateOptionRows}
+                  {customGenerateActionRows}
                 </Fragment>
               }
             >
@@ -111,7 +122,7 @@ const Blockeditor = (props: BlockeditorProps) => {
               <IoAdd onClick={() => changeBlockeditorState(blockeditorEntity, "create")} />
             </NavBarButton>
 
-            <NavBarButton content={customOptionRows ? customOptionRows : null}>
+            <NavBarButton content={customActionRows ? customActionRows : null}>
               <IoEllipsisHorizontalCircleOutline />
             </NavBarButton>
           </Fragment>
@@ -123,7 +134,9 @@ const Blockeditor = (props: BlockeditorProps) => {
       </NavigationBar>
       <StyledTitleWrapper>
         {navigateBack && <BackButton navigateBack={navigateBack}>{backbuttonLabel}</BackButton>}
-        <Title>{title || displayAlertTexts(selectedLanguage).noTitle}</Title>
+        <Title editable={handleTitleBlur ? true : false} onBlur={handleTitleBlur}>
+          {title || displayAlertTexts(selectedLanguage).noTitle}
+        </Title>
         {customHeaderArea ? customHeaderArea : null}
         <Spacer />
       </StyledTitleWrapper>
@@ -148,6 +161,8 @@ const Blockeditor = (props: BlockeditorProps) => {
         get={[[TextFacet, IdentifierFacet], []]}
         onMatch={FurtherView}
       /> */}
+
+      {id == blockeditorId && <GenerateImprovedTextSheet />}
     </Fragment>
   );
 };

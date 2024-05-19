@@ -1,28 +1,28 @@
-import { useSelectedFlashcardSet } from "../../hooks/useSelectedFlashcardSet";
+import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import { Entity, useEntities } from "@leanscope/ecs-engine";
+import { IdentifierFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
+import { useIsStoryCurrent } from "@leanscope/storyboarding";
+import { useContext, useEffect, useState } from "react";
+import { AnswerFacet, QuestionFacet, TitleFacet } from "../../../../app/additionalFacets";
+import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
 import {
-  SecondaryButton,
   FlexBox,
   GeneratingIndecator,
   PrimaryButton,
   ScrollableBox,
+  SecondaryButton,
   Sheet,
   Spacer,
 } from "../../../../components";
-import { useIsStoryCurrent } from "@leanscope/storyboarding";
-import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
-import { useContext, useEffect, useState } from "react";
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import { displayButtonTexts } from "../../../../utils/displayText";
-import { AnswerFacet, QuestionFacet, TitleFacet } from "../../../../app/additionalFacets";
-import { Entity, useEntities } from "@leanscope/ecs-engine";
-import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
-import { generateImprovedText } from "../../../../utils/generateResources";
 import SapientorConversationMessage from "../../../../components/content/SapientorConversationMessage";
+import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { useUserData } from "../../../../hooks/useUserData";
-import { IdentifierFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
 import supabaseClient from "../../../../lib/supabase";
-import { v4 } from "uuid";
+import { displayButtonTexts } from "../../../../utils/displayText";
+import { generateImprovedText } from "../../../../utils/generateResources";
+import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
+import { addBlockEntitiesFromString } from "../../../blockeditor/functions/addBlockEntitiesFromString";
+import { useSelectedFlashcardSet } from "../../hooks/useSelectedFlashcardSet";
 
 const GenerateTextFromFlashcardsSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -94,18 +94,7 @@ const GenerateTextFromFlashcardsSheet = () => {
         if (subtopicsError) {
           console.error("Error inserting subtopic", subtopicsError);
         }
-        const newKnowledge = {
-          user_id: userId,
-          id: v4(),
-          text: generatedText,
-          parentId: selectedFlashcardSetId,
-        };
-
-        const { error: knowledgeError } = await supabaseClient.from("knowledges").insert([newKnowledge]);
-
-        if (knowledgeError) {
-          console.error("Error inserting knowledge", knowledgeError);
-        }
+        addBlockEntitiesFromString(lsc, generatedText, selectedFlashcardSetId, "");
 
         const { error: flashcardSetError } = await supabaseClient
           .from("flashcardSets")

@@ -4,6 +4,7 @@ import { v4 } from "uuid";
 import { Entity } from "@leanscope/ecs-engine";
 import { FloatOrderFacet, IdentifierFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
 import { BlocktypeFacet, TexttypeFacet } from "../../../app/additionalFacets";
+import { addBlock } from "./addBlock";
 
 export async function addBlockEntitiesFromString(
   lsc: ILeanScopeClient,
@@ -11,42 +12,43 @@ export async function addBlockEntitiesFromString(
   parentId: string,
   userId: string
 ) {
-  // Entferne alle &nbsp; und unnötige Leerzeichen
+  console.log("userId", userId);
+
   const sanitizedText = htmlString.replace(/style="([\s\S]*?)\"/gi, "");
   let cleanedHtmlString = sanitizedText
     .replace(/&nbsp;/g, " ")
     .replace(/<ol\s*>|<\/ol\s*>|<ul\s*>|<\/ul\s*>/g, "")
     .trim();
 
-  // Teile den String anhand von <div> und <br> Tags
   let splitRegex = /<div>|<div\s*\/?>|<br\s*\/?>|<\/div>|<li>|<\/li>|<p>|<p\s*\/?>|<\/p>/g;
 
   let contentBlocks = cleanedHtmlString.split(splitRegex).filter((text) => text.trim() !== "");
 
   contentBlocks.forEach((content, index) => {
-    let trimmedContent = content.trim();
+    const isExisting = lsc.engine.entities.some((e) => e.get(TextFacet)?.props.text === content.replace(/<[^>]+>/g, "").trim());
 
-    const isList = /^<li(\s|>)/.test(trimmedContent);
-    const isBold = /^(<b(\s|>)|<strong(\s|>))/i.test(trimmedContent);
+    if (!isExisting) {
+      let trimmedContent = content.trim();
 
-    let textType = isBold ? Texttypes.BOLD : Texttypes.NORMAL;
+      const isList = /^<li(\s|>)/.test(trimmedContent);
+      const isBold = /^(<b(\s|>)|<strong(\s|>))/i.test(trimmedContent);
 
-    let plainTextContent = trimmedContent.replace(/<[^>]+>/g, "");
+      let textType = isBold ? Texttypes.BOLD : Texttypes.NORMAL;
 
-    const newBlockEntity = new Entity();
-    lsc.engine.addEntity(newBlockEntity);
-    newBlockEntity.add(new IdentifierFacet({ guid: v4() }));
-    newBlockEntity.add(new TextFacet({ text: plainTextContent }));
-    newBlockEntity.add(new FloatOrderFacet({ index: index + 1 }));
-    newBlockEntity.add(new TexttypeFacet({ texttype: textType }));
-    newBlockEntity.add(new ParentFacet({ parentId: parentId }));
-    newBlockEntity.add(new BlocktypeFacet({ blocktype: isList ? Blocktypes.LIST : Blocktypes.TEXT }));
-    newBlockEntity.add(DataTypes.BLOCK);
+      let plainTextContent = trimmedContent.replace(/<[^>]+>/g, "");
 
-    // TODO: Add block to database
+      const newBlockEntity = new Entity();
+      newBlockEntity.add(new IdentifierFacet({ guid: v4() }));
+      newBlockEntity.add(new TextFacet({ text: plainTextContent }));
+      newBlockEntity.add(new FloatOrderFacet({ index: index + 1 }));
+      newBlockEntity.add(new TexttypeFacet({ texttype: textType }));
+      newBlockEntity.add(new ParentFacet({ parentId: parentId }));
+      newBlockEntity.add(new BlocktypeFacet({ blocktype: isList ? Blocktypes.LIST : Blocktypes.TEXT }));
+      newBlockEntity.add(DataTypes.BLOCK);
+
+      addBlock(lsc, newBlockEntity);
+    }
   });
-
-  console.log(userId)
 }
 
 // export const getStringFromBlockArray = (blocks: Block[]): string => {
