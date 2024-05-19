@@ -18,7 +18,7 @@ const StyledBlockWrapper = styled.div<{ isPressed: boolean; hidePaddingY: boolea
 `;
 
 const StyledContentWrapper = styled.div`
-  ${tw`w-full h-full`}
+  ${tw`w-full overflow-hidden h-full`}
 `;
 
 const StyledSelectionIndicatorWrapper = styled.div<{ isEdeting: boolean }>`

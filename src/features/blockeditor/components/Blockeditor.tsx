@@ -96,7 +96,7 @@ const Blockeditor = (props: BlockeditorProps) => {
         <UpdateBlockStateSystem />
         <ChangeBlockeditorStateSystem />
         <NavigationBar>
-          {blockeditorState}
+  
           {blockeditorState === "view" ? (
             <Fragment>
               <NavBarButton

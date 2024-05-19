@@ -1,20 +1,20 @@
-import { Entity, EntityProps, useEntity } from "@leanscope/ecs-engine";
-import { FloatOrderProps, IdentifierFacet, Tags, TextFacet } from "@leanscope/ecs-models";
-import BlockOutline from "./BlockOutline";
-import { useCurrentBlockeditor } from "../../hooks/useCurrentBlockeditor";
-import tw from "twin.macro";
 import styled from "@emotion/styled";
-import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import { displayAlertTexts } from "../../../../utils/displayText";
-import { Fragment } from "react/jsx-runtime";
-import { View } from "../../../../components";
-import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntityComponents";
-import Blockeditor from "../Blockeditor";
-import { AdditionalTags } from "../../../../base/enums";
-import { BlockeditorStateFacet } from "../../../../app/additionalFacets";
-import { useContext, useEffect, useState } from "react";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import { EntityProps, useEntity } from "@leanscope/ecs-engine";
+import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntityComponents";
+import { FloatOrderProps, IdentifierFacet, ParentFacet, Tags, TextFacet } from "@leanscope/ecs-models";
+import { useContext, useEffect } from "react";
+import { Fragment } from "react/jsx-runtime";
+import tw from "twin.macro";
+import { AdditionalTags } from "../../../../base/enums";
+import { View } from "../../../../components";
+import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
+import supabaseClient from "../../../../lib/supabase";
+import { displayAlertTexts } from "../../../../utils/displayText";
 import { changeBlockeditorState } from "../../functions/changeBlockeditorState";
+import { useCurrentBlockeditor } from "../../hooks/useCurrentBlockeditor";
+import Blockeditor from "../Blockeditor";
+import BlockOutline from "./BlockOutline";
 
 const StyledPageIconWrapper = styled.div<{ disabeld?: boolean }>`
   ${tw`h-10 w-[34px] ml-1.5 bg-white dark:bg-tertiaryDark rounded-sm shadow mr-3 mt-0.5  border-[rgb(245,245,245)]`}
@@ -48,52 +48,44 @@ const PageBlock = (props: EntityProps & FloatOrderProps) => {
   const { entity, index } = props;
   const { blockeditorState, blockeditorEntity } = useCurrentBlockeditor();
   const { selectedLanguage } = useSelectedLanguage();
-  const [pageBlockEditorEntity] = useEntity(
-    (e) =>
-      e.has(BlockeditorStateFacet) && e.get(IdentifierFacet)?.props.guid === entity.get(IdentifierFacet)?.props.guid
-  );
-  const [parentBlockeditorEntity, setParentBlockeditorEntity] = useState<Entity>();
   const title = entity.get(TextFacet)?.props.text;
   const [isPageViewVisible] = useEntityHasTags(entity, AdditionalTags.OPEN);
   const id = entity.get(IdentifierFacet)?.props.guid;
+  const [parentBlockEntity] = useEntity(
+    (e) => e.get(IdentifierFacet)?.props.guid === entity.get(ParentFacet)?.props.parentId
+  );
+  const parentBlockText = parentBlockEntity?.get(TextFacet)?.props.text;
 
   // TODO: Custom hook to get the parent blockeditor entity
 
   useEffect(() => {
-    if (!parentBlockeditorEntity) {
-      setParentBlockeditorEntity(blockeditorEntity);
-    }
-  }, [blockeditorEntity]);
-
-  useEffect(() => {
-    // const parentBlockeditorEntity = lsc.engine.entities.find(
-    //   (e) => e.has(BlockeditorStateFacet) && e.get(IdentifierFacet)?.props.guid === entity.get(ParentFacet)?.props.parentId
-    // );
     if (isPageViewVisible) {
       entity.remove(Tags.SELECTED);
       changeBlockeditorState(blockeditorEntity, "view");
     }
-    const lscparentBlockeditorEntity = lsc.engine.entities.find(
-      (e) => e.get(IdentifierFacet)?.props.guid === parentBlockeditorEntity?.get(IdentifierFacet)?.props.guid
+    const parentBlockEntity = lsc.engine.entities.find(
+      (e) => e.get(IdentifierFacet)?.props.guid === entity?.get(ParentFacet)?.props.parentId
     );
 
     if (isPageViewVisible) {
       blockeditorEntity?.add(new IdentifierFacet({ guid: id || "" }));
     } else {
-      blockeditorEntity?.add(
-        new IdentifierFacet({ guid: lscparentBlockeditorEntity?.get(IdentifierFacet)?.props.guid || "" })
-      );
+      blockeditorEntity?.add(new IdentifierFacet({ guid: parentBlockEntity?.get(IdentifierFacet)?.props.guid || "" }));
     }
-  }, [isPageViewVisible, pageBlockEditorEntity]);
+  }, [isPageViewVisible, entity, blockeditorEntity]);
 
   const openPageBlock = () => blockeditorState === "view" && entity.add(AdditionalTags.OPEN);
   const closePageBlock = () => entity.remove(AdditionalTags.OPEN);
 
-  // const onHeaderBlur = async (e: React.ChangeEvent<HTMLDivElement>) => {
-  //   entity.add(new TextFacet({ text: e.target.innerText }));
+  const handleTitleBlur = async (value: string) => {
+    entity.add(new TextFacet({ text: value }));
 
-  //   // TODO: Update the title of the block in the database
-  // };
+    const { error } = await supabaseClient.from("blocks").update({ content: value }).eq("id", id);
+
+    if (error) {
+      console.error("Error updating block title", error);
+    }
+  };
 
   return (
     <Fragment>
@@ -119,7 +111,13 @@ const PageBlock = (props: EntityProps & FloatOrderProps) => {
         {id && (
           <Fragment>
             <View visible={isPageViewVisible}>
-              <Blockeditor navigateBack={closePageBlock} title={title} id={id} />
+              <Blockeditor
+                backbuttonLabel={parentBlockText}
+                handleTitleBlur={handleTitleBlur}
+                navigateBack={closePageBlock}
+                title={title}
+                id={id}
+              />
             </View>
           </Fragment>
         )}
