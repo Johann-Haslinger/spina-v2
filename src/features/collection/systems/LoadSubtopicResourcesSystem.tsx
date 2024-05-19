@@ -15,6 +15,20 @@ import {
 } from "../../../app/additionalFacets";
 import { DataTypes } from "../../../base/enums";
 
+const fetchNoteVersion = async (noteId: string) => {
+  const { data: noteVersionData, error } = await supabaseClient
+    .from("subTopics")
+    .select("oldNoteVersion")
+    .eq("id", noteId)
+    .single();
+
+  if (error) {
+    console.error("error fetching note version", error);
+    return;
+  }
+  return noteVersionData?.oldNoteVersion;
+};
+
 const fetchFlashcardsForSubtopic = async (parentId: string) => {
   const { data: flashcards, error } = await supabaseClient
     .from("flashCards")
@@ -43,21 +57,20 @@ const fetchLernVideosForSubtopic = async (parentId: string) => {
   return lernVideo || [];
 };
 
-
 const fetchPodcastForSubtopic = async (parentId: string) => {
   const { data: podcast, error } = await supabaseClient
-          .from("podcasts")
-          .select("title, id, createdAt")
-          .eq("parentId", parentId)
-          .single();
+    .from("podcasts")
+    .select("title, id, createdAt")
+    .eq("parentId", parentId)
+    .single();
 
-        if (error) {
-          console.error("Error fetching subtopic podcast:", error);
-          return;
-        }
+  if (error) {
+    console.error("Error fetching subtopic podcast:", error);
+    return;
+  }
 
-        return podcast;
-}
+  return podcast;
+};
 
 const LoadSubtopicResourcesSystem = () => {
   const { mockupData, shouldFetchFromSupabase } = useMockupData();
@@ -95,8 +108,12 @@ const LoadSubtopicResourcesSystem = () => {
 
     const initializeSubtopicPodcast = async () => {
       if (selectedSubtopicId) {
-        const podcast = mockupData ? dummyPodcasts[0] : shouldFetchFromSupabase ?  await fetchPodcastForSubtopic(selectedSubtopicId) : null;
-        
+        const podcast = mockupData
+          ? dummyPodcasts[0]
+          : shouldFetchFromSupabase
+          ? await fetchPodcastForSubtopic(selectedSubtopicId)
+          : null;
+
         if (podcast) {
           const isExisting = lsc.engine.entities.some(
             (e) => e.get(IdentifierFacet)?.props.guid === podcast.id && e.hasTag(DataTypes.PODCAST)
@@ -121,26 +138,44 @@ const LoadSubtopicResourcesSystem = () => {
         if (mockupData) {
           subtopicText = dummyText;
         } else if (shouldFetchFromSupabase) {
-          const { data: subtopicTextData, error } = await supabaseClient
-            .from("knowledges")
-            .select("text")
-            .eq("parentId", selectedSubtopicId)
-            .single();
+          const isOldNoteVersion = shouldFetchFromSupabase && (await fetchNoteVersion(selectedSubtopicId));
+          console.log("isOldNoteVersion", isOldNoteVersion);
+          
+          if (isOldNoteVersion) {
+            const { data: subtopicTextData, error } = await supabaseClient
+              .from("knowledges")
+              .select("text")
+              .eq("parentId", selectedSubtopicId)
+              .single();
 
-          if (error) {
-            console.error("error fetching subtopic text", error);
-            return;
+            if (error) {
+              console.error("error fetching subtopic text", error);
+              return;
+            }
+            subtopicText = subtopicTextData?.text;
+
+            const { error: error2 } = await supabaseClient
+              .from("subTopics")
+              .update({ oldNoteVersion: false })
+              .eq("id", selectedSubtopicId);
+
+            if (error2) {
+              console.error("error updating subtopic to oldNoteVersion", error2);
+            }
           }
-          subtopicText = subtopicTextData?.text;
-        }
 
-        selectedSubtopicEntity?.add(new TextFacet({ text: subtopicText }));
+          selectedSubtopicEntity?.add(new TextFacet({ text: subtopicText }));
+        }
       }
     };
 
     const initializeSubtopicLernVideo = async () => {
       if (selectedSubtopicId) {
-        const lernVideos = mockupData ? dummyLernVideos : shouldFetchFromSupabase ?  await fetchLernVideosForSubtopic(selectedSubtopicId) : []
+        const lernVideos = mockupData
+          ? dummyLernVideos
+          : shouldFetchFromSupabase
+          ? await fetchLernVideosForSubtopic(selectedSubtopicId)
+          : [];
 
         lernVideos.forEach((lernVideo) => {
           const isExisting = lsc.engine.entities.some(
@@ -159,8 +194,9 @@ const LoadSubtopicResourcesSystem = () => {
         });
       }
     };
-
-    initializeSubtopicLernVideo();
+    if (false) {
+      initializeSubtopicLernVideo();
+    }
     initializeSubtopicText();
     initializeSubtopicPodcast();
     initializeSubtopicFlashcardEntities();

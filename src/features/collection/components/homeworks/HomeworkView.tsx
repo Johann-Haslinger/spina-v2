@@ -14,6 +14,7 @@ import { useSelectedTopic } from "../../hooks/useSelectedTopic";
 import LoadHomeworkTextSystem from "../../systems/LoadHomeworkTextSystem";
 import DeleteHomeworkAlert from "./DeleteHomeworkAlert";
 import EditHomeworkSheet from "./EditHomeworkSheet";
+import InitializeBlockeditorSystem from "../../../blockeditor/systems/InitializeBlockeditorSystem";
 
 const HomeworkView = (props: EntityProps & TitleProps & TextProps & IdentifierProps) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -28,6 +29,7 @@ const HomeworkView = (props: EntityProps & TitleProps & TextProps & IdentifierPr
 
   return (
     <Fragment>
+      <InitializeBlockeditorSystem blockeditorId={guid} />
       <LoadHomeworkTextSystem />
 
       <View visible={isVisible}>

@@ -8,8 +8,9 @@ import { addBlock } from "../functions/addBlock";
 import { changeBlockeditorState } from "../functions/changeBlockeditorState";
 import { getNextHigherOrderEntity, findNumberBetween } from "../functions/orderHelper";
 import { useCurrentBlockeditor } from "../hooks/useCurrentBlockeditor";
-import { v4 } from "uuid";  
+import { v4 } from "uuid";
 import { getStringFromBlockEntities } from "../functions/getStringFromBlockEntities";
+import { useUserData } from "../../../hooks/useUserData";
 
 const copySelectedBlocks = (lsc: ILeanScopeClient) => {
   const selectedBlockEntities = lsc.engine.entities.filter((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
@@ -18,7 +19,7 @@ const copySelectedBlocks = (lsc: ILeanScopeClient) => {
   navigator.clipboard.writeText(stringToCopy);
 };
 
-const duplicateSelectedBlocks = (lsc: ILeanScopeClient) => {
+const duplicateSelectedBlocks = (lsc: ILeanScopeClient, userId: string) => {
   const selectedBlockEntities = lsc.engine.entities.filter((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
 
   selectedBlockEntities.forEach((blockEntity) => {
@@ -36,7 +37,7 @@ const duplicateSelectedBlocks = (lsc: ILeanScopeClient) => {
       })
     );
 
-    addBlock(lsc, newBlockEntity);
+    addBlock(lsc, newBlockEntity, userId);
   });
 };
 
@@ -44,6 +45,7 @@ const HandleKeyPresEditMenuSystem = () => {
   const lsc = useContext(LeanScopeClientContext);
   const { blockeditorEntity, blockeditorState } = useCurrentBlockeditor();
   const [pressedBlocks] = useEntities((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
+  const { userId } = useUserData();
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -59,7 +61,7 @@ const HandleKeyPresEditMenuSystem = () => {
       }
       if (e.key === "d") {
         e.preventDefault();
-        duplicateSelectedBlocks(lsc);
+        duplicateSelectedBlocks(lsc, userId);
       }
     };
     if (blockeditorState === "edit") document.addEventListener("keydown", handleKeyDown);

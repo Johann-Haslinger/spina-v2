@@ -14,6 +14,7 @@ import { FloatOrderFacet, IdentifierFacet, ImageFacet, ParentFacet } from "@lean
 import { BlocktypeFacet } from "../../../../app/additionalFacets";
 import { getHighestOrder } from "../../functions/orderHelper";
 import { changeBlockeditorState } from "../../functions/changeBlockeditorState";
+import { useUserData } from "../../../../hooks/useUserData";
 
 const StyledCreateMenuWrapper = styled.div`
   ${tw`bg-white dark:bg-opacity-40 bg-opacity-40 backdrop-blur-xl dark:bg-seconderyDark h-20 overflow-y-clip  rounded-lg pr-1 flex  md:overflow-hidden  w-11/12 md:w-[30rem]  shadow-[0_0px_40px_1px_rgba(0,0,0,0.12)]`}
@@ -70,6 +71,7 @@ const CreateOption = (props: { isVisible: boolean; option: option }) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const { blockType, icon, color, bgColor } = option;
   const { blockeditorId, blockeditorEntity } = useCurrentBlockeditor();
+  const { userId } = useUserData();
 
   useEffect(() => {
     if (isSelectingImageSrc && fileInputRef.current !== null) {
@@ -139,7 +141,7 @@ const CreateOption = (props: { isVisible: boolean; option: option }) => {
     newImageBlock.add(new ParentFacet({ parentId: blockeditorId || "" }));
     newImageBlock.add(DataTypes.BLOCK);
 
-    addBlock(lsc, newImageBlock);
+    addBlock(lsc, newImageBlock, userId);
   };
 
   const addDividerBlock = async () => {
@@ -150,7 +152,7 @@ const CreateOption = (props: { isVisible: boolean; option: option }) => {
     newDividerBlock.add(new ParentFacet({ parentId: blockeditorId || "" }));
     newDividerBlock.add(DataTypes.BLOCK);
 
-    addBlock(lsc, newDividerBlock);
+    addBlock(lsc, newDividerBlock, userId);
   };
 
   const addBlockByBlockType = async (blockType: Blocktypes) => {

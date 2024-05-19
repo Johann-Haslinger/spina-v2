@@ -12,6 +12,7 @@ import { getStringFromBlockEntities } from "../../../functions/getStringFromBloc
 import { findNumberBetween, getNextHigherOrder } from "../../../functions/orderHelper";
 import styled from "@emotion/styled";
 import tw from "twin.macro";
+import { useUserData } from "../../../../../hooks/useUserData";
 
 const StyledMenuWrapper = styled.div`
   ${tw`p-4 pt-0 w-full `}
@@ -33,6 +34,7 @@ const ActionOptions = (props: ActionOptionsProps) => {
   const lsc = useContext(LeanScopeClientContext);
   const { backfuction } = props;
   const [selectedBlockEntities] = useEntities((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
+  const {userId} = useUserData();
 
   const actionOptions = [
     { icon: <IoCopyOutline />, label: "Kopieren", action: copyAction },
@@ -73,7 +75,7 @@ const ActionOptions = (props: ActionOptionsProps) => {
       newBlockEntity.add(new IdentifierFacet({ guid: v4() }));
       newBlockEntity.add(new FloatOrderFacet({ index: findNumberBetween(blockOrder, nextHigherOrder) }));
 
-      addBlock(lsc, newBlockEntity);
+      addBlock(lsc, newBlockEntity, userId);
     });
   }
 

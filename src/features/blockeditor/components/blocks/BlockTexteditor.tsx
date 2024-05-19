@@ -27,32 +27,35 @@ import {
   getNextLowerOrderEntity,
 } from "../../functions/orderHelper";
 import { useEntityFacets } from "@leanscope/ecs-engine/react-api/hooks/useEntityFacets";
+import supabaseClient from "../../../../lib/supabase";
 
-const updateTextBlockToListBlock = (blockEntity: Entity) => {
+const updateTextBlockToListBlock = async (blockEntity: Entity) => {
   blockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.LIST }));
   blockEntity.add(new ListStyleFacet({ listStyle: ListStyles.UNORDERED }));
 
-  // TODO: Add change to supabase
+  const id = blockEntity.get(IdentifierFacet)?.props.guid;
 
-  // const { error } = await supabase.from("blocks").update({ type: "list", listStyle: "unordered" }).eq("id", id);
-  // if (error) {
-  //   console.log(error);
-  // }
+  const { error } = await supabaseClient.from("blocks").update({ type: "list", listStyle: "unordered" }).eq("id", id);
+
+  if (error) {
+    console.error("Error updating block to list block:", error);
+  }
 };
 
-const udateTextBlockToTodoBlock = (blockEntity: Entity) => {
+const udateTextBlockToTodoBlock = async (blockEntity: Entity) => {
   blockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.TODO }));
   blockEntity.add(new TodoStateFacet({ todoState: 0 }));
 
-  // TODO: Add change to supabase
+  const id = blockEntity.get(IdentifierFacet)?.props.guid;
 
-  // const { error } = await supabase.from("blocks").update({ type: "todo", state: 0 }).eq("id", id);
-  // if (error) {
-  //   console.log(error);
-  // }
+  const { error } = await supabaseClient.from("blocks").update({ type: "todo", state: 0 }).eq("id", id);
+
+  if (error) {
+    console.error("Error updating block to todo block:", error);
+  }
 };
 
-const addDividerBlock = (lsc: ILeanScopeClient, blockEntity: Entity) => {
+const addDividerBlock = (lsc: ILeanScopeClient, blockEntity: Entity, userId: string) => {
   const blockOrderIndex = blockEntity?.get(FloatOrderFacet)?.props.index || 1;
   const parentId = blockEntity?.get(ParentFacet)?.props.parentId;
   deleteBlock(lsc, blockEntity);
@@ -64,7 +67,7 @@ const addDividerBlock = (lsc: ILeanScopeClient, blockEntity: Entity) => {
   newDividerBlockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.DIVIDER }));
   newDividerBlockEntity.add(DataTypes.BLOCK);
 
-  addBlock(lsc, newDividerBlockEntity);
+  addBlock(lsc, newDividerBlockEntity, userId);
 
   const nextHigherBlockEntity = getNextHigherOrderEntity(lsc, blockEntity);
   const nextHigherBlockType = nextHigherBlockEntity?.get(BlocktypeFacet)?.props.blocktype;
@@ -84,11 +87,16 @@ const addDividerBlock = (lsc: ILeanScopeClient, blockEntity: Entity) => {
     newBlock.add(new BlocktypeFacet({ blocktype: Blocktypes.TEXT }));
     newBlock.add(DataTypes.BLOCK);
 
-    addBlock(lsc, newBlock);
+    addBlock(lsc, newBlock, userId);
   }
 };
 
-const handleEnterPress = (lsc: ILeanScopeClient, blockEntity: Entity, texteditorRef: RefObject<HTMLDivElement>) => {
+const handleEnterPress = async (
+  lsc: ILeanScopeClient,
+  blockEntity: Entity,
+  texteditorRef: RefObject<HTMLDivElement>,
+  userId: string
+) => {
   const cursorPosition = getCaretPosition(texteditorRef);
   const blockText = blockEntity?.get(TextFacet)?.props.text || "";
   const blockOrder = blockEntity?.get(FloatOrderFacet)?.props.index || 1;
@@ -100,6 +108,14 @@ const handleEnterPress = (lsc: ILeanScopeClient, blockEntity: Entity, texteditor
   if (blockType == Blocktypes.TEXT || textEditor?.innerHTML !== "") {
     blockEntity.removeTag(AdditionalTags.FOCUSED);
     blockEntity.add(new TextFacet({ text: newtext }));
+
+    const blockId = blockEntity.get(IdentifierFacet)?.props.guid;
+
+    const { error } = await supabaseClient.from("blocks").update({ content: newtext }).eq("id", blockId);
+
+    if (error) {
+      console.error("Error updating block text:", error);
+    }
 
     if (textEditor) {
       textEditor.innerHTML = newtext;
@@ -119,13 +135,21 @@ const handleEnterPress = (lsc: ILeanScopeClient, blockEntity: Entity, texteditor
     newBlockEntity.add(DataTypes.BLOCK);
     newBlockEntity.add(AdditionalTags.FOCUSED);
 
-    addBlock(lsc, newBlockEntity);
+    addBlock(lsc, newBlockEntity, userId);
   } else {
     blockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.TEXT }));
+
+    const blockId = blockEntity.get(IdentifierFacet)?.props.guid;
+
+    const { error } = await supabaseClient.from("blocks").update({ type: Blocktypes.TEXT }).eq("id", blockId);
+
+    if (error) {
+      console.error("Error updating block type:", error);
+    }
   }
 };
 
-const handleBackspacePressWithoutText = (lsc: ILeanScopeClient, blockEntity: Entity) => {
+const handleBackspacePressWithoutText = async (lsc: ILeanScopeClient, blockEntity: Entity) => {
   const blockType = blockEntity?.get(BlocktypeFacet)?.props.blocktype || Blocktypes.TEXT;
 
   if (blockType === Blocktypes.TEXT) {
@@ -144,9 +168,13 @@ const handleBackspacePressWithoutText = (lsc: ILeanScopeClient, blockEntity: Ent
   } else {
     blockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.TEXT }));
 
-    // TODO: Add change to supabase
+    const blockId = blockEntity.get(IdentifierFacet)?.props.guid;
 
-    // const { error } = await supabase.from("blocks").update({ type: "text" }).eq("id", id);
+    const { error } = await supabaseClient.from("blocks").update({ type: Blocktypes.TEXT }).eq("id", blockId);
+
+    if (error) {
+      console.error("Error updating block type:", error);
+    }
   }
 };
 const handleBackSpacePressWithText = (
@@ -199,10 +227,16 @@ const handleArrowDownPress = (lsc: ILeanScopeClient, blockEntity: Entity) => {
   }
 };
 
-const changeBlockTextStyles = (entity: Entity, textType: Texttypes) => {
+const changeBlockTextStyles = async (entity: Entity, textType: Texttypes) => {
   entity.add(new TexttypeFacet({ texttype: textType }));
 
-  // TODO: Add change to supabase
+  const id = entity.get(IdentifierFacet)?.props.guid;
+
+  const { error } = await supabaseClient.from("blocks").update({ textType }).eq("id", id);
+
+  if (error) {
+    console.error("Error updating block text type:", error);
+  }
 };
 
 const StyledTexteditor = styled.div`
@@ -224,6 +258,7 @@ const BlockTexteditor = (props: EntityProps) => {
   const isBlockEditable = blockeditorState === "write" || blockeditorState === "view";
 
   // const sanitizer = dompurify.sanitize;
+  
 
   const handleFocus = () => {
     changeBlockeditorState(blockeditorEntity, "write");
@@ -266,12 +301,12 @@ const BlockTexteditor = (props: EntityProps) => {
       case "_":
         if (text === "") {
           e.preventDefault();
-          addDividerBlock(lsc, entity);
+          addDividerBlock(lsc, entity, userId);
         }
         break;
       case "Enter":
         e.preventDefault();
-        handleEnterPress(lsc, entity, texteditorRef);
+        handleEnterPress(lsc, entity, texteditorRef, userId);
         break;
       case "Backspace":
         if (text.trim().length === 0) {

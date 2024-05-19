@@ -2,13 +2,14 @@ import BlockOutline from "./BlockOutline";
 import { IoCloseCircle, IoCheckmarkCircle, IoEllipseOutline } from "react-icons/io5";
 import BlockTexteditor from "./BlockTexteditor";
 import { Entity, EntityProps } from "@leanscope/ecs-engine";
-import { FloatOrderProps } from "@leanscope/ecs-models";
+import { FloatOrderProps, IdentifierFacet } from "@leanscope/ecs-models";
 import { TodoStateFacet } from "../../../../app/additionalFacets";
 import { useCurrentBlockeditor } from "../../hooks/useCurrentBlockeditor";
 import { useRef, useEffect } from "react";
 import styled from "@emotion/styled/macro";
 import tw from "twin.macro";
 import { useEntityFacets } from "@leanscope/ecs-engine/react-api/hooks/useEntityFacets";
+import supabaseClient from "../../../../lib/supabase";
 
 const useTodoClickHandler = (entity: Entity) => {
   // const clickCountRef = useRef<number>(0);
@@ -17,11 +18,16 @@ const useTodoClickHandler = (entity: Entity) => {
   const { blockeditorState } = useCurrentBlockeditor();
 
   const updateTodoState = async (newTodoState: number) => {
-    console.log("newTodoState", newTodoState);
     if (blockeditorState == "view" || blockeditorState == "write") {
       entity.add(new TodoStateFacet({ todoState: newTodoState }));
 
-      // TODO: Update the todo state in the database
+      const id = entity.get(IdentifierFacet)?.props.guid;
+
+      const { error } = await supabaseClient.from("blocks").update({ state: newTodoState }).eq("id", id);
+
+      if (error) {
+        console.error("Error updating block in supabase:", error);
+      }
     }
   };
 

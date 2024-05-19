@@ -113,14 +113,14 @@ export enum Blocktypes {
 }
 
 export enum Texttypes {
-  TITLE = "Titel",
-  SUBTITLE = "Untertitel",
-  HEADING = "Überschrift",
-  BOLD = "Fett",
-  NORMAL = "Normal",
-  CAPTION = "Beschriftung",
-  UNDERLINE = "Unterstrichen",
-  ITALIC = "Kursiv",
+  TITLE = "title",
+  SUBTITLE = "subTitle",
+  HEADING = "heading",
+  BOLD = "bold",
+  NORMAL = "normal",
+  CAPTION = "caption",
+  UNDERLINE = "underline",
+  ITALIC = "italic",
 }
 
 export enum ListStyles {

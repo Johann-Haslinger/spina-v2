@@ -23,9 +23,11 @@ export async function addBlockEntitiesFromString(
   let splitRegex = /<div>|<div\s*\/?>|<br\s*\/?>|<\/div>|<li>|<\/li>|<p>|<p\s*\/?>|<\/p>/g;
 
   let contentBlocks = cleanedHtmlString.split(splitRegex).filter((text) => text.trim() !== "");
-
+  console.log("contentBlocks", contentBlocks);
   contentBlocks.forEach((content, index) => {
-    const isExisting = lsc.engine.entities.some((e) => e.get(TextFacet)?.props.text === content.replace(/<[^>]+>/g, "").trim());
+    const isExisting = lsc.engine.entities.some(
+      (e) => e.has(DataTypes.BLOCK) && e.get(TextFacet)?.props.text === content.replace(/<[^>]+>/g, "").trim()
+    );
 
     if (!isExisting) {
       let trimmedContent = content.trim();
@@ -46,7 +48,9 @@ export async function addBlockEntitiesFromString(
       newBlockEntity.add(new BlocktypeFacet({ blocktype: isList ? Blocktypes.LIST : Blocktypes.TEXT }));
       newBlockEntity.add(DataTypes.BLOCK);
 
-      addBlock(lsc, newBlockEntity);
+      console.log("newBlockEntity", newBlockEntity);
+
+      addBlock(lsc, newBlockEntity, userId);
     }
   });
 }

@@ -4,30 +4,29 @@ import { IdentifierFacet, Tags } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
 import { BlockeditorStateFacet } from "../../../app/additionalFacets";
 
-const InitializeBlockeditorSystem = (props: { blockeditorId: string, initinalOpen?: boolean }) => {
-  const { blockeditorId, initinalOpen} = props;
+const InitializeBlockeditorSystem = (props: { blockeditorId: string; initinalOpen?: boolean }) => {
   const lsc = useContext(LeanScopeClientContext);
+  const { blockeditorId } = props;
   const [blockeditorEntities] = useEntities((e) => e.has(BlockeditorStateFacet));
 
   useEffect(() => {
-    const initializeBlockeditor = () => {
+    const initializeBlockeditor = async () => {
       blockeditorEntities.forEach((entity) => {
         lsc.engine.removeEntity(entity);
       });
 
-      const newBlockeditor = new Entity();
-      lsc.engine.addEntity(newBlockeditor);
-      newBlockeditor.add(new IdentifierFacet({ guid: blockeditorId }));
-      newBlockeditor.add(new BlockeditorStateFacet({ blockeditorState: "view" }));
-
-      if (initinalOpen) {
-        newBlockeditor.add(Tags.CURRENT);
-      }
-      
+      console.log("initializeBlockeditor", blockeditorId);
+      const newBlockeditorEntity = new Entity();
+      lsc.engine.addEntity(newBlockeditorEntity);
+      newBlockeditorEntity.add(new IdentifierFacet({ guid: blockeditorId }));
+      newBlockeditorEntity.add(new BlockeditorStateFacet({ blockeditorState: "view" }));
+      newBlockeditorEntity.add(Tags.CURRENT);
     };
 
-    initializeBlockeditor();
-  }, []);
+    if (blockeditorId) {
+      initializeBlockeditor();
+    }
+  }, [blockeditorId]);
 
   return null;
 };

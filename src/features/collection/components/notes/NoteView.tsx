@@ -12,6 +12,7 @@ import supabaseClient from "../../../../lib/supabase";
 import { displayActionTexts } from "../../../../utils/displayText";
 import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
 import Blockeditor from "../../../blockeditor/components/Blockeditor";
+import InitializeBlockeditorSystem from "../../../blockeditor/systems/InitializeBlockeditorSystem";
 import { useBookmarked } from "../../../study/hooks/useBookmarked";
 import { useSelectedTopic } from "../../hooks/useSelectedTopic";
 import LoadNotePodcastsSystem from "../../systems/LoadNotePodcastsSystem";
@@ -45,11 +46,13 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
 
   return (
     <Fragment>
+      <InitializeBlockeditorSystem blockeditorId={guid} />
       <LoadNoteTextSystem />
       <LoadNotePodcastsSystem />
 
       <View visible={isVisible}>
         <Blockeditor
+          id={guid}
           handleTitleBlur={handleTitleBlur}
           title={title}
           backbuttonLabel={selectedTopicTitle}
@@ -85,7 +88,6 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
               </ActionRow>
             </Fragment>
           }
-          id={guid}
         />
       </View>
 

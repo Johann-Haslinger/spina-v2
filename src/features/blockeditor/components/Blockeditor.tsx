@@ -12,7 +12,6 @@ import { changeBlockeditorState } from "../functions/changeBlockeditorState";
 import { useClickOutsideBlockEditorHandler } from "../hooks/useClickOutsideBlockEditorHandler";
 import { useCurrentBlockeditor } from "../hooks/useCurrentBlockeditor";
 import ChangeBlockeditorStateSystem from "../systems/ChangeBlockeditorStateSystem";
-import InitializeBlockeditorSystem from "../systems/InitializeBlockeditorSystem";
 import LoadBlocksSystem from "../systems/LoadBlocksSystem";
 import UpdateBlockStateSystem from "../systems/UpdateBlockStateSystem";
 import ComponentRenderer from "./ComponentRenderer";
@@ -91,79 +90,79 @@ const Blockeditor = (props: BlockeditorProps) => {
   const openImproveTextSheet = () => lsc.stories.transitTo(Stories.GENERATING_IMPROVED_TEXT_STORY);
 
   return (
-    <Fragment>
-      <InitializeBlockeditorSystem initinalOpen blockeditorId={id} />
-      <LoadBlocksSystem />
-      <UpdateBlockStateSystem />
-      <ChangeBlockeditorStateSystem />
+    blockeditorEntity && (
+      <Fragment>
+        <LoadBlocksSystem />
+        <UpdateBlockStateSystem />
+        <ChangeBlockeditorStateSystem />
+        <NavigationBar>
+          {blockeditorState}
+          {blockeditorState === "view" ? (
+            <Fragment>
+              <NavBarButton
+                content={
+                  <Fragment>
+                    <ActionRow
+                      icon={<IoSparklesOutline />}
+                      first
+                      onClick={openImproveTextSheet}
+                      last={customGenerateActionRows !== undefined ? false : true}
+                    >
+                      {displayActionTexts(selectedLanguage).improveText}
+                    </ActionRow>
+                    {customGenerateActionRows}
+                  </Fragment>
+                }
+              >
+                <IoColorWandOutline />
+              </NavBarButton>
 
-      <NavigationBar>
-        {blockeditorState === "view" ? (
-          <Fragment>
-            <NavBarButton
-              content={
-                <Fragment>
-                  <ActionRow
-                    icon={<IoSparklesOutline />}
-                    first
-                    onClick={openImproveTextSheet}
-                    last={customGenerateActionRows !== undefined ? false : true}
-                  >
-                    {displayActionTexts(selectedLanguage).improveText}
-                  </ActionRow>
-                  {customGenerateActionRows}
-                </Fragment>
-              }
-            >
-              <IoColorWandOutline />
-            </NavBarButton>
+              <NavBarButton>
+                <IoAdd onClick={() => changeBlockeditorState(blockeditorEntity, "create")} />
+              </NavBarButton>
 
-            <NavBarButton>
-              <IoAdd onClick={() => changeBlockeditorState(blockeditorEntity, "create")} />
-            </NavBarButton>
-
-            <NavBarButton content={customActionRows}>
-              <IoEllipsisHorizontalCircleOutline />
-            </NavBarButton>
-          </Fragment>
+              <NavBarButton content={customActionRows}>
+                <IoEllipsisHorizontalCircleOutline />
+              </NavBarButton>
+            </Fragment>
+          ) : (
+            <PrimaryButton onClick={() => changeBlockeditorState(blockeditorEntity, "view")}>
+              {displayButtonTexts(selectedLanguage).done}
+            </PrimaryButton>
+          )}
+        </NavigationBar>
+        <StyledTitleWrapper>
+          {navigateBack && <BackButton navigateBack={navigateBack}>{backbuttonLabel}</BackButton>}
+          <Title editable={handleTitleBlur ? true : false} onBlur={handleTitleBlur}>
+            {title || displayAlertTexts(selectedLanguage).noTitle}
+          </Title>
+          {customHeaderArea ? customHeaderArea : null}
+          <Spacer />
+        </StyledTitleWrapper>
+        {customContent ? (
+          customContent
         ) : (
-          <PrimaryButton onClick={() => changeBlockeditorState(blockeditorEntity, "view")}>
-            {displayButtonTexts(selectedLanguage).done}
-          </PrimaryButton>
+          <Fragment>
+            <div ref={blocksAreaRef}>
+              <ComponentRenderer />
+              {id == blockeditorId && (
+                <Fragment>
+                  <Editmenu />
+                  <Createmenu />
+                </Fragment>
+              )}
+            </div>
+            <StyledAddBlockArea ref={addBlockAreaRef} />
+          </Fragment>
         )}
-      </NavigationBar>
-      <StyledTitleWrapper>
-        {navigateBack && <BackButton navigateBack={navigateBack}>{backbuttonLabel}</BackButton>}
-        <Title editable={handleTitleBlur ? true : false} onBlur={handleTitleBlur}>
-          {title || displayAlertTexts(selectedLanguage).noTitle}
-        </Title>
-        {customHeaderArea ? customHeaderArea : null}
-        <Spacer />
-      </StyledTitleWrapper>
-      {customContent ? (
-        customContent
-      ) : (
-        <Fragment>
-          <div ref={blocksAreaRef}>
-            <ComponentRenderer />
-            {id == blockeditorId && (
-              <Fragment>
-                <Editmenu />
-                <Createmenu />
-              </Fragment>
-            )}
-          </div>
-          <StyledAddBlockArea ref={addBlockAreaRef} />
-        </Fragment>
-      )}
-      {/* <EntityPropsMapper
+        {/* <EntityPropsMapper
         query={(e) => e.has(DataTypes.BLOCK) && e.has(Tags.CURRENT) && e.get(IdentifierFacet)?.props.guid !== id}
         get={[[TextFacet, IdentifierFacet], []]}
         onMatch={FurtherView}
       /> */}
-
-      {id == blockeditorId && <GenerateImprovedTextSheet />}
-    </Fragment>
+        {id == blockeditorId && <GenerateImprovedTextSheet />}
+      </Fragment>
+    )
   );
 };
 

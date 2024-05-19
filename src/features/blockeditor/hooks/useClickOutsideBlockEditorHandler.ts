@@ -9,12 +9,14 @@ import { FloatOrderFacet, IdentifierFacet, ParentFacet } from "@leanscope/ecs-mo
 import { v4 } from "uuid";
 import { getHighestOrder } from "../functions/orderHelper";
 import { addBlock } from "../functions/addBlock";
+import { useUserData } from "../../../hooks/useUserData";
 
 export const useClickOutsideBlockEditorHandler = () => {
   const lsc = useContext(LeanScopeClientContext);
   const { blockeditorEntity, blockeditorState, blockeditorId } = useCurrentBlockeditor();
   const blocksAreaRef = useRef<HTMLDivElement | null>(null);
   const addBlockAreaRef = useRef<HTMLDivElement | null>(null);
+  const { userId } = useUserData();
 
   useEffect(() => {
     const handleClick = async (event: MouseEvent) => {
@@ -35,7 +37,7 @@ export const useClickOutsideBlockEditorHandler = () => {
         newBlockEntity.add(AdditionalTags.FOCUSED);
         newBlockEntity.add(DataTypes.BLOCK);
 
-        addBlock(lsc, newBlockEntity);
+        addBlock(lsc, newBlockEntity, userId);
         console.log("add block", newBlockEntity);
       }
     };

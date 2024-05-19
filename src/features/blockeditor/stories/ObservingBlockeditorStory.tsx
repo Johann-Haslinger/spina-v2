@@ -10,6 +10,7 @@ import Blockeditor from "../components/Blockeditor";
 import { Sidebar, View } from "../../../components";
 import { BrowserRouter } from "react-router-dom";
 import { Settings } from "../../settings";
+import InitializeBlockeditorSystem from "../systems/InitializeBlockeditorSystem";
 
 const ObservingBlockeditorStory = () => {
   return (
@@ -19,7 +20,7 @@ const ObservingBlockeditorStory = () => {
           <InitializeStoriesSystem initialStory={Stories.OBSERVING_FLASHCARD_QUIZ_STORY} />
           <InitializeAppSystem mockupData />
           <ViewManagerSystem />
-
+          <InitializeBlockeditorSystem blockeditorId="1" />
           <InitializeSchoolSubjectsSystem />
 
           <View viewType="baseView">

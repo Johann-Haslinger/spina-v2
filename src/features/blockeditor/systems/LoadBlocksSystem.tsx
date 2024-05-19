@@ -1,22 +1,30 @@
-import { useContext, useEffect, useState } from "react";
-import { useMockupData } from "../../../hooks/useMockupData";
-import { useCurrentBlockeditor } from "../hooks/useCurrentBlockeditor";
-import { dummyBlocks } from "../../../base/dummy";
-import { Entity } from "@leanscope/ecs-engine";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import { Entity } from "@leanscope/ecs-engine";
 import { FloatOrderFacet, IdentifierFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
+import { useContext, useEffect } from "react";
 import { BlocktypeFacet, TexttypeFacet } from "../../../app/additionalFacets";
+import { dummyBlocks } from "../../../base/dummy";
 import { DataTypes } from "../../../base/enums";
+import { useMockupData } from "../../../hooks/useMockupData";
+import { useUserData } from "../../../hooks/useUserData";
 import { useSelectedHomework } from "../../collection/hooks/useSelectedHomework";
 import { useSelectedNote } from "../../collection/hooks/useSelectedNote";
 import { useSelectedSubtopic } from "../../collection/hooks/useSelectedSubtopic";
 import { addBlockEntitiesFromString } from "../functions/addBlockEntitiesFromString";
-import { useUserData } from "../../../hooks/useUserData";
+import { useCurrentBlockeditor } from "../hooks/useCurrentBlockeditor";
+import supabaseClient from "../../../lib/supabase";
 
 const fetchBlocks = async (blockeditorId: string) => {
-  console.log(blockeditorId);
+  const { data: blocks, error } = await supabaseClient
+    .from("blocks")
+    .select("id, type, textType, content, order")
+    .eq("parentId", blockeditorId);
 
-  return [];
+  if (error) {
+    console.error("Error fetching blocks:", error);
+  }
+
+  return blocks || [];
 };
 
 const LoadBlocksSystem = () => {
@@ -27,7 +35,6 @@ const LoadBlocksSystem = () => {
   const { selectedNoteText } = useSelectedNote();
   const { selectedSubtopicText } = useSelectedSubtopic();
   const { userId } = useUserData();
-  const [addedText, setAddedText] = useState(false);
 
   useEffect(() => {
     const loadBlocks = async () => {
@@ -40,12 +47,8 @@ const LoadBlocksSystem = () => {
           ? await fetchBlocks(blockeditorId)
           : [];
         const resouceText = selectedSubtopicText || selectedHomeworkText || selectedNoteText;
-
-        if (resouceText && !addedText) {
+        if (resouceText) {
           await addBlockEntitiesFromString(lsc, resouceText, blockeditorId, userId);
-          setAddedText(true);
-      
-          // TODO: Remove text add update to newNoteStatus in supabase
         }
 
         blocks.forEach((block) => {
@@ -58,18 +61,27 @@ const LoadBlocksSystem = () => {
             lsc.engine.addEntity(newBlockEntity);
             newBlockEntity.add(new IdentifierFacet({ guid: block.id }));
             newBlockEntity.add(new ParentFacet({ parentId: blockeditorId }));
-            newBlockEntity.add(new BlocktypeFacet({ blocktype: block.blockType }));
+            newBlockEntity.add(new BlocktypeFacet({ blocktype: block.type }));
             newBlockEntity.add(new TexttypeFacet({ texttype: block.textType }));
             newBlockEntity.add(new TextFacet({ text: block.content }));
-            newBlockEntity.add(new FloatOrderFacet({ index: block.order }));
+            newBlockEntity.add(new FloatOrderFacet({ index: block.order || 0 }));
             newBlockEntity.add(DataTypes.BLOCK);
           }
         });
       }
     };
 
-    loadBlocks();
-  }, [mockupData, shouldFetchFromSupabase, blockeditorId]);
+    if (blockeditorId) {
+      loadBlocks();
+    }
+  }, [
+    mockupData,
+    shouldFetchFromSupabase,
+    blockeditorId,
+    selectedNoteText,
+    selectedSubtopicText,
+    selectedHomeworkText,
+  ]);
 
   return null;
 };

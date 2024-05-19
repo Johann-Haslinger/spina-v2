@@ -6,7 +6,8 @@ import { Alert, AlertButton } from "../../../components";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import { displayActionTexts } from "../../../utils/displayText";
 import { useEntities } from "@leanscope/ecs-engine";
-import { Tags } from "@leanscope/ecs-models";
+import { IdentifierFacet, Tags } from "@leanscope/ecs-models";
+import supabaseClient from "../../../lib/supabase";
 
 const DeleteBlocksAlert = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -19,10 +20,16 @@ const DeleteBlocksAlert = () => {
   const deleteSelectedBlocks = async () => {
     navigateBack();
 
-    selectedBlockEntities.forEach((blockEntity) => {
+    selectedBlockEntities.forEach(async (blockEntity) => {
       lsc.engine.removeEntity(blockEntity);
 
-      // TODO: Delete blocks from the database
+      const id = blockEntity.get(IdentifierFacet)?.props.guid;
+
+      const { error } = await supabaseClient.from("blocks").delete().eq("id", id);
+
+      if (error) {
+        console.error("Error deleting block from supabase:", error);
+      }
     });
   };
 

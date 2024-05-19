@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import React, { useContext, useEffect, useState } from "react";
 import { useEntities } from "@leanscope/ecs-engine";
 import { Blocktypes, DataTypes, ListStyles, Texttypes } from "../../../../../base/enums";
-import { Tags } from "@leanscope/ecs-models";
+import { IdentifierFacet, Tags } from "@leanscope/ecs-models";
 import { BlocktypeFacet, ListStyleFacet, TexttypeFacet, TodoStateFacet } from "../../../../../app/additionalFacets";
 import { ILeanScopeClient } from "@leanscope/api-client/interfaces";
 import styled from "@emotion/styled";
@@ -11,6 +11,7 @@ import { getPreviewTextStyle } from "../../../functions/getTextStyle";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useEntityFacets } from "@leanscope/ecs-engine/react-api/hooks/useEntityFacets";
 import { useCurrentBlockeditor } from "../../../hooks/useCurrentBlockeditor";
+import supabaseClient from "../../../../../lib/supabase";
 
 const StyledOptionRow2Wrapper = styled.div`
   ${tw`flex space-x-1 w-full  overflow-x-scroll  h-16  items-center justify-between `}
@@ -182,7 +183,7 @@ const TextTypeOption = (props: {
   );
 };
 
-const updateSelectedBlocksTextType = (lsc: ILeanScopeClient, newTextType: Texttypes) => {
+const updateSelectedBlocksTextType = async (lsc: ILeanScopeClient, newTextType: Texttypes) => {
   const selectedBlockEntities = lsc.engine.entities.filter((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
   selectedBlockEntities.forEach(async (blockEntity) => {
     const blockType = blockEntity.get(BlocktypeFacet)?.props.blocktype;
@@ -193,7 +194,13 @@ const updateSelectedBlocksTextType = (lsc: ILeanScopeClient, newTextType: Textty
 
     blockEntity.add(new TexttypeFacet({ texttype: newTextType }));
 
-    // TODO: Update the text type of the selected blocks in the database
+    const id = blockEntity.get(IdentifierFacet)?.props.guid;
+
+    const { error } = await supabaseClient.from("blocks").update({ textType: newTextType }).eq("id", id);
+
+    if (error) {
+      console.error("Error updating text type of block in supabase:", error);
+    }
   });
 };
 
@@ -219,7 +226,13 @@ const updateSelectedBlocksBlockType = async (lsc: ILeanScopeClient, newBlockType
       blockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.TEXT }));
     }
 
-    // TODO: Update the block type of the selected blocks in the database
+    const id = blockEntity.get(IdentifierFacet)?.props.guid;
+
+    const { error } = await supabaseClient.from("blocks").update({ type: newBlockType }).eq("id", id);
+
+    if (error) {
+      console.error("Error updating block type of block in supabase:", error);
+    }
   });
 };
 

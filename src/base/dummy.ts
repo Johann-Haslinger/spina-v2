@@ -1,5 +1,4 @@
 import { v4 } from "uuid";
-import { Blocktypes, Texttypes } from "./enums";
 export const dummySchoolSubjects = [
   {
     id: "1",
@@ -378,25 +377,25 @@ export const dummyLernVideos = [
 export const dummyBlocks = [
   {
     id: "1",
-    blockType: Blocktypes.TEXT,
+    type: "text",
     order: 1,
-    textType: Texttypes.HEADING,
+    textType: "heading",
     content:
       "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. ",
   },
   {
     id: "2",
-    blockType: Blocktypes.TEXT,
+    type: "text",
     order: 2,
-    textType: Texttypes.NORMAL,
+    textType: "normal",
     content: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr.",
   },
- 
+
   {
     id: "3",
-    blockType: Blocktypes.TEXT,
+    type: "text",
     order: 3,
-    textType: Texttypes.NORMAL,
+    textType: "normal",
     content: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr.",
   },
 ];

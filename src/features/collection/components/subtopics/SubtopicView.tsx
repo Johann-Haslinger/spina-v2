@@ -47,6 +47,7 @@ import LernvideoView from "../lern-videos/LernvideoView";
 import PodcastRow from "../podcasts/PodcastRow";
 import DeleteSubtopicAlert from "./DeleteSubtopicAlert";
 import EditSubtopicSheet from "./EditSubtopicSheet";
+import InitializeBlockeditorSystem from "../../../blockeditor/systems/InitializeBlockeditorSystem";
 
 enum SubtopicViewStates {
   NOTE,
@@ -73,6 +74,7 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
   return (
     <Fragment>
       <LoadSubtopicResourcesSystem />
+      <InitializeBlockeditorSystem blockeditorId={guid} />
 
       <View visible={isVisible}>
         <Blockeditor

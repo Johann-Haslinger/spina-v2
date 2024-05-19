@@ -27,6 +27,8 @@ import DeleteBlocksAlert from "../../DeleteBlocksAlert";
 import StyleOptions from "./StyleOptions";
 import ActionOptions from "./ActionOptions";
 import { changeBlockeditorState } from "../../../functions/changeBlockeditorState";
+import { useUserData } from "../../../../../hooks/useUserData";
+import supabaseClient from "../../../../../lib/supabase";
 
 type Option = {
   name: string;
@@ -46,7 +48,7 @@ const StyledMenuWrapper = styled.div`
   ${tw`bg-primary dark:bg-tertiaryDark dark:bg-opacity-40 bg-opacity-40 backdrop-blur-xl flex-auto mx-auto h-20   rounded-lg pr-1 flex    w-11/12 md:w-[30rem]  dark:shadow-[0px_0px_60px_0px_rgba(255, 255, 255, 0.13)] shadow-[0_0px_40px_1px_rgba(0,0,0,0.12)]`}
 `;
 
-const groupSelectedBlocks = (lsc: ILeanScopeClient) => {
+const groupSelectedBlocks = (lsc: ILeanScopeClient, userId: string) => {
   const selectedBlockEntities = lsc.engine.entities.filter((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
   const firstSelectedBlockEntity = selectedBlockEntities.filter((e) => e.has(TextFacet)).sort(sortEntitiesByOrder)[0];
 
@@ -64,18 +66,24 @@ const groupSelectedBlocks = (lsc: ILeanScopeClient) => {
   newPageBlockEntity.add(new ParentFacet({ parentId: firstBlockParentId }));
   newPageBlockEntity.add(DataTypes.BLOCK);
 
-  addBlock(lsc, newPageBlockEntity);
+  addBlock(lsc, newPageBlockEntity, userId);
 
   selectedBlockEntities
     .filter((e) => e !== firstSelectedBlockEntity)
-    .forEach((blockEntity) => {
+    .forEach(async (blockEntity) => {
       blockEntity.add(new ParentFacet({ parentId: newPageBlockId }));
-    });
 
-  // TODO: Update the parent id of the selected blocks in the database
+      const id = blockEntity.get(IdentifierFacet)?.props.guid;
+
+      const { error } = await supabaseClient.from("blocks").update({ parentId: newPageBlockId }).eq("id", id);
+
+      if (error) {
+        console.error("Error updating block in supabase:", error);
+      }
+    });
 };
 
-const addContentToSelectedBlock = async (lsc: ILeanScopeClient) => {
+const addContentToSelectedBlock = async (lsc: ILeanScopeClient, userId: string) => {
   const selectedBlockEntities = lsc.engine.entities.filter((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
   const firstSelectedBlockEntity = selectedBlockEntities[0];
   const firstSelectedBlockId = firstSelectedBlockEntity.get(IdentifierFacet)?.props.guid || "";
@@ -92,9 +100,16 @@ const addContentToSelectedBlock = async (lsc: ILeanScopeClient) => {
   newBlockEntity.add(DataTypes.BLOCK);
   newBlockEntity.add(AdditionalTags.FOCUSED);
 
-  addBlock(lsc, newBlockEntity);
+  addBlock(lsc, newBlockEntity, userId);
 
-  // TODO: Update the block type of the selected block in the database
+  const { error } = await supabaseClient
+    .from("blocks")
+    .update({ type: Blocktypes.PAGE })
+    .eq("id", firstSelectedBlockId);
+
+  if (error) {
+    console.error("Error updating block in supabase:", error);
+  }
 };
 
 const showStyleOptionQuery = (pressedBlocks: readonly Entity[]) => {
@@ -130,6 +145,7 @@ const Editmenu = () => {
   const lsc = useContext(LeanScopeClientContext);
   const { blockeditorState, blockeditorEntity } = useCurrentBlockeditor();
   const isVisible = blockeditorState === "edit";
+  const { userId } = useUserData();
 
   const openDeleteSheet = () => lsc.stories.transitTo(Stories.DELETING_BLOCKS_STORY);
 
@@ -160,7 +176,7 @@ const Editmenu = () => {
       icon: <IoArrowForwardCircleOutline />,
       color: COLOR_ITEMS[2].color,
       bgColor: COLOR_ITEMS[2].backgroundColor,
-      customFunc: () => addContentToSelectedBlock(lsc),
+      customFunc: () => addContentToSelectedBlock(lsc, userId),
       canShow: showAddContentOptionQuery,
     },
     {
@@ -168,7 +184,7 @@ const Editmenu = () => {
       icon: <IoArrowForwardCircleOutline />,
       color: COLOR_ITEMS[4].color,
       bgColor: COLOR_ITEMS[4].backgroundColor,
-      customFunc: () => groupSelectedBlocks(lsc),
+      customFunc: () => groupSelectedBlocks(lsc, userId),
       canShow: showGroupOptionQuery,
     },
     {
