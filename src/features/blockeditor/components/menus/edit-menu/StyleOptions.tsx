@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import React, { useContext, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { useEntities } from "@leanscope/ecs-engine";
 import { Blocktypes, DataTypes, ListStyles, Texttypes } from "../../../../../base/enums";
 import { IdentifierFacet, Tags } from "@leanscope/ecs-models";
@@ -12,6 +12,9 @@ import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useEntityFacets } from "@leanscope/ecs-engine/react-api/hooks/useEntityFacets";
 import { useCurrentBlockeditor } from "../../../hooks/useCurrentBlockeditor";
 import supabaseClient from "../../../../../lib/supabase";
+import { displayButtonTexts } from "../../../../../utils/displayText";
+import { useSelectedLanguage } from "../../../../../hooks/useSelectedLanguage";
+import { BLOCK_TYPE_TEXT_DATA, TEXT_TYPE_TEXT_DATA } from "../../../../../base/textData";
 
 const StyledOptionRow2Wrapper = styled.div`
   ${tw`flex space-x-1 w-full  overflow-x-scroll  h-16  items-center justify-between `}
@@ -84,65 +87,9 @@ const useSelectedBlockTypes = () => {
     );
   }, [selectedBlocks.length, firstSelectedBlockTextType, firstSelectedBlockType]);
 
-  // useEffect(() => {
-  //   console.log("currentTextType", currentTextType);
-  //   console.log("currentBlockType", currentBlockType);
-  //   const hasEveryBlockTheSameTextType = selectedBlocks.every(
-  //     (block) => block.get(TexttypeFacet)?.props.texttype === firstSelectedBlockTextType
-  //   );
-  //   const hasEveryBlockTheSameBlockType = selectedBlocks.every(
-  //     (block) => block.get(BlocktypeFacet)?.props.blocktype === firstSelectedBlockType
-  //   );
-
-  //   if (hasEveryBlockTheSameTextType) {
-  //     setCurrentTextType(firstSelectedBlockTextType);
-  //   } else {
-  //     setCurrentTextType(null);
-  //   }
-  //   if (hasEveryBlockTheSameBlockType) {
-  //     setCurrentBlockType(firstSelectedBlockType || null);
-  //   } else {
-  //     setCurrentBlockType(null);
-  //   }
-  // }, [selectedBlocks]);
-
   return { currentTextType, currentBlockType };
 };
 
-function getStringForTextType(textType: Texttypes): string {
-  switch (textType) {
-    case Texttypes.TITLE:
-      return "title";
-    case Texttypes.SUBTITLE:
-      return "subTitle";
-    case Texttypes.BOLD:
-      return "bold";
-    case Texttypes.CAPTION:
-      return "caption";
-    case Texttypes.HEADING:
-      return "heading";
-    case Texttypes.NORMAL:
-      return "normal";
-    default:
-      return "normal";
-  }
-}
-
-const getStringForBlockType = (blockType: Blocktypes): string => {
-  switch (blockType) {
-    case "text":
-      return "Text";
-    case "todo":
-      return "Todo";
-    case "list":
-      return "Liste";
-    case "page":
-      return "Seite";
-
-    default:
-      return "Text";
-  }
-};
 const BlockTypeOption = (props: {
   blockType: Blocktypes;
   currentBlockType: Blocktypes | null;
@@ -151,12 +98,13 @@ const BlockTypeOption = (props: {
 }) => {
   const lsc = useContext(LeanScopeClientContext);
   const { blockType, currentBlockType, updateSelectedBlocksBlockType, customIcon } = props;
+  const { selectedLanguage } = useSelectedLanguage();
 
   const handleClick = () => updateSelectedBlocksBlockType(lsc, blockType);
 
   return (
     <StyledOptionWrapper onClick={handleClick} isSelected={currentBlockType == blockType}>
-      {customIcon || getStringForBlockType(blockType)}
+      {customIcon || BLOCK_TYPE_TEXT_DATA[blockType][selectedLanguage]}
     </StyledOptionWrapper>
   );
 };
@@ -169,6 +117,7 @@ const TextTypeOption = (props: {
 }) => {
   const lsc = useContext(LeanScopeClientContext);
   const { textType, currentTextType, updateSelectedBlocksTextType, customIcon } = props;
+  const { selectedLanguage } = useSelectedLanguage();
 
   const handleClick = () => updateSelectedBlocksTextType(lsc, textType);
 
@@ -178,7 +127,7 @@ const TextTypeOption = (props: {
       onClick={handleClick}
       style={{ ...getPreviewTextStyle(textType) }}
     >
-      {customIcon || getStringForTextType(textType)}
+      {customIcon || TEXT_TYPE_TEXT_DATA[textType][selectedLanguage]}
     </StyledOptionWrapper>
   );
 };
@@ -240,13 +189,14 @@ const StyleOptions = () => {
   const { currentTextType, currentBlockType } = useSelectedBlockTypes();
   const { blockeditorState } = useCurrentBlockeditor();
   const [isMoreTextOptionsVisible, setIsMoreTextOptionsVisible] = useState<boolean>(false);
+  const { selectedLanguage } = useSelectedLanguage();
 
   useEffect(() => {
     setIsMoreTextOptionsVisible(false);
   }, [blockeditorState]);
 
   return (
-    <>
+    <Fragment>
       <StyledOptionRow2Wrapper>
         <TextTypeOption
           textType={Texttypes.HEADING}
@@ -268,7 +218,7 @@ const StyleOptions = () => {
             setIsMoreTextOptionsVisible(true);
           }}
         >
-          Mehr
+          {displayButtonTexts(selectedLanguage).more}
         </StyledMoreButton>
       </StyledOptionRow2Wrapper>
 
@@ -368,7 +318,7 @@ const StyleOptions = () => {
           </StyledSecondFurtherOptionRowWrapper>
         </StyledMoreOptionSheetWrapper>
       </motion.div>
-    </>
+    </Fragment>
   );
 };
 

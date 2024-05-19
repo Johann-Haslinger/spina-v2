@@ -13,6 +13,8 @@ import { findNumberBetween, getNextHigherOrder } from "../../../functions/orderH
 import styled from "@emotion/styled";
 import tw from "twin.macro";
 import { useUserData } from "../../../../../hooks/useUserData";
+import { useSelectedLanguage } from "../../../../../hooks/useSelectedLanguage";
+import { displayActionTexts } from "../../../../../utils/displayText";
 
 const StyledMenuWrapper = styled.div`
   ${tw`p-4 pt-0 w-full `}
@@ -34,12 +36,13 @@ const ActionOptions = (props: ActionOptionsProps) => {
   const lsc = useContext(LeanScopeClientContext);
   const { backfuction } = props;
   const [selectedBlockEntities] = useEntities((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
-  const {userId} = useUserData();
+  const { userId } = useUserData();
+  const { selectedLanguage } = useSelectedLanguage();
 
   const actionOptions = [
-    { icon: <IoCopyOutline />, label: "Kopieren", action: copyAction },
-    { icon: <IoCutOutline />, label: "Ausschneiden", action: cutAction },
-    { icon: <IoDuplicateOutline />, label: "Duplizieren", action: duplicateAction },
+    { icon: <IoCopyOutline />, label: displayActionTexts(selectedLanguage).copy, action: copyAction },
+    { icon: <IoCutOutline />, label: displayActionTexts(selectedLanguage).cut, action: cutAction },
+    { icon: <IoDuplicateOutline />, label: displayActionTexts(selectedLanguage).duplicate, action: duplicateAction },
   ];
 
   function copyAction(): void {

@@ -26,35 +26,6 @@ const StyledAddBlockArea = styled.div`
   ${tw`h-96 w-full `}
 `;
 
-// const AddNewBlockSystem = () => {
-//   const lsc = useContext(LeanScopeClientContext);
-//   const { blockeditorId } = useCurrentBlockeditor();
-//   const [blockEntities] = useEntities(
-//     (e) => e.has(DataTypes.BLOCK) && e.get(IdentifierFacet)?.props.guid === blockeditorId
-//   );
-
-//   useEffect(() => {
-//     setTimeout(() => {
-//       if (blockEntities.length === 0) {
-//         {
-//           const newBlockEntity = new Entity();
-//           newBlockEntity.add(new IdentifierFacet({ guid: v4() }));
-//           newBlockEntity.add(new ParentFacet({ parentId: blockeditorId }));
-//           newBlockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.TEXT }));
-//           newBlockEntity.add(new TexttypeFacet({ texttype: Texttypes.NORMAL }));
-//           newBlockEntity.add(new FloatOrderFacet({ index: 1 }));
-//           newBlockEntity.add(DataTypes.BLOCK);
-//           newBlockEntity.add(AdditionalTags.FOCUSED);
-
-//           addBlock(lsc, newBlockEntity);
-//         }
-//       }
-//     }, 300);
-//   }, [blockEntities.length, blockeditorId]);
-
-//   return null;
-// };
-
 interface BlockeditorProps {
   id: string;
   title?: string;
@@ -96,7 +67,6 @@ const Blockeditor = (props: BlockeditorProps) => {
         <UpdateBlockStateSystem />
         <ChangeBlockeditorStateSystem />
         <NavigationBar>
-  
           {blockeditorState === "view" ? (
             <Fragment>
               <NavBarButton
@@ -155,11 +125,7 @@ const Blockeditor = (props: BlockeditorProps) => {
             <StyledAddBlockArea ref={addBlockAreaRef} />
           </Fragment>
         )}
-        {/* <EntityPropsMapper
-        query={(e) => e.has(DataTypes.BLOCK) && e.has(Tags.CURRENT) && e.get(IdentifierFacet)?.props.guid !== id}
-        get={[[TextFacet, IdentifierFacet], []]}
-        onMatch={FurtherView}
-      /> */}
+
         {id == blockeditorId && <GenerateImprovedTextSheet />}
       </Fragment>
     )

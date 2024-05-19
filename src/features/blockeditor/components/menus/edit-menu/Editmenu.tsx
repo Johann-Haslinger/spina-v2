@@ -29,6 +29,8 @@ import ActionOptions from "./ActionOptions";
 import { changeBlockeditorState } from "../../../functions/changeBlockeditorState";
 import { useUserData } from "../../../../../hooks/useUserData";
 import supabaseClient from "../../../../../lib/supabase";
+import { displayLabelTexts } from "../../../../../utils/displayText";
+import { useSelectedLanguage } from "../../../../../hooks/useSelectedLanguage";
 
 type Option = {
   name: string;
@@ -145,13 +147,14 @@ const Editmenu = () => {
   const lsc = useContext(LeanScopeClientContext);
   const { blockeditorState, blockeditorEntity } = useCurrentBlockeditor();
   const isVisible = blockeditorState === "edit";
+  const { selectedLanguage } = useSelectedLanguage();
   const { userId } = useUserData();
 
   const openDeleteSheet = () => lsc.stories.transitTo(Stories.DELETING_BLOCKS_STORY);
 
   const editOptions = [
     {
-      name: "Stil",
+      name: displayLabelTexts(selectedLanguage).style,
       icon: <IoColorPalette />,
       color: COLOR_ITEMS[3].color,
       bgColor: COLOR_ITEMS[3].backgroundColor,
@@ -159,7 +162,7 @@ const Editmenu = () => {
       canShow: showStyleOptionQuery,
     },
     {
-      name: "Layout",
+      name: displayLabelTexts(selectedLanguage).layout,
       icon: <IoLayers />,
       color: COLOR_ITEMS[4].color,
       bgColor: COLOR_ITEMS[4].backgroundColor,
@@ -172,7 +175,7 @@ const Editmenu = () => {
       canShow: showImageOptionQuery,
     },
     {
-      name: "+ Inhalt",
+      name: displayLabelTexts(selectedLanguage).addContent,
       icon: <IoArrowForwardCircleOutline />,
       color: COLOR_ITEMS[2].color,
       bgColor: COLOR_ITEMS[2].backgroundColor,
@@ -180,7 +183,7 @@ const Editmenu = () => {
       canShow: showAddContentOptionQuery,
     },
     {
-      name: "Gruppe",
+      name: displayLabelTexts(selectedLanguage).group,
       icon: <IoArrowForwardCircleOutline />,
       color: COLOR_ITEMS[4].color,
       bgColor: COLOR_ITEMS[4].backgroundColor,
@@ -188,7 +191,7 @@ const Editmenu = () => {
       canShow: showGroupOptionQuery,
     },
     {
-      name: "Aktionen",
+      name: displayLabelTexts(selectedLanguage).share,
       icon: <IoShareOutline />,
       color: COLOR_ITEMS[1].color,
       bgColor: COLOR_ITEMS[1].backgroundColor,
@@ -197,7 +200,7 @@ const Editmenu = () => {
       canShow: () => true,
     },
     {
-      name: "Sapientor",
+      name: displayLabelTexts(selectedLanguage).sapientor,
       icon: <IoColorWandOutline />,
       color: COLOR_ITEMS[0].color,
       bgColor: COLOR_ITEMS[0].backgroundColor,
@@ -206,7 +209,7 @@ const Editmenu = () => {
       canShow: () => true,
     },
     {
-      name: "Löschen",
+      name: displayLabelTexts(selectedLanguage).delete,
       icon: <IoTrash />,
       color: COLOR_ITEMS[6].color,
       bgColor: COLOR_ITEMS[6].backgroundColor,
@@ -234,13 +237,6 @@ const Editmenu = () => {
           </StyledMenuWrapper>
         </motion.div>
       </StyledMenuContainer>
-      {/* 
-      <DestructiveActionSheet
-        isVisible={isTryingToDeleteViewVisible}
-        setIsVisible={setIsTryingToDeleteViewVisible}
-        length={pressedBlocks.length}
-        deleteFunc={deleteSelectedBlocks}
-      /> */}
 
       <DeleteBlocksAlert />
     </Fragment>

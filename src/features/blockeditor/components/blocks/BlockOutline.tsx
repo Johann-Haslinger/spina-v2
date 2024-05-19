@@ -53,6 +53,8 @@ const BlockOutline = (props: BlockOutlineProps & PropsWithChildren) => {
   const [translateX, setTranslateX] = useState<number>(0);
   const [isSwiping, setIsSwiping] = useState<boolean>(false);
 
+  // TODO: Custom hook to handle click outside block editor
+
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
