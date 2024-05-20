@@ -12,8 +12,8 @@ const GenerateAnswerSystem = () => {
   useEffect(() => {
     const generateAnswer = async (promptEntity: Entity) => {
       const prompt = promptEntity?.get(TextFacet)?.props.text;
-      const isProcessing = promptEntity.hasTag(AdditionalTags.PROCESSING);
-      promptEntity.add(AdditionalTags.PROCESSING);
+      const isProcessing = promptEntity?.hasTag(AdditionalTags.PROCESSING);
+      promptEntity?.add(AdditionalTags.PROCESSING);
 
       if (!prompt || isProcessing) return;
 
