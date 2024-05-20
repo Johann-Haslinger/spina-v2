@@ -8,6 +8,7 @@ import InitializeStoriesSystem from "../../../systems/InitializeStoriesSystem";
 import InitializeAppSystem from "../../../systems/InitializeAppSystem";
 import { Sidebar } from "../../../components";
 import { BrowserRouter } from "react-router-dom";
+import { Settings } from "../../settings";
 
 const ObservingCollectionStory = () => {
   return (
@@ -20,6 +21,7 @@ const ObservingCollectionStory = () => {
           <InitializeSchoolSubjectsSystem />
           <Collection />
           <Sidebar />
+          <Settings />
         </LeanScopeClientApp>
       </BrowserRouter>
     </React.StrictMode>

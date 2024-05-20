@@ -65,6 +65,8 @@ export enum AdditionalTags {
   CONTENT_EDITABLE,
   FOCUSED,
   OPEN
+  PROMPT,
+  PROCESSING,
 }
 
 export enum NavigationLinks {
@@ -99,6 +101,11 @@ export enum SupportedLanguages {
 export enum SupportedThemes {
   LIGHT = "light",
   DARK = "dark",
+}
+
+export enum MessageRoles {
+  SAPIENTOR = "sapientor",
+  USER = "user",
 }
 
 export enum Blocktypes {

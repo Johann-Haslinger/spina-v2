@@ -3,6 +3,7 @@ import TypingAnimationInnerHTML from "./TypingAnimationInnerHTML";
 import Spacer from "../layout/Spacer";
 import styled from "@emotion/styled/macro";
 import tw from "twin.macro";
+import { COLOR_ITEMS } from "../../base/constants";
 
 type SapientorMessage = {
   role: "gpt" | "user";
@@ -16,7 +17,7 @@ const StyledMessageHeader = styled.div`
 
 const StyledRoleIcon = styled.div<{ role: "gpt" | "user" }>`
   ${tw`w-4 h-4 rounded-full`}
-  background-color: ${(props) => (props.role === "gpt" ? "#127C3E" : "#FFA500")};
+  background-color: ${(props) => (props.role === "gpt" ?COLOR_ITEMS[0].backgroundColor :COLOR_ITEMS[1].backgroundColor)};
 `;
 
 const StyledRoleTitle = styled.p`

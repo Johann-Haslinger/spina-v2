@@ -8,6 +8,7 @@ import { CollectionGrid, NavigationBar, Spacer, Title, View } from "../component
 import { displayHeaderTexts } from "../utils/displayText";
 import { useSelectedLanguage } from "../hooks/useSelectedLanguage";
 import { Fragment } from "react/jsx-runtime";
+import { SapientorIcon } from "../features/collection/components/sapientor";
 
 const Collection = () => {
   const { selectedLanguage } = useSelectedLanguage();
@@ -37,6 +38,7 @@ const Collection = () => {
 
       <PodcastCollectionView />
       <BookmarkCollectionView />
+      <SapientorIcon />
     </Fragment>
   );
 };
