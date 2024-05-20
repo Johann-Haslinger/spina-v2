@@ -1,5 +1,5 @@
 import { useAppState } from "../../collection/hooks/useAppState";
-import { FlexBox, SaveButton, Section, SectionRow, SelectInput, Sheet, Spacer } from "../../../components";
+import { FlexBox, PrimaryButton, Section, SectionRow, SelectInput, Sheet, Spacer } from "../../../components";
 import { useSelectedTheme } from "../../collection/hooks/useSelectedTheme";
 import { SupportedLanguages, SupportedThemes } from "../../../base/enums";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
@@ -15,7 +15,7 @@ const Settings = () => {
 
   return (
     <Sheet visible={isSettingVisible} navigateBack={toggleSettings}>
-      <SaveButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).done}</SaveButton>
+      <PrimaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).done}</PrimaryButton>
       <Spacer />
       <Section>
         <SectionRow>

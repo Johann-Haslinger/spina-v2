@@ -22,19 +22,19 @@ import {
   MasteryLevelFacet,
   QuestionFacet,
   TitleFacet,
-} from "../../../../app/AdditionalFacets";
+} from "../../../../app/additionalFacets";
 import { dataTypeQuery } from "../../../../utils/queries";
 import { sortEntitiesByDateAdded } from "../../../../utils/sortEntitiesByTime";
-import FlashcardSetCell from "../flashcardSets/FlashcardSetCell";
-import FlashcardSetView from "../flashcardSets/FlashcardSetView";
+import FlashcardSetCell from "../flashcard-sets/FlashcardSetCell";
+import FlashcardSetView from "../flashcard-sets/FlashcardSetView";
 import HomeworkCell from "../homeworks/HomeworkCell";
 import HomeworkView from "../homeworks/HomeworkView";
 import NoteCell from "../notes/NoteCell";
 import NoteView from "../notes/NoteView";
 import SubtopicCell from "../subtopics/SubtopicCell";
 import SubtopicView from "../subtopics/SubtopicView";
-import FlashcardCell from "../flashcardSets/FlashcardCell";
-import EditFlashcardSetSheet from "../flashcardSets/EditFlashcardSetSheet";
+import FlashcardCell from "../flashcard-sets/FlashcardCell";
+import EditFlashcardSetSheet from "../flashcard-sets/EditFlashcardSetSheet";
 import PodcastRow from "../podcasts/PodcastRow";
 import DeletePodcastAlert from "../podcasts/DeletePodcastAlert";
 
@@ -43,8 +43,12 @@ const BookmarkCollectionView = () => {
   const isVisible = useIsStoryCurrent(Stories.OBSERVING_BOOKMARK_COLLECTION_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const [bookmarkedEntities] = useEntities((e) => e.has(AdditionalTags.BOOKMARKED));
-  const [bookmarkedPodcasts] = useEntities((e) => e.has(AdditionalTags.BOOKMARKED) && dataTypeQuery(e, DataTypes.PODCAST));
-  const [bookmarkedFlashcards] = useEntities((e) => e.has(AdditionalTags.BOOKMARKED) && dataTypeQuery(e, DataTypes.FLASHCARD));
+  const [bookmarkedPodcasts] = useEntities(
+    (e) => e.has(AdditionalTags.BOOKMARKED) && dataTypeQuery(e, DataTypes.PODCAST)
+  );
+  const [bookmarkedFlashcards] = useEntities(
+    (e) => e.has(AdditionalTags.BOOKMARKED) && dataTypeQuery(e, DataTypes.FLASHCARD)
+  );
 
   const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_COLLECTION_STORY);
 
@@ -96,7 +100,9 @@ const BookmarkCollectionView = () => {
         </CollectionGrid>
 
         <Spacer size={8} />
-        {bookmarkedFlashcards.length > 0 && <Title size="small">{displayHeaderTexts(selectedLanguage).flashcards}</Title>}
+        {bookmarkedFlashcards.length > 0 && (
+          <Title size="small">{displayHeaderTexts(selectedLanguage).flashcards}</Title>
+        )}
         <Spacer />
         <CollectionGrid columnSize="large">
           <EntityPropsMapper
@@ -105,8 +111,8 @@ const BookmarkCollectionView = () => {
             onMatch={FlashcardCell}
           />
         </CollectionGrid>
-        <Spacer size={8} />  
-        {bookmarkedPodcasts.length > 0 && <Title size="small" >{displayHeaderTexts(selectedLanguage).podcasts}</Title>} 
+        <Spacer size={8} />
+        {bookmarkedPodcasts.length > 0 && <Title size="small">{displayHeaderTexts(selectedLanguage).podcasts}</Title>}
         <EntityPropsMapper
           query={(e) => dataTypeQuery(e, DataTypes.PODCAST) && e.has(AdditionalTags.BOOKMARKED)}
           get={[[TitleFacet, DateAddedFacet], []]}
@@ -114,31 +120,35 @@ const BookmarkCollectionView = () => {
         />
       </View>
 
-      <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataTypes.NOTE) && e.has(Tags.SELECTED)}
-        get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
-        onMatch={NoteView}
-      />
-      <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataTypes.FLASHCARD_SET) && e.has(Tags.SELECTED)}
-        get={[[TitleFacet, IdentifierFacet], []]}
-        onMatch={FlashcardSetView}
-      />
-      <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataTypes.HOMEWORK) && e.has(Tags.SELECTED)}
-        get={[[TitleFacet, IdentifierFacet, TextFacet], []]}
-        onMatch={HomeworkView}
-      />
-      <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataTypes.SUBTOPIC) && e.has(Tags.SELECTED)}
-        get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
-        onMatch={SubtopicView}
-      />
-      <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataTypes.FLASHCARD) && e.has(Tags.SELECTED)}
-        get={[[AnswerFacet, QuestionFacet, MasteryLevelFacet, IdentifierFacet], []]}
-        onMatch={EditFlashcardSetSheet}
-      />
+      {isVisible && (
+        <Fragment>
+          <EntityPropsMapper
+            query={(e) => dataTypeQuery(e, DataTypes.NOTE) && e.has(Tags.SELECTED)}
+            get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
+            onMatch={NoteView}
+          />
+          <EntityPropsMapper
+            query={(e) => dataTypeQuery(e, DataTypes.FLASHCARD_SET) && e.has(Tags.SELECTED)}
+            get={[[TitleFacet, IdentifierFacet], []]}
+            onMatch={FlashcardSetView}
+          />
+          <EntityPropsMapper
+            query={(e) => dataTypeQuery(e, DataTypes.HOMEWORK) && e.has(Tags.SELECTED)}
+            get={[[TitleFacet, IdentifierFacet, TextFacet], []]}
+            onMatch={HomeworkView}
+          />
+          <EntityPropsMapper
+            query={(e) => dataTypeQuery(e, DataTypes.SUBTOPIC) && e.has(Tags.SELECTED)}
+            get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
+            onMatch={SubtopicView}
+          />
+          <EntityPropsMapper
+            query={(e) => dataTypeQuery(e, DataTypes.FLASHCARD) && e.has(Tags.SELECTED)}
+            get={[[AnswerFacet, QuestionFacet, MasteryLevelFacet, IdentifierFacet], []]}
+            onMatch={EditFlashcardSetSheet}
+          />
+        </Fragment>
+      )}
 
       <DeletePodcastAlert />
     </Fragment>

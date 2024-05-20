@@ -17,7 +17,7 @@ import { useSelectedLanguage } from "../../hooks/useSelectedLanguage";
 import { usePlayingPodcast } from "../../features/collection/hooks/usePlayingPodcast";
 import PodcastSheet from "../../features/collection/components/podcasts/PodcastSheet";
 import { EntityPropsMapper } from "@leanscope/ecs-engine";
-import { TitleFacet, DateAddedFacet, SourceFacet } from "../../app/AdditionalFacets";
+import { TitleFacet, DateAddedFacet, SourceFacet } from "../../app/additionalFacets";
 import { dataTypeQuery } from "../../utils/queries";
 import { Tags } from "@leanscope/ecs-models";
 

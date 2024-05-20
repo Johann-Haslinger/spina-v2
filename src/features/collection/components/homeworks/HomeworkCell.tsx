@@ -1,4 +1,4 @@
-import { TitleProps } from "../../../../app/AdditionalFacets";
+import { TitleProps } from "../../../../app/additionalFacets";
 import { EntityProps } from "@leanscope/ecs-engine";
 import { Tags } from "@leanscope/ecs-models";
 import { NoteThumbNail } from "../../../../components";

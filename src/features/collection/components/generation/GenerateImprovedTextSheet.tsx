@@ -1,16 +1,23 @@
 import { useContext, useEffect, useState } from "react";
-import { CancelButton, FlexBox, GeneratingIndecator, SaveButton, ScrollableBox, Sheet } from "../../../../components";
+import {
+  SecondaryButton,
+  FlexBox,
+  GeneratingIndecator,
+  PrimaryButton,
+  ScrollableBox,
+  Sheet,
+} from "../../../../components";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
-import { DataTypes, Stories } from "../../../../base/enums";
+import { Stories } from "../../../../base/enums";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { displayButtonTexts } from "../../../../utils/displayText";
-import { useSelectedNote } from "../../hooks/useSelectedNote";
-import { useSelectedSubtopic } from "../../hooks/useSelectedSubtopic";
 import { generateImprovedText } from "../../../../utils/generateResources";
 import SapientorConversationMessage from "../../../../components/content/SapientorConversationMessage";
-import { TextFacet } from "@leanscope/ecs-models";
-import supabaseClient from "../../../../lib/supabase";
+import { useVisibleBlocks } from "../../../blockeditor/hooks/useVisibleBlocks";
+import { useCurrentBlockeditor } from "../../../blockeditor/hooks/useCurrentBlockeditor";
+import { deleteBlock } from "../../../blockeditor/functions/deleteBlock";
+import { addBlockEntitiesFromString } from "../../../blockeditor/functions/addBlockEntitiesFromString";
 
 const GenerateImprovedTextSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -18,61 +25,49 @@ const GenerateImprovedTextSheet = () => {
   const { selectedLanguage } = useSelectedLanguage();
   const [generatedText, setGeneratedText] = useState<string>("");
   const [isGenerating, setIsGenerating] = useState(false);
-  const { selectedNoteText, selectedNoteEntity, selectedNoteId } = useSelectedNote();
-  const { selectedSubtopicText, selectedSubtopicEntity, selectedSubtopicId } = useSelectedSubtopic();
+  const { visibleText, visibleBlockEntities } = useVisibleBlocks();
+  const { blockeditorId } = useCurrentBlockeditor();
 
   useEffect(() => {
     const handleGenerateImprovedText = async () => {
       setIsGenerating(true);
-      const textToImprove = selectedNoteText || selectedSubtopicText || "";
+      console.log("textToImprove", visibleText);
 
-      if (textToImprove === "") return;
-      const imporvedText = await generateImprovedText(textToImprove);
+      if (visibleText === "") {
+        setIsGenerating(false);
+      }
+      const improvedText = await generateImprovedText(visibleText);
+      // const improvedText = `
+      //  <b> Regen ist ein wichtiger Bestandteil des Wasserkreislaufs. </b> <br/><br/> Es ist der Prozess,<u> bei dem </u> Wasser aus der Atmosphäre auf die Erde fällt. Regen ist eine Form von Niederschlag, der aus Wassertropfen besteht, die aus den Wolken fallen. Regen ist wichtig, weil er Pflanzen und Tiere mit Wasser versorgt. Er hilft auch, die Luft zu reinigen und die Temperatur zu regulieren. Regen ist ein natürlicher Prozess, der das Leben auf der Erde unterstützt.
+      // `;
 
-      setGeneratedText(imporvedText);
+      setGeneratedText(improvedText);
       setIsGenerating(false);
     };
 
     if (isVisible && generatedText === "") {
       handleGenerateImprovedText();
     }
-  }, [isVisible]);
+  }, [isVisible, visibleText]);
 
   const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_NOTE_STORY);
 
   const saveImprovedText = async () => {
     navigateBack();
 
-    const currentDataType = selectedNoteText ? DataTypes.NOTE : DataTypes.SUBTOPIC;
+    visibleBlockEntities.forEach((blockEntity) => {
+      deleteBlock(lsc, blockEntity);
+    });
 
-    if (currentDataType === DataTypes.NOTE) {
-      selectedNoteEntity?.add(new TextFacet({ text: generatedText }));
-
-      const { error } = await supabaseClient.from("notes").update({ text: generatedText }).eq("id", selectedNoteId);
-
-      if (error) {
-        console.error("Error updating note text", error);
-      }
-    } else {
-      selectedSubtopicEntity?.add(new TextFacet({ text: generatedText }));
-
-      const { error } = await supabaseClient
-        .from("knowledges")
-        .update({ text: generatedText })
-        .eq("parentId", selectedSubtopicId);
-
-      if (error) {
-        console.error("Error updating subtopic text", error);
-      }
-    }
+    addBlockEntitiesFromString(lsc, generatedText, blockeditorId, "");
   };
 
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>
       <FlexBox>
-        <CancelButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</CancelButton>
+        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
         {generatedText !== "" && (
-          <SaveButton onClick={saveImprovedText}> {displayButtonTexts(selectedLanguage).save}</SaveButton>
+          <PrimaryButton onClick={saveImprovedText}> {displayButtonTexts(selectedLanguage).save}</PrimaryButton>
         )}
       </FlexBox>
       {isGenerating && <GeneratingIndecator />}

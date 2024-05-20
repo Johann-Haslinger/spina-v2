@@ -7,7 +7,7 @@ import { DataTypes, Stories } from "../../../base/enums";
 import InitializeStoriesSystem from "../../../systems/InitializeStoriesSystem";
 import { EntityCreator } from "@leanscope/ecs-engine";
 import { DescriptionFacet, IdentifierFacet, OrderFacet, ParentFacet, Tags } from "@leanscope/ecs-models";
-import { TitleFacet } from "../../../app/AdditionalFacets";
+import { TitleFacet } from "../../../app/additionalFacets";
 import LoadTopicsSystem from "../systems/LoadTopicsSystem";
 import InitializeAppSystem from "../../../systems/InitializeAppSystem";
 import { BrowserRouter } from "react-router-dom";

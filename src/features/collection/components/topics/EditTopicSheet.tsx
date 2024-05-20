@@ -1,13 +1,13 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext, useEffect, useState } from "react";
-import { TitleFacet } from "../../../../app/AdditionalFacets";
+import { TitleFacet } from "../../../../app/additionalFacets";
 import { Stories } from "../../../../base/enums";
 import {
   Sheet,
   FlexBox,
-  CancelButton,
-  SaveButton,
+  SecondaryButton,
+  PrimaryButton,
   Spacer,
   Section,
   SectionRow,
@@ -58,9 +58,9 @@ const EditTopicSheet = () => {
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>
       <FlexBox>
-        <CancelButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</CancelButton>
+        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
         {(newTitle !== selectedTopicTitle || newDescription !== selectedTopicDescription) && (
-          <SaveButton onClick={updateTopic}>{displayButtonTexts(selectedLanguage).save}</SaveButton>
+          <PrimaryButton onClick={updateTopic}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
         )}
       </FlexBox>
       <Spacer />

@@ -47,7 +47,6 @@ export const HEADER_TEXT_DATA = {
     de: "Karteikarten",
     en: "Flashcards",
   },
-  
 };
 
 export const ALERT_TEXT_DATA = {
@@ -122,6 +121,10 @@ export const BUTTON_TEXT_DATA = {
     de: "Richtig",
     en: "True",
   },
+  more: {
+    de: "Mehr",
+    en: "More",
+  },
 };
 export const ACTION_TEXT_DATA = {
   delete: {
@@ -176,6 +179,22 @@ export const ACTION_TEXT_DATA = {
     de: "Lernvideo generieren",
     en: "Generate video",
   },
+  add_flashcards: {
+    de: "Karten hinzufügen",
+    en: "Add flashcards",
+  },
+  copy: {
+    de: "Kopieren",
+    en: "Copy",
+  },
+  cut: {
+    de: "Ausschneiden",
+    en: "Cut",
+  },
+  duplicate: {
+    de: "Duplizieren",
+    en: "Duplicate",
+  },
 };
 export const LABEL_TEXT_DATA = {
   title: {
@@ -213,7 +232,43 @@ export const LABEL_TEXT_DATA = {
   language: {
     de: "Sprache",
     en: "Language",
-  },  
+  },
+  style: {
+    de: "Stil",
+    en: "Style",
+  },
+  layout: {
+    de: "Layout",
+    en: "Layout",
+  },
+  add_content: {
+    de: "+ Inhalt",
+    en: "+ Content",
+  },
+  group: {
+    de: "Gruppe",
+    en: "Group",
+  },
+  share: {
+    de: "Teilen",
+    en: "Share",
+  },
+  sapientor: {
+    de: "Sapientor",
+    en: "Sapientor",
+  },
+  delete: {
+    de: "Löschen",
+    en: "Delete",
+  },
+  adjust_image: {
+    de: "Bild anpassen",
+    en: "Adjust image",
+  },
+  image_size: {
+    de: "Bildgröße",
+    en: "Image size",
+  },
 };
 export const DATA_TYPE_TEXT_DATA = {
   note: {
@@ -259,5 +314,97 @@ export const DATA_TYPE_TEXT_DATA = {
   lernvideo: {
     de: "Lernvideo",
     en: "Lernvideo",
+  },
+};
+
+export const TEXT_TYPE_TEXT_DATA = {
+  title: {
+    de: "Titel",
+    en: "Title",
+  },
+  subTitle: {
+    de: "Untertitel",
+    en: "Subtitle",
+  },
+  bold: {
+    de: "Fett",
+    en: "Bold",
+  },
+  italic: {
+    de: "Kursiv",
+    en: "Italic",
+  },
+  underline: {
+    de: "Unterstrichen",
+    en: "Underline",
+  },
+  normal: {
+    de: "Normal",
+    en: "Normal",
+  },
+  caption: {
+    de: "Beschriftung",
+    en: "Caption",
+  },
+  heading: {
+    de: "Überschrift",
+    en: "Heading",
+  },
+};
+
+export const BLOCK_TYPE_TEXT_DATA = {
+  text: {
+    de: "Text",
+    en: "Text",
+  },
+  divider: {
+    de: "Trenner",
+    en: "Divider",
+  },
+  image: {
+    de: "Bild",
+    en: "Image",
+  },
+  page: {
+    de: "Seite",
+    en: "Page",
+  },
+  list: {
+    de: "Liste",
+    en: "List",
+  },
+  todo: {
+    de: "To-do",
+    en: "To-do",
+  },
+  table: {
+    de: "Tabelle",
+    en: "Table",
+  },
+  code: {
+    de: "Code",
+    en: "Code",
+  },
+};
+
+export const IMAGE_FIT_TEXT_DATA = {
+  auto: {
+    de: "Anpassen",
+    en: "Adjust",
+  },
+  cover: {
+    de: "Füllen",
+    en: "Fill",
+  },
+};
+
+export const IMAGE_SIZE_TEXT_DATA = {
+  auto: {
+    de: "Auto",
+    en: "Auto",
+  },
+  large: {
+    de: "Groß",
+    en: "Large",
   },
 };

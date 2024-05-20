@@ -14,6 +14,7 @@ export enum Stories {
   OBSERVING_EXAMS_STORY = "observingExamsStory",
   OBSERVING_PODCAST_STORY = "observingPodcastStory",
   OBSERVING_BOOKMARK_COLLECTION_STORY = "observingBookmarkCollectionStory",
+  OBSERVING_BLOCKEDITOR_STORY = "observingBlockeditorStory",
 
   ADDING_FLASHCARD_SET_STORY = "addFlashcardSetStory",
   ADDING_TOPIC_STORY = "addTopicStory",
@@ -36,16 +37,14 @@ export enum Stories {
   DELETING_NOTE_STORY = "deleteNoteStory",
   DELETING_SUBTOPIC_STORY = "deleteSubtopicStory",
   DELETING_EXAM_STORY = "deleteExamStory",
-  
+  DELETING_BLOCKS_STORY = "deleteBlocksStory",
+
   GENERATING_IMPROVED_TEXT_STORY = "generateImprovedFlashcardsStory",
   GENERATING_FLASHCARDS_STORY = "generateFlashcardsStory",
   GENERATING_PODCAST_STORY = "generatePodcastStory",
   GENERATING_TEXT_FROM_FLASHCARDS_STORY = "generateTextFromFlashcardsStory",
   GENERATING_PODCAST_FROM_FLASHCARDS_STORY = "generatePodcastFromFlashcardsStory",
   GENERATING_LEARN_VIDEO_STORY = "generateLearnVideoStory",
-
-
-  
 }
 
 export enum AdditionalTags {
@@ -63,6 +62,9 @@ export enum AdditionalTags {
   BOOKMARKED,
   DELETE,
   ONLINE,
+  CONTENT_EDITABLE,
+  FOCUSED,
+  OPEN
 }
 
 export enum NavigationLinks {
@@ -86,6 +88,7 @@ export enum DataTypes {
   SUBTOPIC = "subTopic",
   PODCAST = "podcast",
   LERNVIDEO = "lernVideo",
+  BLOCK = "block",
 }
 
 export enum SupportedLanguages {
@@ -96,4 +99,32 @@ export enum SupportedLanguages {
 export enum SupportedThemes {
   LIGHT = "light",
   DARK = "dark",
+}
+
+export enum Blocktypes {
+  TEXT = "text",
+  DIVIDER = "divider",
+  IMAGE = "image",
+  PAGE = "page",
+  LIST = "list",
+  TODO = "todo",
+  TABLE = "table",
+  CODE = "code",
+}
+
+export enum Texttypes {
+  TITLE = "title",
+  SUBTITLE = "subTitle",
+  HEADING = "heading",
+  BOLD = "bold",
+  NORMAL = "normal",
+  CAPTION = "caption",
+  UNDERLINE = "underline",
+  ITALIC = "italic",
+}
+
+export enum ListStyles {
+  BULLET = "bullet",
+  NUMBER = "number",
+  UNORDERED = "unordered",
 }

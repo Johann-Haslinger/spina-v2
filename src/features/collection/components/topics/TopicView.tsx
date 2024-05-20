@@ -10,7 +10,7 @@ import {
   Title,
   View,
 } from "../../../../components";
-import { TitleFacet, TitleProps } from "../../../../app/AdditionalFacets";
+import { TitleFacet, TitleProps } from "../../../../app/additionalFacets";
 import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
 import { DescriptionProps, IdentifierFacet, Tags, TextFacet } from "@leanscope/ecs-models";
 import { useSelectedSchoolSubject } from "../../hooks/useSelectedSchoolSubject";
@@ -22,8 +22,8 @@ import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
 import NoteCell from "../notes/NoteCell";
 import { sortEntitiesByDateAdded } from "../../../../utils/sortEntitiesByTime";
 import NoteView from "../notes/NoteView";
-import FlashcardSetCell from "../flashcardSets/FlashcardSetCell";
-import FlashcardSetView from "../flashcardSets/FlashcardSetView";
+import FlashcardSetCell from "../flashcard-sets/FlashcardSetCell";
+import FlashcardSetView from "../flashcard-sets/FlashcardSetView";
 import LoadFlashcardSetsSystem from "../../systems/LoadFlashcardSetsSystem";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { IoAdd, IoCreateOutline, IoEllipsisHorizontalCircleOutline, IoTrashOutline } from "react-icons/io5";
@@ -37,7 +37,7 @@ import DeleteTopicAlert from "./DeleteTopicAlert";
 import EditTopicSheet from "./EditTopicSheet";
 import { useEntityHasChildren } from "../../hooks/useEntityHasChildren";
 import AddHomeworkSheet from "../homeworks/AddHomeworkSheet";
-import AddFlashcardSetSheet from "../flashcardSets/AddFlashcardSetSheet";
+import AddFlashcardSetSheet from "../flashcard-sets/AddFlashcardSetSheet";
 import LoadSubtopicsSystem from "../../systems/LoadSubtopicsSystem";
 import SubtopicCell from "../subtopics/SubtopicCell";
 import SubtopicView from "../subtopics/SubtopicView";

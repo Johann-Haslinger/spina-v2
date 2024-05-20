@@ -3,7 +3,7 @@ import { Entity } from "@leanscope/ecs-engine";
 import { IdentifierFacet, NameFacet } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
 import supabaseClient from "../lib/supabase";
-import { EmailFacet } from "../app/AdditionalFacets";
+import { EmailFacet } from "../app/additionalFacets";
 
 const InitializeUserSystem = () => {
   const lsc = useContext(LeanScopeClientContext);

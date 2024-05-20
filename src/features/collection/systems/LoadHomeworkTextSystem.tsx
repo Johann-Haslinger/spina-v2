@@ -1,47 +1,64 @@
-import {  useEntity } from "@leanscope/ecs-engine";
-import {
-  IdentifierFacet,
-  Tags,
-  TextFacet,
-} from "@leanscope/ecs-models";
-import {  useEffect } from "react";
+import { useEntity } from "@leanscope/ecs-engine";
+import { IdentifierFacet, Tags, TextFacet } from "@leanscope/ecs-models";
+import { useEffect } from "react";
 import { dummyText } from "../../../base/dummy";
 import { DataTypes } from "../../../base/enums";
 import supabaseClient from "../../../lib/supabase";
 import { useMockupData } from "../../../hooks/useMockupData";
 
 const fetchHomeworkText = async (homeworkId: string) => {
-  const { data: text, error } = await supabaseClient
-    .from("homeworks")
-    .select("text")
-    .eq("id", homeworkId)
-    .single();
+  const { data: text, error } = await supabaseClient.from("homeworks").select("text").eq("id", homeworkId).single();
 
   if (error) {
     console.error("Error fetching homework text:", error);
     return [];
   }
 
+  const { error: error2 } = await supabaseClient
+    .from("homeworks")
+    .update({ oldNoteVersion: false })
+    .eq("id", homeworkId);
+
+  if (error2) {
+    console.error("error updating homework to oldNoteVersion", error2);
+  }
+
   return text.text || [];
+};
+
+const fetchNoteVersion = async (homeworkId: string) => {
+  const { data: noteVersionData, error } = await supabaseClient
+    .from("homeworks")
+    .select("oldNoteVersion")
+    .eq("id", homeworkId)
+    .single();
+
+  if (error) {
+    console.error("error fetching homework version", error);
+    return;
+  }
+  return noteVersionData?.oldNoteVersion;
 };
 
 const LoadHomeworkTextSystem = () => {
   const { mockupData, shouldFetchFromSupabase } = useMockupData();
- 
-  const [selectedHomework] = useEntity(
-    (e) => e.hasTag(DataTypes.HOMEWORK) && e.hasTag(Tags.SELECTED)
-  );
+
+  const [selectedHomework] = useEntity((e) => e.hasTag(DataTypes.HOMEWORK) && e.hasTag(Tags.SELECTED));
   const selectedHomeworkId = selectedHomework?.get(IdentifierFacet)?.props.guid;
 
   useEffect(() => {
     const loadHomeworkText = async () => {
       if (selectedHomeworkId) {
-        const homeworkText = mockupData
-          ? dummyText
-          :shouldFetchFromSupabase && await fetchHomeworkText(selectedHomeworkId);
+        const isOldNoteVersion = shouldFetchFromSupabase && (await fetchNoteVersion(selectedHomeworkId));
 
-        if (homeworkText) {
-          selectedHomework?.add(new TextFacet({ text: homeworkText }));
+        if (isOldNoteVersion) {
+          const homeworkText = mockupData
+            ? dummyText
+            : shouldFetchFromSupabase && (await fetchHomeworkText(selectedHomeworkId));
+
+          if (homeworkText) {
+            selectedHomework?.add(new TextFacet({ text: homeworkText }));
+          }
         }
       }
     };

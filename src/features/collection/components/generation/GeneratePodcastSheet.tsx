@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { CancelButton, FlexBox, GeneratingIndecator, SaveButton, Sheet } from "../../../../components";
+import { SecondaryButton, FlexBox, GeneratingIndecator, PrimaryButton, Sheet } from "../../../../components";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { DataTypes, Stories } from "../../../../base/enums";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
@@ -14,13 +14,13 @@ import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import styled from "@emotion/styled/macro";
 import tw from "twin.macro";
 import { IoCheckmarkCircle } from "react-icons/io5";
-import { AnswerFacet, DateAddedFacet, QuestionFacet, SourceFacet, TitleFacet } from "../../../../app/AdditionalFacets";
+import { AnswerFacet, DateAddedFacet, QuestionFacet, SourceFacet, TitleFacet } from "../../../../app/additionalFacets";
 import { useUserData } from "../../../../hooks/useUserData";
 import { getAudioFromText, getCompletion } from "../../../../utils/getCompletion";
 import { useIsAnyStoryCurrent } from "../../../../hooks/useIsAnyStoryCurrent";
 import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
 import { useSelectedFlashcardSet } from "../../hooks/useSelectedFlashcardSet";
-
+import { useVisibleBlocks } from "../../../blockeditor/hooks/useVisibleBlocks";
 
 function base64toBlob(base64Data: string, contentType: string) {
   const byteCharacters = atob(base64Data);
@@ -43,13 +43,14 @@ const GeneratePodcastSheet = () => {
     Stories.GENERATING_PODCAST_FROM_FLASHCARDS_STORY,
   ]);
   const generatePodcastFromFlashcards = useIsStoryCurrent(Stories.GENERATING_PODCAST_FROM_FLASHCARDS_STORY);
-  const { selectedSubtopicText, selectedSubtopicId, selectedSubtopicTitle } = useSelectedSubtopic();
-  const { selectedNoteText, selectedNoteId, selectedNoteTitle } = useSelectedNote();
+  const { selectedSubtopicId, selectedSubtopicTitle } = useSelectedSubtopic();
+  const { selectedNoteId, selectedNoteTitle } = useSelectedNote();
   const { selectedFlashcardSetEntity, selectedFlashcardSetId, selectedFlashcardSetTitle } = useSelectedFlashcardSet();
   const [isGenerating, setIsGenerating] = useState(false);
   const { selectedLanguage } = useSelectedLanguage();
   const { userId } = useUserData();
   const [flashcardEntities] = useEntities((e) => dataTypeQuery(e, DataTypes.FLASHCARD));
+  const { visibleText } = useVisibleBlocks();
 
   useEffect(() => {
     const handleGeneratePodcast = async () => {
@@ -64,7 +65,7 @@ const GeneratePodcastSheet = () => {
               return `${question} ${answer}` + "\n";
             })
             .join(" ")
-        : selectedNoteText || selectedSubtopicText;
+        : visibleText;
       const title = selectedFlashcardSetTitle || selectedNoteTitle || selectedSubtopicTitle || "";
 
       const generatinPodcastTranscriptPrompt = `
@@ -118,9 +119,11 @@ const GeneratePodcastSheet = () => {
     <Sheet visible={isVisible} navigateBack={navigateBack}>
       <FlexBox>
         {isGenerating && (
-          <CancelButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</CancelButton>
+          <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
         )}
-        {!isGenerating && <SaveButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).done}</SaveButton>}
+        {!isGenerating && (
+          <PrimaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).done}</PrimaryButton>
+        )}
       </FlexBox>
       {isGenerating && <GeneratingIndecator />}
       {!isGenerating && (

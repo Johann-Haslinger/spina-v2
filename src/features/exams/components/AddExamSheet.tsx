@@ -1,9 +1,9 @@
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import {
-  CancelButton,
+  SecondaryButton,
   DateInput,
   FlexBox,
-  SaveButton,
+  PrimaryButton,
   Section,
   SectionRow,
   SelectInput,
@@ -19,7 +19,7 @@ import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import { useSchoolSubjectEntities } from "../../../hooks/useSchoolSubjects";
 import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { IoCheckmarkCircle, IoEllipseOutline } from "react-icons/io5";
-import { DueDateFacet, RelationshipFacet, StatusFacet, TitleFacet } from "../../../app/AdditionalFacets";
+import { DueDateFacet, RelationshipFacet, StatusFacet, TitleFacet } from "../../../app/additionalFacets";
 import { useSchoolSubjectTopics } from "../../../hooks/useSchoolSubjectTopics";
 import { Entity } from "@leanscope/ecs-engine";
 import supabaseClient from "../../../lib/supabase";
@@ -92,9 +92,9 @@ const AddExamSheet = () => {
   return (
     <Sheet navigateBack={navigateBack} visible={isVisible}>
       <FlexBox>
-        <CancelButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</CancelButton>
+        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
         {newExam.title && newExam.parent && (
-          <SaveButton onClick={addExam}>{displayButtonTexts(selectedLanguage).save}</SaveButton>
+          <PrimaryButton onClick={addExam}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
         )}
       </FlexBox>
       <Spacer />

@@ -34,8 +34,8 @@ export { default as Sidebar } from "./navigation/Sidebar";
 export { default as NavBarButton } from "./buttons/NavBarButton";
 export { default as BackButton } from "./buttons/BackButton";
 export { default as AlertButton } from "./buttons/AlertButton";
-export { default as CancelButton } from "./buttons/CancelButton";
-export { default as SaveButton } from "./buttons/SaveButton";
+export { default as SecondaryButton } from "./buttons/SecondaryButton";
+export { default as PrimaryButton } from "./buttons/PrimaryButton";
 
 // ----Inputs----
 
@@ -47,8 +47,8 @@ export { SegmentedControl, SegmentedControlCell } from "./inputs/SegmentedContro
 
 // ---ThumbNails---
 
-export { default as NoteThumbNail } from "./thumbNails/NoteThumbNail";
-export { default as FlashcardSetThumbNail } from "./thumbNails/FlashcardSetThumbNail";
+export { default as NoteThumbNail } from "./thumb-nails/NoteThumbNail";
+export { default as FlashcardSetThumbNail } from "./thumb-nails/FlashcardSetThumbNail";
 
 
 // ------Status-----

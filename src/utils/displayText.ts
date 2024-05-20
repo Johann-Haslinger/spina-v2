@@ -48,6 +48,7 @@ export const displayButtonTexts = (selectedLanguage: SupportedLanguages) => {
     logOut: BUTTON_TEXT_DATA.log_out[selectedLanguage],
     false: BUTTON_TEXT_DATA.false[selectedLanguage],
     true: BUTTON_TEXT_DATA.true[selectedLanguage],
+    more: BUTTON_TEXT_DATA.more[selectedLanguage],
   };
 };
 
@@ -66,6 +67,10 @@ export const displayActionTexts = (selectedLanguage: SupportedLanguages) => {
     unbookmark: ACTION_TEXT_DATA.unbookmark[selectedLanguage],
     bookmark: ACTION_TEXT_DATA.bookmark[selectedLanguage],
     generateLearnVideo: ACTION_TEXT_DATA.generate_learn_video[selectedLanguage],
+    addFlashcards: ACTION_TEXT_DATA.add_flashcards[selectedLanguage],
+    copy: ACTION_TEXT_DATA.copy[selectedLanguage],
+    cut: ACTION_TEXT_DATA.cut[selectedLanguage],
+    duplicate: ACTION_TEXT_DATA.duplicate[selectedLanguage],
   };
 };
 
@@ -80,6 +85,15 @@ export const displayLabelTexts = (selectedLanguage: SupportedLanguages) => {
     queriedCards: LABEL_TEXT_DATA.queried_cards[selectedLanguage],
     theme: LABEL_TEXT_DATA.theme[selectedLanguage],
     language: LABEL_TEXT_DATA.language[selectedLanguage],
+    style: LABEL_TEXT_DATA.style[selectedLanguage],
+    layout: LABEL_TEXT_DATA.layout[selectedLanguage],
+    addContent: LABEL_TEXT_DATA.add_content[selectedLanguage],
+    group: LABEL_TEXT_DATA.group[selectedLanguage],
+    share: LABEL_TEXT_DATA.share[selectedLanguage],
+    sapientor: LABEL_TEXT_DATA.sapientor[selectedLanguage],
+    delete: LABEL_TEXT_DATA.delete[selectedLanguage],
+    adjustImage: LABEL_TEXT_DATA.adjust_image[selectedLanguage],
+    imageSize: LABEL_TEXT_DATA.image_size[selectedLanguage],
   };
 };
 
@@ -98,3 +112,4 @@ export const displayDataTypeTexts = (selectedLanguage: SupportedLanguages) => {
     lernvideo: DATA_TYPE_TEXT_DATA.lernvideo[selectedLanguage],
   };
 };
+

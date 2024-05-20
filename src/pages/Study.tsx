@@ -7,7 +7,7 @@ import { EntityPropsMapper } from "@leanscope/ecs-engine";
 import { dataTypeQuery } from "../utils/queries";
 import { DataTypes, Stories } from "../base/enums";
 import { FlashcardGroupCell, InitializeFlashcardGroupsSystem, LoadFlashcardsSystem } from "../features/study";
-import { DateAddedFacet, TitleFacet } from "../app/AdditionalFacets";
+import { DateAddedFacet, TitleFacet } from "../app/additionalFacets";
 import { IdentifierFacet, Tags, TextFacet } from "@leanscope/ecs-models";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { FlashcardSetView } from "../features/collection";
@@ -16,7 +16,7 @@ import { sortEntitiesByDateAdded } from "../utils/sortEntitiesByTime";
 import { useFlashcardGroups } from "../features/study/hooks/useFlashcardGroups";
 import SubtopicView from "../features/collection/components/subtopics/SubtopicView";
 import LoadSubtopicResourcesSystem from "../features/collection/systems/LoadSubtopicResourcesSystem";
-import AddFlashcardSetSheet from "../features/collection/components/flashcardSets/AddFlashcardSetSheet";
+import AddFlashcardSetSheet from "../features/collection/components/flashcard-sets/AddFlashcardSetSheet";
 import FlashcardQuizView from "../features/study/components/FlashcardQuizView";
 
 const Study = () => {

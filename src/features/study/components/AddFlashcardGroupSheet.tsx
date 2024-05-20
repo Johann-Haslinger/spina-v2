@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { CancelButton, FlexBox, Section, SectionRow, Sheet, Spacer } from "../../../components";
+import { SecondaryButton, FlexBox, Section, SectionRow, Sheet, Spacer } from "../../../components";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { Stories } from "../../../base/enums";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
@@ -16,7 +16,7 @@ const AddFlashcardGroupSheet = () => {
   return (
     <Sheet navigateBack={navigateBack} visible={isVisible}>
       <FlexBox>
-        <CancelButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</CancelButton>
+        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
       </FlexBox>
       <Spacer />
       <Section>

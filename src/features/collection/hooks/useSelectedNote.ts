@@ -2,7 +2,7 @@ import { useEntity } from "@leanscope/ecs-engine";
 import { dataTypeQuery } from "../../../utils/queries";
 import { DataTypes } from "../../../base/enums";
 import { IdentifierFacet, ParentFacet, Tags, TextFacet } from "@leanscope/ecs-models";
-import { TitleFacet } from "../../../app/AdditionalFacets";
+import { TitleFacet } from "../../../app/additionalFacets";
 
 export const useSelectedNote = () => {
   const [selectedNoteEntity] = useEntity(

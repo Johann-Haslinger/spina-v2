@@ -4,7 +4,7 @@ import { useEntityFacets } from "@leanscope/ecs-engine/react-api/hooks/useEntity
 import { Tags } from "@leanscope/ecs-models";
 import { motion } from "framer-motion";
 import tw from "twin.macro";
-import { TitleFacet, RelationshipFacet } from "../../../app/AdditionalFacets";
+import { TitleFacet, RelationshipFacet } from "../../../app/additionalFacets";
 import { useDaysUntilDue } from "../../../hooks/useDaysUntilDue";
 import { useSchoolSubject } from "../../../hooks/useSchoolSubject";
 

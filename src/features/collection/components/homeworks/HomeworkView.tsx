@@ -1,73 +1,54 @@
-import { Fragment, useContext } from "react";
-import {
-  ActionRow,
-  BackButton,
-  NavBarButton,
-  NavigationBar,
-  Spacer,
-  TextEditor,
-  Title,
-  View,
-} from "../../../../components";
+import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { EntityProps } from "@leanscope/ecs-engine";
-import { TitleProps } from "../../../../app/AdditionalFacets";
 import { IdentifierProps, TextProps } from "@leanscope/ecs-models";
-import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
+import { Fragment, useContext } from "react";
+import { IoCreateOutline, IoTrashOutline } from "react-icons/io5";
+import { TitleProps } from "../../../../app/additionalFacets";
 import { AdditionalTags, Stories } from "../../../../base/enums";
+import { ActionRow, View } from "../../../../components";
+import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { displayActionTexts, displayHeaderTexts } from "../../../../utils/displayText";
-import supabaseClient from "../../../../lib/supabase";
-import { IoCreateOutline, IoEllipsisHorizontalCircleOutline, IoTrashOutline } from "react-icons/io5";
+import Blockeditor from "../../../blockeditor/components/Blockeditor";
+import { useSelectedTopic } from "../../hooks/useSelectedTopic";
 import LoadHomeworkTextSystem from "../../systems/LoadHomeworkTextSystem";
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import DeleteHomeworkAlert from "./DeleteHomeworkAlert";
 import EditHomeworkSheet from "./EditHomeworkSheet";
+import InitializeBlockeditorSystem from "../../../blockeditor/systems/InitializeBlockeditorSystem";
 
 const HomeworkView = (props: EntityProps & TitleProps & TextProps & IdentifierProps) => {
   const lsc = useContext(LeanScopeClientContext);
-  const { title, text, guid, entity } = props;
+  const { title, guid, entity } = props;
   const isVisible = useIsViewVisible(entity);
   const { selectedLanguage } = useSelectedLanguage();
+  const { selectedTopicTitle } = useSelectedTopic();
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
-
-  const handleTextChange = async (value: string) => {
-    const { error } = await supabaseClient.from("homeworks").update({ text: value }).eq("id", guid);
-
-    if (error) {
-      console.error("Error updating homework text", error);
-    }
-  };
-
   const openEditHomeworkSheet = () => lsc.stories.transitTo(Stories.EDITING_HOMEWORK_STORY);
   const openDeleteHomeworkAlert = () => lsc.stories.transitTo(Stories.DELETING_HOMEWORK_STORY);
 
   return (
     <Fragment>
+      <InitializeBlockeditorSystem blockeditorId={guid} />
       <LoadHomeworkTextSystem />
 
       <View visible={isVisible}>
-        <NavigationBar>
-          <NavBarButton
-            content={
-              <Fragment>
-                <ActionRow first onClick={openEditHomeworkSheet} icon={<IoCreateOutline />}>
-                  {displayActionTexts(selectedLanguage).edit}
-                </ActionRow>
-                <ActionRow onClick={openDeleteHomeworkAlert} icon={<IoTrashOutline />} destructive last>
-                  {displayActionTexts(selectedLanguage).delete}
-                </ActionRow>
-              </Fragment>
-            }
-          >
-            <IoEllipsisHorizontalCircleOutline />
-          </NavBarButton>
-        </NavigationBar>
-
-        <BackButton navigateBack={navigateBack}>{displayHeaderTexts(selectedLanguage).homeworks}</BackButton>
-        <Title>{title}</Title>
-        <Spacer size={8} />
-        <TextEditor onBlur={handleTextChange} value={text} />
+        <Blockeditor
+          title={title}
+          id={guid}
+          backbuttonLabel={selectedTopicTitle || displayHeaderTexts(selectedLanguage).homeworks}
+          navigateBack={navigateBack}
+          customActionRows={
+            <Fragment>
+              <ActionRow first onClick={openEditHomeworkSheet} icon={<IoCreateOutline />}>
+                {displayActionTexts(selectedLanguage).edit}
+              </ActionRow>
+              <ActionRow onClick={openDeleteHomeworkAlert} icon={<IoTrashOutline />} destructive last>
+                {displayActionTexts(selectedLanguage).delete}
+              </ActionRow>
+            </Fragment>
+          }
+        />
       </View>
 
       <DeleteHomeworkAlert />

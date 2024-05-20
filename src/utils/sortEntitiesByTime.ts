@@ -1,5 +1,5 @@
 import { Entity } from "@leanscope/ecs-engine";
-import { DateAddedFacet, DueDateFacet } from "../app/AdditionalFacets";
+import { DateAddedFacet, DueDateFacet } from "../app/additionalFacets";
 
 function sortEntitiesByTime(a?: string, b?: string) {
   return new Date(b ||0).getTime() - new Date(a||0).getTime();

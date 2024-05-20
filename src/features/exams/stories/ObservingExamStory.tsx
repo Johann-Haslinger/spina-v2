@@ -7,7 +7,7 @@ import InitializeSchoolSubjectsSystem from "../../../systems/InitializeSchoolSub
 import InitializeStoriesSystem from "../../../systems/InitializeStoriesSystem";
 import ViewManagerSystem from "../../../systems/ViewManagerSystem";
 import { EntityCreator } from "@leanscope/ecs-engine";
-import { DueDateFacet, TitleFacet } from "../../../app/AdditionalFacets";
+import { DueDateFacet, TitleFacet } from "../../../app/additionalFacets";
 import { IdentifierFacet, Tags } from "@leanscope/ecs-models";
 
 const ObservingExamStory = () => {

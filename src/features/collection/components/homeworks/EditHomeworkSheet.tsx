@@ -1,7 +1,7 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext, useEffect, useState } from "react";
-import { DueDateFacet, TitleFacet } from "../../../../app/AdditionalFacets";
+import { DueDateFacet, TitleFacet } from "../../../../app/additionalFacets";
 import { Stories } from "../../../../base/enums";
 import {
   Sheet,
@@ -10,8 +10,8 @@ import {
   Section,
   SectionRow,
   TextInput,
-  CancelButton,
-  SaveButton,
+  SecondaryButton,
+  PrimaryButton,
   DateInput,
 } from "../../../../components";
 import { useSelectedHomework } from "../../hooks/useSelectedHomework";
@@ -64,14 +64,14 @@ const EditHomeworkSheet = () => {
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>
       <FlexBox>
-        <CancelButton onClick={navigateBack}>
+        <SecondaryButton onClick={navigateBack}>
           {displayButtonTexts(selectedLanguage).cancel}
-        </CancelButton>
+        </SecondaryButton>
         {(newTitle !== selectedHomeworkTitle ||
           newDueDate !== selectedHomeworkDueDate) && (
-          <SaveButton onClick={updateHomework}>
+          <PrimaryButton onClick={updateHomework}>
             {displayButtonTexts(selectedLanguage).save}
-          </SaveButton>
+          </PrimaryButton>
         )}
       </FlexBox>
       <Spacer />
