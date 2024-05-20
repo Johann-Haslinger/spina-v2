@@ -30,6 +30,21 @@ import {
 } from "../../../../components";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
+import { useSelectedTopic } from "../../hooks/useSelectedTopic";
+import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
+import {
+  IoAdd,
+  IoAlbumsOutline,
+  IoBookmark,
+  IoBookmarkOutline,
+  IoColorWandOutline,
+  IoCreateOutline,
+  IoEllipsisHorizontalCircleOutline,
+  IoHeadsetOutline,
+  IoPlayOutline,
+  IoSparklesOutline,
+  IoTrashOutline,
+} from "react-icons/io5";
 import { displayActionTexts } from "../../../../utils/displayText";
 import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
 import Blockeditor from "../../../blockeditor/components/Blockeditor";
@@ -70,6 +85,16 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
   const openFlashcardQuizView = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_QUIZ_STORY);
   const openGeneratePodcastSheet = () => lsc.stories.transitTo(Stories.GENERATING_PODCAST_STORY);
   // const openGenerateLernVideoSheet = () => lsc.stories.transitTo(Stories.GENERATING_LEARN_VIDEO_STORY);
+
+  const handleTextBlur = async (value: string) => {
+    entity.add(new TextFacet({ text: value }));
+
+    const { error } = await supabaseClient.from("knowledges").update({ text: value }).eq("parentId", guid);
+
+    if (error) {
+      console.error("Error updating subtopic text", error);
+    }
+  };
 
   return (
     <Fragment>
