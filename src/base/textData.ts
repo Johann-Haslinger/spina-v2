@@ -261,6 +261,14 @@ export const LABEL_TEXT_DATA = {
     de: "Löschen",
     en: "Delete",
   },
+  adjust_image: {
+    de: "Bild anpassen",
+    en: "Adjust image",
+  },
+  image_size: {
+    de: "Bildgröße",
+    en: "Image size",
+  },
 };
 export const DATA_TYPE_TEXT_DATA = {
   note: {
@@ -376,5 +384,27 @@ export const BLOCK_TYPE_TEXT_DATA = {
   code: {
     de: "Code",
     en: "Code",
+  },
+};
+
+export const IMAGE_FIT_TEXT_DATA = {
+  auto: {
+    de: "Anpassen",
+    en: "Adjust",
+  },
+  cover: {
+    de: "Füllen",
+    en: "Fill",
+  },
+};
+
+export const IMAGE_SIZE_TEXT_DATA = {
+  auto: {
+    de: "Auto",
+    en: "Auto",
+  },
+  large: {
+    de: "Groß",
+    en: "Large",
   },
 };

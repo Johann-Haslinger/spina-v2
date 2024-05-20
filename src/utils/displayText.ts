@@ -92,6 +92,8 @@ export const displayLabelTexts = (selectedLanguage: SupportedLanguages) => {
     share: LABEL_TEXT_DATA.share[selectedLanguage],
     sapientor: LABEL_TEXT_DATA.sapientor[selectedLanguage],
     delete: LABEL_TEXT_DATA.delete[selectedLanguage],
+    adjustImage: LABEL_TEXT_DATA.adjust_image[selectedLanguage],
+    imageSize: LABEL_TEXT_DATA.image_size[selectedLanguage],
   };
 };
 

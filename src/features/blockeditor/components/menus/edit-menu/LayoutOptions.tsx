@@ -9,6 +9,9 @@ import tw from "twin.macro";
 import { DataTypes } from "../../../../../base/enums";
 import supabaseClient from "../../../../../lib/supabase";
 import { useEntityFacets } from "@leanscope/ecs-engine/react-api/hooks/useEntityFacets";
+import { useSelectedLanguage } from "../../../../../hooks/useSelectedLanguage";
+import { displayLabelTexts } from "../../../../../utils/displayText";
+import { IMAGE_FIT_TEXT_DATA, IMAGE_SIZE_TEXT_DATA } from "../../../../../base/textData";
 
 const StyledLayoutOptionButtonWrapper = styled.div<{ isActive: boolean }>`
   ${tw`text-sm pt-4 rounded-md border transition-all w-1/2 py-2 px-4`}
@@ -95,6 +98,7 @@ const LayoutOptionButton = ({
 const LayoutOptions = () => {
   const lsc = useContext(LeanScopeClientContext);
   const [selectedBlockEntities] = useEntities((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
+  const { selectedLanguage } = useSelectedLanguage();
 
   const firstSelectedBlockEntity = selectedBlockEntities[0];
   const [imageSizeProps, ImgageFitProps] = useEntityFacets(firstSelectedBlockEntity, ImageSizeFacet, ImageFitFacet);
@@ -104,36 +108,36 @@ const LayoutOptions = () => {
   return (
     <StyledLayoutOptionsWrapper>
       <StyledOptionWrapper>
-        <StyledLayoutTextWrapper>Bild Anpassen</StyledLayoutTextWrapper>
+        <StyledLayoutTextWrapper>{displayLabelTexts(selectedLanguage).adjustImage}</StyledLayoutTextWrapper>
         <StyledOptionButtonsWrapper>
           <LayoutOptionButton
             isActive={currentFit === FitTypes.AUTO_FIT}
             onClick={() => changeFit(lsc, FitTypes.AUTO_FIT)}
             icon={<IoScanOutline />}
-            label="Anpassen"
+            label={IMAGE_FIT_TEXT_DATA.auto[selectedLanguage]}
           />
           <LayoutOptionButton
             isActive={currentFit === FitTypes.COVER}
             onClick={() => changeFit(lsc, FitTypes.COVER)}
             icon={<IoMoveOutline />}
-            label="Füllen"
+            label={IMAGE_FIT_TEXT_DATA.cover[selectedLanguage]}
           />
         </StyledOptionButtonsWrapper>
       </StyledOptionWrapper>
       <StyledOptionWrapper>
-        <StyledLayoutTextWrapper>Bildgröße</StyledLayoutTextWrapper>
+        <StyledLayoutTextWrapper>{displayLabelTexts(selectedLanguage).imageSize}</StyledLayoutTextWrapper>
         <StyledOptionButtonsWrapper>
           <LayoutOptionButton
             isActive={currentSize === SizeTypes.AUTO_SIZE}
             onClick={() => changeSize(lsc, SizeTypes.AUTO_SIZE)}
             icon={<IoCropOutline />}
-            label="Auto"
+            label={IMAGE_SIZE_TEXT_DATA.auto[selectedLanguage]}
           />
           <LayoutOptionButton
             isActive={currentSize === SizeTypes.LARGE}
             onClick={() => changeSize(lsc, SizeTypes.LARGE)}
             icon={<IoSquareOutline />}
-            label="Groß"
+            label={IMAGE_SIZE_TEXT_DATA.large[selectedLanguage]}
           />
         </StyledOptionButtonsWrapper>
       </StyledOptionWrapper>
