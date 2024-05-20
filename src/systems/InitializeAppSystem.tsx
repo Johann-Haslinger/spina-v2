@@ -1,8 +1,8 @@
-import { useContext, useEffect } from "react";
-import { Entity } from "@leanscope/ecs-engine";
-import { AdditionalTags, SupportedLanguages, SupportedThemes } from "../base/enums";
-import { SelectedLanguageFacet as SelectedLanguageFacet } from "../app/additionalFacets";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import { Entity } from "@leanscope/ecs-engine";
+import { useContext, useEffect } from "react";
+import { SelectedLanguageFacet } from "../app/additionalFacets";
+import { AdditionalTags, SupportedLanguages, SupportedThemes } from "../base/enums";
 
 const InitializeAppSystem = (props: { mockupData?: boolean }) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -15,7 +15,7 @@ const InitializeAppSystem = (props: { mockupData?: boolean }) => {
     appStateEntity.add(SupportedThemes.LIGHT);
     if (mockupData) {
       appStateEntity.add(AdditionalTags.MOCKUP_DATA);
-    }else {
+    } else {
       appStateEntity.add(AdditionalTags.ONLINE);
     }
 

@@ -1,15 +1,15 @@
 import styled from "@emotion/styled";
+import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useEntities } from "@leanscope/ecs-engine";
 import { motion } from "framer-motion";
 import { useContext, useEffect, useRef, useState } from "react";
 import tw from "twin.macro";
+import { MessageRoleFacet } from "../../../../../app/additionalFacets";
 import { COLOR_ITEMS } from "../../../../../base/constants";
 import { AdditionalTags } from "../../../../../base/enums";
 import SapientorChatView from "./SapientorChatView";
 import SapientorEye from "./SapientorEye";
 import SapientorQuickChat from "./SapientorQuickChat";
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { MessageRoleFacet } from "../../../../../app/AdditionalFacets";
 
 const useQuickChat = () => {
   const lsc = useContext(LeanScopeClientContext);

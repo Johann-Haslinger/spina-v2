@@ -1,29 +1,29 @@
+import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import { Entity } from "@leanscope/ecs-engine";
+import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
-import  { Fragment, useContext, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
+import { IoAdd, IoColorWandOutline } from "react-icons/io5";
+import { v4 } from "uuid";
+import { AnswerFacet, MasteryLevelFacet, QuestionFacet } from "../../../../app/additionalFacets";
 import { DataTypes, Stories } from "../../../../base/enums";
 import {
-  SecondaryButton,
   FlexBox,
   PrimaryButton,
   ScrollableBox,
+  SecondaryButton,
   Section,
   SectionRow,
   Sheet,
   Spacer,
   TextAreaInput,
 } from "../../../../components";
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import { displayButtonTexts } from "../../../../utils/displayText";
-import { IoAdd, IoColorWandOutline } from "react-icons/io5";
-import { v4 } from "uuid";
-import { Entity } from "@leanscope/ecs-engine";
-import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
-import { AnswerFacet, MasteryLevelFacet, QuestionFacet } from "../../../../app/additionalFacets";
-import supabaseClient from "../../../../lib/supabase";
-import { useUserData } from "../../../../hooks/useUserData";
-import { generateFlashCards } from "../../../../utils/generateResources";
 import GeneratingIndecator from "../../../../components/content/GeneratingIndecator";
+import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
+import { useUserData } from "../../../../hooks/useUserData";
+import supabaseClient from "../../../../lib/supabase";
+import { displayButtonTexts } from "../../../../utils/displayText";
+import { generateFlashCards } from "../../../../utils/generateResources";
 import { useSeletedFlashcardGroup } from "../../hooks/useSelectedFlashcardGroup";
 import PreviewFlashcard from "./PreviewFlashcard";
 
@@ -139,7 +139,7 @@ const AddFlashcardsSheet = () => {
             Karte hinzufügen
           </SectionRow>
           <SectionRow
-           last
+            last
             onClick={() => setAddFlashcardsMethod(AddFlashcardsMethods.GENERATING_FLASHCARDS)}
             role="button"
             icon={<IoColorWandOutline />}
@@ -161,12 +161,12 @@ const AddFlashcardsSheet = () => {
           <Spacer size={2} />
           {generateFlashcardsPrompt && (
             <Section>
-              <SectionRow role="button" icon={<IoColorWandOutline />}last onClick={handleGenerateFlashcards}>
+              <SectionRow role="button" icon={<IoColorWandOutline />} last onClick={handleGenerateFlashcards}>
                 Karteikarten erzuegen
               </SectionRow>
             </Section>
           )}
-      </Fragment>
+        </Fragment>
       )}
       {isGeneratingFlashcards && <GeneratingIndecator />}
       <ScrollableBox>
@@ -185,4 +185,3 @@ const AddFlashcardsSheet = () => {
 };
 
 export default AddFlashcardsSheet;
-

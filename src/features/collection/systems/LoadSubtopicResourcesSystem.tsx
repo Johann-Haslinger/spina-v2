@@ -1,19 +1,19 @@
-import { useContext, useEffect } from "react";
-import { useSelectedSubtopic } from "../hooks/useSelectedSubtopic";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { useMockupData } from "../../../hooks/useMockupData";
-import supabaseClient from "../../../lib/supabase";
-import { dummyFlashcards, dummyLernVideos, dummyPodcasts, dummyText } from "../../../base/dummy";
 import { Entity } from "@leanscope/ecs-engine";
 import { IdentifierFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
+import { useContext, useEffect } from "react";
 import {
+  AnswerFacet,
+  DateAddedFacet,
   MasteryLevelFacet,
   QuestionFacet,
-  AnswerFacet,
   TitleFacet,
-  DateAddedFacet,
 } from "../../../app/additionalFacets";
+import { dummyFlashcards, dummyLernVideos, dummyPodcasts, dummyText } from "../../../base/dummy";
 import { DataTypes } from "../../../base/enums";
+import { useMockupData } from "../../../hooks/useMockupData";
+import supabaseClient from "../../../lib/supabase";
+import { useSelectedSubtopic } from "../hooks/useSelectedSubtopic";
 
 const fetchNoteVersion = async (noteId: string) => {
   const { data: noteVersionData, error } = await supabaseClient
@@ -140,7 +140,7 @@ const LoadSubtopicResourcesSystem = () => {
         } else if (shouldFetchFromSupabase) {
           const isOldNoteVersion = shouldFetchFromSupabase && (await fetchNoteVersion(selectedSubtopicId));
           console.log("isOldNoteVersion", isOldNoteVersion);
-          
+
           if (isOldNoteVersion) {
             const { data: subtopicTextData, error } = await supabaseClient
               .from("knowledges")

@@ -2,12 +2,12 @@ import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
 import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
-import { TitleFacet, DateAddedFacet } from "../../../app/additionalFacets";
+import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
+import { dummyPodcasts } from "../../../base/dummy";
 import { DataTypes } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedFlashcardSet } from "../hooks/useSelectedFlashcardSet";
-import { dummyPodcasts } from "../../../base/dummy";
 
 const fetchPodcastForFlashcardSet = async (flashcardSetId: string) => {
   const { data: podcasts, error } = await supabaseClient
@@ -31,8 +31,12 @@ const LoadFlashcardSetPodcastsSystem = () => {
   useEffect(() => {
     const initializeFlashcardSetPodcast = async () => {
       if (selectedFlashcardSetId) {
-        const podcasts = mockupData ? dummyPodcasts.slice(0, 1) : shouldFetchFromSupabase ? await fetchPodcastForFlashcardSet(selectedFlashcardSetId) : [];
-        
+        const podcasts = mockupData
+          ? dummyPodcasts.slice(0, 1)
+          : shouldFetchFromSupabase
+          ? await fetchPodcastForFlashcardSet(selectedFlashcardSetId)
+          : [];
+
         podcasts?.forEach((podcast) => {
           const isExisting = lsc.engine.entities.some(
             (e) => e.get(IdentifierFacet)?.props.guid === podcast.id && e.hasTag(DataTypes.PODCAST)

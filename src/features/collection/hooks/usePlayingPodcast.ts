@@ -1,9 +1,9 @@
 import { useEntity } from "@leanscope/ecs-engine";
-import { AdditionalTags, DataTypes } from "../../../base/enums";
-import { dataTypeQuery } from "../../../utils/queries";
 import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntityComponents";
 import { IdentifierFacet } from "@leanscope/ecs-models";
-import { TitleFacet, SourceFacet } from "../../../app/additionalFacets";
+import { SourceFacet, TitleFacet } from "../../../app/additionalFacets";
+import { AdditionalTags, DataTypes } from "../../../base/enums";
+import { dataTypeQuery } from "../../../utils/queries";
 
 export const usePlayingPodcast = () => {
   const [playingPodcastEntity] = useEntity(
@@ -23,7 +23,6 @@ export const usePlayingPodcast = () => {
   };
 
   const setIsPaused = (value: boolean) => {
-
     if (value) {
       playingPodcastEntity?.addTag(AdditionalTags.PAUSED);
       playingPodcastEntity?.removeTag(AdditionalTags.PLAYING);

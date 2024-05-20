@@ -1,12 +1,12 @@
 import styled from "@emotion/styled";
 import { TextProps } from "@leanscope/ecs-models";
-import tw from "twin.macro";
-import { COLOR_ITEMS } from "../../../../../base/constants";
-import { MessageRoleProps } from "../../../../../app/additionalFacets";
-import { MessageRoles } from "../../../../../base/enums";
 import { motion } from "framer-motion";
+import tw from "twin.macro";
+import { MessageRoleProps } from "../../../../../app/additionalFacets";
+import { COLOR_ITEMS } from "../../../../../base/constants";
+import { MessageRoles } from "../../../../../base/enums";
 
-const StyledMessageContentWrapper = styled.div<{ role: MessageRoles}>`
+const StyledMessageContentWrapper = styled.div<{ role: MessageRoles }>`
   ${tw` ml-8   mb-1 w-72  bg-tertiary dark:text-primaryTextDark  dark:bg-seconderyDark pb-3 transition-all rounded-xl p-2 `}
   ${({ role }) => (role == MessageRoles.USER ? tw`rounded-br-none ` : tw`rounded-bl-none  `)}
 `;

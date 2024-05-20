@@ -1,14 +1,21 @@
 import { EntityPropsMapper } from "@leanscope/ecs-engine";
-import { dataTypeQuery } from "../utils/queries";
-import { DataTypes } from "../base/enums";
-import { PodcastCollectionView, SchoolSubjectCell, SchoolSubjectView, PodcastCollectionCard, BookmarkCollectionCard, BookmarkCollectionView } from "../features/collection";
-import { TitleFacet } from "../app/additionalFacets";
 import { OrderFacet, Tags } from "@leanscope/ecs-models";
-import { CollectionGrid, NavigationBar, Spacer, Title, View } from "../components";
-import { displayHeaderTexts } from "../utils/displayText";
-import { useSelectedLanguage } from "../hooks/useSelectedLanguage";
 import { Fragment } from "react/jsx-runtime";
+import { TitleFacet } from "../app/additionalFacets";
+import { DataTypes } from "../base/enums";
+import { CollectionGrid, NavigationBar, Spacer, Title, View } from "../components";
+import {
+  BookmarkCollectionCard,
+  BookmarkCollectionView,
+  PodcastCollectionCard,
+  PodcastCollectionView,
+  SchoolSubjectCell,
+  SchoolSubjectView,
+} from "../features/collection";
 import { SapientorIcon } from "../features/collection/components/sapientor";
+import { useSelectedLanguage } from "../hooks/useSelectedLanguage";
+import { displayHeaderTexts } from "../utils/displayText";
+import { dataTypeQuery } from "../utils/queries";
 
 const Collection = () => {
   const { selectedLanguage } = useSelectedLanguage();

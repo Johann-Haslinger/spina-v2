@@ -1,9 +1,9 @@
 import { useEffect } from "react";
-import { useSelectedPodcast } from "../hooks/useSelectedPodcast";
-import supabaseClient from "../../../lib/supabase";
 import { SourceFacet } from "../../../app/additionalFacets";
-import { useMockupData } from "../../../hooks/useMockupData";
 import { dummyBase64Audio } from "../../../base/dummyBase64Audio";
+import { useMockupData } from "../../../hooks/useMockupData";
+import supabaseClient from "../../../lib/supabase";
+import { useSelectedPodcast } from "../hooks/useSelectedPodcast";
 
 const base64toBlob = (base64Data: string, contentType: string) => {
   const byteCharacters = atob(base64Data);

@@ -1,6 +1,6 @@
 import { Entity } from "@leanscope/ecs-engine";
-import { BlocktypeFacet, TexttypeFacet, TodoStateFacet } from "../../../app/additionalFacets";
 import { TextFacet } from "@leanscope/ecs-models";
+import { BlocktypeFacet, TexttypeFacet, TodoStateFacet } from "../../../app/additionalFacets";
 import { Texttypes } from "../../../base/enums";
 
 export const getStringFromBlockEntities = (blockEntities: readonly Entity[]) => {
@@ -32,6 +32,6 @@ export const getStringFromBlockEntities = (blockEntities: readonly Entity[]) => 
       }
     })
     .join("\n");
-    
+
   return markdownString;
 };

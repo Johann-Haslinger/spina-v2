@@ -1,10 +1,10 @@
-import supabaseClient from "../lib/supabase";
 import { useEntity } from "@leanscope/ecs-engine";
-import { EmailFacet, UserSessionFacet } from "../app/additionalFacets";
-import { IdentifierFacet, NameFacet } from "@leanscope/ecs-models";
 import { useEntityFacets } from "@leanscope/ecs-engine/react-api/hooks/useEntityFacets";
-import { useSelectedLanguage } from "./useSelectedLanguage";
+import { IdentifierFacet, NameFacet } from "@leanscope/ecs-models";
+import { EmailFacet, UserSessionFacet } from "../app/additionalFacets";
+import supabaseClient from "../lib/supabase";
 import { displayAlertTexts } from "../utils/displayText";
+import { useSelectedLanguage } from "./useSelectedLanguage";
 
 export const useUserData = () => {
   const { selectedLanguage } = useSelectedLanguage();

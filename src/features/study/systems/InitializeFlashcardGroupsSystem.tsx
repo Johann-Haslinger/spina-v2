@@ -5,9 +5,9 @@ import { useContext, useEffect } from "react";
 import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
 import { dummyFlashcardSets, dummySubtopics } from "../../../base/dummy";
 import { AdditionalTags, DataTypes } from "../../../base/enums";
-import { dataTypeQuery } from "../../../utils/queries";
-import supabaseClient from "../../../lib/supabase";
 import { useMockupData } from "../../../hooks/useMockupData";
+import supabaseClient from "../../../lib/supabase";
+import { dataTypeQuery } from "../../../utils/queries";
 
 const fetchFlashcardSets = async () => {
   const { data: flashcardSets, error } = await supabaseClient
@@ -45,7 +45,7 @@ const InitializeFlashcardGroupsSystem = () => {
 
   useEffect(() => {
     const initializeFlashcardSetEntities = async () => {
-      const flashcardSets = mockupData ? dummyFlashcardSets : shouldFetchFromSupabase ?  await fetchFlashcardSets() : []
+      const flashcardSets = mockupData ? dummyFlashcardSets : shouldFetchFromSupabase ? await fetchFlashcardSets() : [];
 
       flashcardSets.forEach((flashcardSet) => {
         const isExisting = lsc.engine.entities.some(
@@ -55,12 +55,13 @@ const InitializeFlashcardGroupsSystem = () => {
         if (!isExisting) {
           const flashcardGroupEntity = new Entity();
           lsc.engine.addEntity(flashcardGroupEntity);
-          flashcardGroupEntity.add(new DateAddedFacet({ dateAdded: flashcardSet.date_added || new Date().toISOString()}));
+          flashcardGroupEntity.add(
+            new DateAddedFacet({ dateAdded: flashcardSet.date_added || new Date().toISOString() })
+          );
           flashcardGroupEntity.add(new TitleFacet({ title: flashcardSet.flashcardSetName }));
           flashcardGroupEntity.add(new IdentifierFacet({ guid: flashcardSet.id }));
           flashcardGroupEntity.addTag(DataTypes.FLASHCARD_SET);
           flashcardGroupEntity.addTag(DataTypes.FLASHCARD_GROUP);
-
 
           if (flashcardSet.bookmarked) {
             flashcardGroupEntity.addTag(AdditionalTags.BOOKMARKED);
@@ -80,12 +81,11 @@ const InitializeFlashcardGroupsSystem = () => {
         if (!isExisting) {
           const subtopicEntity = new Entity();
           lsc.engine.addEntity(subtopicEntity);
-          subtopicEntity.add(new DateAddedFacet({ dateAdded: subtopic.date_added  || new Date().toISOString()}));
+          subtopicEntity.add(new DateAddedFacet({ dateAdded: subtopic.date_added || new Date().toISOString() }));
           subtopicEntity.add(new TitleFacet({ title: subtopic.name }));
           subtopicEntity.add(new IdentifierFacet({ guid: subtopic.id }));
           subtopicEntity.addTag(DataTypes.SUBTOPIC);
           subtopicEntity.addTag(DataTypes.FLASHCARD_GROUP);
-   
 
           if (subtopic.bookmarked) {
             subtopicEntity.addTag(AdditionalTags.BOOKMARKED);

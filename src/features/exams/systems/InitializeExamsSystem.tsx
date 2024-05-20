@@ -3,18 +3,18 @@ import { Entity } from "@leanscope/ecs-engine";
 import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
 import {
-  TitleFacet,
-  DueDateFacet,
   DateAddedFacet,
-  StatusFacet,
+  DueDateFacet,
   RelationshipFacet,
+  StatusFacet,
+  TitleFacet,
 } from "../../../app/additionalFacets";
 
+import { dummyExams } from "../../../base/dummy";
 import { DataTypes } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { dataTypeQuery } from "../../../utils/queries";
-import { dummyExams } from "../../../base/dummy";
 
 const fetchExams = async () => {
   const fourteenDaysAgo = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
@@ -38,7 +38,7 @@ const InitializeExamsSystem = () => {
 
   useEffect(() => {
     const initializeexamEntities = async () => {
-      const exams = mockupData ? dummyExams : shouldFetchFromSupabase ?  await fetchExams() : []
+      const exams = mockupData ? dummyExams : shouldFetchFromSupabase ? await fetchExams() : [];
 
       exams.forEach((exam) => {
         const isExisting = lsc.engine.entities.some(

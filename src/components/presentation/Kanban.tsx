@@ -1,11 +1,11 @@
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
-import { PropsWithChildren, ReactNode } from "react";
+import styled from "@emotion/styled/macro";
 import { Entity, useEntities } from "@leanscope/ecs-engine";
 import { IdentifierFacet } from "@leanscope/ecs-models";
-import styled from "@emotion/styled/macro";
+import { PropsWithChildren, ReactNode } from "react";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import tw from "twin.macro";
-import { COLOR_ITEMS } from "../../base/constants";
 import { StatusFacet } from "../../app/additionalFacets";
+import { COLOR_ITEMS } from "../../base/constants";
 
 const selectColorItemForColoumn = (statusId: string) => {
   switch (statusId) {

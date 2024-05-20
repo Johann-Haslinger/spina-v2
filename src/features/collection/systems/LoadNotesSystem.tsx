@@ -1,16 +1,13 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
-import {
-  IdentifierFacet,
-  ParentFacet,
-} from "@leanscope/ecs-models";
+import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
 import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
 import { dummyNotes } from "../../../base/dummy";
 import { DataTypes } from "../../../base/enums";
+import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedTopic } from "../hooks/useSelectedTopic";
-import { useMockupData } from "../../../hooks/useMockupData";
 
 const fetchNotesForTopic = async (topicId: string) => {
   const { data: notes, error } = await supabaseClient
@@ -27,7 +24,7 @@ const fetchNotesForTopic = async (topicId: string) => {
 };
 
 const LoadNotesSystem = () => {
-  const { mockupData, shouldFetchFromSupabase } =useMockupData();
+  const { mockupData, shouldFetchFromSupabase } = useMockupData();
   const lsc = useContext(LeanScopeClientContext);
   const { selectedTopicId } = useSelectedTopic();
 
@@ -36,13 +33,13 @@ const LoadNotesSystem = () => {
       if (selectedTopicId) {
         const notes = mockupData
           ? dummyNotes
-          : shouldFetchFromSupabase ?  await fetchNotesForTopic(selectedTopicId) : []
+          : shouldFetchFromSupabase
+          ? await fetchNotesForTopic(selectedTopicId)
+          : [];
 
         notes.forEach((note) => {
           const isExisting = lsc.engine.entities.some(
-            (e) =>
-              e.get(IdentifierFacet)?.props.guid === note.id &&
-              e.hasTag(DataTypes.NOTE)
+            (e) => e.get(IdentifierFacet)?.props.guid === note.id && e.hasTag(DataTypes.NOTE)
           );
 
           if (!isExisting) {

@@ -1,32 +1,31 @@
+import styled from "@emotion/styled";
+import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import { Entity } from "@leanscope/ecs-engine";
+import { IdentifierFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext, useEffect, useState } from "react";
+import tw from "twin.macro";
+import { v4 } from "uuid";
+import { AnswerFacet, MasteryLevelFacet, QuestionFacet, TitleFacet } from "../../../../app/additionalFacets";
 import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import {
-  SecondaryButton,
   FlexBox,
   GeneratingIndecator,
   PrimaryButton,
   ScrollableBox,
+  SecondaryButton,
   Sheet,
   Spacer,
 } from "../../../../components";
-import { useSelectedNote } from "../../hooks/useSelectedNote";
-import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import { displayButtonTexts } from "../../../../utils/displayText";
-import PreviewFlashcard from "../flashcard-sets/PreviewFlashcard";
-import { Entity } from "@leanscope/ecs-engine";
-import { IdentifierFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
-import { QuestionFacet, AnswerFacet, MasteryLevelFacet, TitleFacet } from "../../../../app/additionalFacets";
-import supabaseClient from "../../../../lib/supabase";
-import { v4 } from "uuid";
-import { useUserData } from "../../../../hooks/useUserData";
 import SapientorConversationMessage from "../../../../components/content/SapientorConversationMessage";
-import styled from "@emotion/styled";
-import tw from "twin.macro";
+import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
+import { useUserData } from "../../../../hooks/useUserData";
+import supabaseClient from "../../../../lib/supabase";
+import { displayButtonTexts } from "../../../../utils/displayText";
 import { generateFlashCards } from "../../../../utils/generateResources";
 import { useVisibleBlocks } from "../../../blockeditor/hooks/useVisibleBlocks";
-
+import { useSelectedNote } from "../../hooks/useSelectedNote";
+import PreviewFlashcard from "../flashcard-sets/PreviewFlashcard";
 
 type Flashcard = {
   question: string;

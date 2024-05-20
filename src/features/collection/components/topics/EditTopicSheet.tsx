@@ -1,24 +1,24 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import { DescriptionFacet } from "@leanscope/ecs-models";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext, useEffect, useState } from "react";
 import { TitleFacet } from "../../../../app/additionalFacets";
 import { Stories } from "../../../../base/enums";
 import {
-  Sheet,
   FlexBox,
-  SecondaryButton,
   PrimaryButton,
-  Spacer,
+  SecondaryButton,
   Section,
   SectionRow,
-  TextInput,
+  Sheet,
+  Spacer,
   TextAreaInput,
+  TextInput,
 } from "../../../../components";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../../lib/supabase";
 import { displayButtonTexts, displayLabelTexts } from "../../../../utils/displayText";
 import { useSelectedTopic } from "../../hooks/useSelectedTopic";
-import { DescriptionFacet } from "@leanscope/ecs-models";
 
 const EditTopicSheet = () => {
   const lsc = useContext(LeanScopeClientContext);

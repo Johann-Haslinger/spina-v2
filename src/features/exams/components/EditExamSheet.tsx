@@ -1,18 +1,18 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
-import { useContext, useState, useEffect } from "react";
-import { TitleFacet, DueDateFacet } from "../../../app/additionalFacets";
+import { useContext, useEffect, useState } from "react";
+import { DueDateFacet, TitleFacet } from "../../../app/additionalFacets";
 import { Stories } from "../../../base/enums";
 import {
-  Sheet,
+  DateInput,
   FlexBox,
-  SecondaryButton,
   PrimaryButton,
-  Spacer,
+  SecondaryButton,
   Section,
   SectionRow,
+  Sheet,
+  Spacer,
   TextInput,
-  DateInput,
 } from "../../../components";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../lib/supabase";

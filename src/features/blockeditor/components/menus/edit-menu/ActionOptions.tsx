@@ -1,20 +1,20 @@
+import styled from "@emotion/styled";
+import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import { useEntities } from "@leanscope/ecs-engine";
+import { FloatOrderFacet, IdentifierFacet, Tags } from "@leanscope/ecs-models";
 import { useContext } from "react";
 import { IoCopyOutline, IoCutOutline, IoDuplicateOutline } from "react-icons/io5";
+import tw from "twin.macro";
 import { v4 } from "uuid";
-import { useEntities } from "@leanscope/ecs-engine";
-import { Blocktypes, DataTypes } from "../../../../../base/enums";
-import { FloatOrderFacet, IdentifierFacet, Tags } from "@leanscope/ecs-models";
-import { addBlock } from "../../../functions/addBlock";
 import { BlocktypeFacet } from "../../../../../app/additionalFacets";
+import { Blocktypes, DataTypes } from "../../../../../base/enums";
+import { useSelectedLanguage } from "../../../../../hooks/useSelectedLanguage";
+import { useUserData } from "../../../../../hooks/useUserData";
+import { displayActionTexts } from "../../../../../utils/displayText";
+import { addBlock } from "../../../functions/addBlock";
 import { deleteBlock } from "../../../functions/deleteBlock";
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { getStringFromBlockEntities } from "../../../functions/getStringFromBlockEntities";
 import { findNumberBetween, getNextHigherOrder } from "../../../functions/orderHelper";
-import styled from "@emotion/styled";
-import tw from "twin.macro";
-import { useUserData } from "../../../../../hooks/useUserData";
-import { useSelectedLanguage } from "../../../../../hooks/useSelectedLanguage";
-import { displayActionTexts } from "../../../../../utils/displayText";
 
 const StyledMenuWrapper = styled.div`
   ${tw`p-4 pt-0 w-full `}

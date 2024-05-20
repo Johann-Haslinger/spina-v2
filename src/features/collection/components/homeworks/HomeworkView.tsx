@@ -10,11 +10,11 @@ import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { displayActionTexts, displayHeaderTexts } from "../../../../utils/displayText";
 import Blockeditor from "../../../blockeditor/components/Blockeditor";
+import InitializeBlockeditorSystem from "../../../blockeditor/systems/InitializeBlockeditorSystem";
 import { useSelectedTopic } from "../../hooks/useSelectedTopic";
 import LoadHomeworkTextSystem from "../../systems/LoadHomeworkTextSystem";
 import DeleteHomeworkAlert from "./DeleteHomeworkAlert";
 import EditHomeworkSheet from "./EditHomeworkSheet";
-import InitializeBlockeditorSystem from "../../../blockeditor/systems/InitializeBlockeditorSystem";
 
 const HomeworkView = (props: EntityProps & TitleProps & TextProps & IdentifierProps) => {
   const lsc = useContext(LeanScopeClientContext);

@@ -1,20 +1,20 @@
+import styled from "@emotion/styled";
+import { ILeanScopeClient } from "@leanscope/api-client/interfaces";
+import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import { useEntities } from "@leanscope/ecs-engine";
+import { useEntityFacets } from "@leanscope/ecs-engine/react-api/hooks/useEntityFacets";
+import { IdentifierFacet, Tags } from "@leanscope/ecs-models";
 import { motion } from "framer-motion";
 import { Fragment, useContext, useEffect, useState } from "react";
-import { useEntities } from "@leanscope/ecs-engine";
-import { Blocktypes, DataTypes, ListStyles, Texttypes } from "../../../../../base/enums";
-import { IdentifierFacet, Tags } from "@leanscope/ecs-models";
-import { BlocktypeFacet, ListStyleFacet, TexttypeFacet, TodoStateFacet } from "../../../../../app/additionalFacets";
-import { ILeanScopeClient } from "@leanscope/api-client/interfaces";
-import styled from "@emotion/styled";
 import tw from "twin.macro";
-import { getPreviewTextStyle } from "../../../functions/getTextStyle";
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { useEntityFacets } from "@leanscope/ecs-engine/react-api/hooks/useEntityFacets";
-import { useCurrentBlockeditor } from "../../../hooks/useCurrentBlockeditor";
+import { BlocktypeFacet, ListStyleFacet, TexttypeFacet, TodoStateFacet } from "../../../../../app/additionalFacets";
+import { Blocktypes, DataTypes, ListStyles, Texttypes } from "../../../../../base/enums";
+import { BLOCK_TYPE_TEXT_DATA, TEXT_TYPE_TEXT_DATA } from "../../../../../base/textData";
+import { useSelectedLanguage } from "../../../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../../../lib/supabase";
 import { displayButtonTexts } from "../../../../../utils/displayText";
-import { useSelectedLanguage } from "../../../../../hooks/useSelectedLanguage";
-import { BLOCK_TYPE_TEXT_DATA, TEXT_TYPE_TEXT_DATA } from "../../../../../base/textData";
+import { getPreviewTextStyle } from "../../../functions/getTextStyle";
+import { useCurrentBlockeditor } from "../../../hooks/useCurrentBlockeditor";
 
 const StyledOptionRow2Wrapper = styled.div`
   ${tw`flex space-x-1 w-full  overflow-x-scroll  h-16  items-center justify-between `}
@@ -192,7 +192,7 @@ const StyleOptions = () => {
   const { selectedLanguage } = useSelectedLanguage();
 
   // TODO: Custom hook for isVisible state
-  
+
   useEffect(() => {
     setIsMoreTextOptionsVisible(false);
   }, [blockeditorState]);

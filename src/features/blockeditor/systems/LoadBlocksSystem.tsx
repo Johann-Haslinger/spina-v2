@@ -7,12 +7,12 @@ import { dummyBlocks } from "../../../base/dummy";
 import { DataTypes } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import { useUserData } from "../../../hooks/useUserData";
+import supabaseClient from "../../../lib/supabase";
 import { useSelectedHomework } from "../../collection/hooks/useSelectedHomework";
 import { useSelectedNote } from "../../collection/hooks/useSelectedNote";
 import { useSelectedSubtopic } from "../../collection/hooks/useSelectedSubtopic";
 import { addBlockEntitiesFromString } from "../functions/addBlockEntitiesFromString";
 import { useCurrentBlockeditor } from "../hooks/useCurrentBlockeditor";
-import supabaseClient from "../../../lib/supabase";
 
 const fetchBlocks = async (blockeditorId: string) => {
   const { data: blocks, error } = await supabaseClient

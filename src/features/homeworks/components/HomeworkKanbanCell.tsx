@@ -1,11 +1,11 @@
 import styled from "@emotion/styled";
 import { Entity } from "@leanscope/ecs-engine";
 import { useEntityFacets } from "@leanscope/ecs-engine/react-api/hooks/useEntityFacets";
+import { Tags } from "@leanscope/ecs-models";
+import { motion } from "framer-motion";
 import tw from "twin.macro";
 import { RelationshipFacet, TitleFacet } from "../../../app/additionalFacets";
-import { Tags } from "@leanscope/ecs-models";
 import { useDaysUntilDue } from "../../../hooks/useDaysUntilDue";
-import { motion } from "framer-motion";
 import { useSchoolSubject } from "../../../hooks/useSchoolSubject";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import { displayAlertTexts } from "../../../utils/displayText";
@@ -29,25 +29,14 @@ const StyledHomeworkCellSubtitle = styled.div`
   ${tw` text-sm font-medium line-clamp-2`}
 `;
 
-
-
-const HomeworkKanbanCell = (pops: {
-  entity: Entity;
-  backgroundColor: string;
-  color: string;
-}) => {
+const HomeworkKanbanCell = (pops: { entity: Entity; backgroundColor: string; color: string }) => {
   const { entity, backgroundColor, color } = pops;
-const {selectedLanguage} = useSelectedLanguage();
-  const [titleProps, relationShipProps ] = useEntityFacets(
-    entity,
-    TitleFacet, RelationshipFacet
-  );
+  const { selectedLanguage } = useSelectedLanguage();
+  const [titleProps, relationShipProps] = useEntityFacets(entity, TitleFacet, RelationshipFacet);
   const daysUntilDue = useDaysUntilDue(entity);
   const title = titleProps?.title || displayAlertTexts(selectedLanguage).noTitle;
-  const relatedSchoolSubjectId = relationShipProps?.relationship
-  const {schoolSubjectTitle} = useSchoolSubject(relatedSchoolSubjectId);
-
-
+  const relatedSchoolSubjectId = relationShipProps?.relationship;
+  const { schoolSubjectTitle } = useSchoolSubject(relatedSchoolSubjectId);
 
   const handleOpenHomework = () => entity.add(Tags.SELECTED);
 
@@ -63,10 +52,7 @@ const {selectedLanguage} = useSelectedLanguage();
       }}
     >
       <StyledHomeworkCellContainer onClick={handleOpenHomework}>
-        <StyledHomeworkCellWrapper
-          backgroundColor={backgroundColor}
-          color={color}
-        >
+        <StyledHomeworkCellWrapper backgroundColor={backgroundColor} color={color}>
           <StyledHomeworkCellTitle>{title}</StyledHomeworkCellTitle>
           <StyledHomeworkCellSubtitle>
             {schoolSubjectTitle}, {daysUntilDue}

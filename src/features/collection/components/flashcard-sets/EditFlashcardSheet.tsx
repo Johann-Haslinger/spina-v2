@@ -1,15 +1,10 @@
+import styled from "@emotion/styled";
+import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import { EntityProps } from "@leanscope/ecs-engine";
+import { IdentifierProps } from "@leanscope/ecs-models";
 import { useContext, useState } from "react";
-import {
-  SecondaryButton,
-  FlexBox,
-  ProgressBar,
-  PrimaryButton,
-  Section,
-  SectionRow,
-  Sheet,
-  Spacer,
-  TextAreaInput,
-} from "../../../../components";
+import { IoBookmark, IoBookmarkOutline, IoTrashOutline } from "react-icons/io5";
+import tw from "twin.macro";
 import {
   AnswerFacet,
   AnswerProps,
@@ -17,17 +12,22 @@ import {
   QuestionFacet,
   QuestionProps,
 } from "../../../../app/additionalFacets";
-import { EntityProps } from "@leanscope/ecs-engine";
 import { AdditionalTags } from "../../../../base/enums";
+import {
+  FlexBox,
+  PrimaryButton,
+  ProgressBar,
+  SecondaryButton,
+  Section,
+  SectionRow,
+  Sheet,
+  Spacer,
+  TextAreaInput,
+} from "../../../../components";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import { displayActionTexts, displayButtonTexts } from "../../../../utils/displayText";
 import supabaseClient from "../../../../lib/supabase";
-import { IdentifierProps } from "@leanscope/ecs-models";
-import { IoBookmark, IoBookmarkOutline, IoTrashOutline } from "react-icons/io5";
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import styled from "@emotion/styled";
-import tw from "twin.macro";
+import { displayActionTexts, displayButtonTexts } from "../../../../utils/displayText";
 import { useBookmarked } from "../../../study/hooks/useBookmarked";
 
 const StyledMasteryLevelText = styled.div`

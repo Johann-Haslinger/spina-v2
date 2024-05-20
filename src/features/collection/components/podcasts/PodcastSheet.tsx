@@ -1,20 +1,18 @@
-import React, { useEffect, useRef, useState } from "react";
-import { FlexBox, Sheet } from "../../../../components";
-import { DateAddedProps, SourceProps, TitleProps } from "../../../../app/additionalFacets";
-import { EntityProps, useEntities } from "@leanscope/ecs-engine";
-import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
-import { AdditionalTags } from "../../../../base/enums";
-import { IoHeadset, IoPlayBack, IoPlay, IoPlayForward } from "react-icons/io5";
-import LoadPodcastAudioSystem from "../../systems/LoadPodcastAudioSystem";
-import tw from "twin.macro";
 import styled from "@emotion/styled";
-import { formatCounterTime } from "../../../../utils/formatTime";
-import { useSelectedSchoolSubjectColor } from "../../hooks/useSelectedSchoolSubjectColor";
-import { useSelectedPodcast } from "../../hooks/useSelectedPodcast";
-import { usePlayingPodcast } from "../../hooks/usePlayingPodcast";
+import { EntityProps, useEntities } from "@leanscope/ecs-engine";
 import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntityComponents";
-
-
+import React, { useEffect, useRef, useState } from "react";
+import { IoHeadset, IoPlay, IoPlayBack, IoPlayForward } from "react-icons/io5";
+import tw from "twin.macro";
+import { DateAddedProps, SourceProps, TitleProps } from "../../../../app/additionalFacets";
+import { AdditionalTags } from "../../../../base/enums";
+import { FlexBox, Sheet } from "../../../../components";
+import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
+import { formatCounterTime } from "../../../../utils/formatTime";
+import { usePlayingPodcast } from "../../hooks/usePlayingPodcast";
+import { useSelectedPodcast } from "../../hooks/useSelectedPodcast";
+import { useSelectedSchoolSubjectColor } from "../../hooks/useSelectedSchoolSubjectColor";
+import LoadPodcastAudioSystem from "../../systems/LoadPodcastAudioSystem";
 
 const StyledPodcastPlayerWrapper = styled.div`
   ${tw`h-full   text-primatyText dark:text-primaryTextDark px-4 lg:px-12 w-full`}
@@ -100,7 +98,6 @@ const PodcastSheet = (props: TitleProps & SourceProps & EntityProps & DateAddedP
     const audio = audioRef.current;
     setAudioUrl(source);
 
-
     if (audio) {
       setIsPlaying(true);
 
@@ -149,11 +146,11 @@ const PodcastSheet = (props: TitleProps & SourceProps & EntityProps & DateAddedP
           <StyleldPodcastInfoWrapper>
             <StyledPodcastTitle>{title}</StyledPodcastTitle>
             <StyledPodcastSubTitle>
-            {new Date(dateAdded).toLocaleDateString("de", {
-              year: "numeric",
-              month: "long",
-              day: "numeric",
-            })}
+              {new Date(dateAdded).toLocaleDateString("de", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
             </StyledPodcastSubTitle>
           </StyleldPodcastInfoWrapper>
 

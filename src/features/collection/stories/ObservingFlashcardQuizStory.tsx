@@ -1,32 +1,21 @@
-import {
-  LeanScopeClientApp,
-  LeanScopeClient,
-} from "@leanscope/api-client/node";
-import React from "react";
-import Collection from "../../../pages/Collection";
-import InitializeSchoolSubjectsSystem from "../../../systems/InitializeSchoolSubjectsSystem";
-import ViewManagerSystem from "../../../systems/ViewManagerSystem";
-import { DataTypes, Stories } from "../../../base/enums";
-import InitializeStoriesSystem from "../../../systems/InitializeStoriesSystem";
+import { LeanScopeClient, LeanScopeClientApp } from "@leanscope/api-client/node";
 import { EntityCreator } from "@leanscope/ecs-engine";
-import {
-  DescriptionFacet,
-  IdentifierFacet,
-  OrderFacet,
-  ParentFacet,
-  Tags,
-} from "@leanscope/ecs-models";
+import { DescriptionFacet, IdentifierFacet, OrderFacet, ParentFacet, Tags } from "@leanscope/ecs-models";
+import React from "react";
 import { TitleFacet } from "../../../app/additionalFacets";
-import LoadTopicsSystem from "../systems/LoadTopicsSystem";
+import { DataTypes, Stories } from "../../../base/enums";
+import Collection from "../../../pages/Collection";
 import InitializeAppSystem from "../../../systems/InitializeAppSystem";
+import InitializeSchoolSubjectsSystem from "../../../systems/InitializeSchoolSubjectsSystem";
+import InitializeStoriesSystem from "../../../systems/InitializeStoriesSystem";
+import ViewManagerSystem from "../../../systems/ViewManagerSystem";
+import LoadTopicsSystem from "../systems/LoadTopicsSystem";
 
 const ObservingFlashcardQuizStory = () => {
   return (
     <React.StrictMode>
       <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
-      <InitializeStoriesSystem
-          initialStory={Stories.OBSERVING_FLASHCARD_QUIZ_STORY}
-        />
+        <InitializeStoriesSystem initialStory={Stories.OBSERVING_FLASHCARD_QUIZ_STORY} />
 
         <EntityCreator
           facets={[
@@ -56,7 +45,6 @@ const ObservingFlashcardQuizStory = () => {
           tags={[DataTypes.SCHOOL_SUBJECT, Tags.SELECTED]}
         />
 
-       
         <InitializeAppSystem mockupData />
         <ViewManagerSystem />
 

@@ -1,8 +1,8 @@
-import { TitleProps } from "../../../../app/additionalFacets";
+import styled from "@emotion/styled";
 import { EntityProps } from "@leanscope/ecs-engine";
 import { OrderProps, Tags } from "@leanscope/ecs-models";
 import tw from "twin.macro";
-import styled from "@emotion/styled";
+import { TitleProps } from "../../../../app/additionalFacets";
 import { useSchoolSubjectColors } from "../../../../hooks/useSchoolSubjectColors";
 import { useAppState } from "../../hooks/useAppState";
 

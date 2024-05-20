@@ -1,25 +1,7 @@
-import { Fragment, useContext } from "react";
-import {
-  ActionRow,
-  BackButton,
-  CollectionGrid,
-  NavBarButton,
-  NavigationBar,
-  NoContentAddedHint,
-  Spacer,
-  Title,
-  View,
-} from "../../../../components";
-import { AnswerFacet, DateAddedFacet, MasteryLevelFacet, QuestionFacet, TitleFacet, TitleProps } from "../../../../app/additionalFacets";
+import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
 import { IdentifierFacet, IdentifierProps, Tags } from "@leanscope/ecs-models";
-import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
-import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
-import { useSelectedTopic } from "../../hooks/useSelectedTopic";
-import LoadFlashcardsSystem from "../../systems/LoadFlashcardsSystem";
-import FlashcardCell from "./FlashcardCell";
-import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import { Fragment, useContext } from "react";
 import {
   IoAdd,
   IoAlbumsOutline,
@@ -33,19 +15,44 @@ import {
   IoSparklesOutline,
   IoTrashOutline,
 } from "react-icons/io5";
-import EditFlashcardSetSheet from "./EditFlashcardSetSheet";
-import DeleteFlashcardSetAlert from "./DeleteFlashcardSetAlert";
-import { displayActionTexts } from "../../../../utils/displayText";
+import {
+  AnswerFacet,
+  DateAddedFacet,
+  MasteryLevelFacet,
+  QuestionFacet,
+  TitleFacet,
+  TitleProps,
+} from "../../../../app/additionalFacets";
+import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
+import {
+  ActionRow,
+  BackButton,
+  CollectionGrid,
+  NavBarButton,
+  NavigationBar,
+  NoContentAddedHint,
+  Spacer,
+  Title,
+  View,
+} from "../../../../components";
+import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import EditFlashcardSheet from "./EditFlashcardSheet";
-import AddFlashcardsSheet from "./AddFlashcardsSheet";
-import { useEntityHasChildren } from "../../hooks/useEntityHasChildren";
+import { displayActionTexts } from "../../../../utils/displayText";
+import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
 import FlashcardQuizView from "../../../study/components/FlashcardQuizView";
 import { useBookmarked } from "../../../study/hooks/useBookmarked";
-import GenerateTextFromFlashcardsSheet from "../generation/GenerateTextFromFlashcardsSheet";
+import { useEntityHasChildren } from "../../hooks/useEntityHasChildren";
+import { useSelectedTopic } from "../../hooks/useSelectedTopic";
 import LoadFlashcardSetPodcastsSystem from "../../systems/LoadFlashcardSetPodcastsSystem";
+import LoadFlashcardsSystem from "../../systems/LoadFlashcardsSystem";
 import GeneratePodcastSheet from "../generation/GeneratePodcastSheet";
+import GenerateTextFromFlashcardsSheet from "../generation/GenerateTextFromFlashcardsSheet";
 import PodcastRow from "../podcasts/PodcastRow";
+import AddFlashcardsSheet from "./AddFlashcardsSheet";
+import DeleteFlashcardSetAlert from "./DeleteFlashcardSetAlert";
+import EditFlashcardSetSheet from "./EditFlashcardSetSheet";
+import EditFlashcardSheet from "./EditFlashcardSheet";
+import FlashcardCell from "./FlashcardCell";
 
 const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -63,8 +70,6 @@ const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => 
   const openFlashcardQuizView = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_QUIZ_STORY);
   const openGeneratePodcastSheet = () => lsc.stories.transitTo(Stories.GENERATING_PODCAST_STORY);
   const openGenerateTextSheet = () => lsc.stories.transitTo(Stories.GENERATING_TEXT_FROM_FLASHCARDS_STORY);
-
-
 
   return (
     <Fragment>

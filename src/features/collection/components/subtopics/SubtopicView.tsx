@@ -1,7 +1,7 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
 import { IdentifierFacet, IdentifierProps, Tags, TextProps } from "@leanscope/ecs-models";
-import { Fragment, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import {
   IoAdd,
   IoAlbumsOutline,
@@ -11,6 +11,7 @@ import {
   IoHeadsetOutline,
   IoTrashOutline,
 } from "react-icons/io5";
+import { Fragment } from "react/jsx-runtime";
 import {
   AnswerFacet,
   DateAddedFacet,
@@ -30,24 +31,10 @@ import {
 } from "../../../../components";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import { useSelectedTopic } from "../../hooks/useSelectedTopic";
-import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
-import {
-  IoAdd,
-  IoAlbumsOutline,
-  IoBookmark,
-  IoBookmarkOutline,
-  IoColorWandOutline,
-  IoCreateOutline,
-  IoEllipsisHorizontalCircleOutline,
-  IoHeadsetOutline,
-  IoPlayOutline,
-  IoSparklesOutline,
-  IoTrashOutline,
-} from "react-icons/io5";
 import { displayActionTexts } from "../../../../utils/displayText";
 import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
 import Blockeditor from "../../../blockeditor/components/Blockeditor";
+import InitializeBlockeditorSystem from "../../../blockeditor/systems/InitializeBlockeditorSystem";
 import FlashcardQuizView from "../../../study/components/FlashcardQuizView";
 import { useBookmarked } from "../../../study/hooks/useBookmarked";
 import { useSelectedTopic } from "../../hooks/useSelectedTopic";
@@ -62,7 +49,6 @@ import LernvideoView from "../lern-videos/LernvideoView";
 import PodcastRow from "../podcasts/PodcastRow";
 import DeleteSubtopicAlert from "./DeleteSubtopicAlert";
 import EditSubtopicSheet from "./EditSubtopicSheet";
-import InitializeBlockeditorSystem from "../../../blockeditor/systems/InitializeBlockeditorSystem";
 
 enum SubtopicViewStates {
   NOTE,
@@ -85,16 +71,6 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
   const openFlashcardQuizView = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_QUIZ_STORY);
   const openGeneratePodcastSheet = () => lsc.stories.transitTo(Stories.GENERATING_PODCAST_STORY);
   // const openGenerateLernVideoSheet = () => lsc.stories.transitTo(Stories.GENERATING_LEARN_VIDEO_STORY);
-
-  const handleTextBlur = async (value: string) => {
-    entity.add(new TextFacet({ text: value }));
-
-    const { error } = await supabaseClient.from("knowledges").update({ text: value }).eq("parentId", guid);
-
-    if (error) {
-      console.error("Error updating subtopic text", error);
-    }
-  };
 
   return (
     <Fragment>

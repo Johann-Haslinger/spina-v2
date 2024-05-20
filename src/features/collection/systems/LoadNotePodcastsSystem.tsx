@@ -1,13 +1,13 @@
-import { useContext, useEffect } from "react";
-import { useSelectedNote } from "../hooks/useSelectedNote";
-import { useMockupData } from "../../../hooks/useMockupData";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
 import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
-import { TitleFacet, DateAddedFacet } from "../../../app/additionalFacets";
-import { DataTypes } from "../../../base/enums";
-import supabaseClient from "../../../lib/supabase";
+import { useContext, useEffect } from "react";
+import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
 import { dummyPodcasts } from "../../../base/dummy";
+import { DataTypes } from "../../../base/enums";
+import { useMockupData } from "../../../hooks/useMockupData";
+import supabaseClient from "../../../lib/supabase";
+import { useSelectedNote } from "../hooks/useSelectedNote";
 
 const fetchPodcastsForNote = async (noteId: string) => {
   const { data: podcasts, error } = await supabaseClient

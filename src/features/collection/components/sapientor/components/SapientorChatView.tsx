@@ -1,12 +1,12 @@
+import styled from "@emotion/styled";
 import { EntityPropsMapper } from "@leanscope/ecs-engine";
-import { FlexBox, ScrollableBox, Sheet, Spacer } from "../../../../../components";
 import { TextFacet } from "@leanscope/ecs-models";
-import { MessageRoleFacet } from "../../../../../app/AdditionalFacets";
+import { IoClose } from "react-icons/io5";
+import tw from "twin.macro";
+import { MessageRoleFacet } from "../../../../../app/additionalFacets";
+import { FlexBox, ScrollableBox, Sheet, Spacer } from "../../../../../components";
 import { sortMessageEntitiesByDateAdded } from "../../../../../utils/sortEntitiesByTime";
 import ChatMessage from "./ChatMessage";
-import styled from "@emotion/styled";
-import tw from "twin.macro";
-import { IoClose } from "react-icons/io5";
 import SapientorPromptBox from "./SapientorPromptBox";
 
 const StyledCloseButtonWrapper = styled.div`

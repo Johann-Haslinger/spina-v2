@@ -1,37 +1,37 @@
-import { Fragment, useContext } from "react";
-import { useCurrentBlockeditor } from "../../../hooks/useCurrentBlockeditor";
-import { Entity } from "@leanscope/ecs-engine";
-import { AdditionalTags, Blocktypes, DataTypes, Stories, Texttypes } from "../../../../../base/enums";
-import { FloatOrderFacet, IdentifierFacet, ParentFacet, Tags, TextFacet } from "@leanscope/ecs-models";
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import tw from "twin.macro";
 import styled from "@emotion/styled";
-import { motion } from "framer-motion";
 import { ILeanScopeClient } from "@leanscope/api-client/interfaces";
-import { v4 } from "uuid";
-import { addBlock } from "../../../functions/addBlock";
-import { BlocktypeFacet, TexttypeFacet, TitleFacet } from "../../../../../app/additionalFacets";
-import { sortEntitiesByOrder } from "../../../../../utils/sortEntitiesByOrder";
+import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import { Entity } from "@leanscope/ecs-engine";
+import { FloatOrderFacet, IdentifierFacet, ParentFacet, Tags, TextFacet } from "@leanscope/ecs-models";
+import { motion } from "framer-motion";
+import { Fragment, useContext } from "react";
 import {
-  IoColorPalette,
-  IoLayers,
   IoArrowForwardCircleOutline,
-  IoShareOutline,
+  IoColorPalette,
   IoColorWandOutline,
+  IoLayers,
+  IoShareOutline,
   IoTrash,
 } from "react-icons/io5";
+import tw from "twin.macro";
+import { v4 } from "uuid";
+import { BlocktypeFacet, TexttypeFacet, TitleFacet } from "../../../../../app/additionalFacets";
 import { COLOR_ITEMS } from "../../../../../base/constants";
-import HandleKeyPresEditMenuSystem from "../../../systems/HandleKeyPresEditMenuSystem";
-import EditOption from "./EditOption";
-import DeleteBlocksAlert from "../../DeleteBlocksAlert";
-import StyleOptions from "./StyleOptions";
-import ActionOptions from "./ActionOptions";
-import { changeBlockeditorState } from "../../../functions/changeBlockeditorState";
+import { AdditionalTags, Blocktypes, DataTypes, Stories, Texttypes } from "../../../../../base/enums";
+import { useSelectedLanguage } from "../../../../../hooks/useSelectedLanguage";
 import { useUserData } from "../../../../../hooks/useUserData";
 import supabaseClient from "../../../../../lib/supabase";
 import { displayLabelTexts } from "../../../../../utils/displayText";
-import { useSelectedLanguage } from "../../../../../hooks/useSelectedLanguage";
+import { sortEntitiesByOrder } from "../../../../../utils/sortEntitiesByOrder";
+import { addBlock } from "../../../functions/addBlock";
+import { changeBlockeditorState } from "../../../functions/changeBlockeditorState";
+import { useCurrentBlockeditor } from "../../../hooks/useCurrentBlockeditor";
+import HandleKeyPresEditMenuSystem from "../../../systems/HandleKeyPresEditMenuSystem";
+import DeleteBlocksAlert from "../../DeleteBlocksAlert";
+import ActionOptions from "./ActionOptions";
+import EditOption from "./EditOption";
 import LayoutOptions from "./LayoutOptions";
+import StyleOptions from "./StyleOptions";
 
 type Option = {
   name: string;

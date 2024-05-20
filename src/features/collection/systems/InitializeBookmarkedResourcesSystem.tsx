@@ -1,13 +1,19 @@
+import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import { Entity } from "@leanscope/ecs-engine";
+import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext, useEffect } from "react";
+import {
+  AnswerFacet,
+  DateAddedFacet,
+  MasteryLevelFacet,
+  QuestionFacet,
+  TitleFacet,
+} from "../../../app/additionalFacets";
+import { dummyFlashcards, dummyFlashcardSets, dummyNotes, dummyPodcasts, dummySubtopics } from "../../../base/dummy";
 import { AdditionalTags, DataTypes, Stories } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { dummyFlashcards, dummyFlashcardSets, dummyNotes, dummyPodcasts, dummySubtopics } from "../../../base/dummy";
-import { Entity } from "@leanscope/ecs-engine";
-import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
-import { TitleFacet, DateAddedFacet, AnswerFacet, MasteryLevelFacet, QuestionFacet } from "../../../app/additionalFacets";
 
 const fetchBookmarkedFlashcardSets = async () => {
   const { data: flashcardSets, error } = await supabaseClient
@@ -33,10 +39,9 @@ const fetchBookmarkedPodcasts = async () => {
     console.error("Error fetching podcasts:", error);
     return [];
   }
-  
-  return podcasts || [];
-}
 
+  return podcasts || [];
+};
 
 const fetchBookmarkedFlashcards = async () => {
   const { data: flashcards, error } = await supabaseClient
@@ -64,7 +69,7 @@ const fetchBookmarkedSubtopics = async () => {
   }
 
   return subtopics || [];
-}
+};
 
 const fetchBookmarkedNotes = async () => {
   const { data: notes, error } = await supabaseClient
@@ -78,7 +83,7 @@ const fetchBookmarkedNotes = async () => {
   }
 
   return notes || [];
-}
+};
 
 const InitializeBookmarkedResourcesSystem = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -87,7 +92,11 @@ const InitializeBookmarkedResourcesSystem = () => {
 
   useEffect(() => {
     const initializeBookmarkedFlashcards = async () => {
-      const flashcards = mockupData ? dummyFlashcards : shouldFetchFromSupabase?  await fetchBookmarkedFlashcards() : [];
+      const flashcards = mockupData
+        ? dummyFlashcards
+        : shouldFetchFromSupabase
+        ? await fetchBookmarkedFlashcards()
+        : [];
       flashcards.forEach((flashcard) => {
         const isExisting = lsc.engine.entities.some(
           (e) => e.get(IdentifierFacet)?.props.guid === flashcard.id && e.hasTag(DataTypes.FLASHCARD)
@@ -104,10 +113,9 @@ const InitializeBookmarkedResourcesSystem = () => {
           flashcardEntity.addTag(DataTypes.FLASHCARD);
         }
       });
-
     };
     const initializeBookmarkedPodcasts = async () => {
-      const podcasts = mockupData ? dummyPodcasts : shouldFetchFromSupabase  ?  await fetchBookmarkedPodcasts() : [];
+      const podcasts = mockupData ? dummyPodcasts : shouldFetchFromSupabase ? await fetchBookmarkedPodcasts() : [];
       podcasts.forEach((podcast) => {
         const isExisting = lsc.engine.entities.some(
           (e) => e.get(IdentifierFacet)?.props.guid === podcast.id && e.hasTag(DataTypes.PODCAST)
@@ -126,7 +134,11 @@ const InitializeBookmarkedResourcesSystem = () => {
       });
     };
     const initializeBookmarkedFlashcardSets = async () => {
-      const flashcardSets = mockupData ? dummyFlashcardSets : shouldFetchFromSupabase ?  await fetchBookmarkedFlashcardSets() : [];
+      const flashcardSets = mockupData
+        ? dummyFlashcardSets
+        : shouldFetchFromSupabase
+        ? await fetchBookmarkedFlashcardSets()
+        : [];
       flashcardSets.forEach((flashcardSet) => {
         const isExisting = lsc.engine.entities.some(
           (e) => e.get(IdentifierFacet)?.props.guid === flashcardSet.id && e.hasTag(DataTypes.FLASHCARD_SET)
@@ -145,7 +157,7 @@ const InitializeBookmarkedResourcesSystem = () => {
       });
     };
     const initializeBookmarkedSubtopics = async () => {
-      const subtopics = mockupData ? dummySubtopics : shouldFetchFromSupabase?  await fetchBookmarkedSubtopics() : [];
+      const subtopics = mockupData ? dummySubtopics : shouldFetchFromSupabase ? await fetchBookmarkedSubtopics() : [];
       subtopics.forEach((subtopic) => {
         const isExisting = lsc.engine.entities.some(
           (e) => e.get(IdentifierFacet)?.props.guid === subtopic.id && e.hasTag(DataTypes.SUBTOPIC)
@@ -164,7 +176,7 @@ const InitializeBookmarkedResourcesSystem = () => {
       });
     };
     const initializeBookmarkedNotes = async () => {
-      const notes = mockupData ? dummyNotes : shouldFetchFromSupabase ?  await fetchBookmarkedNotes() : [];
+      const notes = mockupData ? dummyNotes : shouldFetchFromSupabase ? await fetchBookmarkedNotes() : [];
       notes.forEach((note) => {
         const isExisting = lsc.engine.entities.some(
           (e) => e.get(IdentifierFacet)?.props.guid === note.id && e.hasTag(DataTypes.NOTE)

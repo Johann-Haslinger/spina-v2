@@ -4,7 +4,7 @@ import { useEntityFacets } from "@leanscope/ecs-engine/react-api/hooks/useEntity
 import { Tags } from "@leanscope/ecs-models";
 import { motion } from "framer-motion";
 import tw from "twin.macro";
-import { TitleFacet, RelationshipFacet } from "../../../app/additionalFacets";
+import { RelationshipFacet, TitleFacet } from "../../../app/additionalFacets";
 import { useDaysUntilDue } from "../../../hooks/useDaysUntilDue";
 import { useSchoolSubject } from "../../../hooks/useSchoolSubject";
 
@@ -27,25 +27,14 @@ const StyledExamCellSubtitle = styled.div`
   ${tw` text-sm font-medium line-clamp-2`}
 `;
 
-
-
-const ExamKanbanCell = (pops: {
-  entity: Entity;
-  backgroundColor: string;
-  color: string;
-}) => {
+const ExamKanbanCell = (pops: { entity: Entity; backgroundColor: string; color: string }) => {
   const { entity, backgroundColor, color } = pops;
 
-  const [titleProps, relationShipProps ] = useEntityFacets(
-    entity,
-    TitleFacet, RelationshipFacet
-  );
+  const [titleProps, relationShipProps] = useEntityFacets(entity, TitleFacet, RelationshipFacet);
   const daysUntilDue = useDaysUntilDue(entity);
   const title = titleProps?.title || "No Title";
-  const relatedSchoolSubjectId = relationShipProps?.relationship
-  const {schoolSubjectTitle} = useSchoolSubject(relatedSchoolSubjectId);
-
-
+  const relatedSchoolSubjectId = relationShipProps?.relationship;
+  const { schoolSubjectTitle } = useSchoolSubject(relatedSchoolSubjectId);
 
   const handleOpenExam = () => entity.add(Tags.SELECTED);
 
@@ -61,10 +50,7 @@ const ExamKanbanCell = (pops: {
       }}
     >
       <StyledExamCellContainer onClick={handleOpenExam}>
-        <StyledExamCellWrapper
-          backgroundColor={backgroundColor}
-          color={color}
-        >
+        <StyledExamCellWrapper backgroundColor={backgroundColor} color={color}>
           <StyledExamCellTitle>{title}</StyledExamCellTitle>
           <StyledExamCellSubtitle>
             {schoolSubjectTitle}, {daysUntilDue}
@@ -75,4 +61,4 @@ const ExamKanbanCell = (pops: {
   );
 };
 
-export default ExamKanbanCell
+export default ExamKanbanCell;

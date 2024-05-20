@@ -1,13 +1,13 @@
-import { TitleProps } from "../../../../app/additionalFacets";
-import { EntityProps } from "@leanscope/ecs-engine";
-import { useTopicColor } from "../../hooks/useTopicColor";
-import tw from "twin.macro";
 import styled from "@emotion/styled";
+import { EntityProps } from "@leanscope/ecs-engine";
 import { DescriptionProps, Tags } from "@leanscope/ecs-models";
 import { IoBook } from "react-icons/io5";
-import { useAppState } from "../../hooks/useAppState";
-import { displayAlertTexts } from "../../../../utils/displayText";
+import tw from "twin.macro";
+import { TitleProps } from "../../../../app/additionalFacets";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
+import { displayAlertTexts } from "../../../../utils/displayText";
+import { useAppState } from "../../hooks/useAppState";
+import { useTopicColor } from "../../hooks/useTopicColor";
 
 const StyledTopicCellContainer = styled.div`
   ${tw` w-full cursor-pointer pb-6 h-fit`}
@@ -32,7 +32,7 @@ const TopicCell = (props: TitleProps & EntityProps & DescriptionProps) => {
   const { title, entity, description } = props;
   const { color, backgroundColor } = useTopicColor(entity);
   const { isSidebarVisible } = useAppState();
-  const {selectedLanguage} = useSelectedLanguage();
+  const { selectedLanguage } = useSelectedLanguage();
 
   const handleOpenTopic = () => {
     if (!isSidebarVisible) {
@@ -42,15 +42,13 @@ const TopicCell = (props: TitleProps & EntityProps & DescriptionProps) => {
 
   return (
     <StyledTopicCellContainer>
-      <StyledTopicCellWrapper
-        onClick={handleOpenTopic}
-        color={color}
-        backgroundColor={backgroundColor}
-      >
+      <StyledTopicCellWrapper onClick={handleOpenTopic} color={color} backgroundColor={backgroundColor}>
         <IoBook />
       </StyledTopicCellWrapper>
       <StyledTopicTitle>{title}</StyledTopicTitle>
-      <StyledTopicDescription>{description || displayAlertTexts(selectedLanguage).noContentAddedTitle}</StyledTopicDescription>
+      <StyledTopicDescription>
+        {description || displayAlertTexts(selectedLanguage).noContentAddedTitle}
+      </StyledTopicDescription>
     </StyledTopicCellContainer>
   );
 };

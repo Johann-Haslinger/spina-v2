@@ -3,12 +3,12 @@ import { Entity } from "@leanscope/ecs-engine";
 import { DescriptionFacet, IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
 import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
-import { DataTypes } from "../../../base/enums";
-import supabaseClient from "../../../lib/supabase";
 import { dummyTopics } from "../../../base/dummy";
-import { useSelectedSchoolSubject } from "../hooks/useSelectedSchoolSubject";
-import { useSchoolSubjectTopicEntities } from "../hooks/useSchoolSubjectTopicEntities";
+import { DataTypes } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
+import supabaseClient from "../../../lib/supabase";
+import { useSchoolSubjectTopicEntities } from "../hooks/useSchoolSubjectTopicEntities";
+import { useSelectedSchoolSubject } from "../hooks/useSelectedSchoolSubject";
 
 const fetchTopicsForSchoolSubject = async (subjectId: string) => {
   const { data: topics, error } = await supabaseClient

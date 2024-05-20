@@ -1,9 +1,8 @@
-import { TitleProps } from "../../../../app/additionalFacets";
 import { EntityProps } from "@leanscope/ecs-engine";
 import { Tags } from "@leanscope/ecs-models";
-import { useSelectedSchoolSubjectColor } from "../../hooks/useSelectedSchoolSubjectColor";
+import { TitleProps } from "../../../../app/additionalFacets";
 import { NoteThumbNail } from "../../../../components";
-
+import { useSelectedSchoolSubjectColor } from "../../hooks/useSelectedSchoolSubjectColor";
 
 const NoteCell = (props: TitleProps & EntityProps) => {
   const { title, entity } = props;
@@ -13,9 +12,7 @@ const NoteCell = (props: TitleProps & EntityProps) => {
     entity.addTag(Tags.SELECTED);
   };
 
-  return (
-    <NoteThumbNail onClick={openNote} color={backgroundColor} title={title} />
-  );
+  return <NoteThumbNail onClick={openNote} color={backgroundColor} title={title} />;
 };
 
 export default NoteCell;

@@ -1,25 +1,25 @@
 import styled from "@emotion/styled";
-import { motion } from "framer-motion";
-import tw from "twin.macro";
-import { COLOR_ITEMS, COLORS, NAV_LINKS } from "../../base/constants";
-import NavigationLinkIcon from "./NavigationLinkIcon";
-import { DataTypes, NavigationLinks, SupportedLanguages } from "../../base/enums";
-import { ViSpina, ViSpinaColored } from "../../assets/icons";
-import { NavLink, useLocation } from "react-router-dom";
-import { Fragment, useEffect, useRef, useState } from "react";
-import { useWindowDimensions } from "../../hooks/useWindowDimensions";
-import { useAppState } from "../../features/collection/hooks/useAppState";
-import { IoHelpOutline, IoLogInOutline, IoLogOutOutline, IoPause, IoPlay, IoSettingsOutline } from "react-icons/io5";
-import { useUserData } from "../../hooks/useUserData";
-import { useSelectedTheme } from "../../features/collection/hooks/useSelectedTheme";
-import { displayAlertTexts, displayButtonTexts, displayHeaderTexts } from "../../utils/displayText";
-import { useSelectedLanguage } from "../../hooks/useSelectedLanguage";
-import { usePlayingPodcast } from "../../features/collection/hooks/usePlayingPodcast";
-import PodcastSheet from "../../features/collection/components/podcasts/PodcastSheet";
 import { EntityPropsMapper } from "@leanscope/ecs-engine";
-import { TitleFacet, DateAddedFacet, SourceFacet } from "../../app/additionalFacets";
-import { dataTypeQuery } from "../../utils/queries";
 import { Tags } from "@leanscope/ecs-models";
+import { motion } from "framer-motion";
+import { Fragment, useEffect, useRef, useState } from "react";
+import { IoHelpOutline, IoLogInOutline, IoLogOutOutline, IoPause, IoPlay, IoSettingsOutline } from "react-icons/io5";
+import { NavLink, useLocation } from "react-router-dom";
+import tw from "twin.macro";
+import { DateAddedFacet, SourceFacet, TitleFacet } from "../../app/additionalFacets";
+import { ViSpina, ViSpinaColored } from "../../assets/icons";
+import { COLOR_ITEMS, COLORS, NAV_LINKS } from "../../base/constants";
+import { DataTypes, NavigationLinks, SupportedLanguages } from "../../base/enums";
+import PodcastSheet from "../../features/collection/components/podcasts/PodcastSheet";
+import { useAppState } from "../../features/collection/hooks/useAppState";
+import { usePlayingPodcast } from "../../features/collection/hooks/usePlayingPodcast";
+import { useSelectedTheme } from "../../features/collection/hooks/useSelectedTheme";
+import { useSelectedLanguage } from "../../hooks/useSelectedLanguage";
+import { useUserData } from "../../hooks/useUserData";
+import { useWindowDimensions } from "../../hooks/useWindowDimensions";
+import { displayAlertTexts, displayButtonTexts, displayHeaderTexts } from "../../utils/displayText";
+import { dataTypeQuery } from "../../utils/queries";
+import NavigationLinkIcon from "./NavigationLinkIcon";
 
 const StyledSelectedPodcasrCellWrapper = styled.div<{ visible: boolean }>`
   ${tw`flex mx-1 w-[226px] cursor-pointer  md:hover:bg-primary dark:hover:bg-tertiaryDark   absolute bottom-14 my-2 dark:text-white  overflow-hidden py-1 transition-all  rounded-xl space-x-4 items-center`}

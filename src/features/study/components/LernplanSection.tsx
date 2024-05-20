@@ -1,14 +1,14 @@
 import styled from "@emotion/styled";
-import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
-import tw from "twin.macro";
-import { AdditionalTags, DataTypes, Stories } from "../../../base/enums";
-import { TitleFacet, DateAddedFacet, DateAddedProps, TitleProps } from "../../../app/additionalFacets";
-import FlashcardGroupCell from "./FlashcardGroupCell";
-import { IoPlay } from "react-icons/io5";
-import { useBookmarkedFlashcardGroups } from "../hooks/useBookmarkedFlashcardGroups";
-import { sortEntitiesByDateAdded } from "../../../utils/sortEntitiesByTime";
-import { useContext } from "react";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
+import { useContext } from "react";
+import { IoPlay } from "react-icons/io5";
+import tw from "twin.macro";
+import { DateAddedFacet, DateAddedProps, TitleFacet, TitleProps } from "../../../app/additionalFacets";
+import { AdditionalTags, DataTypes, Stories } from "../../../base/enums";
+import { sortEntitiesByDateAdded } from "../../../utils/sortEntitiesByTime";
+import { useBookmarkedFlashcardGroups } from "../hooks/useBookmarkedFlashcardGroups";
+import FlashcardGroupCell from "./FlashcardGroupCell";
 
 const StyledLernplanSectionWrapper = styled.div`
   ${tw`w-full mb-2  space-y-2 md:space-y-0 md:space-x-2 md:flex    transition-all `}
@@ -31,7 +31,8 @@ const LernplanSection = () => {
   const lsc = useContext(LeanScopeClientContext);
   const { bookmarkedGroupsExist } = useBookmarkedFlashcardGroups();
 
-  const openBookmarkedFlashcardGroupQuiz = () => lsc.stories.transitTo(Stories.OBSERVING_BOOKMARKED_FLASHCARD_GROUP_QUIZ_STORY);
+  const openBookmarkedFlashcardGroupQuiz = () =>
+    lsc.stories.transitTo(Stories.OBSERVING_BOOKMARKED_FLASHCARD_GROUP_QUIZ_STORY);
 
   return (
     bookmarkedGroupsExist && (

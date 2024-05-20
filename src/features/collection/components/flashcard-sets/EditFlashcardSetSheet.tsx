@@ -1,40 +1,35 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext, useEffect, useState } from "react";
+import { TitleFacet } from "../../../../app/additionalFacets";
+import { Stories } from "../../../../base/enums";
 import {
-  SecondaryButton,
   FlexBox,
   PrimaryButton,
+  SecondaryButton,
   Section,
   SectionRow,
   Sheet,
   Spacer,
   TextInput,
 } from "../../../../components";
-import { Stories } from "../../../../base/enums";
-import { useIsStoryCurrent } from "@leanscope/storyboarding";
-import { useSelectedFlashcardSet } from "../../hooks/useSelectedFlashcardSet";
-import { TitleFacet } from "../../../../app/additionalFacets";
+import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../../lib/supabase";
 import { displayButtonTexts, displayLabelTexts } from "../../../../utils/displayText";
-import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
+import { useSelectedFlashcardSet } from "../../hooks/useSelectedFlashcardSet";
 
 const EditFlashcardSetSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Stories.EDITING_FLASHCARD_SET_STORY);
   const { selectedLanguage } = useSelectedLanguage();
-  const {
-    selectedFlashcardSetTitle,
-    selectedFlashcardSetEntity,
-    selectedFlashcardSetId,
-  } = useSelectedFlashcardSet();
+  const { selectedFlashcardSetTitle, selectedFlashcardSetEntity, selectedFlashcardSetId } = useSelectedFlashcardSet();
   const [newTitle, setNewTitle] = useState(selectedFlashcardSetTitle);
 
   useEffect(() => {
     setNewTitle(selectedFlashcardSetTitle);
   }, [selectedFlashcardSetTitle]);
 
-  const navigateBack = () =>
-    lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_SET_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_SET_STORY);
 
   const updateFlashcardSet = async () => {
     if (newTitle) {
@@ -57,13 +52,9 @@ const EditFlashcardSetSheet = () => {
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>
       <FlexBox>
-        <SecondaryButton onClick={navigateBack}>
-          {displayButtonTexts(selectedLanguage).back}
-        </SecondaryButton>
+        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).back}</SecondaryButton>
         {newTitle !== selectedFlashcardSetTitle && (
-          <PrimaryButton onClick={updateFlashcardSet}>
-            {displayButtonTexts(selectedLanguage).save}
-          </PrimaryButton>
+          <PrimaryButton onClick={updateFlashcardSet}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
         )}
       </FlexBox>
       <Spacer />

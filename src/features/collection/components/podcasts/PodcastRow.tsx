@@ -1,15 +1,15 @@
 import styled from "@emotion/styled/macro";
-import { DateAddedProps, TitleProps } from "../../../../app/additionalFacets";
 import { EntityProps } from "@leanscope/ecs-engine";
 import { Tags } from "@leanscope/ecs-models";
+import { Fragment, useState } from "react";
+import { IoBookmarkOutline, IoEllipsisHorizontal, IoHeadset, IoTrashOutline } from "react-icons/io5";
 import tw from "twin.macro";
+import { DateAddedProps, TitleProps } from "../../../../app/additionalFacets";
+import { AdditionalTags } from "../../../../base/enums";
+import { ActionRow, ActionSheet, FlexBox } from "../../../../components";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { displayActionTexts, displayAlertTexts, displayDataTypeTexts } from "../../../../utils/displayText";
-import { IoBookmarkOutline, IoEllipsisHorizontal, IoHeadset, IoTrashOutline } from "react-icons/io5";
-import { ActionRow, ActionSheet, FlexBox } from "../../../../components";
 import { useSelectedSchoolSubjectColor } from "../../hooks/useSelectedSchoolSubjectColor";
-import { Fragment, useState } from "react";
-import { AdditionalTags } from "../../../../base/enums";
 import DeletePodcastAlert from "./DeletePodcastAlert";
 
 const StyledPodcastRowWrapper = styled.div`
@@ -55,7 +55,8 @@ const PodcastRow = (props: TitleProps & DateAddedProps & EntityProps) => {
             <div>
               <StyledPodcastTitle>{title || displayAlertTexts(selectedLanguage).noTitle}</StyledPodcastTitle>
               <StyledPodcastSubtitle>
-                {displayDataTypeTexts(selectedLanguage).podcast}{", "}
+                {displayDataTypeTexts(selectedLanguage).podcast}
+                {", "}
                 {new Date(dateAdded).toLocaleDateString("de", {
                   year: "numeric",
                   month: "long",

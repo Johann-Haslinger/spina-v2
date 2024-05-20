@@ -1,8 +1,15 @@
+import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import { Entity } from "@leanscope/ecs-engine";
+import { DescriptionFacet, IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
+import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext, useState } from "react";
+import { v4 } from "uuid";
+import { DateAddedFacet, TitleFacet } from "../../../../app/additionalFacets";
+import { DataTypes, Stories } from "../../../../base/enums";
 import {
-  SecondaryButton,
   FlexBox,
   PrimaryButton,
+  SecondaryButton,
   Section,
   SectionRow,
   Sheet,
@@ -10,19 +17,12 @@ import {
   TextAreaInput,
   TextInput,
 } from "../../../../components";
-import { useIsStoryCurrent } from "@leanscope/storyboarding";
-import { DataTypes, Stories } from "../../../../base/enums";
-import { useSelectedSchoolSubject } from "../../hooks/useSelectedSchoolSubject";
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { Entity } from "@leanscope/ecs-engine";
-import { DescriptionFacet, IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
-import { v4 } from "uuid";
-import { DateAddedFacet, TitleFacet } from "../../../../app/additionalFacets";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import { displayButtonTexts, displayLabelTexts } from "../../../../utils/displayText";
-import supabaseClient from "../../../../lib/supabase";
-import { getCompletion } from "../../../../utils/getCompletion";
 import { useUserData } from "../../../../hooks/useUserData";
+import supabaseClient from "../../../../lib/supabase";
+import { displayButtonTexts, displayLabelTexts } from "../../../../utils/displayText";
+import { getCompletion } from "../../../../utils/getCompletion";
+import { useSelectedSchoolSubject } from "../../hooks/useSelectedSchoolSubject";
 
 const AddTopicSheet = () => {
   const lsc = useContext(LeanScopeClientContext);

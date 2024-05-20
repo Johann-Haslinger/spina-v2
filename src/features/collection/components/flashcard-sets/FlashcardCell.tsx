@@ -1,8 +1,8 @@
 import styled from "@emotion/styled";
-import { AnswerProps, MasteryLevelProps, QuestionProps } from "../../../../app/additionalFacets";
 import { EntityProps } from "@leanscope/ecs-engine";
-import tw from "twin.macro";
 import { Tags } from "@leanscope/ecs-models";
+import tw from "twin.macro";
+import { AnswerProps, MasteryLevelProps, QuestionProps } from "../../../../app/additionalFacets";
 import { useSelectedSchoolSubjectColor } from "../../hooks/useSelectedSchoolSubjectColor";
 
 const StyledFlashcardCellWrapper = styled.div<{

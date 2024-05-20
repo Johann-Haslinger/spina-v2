@@ -1,13 +1,13 @@
 import { EntityProps } from "@leanscope/ecs-engine";
-import { DateAddedProps, TitleProps } from "../../../../app/additionalFacets";
-import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
-import { Fragment } from "react/jsx-runtime";
 import { IdentifierProps } from "@leanscope/ecs-models";
+import { Fragment } from "react/jsx-runtime";
+import { DateAddedProps, TitleProps } from "../../../../app/additionalFacets";
 import { View } from "../../../../components";
+import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 
 import { useEffect, useRef } from "react";
-import { dummyBase64Image } from "../../../../base/dummyBase64Image";
 import { dummyBase64Audio } from "../../../../base/dummyBase64Audio";
+import { dummyBase64Image } from "../../../../base/dummyBase64Image";
 
 interface Media {
   audio: string;
@@ -63,7 +63,7 @@ const createBase64Video = (photoUrl: string, audioUrl: string, width: number, he
       };
 
       img.src = photoUrl;
-      console.log("Photo URL:",  img.src);
+      console.log("Photo URL:", img.src);
     } else {
       reject(new Error("Canvas context is null"));
     }
@@ -94,15 +94,11 @@ const LernvideoView = (props: TitleProps & DateAddedProps & EntityProps & Identi
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
-   
-
     const createVideo = async () => {
       const photoUrl = data[0].image;
       const audioUrl = data[0].audio;
 
       try {
-        
-
         createBase64Video(photoUrl, audioUrl, 640, 480)
           .then((videoUrl) => {
             if (videoRef.current) {

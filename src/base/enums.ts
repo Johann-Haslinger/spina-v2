@@ -64,7 +64,7 @@ export enum AdditionalTags {
   ONLINE,
   CONTENT_EDITABLE,
   FOCUSED,
-  OPEN
+  OPEN,
   PROMPT,
   PROCESSING,
 }
@@ -135,3 +135,4 @@ export enum ListStyles {
   NUMBER = "number",
   UNORDERED = "unordered",
 }
+

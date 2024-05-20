@@ -1,13 +1,13 @@
-import { useContext, useEffect } from "react";
-import supabaseClient from "../../../lib/supabase";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
 import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
-import { TitleFacet, DateAddedFacet } from "../../../app/additionalFacets";
+import { useContext, useEffect } from "react";
+import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
 import { dummyFlashcardSets } from "../../../base/dummy";
 import { DataTypes } from "../../../base/enums";
-import { useSelectedTopic } from "../hooks/useSelectedTopic";
 import { useMockupData } from "../../../hooks/useMockupData";
+import supabaseClient from "../../../lib/supabase";
+import { useSelectedTopic } from "../hooks/useSelectedTopic";
 
 const fetchFlashcardSetsForTopic = async (topicId: string) => {
   const { data: flashcardSets, error } = await supabaseClient
@@ -31,7 +31,11 @@ const LoadFlashcardSetsSystem = () => {
   useEffect(() => {
     const initializeFlashcardSetEntities = async () => {
       if (selectedTopicId) {
-        const flashcardSets = mockupData ? dummyFlashcardSets : shouldFetchFromSupabase ?  await fetchFlashcardSetsForTopic(selectedTopicId) : []
+        const flashcardSets = mockupData
+          ? dummyFlashcardSets
+          : shouldFetchFromSupabase
+          ? await fetchFlashcardSetsForTopic(selectedTopicId)
+          : [];
 
         flashcardSets.forEach((flashcardSet) => {
           const isExisting = lsc.engine.entities.some(

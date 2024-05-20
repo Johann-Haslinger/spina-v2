@@ -3,8 +3,8 @@ import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntit
 import { Tags } from "@leanscope/ecs-models";
 import { useEffect } from "react";
 import { TexttypeFacet } from "../../../app/additionalFacets";
-import { useCurrentBlockeditor } from "../hooks/useCurrentBlockeditor";
 import { Texttypes } from "../../../base/enums";
+import { useCurrentBlockeditor } from "../hooks/useCurrentBlockeditor";
 
 const HandleTexteditorKeyPressSystem = (props: EntityProps) => {
   const { entity } = props;

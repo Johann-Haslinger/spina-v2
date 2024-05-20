@@ -1,11 +1,11 @@
-import BlockOutline from "./BlockOutline";
-import { FloatOrderProps } from "@leanscope/ecs-models";
-import { EntityProps } from "@leanscope/ecs-engine";
-import BlockTexteditor from "./BlockTexteditor";
 import styled from "@emotion/styled";
+import { EntityProps } from "@leanscope/ecs-engine";
+import { FloatOrderProps } from "@leanscope/ecs-models";
 import tw from "twin.macro";
 import { ListStyleFacet } from "../../../../app/additionalFacets";
 import { ListStyles } from "../../../../base/enums";
+import BlockOutline from "./BlockOutline";
+import BlockTexteditor from "./BlockTexteditor";
 
 const StyledContentWrapper = styled.div`
   ${tw`flex w-full min-h-[32px] items-center space-x-4 select-none`}

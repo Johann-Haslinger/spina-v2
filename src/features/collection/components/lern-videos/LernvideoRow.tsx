@@ -2,13 +2,13 @@ import styled from "@emotion/styled";
 import { EntityProps } from "@leanscope/ecs-engine";
 import { Tags } from "@leanscope/ecs-models";
 import { Fragment, useState } from "react";
-import {  IoEllipsisHorizontal, IoBookmarkOutline, IoTrashOutline, IoVideocam } from "react-icons/io5";
+import { IoBookmarkOutline, IoEllipsisHorizontal, IoTrashOutline, IoVideocam } from "react-icons/io5";
 import tw from "twin.macro";
-import { TitleProps, DateAddedProps } from "../../../../app/additionalFacets";
+import { DateAddedProps, TitleProps } from "../../../../app/additionalFacets";
 import { AdditionalTags } from "../../../../base/enums";
-import { FlexBox, ActionSheet, ActionRow } from "../../../../components";
+import { ActionRow, ActionSheet, FlexBox } from "../../../../components";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import { displayAlertTexts, displayActionTexts, displayDataTypeTexts } from "../../../../utils/displayText";
+import { displayActionTexts, displayAlertTexts, displayDataTypeTexts } from "../../../../utils/displayText";
 import { useSelectedSchoolSubjectColor } from "../../hooks/useSelectedSchoolSubjectColor";
 import DeleteLernvideoAlert from "./DeleteLernvideoAlert";
 
@@ -55,7 +55,8 @@ const LernvideoRow = (props: TitleProps & DateAddedProps & EntityProps) => {
             <div>
               <StyledLernvideoTitle>{title || displayAlertTexts(selectedLanguage).noTitle}</StyledLernvideoTitle>
               <StyledLernvideoSubtitle>
-              {displayDataTypeTexts(selectedLanguage).lernvideo}{", "}
+                {displayDataTypeTexts(selectedLanguage).lernvideo}
+                {", "}
                 {new Date(dateAdded).toLocaleDateString("de", {
                   year: "numeric",
                   month: "long",

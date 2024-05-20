@@ -2,7 +2,7 @@ import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity, useEntities } from "@leanscope/ecs-engine";
 import { TextFacet } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
-import { DateAddedFacet, MessageRoleFacet } from "../../../../../app/AdditionalFacets";
+import { DateAddedFacet, MessageRoleFacet } from "../../../../../app/additionalFacets";
 import { AdditionalTags, MessageRoles } from "../../../../../base/enums";
 
 const GenerateAnswerSystem = () => {

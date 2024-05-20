@@ -1,24 +1,22 @@
-import { Entity, EntityProps } from "@leanscope/ecs-engine";
-import { IdentifierFacet, FloatOrderFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
-import { FormEvent, Fragment, RefObject, useContext, useState } from "react";
-import { BlocktypeFacet, ListStyleFacet, TexttypeFacet, TodoStateFacet } from "../../../../app/additionalFacets";
 import styled from "@emotion/styled";
-import tw from "twin.macro";
-import { useCurrentBlockeditor } from "../../hooks/useCurrentBlockeditor";
-import { useTexteditorRef } from "../../hooks/useOutsideTexteditorClickHandler";
-import { getTextStyle } from "../../functions/getTextStyle";
-import { changeBlockeditorState } from "../../functions/changeBlockeditorState";
-import HandleTexteditorKeyPressSystem from "../../systems/HandleTexteditorKeyPressSystem";
-import { AdditionalTags, Blocktypes, DataTypes, ListStyles, Texttypes } from "../../../../base/enums";
-import { updateBlocktext } from "../../functions/updateBlocktext";
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { deleteBlock } from "../../functions/deleteBlock";
-import { useUserData } from "../../../../hooks/useUserData";
-import { addBlockEntitiesFromString } from "../../functions/addBlockEntitiesFromString";
-import { getCaretPosition } from "../../functions/getCaretPosition";
 import { ILeanScopeClient } from "@leanscope/api-client/interfaces";
+import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import { Entity, EntityProps } from "@leanscope/ecs-engine";
+import { useEntityFacets } from "@leanscope/ecs-engine/react-api/hooks/useEntityFacets";
+import { FloatOrderFacet, IdentifierFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
+import { FormEvent, Fragment, RefObject, useContext, useState } from "react";
+import tw from "twin.macro";
 import { v4 } from "uuid";
+import { BlocktypeFacet, ListStyleFacet, TexttypeFacet, TodoStateFacet } from "../../../../app/additionalFacets";
+import { AdditionalTags, Blocktypes, DataTypes, ListStyles, Texttypes } from "../../../../base/enums";
+import { useUserData } from "../../../../hooks/useUserData";
+import supabaseClient from "../../../../lib/supabase";
 import { addBlock } from "../../functions/addBlock";
+import { addBlockEntitiesFromString } from "../../functions/addBlockEntitiesFromString";
+import { changeBlockeditorState } from "../../functions/changeBlockeditorState";
+import { deleteBlock } from "../../functions/deleteBlock";
+import { getCaretPosition } from "../../functions/getCaretPosition";
+import { getTextStyle } from "../../functions/getTextStyle";
 import {
   findNumberBetween,
   getHighestOrder,
@@ -26,8 +24,10 @@ import {
   getNextHigherOrderEntity,
   getNextLowerOrderEntity,
 } from "../../functions/orderHelper";
-import { useEntityFacets } from "@leanscope/ecs-engine/react-api/hooks/useEntityFacets";
-import supabaseClient from "../../../../lib/supabase";
+import { updateBlocktext } from "../../functions/updateBlocktext";
+import { useCurrentBlockeditor } from "../../hooks/useCurrentBlockeditor";
+import { useTexteditorRef } from "../../hooks/useOutsideTexteditorClickHandler";
+import HandleTexteditorKeyPressSystem from "../../systems/HandleTexteditorKeyPressSystem";
 
 const updateTextBlockToListBlock = async (blockEntity: Entity) => {
   blockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.LIST }));
@@ -258,7 +258,6 @@ const BlockTexteditor = (props: EntityProps) => {
   const isBlockEditable = blockeditorState === "write" || blockeditorState === "view";
 
   // const sanitizer = dompurify.sanitize;
-  
 
   const handleFocus = () => {
     changeBlockeditorState(blockeditorEntity, "write");

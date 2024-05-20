@@ -4,7 +4,7 @@ import { TextFacet } from "@leanscope/ecs-models";
 import { motion } from "framer-motion";
 import { Fragment } from "react/jsx-runtime";
 import tw from "twin.macro";
-import { MessageRoleFacet } from "../../../../../app/AdditionalFacets";
+import { MessageRoleFacet } from "../../../../../app/additionalFacets";
 import { sortMessageEntitiesByDateAdded } from "../../../../../utils/sortEntitiesByTime";
 import GenerateAnswerSystem from "../systems/GenerateAnswerSystem";
 import QuickChatMessage from "./QuickChatMessage";

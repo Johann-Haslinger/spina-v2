@@ -1,15 +1,15 @@
-import BlockOutline from "./BlockOutline";
-import { IoCloseCircle, IoCheckmarkCircle, IoEllipseOutline } from "react-icons/io5";
-import BlockTexteditor from "./BlockTexteditor";
-import { Entity, EntityProps } from "@leanscope/ecs-engine";
-import { FloatOrderProps, IdentifierFacet } from "@leanscope/ecs-models";
-import { TodoStateFacet } from "../../../../app/additionalFacets";
-import { useCurrentBlockeditor } from "../../hooks/useCurrentBlockeditor";
-import { useRef, useEffect } from "react";
 import styled from "@emotion/styled/macro";
-import tw from "twin.macro";
+import { Entity, EntityProps } from "@leanscope/ecs-engine";
 import { useEntityFacets } from "@leanscope/ecs-engine/react-api/hooks/useEntityFacets";
+import { FloatOrderProps, IdentifierFacet } from "@leanscope/ecs-models";
+import { useEffect, useRef } from "react";
+import { IoCheckmarkCircle, IoCloseCircle, IoEllipseOutline } from "react-icons/io5";
+import tw from "twin.macro";
+import { TodoStateFacet } from "../../../../app/additionalFacets";
 import supabaseClient from "../../../../lib/supabase";
+import { useCurrentBlockeditor } from "../../hooks/useCurrentBlockeditor";
+import BlockOutline from "./BlockOutline";
+import BlockTexteditor from "./BlockTexteditor";
 
 const useTodoClickHandler = (entity: Entity) => {
   // const clickCountRef = useRef<number>(0);

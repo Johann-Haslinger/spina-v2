@@ -1,11 +1,11 @@
-import { useContext, useEffect } from "react";
-import { useMockupData } from "../../../hooks/useMockupData";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
 import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
-import { TitleFacet, DateAddedFacet } from "../../../app/additionalFacets";
+import { useContext, useEffect } from "react";
+import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
 import { dummySubtopics } from "../../../base/dummy";
 import { DataTypes } from "../../../base/enums";
+import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedTopic } from "../hooks/useSelectedTopic";
 

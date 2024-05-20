@@ -1,15 +1,15 @@
-import { useContext, useEffect, useRef } from "react";
-import { useCurrentBlockeditor } from "./useCurrentBlockeditor";
-import { changeBlockeditorState } from "../functions/changeBlockeditorState";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
+import { FloatOrderFacet, IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
+import { useContext, useEffect, useRef } from "react";
+import { v4 } from "uuid";
 import { BlocktypeFacet, TexttypeFacet } from "../../../app/additionalFacets";
 import { AdditionalTags, Blocktypes, DataTypes, Texttypes } from "../../../base/enums";
-import { FloatOrderFacet, IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
-import { v4 } from "uuid";
-import { getHighestOrder } from "../functions/orderHelper";
-import { addBlock } from "../functions/addBlock";
 import { useUserData } from "../../../hooks/useUserData";
+import { addBlock } from "../functions/addBlock";
+import { changeBlockeditorState } from "../functions/changeBlockeditorState";
+import { getHighestOrder } from "../functions/orderHelper";
+import { useCurrentBlockeditor } from "./useCurrentBlockeditor";
 
 export const useClickOutsideBlockEditorHandler = () => {
   const lsc = useContext(LeanScopeClientContext);

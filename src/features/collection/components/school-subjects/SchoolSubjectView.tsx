@@ -1,22 +1,22 @@
-import { Fragment, useContext } from "react";
-import { TitleFacet, TitleProps } from "../../../../app/additionalFacets";
-import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
-import { BackButton, CollectionGrid, NavBarButton, NavigationBar, Spacer, Title, View } from "../../../../components";
-import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
-import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
-import { useSchoolSubjectTopicEntities } from "../../hooks/useSchoolSubjectTopicEntities";
-import NoContentAddedHint from "../../../../components/content/NoContentAddedHint";
-import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
-import TopicCell from "../topics/TopicCell";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import AddTopicSheet from "./AddTopicSheet";
-import { displayHeaderTexts } from "../../../../utils/displayText";
-import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import { sortEntitiesByDateAdded } from "../../../../utils/sortEntitiesByTime";
+import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
 import { DescriptionFacet, Tags } from "@leanscope/ecs-models";
-import TopicView from "../topics/TopicView";
-import LoadTopicsSystem from "../../systems/LoadTopicsSystem";
+import { Fragment, useContext } from "react";
 import { IoAdd } from "react-icons/io5";
+import { TitleFacet, TitleProps } from "../../../../app/additionalFacets";
+import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
+import { BackButton, CollectionGrid, NavBarButton, NavigationBar, Spacer, Title, View } from "../../../../components";
+import NoContentAddedHint from "../../../../components/content/NoContentAddedHint";
+import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
+import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
+import { displayHeaderTexts } from "../../../../utils/displayText";
+import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
+import { sortEntitiesByDateAdded } from "../../../../utils/sortEntitiesByTime";
+import { useSchoolSubjectTopicEntities } from "../../hooks/useSchoolSubjectTopicEntities";
+import LoadTopicsSystem from "../../systems/LoadTopicsSystem";
+import TopicCell from "../topics/TopicCell";
+import TopicView from "../topics/TopicView";
+import AddTopicSheet from "./AddTopicSheet";
 
 const SchoolSubjectView = (props: TitleProps & EntityProps) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -60,7 +60,6 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
       />
 
       <AddTopicSheet />
-      
     </Fragment>
   );
 };
