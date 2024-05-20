@@ -8,13 +8,13 @@ import tw from "twin.macro";
 import { AdditionalTags } from "../../../../base/enums";
 import { useCurrentBlockeditor } from "../../hooks/useCurrentBlockeditor";
 
-const StyledBlockWrapper = styled.div<{ isPressed: boolean; hidePaddingY: boolean }>`
-  ${tw`md:mb-1  px-2  mb-0.5  rounded-md w-full  flex h-fit `}
+const StyledBlockWrapper = styled.div<{ isPressed: boolean; paddingY: boolean }>`
+  ${tw` px-2 mb-0.5 rounded-md w-full  flex h-fit `}
   ${({ isPressed }) =>
     isPressed
       ? tw`bg-primaryColor  bg-opacity-10 dark:bg-opacity-100 dark:bg-seconderyDark   z-40  select-none `
       : tw`border-white`};
-  ${({ hidePaddingY }) => (hidePaddingY ? tw`py-0 min-h-[32px]` : tw`py-1 min-h-[40px]`)};
+  ${({ paddingY }) => (!paddingY ? tw`py-0.5 min-h-[36px]` : tw`py-2 min-h-[40px]`)};
 `;
 
 const StyledContentWrapper = styled.div`
@@ -37,11 +37,11 @@ const StyledSelectionIndicator = styled.div<{ isVisible: boolean }>`
 interface BlockOutlineProps {
   blockEntity: Entity;
   index: number;
-  hidePaddingY?: boolean;
+  paddingY?: boolean;
 }
 
 const BlockOutline = (props: BlockOutlineProps & PropsWithChildren) => {
-  const { blockEntity, hidePaddingY, children } = props;
+  const { blockEntity, paddingY, children } = props;
   const { blockeditorState } = useCurrentBlockeditor();
   const isEditing = blockeditorState === "edit";
   const [isPressed] = useEntityHasTags(blockEntity, Tags.SELECTED);
@@ -150,7 +150,7 @@ const BlockOutline = (props: BlockOutlineProps & PropsWithChildren) => {
           <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
             <StyledBlockWrapper
               isPressed={isPressed}
-              hidePaddingY={hidePaddingY ?? false}
+              paddingY={paddingY ?? false}
               onMouseDown={handleMouseDown}
               onMouseUp={handleMouseUp}
               onTouchStart={handleTouchStart}

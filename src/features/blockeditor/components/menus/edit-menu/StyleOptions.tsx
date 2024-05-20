@@ -191,6 +191,8 @@ const StyleOptions = () => {
   const [isMoreTextOptionsVisible, setIsMoreTextOptionsVisible] = useState<boolean>(false);
   const { selectedLanguage } = useSelectedLanguage();
 
+  // TODO: Custom hook for isVisible state
+  
   useEffect(() => {
     setIsMoreTextOptionsVisible(false);
   }, [blockeditorState]);

@@ -5,6 +5,7 @@ import { Fragment, useState } from "react";
 import { useCurrentBlockeditor } from "../../hooks/useCurrentBlockeditor";
 import styled from "@emotion/styled";
 import tw from "twin.macro";
+import { useEntityFacets } from "@leanscope/ecs-engine/react-api/hooks/useEntityFacets";
 
 // const ImageFullView = (props: { imageUrl: string; backfunc: () => void; backButtonLabel: string }) => {
 //   const { imageUrl, backButtonLabel, backfunc } = props;
@@ -76,16 +77,16 @@ import tw from "twin.macro";
 // };
 
 const StyledImageWrapper = styled.div`
-  ${tw`w-full rounded-lg bg-[#f2f2f45f] flex justify-center`}
+  ${tw`w-full rounded-lg bg-tertiary dark:bg-seconderyDark flex justify-center`}
 `;
 
 const StyledImage = styled.img<{ size: SizeTypes; fit: FitTypes }>`
   ${tw`rounded-lg`}
   ${(props) =>
     props.size == SizeTypes.AUTO_SIZE && props.fit == FitTypes.COVER
-      ? tw`object-cover w-full h-full`
+      ? tw`object-cover w-full md:max-h-96 max-h-56 `
       : props.size == SizeTypes.AUTO_SIZE
-      ? tw`h-full`
+      ? tw`md:max-h-96  max-h-56`
       : props.size == SizeTypes.LARGE
       ? tw`w-full h-full`
       : tw``}
@@ -96,14 +97,15 @@ const ImageBlock = (props: EntityProps & FloatOrderProps) => {
   const { blockeditorState } = useCurrentBlockeditor();
   const [isFullViewVisible, setIsFullViewVisible] = useState(false);
   const imageUrl = entity.get(ImageFacet)?.props.imageSrc;
-  const fit = entity.get(ImageFitFacet)?.props.fit || FitTypes.COVER;
-  const size = entity.get(ImageSizeFacet)?.props.size || SizeTypes.AUTO_SIZE;
+  const [imageSizeProps, imageFitProps] = useEntityFacets(entity, ImageSizeFacet, ImageFitFacet);
+  const size = imageSizeProps?.size || SizeTypes.AUTO_SIZE;
+  const fit = imageFitProps?.fit || FitTypes.AUTO_FIT;
 
   console.log("isFullViewVisible", isFullViewVisible);
 
   return (
     <Fragment>
-      <BlockOutline blockEntity={entity} index={index}>
+      <BlockOutline paddingY blockEntity={entity} index={index}>
         {imageUrl ? (
           <StyledImageWrapper>
             <StyledImage

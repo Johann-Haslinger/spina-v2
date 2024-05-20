@@ -31,6 +31,7 @@ import { useUserData } from "../../../../../hooks/useUserData";
 import supabaseClient from "../../../../../lib/supabase";
 import { displayLabelTexts } from "../../../../../utils/displayText";
 import { useSelectedLanguage } from "../../../../../hooks/useSelectedLanguage";
+import LayoutOptions from "./LayoutOptions";
 
 type Option = {
   name: string;
@@ -166,12 +167,7 @@ const Editmenu = () => {
       icon: <IoLayers />,
       color: COLOR_ITEMS[4].color,
       bgColor: COLOR_ITEMS[4].backgroundColor,
-      content:
-        // <LayoutOptions
-        //   pressedBlocks={pressedBlocks as ImageBlock[]}
-        //   handleUpdateBlockLocally={handleUpdateBlockLocally}
-        // />
-        null,
+      content: <LayoutOptions />,
       canShow: showImageOptionQuery,
     },
     {
