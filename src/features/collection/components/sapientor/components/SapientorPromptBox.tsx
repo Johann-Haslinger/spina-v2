@@ -12,7 +12,7 @@ const StyledPromptBoxWrapper = styled.div`
 `;
 
 const StyledPromptInput = styled.input`
-  ${tw`h-10 placeholder:text-seconderyText placeholder:text-opacity-50 dark:text-white dark:placeholder:text-seconderyTextDark bg-white bg-opacity-0 outline-none`}
+  ${tw`h-10 w-[90%] placeholder:text-seconderyText placeholder:text-opacity-50 dark:text-white dark:placeholder:text-seconderyTextDark bg-white bg-opacity-0 outline-none`}
 `;
 
 const StyledSubmitButton = styled.button<{ active: boolean }>`
@@ -61,6 +61,11 @@ const SapientorPromptBox = (props: { isVisible: boolean }) => {
         onChange={(e) => setPrompt(e.target.value)}
         ref={promptInputRef}
         placeholder="Type a message"
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            submitPrompt();
+          }
+        }}
       />
       <StyledSubmitButton onClick={submitPrompt} active={prompt !== ""}>
         <IoArrowUp />

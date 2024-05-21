@@ -10,6 +10,8 @@ import { AdditionalTags } from "../../../../../base/enums";
 import SapientorChatView from "./SapientorChatView";
 import SapientorEye from "./SapientorEye";
 import SapientorQuickChat from "./SapientorQuickChat";
+import { useAppState } from "../../../hooks/useAppState";
+import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntityComponents";
 
 const useQuickChat = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -17,6 +19,7 @@ const useQuickChat = () => {
   const quickChatRef = useRef<HTMLDivElement>(null);
   const [promptEntities] = useEntities((e) => e.has(AdditionalTags.PROMPT));
   const [messageEntities] = useEntities((e) => e.has(MessageRoleFacet));
+  const { appStateEntity } = useAppState();
 
   const handleClickOutside = (event: MouseEvent) => {
     if (quickChatRef.current && !quickChatRef.current.contains(event.target as Node)) {
@@ -26,6 +29,7 @@ const useQuickChat = () => {
         [...promptEntities, ...messageEntities].forEach((entity) => {
           lsc.engine.removeEntity(entity);
         });
+        appStateEntity?.remove(AdditionalTags.CONVERSATION_VISIBLE);
       }, 300);
     }
   };
@@ -56,17 +60,37 @@ const StyledThinkingAnimationWrapper = styled.div`
 `;
 
 const SapientorIcon = () => {
+  const lsc = useContext(LeanScopeClientContext);
   const [promptEntity] = useEntities((e) => e.has(AdditionalTags.PROMPT) && e.has(AdditionalTags.PROCESSING))[0];
   const isProcessingCurrentPrompt = promptEntity?.hasTag(AdditionalTags.PROCESSING);
   const { isQuickChatVisible, setIsQuickChatVisible, quickChatRef } = useQuickChat();
   const [isChatVisible, setIsChatVisible] = useState(false);
+  const { appStateEntity } = useAppState();
+  const [isConversationVisible] = useEntityHasTags(appStateEntity, AdditionalTags.CONVERSATION_VISIBLE);
 
-  const openPromptBox = () => setIsQuickChatVisible(true);
+  useEffect(() => {
+    if (!isConversationVisible) {
+      setIsChatVisible(false);
+      setIsQuickChatVisible(false);
+
+      lsc.engine.entities.filter((e) => e.has(AdditionalTags.RELATED_THREAD_RESOURCE)).forEach((entity) => {
+        lsc.engine.removeEntity(entity);
+      })
+    }
+  }, [isConversationVisible]);
+
+  const openPromptBox = () => {
+    setIsQuickChatVisible(true);
+    appStateEntity?.add(AdditionalTags.CONVERSATION_VISIBLE);
+  }
   const openChatView = () => {
     setIsChatVisible(true);
     setIsQuickChatVisible(false);
   };
-  const closeChatView = () => setIsChatVisible(false);
+  const closeChatView = () => {
+    setIsChatVisible(false);
+    appStateEntity?.add(AdditionalTags.CONVERSATION_VISIBLE);
+  }
 
   return (
     <div ref={quickChatRef}>

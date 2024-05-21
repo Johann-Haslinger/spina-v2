@@ -4,7 +4,7 @@ export const getCompletion = async (prompt: string): Promise<string> => {
   const session = await supabaseClient.auth.getSession();
 
   if (session) {
-    const { data: completion, error } = await supabaseClient.functions.invoke("getCompletion", {
+    const { data: completion, error } = await supabaseClient.functions.invoke("get-completion", {
       headers: {
         Authorization: `Bearer ${session.data.session?.access_token}`,
       },
@@ -26,7 +26,7 @@ export const getJSONCompletion = async (prompt: string): Promise<string> => {
   const session = await supabaseClient.auth.getSession();
 
   if (session) {
-    const { data: completion, error } = await supabaseClient.functions.invoke("getJSONCompletion", {
+    const { data: completion, error } = await supabaseClient.functions.invoke("get-json-completion", {
       headers: {
         Authorization: `Bearer ${session.data.session?.access_token}`,
       },
@@ -48,7 +48,7 @@ export async function getAudioFromText(text: string): Promise<string | undefined
   const session = await supabaseClient.auth.getSession();
 
   if (session) {
-    const { data: mp3Blob, error } = await supabaseClient.functions.invoke("getAudioFromText", {
+    const { data: mp3Blob, error } = await supabaseClient.functions.invoke("get-audio-from-text", {
       headers: {
         Authorization: `Bearer ${session.data.session?.access_token}`,
       },

@@ -1,6 +1,6 @@
 import { Blocktypes, ListStyles, MessageRoles, SupportedLanguages, Texttypes } from "../base/enums";
 import { Facet } from "../base/facet";
-import { BlockeditorState } from "../base/types";
+import { BlockeditorState, Resource } from "../base/types";
 
 export interface TitleProps {
   title: string;
@@ -189,6 +189,18 @@ export interface MessageRoleProps {
 
 export class MessageRoleFacet extends Facet<MessageRoleProps> {
   constructor(props: MessageRoleProps) {
+    super(props);
+  }
+}
+
+
+
+export interface RelatedResourcesProps {
+  relatedResources: Resource[];
+}
+
+export class RelatedResourcesFacet extends Facet<RelatedResourcesProps> {
+  constructor(props: RelatedResourcesProps) {
     super(props);
   }
 }

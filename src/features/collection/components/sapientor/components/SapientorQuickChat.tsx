@@ -4,7 +4,7 @@ import { TextFacet } from "@leanscope/ecs-models";
 import { motion } from "framer-motion";
 import { Fragment } from "react/jsx-runtime";
 import tw from "twin.macro";
-import { MessageRoleFacet } from "../../../../../app/additionalFacets";
+import { MessageRoleFacet, RelatedResourcesFacet } from "../../../../../app/additionalFacets";
 import { sortMessageEntitiesByDateAdded } from "../../../../../utils/sortEntitiesByTime";
 import GenerateAnswerSystem from "../systems/GenerateAnswerSystem";
 import QuickChatMessage from "./QuickChatMessage";
@@ -36,7 +36,7 @@ const SapientorQuickChat = (props: { isVisible: boolean; openChatView: () => voi
         <StyledMessagesWrapper onClick={openChatView}>
           <EntityPropsMapper
             query={(e) => e.has(MessageRoleFacet)}
-            get={[[TextFacet, MessageRoleFacet], []]}
+            get={[[TextFacet, MessageRoleFacet, RelatedResourcesFacet], []]}
             sort={(a, b) => sortMessageEntitiesByDateAdded(a, b)}
             onMatch={QuickChatMessage}
           />

@@ -46,6 +46,14 @@ const Collection = () => {
       <PodcastCollectionView />
       <BookmarkCollectionView />
       <SapientorIcon />
+
+      {/* <EntityPropsMapper
+        query={(e) => dataTypeQuery(e, DataTypes.TOPIC) && e.hasTag(Tags.SELECTED)}
+        get={[[TitleFacet, DescriptionFacet], []]}
+        onMatch={TopicView}
+      /> */}
+
+
     </Fragment>
   );
 };

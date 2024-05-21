@@ -67,6 +67,9 @@ export enum AdditionalTags {
   OPEN,
   PROMPT,
   PROCESSING,
+  THREAD,
+  CONVERSATION_VISIBLE,
+  RELATED_THREAD_RESOURCE,
 }
 
 export enum NavigationLinks {

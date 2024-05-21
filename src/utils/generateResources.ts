@@ -1,7 +1,7 @@
 import { getCompletion, getJSONCompletion } from "./getCompletion";
 
 export const generateFlashCards = async (prompt: string): Promise<{ question: string; answer: string }[]> => {
-  let generateFlashCardsPrompt = `Wandle bitte den folgenden Text in Karteikarten um, mit Fragen und Antworten zum lernen als JSON mit einem Array von Objekten. 
+  const generateFlashCardsPrompt = `Wandle bitte den folgenden Text in Karteikarten um, mit Fragen und Antworten zum lernen als JSON mit einem Array von Objekten. 
     Text:
     ${prompt}
   

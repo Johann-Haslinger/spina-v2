@@ -1,8 +1,9 @@
 import styled from "@emotion/styled";
 import { TextProps } from "@leanscope/ecs-models";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 import tw from "twin.macro";
-import { MessageRoleProps } from "../../../../../app/additionalFacets";
+import { MessageRoleProps, RelatedResourcesProps } from "../../../../../app/additionalFacets";
 import { COLOR_ITEMS } from "../../../../../base/constants";
 import { MessageRoles } from "../../../../../base/enums";
 
@@ -26,11 +27,23 @@ const StyledRoleTitle = styled.p`
 `;
 
 const StyledTextWrapper = styled.div`
-  ${tw`pl-6 line-clamp-3`}
+  ${tw`pl-6 `}
+`;
+const StyledRelatedResourcesWrapper = styled.div`
+  ${tw`flex items-center hover:opacity-50 transition-all bg-white bg-opacity-5 ml-4 px-2 rounded-lg w-fit mt-3`}
 `;
 
-const QuickChatMessage = (props: TextProps & MessageRoleProps) => {
-  const { text, role } = props;
+
+const QuickChatMessage = (props: TextProps & MessageRoleProps & RelatedResourcesProps) => {
+  const { text, role, relatedResources = [] } = props;
+  const [displayResources, setDisplayResources] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setDisplayResources(true);
+    }, 400);
+  }, []);
+
 
   return (
     <div>
@@ -50,7 +63,24 @@ const QuickChatMessage = (props: TextProps & MessageRoleProps) => {
             <StyledRoleTitle>{role === MessageRoles.USER ? "Du" : "Sapientor"}</StyledRoleTitle>
           </StyledMessageHeader>
 
-          <StyledTextWrapper>{text}</StyledTextWrapper>
+          <StyledTextWrapper dangerouslySetInnerHTML={{ __html: text }} />
+
+          {relatedResources.length > 0 && (
+            <motion.div
+              initial={{
+                opacity: 0,
+                y: 5,
+              }}
+              animate={{
+                opacity: displayResources ? 1 : 0,
+                y: displayResources ? 0 : 5,
+              }}
+            >
+              <StyledRelatedResourcesWrapper>
+                {relatedResources.length} Resources
+              </StyledRelatedResourcesWrapper>
+            </motion.div>
+          )}
         </StyledMessageContentWrapper>
       </motion.div>
     </div>

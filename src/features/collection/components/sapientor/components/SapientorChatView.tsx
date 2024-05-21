@@ -3,7 +3,7 @@ import { EntityPropsMapper } from "@leanscope/ecs-engine";
 import { TextFacet } from "@leanscope/ecs-models";
 import { IoClose } from "react-icons/io5";
 import tw from "twin.macro";
-import { MessageRoleFacet } from "../../../../../app/additionalFacets";
+import { MessageRoleFacet, RelatedResourcesFacet } from "../../../../../app/additionalFacets";
 import { FlexBox, ScrollableBox, Sheet, Spacer } from "../../../../../components";
 import { sortMessageEntitiesByDateAdded } from "../../../../../utils/sortEntitiesByTime";
 import ChatMessage from "./ChatMessage";
@@ -36,7 +36,7 @@ const SapientorChatView = (props: { isVisible: boolean; navigateBack: () => void
         <ScrollableBox>
           <EntityPropsMapper
             query={(e) => e.has(MessageRoleFacet)}
-            get={[[TextFacet, MessageRoleFacet], []]}
+            get={[[TextFacet, MessageRoleFacet, RelatedResourcesFacet], []]}
             sort={(a, b) => sortMessageEntitiesByDateAdded(a, b)}
             onMatch={ChatMessage}
           />

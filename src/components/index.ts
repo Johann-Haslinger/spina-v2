@@ -49,6 +49,7 @@ export { SegmentedControl, SegmentedControlCell } from "./inputs/SegmentedContro
 
 export { default as NoteThumbNail } from "./thumb-nails/NoteThumbNail";
 export { default as FlashcardSetThumbNail } from "./thumb-nails/FlashcardSetThumbNail";
+export { default as TopicResoucreThumbNail } from "./thumb-nails/TopicResoucreThumbNail";
 
 
 // ------Status-----
