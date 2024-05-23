@@ -1,35 +1,47 @@
 import styled from "@emotion/styled";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useEntities } from "@leanscope/ecs-engine";
+import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntityComponents";
 import { motion } from "framer-motion";
-import { useContext, useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef } from "react";
 import tw from "twin.macro";
 import { MessageRoleFacet } from "../../../../../app/additionalFacets";
 import { COLOR_ITEMS } from "../../../../../base/constants";
 import { AdditionalTags } from "../../../../../base/enums";
-import SapientorChatView from "./SapientorChatView";
+import { useCurrentSapientorConversation } from "../hooks/useCurrentConversation";
+import SapientorChatSheet from "./SapientorChatSheet";
 import SapientorEye from "./SapientorEye";
 import SapientorQuickChat from "./SapientorQuickChat";
-import { useAppState } from "../../../hooks/useAppState";
-import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntityComponents";
 
 const useQuickChat = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const [isQuickChatVisible, setIsQuickChatVisible] = useState(false);
   const quickChatRef = useRef<HTMLDivElement>(null);
   const [promptEntities] = useEntities((e) => e.has(AdditionalTags.PROMPT));
   const [messageEntities] = useEntities((e) => e.has(MessageRoleFacet));
-  const { appStateEntity } = useAppState();
+  const { isChatSheetVisible, setQuickChatVisible, setChatSheetVisible, deleteCurrentConversation, isQuickChatVisible } = useCurrentSapientorConversation();
+
+
+  useEffect(() => {
+    if (!isChatSheetVisible && !isQuickChatVisible) {
+      lsc.engine.entities.filter((e) => e?.has(AdditionalTags.RELATED_THREAD_RESOURCE)).forEach((entity) => {
+        lsc.engine.removeEntity(entity);
+      })
+    }
+  }, [isQuickChatVisible, isChatSheetVisible,  deleteCurrentConversation, lsc.engine]);
+
 
   const handleClickOutside = (event: MouseEvent) => {
     if (quickChatRef.current && !quickChatRef.current.contains(event.target as Node)) {
-      setIsQuickChatVisible(false);
+      setQuickChatVisible(false);
+      setChatSheetVisible(false);
+
+      console.log("invisible");
 
       setTimeout(() => {
         [...promptEntities, ...messageEntities].forEach((entity) => {
           lsc.engine.removeEntity(entity);
         });
-        appStateEntity?.remove(AdditionalTags.CONVERSATION_VISIBLE);
+
       }, 300);
     }
   };
@@ -37,9 +49,10 @@ const useQuickChat = () => {
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [messageEntities, promptEntities]);
 
-  return { quickChatRef, isQuickChatVisible, setIsQuickChatVisible };
+  }, [messageEntities, promptEntities, setQuickChatVisible, setChatSheetVisible]);
+
+  return { quickChatRef };
 };
 
 const StyledIconWrapper = styled.div`
@@ -47,7 +60,7 @@ const StyledIconWrapper = styled.div`
 `;
 
 const StyledSapientorOutline = styled.div`
-  ${tw`w-full rounded-t-full h-8 md:h-10 xl:h-12`}
+  ${tw`w-full rounded-t-full h-8  md:h-12`}
   background-color: ${COLOR_ITEMS[0].backgroundColor};
 `;
 
@@ -60,36 +73,18 @@ const StyledThinkingAnimationWrapper = styled.div`
 `;
 
 const SapientorIcon = () => {
-  const lsc = useContext(LeanScopeClientContext);
   const [promptEntity] = useEntities((e) => e.has(AdditionalTags.PROMPT) && e.has(AdditionalTags.PROCESSING))[0];
-  const isProcessingCurrentPrompt = promptEntity?.hasTag(AdditionalTags.PROCESSING);
-  const { isQuickChatVisible, setIsQuickChatVisible, quickChatRef } = useQuickChat();
-  const [isChatVisible, setIsChatVisible] = useState(false);
-  const { appStateEntity } = useAppState();
-  const [isConversationVisible] = useEntityHasTags(appStateEntity, AdditionalTags.CONVERSATION_VISIBLE);
-
-  useEffect(() => {
-    if (!isConversationVisible) {
-      setIsChatVisible(false);
-      setIsQuickChatVisible(false);
-
-      lsc.engine.entities.filter((e) => e.has(AdditionalTags.RELATED_THREAD_RESOURCE)).forEach((entity) => {
-        lsc.engine.removeEntity(entity);
-      })
-    }
-  }, [isConversationVisible]);
+  const [isProcessingCurrentPrompt] = useEntityHasTags(promptEntity, AdditionalTags.PROCESSING);
+  const { quickChatRef } = useQuickChat();
+  const { isQuickChatVisible, setQuickChatVisible, setChatSheetVisible } = useCurrentSapientorConversation();
 
   const openPromptBox = () => {
-    setIsQuickChatVisible(true);
-    appStateEntity?.add(AdditionalTags.CONVERSATION_VISIBLE);
-  }
-  const openChatView = () => {
-    setIsChatVisible(true);
-    setIsQuickChatVisible(false);
-  };
-  const closeChatView = () => {
-    setIsChatVisible(false);
-    appStateEntity?.add(AdditionalTags.CONVERSATION_VISIBLE);
+    setQuickChatVisible(true);
+
+    if (isQuickChatVisible) {
+      setQuickChatVisible(false);
+      setChatSheetVisible(true);
+    }
   }
 
   return (
@@ -157,8 +152,8 @@ const SapientorIcon = () => {
         </StyledIconWrapper>
       </motion.div>
 
-      <SapientorQuickChat openChatView={openChatView} isVisible={isQuickChatVisible} />
-      <SapientorChatView navigateBack={closeChatView} isVisible={isChatVisible} />
+      <SapientorQuickChat />
+      <SapientorChatSheet />
     </div>
   );
 };

@@ -77,6 +77,7 @@ const View = (props: ViewProps & PropsWithChildren) => {
             left: 0,
             zIndex: overlaySidebar ? 100 : "auto",
             x: viewType == "overlayView" ? "100%" : 0,
+            backgroundColor: "white",
           }}
           transition={{
             type: "tween",

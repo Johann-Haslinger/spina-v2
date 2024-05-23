@@ -1,7 +1,8 @@
 import { useEntities } from "@leanscope/ecs-engine";
+import { Tags } from "@leanscope/ecs-models";
 import { useEffect, useState } from "react";
 import { AdditionalTags, Stories } from "../base/enums";
-import { Tags } from "@leanscope/ecs-models";
+import { useCurrentSapientorConversation } from "../features/collection/components/sapientor/hooks/useCurrentConversation";
 import { useSelectedTheme } from "../features/collection/hooks/useSelectedTheme";
 import { useIsAnyStoryCurrent } from "../hooks/useIsAnyStoryCurrent";
 
@@ -33,17 +34,48 @@ const ViewManagerSystem = () => {
     Stories.GENERATING_PODCAST_STORY,
     Stories.GENERATING_IMPROVED_TEXT_STORY,
   ]);
+  // const isQuizViewVisible = useIsStoryCurrent(Stories.OBSERVING_FLASHCARD_QUIZ_STORY);
   const { isDarkMode } = useSelectedTheme();
   const [closingVews] = useEntities((e) => e.hasTag(Tags.SELECTED) && e.hasTag(AdditionalTags.NAVIGATE_BACK));
   const [themeColor, setThemeColor] = useState("#F5F5F5");
+  // const { backgroundColor } = useSelectedSchoolSubjectColor();
+  const { isChatSheetVisible } = useCurrentSapientorConversation();
 
   useEffect(() => {
     if (isSheetViewVisible) {
+      if (!isDarkMode) {
+        setThemeColor("rgb(214,214,214)");
+      }
+    } else {
+      if (!isDarkMode) {
+        setThemeColor("#F5F5F5");
+      }
+    }
+  }, [isSheetViewVisible]);
+
+  useEffect(() => {
+    if (isChatSheetVisible) {
       document.body.classList.add("overflow-hidden");
     } else {
       document.body.classList.remove("overflow-hidden");
     }
-  }, [isSheetViewVisible]);
+  }, [isChatSheetVisible]);
+
+  // useEffect(() => {
+  //   if (isQuizViewVisible) {
+  //     if (isDarkMode) {
+  //       setThemeColor("#000000");
+  //     } else {
+  //       setThemeColor(backgroundColor);
+  //     }
+  //   } else {
+  //     if (isDarkMode) {
+  //       setThemeColor("#000000");
+  //     } else {
+  //       setThemeColor("#F5F5F5");
+  //     }
+  //   }
+  // }, [isQuizViewVisible]);
 
   useEffect(() => {
     if (isDarkMode) {

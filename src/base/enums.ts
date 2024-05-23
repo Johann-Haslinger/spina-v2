@@ -70,6 +70,9 @@ export enum AdditionalTags {
   THREAD,
   CONVERSATION_VISIBLE,
   RELATED_THREAD_RESOURCE,
+  SAPIENTOR_CONVERSATION,
+  QUIK_CHAT_VISIBLE,
+  CHAt_SHEET_VISIBLE,
 }
 
 export enum NavigationLinks {
@@ -139,3 +142,7 @@ export enum ListStyles {
   UNORDERED = "unordered",
 }
 
+export enum SupportedModels {
+  SAPIENTOR_ASSISTENT,
+  TURBO
+}

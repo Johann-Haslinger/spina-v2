@@ -83,7 +83,7 @@ const useFlashcardQuizEntities = () => {
         setSelectedFlashcardEntities(allFlashcardEntities);
       }
     }
-  }, [selectedFlashcardGroupId, selectedSubtopicId, bookmarkedFlashcardGroupEntities, isBookmarkedQuiz]);
+  }, [selectedFlashcardGroupId, selectedSubtopicId, bookmarkedFlashcardGroupEntities, isBookmarkedQuiz, allFlashcardEntities.length]);
 
   return selectedFlashcardEntities;
 };
@@ -104,12 +104,13 @@ const StyledTalkingModeButton = styled.div`
 `;
 
 const StyledProgressBarWrapper = styled.div`
-  ${tw` dark:bg-seconderyDark bg-tertiary bg-opacity-50  overflow-hidden mb-4 h-fit w-full  rounded-full `}
+  ${tw` dark:bg-seconderyDark bg-white bg-opacity-50  overflow-hidden mb-4 h-fit w-full  rounded-full `}
 `;
 const StyledProgressBar = styled.div<{ width?: number; backgroundColor: string }>`
-  ${tw`transition-all dark:bg-white  h-1 rounded-full`}
+  ${tw`transition-all bg-white  h-1 rounded-full`}
   width: ${(props) => props.width || 1}%;
   background-color: ${(props) => props.backgroundColor};
+  
 `;
 
 const StyledFlashcardsStatusWrapper = styled.div`
@@ -137,7 +138,7 @@ const formatElapsedTime = (timeInSeconds: number) => {
 
 const FlashcardQuizView = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const { backgroundColor, color } = useSelectedSchoolSubjectColor();
+  const { backgroundColor } = useSelectedSchoolSubjectColor();
   const isVisible = useIsAnyStoryCurrent([
     Stories.OBSERVING_FLASHCARD_QUIZ_STORY,
     Stories.OBSERVING_BOOKMARKED_FLASHCARD_GROUP_QUIZ_STORY,
@@ -207,7 +208,7 @@ const FlashcardQuizView = () => {
   };
 
   return (
-    <View backgroundColor={backgroundColor} overlaySidebar visible={isVisible}>
+    <View backgroundColor={backgroundColor + "95"} overlaySidebar visible={isVisible}>
       <StyledStatusBarWrapper>
         <FlexBox>
           <StyledBackButtonWrapper onClick={handleBackButtonClick}>
@@ -222,7 +223,7 @@ const FlashcardQuizView = () => {
         </FlexBox>
         <StyledProgressBarWrapper>
           <StyledProgressBar
-            backgroundColor={color}
+            backgroundColor={backgroundColor}
             width={((currentFlashcardIndex || 0) / (flashcardEntities.length || 1)) * 100 + 1}
           />
         </StyledProgressBarWrapper>

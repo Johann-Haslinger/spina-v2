@@ -9,7 +9,8 @@ import {
   IoBookmarkOutline,
   IoCreateOutline,
   IoHeadsetOutline,
-  IoTrashOutline,
+  IoPlayOutline,
+  IoTrashOutline
 } from "react-icons/io5";
 import { Fragment } from "react/jsx-runtime";
 import {
@@ -24,6 +25,7 @@ import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
 import {
   ActionRow,
   CollectionGrid,
+  NavBarButton,
   SegmentedControl,
   SegmentedControlCell,
   Spacer,
@@ -113,9 +115,11 @@ const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierPr
             </Fragment>
           }
           customEditOptions={
-            <ActionRow first last icon={<IoAlbumsOutline />} onClick={() => openFlashcardQuizView()}>
+            <NavBarButton content={<ActionRow first last icon={<IoAlbumsOutline />} onClick={() => openFlashcardQuizView()}>
               {displayActionTexts(selectedLanguage).quiz}
-            </ActionRow>
+            </ActionRow>}>
+              <IoPlayOutline />
+            </NavBarButton>
           }
           customHeaderArea={
             <div>

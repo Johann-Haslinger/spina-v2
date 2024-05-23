@@ -5,12 +5,10 @@ import { TitleFacet } from "../app/additionalFacets";
 import { DataTypes } from "../base/enums";
 import { CollectionGrid, NavigationBar, Spacer, Title, View } from "../components";
 import {
-  BookmarkCollectionCard,
   BookmarkCollectionView,
-  PodcastCollectionCard,
   PodcastCollectionView,
   SchoolSubjectCell,
-  SchoolSubjectView,
+  SchoolSubjectView
 } from "../features/collection";
 import { SapientorIcon } from "../features/collection/components/sapientor";
 import { useSelectedLanguage } from "../hooks/useSelectedLanguage";
@@ -32,8 +30,8 @@ const Collection = () => {
             get={[[TitleFacet, OrderFacet], []]}
             onMatch={SchoolSubjectCell}
           />
-          <PodcastCollectionCard />
-          <BookmarkCollectionCard />
+          {/* <PodcastCollectionCard /> */}
+          {/* <BookmarkCollectionCard /> */}
         </CollectionGrid>
       </View>
 

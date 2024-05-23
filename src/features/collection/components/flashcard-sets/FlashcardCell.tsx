@@ -8,8 +8,8 @@ import { useSelectedSchoolSubjectColor } from "../../hooks/useSelectedSchoolSubj
 const StyledFlashcardCellWrapper = styled.div<{
   backgroundColor: string;
 }>`
-  ${tw`w-full cursor-pointer h-40 dark:bg-tertiaryDark text-white  rounded-lg p-3 transition-all md:hover:scale-105`}
-  background-color: ${(props) => props.backgroundColor};
+  ${tw`w-full cursor-pointer bg-black bg-opacity-5 h-40 dark:bg-tertiaryDark dark:text-white  rounded-lg p-3 transition-all md:hover:scale-105`}
+
 `;
 
 const StyledTextWrapper = styled.div`

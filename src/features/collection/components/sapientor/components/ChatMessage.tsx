@@ -13,6 +13,8 @@ import { NoteThumbNail, TopicResoucreThumbNail } from "../../../../../components
 import { COLOR_ITEMS } from "../../../../../base/constants";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useAppState } from "../../../hooks/useAppState";
+import { displayDataTypeTexts } from "../../../../../utils/displayText";
+import { useSelectedLanguage } from "../../../../../hooks/useSelectedLanguage";
 
 const TopicResourceCell = (props: TitleProps & EntityProps) => {
   const { title, entity } = props;
@@ -38,10 +40,23 @@ const NoteResouceCell = (props: TitleProps & EntityProps) => {
 
   return (
     <StyledNoteResouceCellWrapper>
-      <NoteThumbNail color={COLOR_ITEMS[1].backgroundColor} onClick={openNote} title={title} type={DataTypes.NOTE} />
+      <NoteThumbNail color={COLOR_ITEMS[1].backgroundColor} onClick={openNote} title={title} />
     </StyledNoteResouceCellWrapper>
   )
 
+}
+
+const HomeworkResourceCell = (props: TitleProps & EntityProps) => {
+  const { title, entity } = props;
+  const { selectedLanguage } = useSelectedLanguage()
+
+  const openHomework = () => entity.addTag(Tags.SELECTED)
+
+  return (
+    <StyledNoteResouceCellWrapper>
+      <NoteThumbNail onClick={openHomework} color={COLOR_ITEMS[1].backgroundColor} title={title} type={displayDataTypeTexts(selectedLanguage).homework} />
+    </StyledNoteResouceCellWrapper>
+  );
 }
 
 const InitializeRelatedResourcesSystem = (props: { relatedResources: Resource[] }) => {
@@ -68,7 +83,7 @@ const InitializeRelatedResourcesSystem = (props: { relatedResources: Resource[] 
 
 
 
-  }, [relatedResources.length])
+  }, [lsc.engine, relatedResources, relatedResources.length])
 
 
   return null
@@ -96,6 +111,12 @@ const RelatedResourcesInfo = (props: { relatedResources: Resource[] }) => {
         get={[[TitleFacet], []]}
         onMatch={NoteResouceCell}
       />
+      <EntityPropsMapper
+        query={(e) => e.has(DataTypes.HOMEWORK) && relatedResources.some((r) => r.id === e.get(IdentifierFacet)?.props.guid)}
+        get={[[TitleFacet], []]}
+        onMatch={HomeworkResourceCell}
+      />
+
 
 
     </StyledRelatedResourcesWrapper>
@@ -130,7 +151,7 @@ const ChatMessage = (props: TextProps & MessageRoleProps & RelatedResourcesProps
             specialContent: relatedResources.length > 0 && <RelatedResourcesInfo relatedResources={relatedResources} />,
           }}
 
-          
+
 
         />
       </motion.div>

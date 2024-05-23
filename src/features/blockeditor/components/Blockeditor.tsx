@@ -53,6 +53,7 @@ const Blockeditor = (props: BlockeditorProps) => {
     navigateBack,
     handleTitleBlur,
     backbuttonLabel,
+    customEditOptions
   } = props;
   const { selectedLanguage } = useSelectedLanguage();
   const { blockeditorState, blockeditorEntity, blockeditorId } = useCurrentBlockeditor();
@@ -67,6 +68,7 @@ const Blockeditor = (props: BlockeditorProps) => {
         <UpdateBlockStateSystem />
         <ChangeBlockeditorStateSystem />
         <NavigationBar>
+
           {blockeditorState === "view" ? (
             <Fragment>
               <NavBarButton
@@ -86,7 +88,7 @@ const Blockeditor = (props: BlockeditorProps) => {
               >
                 <IoColorWandOutline />
               </NavBarButton>
-
+              {customEditOptions}
               <NavBarButton>
                 <IoAdd onClick={() => changeBlockeditorState(blockeditorEntity, "create")} />
               </NavBarButton>

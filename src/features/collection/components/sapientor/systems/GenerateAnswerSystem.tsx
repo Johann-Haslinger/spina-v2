@@ -6,8 +6,9 @@ import { DateAddedFacet, MessageRoleFacet, RelatedResourcesFacet } from "../../.
 import { AdditionalTags, MessageRoles } from "../../../../../base/enums";
 import supabaseClient from "../../../../../lib/supabase";
 import { Resource } from "../../../../../base/types";
+import { useCurrentSapientorConversation } from "../hooks/useCurrentConversation";
 
-export const getCompletion = async (prompt: string, threadId?: string,): Promise<{ threadId?: string, answer: string, relatedResources?: Resource[] }> => {
+export const getSapientorAssistenCompletion = async (prompt: string, threadId?: string, assistantId?: string): Promise<{ threadId?: string, answer: string, relatedResources?: Resource[], assistantId?: string }> => {
   const session = await supabaseClient.auth.getSession();
 
   console.log("threadId", threadId);
@@ -17,7 +18,7 @@ export const getCompletion = async (prompt: string, threadId?: string,): Promise
       headers: {
         Authorization: `Bearer ${session.data.session?.access_token}`,
       },
-      body: { prompt, threadId },
+      body: { prompt, threadId, assistantIdProp: assistantId },
     });
 
     if (error) {
@@ -33,6 +34,28 @@ export const getCompletion = async (prompt: string, threadId?: string,): Promise
   }
 };
 
+const getTurboCompletion = async (prompt: string): Promise<string> => {
+  const session = await supabaseClient.auth.getSession();
+
+  if (session) {
+    const { data: completion, error } = await supabaseClient.functions.invoke("turbo-completion", {
+      headers: {
+        Authorization: `Bearer ${session.data.session?.access_token}`,
+      },
+      body: { prompt },
+    });
+
+    if (error) {
+      console.error("error generating completion:", error.message);
+      return `error generating completion:` + error.message;
+    }
+
+    return completion;
+  } else {
+    return "User must be signed in to call this function";
+  }
+}
+
 function formatString(input: string): string {
   const boldRegex = /\*\*(.*?)\*\*/g;
   const bracketRegex = /\[.*?\]/g;
@@ -47,6 +70,7 @@ const GenerateAnswerSystem = () => {
   const lsc = useContext(LeanScopeClientContext);
   const [currentPromptEntities] = useEntities((e) => e.hasTag(AdditionalTags.PROMPT));
   const [currentThreadEntities] = useEntities((e) => e.hasTag(AdditionalTags.THREAD));
+  const { useSapientorAssistentModel } = useCurrentSapientorConversation();
 
   useEffect(() => {
     const generateAnswer = async (promptEntity: Entity) => {
@@ -63,10 +87,39 @@ const GenerateAnswerSystem = () => {
       newQuestionMessageEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
 
       const threadId = currentThreadEntities[0]?.get(IdentifierFacet)?.props.guid;
+      const assistantId = currentThreadEntities[0]?.get(TextFacet)?.props.text;
 
-      console.log("threadId", threadId);
 
-      const response = await getCompletion(prompt, threadId);
+      let answer = ""
+
+      const newAnswerMessageEntity = new Entity();
+      lsc.engine.addEntity(newAnswerMessageEntity);
+
+      if (useSapientorAssistentModel) {
+        const response = await getSapientorAssistenCompletion(prompt, threadId, assistantId);
+
+        answer = response.answer;
+
+
+        if (response.relatedResources) {
+          newAnswerMessageEntity.add(new RelatedResourcesFacet({ relatedResources: response?.relatedResources as Resource[] }));
+        }
+
+        if (currentThreadEntities.length == 0 && response.threadId) {
+          const newCurrentThreadEntity = new Entity();
+          lsc.engine.addEntity(newCurrentThreadEntity);
+          newCurrentThreadEntity.add(new IdentifierFacet({ guid: response.threadId }));
+          newCurrentThreadEntity.add(new TextFacet({ text: response.assistantId || "" }));
+          newCurrentThreadEntity.addTag(AdditionalTags.THREAD);
+        }
+
+
+      } else {
+        answer = await getTurboCompletion(prompt);
+
+
+      }
+
       // const response = {
       //   threadId: 'thread_nD8H0c9Uv1pO1hI4XCThvFSL', answer: `
       //   Karteikarten
@@ -80,35 +133,24 @@ const GenerateAnswerSystem = () => {
       //   // ]
       // }
 
-      console.log("response", response.relatedResources);
 
-      const newAnswerMessageEntity = new Entity();
-      lsc.engine.addEntity(newAnswerMessageEntity);
+
       newAnswerMessageEntity.add(
         new TextFacet({
-          text: formatString(response.answer.replace("\n", "<br/><br/>").replace("#", ""))
+          text: formatString(answer.replace("\n", "<br/><br/>").replace("#", ""))
         })
       );
       newAnswerMessageEntity.add(new MessageRoleFacet({ role: MessageRoles.SAPIENTOR }));
       newAnswerMessageEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
-      if (response.relatedResources) {
-        newAnswerMessageEntity.add(new RelatedResourcesFacet({ relatedResources: response?.relatedResources as Resource[] }));
-      }
 
       promptEntity.remove(AdditionalTags.PROCESSING);
       lsc.engine.removeEntity(promptEntity);
 
-      if (currentThreadEntities.length == 0 && response.threadId) {
-        const newCurrentThreadEntity = new Entity();
-        lsc.engine.addEntity(newCurrentThreadEntity);
-        newCurrentThreadEntity.add(new IdentifierFacet({ guid: response.threadId }));
-        newCurrentThreadEntity.addTag(AdditionalTags.THREAD);
-      }
 
     };
 
     generateAnswer(currentPromptEntities[0]);
-  }, [currentPromptEntities.length]);
+  }, [currentPromptEntities.length, useSapientorAssistentModel]);
 
   return null;
 };
