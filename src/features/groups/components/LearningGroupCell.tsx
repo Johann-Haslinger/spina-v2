@@ -6,22 +6,24 @@ import tw from "twin.macro";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import { displayAlertTexts } from "../../../utils/displayText";
 import { IoPeople } from "react-icons/io5";
+import { COLOR_ITEMS } from "../../../base/constants";
 
-const StyledTopicCellContainer = styled.div`
+const StyledLearningGroupCellContainer = styled.div`
   ${tw` w-full cursor-pointer pb-6 h-fit`}
 `;
 
-const StyledTopicCellWrapper = styled.div<{
+const StyledLearningGroupCellWrapper = styled.div<{
   backgroundColor: string;
 }>`
-  ${tw`w-full h-40  text-white text-opacity-40 rounded-xl flex justify-center items-center  md:hover:scale-105 transition-all  text-7xl font-bold p-2 `}
-  background-color: ${({ backgroundColor }) => backgroundColor};  
+  ${tw`w-full h-40  flex justify-center items-center  md:hover:scale-105 md:hover:text-[9.5rem] transition-all  text-9xl font-bold p-2 `}
+  background-color: ${({ backgroundColor }) => backgroundColor}; 
+  color: ${({ backgroundColor }) => COLOR_ITEMS.find((e) => e.backgroundColor === backgroundColor)?.color}; 
 `;
 
-const StyledTopicTitle = styled.p`
+const StyledLearningGroupTitle = styled.p`
   ${tw`mt-4 dark:text-white text-primatyText font-bold text-xl line-clamp-2 `}
 `;
-const StyledTopicDescription = styled.p`
+const StyledLearningGroupDescription = styled.p`
   ${tw` text-seconderyText line-clamp-2 mt-1`}
 `;
 
@@ -32,18 +34,18 @@ const LearningGroupCell = (props: TitleProps & ColorProps & DescriptionProps & E
   const openLearningGroup = () => entity.add(Tags.SELECTED)
 
   return (
-    <StyledTopicCellContainer onClick={openLearningGroup}>
-      <StyledTopicCellWrapper backgroundColor={colorName || "blue"}>
+    <StyledLearningGroupCellContainer onClick={openLearningGroup}>
+      <StyledLearningGroupCellWrapper backgroundColor={colorName || "blue"}>
         <IoPeople />
-      </StyledTopicCellWrapper>
+      </StyledLearningGroupCellWrapper>
 
-      <StyledTopicTitle>
+      <StyledLearningGroupTitle>
         {title || displayAlertTexts(selectedLanguage).noTitle}
-      </StyledTopicTitle>
-      <StyledTopicDescription>
+      </StyledLearningGroupTitle>
+      <StyledLearningGroupDescription>
         {description || displayAlertTexts(selectedLanguage).noDescription}
-      </StyledTopicDescription>
-    </StyledTopicCellContainer>
+      </StyledLearningGroupDescription>
+    </StyledLearningGroupCellContainer>
   )
 }
 

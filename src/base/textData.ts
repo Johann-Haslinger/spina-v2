@@ -269,6 +269,10 @@ export const LABEL_TEXT_DATA = {
     de: "Bildgröße",
     en: "Image size",
   },
+  color: {
+    de: "Farbe",
+    en: "Color"
+  }
 };
 export const DATA_TYPE_TEXT_DATA = {
   note: {

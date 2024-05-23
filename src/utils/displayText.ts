@@ -94,6 +94,7 @@ export const displayLabelTexts = (selectedLanguage: SupportedLanguages) => {
     delete: LABEL_TEXT_DATA.delete[selectedLanguage],
     adjustImage: LABEL_TEXT_DATA.adjust_image[selectedLanguage],
     imageSize: LABEL_TEXT_DATA.image_size[selectedLanguage],
+    color: LABEL_TEXT_DATA.color[selectedLanguage],
   };
 };
 

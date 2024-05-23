@@ -38,30 +38,37 @@ export const COLOR_ITEMS: { color: string; backgroundColor: string, name?: strin
   {
     color: "#EE7A2C",
     backgroundColor: "#F4CF54",
+    name: "orange"
   },
   {
     color: "#B9A0FF",
     backgroundColor: "#00965F",
+    name: "violet"
   },
   {
     color: "#F4BAB5",
     backgroundColor: "#0B86D1",
+    name: "lavender"
   },
   {
     color: "#00965F",
     backgroundColor: "#B9A0FF",
+    name: "green"
   },
   {
     color: "#0B86D1",
     backgroundColor: "#F4BAB5",
+    name: "blue"
   },
   {
     color: "#B9A0FF",
     backgroundColor: "#446DFF",
+    name: "violet"
   },
   {
     color: "#F4CF54",
     backgroundColor: "#EE7A2C",
+    name: "yellow"
   },
   // { color: '#FF3B30', name: 'Red', backgroundColor: '#FFB9B6' },
   // { color: '#FF9500', name: 'Orange', backgroundColor: '#FFD3A6' },

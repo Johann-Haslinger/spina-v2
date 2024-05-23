@@ -427,3 +427,50 @@ export const dummyLearningGroups = [
     description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr.",
   },
 ];
+
+export const dummyGroupSchoolSubjects = [
+  {
+    id: "1",
+    title: "Mathematik",
+  },
+  {
+    id: "2",
+    title: "Deutsch",
+  },
+  {
+    id: "3",
+    title: "Englisch",
+  },
+  {
+    id: "4",
+    title: "Geschichte",
+  },
+  {
+    id: "5",
+    title: "Biologie",
+  },
+  {
+    id: "6",
+    title: "Chemie",
+  },
+  {
+    id: "7",
+    title: "Physik",
+  },
+  {
+    id: "8",
+    title: "Informatik",
+  },
+  {
+    id: "9",
+    title: "Sport",
+  },
+  {
+    id: "10",
+    title: "Kunst",
+  },
+  {
+    id: "11",
+    title: "Musik",
+  },
+];

@@ -11,10 +11,10 @@ import { dataTypeQuery } from "../../../utils/queries";
 
 const fetchLearningGroups = async () => {
 
-  const { data: learningGroups, error } = await supabaseClient.from("subjects").select("title, id, color, description");
+  const { data: learningGroups, error } = await supabaseClient.from("learning_groups").select("title, id, color, description");
 
   if (error) {
-    console.error("Error fetching school subjects:", error);
+    console.error("Error fetching learning groups:", error);
     return [];
   }
 

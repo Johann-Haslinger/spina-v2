@@ -118,15 +118,6 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
           />
         </CollectionGrid>
 
-        {/* <CollectionGrid>
-        <EntityPropsMapper 
-          query={(e) => dataTypeQuery(e, DataTypes.PODCAST) && isChildOfQuery(e, entity)}
-          get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
-          sort={(a, b) => sortEntitiesByDateAdded(a, b)}
-          onMatch={PodcastCell}
-        />
-        </CollectionGrid> */}
-
         <CollectionGrid>
           <EntityPropsMapper
             query={(e) => dataTypeQuery(e, DataTypes.HOMEWORK) && isChildOfQuery(e, entity)}

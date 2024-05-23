@@ -16,6 +16,7 @@ export enum Stories {
   OBSERVING_BOOKMARK_COLLECTION_STORY = "observingBookmarkCollectionStory",
   OBSERVING_BLOCKEDITOR_STORY = "observingBlockeditorStory",
   OBSERVING_LERNING_GROUPS_STORY = "observingLerningGroupsStory",
+  OBSERVING_LERNING_GROUP_STORY = "observingLerningGroupStory",
 
   ADDING_FLASHCARD_SET_STORY = "addFlashcardSetStory",
   ADDING_TOPIC_STORY = "addTopicStory",
@@ -32,7 +33,7 @@ export enum Stories {
   EDITING_TOPIC_STORY = "editTopicStory",
   EDITING_SUBTOPIC_STORY = "editSubtopicStory",
   EDITING_EXAM_STORY = "editExamStory",
-  EDITING_LERNING_GROUP_STORY = "editLerningGroupStory",
+  EDITING_LEARNING_GROUP_STORY = "editLerningGroupStory",
 
   DELETING_FLASHCARD_SET_STORY = "deleteFlashcardSetStory",
   DELETING_HOMEWORK_STORY = "deleteHomeworkStory",
@@ -101,7 +102,8 @@ export enum DataTypes {
   PODCAST = "podcast",
   LERNVIDEO = "lernVideo",
   BLOCK = "block",
-  LEARNING_GROUP = "learningGroup"
+  LEARNING_GROUP = "learningGroup",
+  GROUP_SCHOOL_SUBJECT = "groupSchoolSubject",
 }
 
 export enum SupportedLanguages {
@@ -149,5 +151,5 @@ export enum ListStyles {
 
 export enum SupportedModels {
   SAPIENTOR_ASSISTENT,
-  TURBO
-} 
+  TURBO,
+}
