@@ -26,6 +26,7 @@ export enum Stories {
   ADDING_FLASHCARDS_STORY = "addFlashcardsStory",
   ADDING_EXAM_STORY = "addExamStory",
   ADDING_LERNING_GROUP_STORY = "addLerningGroupStory",
+  ADDING_GROUP_TOPIC_STORY = "addingGroupTopicStory", 
 
   EDITING_FLASHCARD_STORY = "editFlashcardStory",
   EDITING_FLASHCARD_SET_STORY = "editFlashcardSetStory",
@@ -104,6 +105,7 @@ export enum DataTypes {
   BLOCK = "block",
   LEARNING_GROUP = "learningGroup",
   GROUP_SCHOOL_SUBJECT = "groupSchoolSubject",
+  GROUP_TOPIC = "groupTopic"
 }
 
 export enum SupportedLanguages {

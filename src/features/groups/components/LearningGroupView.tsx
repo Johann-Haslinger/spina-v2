@@ -1,6 +1,6 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node"
 import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine"
-import { ColorProps, DescriptionProps, OrderFacet } from "@leanscope/ecs-models"
+import { ColorProps, DescriptionProps, OrderFacet, Tags } from "@leanscope/ecs-models"
 import { useContext } from "react"
 import { IoCreateOutline, IoEllipsisHorizontalCircleOutline, IoTrashOutline } from "react-icons/io5"
 import { Fragment } from "react/jsx-runtime"
@@ -15,6 +15,7 @@ import { SchoolSubjectCell } from "../../collection"
 import LoadLearningGroupSchoolSubjectsSystem from "../systems/LoadLearningGroupSchoolSubjectsSystem"
 import EditLearningGroupSheet from "./EditLearningGroupSheet"
 import DeleteLearningGroupAlert from "./DeleteLearningGroupAlert"
+import GroupSchoolSubjectView from "./school-subjects/GroupSchoolSubjectView"
 
 const LearningGroupView = (props: TitleProps & DescriptionProps & ColorProps & EntityProps) => {
   const lsc = useContext(LeanScopeClientContext)
@@ -66,6 +67,12 @@ const LearningGroupView = (props: TitleProps & DescriptionProps & ColorProps & E
           />
         </CollectionGrid>
       </View>
+
+      <EntityPropsMapper
+        query={(e) => dataTypeQuery(e, DataTypes.GROUP_SCHOOL_SUBJECT) && isChildOfQuery(e, entity) && e.has(Tags.SELECTED)}
+        get={[[TitleFacet], []]}
+        onMatch={GroupSchoolSubjectView}
+      />
 
       <EditLearningGroupSheet />
       <DeleteLearningGroupAlert />

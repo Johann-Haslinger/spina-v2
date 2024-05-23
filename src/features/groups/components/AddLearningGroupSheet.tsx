@@ -104,8 +104,8 @@ const AddLearningGroupSheet = () => {
           <FlexBox>
             <p>{displayLabelTexts(selectedLanguage).color}</p>
             <StyledColorSelect onChange={(e) => setNewLearningGroup({ ...newLearningGroup, color: e.target.value })} color={newLearningGroup.color}>
-              {COLOR_ITEMS.map((colorItem) => (
-                <option value={colorItem.color}>
+              {COLOR_ITEMS.map((colorItem, idx) => (
+                <option  key={idx} value={colorItem.color}>
                   {colorItem.name}
                 </option>
               ))}

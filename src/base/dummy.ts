@@ -474,3 +474,28 @@ export const dummyGroupSchoolSubjects = [
     title: "Musik",
   },
 ];
+
+
+export const dummyGroupTopics = [
+  {
+    title: "Addition",
+    id: "1",
+    date_added: new Date().toISOString(),
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    parentId: "0",
+  },
+  {
+    title: "Subtraction",
+    id: "2",
+    date_added: new Date().toISOString(),
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    parentId: "0",
+  },
+  {
+    title: "Multiplication",
+    id: "3",
+    date_added: new Date().toISOString(),
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    parentId: "0",
+  },
+];
