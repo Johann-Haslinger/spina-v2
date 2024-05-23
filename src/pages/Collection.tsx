@@ -6,6 +6,7 @@ import { DataTypes } from "../base/enums";
 import { CollectionGrid, NavigationBar, Spacer, Title, View } from "../components";
 import {
   BookmarkCollectionView,
+  PodcastCollectionCard,
   PodcastCollectionView,
   SchoolSubjectCell,
   SchoolSubjectView
@@ -30,7 +31,7 @@ const Collection = () => {
             get={[[TitleFacet, OrderFacet], []]}
             onMatch={SchoolSubjectCell}
           />
-          {/* <PodcastCollectionCard /> */}
+          <PodcastCollectionCard />
           {/* <BookmarkCollectionCard /> */}
         </CollectionGrid>
       </View>

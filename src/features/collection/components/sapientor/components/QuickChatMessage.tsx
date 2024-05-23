@@ -9,7 +9,7 @@ import { MessageRoles } from "../../../../../base/enums";
 
 const StyledMessageContentWrapper = styled.div<{ role: MessageRoles }>`
   ${tw` ml-8   mb-1 w-72  bg-tertiary dark:text-primaryTextDark  dark:bg-seconderyDark pb-3 transition-all rounded-xl p-2 `}
-  ${({ role }) => (role == MessageRoles.USER ? tw`rounded-br-none ` : tw`rounded-bl-none  `)}
+  ${({ role }) => (role == MessageRoles.USER ? tw`rounded-bl-none ` : tw`rounded-br-none  `)}
 `;
 
 const StyledMessageHeader = styled.div`

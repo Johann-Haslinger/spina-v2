@@ -15,6 +15,7 @@ export enum Stories {
   OBSERVING_PODCAST_STORY = "observingPodcastStory",
   OBSERVING_BOOKMARK_COLLECTION_STORY = "observingBookmarkCollectionStory",
   OBSERVING_BLOCKEDITOR_STORY = "observingBlockeditorStory",
+  OBSERVING_LERNING_GROUPS_STORY = "observingLerningGroupsStory",
 
   ADDING_FLASHCARD_SET_STORY = "addFlashcardSetStory",
   ADDING_TOPIC_STORY = "addTopicStory",
@@ -23,6 +24,7 @@ export enum Stories {
   ADDING_RESOURCE_TO_TOPIC_STORY = "addResourceToTopicStory",
   ADDING_FLASHCARDS_STORY = "addFlashcardsStory",
   ADDING_EXAM_STORY = "addExamStory",
+  ADDING_LERNING_GROUP_STORY = "addLerningGroupStory",
 
   EDITING_FLASHCARD_STORY = "editFlashcardStory",
   EDITING_FLASHCARD_SET_STORY = "editFlashcardSetStory",
@@ -30,6 +32,7 @@ export enum Stories {
   EDITING_TOPIC_STORY = "editTopicStory",
   EDITING_SUBTOPIC_STORY = "editSubtopicStory",
   EDITING_EXAM_STORY = "editExamStory",
+  EDITING_LERNING_GROUP_STORY = "editLerningGroupStory",
 
   DELETING_FLASHCARD_SET_STORY = "deleteFlashcardSetStory",
   DELETING_HOMEWORK_STORY = "deleteHomeworkStory",
@@ -38,6 +41,7 @@ export enum Stories {
   DELETING_SUBTOPIC_STORY = "deleteSubtopicStory",
   DELETING_EXAM_STORY = "deleteExamStory",
   DELETING_BLOCKS_STORY = "deleteBlocksStory",
+  DELETING_LERNING_GROUP_STORY = "deleteLerningGroupStory",
 
   GENERATING_IMPROVED_TEXT_STORY = "generateImprovedFlashcardsStory",
   GENERATING_FLASHCARDS_STORY = "generateFlashcardsStory",
@@ -97,6 +101,7 @@ export enum DataTypes {
   PODCAST = "podcast",
   LERNVIDEO = "lernVideo",
   BLOCK = "block",
+  LEARNING_GROUP = "learningGroup"
 }
 
 export enum SupportedLanguages {
@@ -145,4 +150,4 @@ export enum ListStyles {
 export enum SupportedModels {
   SAPIENTOR_ASSISTENT,
   TURBO
-}
+} 

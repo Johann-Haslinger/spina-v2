@@ -12,8 +12,6 @@ import { dataTypeQuery } from "../utils/queries";
 const fetchSchoolSubjects = async () => {
   const { data: schoolSubjects, error } = await supabaseClient.from("subjects").select("name, id");
 
-  console.log("schoolSubjects", schoolSubjects);
-  
   if (error) {
     console.error("Error fetching school subjects:", error);
     return [];
@@ -31,8 +29,8 @@ const InitializeSchoolSubjectsSystem = () => {
       const schoolSubjects = mockupData
         ? dummySchoolSubjects
         : shouldFetchFromSupabase
-        ? await fetchSchoolSubjects()
-        : [];
+          ? await fetchSchoolSubjects()
+          : [];
 
       schoolSubjects.forEach((schoolSubject, idx) => {
         const isExisting = lsc.engine.entities.some(

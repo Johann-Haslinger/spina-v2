@@ -1,4 +1,5 @@
 import { v4 } from "uuid";
+import { COLORS } from "./constants";
 export const dummySchoolSubjects = [
   {
     id: "1",
@@ -397,5 +398,32 @@ export const dummyBlocks = [
     order: 3,
     textType: "normal",
     content: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr.",
+  },
+];
+
+export const dummyLearningGroups = [
+  {
+    id: "1",
+    title: "Gruppe 1",
+    owner_id: "1",
+    user_ids: ["1", "2"],
+    color: COLORS[0],
+    description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr.",
+  },
+  {
+    id: "2",
+    title: "Gruppe 2",
+    owner_id: "1",
+    user_ids: ["1", "2"],
+    color: COLORS[1],
+    description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr.",
+  },
+  {
+    id: "3",
+    title: "Gruppe 3",
+    owner_id: "1",
+    user_ids: ["1", "2"],
+    color: COLORS[2],
+    description: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr.",
   },
 ];

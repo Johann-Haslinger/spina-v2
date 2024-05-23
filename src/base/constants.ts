@@ -5,10 +5,10 @@ import { NavigationLinks, SupportedLanguages } from "./enums";
 export const SELECTED_LANGUAGE = SupportedLanguages.DE;
 
 export const NAV_LINKS = [
-  // {
-  //   title: NavigationLinks.OVERVIEW,
-  //   path: formatNavLinkAsPath(NavigationLinks.OVERVIEW),
-  // },
+  {
+    title: NavigationLinks.OVERVIEW,
+    path: formatNavLinkAsPath(NavigationLinks.OVERVIEW),
+  },
   {
     title: NavigationLinks.STUDY,
     path: formatNavLinkAsPath(NavigationLinks.STUDY),
@@ -26,10 +26,10 @@ export const NAV_LINKS = [
     path: formatNavLinkAsPath(NavigationLinks.COLLECTION),
   },
 
-  // {
-  //   title: NavigationLinks.GROUPS,
-  //   path: formatNavLinkAsPath(NavigationLinks.GROUPS),
-  // },
+  {
+    title: NavigationLinks.GROUPS,
+    path: formatNavLinkAsPath(NavigationLinks.GROUPS),
+  },
 ];
 
 export const COLORS = ["#F4CF54", "#00965F", "#0B86D1", "#B9A0FF", "#F4BAB5", "#EE7A2C", "#446DFF"];
