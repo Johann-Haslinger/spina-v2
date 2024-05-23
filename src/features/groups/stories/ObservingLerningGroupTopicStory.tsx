@@ -11,7 +11,7 @@ import { Settings } from '../../settings'
 import { BrowserRouter } from 'react-router-dom'
 import { EntityCreator } from '@leanscope/ecs-engine'
 import { TitleFacet } from '../../../app/additionalFacets'
-import { ColorFacet, DescriptionFacet, IdentifierFacet, Tags } from '@leanscope/ecs-models'
+import { ColorFacet, DescriptionFacet, IdentifierFacet, OrderFacet, ParentFacet, Tags } from '@leanscope/ecs-models'
 import { COLOR_ITEMS } from '../../../base/constants'
 
 const ObservingLerningGroupTopicStory = () => {
@@ -31,7 +31,33 @@ const ObservingLerningGroupTopicStory = () => {
               DataTypes.LEARNING_GROUP
             ]}
           />
-        
+          <EntityCreator
+            facets={[
+              new TitleFacet({ title: "Latein" }),
+              new IdentifierFacet({ guid: "01" }),
+
+              new ParentFacet({ parentId: "0" }),
+              new OrderFacet({ orderIndex: 1 })
+            ]}
+            tags={[
+              Tags.SELECTED,
+              DataTypes.GROUP_SCHOOL_SUBJECT
+            ]}
+          />
+          <EntityCreator
+            facets={[
+              new TitleFacet({ title: "Thema" }),
+              new IdentifierFacet({ guid: "011" }),
+              new DescriptionFacet({ description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit." }),
+              new ParentFacet({ parentId: "01" }),
+              new OrderFacet({ orderIndex: 1 })
+            ]}
+            tags={[
+              Tags.SELECTED,
+              DataTypes.GROUP_TOPIC
+            ]}
+          />
+
           <ViewManagerSystem />
           <InitializeStoriesSystem initialStory={Stories.OBSERVING_LERNING_GROUP_STORY} />
           <InitializeSchoolSubjectsSystem />

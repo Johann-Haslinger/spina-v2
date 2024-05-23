@@ -5,7 +5,7 @@ import { useAppState } from "../../features/collection/hooks/useAppState";
 import { ViSidebar, ViSidebarDark } from "../../assets/icons";
 
 const StyledNavBarWrapper = styled.div`
-  ${tw`flex fixed px-4 bg-primary dark:bg-primaryDark  z-[100] transition-all    md:px-6 pt-4 top-0 dark:text-white text-primatyText left-0 w-full justify-between   h-14 `}
+  ${tw`flex fixed px-4 md:bg-opacity-0 bg-primary dark:bg-primaryDark  z-[100] transition-all    md:px-6 pt-4 top-0 dark:text-white text-primatyText left-0 w-full justify-between   h-14 `}
 `;
 
 const NavigationIconsWrapper = styled.div`

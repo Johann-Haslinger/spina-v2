@@ -10,12 +10,13 @@ import { displayButtonTexts } from '../../../../utils/displayText'
 import { Fragment } from 'react/jsx-runtime'
 import LoadGroupTopicsSystem from '../../systems/LoadGroupTopicsSystem'
 import { dataTypeQuery, isChildOfQuery } from '../../../../utils/queries'
-import { DescriptionFacet } from '@leanscope/ecs-models'
+import { DescriptionFacet, Tags } from '@leanscope/ecs-models'
 import { sortEntitiesByDateAdded } from '../../../../utils/sortEntitiesByTime'
 import TopicCell from '../../../collection/components/topics/TopicCell'
 import { useContext } from 'react'
 import { LeanScopeClientContext } from '@leanscope/api-client/node'
 import AddGroupTopicSheet from './AddGroupTopicSheet'
+import GroupTopicView from '../topics/GroupTopicView'
 
 const GroupSchoolSubjectView = (props: TitleProps & EntityProps) => {
   const lsc = useContext(LeanScopeClientContext)
@@ -57,6 +58,12 @@ const GroupSchoolSubjectView = (props: TitleProps & EntityProps) => {
         {groupTopics.length < 1 && <NoContentAddedHint />}
 
       </View>
+
+      <EntityPropsMapper
+        query={(e) => dataTypeQuery(e, DataTypes.GROUP_TOPIC) && isChildOfQuery(e, entity) && e.has(Tags.SELECTED)}
+        get={[[TitleFacet, DescriptionFacet], []]}
+        onMatch={GroupTopicView}
+      />
 
       <AddGroupTopicSheet />
     </Fragment>
