@@ -19,6 +19,7 @@ export enum Stories {
   OBSERVING_LERNING_GROUP_STORY = "observingLerningGroupStory",
   OBSERVING_GROUP_TOPIC_STORY = "observingGroupTopicStory",
 
+  
   ADDING_FLASHCARD_SET_STORY = "addFlashcardSetStory",
   ADDING_TOPIC_STORY = "addTopicStory",
   ADDING_HOMEWORK_STORY = "addHomeworkStory",
@@ -28,6 +29,10 @@ export enum Stories {
   ADDING_EXAM_STORY = "addExamStory",
   ADDING_LERNING_GROUP_STORY = "addLerningGroupStory",
   ADDING_GROUP_TOPIC_STORY = "addingGroupTopicStory", 
+  ADDING_GROUP_SUBTOPIC_STORY = "addGroupSubtopicStory",
+  ADDING_GROUP_NOTE_STORY = "addGroupNoteStory",
+  ADDING_GROUP_HOMEWORK_STORY = "addGroupHomeworkStory",
+  ADDING_GROUP_FLASHCARD_SET_STORY = "addGroupFlashcardSetStory",
 
   EDITING_FLASHCARD_STORY = "editFlashcardStory",
   EDITING_FLASHCARD_SET_STORY = "editFlashcardSetStory",
@@ -37,6 +42,10 @@ export enum Stories {
   EDITING_EXAM_STORY = "editExamStory",
   EDITING_LEARNING_GROUP_STORY = "editLerningGroupStory",
   EDETING_GROUP_TOPIC_STORY = "editGroupTopicStory",
+  EDETING_GROUP_SUBTOPIC_STORY = "editGroupSubtopicStory",
+  EDETING_GROUP_NOTE_STORY = "editGroupNoteStory",
+  EDETING_GROUP_HOMEWORK_STORY = "editGroupHomeworkStory",
+  EDETING_GROUP_FLASHCARD_SET_STORY = "editGroupFlashcardSetStory",
 
   DELETING_FLASHCARD_SET_STORY = "deleteFlashcardSetStory",
   DELETING_HOMEWORK_STORY = "deleteHomeworkStory",
@@ -47,6 +56,10 @@ export enum Stories {
   DELETING_BLOCKS_STORY = "deleteBlocksStory",
   DELETING_LERNING_GROUP_STORY = "deleteLerningGroupStory",
   DELETING_GROUP_TOPIC_STORY = "deleteGroupTopicStory",
+  DELETING_GROUP_SUBTOPIC_STORY = "deleteGroupSubtopicStory",
+  DELETING_GROUP_NOTE_STORY = "deleteGroupNoteStory",
+  DELETING_GROUP_HOMEWORK_STORY = "deleteGroupHomeworkStory",
+  DELETING_GROUP_FLASHCARD_SET_STORY = "deleteGroupFlashcardSetStory",
 
   GENERATING_IMPROVED_TEXT_STORY = "generateImprovedFlashcardsStory",
   GENERATING_FLASHCARDS_STORY = "generateFlashcardsStory",
@@ -54,6 +67,8 @@ export enum Stories {
   GENERATING_TEXT_FROM_FLASHCARDS_STORY = "generateTextFromFlashcardsStory",
   GENERATING_PODCAST_FROM_FLASHCARDS_STORY = "generatePodcastFromFlashcardsStory",
   GENERATING_LEARN_VIDEO_STORY = "generateLearnVideoStory",
+
+  CLONING_RESOURCE_FROM_GROUP_STORY = "cloneResourceFromGroupStory",
 }
 
 export enum AdditionalTags {
@@ -112,7 +127,8 @@ export enum DataTypes {
   GROUP_SUBTOPIC = "groupSubtopic",
   GROUP_NOTE = "groupNote",
   GROUP_HOMEWORK = "groupHomework",
-  GROUP_FLASHCARD_SET = "groupFlashcardSet"
+  GROUP_FLASHCARD_SET = "groupFlashcardSet",
+  GROUP_FLASHCARD = "groupFlashcard",
 }
 
 export enum SupportedLanguages {

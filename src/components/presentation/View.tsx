@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 import { Fragment, PropsWithChildren, useEffect, useState } from "react";
 import tw from "twin.macro";
 
-const StyledViewContainer = styled.div<{backgroundColor?: string}>`
+const StyledViewContainer = styled.div<{ backgroundColor?: string }>`
   ${tw`  w-screen transition-all h-screen  bg-primary dark:bg-primaryDark  backdrop-blur-2xl `}
   background-color: ${({ backgroundColor }) => backgroundColor};
 `;
@@ -19,7 +19,7 @@ const StyledViewContent = styled.div<{
   ${tw` mx-auto md:pt-28 text-primatyText dark:text-primaryTextDark pb-40  xl:pt-36 pt-20   w-full  px-4`}
   ${({ reducePaddingX: ignorePaddingX }) =>
     ignorePaddingX ? tw`md:w-[52rem]` : tw` md:w-[45rem] xl:w-[51rem] `} /* ${({ isOverlayView }) =>
-    isOverlayView ? tw`md:pt-20 xl:pt-28 pt-10 ` : tw`md:pt-28 xl:pt-36 pt-20  `} */
+      isOverlayView ? tw`md:pt-20 xl:pt-28 pt-10 ` : tw`md:pt-28 xl:pt-36 pt-20  `} */
 `;
 
 interface ViewProps {
@@ -48,7 +48,7 @@ const View = (props: ViewProps & PropsWithChildren) => {
       clearTimeout(timeoutId);
     };
   }, [visible]);
-  
+
 
 
 
@@ -77,7 +77,7 @@ const View = (props: ViewProps & PropsWithChildren) => {
             left: 0,
             zIndex: overlaySidebar ? 100 : "auto",
             x: viewType == "overlayView" ? "100%" : 0,
-            backgroundColor: "white",
+            backgroundColor: backgroundColor && "white",
           }}
           transition={{
             type: "tween",
@@ -94,7 +94,7 @@ const View = (props: ViewProps & PropsWithChildren) => {
             </StyledViewWrapper>
           </StyledViewContainer>
         </motion.div>
-        </Fragment>
+      </Fragment>
     )
   );
 };

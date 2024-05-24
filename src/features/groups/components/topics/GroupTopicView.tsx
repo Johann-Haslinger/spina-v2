@@ -1,6 +1,6 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { EntityProps, EntityPropsMapper } from '@leanscope/ecs-engine';
-import { DescriptionProps, IdentifierFacet, TextFacet } from '@leanscope/ecs-models';
+import { DescriptionProps, IdentifierFacet, Tags, TextFacet } from '@leanscope/ecs-models';
 import { Fragment, useContext } from 'react';
 import { IoCreateOutline, IoEllipsisHorizontalCircleOutline, IoTrashOutline } from 'react-icons/io5';
 import { TitleFacet, TitleProps } from '../../../../app/additionalFacets';
@@ -18,11 +18,15 @@ import SubtopicCell from '../../../collection/components/subtopics/SubtopicCell'
 import { useEntityHasChildren } from '../../../collection/hooks/useEntityHasChildren';
 import { useSelectedGroupSchoolSubject } from '../../hooks/useSelectedGroupSchoolSubject';
 import LoadGroupFlashcardSetsSystem from '../../systems/LoadGroupFlashcardSetsSystem';
+import LoadGroupHomeworksSystem from '../../systems/LoadGroupHomeworksSystem';
 import LoadGroupGroupNotesSystem from '../../systems/LoadGroupNotesSystem';
 import LoadGroupGroupSubtopicsSystem from '../../systems/LoadGroupSubtopicsSystem';
+import GroupSubtopicView from '../subtopics/GroupSubtopicView';
 import DeleteGroupTopicAlert from './DeleteGroupTopicAlert';
 import EditGroupGroupTopicSheet from './EditGroupTopicSheet';
-import LoadGroupHomeworksSystem from '../../systems/LoadGroupHomeworksSystem';
+import GroupNoteView from '../notes/GroupNoteView';
+import GroupFlashcardSetView from '../flashcard-sets/GroupFlashcardSetView';
+import GroupHomeworkView from '../homeworks/GroupHomeworkView';
 
 
 const GroupTopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
@@ -108,6 +112,32 @@ const GroupTopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
           />
         </CollectionGrid>
       </View>
+
+      <EntityPropsMapper
+        query={(e) => dataTypeQuery(e, DataTypes.GROUP_SUBTOPIC) && e.has(Tags.SELECTED) && isChildOfQuery(e, entity)}
+        get={[[TitleFacet, IdentifierFacet], []]}
+        onMatch={GroupSubtopicView}
+      />
+
+      <EntityPropsMapper
+        query={(e) => dataTypeQuery(e, DataTypes.GROUP_NOTE) && isChildOfQuery(e, entity) && e.has(Tags.SELECTED)}
+        get={[[TitleFacet, IdentifierFacet], []]}
+        onMatch={GroupNoteView}
+      />
+
+      <EntityPropsMapper
+        query={(e) => dataTypeQuery(e, DataTypes.GROUP_FLASHCARD_SET) && isChildOfQuery(e, entity) && e.has(Tags.SELECTED)}
+        get={[[TitleFacet, IdentifierFacet], []]}
+        onMatch={GroupFlashcardSetView}
+      />
+
+      <EntityPropsMapper
+        query={(e) => dataTypeQuery(e, DataTypes.GROUP_HOMEWORK) && isChildOfQuery(e, entity) && e.has(Tags.SELECTED)}
+        get={[[TitleFacet, IdentifierFacet], []]}
+        onMatch={GroupHomeworkView}
+      />
+
+
 
 
       <DeleteGroupTopicAlert />

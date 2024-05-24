@@ -1,6 +1,6 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
-import { IdentifierFacet, IdentifierProps, Tags, TextProps } from "@leanscope/ecs-models";
+import { IdentifierFacet, IdentifierProps, Tags } from "@leanscope/ecs-models";
 import { useContext, useState } from "react";
 import {
   IoAdd,
@@ -57,7 +57,7 @@ enum SubtopicViewStates {
   FLASHCARDS,
 }
 
-const SubtopicView = (props: TitleProps & EntityProps & TextProps & IdentifierProps) => {
+const SubtopicView = (props: TitleProps & EntityProps & IdentifierProps) => {
   const lsc = useContext(LeanScopeClientContext);
   const { title, entity, guid } = props;
   const isVisible = useIsViewVisible(entity);
