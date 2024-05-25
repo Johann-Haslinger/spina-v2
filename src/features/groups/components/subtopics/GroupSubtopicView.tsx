@@ -19,7 +19,6 @@ import LernvideoRow from '../../../collection/components/lern-videos/LernvideoRo
 import PodcastRow from '../../../collection/components/podcasts/PodcastRow';
 import { useSelectedGroupTopic } from '../../hooks/useSelectedGroupTopic';
 import LoadGroupSubtopicResourcesSystem from '../../systems/LoadGroupSubtopicResourcesSystem';
-import CloningResourceFromGroupSheet from '../CloningResourceFromGroupSheet';
 import GroupFlashcardCell from '../flashcard-sets/GroupFlashcardCell';
 import DeleteGroupSubtopicAlert from './DeleteGroupSubtopicAlert';
 import EditGroupSubtopicSheet from './EditGroupSubtopicSheet';
@@ -131,7 +130,7 @@ const GroupSubtopicView = (props: TitleProps & EntityProps & IdentifierProps) =>
 
       <EditGroupSubtopicSheet />
       <DeleteGroupSubtopicAlert />
-      <CloningResourceFromGroupSheet />
+
     </Fragment>
   );
 };

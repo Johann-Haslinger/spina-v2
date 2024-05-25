@@ -25,6 +25,7 @@ import GroupNoteView from '../notes/GroupNoteView';
 import GroupSubtopicView from '../subtopics/GroupSubtopicView';
 import DeleteGroupTopicAlert from './DeleteGroupTopicAlert';
 import EditGroupGroupTopicSheet from './EditGroupTopicSheet';
+import CloningResourceFromGroupSheet from '../CloningResourceFromGroupSheet';
 
 
 const GroupTopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
@@ -101,15 +102,6 @@ const GroupTopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
           />
         </CollectionGrid>
 
-        {/* <CollectionGrid>
-          <EntityPropsMapper
-            query={(e) => dataTypeQuery(e, DataTypes.GROUP_HOMEWORK) && isChildOfQuery(e, entity)}
-            get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
-            sort={(a, b) => sortEntitiesByDateAdded(a, b)}
-            onMatch={HomeworkCell}
-          />
-        </CollectionGrid> */}
-
       </View>
 
       <EntityPropsMapper
@@ -134,6 +126,8 @@ const GroupTopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
 
       <DeleteGroupTopicAlert />
       <EditGroupGroupTopicSheet />
+      <CloningResourceFromGroupSheet />
+      
     </Fragment>
   );
 }

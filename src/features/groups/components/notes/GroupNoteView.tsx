@@ -2,11 +2,11 @@ import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
 import { IdentifierProps } from "@leanscope/ecs-models";
 import { useContext } from "react";
-import { IoTrashOutline } from "react-icons/io5";
+import { IoArrowDownCircleOutline, IoTrashOutline } from "react-icons/io5";
 import { Fragment } from "react/jsx-runtime";
 import { DateAddedFacet, TitleFacet, TitleProps } from "../../../../app/additionalFacets";
 import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
-import { ActionRow, View } from "../../../../components";
+import { ActionRow, NavBarButton, View } from "../../../../components";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../../lib/supabase";
@@ -30,6 +30,8 @@ const GroupNoteView = (props: TitleProps & IdentifierProps & EntityProps) => {
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
   const openDeleteAlert = () => lsc.stories.transitTo(Stories.DELETING_GROUP_NOTE_STORY);
+  const openCloneResourceSheet = () => lsc.stories.transitTo(Stories.CLONING_RESOURCE_FROM_GROUP_STORY);
+
 
   const handleTitleBlur = async (value: string) => {
     entity.add(new TitleFacet({ title: value }));
@@ -60,7 +62,11 @@ const GroupNoteView = (props: TitleProps & IdentifierProps & EntityProps) => {
               />
             </div>
           }
-
+          customEditOptions={
+            <NavBarButton onClick={openCloneResourceSheet}>
+              <IoArrowDownCircleOutline />
+            </NavBarButton>
+          }
           customActionRows={
             <Fragment>
               <ActionRow first last destructive onClick={openDeleteAlert} icon={<IoTrashOutline />}>

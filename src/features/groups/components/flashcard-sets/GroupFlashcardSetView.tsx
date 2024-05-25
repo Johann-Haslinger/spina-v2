@@ -2,7 +2,7 @@ import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
 import { IdentifierProps } from "@leanscope/ecs-models";
 import { useContext } from "react";
-import { IoCreateOutline, IoEllipsisHorizontalCircleOutline, IoTrashOutline } from "react-icons/io5";
+import { IoArrowDownCircleOutline, IoCreateOutline, IoEllipsisHorizontalCircleOutline, IoTrashOutline } from "react-icons/io5";
 import { Fragment } from "react/jsx-runtime";
 import { AnswerFacet, QuestionFacet, TitleProps } from "../../../../app/additionalFacets";
 import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
@@ -29,6 +29,7 @@ const GroupFlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
   const openEditGroupFlashcardSetSheet = () => lsc.stories.transitTo(Stories.EDETING_GROUP_FLASHCARD_SET_STORY);
   const openDeleteGroupFlashcardSetAlert = () => lsc.stories.transitTo(Stories.DELETING_GROUP_FLASHCARD_SET_STORY);
+  const openCloneResourceSheet = () => lsc.stories.transitTo(Stories.CLONING_RESOURCE_FROM_GROUP_STORY);
 
   return (
     <Fragment>
@@ -36,6 +37,9 @@ const GroupFlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps
 
       <View visible={isVisible}>
         <NavigationBar>
+          <NavBarButton onClick={openCloneResourceSheet}>
+            <IoArrowDownCircleOutline />
+          </NavBarButton>
           <NavBarButton
             content={
               <Fragment>
