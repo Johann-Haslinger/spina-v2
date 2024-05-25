@@ -1,6 +1,6 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { EntityProps, EntityPropsMapper } from '@leanscope/ecs-engine';
-import { DescriptionProps, IdentifierFacet, Tags, TextFacet } from '@leanscope/ecs-models';
+import { DescriptionProps, IdentifierFacet, Tags } from '@leanscope/ecs-models';
 import { Fragment, useContext } from 'react';
 import { IoCreateOutline, IoEllipsisHorizontalCircleOutline, IoTrashOutline } from 'react-icons/io5';
 import { TitleFacet, TitleProps } from '../../../../app/additionalFacets';
@@ -12,7 +12,6 @@ import { displayActionTexts, displayAlertTexts } from '../../../../utils/display
 import { dataTypeQuery, isChildOfQuery } from '../../../../utils/queries';
 import { sortEntitiesByDateAdded } from '../../../../utils/sortEntitiesByTime';
 import FlashcardSetCell from '../../../collection/components/flashcard-sets/FlashcardSetCell';
-import HomeworkCell from '../../../collection/components/homeworks/HomeworkCell';
 import NoteCell from '../../../collection/components/notes/NoteCell';
 import SubtopicCell from '../../../collection/components/subtopics/SubtopicCell';
 import { useEntityHasChildren } from '../../../collection/hooks/useEntityHasChildren';
@@ -21,12 +20,11 @@ import LoadGroupFlashcardSetsSystem from '../../systems/LoadGroupFlashcardSetsSy
 import LoadGroupHomeworksSystem from '../../systems/LoadGroupHomeworksSystem';
 import LoadGroupGroupNotesSystem from '../../systems/LoadGroupNotesSystem';
 import LoadGroupGroupSubtopicsSystem from '../../systems/LoadGroupSubtopicsSystem';
+import GroupFlashcardSetView from '../flashcard-sets/GroupFlashcardSetView';
+import GroupNoteView from '../notes/GroupNoteView';
 import GroupSubtopicView from '../subtopics/GroupSubtopicView';
 import DeleteGroupTopicAlert from './DeleteGroupTopicAlert';
 import EditGroupGroupTopicSheet from './EditGroupTopicSheet';
-import GroupNoteView from '../notes/GroupNoteView';
-import GroupFlashcardSetView from '../flashcard-sets/GroupFlashcardSetView';
-import GroupHomeworkView from '../homeworks/GroupHomeworkView';
 
 
 const GroupTopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
@@ -103,14 +101,15 @@ const GroupTopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
           />
         </CollectionGrid>
 
-        <CollectionGrid>
+        {/* <CollectionGrid>
           <EntityPropsMapper
             query={(e) => dataTypeQuery(e, DataTypes.GROUP_HOMEWORK) && isChildOfQuery(e, entity)}
             get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
             sort={(a, b) => sortEntitiesByDateAdded(a, b)}
             onMatch={HomeworkCell}
           />
-        </CollectionGrid>
+        </CollectionGrid> */}
+
       </View>
 
       <EntityPropsMapper
@@ -130,13 +129,6 @@ const GroupTopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
         get={[[TitleFacet, IdentifierFacet], []]}
         onMatch={GroupFlashcardSetView}
       />
-
-      <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataTypes.GROUP_HOMEWORK) && isChildOfQuery(e, entity) && e.has(Tags.SELECTED)}
-        get={[[TitleFacet, IdentifierFacet], []]}
-        onMatch={GroupHomeworkView}
-      />
-
 
 
 

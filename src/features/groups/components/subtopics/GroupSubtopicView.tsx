@@ -1,8 +1,10 @@
+import styled from '@emotion/styled/macro';
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { EntityProps, EntityPropsMapper } from '@leanscope/ecs-engine';
 import { IdentifierFacet, IdentifierProps, Tags } from '@leanscope/ecs-models';
 import { Fragment, useContext, useState } from 'react';
 import { IoArrowDownCircleOutline, IoCreateOutline, IoTrashOutline } from 'react-icons/io5';
+import tw from 'twin.macro';
 import { AnswerFacet, DateAddedFacet, MasteryLevelFacet, QuestionFacet, TitleFacet, TitleProps } from '../../../../app/additionalFacets';
 import { AdditionalTags, DataTypes, Stories } from '../../../../base/enums';
 import { ActionRow, CollectionGrid, NavBarButton, SegmentedControl, SegmentedControlCell, Spacer, View } from '../../../../components';
@@ -12,20 +14,15 @@ import { displayActionTexts } from '../../../../utils/displayText';
 import { dataTypeQuery, isChildOfQuery } from '../../../../utils/queries';
 import Blockeditor from '../../../blockeditor/components/Blockeditor';
 import InitializeBlockeditorSystem from '../../../blockeditor/systems/InitializeBlockeditorSystem';
-import AddFlashcardsSheet from '../../../collection/components/flashcard-sets/AddFlashcardsSheet';
 import EditFlashcardSheet from '../../../collection/components/flashcard-sets/EditFlashcardSheet';
-import GenerateImprovedTextSheet from '../../../collection/components/generation/GenerateImprovedTextSheet';
-import GeneratePodcastSheet from '../../../collection/components/generation/GeneratePodcastSheet';
 import LernvideoRow from '../../../collection/components/lern-videos/LernvideoRow';
 import PodcastRow from '../../../collection/components/podcasts/PodcastRow';
-import FlashcardQuizView from '../../../study/components/FlashcardQuizView';
 import { useSelectedGroupTopic } from '../../hooks/useSelectedGroupTopic';
 import LoadGroupSubtopicResourcesSystem from '../../systems/LoadGroupSubtopicResourcesSystem';
+import CloningResourceFromGroupSheet from '../CloningResourceFromGroupSheet';
 import GroupFlashcardCell from '../flashcard-sets/GroupFlashcardCell';
 import DeleteGroupSubtopicAlert from './DeleteGroupSubtopicAlert';
 import EditGroupSubtopicSheet from './EditGroupSubtopicSheet';
-import styled from '@emotion/styled/macro';
-import tw from 'twin.macro';
 
 const StyledCardsWrapper = styled.div`
   ${tw` w-full px-2`}
@@ -134,10 +131,7 @@ const GroupSubtopicView = (props: TitleProps & EntityProps & IdentifierProps) =>
 
       <EditGroupSubtopicSheet />
       <DeleteGroupSubtopicAlert />
-      <AddFlashcardsSheet />
-      <FlashcardQuizView />
-      <GeneratePodcastSheet />
-      <GenerateImprovedTextSheet />
+      <CloningResourceFromGroupSheet />
     </Fragment>
   );
 };

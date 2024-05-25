@@ -1,10 +1,11 @@
 import { useEntities } from "@leanscope/ecs-engine";
 import { Tags } from "@leanscope/ecs-models";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { AdditionalTags, Stories } from "../base/enums";
 import { useCurrentSapientorConversation } from "../features/collection/components/sapientor/hooks/useCurrentConversation";
 import { useSelectedTheme } from "../features/collection/hooks/useSelectedTheme";
 import { useIsAnyStoryCurrent } from "../hooks/useIsAnyStoryCurrent";
+import { SucessSheet } from "../components";
 
 const ViewManagerSystem = () => {
   const isSheetViewVisible = useIsAnyStoryCurrent([
@@ -108,7 +109,10 @@ const ViewManagerSystem = () => {
     }
   }, [isSheetViewVisible]);
 
-  return <meta name="theme-color" content={themeColor} />;
+  return <Fragment>
+    <meta name="theme-color" content={themeColor} />
+    <SucessSheet />
+  </Fragment>;
 };
 
 export default ViewManagerSystem;

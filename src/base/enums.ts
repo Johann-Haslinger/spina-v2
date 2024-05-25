@@ -69,6 +69,8 @@ export enum Stories {
   GENERATING_LEARN_VIDEO_STORY = "generateLearnVideoStory",
 
   CLONING_RESOURCE_FROM_GROUP_STORY = "cloneResourceFromGroupStory",
+
+  SUCCESS_STORY = "successStory",
 }
 
 export enum AdditionalTags {
