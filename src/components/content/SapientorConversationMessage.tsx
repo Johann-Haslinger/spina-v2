@@ -18,7 +18,8 @@ const StyledMessageHeader = styled.div`
 
 const StyledRoleIcon = styled.div<{ role: "gpt" | "user" }>`
   ${tw`w-4 h-4 rounded-full`}
-  background-color: ${(props) => (props.role === "gpt" ? COLOR_ITEMS[0].backgroundColor : COLOR_ITEMS[1].backgroundColor)};
+  background-color: ${(props) =>
+    props.role === "gpt" ? COLOR_ITEMS[0].backgroundColor : COLOR_ITEMS[1].backgroundColor};
 `;
 
 const StyledRoleTitle = styled.p`
@@ -35,12 +36,8 @@ const SapientorConversationMessage = (props: {
   isLoading?: boolean;
   playWritingAnimation?: boolean;
 }) => {
-  const { message, onWritingAnimationPlayed, playWritingAnimation = true } = props;
+  const { message, onWritingAnimationPlayed, isLoading } = props;
   const [additionalContent, setAdditionalContent] = useState<ReactNode>(null);
-
-
-
-
 
   // useEffect(() => {
   //   console.log('flashcards:', flashcards);
@@ -53,7 +50,6 @@ const SapientorConversationMessage = (props: {
   //     </Fragment>)
   //   }
   // }, [flashcards]);
-
 
   useEffect(() => {
     setTimeout(() => {
@@ -72,16 +68,34 @@ const SapientorConversationMessage = (props: {
       <StyledMessageWrapper>
         {message.role === "user" ? (
           message.message
+        ) : isLoading ? (
+          <div className={`flex items-center mt-4 ml-8  `}>
+            <motion.div
+              className=" w-4 h-4 bg-black rounded-full mx-1"
+              animate={{ y: [-5, 5, -5] }}
+              transition={{ duration: 0.6, repeat: Infinity }}
+            />
+            <motion.div
+              className="w-4 h-4 bg-black rounded-full mx-1"
+              animate={{ y: [5, -5, 5] }}
+              transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }}
+            />
+            <motion.div
+              className="w-4 h-4 bg-black rounded-full mx-1"
+              animate={{ y: [-5, 5, -5] }}
+              transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }}
+            />
+          </div>
         ) : (
           <TypingAnimationInnerHTML
             onWritingAnimationPlayed={onWritingAnimationPlayed}
-            playAnimation={playWritingAnimation}
+            playAnimation={true}
             text={message.message}
           />
         )}
       </StyledMessageWrapper>
 
-      {additionalContent &&
+      {additionalContent && (
         <motion.div
           initial={{
             opacity: 0,
@@ -94,7 +108,7 @@ const SapientorConversationMessage = (props: {
         >
           {additionalContent}
         </motion.div>
-      }
+      )}
     </div>
   );
 };

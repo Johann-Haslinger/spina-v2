@@ -71,7 +71,7 @@ const Blockeditor = (props: BlockeditorProps) => {
 
           {blockeditorState === "view" ? (
             <Fragment>
-              <NavBarButton
+              {!customContent && <NavBarButton
                 content={
                   <Fragment>
                     <ActionRow
@@ -87,11 +87,11 @@ const Blockeditor = (props: BlockeditorProps) => {
                 }
               >
                 <IoColorWandOutline />
-              </NavBarButton>
+              </NavBarButton>}
               {customEditOptions}
-              <NavBarButton>
+              {!customContent && <NavBarButton>
                 <IoAdd onClick={() => changeBlockeditorState(blockeditorEntity, "create")} />
-              </NavBarButton>
+              </NavBarButton>}
 
               <NavBarButton content={customActionRows}>
                 <IoEllipsisHorizontalCircleOutline />

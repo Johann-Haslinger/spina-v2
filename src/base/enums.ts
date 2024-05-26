@@ -19,7 +19,6 @@ export enum Stories {
   OBSERVING_LERNING_GROUP_STORY = "observingLerningGroupStory",
   OBSERVING_GROUP_TOPIC_STORY = "observingGroupTopicStory",
 
-  
   ADDING_FLASHCARD_SET_STORY = "addFlashcardSetStory",
   ADDING_TOPIC_STORY = "addTopicStory",
   ADDING_HOMEWORK_STORY = "addHomeworkStory",
@@ -28,11 +27,12 @@ export enum Stories {
   ADDING_FLASHCARDS_STORY = "addFlashcardsStory",
   ADDING_EXAM_STORY = "addExamStory",
   ADDING_LERNING_GROUP_STORY = "addLerningGroupStory",
-  ADDING_GROUP_TOPIC_STORY = "addingGroupTopicStory", 
+  ADDING_GROUP_TOPIC_STORY = "addingGroupTopicStory",
   ADDING_GROUP_SUBTOPIC_STORY = "addGroupSubtopicStory",
   ADDING_GROUP_NOTE_STORY = "addGroupNoteStory",
   ADDING_GROUP_HOMEWORK_STORY = "addGroupHomeworkStory",
   ADDING_GROUP_FLASHCARD_SET_STORY = "addGroupFlashcardSetStory",
+  ADDING_RESOURCE_TO_LEARNING_GROUP_STORY = "addResourceToLearningGroupStory",
 
   EDITING_FLASHCARD_STORY = "editFlashcardStory",
   EDITING_FLASHCARD_SET_STORY = "editFlashcardSetStory",
@@ -67,6 +67,7 @@ export enum Stories {
   GENERATING_TEXT_FROM_FLASHCARDS_STORY = "generateTextFromFlashcardsStory",
   GENERATING_PODCAST_FROM_FLASHCARDS_STORY = "generatePodcastFromFlashcardsStory",
   GENERATING_LEARN_VIDEO_STORY = "generateLearnVideoStory",
+  GENERATING_RESOURCES_FROM_IMAGE = "generateResourceFromImage",
 
   CLONING_RESOURCE_FROM_GROUP_STORY = "cloneResourceFromGroupStory",
 
@@ -99,6 +100,7 @@ export enum AdditionalTags {
   SAPIENTOR_CONVERSATION,
   QUIK_CHAT_VISIBLE,
   CHAt_SHEET_VISIBLE,
+  GENERATE_FROM_IMAGE_PROMPT
 }
 
 export enum NavigationLinks {

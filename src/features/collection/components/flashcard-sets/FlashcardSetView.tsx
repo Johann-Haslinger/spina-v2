@@ -5,6 +5,7 @@ import { Fragment, useContext } from "react";
 import {
   IoAdd,
   IoAlbumsOutline,
+  IoArrowUpCircleOutline,
   IoBookmark,
   IoBookmarkOutline,
   IoColorWandOutline,
@@ -13,7 +14,7 @@ import {
   IoHeadsetOutline,
   IoPlayOutline,
   IoSparklesOutline,
-  IoTrashOutline,
+  IoTrashOutline
 } from "react-icons/io5";
 import {
   AnswerFacet,
@@ -70,6 +71,7 @@ const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => 
   const openFlashcardQuizView = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_QUIZ_STORY);
   const openGeneratePodcastSheet = () => lsc.stories.transitTo(Stories.GENERATING_PODCAST_STORY);
   const openGenerateTextSheet = () => lsc.stories.transitTo(Stories.GENERATING_TEXT_FROM_FLASHCARDS_STORY);
+  const openAddResourceToLerningGroupSheet = () => lsc.stories.transitTo(Stories.ADDING_RESOURCE_TO_LEARNING_GROUP_STORY);
 
   return (
     <Fragment>
@@ -116,6 +118,9 @@ const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => 
                   {isBookmarked
                     ? displayActionTexts(selectedLanguage).unbookmark
                     : displayActionTexts(selectedLanguage).bookmark}
+                </ActionRow>
+                <ActionRow icon={<IoArrowUpCircleOutline />} onClick={openAddResourceToLerningGroupSheet} >
+                  {displayActionTexts(selectedLanguage).addToLearningGroup}
                 </ActionRow>
                 <ActionRow destructive last icon={<IoTrashOutline />} onClick={openDeleteFlashcardSetAlert}>
                   {displayActionTexts(selectedLanguage).delete}

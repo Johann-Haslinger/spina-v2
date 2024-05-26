@@ -3,8 +3,9 @@ import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
 import { IdentifierFacet, IdentifierProps, Tags } from "@leanscope/ecs-models";
 import { useContext, useState } from "react";
 import {
-  IoAdd,
+  IoAddCircleOutline,
   IoAlbumsOutline,
+  IoArrowUpCircleOutline,
   IoBookmark,
   IoBookmarkOutline,
   IoCreateOutline,
@@ -73,6 +74,8 @@ const SubtopicView = (props: TitleProps & EntityProps & IdentifierProps) => {
   const openFlashcardQuizView = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_QUIZ_STORY);
   const openGeneratePodcastSheet = () => lsc.stories.transitTo(Stories.GENERATING_PODCAST_STORY);
   // const openGenerateLernVideoSheet = () => lsc.stories.transitTo(Stories.GENERATING_LEARN_VIDEO_STORY);
+  const openAddResourceToLerningGroupSheet = () => lsc.stories.transitTo(Stories.ADDING_RESOURCE_TO_LEARNING_GROUP_STORY);
+
 
   return (
     <Fragment>
@@ -90,7 +93,7 @@ const SubtopicView = (props: TitleProps & EntityProps & IdentifierProps) => {
               <ActionRow icon={<IoCreateOutline />} onClick={openEditSheet} first>
                 {displayActionTexts(selectedLanguage).edit}
               </ActionRow>
-              <ActionRow icon={<IoAdd />} onClick={openAddFlashcardsSheet}>
+              <ActionRow icon={<IoAddCircleOutline />} onClick={openAddFlashcardsSheet}>
                 {displayActionTexts(selectedLanguage).addFlashcards}
               </ActionRow>
               <ActionRow icon={isBookmarked ? <IoBookmark /> : <IoBookmarkOutline />} onClick={toggleBookmark}>
@@ -98,7 +101,9 @@ const SubtopicView = (props: TitleProps & EntityProps & IdentifierProps) => {
                   ? displayActionTexts(selectedLanguage).unbookmark
                   : displayActionTexts(selectedLanguage).bookmark}
               </ActionRow>
-
+              <ActionRow icon={<IoArrowUpCircleOutline />} onClick={openAddResourceToLerningGroupSheet} >
+                {displayActionTexts(selectedLanguage).addToLearningGroup}
+              </ActionRow>
               <ActionRow last destructive icon={<IoTrashOutline />} onClick={openDeleteAlert}>
                 {displayActionTexts(selectedLanguage).delete}
               </ActionRow>

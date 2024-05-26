@@ -12,8 +12,6 @@ export async function addBlockEntitiesFromString(
   parentId: string,
   userId: string
 ) {
-  console.log("userId", userId);
-
   const sanitizedText = htmlString.replace(/style="([\s\S]*?)\"/gi, "");
   let cleanedHtmlString = sanitizedText
     .replace(/&nbsp;/g, " ")

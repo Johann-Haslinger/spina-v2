@@ -195,7 +195,16 @@ export const ACTION_TEXT_DATA = {
     de: "Duplizieren",
     en: "Duplicate",
   },
+  add_to_learning_group: {
+    de: "Zu Lerngruppe",
+    en: "To learning group",
+  },
+  generate_from_image: {
+    de: "Aus Foto erstellen",
+    en: "Generate from Image"
+  }
 };
+
 export const LABEL_TEXT_DATA = {
   title: {
     de: "Titel",
@@ -271,8 +280,8 @@ export const LABEL_TEXT_DATA = {
   },
   color: {
     de: "Farbe",
-    en: "Color"
-  }
+    en: "Color",
+  },
 };
 export const DATA_TYPE_TEXT_DATA = {
   note: {

@@ -71,6 +71,8 @@ export const displayActionTexts = (selectedLanguage: SupportedLanguages) => {
     copy: ACTION_TEXT_DATA.copy[selectedLanguage],
     cut: ACTION_TEXT_DATA.cut[selectedLanguage],
     duplicate: ACTION_TEXT_DATA.duplicate[selectedLanguage],
+    addToLearningGroup: ACTION_TEXT_DATA.add_to_learning_group[selectedLanguage],
+    generateFromImage: ACTION_TEXT_DATA.generate_from_image[selectedLanguage],
   };
 };
 
@@ -113,4 +115,3 @@ export const displayDataTypeTexts = (selectedLanguage: SupportedLanguages) => {
     lernvideo: DATA_TYPE_TEXT_DATA.lernvideo[selectedLanguage],
   };
 };
-

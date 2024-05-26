@@ -41,6 +41,7 @@ import SubtopicView from "../subtopics/SubtopicView";
 import AddResourceToTopicSheet from "./AddResourceToTopicSheet";
 import DeleteTopicAlert from "./DeleteTopicAlert";
 import EditTopicSheet from "./EditTopicSheet";
+import GenerateResourcesFromImageSheet from "../generation/GenerateResourcesFromImageSheet";
 
 const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -154,6 +155,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
       <AddResourceToTopicSheet />
       <DeleteTopicAlert />
       <EditTopicSheet />
+      <GenerateResourcesFromImageSheet />
     </Fragment>
   );
 };
