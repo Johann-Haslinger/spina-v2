@@ -42,6 +42,7 @@ import AddResourceToTopicSheet from "./AddResourceToTopicSheet";
 import DeleteTopicAlert from "./DeleteTopicAlert";
 import EditTopicSheet from "./EditTopicSheet";
 import GenerateResourcesFromImageSheet from "../generation/GenerateResourcesFromImageSheet";
+import AddResourceToLearningGroupSheet from "../../../groups/components/AddResourceToLearningGroupSheet";
 
 const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -156,6 +157,8 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
       <DeleteTopicAlert />
       <EditTopicSheet />
       <GenerateResourcesFromImageSheet />
+      <AddResourceToLearningGroupSheet />
+      
     </Fragment>
   );
 };

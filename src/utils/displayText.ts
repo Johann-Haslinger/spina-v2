@@ -31,9 +31,10 @@ export const displayAlertTexts = (selectedLanguage: SupportedLanguages) => {
     noDescription: ALERT_TEXT_DATA.no_description[selectedLanguage],
     noTopics: ALERT_TEXT_DATA.no_topics[selectedLanguage],
     noTitle: ALERT_TEXT_DATA.no_title[selectedLanguage],
-    deleteAlertTitle: ALERT_TEXT_DATA.DELETING_alert_title[selectedLanguage],
-    deleteAlertSubtitle: ALERT_TEXT_DATA.DELETING_alert_subtitle[selectedLanguage],
+    deleteAlertTitle: ALERT_TEXT_DATA.deleting_alert_title[selectedLanguage],
+    deleteAlertSubtitle: ALERT_TEXT_DATA.deleting_alert_subtitle[selectedLanguage],
     noUserSignedIn: ALERT_TEXT_DATA.no_user_signed_in[selectedLanguage],
+    noLearningGroups: ALERT_TEXT_DATA.no_learning_groups[selectedLanguage],
   };
 };
 

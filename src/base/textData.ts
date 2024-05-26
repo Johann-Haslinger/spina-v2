@@ -70,11 +70,11 @@ export const ALERT_TEXT_DATA = {
     de: "Kein Titel",
     en: "No title",
   },
-  DELETING_alert_title: {
+  deleting_alert_title: {
     de: "Bist du sicher?",
     en: "Are you sure?",
   },
-  DELETING_alert_subtitle: {
+  deleting_alert_subtitle: {
     de: "Möchtest du diesen Inhalt wirklich löschen?",
     en: "Do you really want to delete this content?",
   },
@@ -82,6 +82,10 @@ export const ALERT_TEXT_DATA = {
     de: "Kein Benutzer angemeldet ",
     en: "No user signed in",
   },
+  no_learning_groups: {
+    de: "Keine Lerngruppen",
+    en: "No learning groups"
+  }
 };
 
 export const BUTTON_TEXT_DATA = {
@@ -201,8 +205,8 @@ export const ACTION_TEXT_DATA = {
   },
   generate_from_image: {
     de: "Aus Foto erstellen",
-    en: "Generate from Image"
-  }
+    en: "Generate from Image",
+  },
 };
 
 export const LABEL_TEXT_DATA = {
