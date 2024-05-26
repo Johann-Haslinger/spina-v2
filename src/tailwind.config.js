@@ -1,16 +1,13 @@
-
-
 module.exports = {
   content: ["./src/**/*.{js,jsx,ts,tsx}"],
 
+  darkMode: "selector",
 
-  darkMode: 'selector',
- 
   theme: {
     fontFamily: {},
     extend: {
       colors: {
-        primaryColor:"#325FFF",
+        primaryColor: "#325FFF",
         primary: "#000000",
         primatyText: "#1E1E1E",
         primaryTextDark: "#ffffff",
@@ -18,20 +15,23 @@ module.exports = {
         seconderyTextDark: "#86858A",
         placeholderText: "#BDBDBD",
         placeholderTextDark: "#595959",
-       
       },
       backgroundColor: {
         primary: "#F5F5F5",
-        primaryDark: "#000000",
         secondery: "#F6F6F6",
-        seconderyDark: "#141414",
         tertiary: "rgb(234,234,234)",
-        tertiaryDark: "#1a1a1a",
-      
+
+        // primaryDark: "#000000",
+        // seconderyDark: "#141414",
+        // tertiaryDark: "#1a1a1a",
+
+        primaryDark: "#000000",
+        seconderyDark: "#1a1a1a",
+        tertiaryDark: "#232323",
       },
       borderColor: {
-        primaryBorder: '#E1E1E5',
-        primaryBorderDark: '#444444',
+        primaryBorder: "#E1E1E5",
+        primaryBorderDark: "#444444",
       },
     },
   },

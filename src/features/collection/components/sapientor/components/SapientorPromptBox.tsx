@@ -3,26 +3,23 @@ import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
 import { TextFacet } from "@leanscope/ecs-models";
 import { Fragment, useContext, useEffect, useRef, useState } from "react";
-import { IoAdd, IoArrowUp, IoClose } from "react-icons/io5";
+import { IoArrowUp, IoAttachOutline, IoClose } from "react-icons/io5";
 import tw from "twin.macro";
 import { AdditionalTags } from "../../../../../base/enums";
-import { useCurrentSapientorConversation } from "../hooks/useCurrentConversation";
 import { FlexBox } from "../../../../../components";
+import { useCurrentSapientorConversation } from "../hooks/useCurrentConversation";
 
 const StyledPromptBoxContainer = styled.div`
   ${tw`w-full space-x-2 mb-8 mt-4 flex h-fit items-end`}
 `;
 
-
 const StyledPromptBoxWrapper = styled.div<{ isChatSheetVisible: boolean }>`
   ${tw`h-fit pl-4   bg-tertiary dark:bg-tertiaryDark  rounded-3xl `}
-  ${({ isChatSheetVisible }) => isChatSheetVisible ? tw` w-[90%]  pr-1.5 py-1` : tw`w-full pr-1`}
-
+  ${({ isChatSheetVisible }) => (isChatSheetVisible ? tw` w-[90%]  pr-1.5 py-1` : tw`w-full pr-1`)}
 `;
 
 const StyledPromptInput = styled.input`
-  ${tw`h-8 w-[90%] placeholder:text-seconderyText placeholder:text-opacity-50 dark:text-white dark:placeholder:text-seconderyTextDark bg-white bg-opacity-0 outline-none`}
-  
+  ${tw`h-8 pr-4 w-[90%] placeholder:text-seconderyText placeholder:text-opacity-50 dark:text-white dark:placeholder:text-seconderyTextDark bg-white bg-opacity-0 outline-none`}
 `;
 
 const StyledSubmitButton = styled.button<{ active: boolean }>`
@@ -33,9 +30,8 @@ const StyledSubmitButton = styled.button<{ active: boolean }>`
       : tw` dark:bg-white bg-black bg-opacity-10  dark:bg-opacity-10 dark:text-opacity-60  `}
 `;
 
-
 const StyledAddResourceButton = styled.button`
-  ${tw`size-10  flex items-center justify-center rounded-full bg-tertiary dark:bg-tertiaryDark  text-2xl text-seconderyText dark:text-seconderyTextDark hover:opacity-50`}
+  ${tw`mr-4 text-2xl text-seconderyText dark:text-seconderyTextDark hover:opacity-50 transition-all`}
 `;
 
 const StyledSelectedImage = styled.img`
@@ -49,7 +45,6 @@ const StyledStyledCancelButton = styled.button`
 const StyledImageContainer = styled.div`
   ${tw`flex h-14 mb-2 mt-4 relative items-start`}
 `;
-
 
 const usePromptBoxRef = (isVisible: boolean) => {
   const promptInputRef = useRef<HTMLInputElement>(null);
@@ -73,9 +68,10 @@ const SapientorPromptBox = (props: { isVisible: boolean }) => {
   const [prompt, setPrompt] = useState("");
   const { isChatSheetVisible } = useCurrentSapientorConversation();
   const [isSelectingImageSrc, setIsSelectingImageSrc] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement | null>(null)
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [selectedImageSrc, setSelectedImageSrc] = useState<string | null>(null);
 
+  const removeSelectedImage = () => setSelectedImageSrc(null);
 
   useEffect(() => {
     if (isSelectingImageSrc && fileInputRef.current !== null) {
@@ -136,8 +132,6 @@ const SapientorPromptBox = (props: { isVisible: boolean }) => {
     }
   };
 
-
-
   const submitPrompt = () => {
     if (prompt === "") return;
     const newPromptEntity = new Entity();
@@ -151,34 +145,38 @@ const SapientorPromptBox = (props: { isVisible: boolean }) => {
   return (
     <Fragment>
       <StyledPromptBoxContainer>
-        {isChatSheetVisible && (
-          <StyledAddResourceButton onClick={openFilePicker}>
-            <IoAdd />
-          </StyledAddResourceButton>
-        )}
         <StyledPromptBoxWrapper isChatSheetVisible={isChatSheetVisible}>
-          {selectedImageSrc && <StyledImageContainer>
-            <StyledSelectedImage src={selectedImageSrc} />
-            <StyledStyledCancelButton>
-              <IoClose/>
-            </StyledStyledCancelButton>
-            </StyledImageContainer>}
-          <FlexBox> <StyledPromptInput
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-            ref={promptInputRef}
-            placeholder="Type a message"
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                submitPrompt();
-              }
-            }}
-          />
+          {selectedImageSrc && (
+            <StyledImageContainer>
+              <StyledSelectedImage src={selectedImageSrc} />
+              <StyledStyledCancelButton onClick={removeSelectedImage}>
+                <IoClose />
+              </StyledStyledCancelButton>
+            </StyledImageContainer>
+          )}
+          <FlexBox>
+            {" "}
+            {isChatSheetVisible && (
+              <StyledAddResourceButton onClick={openFilePicker}>
+                <IoAttachOutline />
+              </StyledAddResourceButton>
+            )}
+            <StyledPromptInput
+              value={prompt}
+              onChange={(e) => setPrompt(e.target.value)}
+              ref={promptInputRef}
+              placeholder="Type a message"
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  submitPrompt();
+                }
+              }}
+            />
             <StyledSubmitButton onClick={submitPrompt} active={prompt !== ""}>
               <IoArrowUp />
-            </StyledSubmitButton></FlexBox>
+            </StyledSubmitButton>
+          </FlexBox>
         </StyledPromptBoxWrapper>
-
       </StyledPromptBoxContainer>
       {isSelectingImageSrc && (
         <input

@@ -20,7 +20,7 @@ const StyledPromptTextBoxWrapper = styled.div`
 `;
 
 const StyledContentWrapper = styled.div`
-  ${tw`  h-[85%]`}
+  ${tw`   overflow-y-scroll h-[90%] `}
 `;
 const StyledSegmentedControlWrapper = styled.div`
   ${tw` flex rounded-full p-0.5 bg-tertiary dark:bg-tertiaryDark w-56  h-10`}
@@ -28,7 +28,7 @@ const StyledSegmentedControlWrapper = styled.div`
 
 const StyledSegmentedControlCell = styled.div<{ active: boolean }>`
   ${tw`w-1/2 text-xl items-center flex justify-center h-full`}
-  ${({ active }) => active ? tw` bg-white rounded-full dark:bg-opacity-5` : tw`opacity-20  `}
+  ${({ active }) => (active ? tw` bg-white rounded-full dark:bg-opacity-5` : tw`opacity-20  `)}
 `;
 
 const StyledFlexBox = styled.div`
@@ -38,12 +38,11 @@ const StyledFlexBox = styled.div`
 const StyledPlaceholderIcon = styled.div`
   ${tw`mx-auto mt-60 size-14 transition-all  rounded-full`}
   background-color: ${COLOR_ITEMS[0].color};
-   
 `;
 
-
 const SapientorChatSheet = () => {
-  const { isChatSheetVisible, setChatSheetVisible, useSapientorAssistentModel, changeModel } = useCurrentSapientorConversation();
+  const { isChatSheetVisible, setChatSheetVisible, useSapientorAssistentModel, changeModel } =
+    useCurrentSapientorConversation();
   const [chatMessageEntities] = useEntities((e) => e.has(MessageRoleFacet));
 
   const navigateBack = () => setChatSheetVisible(false);
@@ -55,10 +54,16 @@ const SapientorChatSheet = () => {
           <div />
 
           <StyledSegmentedControlWrapper>
-            <StyledSegmentedControlCell onClick={() => changeModel(SupportedModels.TURBO)} active={!useSapientorAssistentModel} >
+            <StyledSegmentedControlCell
+              onClick={() => changeModel(SupportedModels.TURBO)}
+              active={!useSapientorAssistentModel}
+            >
               <IoFlash />
             </StyledSegmentedControlCell>
-            <StyledSegmentedControlCell onClick={() => changeModel(SupportedModels.SAPIENTOR_ASSISTENT)} active={useSapientorAssistentModel} >
+            <StyledSegmentedControlCell
+              onClick={() => changeModel(SupportedModels.SAPIENTOR_ASSISTENT)}
+              active={useSapientorAssistentModel}
+            >
               <IoBulb />
             </StyledSegmentedControlCell>
           </StyledSegmentedControlWrapper>
@@ -69,7 +74,6 @@ const SapientorChatSheet = () => {
         </StyledFlexBox>
         <Spacer />
         <ScrollableBox>
-        
           {chatMessageEntities.length === 0 && <StyledPlaceholderIcon />}
           <EntityPropsMapper
             query={(e) => e.has(MessageRoleFacet)}
@@ -78,6 +82,7 @@ const SapientorChatSheet = () => {
             onMatch={ChatMessage}
           />
         </ScrollableBox>
+       
       </StyledContentWrapper>
       <StyledPromptTextBoxWrapper>
         <SapientorPromptBox isVisible={isChatSheetVisible} />
