@@ -4,6 +4,7 @@ import { dummyText } from "../../../base/dummy";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedExam } from "../hooks/useSelectedExam";
+import { SupabaseTables } from "../../../base/enums";
 
 const LoadExamTextSystem = () => {
   const { mockupData, shouldFetchFromSupabase } = useMockupData();
@@ -16,7 +17,7 @@ const LoadExamTextSystem = () => {
         examText = dummyText;
       } else if (shouldFetchFromSupabase) {
         const { data: examTextData, error } = await supabaseClient
-          .from("exams")
+          .from(SupabaseTables.EXAMS)
           .select("text")
           .eq("id", selectedExamId)
           .single();

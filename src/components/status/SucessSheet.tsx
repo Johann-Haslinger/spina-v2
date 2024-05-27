@@ -23,7 +23,7 @@ const SucessSheet = () => {
     <Sheet visible={isVisibile} navigateBack={navigateBack}>
       <FlexBox>
         <div/>
-        <CloseButton/>
+        <CloseButton onClick={navigateBack} />
       </FlexBox>
       <StyledDoneIcon onClick={navigateBack}>
         <IoCheckmarkCircle />

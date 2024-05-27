@@ -4,16 +4,16 @@ import { IdentifierFacet, ParentFacet, Tags } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
 import { AnswerFacet, MasteryLevelFacet, QuestionFacet } from "../../../app/additionalFacets";
 import { dummyFlashcards } from "../../../base/dummy";
-import { DataTypes } from "../../../base/enums";
+import { DataTypes, SupabaseTables } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { dataTypeQuery } from "../../../utils/queries";
 
 const fetchFlashcardsForFlashcardGroup = async (parentId: string) => {
   const { data: flashcards, error } = await supabaseClient
-    .from("flashCards")
-    .select("question, id, answer, difficulty")
-    .eq("parentId", parentId);
+    .from(SupabaseTables.FLASHCARDS)
+    .select("question, id, answer, mastery_level")
+    .eq("parent_id", parentId);
 
   if (error) {
     console.error("Error fetching flashcards:", error);
@@ -51,7 +51,7 @@ const LoadFlashcardsSystem = () => {
             const flashcardEntity = new Entity();
             lsc.engine.addEntity(flashcardEntity);
             flashcardEntity.add(new IdentifierFacet({ guid: flashcard.id }));
-            flashcardEntity.add(new MasteryLevelFacet({ masteryLevel: flashcard.difficulty }));
+            flashcardEntity.add(new MasteryLevelFacet({ masteryLevel: flashcard.mastery_level }));
             flashcardEntity.add(new QuestionFacet({ question: flashcard.question }));
             flashcardEntity.add(new AnswerFacet({ answer: flashcard.answer }));
             flashcardEntity.add(new ParentFacet({ parentId: selectedFlashcardGroupId }));

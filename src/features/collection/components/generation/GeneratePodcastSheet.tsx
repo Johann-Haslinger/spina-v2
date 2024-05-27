@@ -10,10 +10,10 @@ import { v4 } from "uuid";
 import { AnswerFacet, DateAddedFacet, QuestionFacet, SourceFacet, TitleFacet } from "../../../../app/additionalFacets";
 import { DataTypes, Stories } from "../../../../base/enums";
 import { FlexBox, GeneratingIndecator, PrimaryButton, SecondaryButton, Sheet } from "../../../../components";
+import { addPodcast } from "../../../../functions/addPodcast";
 import { useIsAnyStoryCurrent } from "../../../../hooks/useIsAnyStoryCurrent";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { useUserData } from "../../../../hooks/useUserData";
-import supabaseClient from "../../../../lib/supabase";
 import { displayButtonTexts } from "../../../../utils/displayText";
 import { getAudioFromText, getCompletion } from "../../../../utils/getCompletion";
 import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
@@ -86,7 +86,6 @@ const GeneratePodcastSheet = () => {
 
         if (parentId && audioBase64) {
           const newPodcastEntity = new Entity();
-          lsc.engine.addEntity(newPodcastEntity);
           newPodcastEntity.add(new TitleFacet({ title: title }));
           newPodcastEntity.add(new IdentifierFacet({ guid: newPodcastId }));
           newPodcastEntity.add(new ParentFacet({ parentId: parentId }));
@@ -95,13 +94,7 @@ const GeneratePodcastSheet = () => {
           newPodcastEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
           newPodcastEntity.add(DataTypes.PODCAST);
 
-          const { error } = await supabaseClient
-            .from("podcasts")
-            .insert({ id: newPodcastId, parentId: parentId, base64Audio: audioBase64, user_id: userId, title: title });
-
-          if (error) {
-            console.error("Error inserting podcast", error);
-          }
+          addPodcast(lsc, newPodcastEntity, userId);
         }
       }
 

@@ -12,7 +12,7 @@ import {
   QuestionFacet,
   QuestionProps,
 } from "../../../../app/additionalFacets";
-import { AdditionalTags } from "../../../../base/enums";
+import { AdditionalTags, SupabaseTables } from "../../../../base/enums";
 import {
   FlexBox,
   PrimaryButton,
@@ -52,7 +52,7 @@ const EditFlashcardSheet = (props: QuestionProps & AnswerProps & MasteryLevelPro
     entity.add(new AnswerFacet({ answer: answerValue }));
 
     const { error } = await supabaseClient
-      .from("flashCards")
+      .from(SupabaseTables.FLASHCARDS)
       .update({
         question: questionValue,
         answer: answerValue,
@@ -70,7 +70,7 @@ const EditFlashcardSheet = (props: QuestionProps & AnswerProps & MasteryLevelPro
     setTimeout(async () => {
       lsc.engine.removeEntity(entity);
 
-      const { error } = await supabaseClient.from("flashCards").delete().eq("id", guid);
+      const { error } = await supabaseClient.from(SupabaseTables.FLASHCARDS).delete().eq("id", guid);
 
       if (error) {
         console.error("Error deleting flashcard: ", error);

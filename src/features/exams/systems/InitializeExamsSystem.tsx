@@ -11,7 +11,7 @@ import {
 } from "../../../app/additionalFacets";
 
 import { dummyExams } from "../../../base/dummy";
-import { DataTypes } from "../../../base/enums";
+import { DataTypes, SupabaseTables } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { dataTypeQuery } from "../../../utils/queries";
@@ -20,9 +20,9 @@ const fetchExams = async () => {
   const fourteenDaysAgo = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
 
   const { data: exams, error } = await supabaseClient
-    .from("exams")
-    .select("title, id, dueDate, status, parentId, relatedSubject")
-    .gte("dueDate", fourteenDaysAgo);
+    .from(SupabaseTables.EXAMS)
+    .select("title, id, due_date, status, parent_id, related_subject")
+    .gte("due_date", fourteenDaysAgo);
 
   if (error) {
     console.error("Error fetching exams:", error);
@@ -50,11 +50,11 @@ const InitializeExamsSystem = () => {
           lsc.engine.addEntity(examEntity);
           examEntity.add(new TitleFacet({ title: exam.title }));
           examEntity.add(new IdentifierFacet({ guid: exam.id }));
-          examEntity.add(new DueDateFacet({ dueDate: exam.dueDate }));
+          examEntity.add(new DueDateFacet({ dueDate: exam.due_date }));
           examEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
           examEntity.add(new StatusFacet({ status: exam.status }));
-          examEntity.add(new ParentFacet({ parentId: exam.parentId }));
-          examEntity.add(new RelationshipFacet({ relationship: exam.relatedSubject }));
+          examEntity.add(new ParentFacet({ parentId: exam.parent_id }));
+          examEntity.add(new RelationshipFacet({ relationship: exam.related_subject }));
           examEntity.addTag(DataTypes.EXAM);
         }
       });

@@ -1,6 +1,6 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
-import { IdentifierFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
+import { DescriptionFacet, IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { Fragment, useContext, useEffect, useState } from "react";
 import { IoCheckmarkCircle, IoEllipseOutline } from "react-icons/io5";
@@ -21,11 +21,11 @@ import {
   TextAreaInput,
   TextInput,
 } from "../../../../components";
+import { addHomework } from "../../../../functions/addHomework";
 import { useSchoolSubjectEntities } from "../../../../hooks/useSchoolSubjects";
 import { useSchoolSubjectTopics } from "../../../../hooks/useSchoolSubjectTopics";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { useUserData } from "../../../../hooks/useUserData";
-import supabaseClient from "../../../../lib/supabase";
 import { displayAlertTexts, displayButtonTexts, displayLabelTexts } from "../../../../utils/displayText";
 import { useSelectedSchoolSubject } from "../../hooks/useSelectedSchoolSubject";
 import { useSelectedTopic } from "../../hooks/useSelectedTopic";
@@ -64,7 +64,7 @@ const AddHomeworkSheet = () => {
 
   const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_HOMEWORKS_STORY);
 
-  const addHomework = async () => {
+  const saveHomework = async () => {
     const { title, dueDate, parent, description, id } = newHomework;
     const newHomeworkEntity = new Entity();
     lsc.engine.addEntity(newHomeworkEntity);
@@ -77,8 +77,8 @@ const AddHomeworkSheet = () => {
     newHomeworkEntity.add(new TitleFacet({ title: title }));
     newHomeworkEntity.add(new DueDateFacet({ dueDate: dueDate }));
     newHomeworkEntity.add(
-      new TextFacet({
-        text: description,
+      new DescriptionFacet({
+        description: description,
       })
     );
     newHomeworkEntity.add(
@@ -89,22 +89,7 @@ const AddHomeworkSheet = () => {
     newHomeworkEntity.add(new StatusFacet({ status: 1 }));
     newHomeworkEntity.add(DataTypes.HOMEWORK);
 
-    const { error } = await supabaseClient.from("homeworks").insert([
-      {
-        id: id,
-        user_id: userId,
-        title: title,
-        parentId: openTopicId || parent,
-        text: description,
-        dueDate: dueDate,
-        status: 1,
-        relatedSubject: openSchoolSubjectId || selectedSchoolSubjectId,
-      },
-    ]);
-
-    if (error) {
-      console.error(error);
-    }
+    addHomework(lsc, newHomeworkEntity, userId);
 
     navigateBack();
   };
@@ -115,7 +100,7 @@ const AddHomeworkSheet = () => {
         <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
 
         {newHomework.title && newHomework.dueDate && schooolSubjectEntities.length !== 0 && (
-          <PrimaryButton onClick={addHomework}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
+          <PrimaryButton onClick={saveHomework}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
         )}
       </FlexBox>
       <Spacer />

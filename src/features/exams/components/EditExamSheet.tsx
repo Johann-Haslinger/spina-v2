@@ -2,7 +2,7 @@ import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext, useEffect, useState } from "react";
 import { DueDateFacet, TitleFacet } from "../../../app/additionalFacets";
-import { Stories } from "../../../base/enums";
+import { Stories, SupabaseTables } from "../../../base/enums";
 import {
   DateInput,
   FlexBox,
@@ -41,10 +41,10 @@ const EditExamSheet = () => {
       selectedExamEntity?.add(new DueDateFacet({ dueDate: newDueDate }));
 
       const { error } = await supabaseClient
-        .from("exams")
+        .from(SupabaseTables.EXAMS)
         .update({
           title: newTitle,
-          dueDate: newDueDate,
+          due_date: newDueDate,
         })
         .eq("id", selectedExamId);
 

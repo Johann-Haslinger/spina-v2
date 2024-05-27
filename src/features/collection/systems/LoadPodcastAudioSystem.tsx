@@ -4,6 +4,7 @@ import { dummyBase64Audio } from "../../../base/dummyBase64Audio";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedPodcast } from "../hooks/useSelectedPodcast";
+import { SupabaseTables } from "../../../base/enums";
 
 const base64toBlob = (base64Data: string, contentType: string) => {
   const byteCharacters = atob(base64Data);
@@ -17,8 +18,8 @@ const base64toBlob = (base64Data: string, contentType: string) => {
 
 const fetchPodcastAudio = async (podcastId: string) => {
   const { data: audioData, error } = await supabaseClient
-    .from("podcasts")
-    .select("base64Audio")
+    .from(SupabaseTables.PODCASTS)
+    .select("audio")
     .eq("id", podcastId)
     .single();
 
@@ -37,11 +38,11 @@ const LoadPodcastAudioSystem = () => {
     const loadPodcastAudio = async () => {
       if (selectedPodcastId && !selectedPodcastSource) {
         const audioData = mockupData
-          ? { base64Audio: dummyBase64Audio }
+          ? { audio: dummyBase64Audio }
           : shouldFetchFromSupabase
           ? await fetchPodcastAudio(selectedPodcastId || "")
           : null;
-        const audioBlob = audioData && base64toBlob(audioData?.base64Audio, "audio/mpeg");
+        const audioBlob = audioData && base64toBlob(audioData?.audio, "audio/mpeg");
         const audioUrl = audioBlob && URL.createObjectURL(audioBlob);
 
         selectedPodcastEntity?.add(new SourceFacet({ source: audioUrl || "" }));

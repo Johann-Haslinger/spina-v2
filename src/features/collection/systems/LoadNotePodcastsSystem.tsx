@@ -4,16 +4,16 @@ import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
 import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
 import { dummyPodcasts } from "../../../base/dummy";
-import { DataTypes } from "../../../base/enums";
+import { DataTypes, SupabaseTables } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedNote } from "../hooks/useSelectedNote";
 
 const fetchPodcastsForNote = async (noteId: string) => {
   const { data: podcasts, error } = await supabaseClient
-    .from("podcasts")
-    .select("title, id, createdAt")
-    .eq("parentId", noteId);
+    .from(SupabaseTables.PODCASTS)
+    .select("title, id, date_added")
+    .eq("parent_id", noteId);
 
   if (error) {
     console.error("Error fetching note podcasts:", error);
@@ -34,8 +34,8 @@ const LoadNotePodcastsSystem = () => {
         const podcasts = mockupData
           ? dummyPodcasts.slice(0, 1)
           : shouldFetchFromSupabase
-          ? await fetchPodcastsForNote(selectedNoteId)
-          : [];
+            ? await fetchPodcastsForNote(selectedNoteId)
+            : [];
 
         podcasts?.forEach((podcast) => {
           const isExisting = lsc.engine.entities.some(
@@ -48,7 +48,7 @@ const LoadNotePodcastsSystem = () => {
             podcastEntity.add(new IdentifierFacet({ guid: podcast.id }));
             podcastEntity.add(new ParentFacet({ parentId: selectedNoteId }));
             podcastEntity.add(new TitleFacet({ title: podcast.title || "" }));
-            podcastEntity.add(new DateAddedFacet({ dateAdded: podcast.createdAt }));
+            podcastEntity.add(new DateAddedFacet({ dateAdded: podcast.date_added }));
             podcastEntity.addTag(DataTypes.PODCAST);
           }
         });

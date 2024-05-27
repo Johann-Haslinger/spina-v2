@@ -10,7 +10,7 @@ import {
   TitleFacet,
 } from "../../../app/additionalFacets";
 import { dummyHomeworks } from "../../../base/dummy";
-import { DataTypes } from "../../../base/enums";
+import { DataTypes, SupabaseTables } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { dataTypeQuery } from "../../../utils/queries";
@@ -19,9 +19,9 @@ const fetchHomeworks = async () => {
   const fourteenDaysAgo = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
 
   const { data: homeworks, error } = await supabaseClient
-    .from("homeworks")
-    .select("title, id, dueDate, status, parentId, relatedSubject")
-    .gte("dueDate", fourteenDaysAgo);
+    .from(SupabaseTables.HOMEWORKS)
+    .select("title, id, due_date, status, parent_id, related_subject")
+    .gte("due_date", fourteenDaysAgo);
 
   if (error) {
     console.error("Error fetching homeworks:", error);
@@ -49,11 +49,11 @@ const InitializeHomeworksSystem = () => {
           lsc.engine.addEntity(homeworkEntity);
           homeworkEntity.add(new TitleFacet({ title: homework.title }));
           homeworkEntity.add(new IdentifierFacet({ guid: homework.id }));
-          homeworkEntity.add(new DueDateFacet({ dueDate: homework.dueDate }));
+          homeworkEntity.add(new DueDateFacet({ dueDate: homework.due_date }));
           homeworkEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
           homeworkEntity.add(new StatusFacet({ status: homework.status }));
-          homeworkEntity.add(new ParentFacet({ parentId: homework.parentId }));
-          homeworkEntity.add(new RelationshipFacet({ relationship: homework.relatedSubject }));
+          homeworkEntity.add(new ParentFacet({ parentId: homework.parent_id }));
+          homeworkEntity.add(new RelationshipFacet({ relationship: homework.related_subject }));
           homeworkEntity.addTag(DataTypes.HOMEWORK);
         }
       });

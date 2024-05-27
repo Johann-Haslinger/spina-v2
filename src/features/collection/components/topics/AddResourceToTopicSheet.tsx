@@ -8,9 +8,9 @@ import { v4 } from "uuid";
 import { DateAddedFacet, SourceFacet } from "../../../../app/additionalFacets";
 import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
 import { FlexBox, SecondaryButton, Section, SectionRow, Sheet, Spacer } from "../../../../components";
+import { addNote } from "../../../../functions/addNote";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { useUserData } from "../../../../hooks/useUserData";
-import supabaseClient from "../../../../lib/supabase";
 import { displayActionTexts, displayButtonTexts, displayDataTypeTexts } from "../../../../utils/displayText";
 import { useSelectedTopic } from "../../hooks/useSelectedTopic";
 
@@ -60,26 +60,19 @@ const AddResourceToTopicSheet = () => {
   const openAddFlashcardsSheet = () => lsc.stories.transitTo(Stories.ADDING_FLASHCARD_SET_STORY);
   const openAddHomeworkSheet = () => lsc.stories.transitTo(Stories.ADDING_HOMEWORK_STORY);
 
-  const addNote = async () => {
+  const saveNote = async () => {
     if (selectedTopicId) {
       navigateBack();
       const noteId = v4();
 
       const newNoteEntity = new Entity();
-      lsc.engine.addEntity(newNoteEntity);
       newNoteEntity.add(new IdentifierFacet({ guid: noteId }));
       newNoteEntity.add(new ParentFacet({ parentId: selectedTopicId }));
       newNoteEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
       newNoteEntity.add(DataTypes.NOTE);
       newNoteEntity.add(Tags.SELECTED);
 
-      const { error } = await supabaseClient
-        .from("notes")
-        .insert([{ id: noteId, parentId: selectedTopicId, user_id: userId }]);
-
-      if (error) {
-        console.error("Error adding note", error);
-      }
+      addNote(lsc, newNoteEntity, userId);
     }
   };
 
@@ -91,7 +84,7 @@ const AddResourceToTopicSheet = () => {
       <Spacer />
 
       <Section>
-        <SectionRow icon={<IoAdd />} onClick={addNote} role="button">
+        <SectionRow icon={<IoAdd />} onClick={saveNote} role="button">
           {displayDataTypeTexts(selectedLanguage).note}
         </SectionRow>
         <SectionRow icon={<IoAdd />} onClick={openAddFlashcardsSheet} role="button">

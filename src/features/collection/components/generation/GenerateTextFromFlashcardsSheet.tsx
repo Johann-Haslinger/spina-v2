@@ -4,7 +4,7 @@ import { IdentifierFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext, useEffect, useState } from "react";
 import { AnswerFacet, QuestionFacet, TitleFacet } from "../../../../app/additionalFacets";
-import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
+import { AdditionalTags, DataTypes, Stories, SupabaseTables } from "../../../../base/enums";
 import {
   FlexBox,
   GeneratingIndecator,
@@ -23,6 +23,7 @@ import { generateImprovedText } from "../../../../utils/generateResources";
 import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
 import { addBlockEntitiesFromString } from "../../../blockeditor/functions/addBlockEntitiesFromString";
 import { useSelectedFlashcardSet } from "../../hooks/useSelectedFlashcardSet";
+import { addSubtopic } from "../../../../functions/addSubtopic";
 
 const GenerateTextFromFlashcardsSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -70,34 +71,23 @@ const GenerateTextFromFlashcardsSheet = () => {
   const saveText = async () => {
     navigateBack();
 
-    const newSubTopic = {
-      user_id: userId,
-      id: selectedFlashcardSetId,
-      name: selectedFlashcardSetTitle,
-      parentId: selectedFlashcardSetParentId,
-    };
-
     selectedFlashcardSetEntity?.add(AdditionalTags.NAVIGATE_BACK);
 
     if (selectedFlashcardSetId) {
       setTimeout(async () => {
         const subtopicEntity = new Entity();
-        lsc.engine.addEntity(subtopicEntity);
         subtopicEntity.add(new IdentifierFacet({ guid: selectedFlashcardSetId }));
         subtopicEntity.add(new ParentFacet({ parentId: selectedFlashcardSetParentId || "" }));
         subtopicEntity.add(new TitleFacet({ title: selectedFlashcardSetTitle || "" }));
         subtopicEntity.add(new TextFacet({ text: generatedText || "" }));
         subtopicEntity.add(DataTypes.SUBTOPIC);
 
-        const { error: subtopicsError } = await supabaseClient.from("subTopics").insert([newSubTopic]);
+        addSubtopic(lsc, subtopicEntity, userId);
 
-        if (subtopicsError) {
-          console.error("Error inserting subtopic", subtopicsError);
-        }
         addBlockEntitiesFromString(lsc, generatedText, selectedFlashcardSetId, "");
 
         const { error: flashcardSetError } = await supabaseClient
-          .from("flashcardSets")
+          .from(SupabaseTables.FLASHCARD_SETS)
           .delete()
           .eq("id", selectedFlashcardSetId);
 

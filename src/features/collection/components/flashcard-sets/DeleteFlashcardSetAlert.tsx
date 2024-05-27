@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { Alert, AlertButton } from "../../../../components";
-import { AdditionalTags, Stories } from "../../../../base/enums";
+import { AdditionalTags, Stories, SupabaseTables } from "../../../../base/enums";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useSelectedFlashcardSet } from "../../hooks/useSelectedFlashcardSet";
@@ -23,16 +23,16 @@ const DeleteFlashcardSetAlert = () => {
       if (selectedFlashcardSetEntity) {
         lsc.engine.removeEntity(selectedFlashcardSetEntity);
 
-        const { error } = await supabaseClient.from("flashcardSets").delete().eq("id", selectedFlashcardSetId);
+        const { error } = await supabaseClient.from(SupabaseTables.FLASHCARD_SETS).delete().eq("id", selectedFlashcardSetId);
 
         if (error) {
           console.error("Error deleting flashcard set", error);
         }
 
         const { error: flashcardsError } = await supabaseClient
-          .from("flashCards")
+          .from(SupabaseTables.FLASHCARDS)
           .delete()
-          .eq("parentId", selectedFlashcardSetId);
+          .eq("parent_id", selectedFlashcardSetId);
 
         if (flashcardsError) {
           console.error("Error deleting flashcards", flashcardsError);

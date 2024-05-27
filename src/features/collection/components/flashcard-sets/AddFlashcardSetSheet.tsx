@@ -18,11 +18,11 @@ import {
   Spacer,
   TextInput,
 } from "../../../../components";
+import { addFlashcardSet } from "../../../../functions/addFlashcardSet";
 import { useSchoolSubjectEntities } from "../../../../hooks/useSchoolSubjects";
 import { useSchoolSubjectTopics } from "../../../../hooks/useSchoolSubjectTopics";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { useUserData } from "../../../../hooks/useUserData";
-import supabaseClient from "../../../../lib/supabase";
 import { displayAlertTexts, displayButtonTexts, displayLabelTexts } from "../../../../utils/displayText";
 import { useSelectedTopic } from "../../hooks/useSelectedTopic";
 
@@ -41,13 +41,12 @@ const AddFlashcardSetSheet = () => {
     parent: "",
   });
 
-  const addFlashcardSet = async () => {
+  const saveFlashcardSet = async () => {
     navigateBack();
     const flashcardSetId = v4();
     const parentId = inCollectionVisible ? selectedTopicId || "" : newFlashcardSet.parent;
 
     const newFlashcardSetEntity = new Entity();
-    lsc.engine.addEntity(newFlashcardSetEntity);
     newFlashcardSetEntity.add(new IdentifierFacet({ guid: flashcardSetId }));
     newFlashcardSetEntity.add(new TitleFacet({ title: newFlashcardSet.title }));
     newFlashcardSetEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
@@ -55,18 +54,7 @@ const AddFlashcardSetSheet = () => {
     newFlashcardSetEntity.addTag(DataTypes.FLASHCARD_SET);
     newFlashcardSetEntity.addTag(DataTypes.FLASHCARD_GROUP);
 
-    const { error } = await supabaseClient.from("flashcardSets").insert([
-      {
-        user_id: userId,
-        id: flashcardSetId,
-        flashcardSetName: newFlashcardSet.title,
-        parentId: parentId,
-      },
-    ]);
-
-    if (error) {
-      console.error("Error adding flashcard set", error);
-    }
+    addFlashcardSet(lsc, newFlashcardSetEntity, userId);
   };
 
   const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_TOPIC_STORY);
@@ -76,7 +64,7 @@ const AddFlashcardSetSheet = () => {
       <FlexBox>
         <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
         {newFlashcardSet.title && (inCollectionVisible || newFlashcardSet.parent) && (
-          <PrimaryButton onClick={addFlashcardSet}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
+          <PrimaryButton onClick={saveFlashcardSet}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
         )}
       </FlexBox>
       <Spacer />

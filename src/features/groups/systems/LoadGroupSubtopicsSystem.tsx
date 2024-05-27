@@ -13,7 +13,7 @@ import { useSelectedGroupTopic } from "../hooks/useSelectedGroupTopic";
 const fetchGroupSubtopicsForSchoolSubject = async (subjectId: string) => {
   const { data: groupSubtopics, error } = await supabaseClient
     .from("group_subtopics")
-    .select("name, id, date_added")
+    .select("title, id, date_added")
     .eq("parentId", subjectId);
 
   if (error) {
@@ -45,7 +45,7 @@ const LoadGroupGroupSubtopicsSystem = () => {
           if (!isExisting) {
             const topicEntity = new Entity();
             lsc.engine.addEntity(topicEntity);
-            topicEntity.add(new TitleFacet({ title: topic.name }));
+            topicEntity.add(new TitleFacet({ title: topic.title }));
             topicEntity.add(new IdentifierFacet({ guid: topic.id }));
             topicEntity.add(new DateAddedFacet({ dateAdded: topic.date_added }));
 

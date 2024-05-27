@@ -1,7 +1,7 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext } from "react";
-import { Stories, AdditionalTags } from "../../../../base/enums";
+import { Stories, AdditionalTags, SupabaseTables } from "../../../../base/enums";
 import { Alert, AlertButton } from "../../../../components";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../../lib/supabase";
@@ -39,24 +39,24 @@ const DeleteSubtopicAlert = () => {
         }
 
         const { error: flashcardsError } = await supabaseClient
-          .from("flashCards")
+          .from(SupabaseTables.FLASHCARDS)
           .delete()
-          .eq("parentId", selectedSubtopicId);
+          .eq("parent_id", selectedSubtopicId);
 
         if (flashcardsError) {
           console.error("Error deleting flashcards", flashcardsError);
         }
 
-        const { error: blocksError } = await supabaseClient.from("blocks").delete().eq("parentId", selectedSubtopicId);
+        const { error: blocksError } = await supabaseClient.from(SupabaseTables.BLOCKS).delete().eq("parentId", selectedSubtopicId);
 
         if (blocksError) {
           console.error("Error deleting blocks", blocksError);
         }
 
         const { error: podcastsError } = await supabaseClient
-          .from("podcasts")
+          .from(SupabaseTables.PODCASTS)
           .delete()
-          .eq("parentId", selectedSubtopicId);
+          .eq("parent_id", selectedSubtopicId);
 
         if (podcastsError) {
           console.error("Error deleting podcasts", podcastsError);

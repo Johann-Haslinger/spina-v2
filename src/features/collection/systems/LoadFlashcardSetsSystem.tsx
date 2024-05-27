@@ -4,17 +4,17 @@ import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
 import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
 import { dummyFlashcardSets } from "../../../base/dummy";
-import { DataTypes } from "../../../base/enums";
+import { DataTypes, SupabaseTables } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
-import supabaseClient from "../../../lib/supabase";
-import { useSelectedTopic } from "../hooks/useSelectedTopic";
-import { displayAlertTexts } from "../../../utils/displayText";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
+import supabaseClient from "../../../lib/supabase";
+import { displayAlertTexts } from "../../../utils/displayText";
+import { useSelectedTopic } from "../hooks/useSelectedTopic";
 
 const fetchFlashcardSetsForTopic = async (topicId: string) => {
   const { data: flashcardSets, error } = await supabaseClient
-    .from("flashcardSets")
-    .select("flashcardSetName, id, date_added")
+    .from(SupabaseTables.FLASHCARD_SETS)
+    .select("title, id, date_added")
     .eq("parentId", topicId);
 
   if (error) {
@@ -49,7 +49,7 @@ const LoadFlashcardSetsSystem = () => {
             const noteEntity = new Entity();
             lsc.engine.addEntity(noteEntity);
             noteEntity.add(
-              new TitleFacet({ title: flashcardSet.flashcardSetName || displayAlertTexts(selectedLanguage).noTitle })
+              new TitleFacet({ title: flashcardSet.title || displayAlertTexts(selectedLanguage).noTitle })
             );
             noteEntity.add(new IdentifierFacet({ guid: flashcardSet.id }));
             noteEntity.add(new DateAddedFacet({ dateAdded: flashcardSet.date_added }));

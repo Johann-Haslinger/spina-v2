@@ -70,7 +70,7 @@ const AddResourceToLearningGroupSheet = () => {
     <Sheet visible={isVisible} navigateBack={navigateBack}>
       <FlexBox>
         <div />
-        <CloseButton />
+        <CloseButton onClick={navigateBack} />
       </FlexBox>
       <Spacer />
       <ScrollableBox>

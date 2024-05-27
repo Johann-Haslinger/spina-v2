@@ -4,7 +4,7 @@ import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
 import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
 import { dummySubtopics } from "../../../base/dummy";
-import { DataTypes } from "../../../base/enums";
+import { DataTypes, SupabaseTables } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedTopic } from "../hooks/useSelectedTopic";
@@ -13,9 +13,9 @@ import { displayAlertTexts } from "../../../utils/displayText";
 
 const fetchSubtopicsForSchoolSubject = async (subjectId: string) => {
   const { data: subtopics, error } = await supabaseClient
-    .from("subTopics")
-    .select("name, id, date_added")
-    .eq("parentId", subjectId);
+    .from(SupabaseTables.SUBTOPICS)
+    .select("title, id, date_added")
+    .eq("parent_id", subjectId);
 
   if (error) {
     console.error("Error fetching Subtopics:", error);
@@ -47,7 +47,7 @@ const LoadSubtopicsSystem = () => {
           if (!isExisting) {
             const topicEntity = new Entity();
             lsc.engine.addEntity(topicEntity);
-            topicEntity.add(new TitleFacet({ title: topic.name || displayAlertTexts(selectedLanguage).noTitle }));
+            topicEntity.add(new TitleFacet({ title: topic.title || displayAlertTexts(selectedLanguage).noTitle }));
             topicEntity.add(new IdentifierFacet({ guid: topic.id }));
             topicEntity.add(new DateAddedFacet({ dateAdded: topic.date_added }));
 

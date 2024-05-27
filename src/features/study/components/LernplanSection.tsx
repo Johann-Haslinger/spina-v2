@@ -9,18 +9,19 @@ import { AdditionalTags, DataTypes, Stories } from "../../../base/enums";
 import { sortEntitiesByDateAdded } from "../../../utils/sortEntitiesByTime";
 import { useBookmarkedFlashcardGroups } from "../hooks/useBookmarkedFlashcardGroups";
 import FlashcardGroupCell from "./FlashcardGroupCell";
+import { COLOR_ITEMS } from "../../../base/constants";
 
 const StyledLernplanSectionWrapper = styled.div`
   ${tw`w-full mb-2  space-y-2 md:space-y-0 md:space-x-2 md:flex    transition-all `}
 `;
 const StyledFlashcardGroupWrapper = styled.div`
   ${tw`md:w-3/4 w-full rounded-lg  flex flex-shrink-0  overflow-x-scroll`}
-  background-color: #00965F;
+  background-color: ${COLOR_ITEMS[3].accentColor};
 `;
 
 const StyledPlayIconContainer = styled.div`
   ${tw`md:w-1/4 w-full h-40 rounded-lg   flex items-center justify-center `}
-  background-color: #00965F;
+  background-color: ${COLOR_ITEMS[3].accentColor};
 `;
 
 const StyledPlayIconWrapper = styled.div`

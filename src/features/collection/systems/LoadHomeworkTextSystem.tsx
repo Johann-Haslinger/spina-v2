@@ -2,12 +2,12 @@ import { useEntity } from "@leanscope/ecs-engine";
 import { IdentifierFacet, Tags, TextFacet } from "@leanscope/ecs-models";
 import { useEffect } from "react";
 import { dummyText } from "../../../base/dummy";
-import { DataTypes } from "../../../base/enums";
+import { DataTypes, SupabaseTables } from "../../../base/enums";
 import supabaseClient from "../../../lib/supabase";
 import { useMockupData } from "../../../hooks/useMockupData";
 
 const fetchHomeworkText = async (homeworkId: string) => {
-  const { data: text, error } = await supabaseClient.from("homeworks").select("text").eq("id", homeworkId).single();
+  const { data: text, error } = await supabaseClient.from(SupabaseTables.HOMEWORKS).select("text").eq("id", homeworkId).single();
 
   if (error) {
     console.error("Error fetching homework text:", error);
@@ -15,8 +15,8 @@ const fetchHomeworkText = async (homeworkId: string) => {
   }
 
   const { error: error2 } = await supabaseClient
-    .from("homeworks")
-    .update({ oldNoteVersion: false })
+    .from(SupabaseTables.HOMEWORKS)
+    .update({ old_note_version: false })
     .eq("id", homeworkId);
 
   if (error2) {
@@ -28,8 +28,8 @@ const fetchHomeworkText = async (homeworkId: string) => {
 
 const fetchNoteVersion = async (homeworkId: string) => {
   const { data: noteVersionData, error } = await supabaseClient
-    .from("homeworks")
-    .select("oldNoteVersion")
+    .from(SupabaseTables.HOMEWORKS)
+    .select("old_note_version")
     .eq("id", homeworkId)
     .single();
 
@@ -37,7 +37,7 @@ const fetchNoteVersion = async (homeworkId: string) => {
     console.error("error fetching homework version", error);
     return;
   }
-  return noteVersionData?.oldNoteVersion;
+  return noteVersionData?.old_note_version;
 };
 
 const LoadHomeworkTextSystem = () => {

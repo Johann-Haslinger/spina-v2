@@ -182,3 +182,26 @@ export enum SupportedModels {
   SAPIENTOR_ASSISTENT,
   TURBO,
 }
+
+
+export enum SupabaseTables {
+  USERS = "users",
+  SCHOOL_SUBJECTS = "school_subjects",
+  TOPICS = "topics",
+  SUBTOPICS = "subtopics",
+  FLASHCARDS = "flashcards",
+  FLASHCARD_SETS = "flashcard_sets",
+  HOMEWORKS = "homeworks",
+  EXAMS = "exams",
+  NOTES = "notes",
+  PODCASTS = "podcasts",
+  BLOCKS = "blocks",
+  LEARNING_GROUPS = "learning_groups",
+  GROUP_SCHOOL_SUBJECTS = "group_school_subjects",
+  GROUP_TOPICS = "group_topics",
+  GROUP_SUBTOPICS = "group_subtopics",
+  GROUP_NOTES = "group_notes",
+  GROUP_HOMEWORKS = "group_homeworks",
+  GROUP_FLASHCARD_SETS = "group_flashcard_sets",
+  GROUP_FLASHCARDS = "group_flashcards",
+}

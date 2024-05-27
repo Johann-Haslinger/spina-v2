@@ -5,13 +5,13 @@ import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext, useEffect } from "react";
 import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
 import { dummyPodcasts } from "../../../base/dummy";
-import { DataTypes, Stories } from "../../../base/enums";
+import { DataTypes, Stories, SupabaseTables } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedTopic } from "../hooks/useSelectedTopic";
 
 const fetchPodcasts = async () => {
-  const { data: podcasts, error } = await supabaseClient.from("podcasts").select("title, createdAt, id").limit(10);
+  const { data: podcasts, error } = await supabaseClient.from(SupabaseTables.PODCASTS).select("title, date_added, id").limit(10);
 
   if (error) {
     console.error("Error fetching podcasts", error);
@@ -22,9 +22,9 @@ const fetchPodcasts = async () => {
 
 const fetchPodcastsForTopic = async (parentId: string) => {
   const { data: podcasts, error } = await supabaseClient
-    .from("podcasts")
-    .select("title, createdAt, id")
-    .eq("parentId", parentId);
+    .from(SupabaseTables.PODCASTS)
+    .select("title, date_added, id")
+    .eq("parent_id", parentId);
 
   if (error) {
     console.error("Error fetching podcasts", error);
@@ -45,10 +45,10 @@ const LoadPodcastsSystem = () => {
         const podcasts = mockupData
           ? dummyPodcasts.slice(0, 6)
           : shouldFetchFromSupabase
-          ? selectedTopicId
-            ? await fetchPodcastsForTopic(selectedTopicId)
-            : await fetchPodcasts()
-          : [];
+            ? selectedTopicId
+              ? await fetchPodcastsForTopic(selectedTopicId)
+              : await fetchPodcasts()
+            : [];
 
         podcasts.forEach((podcast) => {
           const isExisting = lsc.engine.entities.some(
@@ -59,8 +59,8 @@ const LoadPodcastsSystem = () => {
             const newPodcastEntity = new Entity();
             lsc.engine.addEntity(newPodcastEntity);
             newPodcastEntity.add(new IdentifierFacet({ guid: podcast.id }));
-            newPodcastEntity.add(new DateAddedFacet({ dateAdded: podcast.createdAt }));
-            newPodcastEntity.add(new TitleFacet({ title: podcast.title }));
+            newPodcastEntity.add(new DateAddedFacet({ dateAdded: podcast.date_added }));
+            newPodcastEntity.add(new TitleFacet({ title: podcast.title || "" }));
             newPodcastEntity.addTag(DataTypes.PODCAST);
 
             if (selectedTopicId) {

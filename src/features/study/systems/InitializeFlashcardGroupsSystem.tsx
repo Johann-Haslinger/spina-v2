@@ -4,7 +4,7 @@ import { IdentifierFacet } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
 import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
 import { dummyFlashcardSets, dummySubtopics } from "../../../base/dummy";
-import { AdditionalTags, DataTypes } from "../../../base/enums";
+import { AdditionalTags, DataTypes, SupabaseTables } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { dataTypeQuery } from "../../../utils/queries";
@@ -12,7 +12,7 @@ import { dataTypeQuery } from "../../../utils/queries";
 const fetchFlashcardSets = async () => {
   const { data: flashcardSets, error } = await supabaseClient
     .from("flashcardSets")
-    .select("flashcardSetName, id, date_added, bookmarked")
+    .select("title, id, date_added, bookmarked")
     .order("date_added", { ascending: false })
     .limit(10);
 
@@ -26,8 +26,8 @@ const fetchFlashcardSets = async () => {
 
 const fetchSubtopics = async () => {
   const { data: subtopics, error } = await supabaseClient
-    .from("subTopics")
-    .select("name, id, date_added, bookmarked")
+    .from(SupabaseTables.SUBTOPICS)
+    .select("title, id, date_added, bookmarked")
     .order("date_added", { ascending: false })
     .limit(10);
 
@@ -58,7 +58,7 @@ const InitializeFlashcardGroupsSystem = () => {
           flashcardGroupEntity.add(
             new DateAddedFacet({ dateAdded: flashcardSet.date_added || new Date().toISOString() })
           );
-          flashcardGroupEntity.add(new TitleFacet({ title: flashcardSet.flashcardSetName }));
+          flashcardGroupEntity.add(new TitleFacet({ title: flashcardSet.title }));
           flashcardGroupEntity.add(new IdentifierFacet({ guid: flashcardSet.id }));
           flashcardGroupEntity.addTag(DataTypes.FLASHCARD_SET);
           flashcardGroupEntity.addTag(DataTypes.FLASHCARD_GROUP);
@@ -82,7 +82,7 @@ const InitializeFlashcardGroupsSystem = () => {
           const subtopicEntity = new Entity();
           lsc.engine.addEntity(subtopicEntity);
           subtopicEntity.add(new DateAddedFacet({ dateAdded: subtopic.date_added || new Date().toISOString() }));
-          subtopicEntity.add(new TitleFacet({ title: subtopic.name }));
+          subtopicEntity.add(new TitleFacet({ title: subtopic.title }));
           subtopicEntity.add(new IdentifierFacet({ guid: subtopic.id }));
           subtopicEntity.addTag(DataTypes.SUBTOPIC);
           subtopicEntity.addTag(DataTypes.FLASHCARD_GROUP);

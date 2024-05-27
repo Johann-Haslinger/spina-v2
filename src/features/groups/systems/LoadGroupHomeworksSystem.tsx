@@ -9,11 +9,10 @@ import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedGroupTopic } from "../hooks/useSelectedGroupTopic";
 
-
 const fetchGroupHomeworksForTopic = async (topicId: string) => {
   const { data: groupHomeworks, error } = await supabaseClient
     .from("group_homeworks")
-    .select("title, id, createdAt, dueDate")
+    .select("title, id, date_added, dueDate")
     .eq("parentId", topicId);
 
   if (error) {
@@ -48,10 +47,10 @@ const LoadGroupHomeworksSystem = () => {
             lsc.engine.addEntity(GroupHomeworkEntity);
             GroupHomeworkEntity.add(new TitleFacet({ title: GroupHomework.title }));
             GroupHomeworkEntity.add(new IdentifierFacet({ guid: GroupHomework.id }));
-            GroupHomeworkEntity.add(new DateAddedFacet({ dateAdded: GroupHomework.createdAt }));
+            GroupHomeworkEntity.add(new DateAddedFacet({ dateAdded: GroupHomework.date_added }));
 
             GroupHomeworkEntity.add(new ParentFacet({ parentId: selectedGroupTopicId }));
-            GroupHomeworkEntity.add(new DueDateFacet({ dueDate: GroupHomework.dueDate }));
+            GroupHomeworkEntity.add(new DueDateFacet({ dueDate: GroupHomework.date_added }));
             GroupHomeworkEntity.addTag(DataTypes.GROUP_HOMEWORK);
           }
         });
@@ -64,6 +63,4 @@ const LoadGroupHomeworksSystem = () => {
   return null;
 };
 
-export default LoadGroupHomeworksSystem
-
-
+export default LoadGroupHomeworksSystem;

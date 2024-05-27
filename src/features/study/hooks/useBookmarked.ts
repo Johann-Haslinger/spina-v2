@@ -1,32 +1,32 @@
 import { Entity } from "@leanscope/ecs-engine";
 import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntityComponents";
-import { AdditionalTags, DataTypes } from "../../../base/enums";
+import { AdditionalTags, DataTypes, SupabaseTables } from "../../../base/enums";
 import supabaseClient from "../../../lib/supabase";
 import { IdentifierFacet } from "@leanscope/ecs-models";
 
 const changeFlashcardSetBookmarkedStatus = async (status: boolean, id: string) => {
-  const { error } = await supabaseClient.from("flashcardSets").update({ bookmarked: status }).eq("id", id);
+  const { error } = await supabaseClient.from(SupabaseTables.FLASHCARD_SETS).update({ bookmarked: status }).eq("id", id);
   if (error) {
     console.error("Error updating flashcardSets:", error);
   }
 };
 
 const changeSubtopicBookmarkedStatus = async (status: boolean, id: string) => {
-  const { error } = await supabaseClient.from("subTopics").update({ bookmarked: status }).eq("id", id);
+  const { error } = await supabaseClient.from(SupabaseTables.SUBTOPICS).update({ bookmarked: status }).eq("id", id);
   if (error) {
     console.error("Error updating subtopics:", error);
   }
 };
 
 const changeFlashcardBookmarkedStatus = async (status: boolean, id: string) => {
-  const { error } = await supabaseClient.from("flashCards").update({ bookmarked: status }).eq("id", id);
+  const { error } = await supabaseClient.from(SupabaseTables.FLASHCARDS).update({ bookmarked: status }).eq("id", id);
   if (error) {
     console.error("Error updating flashcards:", error);
   }
 };
 
 const changeNoteBookmarkedStatus = async (status: boolean, id: string) => {
-  const { error } = await supabaseClient.from("notes").update({ bookmarked: status }).eq("id", id);
+  const { error } = await supabaseClient.from(SupabaseTables.NOTES).update({ bookmarked: status }).eq("id", id);
   if (error) {
     console.error("Error updating notes:", error);
   }

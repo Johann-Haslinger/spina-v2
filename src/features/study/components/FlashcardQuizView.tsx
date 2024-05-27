@@ -15,7 +15,7 @@ import {
 } from "react-icons/io5";
 import tw from "twin.macro";
 import { AnswerFacet, LastReviewedFacet, MasteryLevelFacet, QuestionFacet } from "../../../app/additionalFacets";
-import { AdditionalTags, DataTypes, Stories } from "../../../base/enums";
+import { AdditionalTags, DataTypes, Stories, SupabaseTables } from "../../../base/enums";
 import { FlexBox, View } from "../../../components";
 import { useIsAnyStoryCurrent } from "../../../hooks/useIsAnyStoryCurrent";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
@@ -174,7 +174,7 @@ const FlashcardQuizView = () => {
     let updatedFlashcards: {
       id: string;
       user_id: string;
-      difficulty: number;
+      mastery_level: number;
       last_reviewed: Date;
     }[] = [];
 
@@ -195,12 +195,14 @@ const FlashcardQuizView = () => {
       updatedFlashcards.push({
         id: flashcardEntity.get(IdentifierFacet)?.props.guid || "",
         user_id: userId,
-        difficulty: newMasterLevel,
+        mastery_level: newMasterLevel,
         last_reviewed: new Date(),
       });
     });
 
-    const { error } = await supabaseClient.from("flashCards").upsert(updatedFlashcards, { onConflict: "id" });
+    const { error } = await supabaseClient
+      .from(SupabaseTables.FLASHCARDS)
+      .upsert(updatedFlashcards, { onConflict: "id" });
 
     if (error) {
       console.error("Fehler beim Aktualisieren der Flashcards:", error);

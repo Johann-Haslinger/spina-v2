@@ -32,7 +32,7 @@ const Groups = () => {
             <IoCreateOutline />
           </NavBarButton>
         </NavigationBar>
-        <Title size="large">{displayHeaderTexts(selectedLanguage).groups}</Title>
+        <Title >{displayHeaderTexts(selectedLanguage).groups}</Title>
 
         <Spacer />
         <CollectionGrid columnSize="large">

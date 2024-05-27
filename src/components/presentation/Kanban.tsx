@@ -12,13 +12,13 @@ const selectColorItemForColoumn = (statusId: string) => {
     case "1":
       return COLOR_ITEMS[3];
     case "2":
-      return COLOR_ITEMS[0];
+      return COLOR_ITEMS[5];
     case "3":
       return COLOR_ITEMS[2];
     case "4":
       return COLOR_ITEMS[1];
     case "5":
-      return COLOR_ITEMS[5];
+      return COLOR_ITEMS[6];
     default:
       return COLOR_ITEMS[0];
   }

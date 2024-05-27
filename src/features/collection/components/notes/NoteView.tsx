@@ -4,7 +4,7 @@ import { IdentifierProps, TextProps } from "@leanscope/ecs-models";
 import { Fragment, useContext } from "react";
 import { IoAlbumsOutline, IoArrowUpCircleOutline, IoBookmark, IoBookmarkOutline, IoHeadsetOutline, IoTrashOutline } from "react-icons/io5";
 import { DateAddedFacet, TitleFacet, TitleProps } from "../../../../app/additionalFacets";
-import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
+import { AdditionalTags, DataTypes, Stories, SupabaseTables } from "../../../../base/enums";
 import { ActionRow, View } from "../../../../components";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
@@ -39,7 +39,7 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
 
   const handleTitleBlur = async (value: string) => {
     entity.add(new TitleFacet({ title: value }));
-    const { error } = await supabaseClient.from("notes").update({ title: value }).eq("id", guid);
+    const { error } = await supabaseClient.from(SupabaseTables.NOTES).update({ title: value }).eq("id", guid);
 
     if (error) {
       console.error("Error updating note title", error);

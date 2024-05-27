@@ -3,7 +3,7 @@ import { DescriptionFacet } from "@leanscope/ecs-models";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext, useEffect, useState } from "react";
 import { TitleFacet } from "../../../../app/additionalFacets";
-import { Stories } from "../../../../base/enums";
+import { Stories, SupabaseTables } from "../../../../base/enums";
 import {
   FlexBox,
   PrimaryButton,
@@ -42,10 +42,10 @@ const EditTopicSheet = () => {
       selectedTopicEntity?.add(new DescriptionFacet({ description: newDescription }));
 
       const { error } = await supabaseClient
-        .from("topics")
+        .from(SupabaseTables.TOPICS)
         .update({
-          topicName: newTitle,
-          topicDescription: newDescription,
+          title: newTitle,
+          description: newDescription,
         })
         .eq("id", selectedTopicId);
 

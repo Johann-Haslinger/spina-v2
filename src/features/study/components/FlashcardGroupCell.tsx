@@ -9,11 +9,12 @@ import { DateAddedProps, TitleProps } from "../../../app/additionalFacets";
 import { Stories } from "../../../base/enums";
 import { formatTime } from "../../../utils/formatTime";
 import { useBookmarked } from "../hooks/useBookmarked";
+import { COLOR_ITEMS } from "../../../base/constants";
 
 const StyledFlashcardGroupCellWrapper = styled.div`
   ${tw`w-full h-40 p-3 rounded-lg text-white transition-all md:hover:scale-105`}
 
-  background-color: #00965F;
+  background-color: ${COLOR_ITEMS[3].accentColor};
 `;
 const StyledFlashcardGroupCellTitle = styled.div`
   ${tw` line-clamp-2 font-semibold`}

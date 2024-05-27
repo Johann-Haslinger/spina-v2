@@ -4,16 +4,16 @@ import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
 import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
 import { dummyPodcasts } from "../../../base/dummy";
-import { DataTypes } from "../../../base/enums";
+import { DataTypes, SupabaseTables } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedFlashcardSet } from "../hooks/useSelectedFlashcardSet";
 
 const fetchPodcastForFlashcardSet = async (flashcardSetId: string) => {
   const { data: podcasts, error } = await supabaseClient
-    .from("podcasts")
-    .select("title, id, createdAt")
-    .eq("parentId", flashcardSetId);
+    .from(SupabaseTables.PODCASTS)
+    .select("title, id, date_added")
+    .eq("parent_id", flashcardSetId);
 
   if (error) {
     console.error("Error fetching FlashcardSet podcasts:", error);
@@ -34,8 +34,8 @@ const LoadFlashcardSetPodcastsSystem = () => {
         const podcasts = mockupData
           ? dummyPodcasts.slice(0, 1)
           : shouldFetchFromSupabase
-          ? await fetchPodcastForFlashcardSet(selectedFlashcardSetId)
-          : [];
+            ? await fetchPodcastForFlashcardSet(selectedFlashcardSetId)
+            : [];
 
         podcasts?.forEach((podcast) => {
           const isExisting = lsc.engine.entities.some(
@@ -48,7 +48,7 @@ const LoadFlashcardSetPodcastsSystem = () => {
             podcastEntity.add(new IdentifierFacet({ guid: podcast.id }));
             podcastEntity.add(new ParentFacet({ parentId: selectedFlashcardSetId }));
             podcastEntity.add(new TitleFacet({ title: podcast.title || "" }));
-            podcastEntity.add(new DateAddedFacet({ dateAdded: podcast.createdAt }));
+            podcastEntity.add(new DateAddedFacet({ dateAdded: podcast.date_added }));
             podcastEntity.addTag(DataTypes.PODCAST);
           }
         });

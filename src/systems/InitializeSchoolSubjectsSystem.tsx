@@ -4,13 +4,13 @@ import { IdentifierFacet, OrderFacet } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
 import { TitleFacet } from "../app/additionalFacets";
 import { dummySchoolSubjects } from "../base/dummy";
-import { DataTypes } from "../base/enums";
+import { DataTypes, SupabaseTables } from "../base/enums";
 import { useMockupData } from "../hooks/useMockupData";
 import supabaseClient from "../lib/supabase";
 import { dataTypeQuery } from "../utils/queries";
 
 const fetchSchoolSubjects = async () => {
-  const { data: schoolSubjects, error } = await supabaseClient.from("subjects").select("name, id");
+  const { data: schoolSubjects, error } = await supabaseClient.from(SupabaseTables.SCHOOL_SUBJECTS).select("title, id");
 
   if (error) {
     console.error("Error fetching school subjects:", error);
@@ -40,7 +40,7 @@ const InitializeSchoolSubjectsSystem = () => {
         if (!isExisting) {
           const schoolSubjectEntity = new Entity();
           lsc.engine.addEntity(schoolSubjectEntity);
-          schoolSubjectEntity.add(new TitleFacet({ title: schoolSubject.name }));
+          schoolSubjectEntity.add(new TitleFacet({ title: schoolSubject.title }));
           schoolSubjectEntity.add(new IdentifierFacet({ guid: schoolSubject.id }));
           schoolSubjectEntity.add(new OrderFacet({ orderIndex: idx }));
           schoolSubjectEntity.addTag(DataTypes.SCHOOL_SUBJECT);

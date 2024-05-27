@@ -6,12 +6,12 @@ const StyledCloseButtonWrapper = styled.div`
   ${tw`p-1 mt-1 transition-all md:hover:opacity-50 relative left-2 dark:bg-tertiaryDark dark:text-seconderyTextDark bg-tertiary rounded-full text-lg text-seconderyTextDark`}
 `;
 
-const CloseButton = () => {
+const CloseButton = (props: { onClick: () => void }) => {
   return (
-    <StyledCloseButtonWrapper>
+    <StyledCloseButtonWrapper onClick={props.onClick}>
       <IoClose />
     </StyledCloseButtonWrapper>
-  )
-}
+  );
+};
 
-export default CloseButton
+export default CloseButton;

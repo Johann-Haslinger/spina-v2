@@ -19,9 +19,9 @@ import {
   TextAreaInput,
 } from "../../../../components";
 import GeneratingIndecator from "../../../../components/content/GeneratingIndecator";
+import { addFlashcards } from "../../../../functions/addFlashcards";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { useUserData } from "../../../../hooks/useUserData";
-import supabaseClient from "../../../../lib/supabase";
 import { displayButtonTexts } from "../../../../utils/displayText";
 import { generateFlashCards } from "../../../../utils/generateResources";
 import { useSeletedFlashcardGroup } from "../../hooks/useSelectedFlashcardGroup";
@@ -67,45 +67,25 @@ const AddFlashcardsSheet = () => {
   const saveFlashcards = async () => {
     navigateBack();
     const parentId = selectedFlashcardGroupId;
-    let addedFlashcards: {
-      id: string;
-      question: string;
-      answer: string;
-      difficulty: number;
-      parentId: string;
-      user_id: string;
-    }[] = [];
 
     if (parentId) {
-      flashcards.forEach((flashcard) => {
-        if (!flashcard.question || !flashcard.answer) return;
+      const newFlashcardEntities = flashcards
+        .filter((e) => e.answer !== "" && e.question !== "")
+        .map((flashcard) => {
+          const flashcardId = v4();
 
-        const flashcardId = v4();
+          const newFlashcardEntity = new Entity();
+          newFlashcardEntity.add(new IdentifierFacet({ guid: flashcardId }));
+          newFlashcardEntity.add(new ParentFacet({ parentId: parentId }));
+          newFlashcardEntity.add(new QuestionFacet({ question: flashcard.question }));
+          newFlashcardEntity.add(new AnswerFacet({ answer: flashcard.answer }));
+          newFlashcardEntity.add(new MasteryLevelFacet({ masteryLevel: 0 }));
+          newFlashcardEntity.add(DataTypes.FLASHCARD);
 
-        const newFlashcardEntity = new Entity();
-        lsc.engine.addEntity(newFlashcardEntity);
-        newFlashcardEntity.add(new IdentifierFacet({ guid: flashcardId }));
-        newFlashcardEntity.add(new ParentFacet({ parentId: parentId }));
-        newFlashcardEntity.add(new QuestionFacet({ question: flashcard.question }));
-        newFlashcardEntity.add(new AnswerFacet({ answer: flashcard.answer }));
-        newFlashcardEntity.add(new MasteryLevelFacet({ masteryLevel: 0 }));
-        newFlashcardEntity.add(DataTypes.FLASHCARD);
-
-        addedFlashcards.push({
-          id: flashcardId,
-          question: flashcard.question,
-          answer: flashcard.answer,
-          difficulty: 0,
-          parentId: parentId,
-          user_id: userId,
+          return newFlashcardEntity;
         });
-      });
 
-      const { error } = await supabaseClient.from("flashCards").insert(addedFlashcards);
-
-      if (error) {
-        console.error("Error inserting flashcards", error);
-      }
+      addFlashcards(lsc, newFlashcardEntities, userId);
     }
   };
 

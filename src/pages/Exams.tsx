@@ -27,7 +27,7 @@ const Exams = () => {
     <Fragment>
       <InitializeExamsSystem />
 
-      <View viewType="baseView">
+      <View reducePaddingX viewType="baseView">
         <NavigationBar>
           <NavBarButton onClick={openAddExamSheet}>
             <IoAdd />
@@ -37,6 +37,7 @@ const Exams = () => {
         <Spacer />
 
         <Kanban
+
           updateEntityStatus={updateExamStatus}
           sortingRule={sortEntitiesByDueDate}
           kanbanCell={ExamKanbanCell}

@@ -36,6 +36,13 @@ const ViewManagerSystem = () => {
     Stories.GENERATING_FLASHCARDS_STORY,
     Stories.GENERATING_PODCAST_STORY,
     Stories.GENERATING_IMPROVED_TEXT_STORY,
+    Stories.GENERATING_TEXT_FROM_FLASHCARDS_STORY,
+    Stories.GENERATING_PODCAST_FROM_FLASHCARDS_STORY,
+    Stories.GENERATING_LEARN_VIDEO_STORY,
+    Stories.GENERATING_RESOURCES_FROM_IMAGE,
+  
+    Stories.CLONING_RESOURCE_FROM_GROUP_STORY,
+    Stories.SUCCESS_STORY,
   ]);
   const isQuizViewVisible = useIsStoryCurrent(Stories.OBSERVING_FLASHCARD_QUIZ_STORY);
   const { isDarkMode } = useSelectedTheme();
@@ -111,10 +118,12 @@ const ViewManagerSystem = () => {
     }
   }, [isSheetViewVisible]);
 
-  return <Fragment>
-    <meta name="theme-color" content={themeColor} />
-    <SucessSheet />
-  </Fragment>;
+  return (
+    <Fragment>
+      <meta name="theme-color" content={themeColor} />
+      <SucessSheet />
+    </Fragment>
+  );
 };
 
 export default ViewManagerSystem;

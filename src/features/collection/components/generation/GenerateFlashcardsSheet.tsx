@@ -7,7 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import tw from "twin.macro";
 import { v4 } from "uuid";
 import { AnswerFacet, MasteryLevelFacet, QuestionFacet, TitleFacet } from "../../../../app/additionalFacets";
-import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
+import { AdditionalTags, DataTypes, Stories, SupabaseTables } from "../../../../base/enums";
 import {
   FlexBox,
   GeneratingIndecator,
@@ -26,6 +26,8 @@ import { generateFlashCards } from "../../../../utils/generateResources";
 import { useVisibleBlocks } from "../../../blockeditor/hooks/useVisibleBlocks";
 import { useSelectedNote } from "../../hooks/useSelectedNote";
 import PreviewFlashcard from "../flashcard-sets/PreviewFlashcard";
+import { addFlashcards } from "../../../../functions/addFlashcards";
+import { addSubtopic } from "../../../../functions/addSubtopic";
 
 type Flashcard = {
   question: string;
@@ -69,45 +71,25 @@ const GenerateFlashcardsSheet = () => {
     navigateBack();
 
     const parentId = selectedNoteId;
-    let addedFlashcards: {
-      id: string;
-      question: string;
-      answer: string;
-      difficulty: number;
-      parentId: string;
-      user_id: string;
-    }[] = [];
 
     if (parentId) {
-      generatedFlashcards.forEach((flashcard) => {
-        if (!flashcard.question || !flashcard.answer) return;
+      const newFlashcardEntities = generatedFlashcards
+        .filter((flashcard) => flashcard.answer && flashcard.question)
+        .map((flashcard) => {
+          const flashcardId = v4();
 
-        const flashcardId = v4();
+          const newFlashcardEntity = new Entity();
+          newFlashcardEntity.add(new IdentifierFacet({ guid: flashcardId }));
+          newFlashcardEntity.add(new ParentFacet({ parentId: parentId }));
+          newFlashcardEntity.add(new QuestionFacet({ question: flashcard.question }));
+          newFlashcardEntity.add(new AnswerFacet({ answer: flashcard.answer }));
+          newFlashcardEntity.add(new MasteryLevelFacet({ masteryLevel: 0 }));
+          newFlashcardEntity.add(DataTypes.FLASHCARD);
 
-        const newFlashcardEntity = new Entity();
-        lsc.engine.addEntity(newFlashcardEntity);
-        newFlashcardEntity.add(new IdentifierFacet({ guid: flashcardId }));
-        newFlashcardEntity.add(new ParentFacet({ parentId: parentId }));
-        newFlashcardEntity.add(new QuestionFacet({ question: flashcard.question }));
-        newFlashcardEntity.add(new AnswerFacet({ answer: flashcard.answer }));
-        newFlashcardEntity.add(new MasteryLevelFacet({ masteryLevel: 0 }));
-        newFlashcardEntity.add(DataTypes.FLASHCARD);
-
-        addedFlashcards.push({
-          id: flashcardId,
-          question: flashcard.question,
-          answer: flashcard.answer,
-          difficulty: 0,
-          parentId: parentId,
-          user_id: userId,
+          return newFlashcardEntity;
         });
-      });
 
-      const { error } = await supabaseClient.from("flashCards").insert(addedFlashcards);
-
-      if (error) {
-        console.error("Error inserting flashcards", error);
-      }
+      addFlashcards(lsc, newFlashcardEntities, userId);
 
       const newSubTopic = {
         user_id: userId,
@@ -120,20 +102,15 @@ const GenerateFlashcardsSheet = () => {
 
       setTimeout(async () => {
         const subtopicEntity = new Entity();
-        lsc.engine.addEntity(subtopicEntity);
         subtopicEntity.add(new IdentifierFacet({ guid: newSubTopic.id }));
         subtopicEntity.add(new ParentFacet({ parentId: selectedNoteParentId || "" }));
         subtopicEntity.add(new TitleFacet({ title: selectedNoteTitle || "" }));
         subtopicEntity.add(new TextFacet({ text: selectedNoteText || "" }));
         subtopicEntity.add(DataTypes.SUBTOPIC);
 
-        const { error: subtopicsError } = await supabaseClient.from("subTopics").insert([newSubTopic]);
+        addSubtopic(lsc, subtopicEntity, userId);
 
-        if (subtopicsError) {
-          console.error("Error inserting subtopic", subtopicsError);
-        }
-
-        const { error: noteError } = await supabaseClient.from("notes").delete().eq("id", selectedNoteId);
+        const { error: noteError } = await supabaseClient.from(SupabaseTables.NOTES).delete().eq("id", selectedNoteId);
 
         if (noteError) {
           console.error("Error deleting note", noteError);

@@ -19,11 +19,11 @@ import {
   Spacer,
   TextInput,
 } from "../../../components";
+import { addExam } from "../../../functions/addExam";
 import { useSchoolSubjectEntities } from "../../../hooks/useSchoolSubjects";
 import { useSchoolSubjectTopics } from "../../../hooks/useSchoolSubjectTopics";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import { useUserData } from "../../../hooks/useUserData";
-import supabaseClient from "../../../lib/supabase";
 import { displayAlertTexts, displayButtonTexts, displayLabelTexts } from "../../../utils/displayText";
 
 const AddExamSheet = () => {
@@ -49,7 +49,7 @@ const AddExamSheet = () => {
 
   const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_EXAMS_STORY);
 
-  const addExam = async () => {
+  const saveExam = async () => {
     const { title, dueDate, parent, id } = newExam;
     const newExamEntity = new Entity();
     lsc.engine.addEntity(newExamEntity);
@@ -70,21 +70,7 @@ const AddExamSheet = () => {
     newExamEntity.add(new StatusFacet({ status: 1 }));
     newExamEntity.add(DataTypes.EXAM);
 
-    const { error } = await supabaseClient.from("exams").insert([
-      {
-        id: id,
-        user_id: userId,
-        title: title,
-        parentId: parent,
-        dueDate: dueDate,
-        status: 1,
-        relatedSubject: selectedSchoolSubjectId,
-      },
-    ]);
-
-    if (error) {
-      console.error(error);
-    }
+    addExam(lsc, newExamEntity, userId);
 
     navigateBack();
   };
@@ -94,7 +80,7 @@ const AddExamSheet = () => {
       <FlexBox>
         <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
         {newExam.title && newExam.parent && (
-          <PrimaryButton onClick={addExam}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
+          <PrimaryButton onClick={saveExam}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
         )}
       </FlexBox>
       <Spacer />

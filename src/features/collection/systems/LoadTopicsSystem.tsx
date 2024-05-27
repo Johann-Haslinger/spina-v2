@@ -4,7 +4,7 @@ import { DescriptionFacet, IdentifierFacet, ParentFacet } from "@leanscope/ecs-m
 import { useContext, useEffect } from "react";
 import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
 import { dummyTopics } from "../../../base/dummy";
-import { DataTypes } from "../../../base/enums";
+import { DataTypes, SupabaseTables } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { useSchoolSubjectTopicEntities } from "../hooks/useSchoolSubjectTopicEntities";
@@ -12,9 +12,9 @@ import { useSelectedSchoolSubject } from "../hooks/useSelectedSchoolSubject";
 
 const fetchTopicsForSchoolSubject = async (subjectId: string) => {
   const { data: topics, error } = await supabaseClient
-    .from("topics")
-    .select("topicName, id, date_added, topicDescription")
-    .eq("parentId", subjectId);
+    .from(SupabaseTables.TOPICS)
+    .select("title, id, date_added, description")
+    .eq("parent_id", subjectId);
 
   if (error) {
     console.error("Error fetching topics:", error);
@@ -47,11 +47,11 @@ const LoadTopicsSystem = () => {
           if (!isExisting) {
             const topicEntity = new Entity();
             lsc.engine.addEntity(topicEntity);
-            topicEntity.add(new TitleFacet({ title: topic.topicName }));
+            topicEntity.add(new TitleFacet({ title: topic.title }));
             topicEntity.add(new IdentifierFacet({ guid: topic.id }));
             topicEntity.add(new DateAddedFacet({ dateAdded: topic.date_added }));
 
-            topicEntity.add(new DescriptionFacet({ description: topic.topicDescription }));
+            topicEntity.add(new DescriptionFacet({ description: topic.description }));
             topicEntity.add(new ParentFacet({ parentId: selectedSchoolSubjectId }));
             topicEntity.addTag(DataTypes.TOPIC);
           }

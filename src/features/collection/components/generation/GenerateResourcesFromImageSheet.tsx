@@ -18,10 +18,10 @@ import { addNote } from "../../../../functions/addNote";
 import { addSubtopic } from "../../../../functions/addSubtopic";
 import { useUserData } from "../../../../hooks/useUserData";
 import supabaseClient from "../../../../lib/supabase";
+import { getCompletion } from "../../../../utils/getCompletion";
 import { getBlockEntitiesFromText } from "../../../blockeditor/functions/getBlockEntitiesFromString";
 import { useSelectedTopic } from "../../hooks/useSelectedTopic";
 import PreviewFlashcard from "../flashcard-sets/PreviewFlashcard";
-import { getCompletion } from "../../../../utils/getCompletion";
 
 interface SapientorMessage {
   role: "gpt" | "user";
@@ -86,7 +86,7 @@ interface Podcast {
   parentId: string;
   base64Audio: string;
   transcript: string;
-  createdAt: string;
+  date_added: string;
 }
 
 const GenerateResourcesFromImageSheet = () => {
@@ -107,7 +107,7 @@ const GenerateResourcesFromImageSheet = () => {
   const [imagePromptEntity] = useEntity((e) => e.has(AdditionalTags.GENERATE_FROM_IMAGE_PROMPT));
   const imageSrc = imagePromptEntity?.get(SourceFacet)?.props.source;
 
-  console.log(podcast)
+  console.log(podcast);
 
   useEffect(() => {
     setGenerationState(undefined);
@@ -378,7 +378,7 @@ const GenerateResourcesFromImageSheet = () => {
         parentId: selectedTopicId || "",
         base64Audio: base64Audio || "",
         transcript: transcript,
-        createdAt: new Date().toISOString(),
+        date_added: new Date().toISOString(),
       });
 
       setGenerationState(GenerationState.GENERATED_PODCAST);
@@ -522,7 +522,7 @@ const GenerateResourcesFromImageSheet = () => {
     <Sheet visible={isVisible} navigateBack={navigateBack}>
       <FlexBox>
         <div />
-        <CloseButton />
+        <CloseButton onClick={navigateBack} />
       </FlexBox>
       <ScrollableBox>
         {generationState !== GenerationState.DONE ? (

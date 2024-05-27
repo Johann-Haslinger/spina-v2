@@ -17,9 +17,9 @@ import {
   TextAreaInput,
   TextInput,
 } from "../../../../components";
+import { addTopic } from "../../../../functions/addTopic";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { useUserData } from "../../../../hooks/useUserData";
-import supabaseClient from "../../../../lib/supabase";
 import { displayButtonTexts, displayLabelTexts } from "../../../../utils/displayText";
 import { getCompletion } from "../../../../utils/getCompletion";
 import { useSelectedSchoolSubject } from "../../hooks/useSelectedSchoolSubject";
@@ -35,7 +35,7 @@ const AddTopicSheet = () => {
 
   const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_SCHOOL_SUBJECT_STORY);
 
-  const addTopic = async () => {
+  const saveTopic = async () => {
     if (selectedSchoolSubjectId) {
       const topicId = v4();
       let topicDescription = description;
@@ -58,18 +58,7 @@ const AddTopicSheet = () => {
         newTopicEntity.add(new DescriptionFacet({ description: topicDescription }));
       }
 
-      const { error } = await supabaseClient.from("topics").insert([
-        {
-          user_id: userId,
-          id: topicId,
-          parentId: selectedSchoolSubjectId,
-          topicName: title,
-          topicDescription: topicDescription,
-        },
-      ]);
-      if (error) {
-        console.error("Error adding topic: ", error);
-      }
+      addTopic(lsc, newTopicEntity, userId);
     }
   };
 
@@ -77,7 +66,7 @@ const AddTopicSheet = () => {
     <Sheet navigateBack={navigateBack} visible={isVisible}>
       <FlexBox>
         <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
-        {title !== "" && <PrimaryButton onClick={addTopic}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>}
+        {title !== "" && <PrimaryButton onClick={saveTopic}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>}
       </FlexBox>
       <Spacer />
       <Section>

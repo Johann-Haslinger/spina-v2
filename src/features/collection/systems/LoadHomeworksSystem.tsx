@@ -4,16 +4,16 @@ import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
 import { DateAddedFacet, DueDateFacet, TitleFacet } from "../../../app/additionalFacets";
 import { dummyHomeworks } from "../../../base/dummy";
-import { DataTypes } from "../../../base/enums";
+import { DataTypes, SupabaseTables } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedTopic } from "../hooks/useSelectedTopic";
 
 const fetchHomeworksForTopic = async (topicId: string) => {
   const { data: homeworks, error } = await supabaseClient
-    .from("homeworks")
-    .select("title, id, createdAt, dueDate")
-    .eq("parentId", topicId);
+    .from(SupabaseTables.HOMEWORKS)
+    .select("title, id, date_added, due_date")
+    .eq("parent_id", topicId);
 
   if (error) {
     console.error("Error fetching homeworks:", error);
@@ -34,8 +34,8 @@ const LoadHomeworksSystem = () => {
         const homeworks = mockupData
           ? dummyHomeworks
           : shouldFetchFromSupabase
-          ? await fetchHomeworksForTopic(selectedTopicId)
-          : [];
+            ? await fetchHomeworksForTopic(selectedTopicId)
+            : [];
 
         homeworks.forEach((homework) => {
           const isExisting = lsc.engine.entities.some(
@@ -47,10 +47,10 @@ const LoadHomeworksSystem = () => {
             lsc.engine.addEntity(homeworkEntity);
             homeworkEntity.add(new TitleFacet({ title: homework.title }));
             homeworkEntity.add(new IdentifierFacet({ guid: homework.id }));
-            homeworkEntity.add(new DateAddedFacet({ dateAdded: homework.createdAt }));
+            homeworkEntity.add(new DateAddedFacet({ dateAdded: homework.date_added }));
 
             homeworkEntity.add(new ParentFacet({ parentId: selectedTopicId }));
-            homeworkEntity.add(new DueDateFacet({ dueDate: homework.dueDate }));
+            homeworkEntity.add(new DueDateFacet({ dueDate: homework.due_date }));
             homeworkEntity.addTag(DataTypes.HOMEWORK);
           }
         });
