@@ -201,7 +201,6 @@ export enum SupabaseTables {
   GROUP_TOPICS = "group_topics",
   GROUP_SUBTOPICS = "group_subtopics",
   GROUP_NOTES = "group_notes",
-  GROUP_HOMEWORKS = "group_homeworks",
   GROUP_FLASHCARD_SETS = "group_flashcard_sets",
   GROUP_FLASHCARDS = "group_flashcards",
 }

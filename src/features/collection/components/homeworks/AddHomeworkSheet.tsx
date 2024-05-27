@@ -65,10 +65,12 @@ const AddHomeworkSheet = () => {
   const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_HOMEWORKS_STORY);
 
   const saveHomework = async () => {
-    const { title, dueDate, parent, description, id } = newHomework;
+    const newHomeworkId = v4();
+
+    const { title, dueDate, parent, description } = newHomework;
     const newHomeworkEntity = new Entity();
     lsc.engine.addEntity(newHomeworkEntity);
-    newHomeworkEntity.add(new IdentifierFacet({ guid: id }));
+    newHomeworkEntity.add(new IdentifierFacet({ guid: newHomeworkId }));
     newHomeworkEntity.add(
       new ParentFacet({
         parentId: openTopicId || parent,
