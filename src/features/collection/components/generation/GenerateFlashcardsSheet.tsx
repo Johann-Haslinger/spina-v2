@@ -48,20 +48,29 @@ const GenerateFlashcardsSheet = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const { userId } = useUserData();
   const { visibleText } = useVisibleBlocks();
+  const [message, setMessage] = useState<string>("");
 
   useEffect(() => {
     const generateFlashcards = async () => {
+      if (visibleText === "") {
+        setMessage("Bitte füge erst Text hinzu, um Karteikarten zu generieren.");
+        setGeneratedFlashcards([]);
+        setIsGenerating(false);
+        return;
+      }
       setIsGenerating(true);
       const flashcards = await generateFlashCards(visibleText || "");
       setIsGenerating(false);
-
+      setMessage("Passen die Karteikarten so für dich?<br/> <br/> ");
       setTimeout(() => {
         setGeneratedFlashcards(flashcards);
       }, 200);
     };
 
-    if (isVisible && visibleText && generatedFlashcards.length === 0) {
+    if (isVisible  && generatedFlashcards.length === 0) {
       generateFlashcards();
+    } else if (!isVisible) {
+      setGeneratedFlashcards([]);
     }
   }, [isVisible, visibleText]);
 
@@ -134,7 +143,7 @@ const GenerateFlashcardsSheet = () => {
           <SapientorConversationMessage
             message={{
               role: "gpt",
-              message: `Passen die Karteikarten so für dich?<br/> <br/> `,
+              message: message,
             }}
           />
         )}

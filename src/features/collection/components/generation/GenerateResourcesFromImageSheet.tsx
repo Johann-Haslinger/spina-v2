@@ -107,8 +107,6 @@ const GenerateResourcesFromImageSheet = () => {
   const [imagePromptEntity] = useEntity((e) => e.has(AdditionalTags.GENERATE_FROM_IMAGE_PROMPT));
   const imageSrc = imagePromptEntity?.get(SourceFacet)?.props.source;
 
-  console.log(podcast);
-
   useEffect(() => {
     setGenerationState(undefined);
     setNote(undefined);
@@ -142,8 +140,6 @@ const GenerateResourcesFromImageSheet = () => {
     const session = await supabaseClient.auth.getSession();
     setGenerationState(GenerationState.GENERATING_FLASHCARDS);
     setSuggestions([]);
-
-    console.log(imageSrc);
 
     const { data: flashcardsData, error } = await supabaseClient.functions.invoke("generate-flashcards", {
       headers: {
@@ -215,8 +211,6 @@ const GenerateResourcesFromImageSheet = () => {
       body: { base64_image: imageSrc },
     });
     const note = JSON.parse(noteData);
-
-    console.log(note);
 
     if (error) {
       console.error("Error generating completion:", error.message);
@@ -294,7 +288,6 @@ const GenerateResourcesFromImageSheet = () => {
 
     const generatedFlashcards: { answer: string; question: string }[] = JSON.parse(flashcardsData).cards;
 
-    console.log(generatedFlashcards);
     if (error) {
       console.error("Error generating completion:", error.message);
     }
@@ -356,7 +349,7 @@ const GenerateResourcesFromImageSheet = () => {
   const handleGeneratePodcast = async (generatedFlashcards: boolean, text: string) => {
     setGenerationState(GenerationState.GENERATING_PODCAST);
     setSuggestions([]);
-
+    console.log("podcast", podcast);
     // TODO: edge function for this
     // const generatinPodcastTranscriptPrompt = `
     // Erstelle bitte einen Podcast, der auf dem folgenden Text basiert, um die Inhalte des Textes zu lernen:

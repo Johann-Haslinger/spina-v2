@@ -23,7 +23,7 @@ const DeleteSubtopicAlert = () => {
       if (selectedSubtopicEntity) {
         lsc.engine.removeEntity(selectedSubtopicEntity);
 
-        const { error: subtopicError } = await supabaseClient.from("subTopics").delete().eq("id", selectedSubtopicId);
+        const { error: subtopicError } = await supabaseClient.from(SupabaseTables.SUBTOPICS).delete().eq("id", selectedSubtopicId);
 
         if (subtopicError) {
           console.error("Error deleting Subtopic", subtopicError);

@@ -70,7 +70,7 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
           }
           customGenerateActionRows={
             <Fragment>
-              <ActionRow first icon={<IoHeadsetOutline />} onClick={openGeneratePodcastSheet}>
+              <ActionRow icon={<IoHeadsetOutline />} onClick={openGeneratePodcastSheet}>
                 {displayActionTexts(selectedLanguage).generatePodcast}
               </ActionRow>
               <ActionRow last icon={<IoAlbumsOutline />} onClick={openGenerateFlashcardsSheet}>

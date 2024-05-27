@@ -1,23 +1,23 @@
+import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext, useEffect, useState } from "react";
+import { Stories } from "../../../../base/enums";
 import {
-  SecondaryButton,
   FlexBox,
   GeneratingIndecator,
   PrimaryButton,
   ScrollableBox,
+  SecondaryButton,
   Sheet,
 } from "../../../../components";
-import { useIsStoryCurrent } from "@leanscope/storyboarding";
-import { Stories } from "../../../../base/enums";
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import SapientorConversationMessage from "../../../../components/content/SapientorConversationMessage";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { displayButtonTexts } from "../../../../utils/displayText";
-import { generateImprovedText } from "../../../../utils/generateResources";
-import SapientorConversationMessage from "../../../../components/content/SapientorConversationMessage";
-import { useVisibleBlocks } from "../../../blockeditor/hooks/useVisibleBlocks";
-import { useCurrentBlockeditor } from "../../../blockeditor/hooks/useCurrentBlockeditor";
-import { deleteBlock } from "../../../blockeditor/functions/deleteBlock";
 import { addBlockEntitiesFromString } from "../../../blockeditor/functions/addBlockEntitiesFromString";
+import { deleteBlock } from "../../../blockeditor/functions/deleteBlock";
+import { useCurrentBlockeditor } from "../../../blockeditor/hooks/useCurrentBlockeditor";
+import { useVisibleBlocks } from "../../../blockeditor/hooks/useVisibleBlocks";
+import { generateImprovedText } from "../../../../utils/generateResources";
 
 const GenerateImprovedTextSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -34,19 +34,21 @@ const GenerateImprovedTextSheet = () => {
       console.log("textToImprove", visibleText);
 
       if (visibleText === "") {
+        setGeneratedText("Bitte füge erst Text hinzu, um ihn zu verbessern.");
         setIsGenerating(false);
       }
       const improvedText = await generateImprovedText(visibleText);
-      // const improvedText = `
-      //  <b> Regen ist ein wichtiger Bestandteil des Wasserkreislaufs. </b> <br/><br/> Es ist der Prozess,<u> bei dem </u> Wasser aus der Atmosphäre auf die Erde fällt. Regen ist eine Form von Niederschlag, der aus Wassertropfen besteht, die aus den Wolken fallen. Regen ist wichtig, weil er Pflanzen und Tiere mit Wasser versorgt. Er hilft auch, die Luft zu reinigen und die Temperatur zu regulieren. Regen ist ein natürlicher Prozess, der das Leben auf der Erde unterstützt.
-      // `;
 
-      setGeneratedText(improvedText);
+      setGeneratedText(`Passt das so für dich?<br/> <br/>
+      ${improvedText}
+      <br/><br/>`);
       setIsGenerating(false);
     };
 
     if (isVisible && generatedText === "") {
       handleGenerateImprovedText();
+    } else if (!isVisible) {
+      setGeneratedText("");
     }
   }, [isVisible, visibleText]);
 
@@ -76,9 +78,7 @@ const GenerateImprovedTextSheet = () => {
           <SapientorConversationMessage
             message={{
               role: "gpt",
-              message: `Passt das so für dich?<br/> <br/>
-           ${generatedText}
-           <br/><br/>`,
+              message: generatedText,
             }}
           />
         )}

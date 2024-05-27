@@ -6,7 +6,7 @@ import tw from "twin.macro";
 import { Stories } from "../../../base/enums";
 import { ActionRow, BackButton, NavBarButton, NavigationBar, PrimaryButton, Spacer, Title } from "../../../components";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
-import { displayActionTexts, displayAlertTexts, displayButtonTexts } from "../../../utils/displayText";
+import { displayActionTexts, displayButtonTexts } from "../../../utils/displayText";
 import GenerateImprovedTextSheet from "../../collection/components/generation/GenerateImprovedTextSheet";
 import { changeBlockeditorState } from "../functions/changeBlockeditorState";
 import { useClickOutsideBlockEditorHandler } from "../hooks/useClickOutsideBlockEditorHandler";
@@ -53,7 +53,7 @@ const Blockeditor = (props: BlockeditorProps) => {
     navigateBack,
     handleTitleBlur,
     backbuttonLabel,
-    customEditOptions
+    customEditOptions,
   } = props;
   const { selectedLanguage } = useSelectedLanguage();
   const { blockeditorState, blockeditorEntity, blockeditorId } = useCurrentBlockeditor();
@@ -68,30 +68,33 @@ const Blockeditor = (props: BlockeditorProps) => {
         <UpdateBlockStateSystem />
         <ChangeBlockeditorStateSystem />
         <NavigationBar>
-
           {blockeditorState === "view" ? (
             <Fragment>
-              {!customContent && <NavBarButton
-                content={
-                  <Fragment>
-                    <ActionRow
-                      icon={<IoSparklesOutline />}
-                      first
-                      onClick={openImproveTextSheet}
-                      last={customGenerateActionRows !== undefined ? false : true}
-                    >
-                      {displayActionTexts(selectedLanguage).improveText}
-                    </ActionRow>
-                    {customGenerateActionRows}
-                  </Fragment>
-                }
-              >
-                <IoColorWandOutline />
-              </NavBarButton>}
+              {!customContent && (
+                <NavBarButton
+                  content={
+                    <Fragment>
+                      <ActionRow
+                        icon={<IoSparklesOutline />}
+                        first
+                        onClick={openImproveTextSheet}
+                        last={customGenerateActionRows !== undefined ? false : true}
+                      >
+                        {displayActionTexts(selectedLanguage).improveText}
+                      </ActionRow>
+                      {customGenerateActionRows}
+                    </Fragment>
+                  }
+                >
+                  <IoColorWandOutline />
+                </NavBarButton>
+              )}
               {customEditOptions}
-              {!customContent && <NavBarButton>
-                <IoAdd onClick={() => changeBlockeditorState(blockeditorEntity, "create")} />
-              </NavBarButton>}
+              {!customContent && (
+                <NavBarButton>
+                  <IoAdd onClick={() => changeBlockeditorState(blockeditorEntity, "create")} />
+                </NavBarButton>
+              )}
 
               <NavBarButton content={customActionRows}>
                 <IoEllipsisHorizontalCircleOutline />
@@ -106,7 +109,7 @@ const Blockeditor = (props: BlockeditorProps) => {
         <StyledTitleWrapper>
           {navigateBack && <BackButton navigateBack={navigateBack}>{backbuttonLabel}</BackButton>}
           <Title editable={handleTitleBlur ? true : false} onBlur={handleTitleBlur}>
-            {title || displayAlertTexts(selectedLanguage).noTitle}
+            {title}
           </Title>
           {customHeaderArea ? customHeaderArea : null}
           <Spacer />

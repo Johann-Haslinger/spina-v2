@@ -9,12 +9,11 @@ import tw from "twin.macro";
 import { v4 } from "uuid";
 import { AnswerFacet, DateAddedFacet, QuestionFacet, SourceFacet, TitleFacet } from "../../../../app/additionalFacets";
 import { DataTypes, Stories } from "../../../../base/enums";
-import { FlexBox, GeneratingIndecator, PrimaryButton, SecondaryButton, Sheet } from "../../../../components";
+import { CloseButton, FlexBox, GeneratingIndecator, Sheet } from "../../../../components";
+import SapientorConversationMessage from "../../../../components/content/SapientorConversationMessage";
 import { addPodcast } from "../../../../functions/addPodcast";
 import { useIsAnyStoryCurrent } from "../../../../hooks/useIsAnyStoryCurrent";
-import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { useUserData } from "../../../../hooks/useUserData";
-import { displayButtonTexts } from "../../../../utils/displayText";
 import { getAudioFromText, getCompletion } from "../../../../utils/getCompletion";
 import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
 import { useVisibleBlocks } from "../../../blockeditor/hooks/useVisibleBlocks";
@@ -47,7 +46,6 @@ const GeneratePodcastSheet = () => {
   const { selectedNoteId, selectedNoteTitle } = useSelectedNote();
   const { selectedFlashcardSetEntity, selectedFlashcardSetId, selectedFlashcardSetTitle } = useSelectedFlashcardSet();
   const [isGenerating, setIsGenerating] = useState(false);
-  const { selectedLanguage } = useSelectedLanguage();
   const { userId } = useUserData();
   const [flashcardEntities] = useEntities((e) => dataTypeQuery(e, DataTypes.FLASHCARD));
   const { visibleText } = useVisibleBlocks();
@@ -101,7 +99,7 @@ const GeneratePodcastSheet = () => {
       setIsGenerating(false);
     };
 
-    if (isVisible) {
+    if (isVisible && !isGenerating && visibleText !== "") {
       handleGeneratePodcast();
     }
   }, [isVisible]);
@@ -111,15 +109,19 @@ const GeneratePodcastSheet = () => {
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>
       <FlexBox>
-        {isGenerating && (
-          <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
-        )}
-        {!isGenerating && (
-          <PrimaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).done}</PrimaryButton>
-        )}
+        <div />
+        <CloseButton onClick={navigateBack} />
       </FlexBox>
       {isGenerating && <GeneratingIndecator />}
-      {!isGenerating && (
+      {!isGenerating && visibleText == "" && (
+        <SapientorConversationMessage
+          message={{
+            role: "gpt",
+            message: "Bitte füge erst Text hinzu, um einen Podcast zu generieren.",
+          }}
+        />
+      )}
+      {!isGenerating && visibleText && (
         <StyledDoneIconWrapper>
           <IoCheckmarkCircle />
         </StyledDoneIconWrapper>

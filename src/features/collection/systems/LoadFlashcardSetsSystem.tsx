@@ -15,7 +15,7 @@ const fetchFlashcardSetsForTopic = async (topicId: string) => {
   const { data: flashcardSets, error } = await supabaseClient
     .from(SupabaseTables.FLASHCARD_SETS)
     .select("title, id, date_added")
-    .eq("parentId", topicId);
+    .eq("parent_id", topicId);
 
   if (error) {
     console.error("Error fetching flashcardSets:", error);

@@ -46,9 +46,9 @@ const useFlashcardQuizEntities = () => {
 
         if (id) {
           const { data: flashcards, error } = await supabaseClient
-            .from("flashCards")
+            .from(SupabaseTables.FLASHCARDS)
             .select("answer, question, id")
-            .eq("parentId", id);
+            .eq("parent_id", id);
           if (error) {
             console.error("Error fetching flashcards:", error);
           }
