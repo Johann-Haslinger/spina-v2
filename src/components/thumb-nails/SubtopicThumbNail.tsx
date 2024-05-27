@@ -13,7 +13,7 @@ const StyledSubtopicCellContainer = styled.div`
 
 const StyledSubtopicCellItem = styled.div<{ backgroundColor: string }>`
   ${tw`p-2 w-1/2  pt-4 rounded-md  h-full`}
-  background-color: ${({ backgroundColor }) => backgroundColor + "95"};
+  background-color: ${({ backgroundColor }) => backgroundColor + "99"};
 `; 
 
 const StyledSubtopicCellTitle = styled.p`

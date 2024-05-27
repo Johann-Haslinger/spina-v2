@@ -46,6 +46,21 @@ const DeleteSubtopicAlert = () => {
         if (flashcardsError) {
           console.error("Error deleting flashcards", flashcardsError);
         }
+
+        const { error: blocksError } = await supabaseClient.from("blocks").delete().eq("parentId", selectedSubtopicId);
+
+        if (blocksError) {
+          console.error("Error deleting blocks", blocksError);
+        }
+
+        const { error: podcastsError } = await supabaseClient
+          .from("podcasts")
+          .delete()
+          .eq("parentId", selectedSubtopicId);
+
+        if (podcastsError) {
+          console.error("Error deleting podcasts", podcastsError);
+        }
       }
     }, 300);
   };

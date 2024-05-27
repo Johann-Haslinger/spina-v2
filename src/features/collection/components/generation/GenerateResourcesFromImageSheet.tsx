@@ -8,21 +8,20 @@ import tw from "twin.macro";
 import { v4 } from "uuid";
 import { AnswerFacet, DateAddedFacet, QuestionFacet, SourceFacet, TitleFacet } from "../../../../app/additionalFacets";
 import { COLOR_ITEMS } from "../../../../base/constants";
-import { dummyFlashcards, dummyText } from "../../../../base/dummy";
-import { dummyBase64Audio } from "../../../../base/dummyBase64Audio";
 import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
 import { CloseButton, FlexBox, ScrollableBox, Sheet } from "../../../../components";
 import SapientorConversationMessage from "../../../../components/content/SapientorConversationMessage";
 import { addBlocks } from "../../../../functions/addBlocks";
 import { addFlashcards } from "../../../../functions/addFlashcards";
+import { addFlashcardSet } from "../../../../functions/addFlashcardSet";
 import { addNote } from "../../../../functions/addNote";
-import { addPodcast } from "../../../../functions/addPodcast";
 import { addSubtopic } from "../../../../functions/addSubtopic";
 import { useUserData } from "../../../../hooks/useUserData";
 import supabaseClient from "../../../../lib/supabase";
 import { getBlockEntitiesFromText } from "../../../blockeditor/functions/getBlockEntitiesFromString";
 import { useSelectedTopic } from "../../hooks/useSelectedTopic";
 import PreviewFlashcard from "../flashcard-sets/PreviewFlashcard";
+import { getCompletion } from "../../../../utils/getCompletion";
 
 interface SapientorMessage {
   role: "gpt" | "user";
@@ -108,6 +107,20 @@ const GenerateResourcesFromImageSheet = () => {
   const [imagePromptEntity] = useEntity((e) => e.has(AdditionalTags.GENERATE_FROM_IMAGE_PROMPT));
   const imageSrc = imagePromptEntity?.get(SourceFacet)?.props.source;
 
+  console.log(podcast)
+
+  useEffect(() => {
+    setGenerationState(undefined);
+    setNote(undefined);
+    setFlashcards([]);
+    setPodcast(undefined);
+    setReadyToSave(false);
+    setTitle("");
+    setDisplayEndMessage(false);
+    setIsTypingAnimationPlaying(true);
+    setSuggestions([]);
+  }, [isVisible]);
+
   const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_COLLECTION_STORY);
 
   useEffect(() => {
@@ -126,11 +139,30 @@ const GenerateResourcesFromImageSheet = () => {
   }, [isTypingAnimationPlaying, conversation, imageSrc]);
 
   const handleSelectGenerateFlashcardsFromImageOption = async () => {
+    const session = await supabaseClient.auth.getSession();
     setGenerationState(GenerationState.GENERATING_FLASHCARDS);
     setSuggestions([]);
-    // const { flashcards: generatedFlashcards, title: newTitel } = await handleFlashcardsFromImage(imageSrc);
-    const newTitel = "hallo";
-    const generatedFlashcards = dummyFlashcards;
+
+    console.log(imageSrc);
+
+    const { data: flashcardsData, error } = await supabaseClient.functions.invoke("generate-flashcards", {
+      headers: {
+        Authorization: `Bearer ${session.data.session?.access_token}`,
+      },
+      body: { base64_image: imageSrc },
+    });
+
+    if (error) {
+      console.error("Error generating completion:", error.message);
+    }
+
+    const generatedFlashcards: { answer: string; question: string }[] = JSON.parse(flashcardsData).cards;
+    const flashcardText = generatedFlashcards
+      .map((flashcard) => `${flashcard.question} - ${flashcard.answer}`)
+      .join("\n");
+    const newTitelInstruction = `Schreibe passend zu den folgenden Karteikarten eine Kurze Überschrift: ${flashcardText} `;
+    const newTitel = await getCompletion(newTitelInstruction);
+
     setTitle(newTitel);
     setFlashcards(generatedFlashcards);
 
@@ -155,10 +187,8 @@ const GenerateResourcesFromImageSheet = () => {
             setSuggestions([]);
             setTimeout(() => {
               setIsTypingAnimationPlaying(true);
-              addMessage({
-                role: "gpt",
-                message: `Super! ich habe das für dich abgespeichert, ich hoffe ich konnte dir bim lernen helfen! <br/> <br/>`,
-              });
+              setDisplayEndMessage(true);
+              setReadyToSave(true);
             }, 200);
           },
         },
@@ -177,37 +207,25 @@ const GenerateResourcesFromImageSheet = () => {
 
     setGenerationState(GenerationState.GENERATING_NOTE);
     setSuggestions([]);
-    if (false) {
-      const { data: noteData, error } = await supabaseClient.functions.invoke("generate-note-from-image", {
-        headers: {
-          Authorization: `Bearer ${session.data.session?.access_token}`,
-        },
-        body: { base64_image: imageSrc },
-      });
-      const note = JSON.parse(noteData);
 
-      console.log(note);
+    const { data: noteData, error } = await supabaseClient.functions.invoke("generate-note-from-image", {
+      headers: {
+        Authorization: `Bearer ${session.data.session?.access_token}`,
+      },
+      body: { base64_image: imageSrc },
+    });
+    const note = JSON.parse(noteData);
 
-      if (error) {
-        console.error("Error generating completion:", error.message);
-      }
+    console.log(note);
+
+    if (error) {
+      console.error("Error generating completion:", error.message);
     }
 
-    const newTitel = "halo";
-    const text = `
-    ### Geologische Dynamik: Die unsichtbaren Kräfte der Erde <b>Endogene Kräfte</b> <br/><br/>
-    <i>(aus dem Erdinneren wirkend)</i> <br/><br/>
-    
-    <u>Ursache:</u> Ströme im Erdinneren, Bewegung (Driften) der Erdplatten <br/><br/>
-    
-    - <i>Erdbeben</i> <br/><br/>
-    - <i>Vulkanismus</i> <br/><br/>
-    - <i>Gebirgsbildung (Orogenese)</i>
-    `;
+    const title = note.title;
+    const text = note.text;
 
-    console.log(newTitel, text);
-
-    setTitle(newTitel);
+    setTitle(title);
     setNote(text);
 
     setGenerationState(GenerationState.GENERATED_NOTE);
@@ -259,7 +277,7 @@ const GenerateResourcesFromImageSheet = () => {
   };
 
   const handleSelectGenerateFlashcardsOption = async (hasGeneratedPodcast: boolean, text: string) => {
-    // const session = await supabaseClient.auth.getSession();
+    const session = await supabaseClient.auth.getSession();
 
     setSuggestions([]);
     setIsTypingAnimationPlaying(true);
@@ -267,57 +285,19 @@ const GenerateResourcesFromImageSheet = () => {
       setGenerationState(GenerationState.GENERATING_FLASHCARDS);
     }, 200);
 
-    // const { data: flashcardsData, error } = await supabaseClient.functions.invoke("generate-flashcards", {
-    //   headers: {
-    //     Authorization: `Bearer ${session.data.session?.access_token}`,
-    //   },
-    //   body: { text: text },
-    // });
+    const { data: flashcardsData, error } = await supabaseClient.functions.invoke("generate-flashcards", {
+      headers: {
+        Authorization: `Bearer ${session.data.session?.access_token}`,
+      },
+      body: { text: text },
+    });
 
-    // console.log(flashcardsData);
+    const generatedFlashcards: { answer: string; question: string }[] = JSON.parse(flashcardsData).cards;
 
-    // const flashcardsData = ```json
-    // {
-    //   "cards": [
-    //     {
-    //       "question": "Was versteht man unter endogenen Kräften?",
-    //       "answer": "Endogene Kräfte sind geologische Prozesse, die aus dem Erdinneren wirken."
-    //     },
-    //     {
-    //       "question": "Was ist die Ursache für endogene Kräfte?",
-    //       "answer": "Die Ursache für endogene Kräfte sind Ströme im Erdinneren und die Bewegung (Driften) der Erdplatten."
-    //     },
-    //     {
-    //       "question": "Welche geologischen Ereignisse werden durch endogene Kräfte verursacht?",
-    //       "answer": "Endogene Kräfte verursachen Erdbeben, Vulkanismus und Gebirgsbildung (Orogenese)."
-    //     },
-    //     {
-    //       "question": "Was bewirken Ströme im Erdinneren und die Bewegung der Erdplatten?",
-    //       "answer": "Sie verursachen Erdbeben, Vulkanismus und die Gebirgsbildung (Orogenese)."
-    //     },
-    //     {
-    //       "question": "Welches geologische Ereignis wird durch die Bewegung der Erdplatten ausgelöst?",
-    //       "answer": "Die Bewegung der Erdplatten kann Erdbeben hervorrufen."
-    //     },
-    //     {
-    //       "question": "Was ist Vulkanismus?",
-    //       "answer": "Vulkanismus ist ein geologisches Phänomen, das durch endogene Kräfte ausgelöst wird und zur Entstehung von Vulkanen führt."
-    //     },
-    //     {
-    //       "question": "Was versteht man unter Gebirgsbildung (Orogenese)?",
-    //       "answer": "Gebirgsbildung (Orogenese) ist der Prozess der Entstehung von Gebirgen, der durch endogene Kräfte verursacht wird."
-    //     }
-    //   ]
-    // }
-    // ```;
-
-    // const generatedFlashcards: { answer: string; question: string }[] = JSON.parse(flashcardsData.replace("`", ""));
-
-    // if (error) {
-    //   console.error("Error generating completion:", error.message);
-    // }
-
-    const generatedFlashcards = dummyFlashcards;
+    console.log(generatedFlashcards);
+    if (error) {
+      console.error("Error generating completion:", error.message);
+    }
 
     if (generatedFlashcards) {
       setFlashcards(generatedFlashcards);
@@ -386,8 +366,8 @@ const GenerateResourcesFromImageSheet = () => {
     // const transcript = await getCompletion(generatinPodcastTranscriptPrompt);
 
     // const base64Audio = await getAudioFromText(transcript);
-    const transcript = dummyText;
-    const base64Audio = dummyBase64Audio;
+    const transcript = "";
+    const base64Audio = "";
 
     if (base64Audio) {
       setPodcast({
@@ -443,50 +423,74 @@ const GenerateResourcesFromImageSheet = () => {
       addEndingMessage &&
         addMessage({
           role: "gpt",
-          message: `Okay super! ich habe das für dich abgespeichert, ich hoffe ich konnte dir bim lernen helfen! <br/> <br/>`,
+          message: `Okay super! Ich habe das für dich abgespeichert, ich hoffe ich konnte dir bim lernen helfen! <br/> <br/>`,
         });
     }, 200);
 
     if (flashcards.length > 0) {
-      const subTopicId = v4();
-
-      const newSubtopicEntity = new Entity();
-      newSubtopicEntity.add(new IdentifierFacet({ guid: subTopicId }));
-      newSubtopicEntity.add(new TitleFacet({ title: title }));
-      newSubtopicEntity.add(new ParentFacet({ parentId: selectedTopicId || "" }));
-      newSubtopicEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
-      newSubtopicEntity.add(DataTypes.SUBTOPIC);
-
-      addSubtopic(lsc, newSubtopicEntity, userId);
-
-      const flashcardEntities = flashcards.map((flashcard) => {
-        const newFlashcardEntity = new Entity();
-        newFlashcardEntity.add(new IdentifierFacet({ guid: v4() }));
-        newFlashcardEntity.add(new ParentFacet({ parentId: selectedTopicId || "" }));
-        newFlashcardEntity.add(new QuestionFacet({ question: flashcard.question }));
-        newFlashcardEntity.add(new AnswerFacet({ answer: flashcard.answer }));
-        newFlashcardEntity.add(DataTypes.FLASHCARD);
-
-        return newFlashcardEntity;
-      });
-
-      addFlashcards(lsc, flashcardEntities, userId);
-
-      if (podcast?.base64Audio !== "") {
-        const newPodcastEntity = new Entity();
-        newPodcastEntity.add(new IdentifierFacet({ guid: v4() }));
-        newPodcastEntity.add(new SourceFacet({ source: podcast?.base64Audio || "" }));
-        newPodcastEntity.add(new ParentFacet({ parentId: subTopicId }));
-        newPodcastEntity.add(new TitleFacet({ title: title }));
-        newPodcastEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
-        newPodcastEntity.add(DataTypes.PODCAST);
-
-        addPodcast(lsc, newPodcastEntity, userId);
-      }
-
       if (note) {
+        const subTopicId = v4();
+
+        const newSubtopicEntity = new Entity();
+        newSubtopicEntity.add(new IdentifierFacet({ guid: subTopicId }));
+        newSubtopicEntity.add(new TitleFacet({ title: title }));
+        newSubtopicEntity.add(new ParentFacet({ parentId: selectedTopicId || "" }));
+        newSubtopicEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
+        newSubtopicEntity.add(DataTypes.SUBTOPIC);
+
+        addSubtopic(lsc, newSubtopicEntity, userId);
+
+        const flashcardEntities = flashcards.map((flashcard) => {
+          const newFlashcardEntity = new Entity();
+          newFlashcardEntity.add(new IdentifierFacet({ guid: v4() }));
+          newFlashcardEntity.add(new ParentFacet({ parentId: subTopicId || "" }));
+          newFlashcardEntity.add(new QuestionFacet({ question: flashcard.question }));
+          newFlashcardEntity.add(new AnswerFacet({ answer: flashcard.answer }));
+          newFlashcardEntity.add(DataTypes.FLASHCARD);
+
+          return newFlashcardEntity;
+        });
+
+        addFlashcards(lsc, flashcardEntities, userId);
+
+        // if (podcast?.base64Audio !== "") {
+        //   const newPodcastEntity = new Entity();
+        //   newPodcastEntity.add(new IdentifierFacet({ guid: v4() }));
+        //   newPodcastEntity.add(new SourceFacet({ source: podcast?.base64Audio || "" }));
+        //   newPodcastEntity.add(new ParentFacet({ parentId: subTopicId }));
+        //   newPodcastEntity.add(new TitleFacet({ title: title }));
+        //   newPodcastEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
+        //   newPodcastEntity.add(DataTypes.PODCAST);
+
+        //   addPodcast(lsc, newPodcastEntity, userId);
+        // }
+
         const newBlockEntites = getBlockEntitiesFromText(note, subTopicId);
         addBlocks(lsc, newBlockEntites, userId);
+      } else {
+        const flashcardSetId = v4();
+
+        const newFlashcardSetEntity = new Entity();
+        newFlashcardSetEntity.add(new IdentifierFacet({ guid: flashcardSetId }));
+        newFlashcardSetEntity.add(new TitleFacet({ title: title }));
+        newFlashcardSetEntity.add(new ParentFacet({ parentId: selectedTopicId || "" }));
+        newFlashcardSetEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
+        newFlashcardSetEntity.add(DataTypes.FLASHCARD_SET);
+
+        addFlashcardSet(lsc, newFlashcardSetEntity, userId);
+
+        const flashcardEntities = flashcards.map((flashcard) => {
+          const newFlashcardEntity = new Entity();
+          newFlashcardEntity.add(new IdentifierFacet({ guid: v4() }));
+          newFlashcardEntity.add(new ParentFacet({ parentId: flashcardSetId }));
+          newFlashcardEntity.add(new QuestionFacet({ question: flashcard.question }));
+          newFlashcardEntity.add(new AnswerFacet({ answer: flashcard.answer }));
+          newFlashcardEntity.add(DataTypes.FLASHCARD);
+
+          return newFlashcardEntity;
+        });
+
+        addFlashcards(lsc, flashcardEntities, userId);
       }
     } else {
       const noteId = v4();

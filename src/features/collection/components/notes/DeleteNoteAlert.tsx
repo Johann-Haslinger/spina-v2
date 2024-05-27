@@ -28,6 +28,18 @@ const DeleteNoteAlert = () => {
         if (error) {
           console.error("Error deleting note", error);
         }
+
+        const { error: error2 } = await supabaseClient.from("blocks").delete().eq("parentId", selectedNoteId);
+
+        if (error2) {
+          console.error("Error deleting blocks", error2);
+        }
+
+        const { error: error3 } = await supabaseClient.from("podcasts").delete().eq("parentId", selectedNoteId);
+
+        if (error3) {
+          console.error("Error deleting podcasts", error3);
+        }
       }
     }, 300);
   };

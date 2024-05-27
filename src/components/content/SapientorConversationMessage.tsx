@@ -16,6 +16,10 @@ const StyledMessageHeader = styled.div`
   ${tw`flex items-center space-y-1 space-x-3`}
 `;
 
+const StyledLoadingIndicatorWrapper = styled.div`
+  ${tw`flex items-center mt-4  `}
+`;
+
 const StyledRoleIcon = styled.div<{ role: "gpt" | "user" }>`
   ${tw`w-4 h-4 rounded-full`}
   background-color: ${(props) =>
@@ -69,23 +73,44 @@ const SapientorConversationMessage = (props: {
         {message.role === "user" ? (
           message.message
         ) : isLoading ? (
-          <div className={`flex items-center mt-4 ml-8  `}>
+          <StyledLoadingIndicatorWrapper>
             <motion.div
-              className=" w-4 h-4 bg-black rounded-full mx-1"
-              animate={{ y: [-5, 5, -5] }}
+              style={{
+                backgroundColor: "black",
+                width: "16px",
+                height: "16px",
+                borderRadius: "50%",
+                marginLeft: "4px",
+                marginRight: "4px",
+              }}
+              animate={{ y: [-8, 8, -8] }}
               transition={{ duration: 0.6, repeat: Infinity }}
             />
             <motion.div
-              className="w-4 h-4 bg-black rounded-full mx-1"
-              animate={{ y: [5, -5, 5] }}
+              style={{
+                backgroundColor: "black",
+                width: "16px",
+                height: "16px",
+                borderRadius: "50%",
+                marginLeft: "4px",
+                marginRight: "4px",
+              }}
+              animate={{ y: [8, -8, 8] }}
               transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }}
             />
             <motion.div
-              className="w-4 h-4 bg-black rounded-full mx-1"
-              animate={{ y: [-5, 5, -5] }}
+              style={{
+                backgroundColor: "black",
+                width: "16px",
+                height: "16px",
+                borderRadius: "50%",
+                marginLeft: "4px",
+                marginRight: "4px",
+              }}
+              animate={{ y: [-8, 8, -8] }}
               transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }}
             />
-          </div>
+          </StyledLoadingIndicatorWrapper>
         ) : (
           <TypingAnimationInnerHTML
             onWritingAnimationPlayed={onWritingAnimationPlayed}

@@ -24,10 +24,10 @@ const StyledCreateMenuContainer = styled.div`
   ${tw`flex w-screen justify-center`}
 `;
 
-const StyledCreateOptionWrapper = styled.div<{ color: string; backgroundColor: string }>`
+const StyledCreateOptionWrapper = styled.div<{ color: string }>`
   ${tw`w-full hover:opacity-80 transition-all  min-w-[4rem] p-2 bg-opacity-10 text-white rounded-lg mr-0 m-1 `}
   color: ${(props) => props.color};
-  background-color: ${(props) => props.backgroundColor};
+  background-color: ${(props) => props.color + "50"};
 `;
 
 const StyledIconWrapper = styled.div`
@@ -39,9 +39,8 @@ const StyledTextWrapper = styled.p`
 `;
 
 type option = {
-  icon: React.ReactNode;
+  icon: React.ReactNode
   color: string;
-  bgColor: string;
   blockType: Blocktypes;
 };
 
@@ -69,7 +68,7 @@ const CreateOption = (props: { isVisible: boolean; option: option }) => {
   const { option } = props;
   const [isSelectingImageSrc, setIsSelectingImageSrc] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const { blockType, icon, color, bgColor } = option;
+  const { blockType, icon, color: color } = option;
   const { blockeditorId, blockeditorEntity } = useCurrentBlockeditor();
   const { userId } = useUserData();
 
@@ -170,7 +169,7 @@ const CreateOption = (props: { isVisible: boolean; option: option }) => {
 
   return (
     <Fragment>
-      <StyledCreateOptionWrapper color={color} backgroundColor={bgColor} onClick={() => addBlockByBlockType(blockType)}>
+      <StyledCreateOptionWrapper  color={color} onClick={() => addBlockByBlockType(blockType)}>
         <StyledIconWrapper> {icon}</StyledIconWrapper>
         <StyledTextWrapper>{getStringForBlockType(blockType)}</StyledTextWrapper>
       </StyledCreateOptionWrapper>
@@ -196,26 +195,26 @@ const Createmenu = () => {
     {
       blockType: Blocktypes.IMAGE,
       icon: <IoImage />,
-      color: COLOR_ITEMS[0].color,
-      bgColor: COLOR_ITEMS[0].backgroundColor,
+    
+      color: COLOR_ITEMS[1].backgroundColor,
     },
     {
       blockType: Blocktypes.DIVIDER,
       icon: <IoRemove />,
-      color: COLOR_ITEMS[2].color,
-      bgColor: COLOR_ITEMS[2].backgroundColor,
+   
+      color: COLOR_ITEMS[3].backgroundColor,
     },
     {
       blockType: Blocktypes.TABLE,
       icon: <IoGrid />,
-      color: COLOR_ITEMS[4].color,
-      bgColor: COLOR_ITEMS[4].backgroundColor,
+  
+      color: COLOR_ITEMS[4].backgroundColor,
     },
     {
       blockType: Blocktypes.CODE,
       icon: <IoCodeSlash />,
-      color: COLOR_ITEMS[5].color,
-      bgColor: COLOR_ITEMS[5].backgroundColor,
+    
+      color: COLOR_ITEMS[8].backgroundColor,
     },
   ];
 

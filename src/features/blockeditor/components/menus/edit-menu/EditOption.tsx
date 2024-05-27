@@ -10,7 +10,6 @@ type Option = {
   name: string;
   icon: React.ReactNode;
   color?: string;
-  bgColor?: string;
   content?: React.ReactNode | null;
   customFunc?: () => void;
   isLarge?: boolean;
@@ -31,11 +30,11 @@ const StyledFurtherOptionSheetWrapper = styled.div<{ isLarge?: boolean }>`
   ${({ isLarge }) => isLarge && tw`h-60`}
 `;
 
-const StyledOptionWrapper = styled.div<{ color?: string; backgroundColor?: string }>`
+const StyledOptionWrapper = styled.div<{ color?: string }>`
   ${tw`w-full hover:opacity-80 transition-all min-w-[4rem] p-2 bg-opacity-10  text-white rounded-lg mr-0 m-1`}
-  ${({ color, backgroundColor }) => `
-    color: ${color};
-    background-color: ${backgroundColor};
+  ${({ color: backgroundColor }) => `
+    color: ${backgroundColor};
+    background-color: ${backgroundColor + "50"};
   `}
 `;
 
@@ -48,7 +47,7 @@ const StyledOptionTextWrapper = styled.p`
 `;
 
 const EditOption: React.FC<EditOptionProps> = ({ option, isVisible, canShow }) => {
-  const { name, icon, color, bgColor, customFunc, content } = option;
+  const { name, icon, color, customFunc, content } = option;
   const [selectedBlockEntities] = useEntities((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);
   const [show, setShow] = useState(false);
@@ -81,7 +80,7 @@ const EditOption: React.FC<EditOptionProps> = ({ option, isVisible, canShow }) =
   return (
     <Fragment>
       {show && (
-        <StyledOptionWrapper color={color || "white"} backgroundColor={bgColor || "blue"} onClick={handleClick}>
+        <StyledOptionWrapper color={color || "blue"} onClick={handleClick}>
           <StyledOptionIconWrapper>{icon}</StyledOptionIconWrapper>
           <StyledOptionTextWrapper>{name}</StyledOptionTextWrapper>
         </StyledOptionWrapper>
