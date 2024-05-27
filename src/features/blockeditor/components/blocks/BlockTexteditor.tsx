@@ -8,7 +8,7 @@ import { FormEvent, Fragment, RefObject, useContext, useState } from "react";
 import tw from "twin.macro";
 import { v4 } from "uuid";
 import { BlocktypeFacet, ListStyleFacet, TexttypeFacet, TodoStateFacet } from "../../../../app/additionalFacets";
-import { AdditionalTags, Blocktypes, DataTypes, ListStyles, Texttypes } from "../../../../base/enums";
+import { AdditionalTags, Blocktypes, DataTypes, ListStyles, SupabaseTables, Texttypes } from "../../../../base/enums";
 import { useUserData } from "../../../../hooks/useUserData";
 import supabaseClient from "../../../../lib/supabase";
 import { addBlock } from "../../functions/addBlock";
@@ -35,7 +35,7 @@ const updateTextBlockToListBlock = async (blockEntity: Entity) => {
 
   const id = blockEntity.get(IdentifierFacet)?.props.guid;
 
-  const { error } = await supabaseClient.from("blocks").update({ type: "list", listStyle: "unordered" }).eq("id", id);
+  const { error } = await supabaseClient.from(SupabaseTables.BLOCKS).update({ type: "list", listStyle: "unordered" }).eq("id", id);
 
   if (error) {
     console.error("Error updating block to list block:", error);
@@ -48,7 +48,7 @@ const udateTextBlockToTodoBlock = async (blockEntity: Entity) => {
 
   const id = blockEntity.get(IdentifierFacet)?.props.guid;
 
-  const { error } = await supabaseClient.from("blocks").update({ type: "todo", state: 0 }).eq("id", id);
+  const { error } = await supabaseClient.from(SupabaseTables.BLOCKS).update({ type: "todo", state: 0 }).eq("id", id);
 
   if (error) {
     console.error("Error updating block to todo block:", error);
@@ -111,7 +111,7 @@ const handleEnterPress = async (
 
     const blockId = blockEntity.get(IdentifierFacet)?.props.guid;
 
-    const { error } = await supabaseClient.from("blocks").update({ content: newtext }).eq("id", blockId);
+    const { error } = await supabaseClient.from(SupabaseTables.BLOCKS).update({ content: newtext }).eq("id", blockId);
 
     if (error) {
       console.error("Error updating block text:", error);
@@ -141,7 +141,7 @@ const handleEnterPress = async (
 
     const blockId = blockEntity.get(IdentifierFacet)?.props.guid;
 
-    const { error } = await supabaseClient.from("blocks").update({ type: Blocktypes.TEXT }).eq("id", blockId);
+    const { error } = await supabaseClient.from(SupabaseTables.BLOCKS).update({ type: Blocktypes.TEXT }).eq("id", blockId);
 
     if (error) {
       console.error("Error updating block type:", error);
@@ -170,7 +170,7 @@ const handleBackspacePressWithoutText = async (lsc: ILeanScopeClient, blockEntit
 
     const blockId = blockEntity.get(IdentifierFacet)?.props.guid;
 
-    const { error } = await supabaseClient.from("blocks").update({ type: Blocktypes.TEXT }).eq("id", blockId);
+    const { error } = await supabaseClient.from(SupabaseTables.BLOCKS).update({ type: Blocktypes.TEXT }).eq("id", blockId);
 
     if (error) {
       console.error("Error updating block type:", error);
@@ -234,7 +234,7 @@ const changeBlockTextStyles = async (entity: Entity, textType: Texttypes) => {
 
   const id = entity.get(IdentifierFacet)?.props.guid;
 
-  const { error } = await supabaseClient.from("blocks").update({ textType }).eq("id", id);
+  const { error } = await supabaseClient.from(SupabaseTables.BLOCKS).update({ textType }).eq("id", id);
 
   if (error) {
     console.error("Error updating block text type:", error);

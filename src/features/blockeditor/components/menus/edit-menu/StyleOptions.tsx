@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 import { Fragment, useContext, useEffect, useState } from "react";
 import tw from "twin.macro";
 import { BlocktypeFacet, ListStyleFacet, TexttypeFacet, TodoStateFacet } from "../../../../../app/additionalFacets";
-import { Blocktypes, DataTypes, ListStyles, Texttypes } from "../../../../../base/enums";
+import { Blocktypes, DataTypes, ListStyles, SupabaseTables, Texttypes } from "../../../../../base/enums";
 import { BLOCK_TYPE_TEXT_DATA, TEXT_TYPE_TEXT_DATA } from "../../../../../base/textData";
 import { useSelectedLanguage } from "../../../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../../../lib/supabase";
@@ -145,7 +145,7 @@ const updateSelectedBlocksTextType = async (lsc: ILeanScopeClient, newTextType: 
 
     const id = blockEntity.get(IdentifierFacet)?.props.guid;
 
-    const { error } = await supabaseClient.from("blocks").update({ textType: newTextType }).eq("id", id);
+    const { error } = await supabaseClient.from(SupabaseTables.BLOCKS).update({ text_type: newTextType }).eq("id", id);
 
     if (error) {
       console.error("Error updating text type of block in supabase:", error);
@@ -177,7 +177,7 @@ const updateSelectedBlocksBlockType = async (lsc: ILeanScopeClient, newBlockType
 
     const id = blockEntity.get(IdentifierFacet)?.props.guid;
 
-    const { error } = await supabaseClient.from("blocks").update({ type: newBlockType }).eq("id", id);
+    const { error } = await supabaseClient.from(SupabaseTables.BLOCKS).update({ type: newBlockType }).eq("id", id);
 
     if (error) {
       console.error("Error updating block type of block in supabase:", error);

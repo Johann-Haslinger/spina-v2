@@ -1,7 +1,7 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext } from "react";
-import { Stories, AdditionalTags } from "../../../../base/enums";
+import { Stories, AdditionalTags, SupabaseTables } from "../../../../base/enums";
 import { Alert, AlertButton } from "../../../../components";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../../lib/supabase";
@@ -30,9 +30,9 @@ const DeleteGroupSubtopicAlert = () => {
         }
 
         const { error: blockError } = await supabaseClient
-          .from("blocks")
+          .from(SupabaseTables.BLOCKS)
           .delete()
-          .eq("parentId", selectedGroupSubtopicId);
+          .eq("parent_id", selectedGroupSubtopicId);
 
         if (blockError) {
           console.error("Error deleting blocks", blockError);

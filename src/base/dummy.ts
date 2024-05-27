@@ -380,7 +380,7 @@ export const dummyBlocks = [
     id: "1",
     type: "text",
     order: 1,
-    textType: "heading",
+    text_type: "heading",
     content:
       "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. ",
   },
@@ -388,7 +388,7 @@ export const dummyBlocks = [
     id: "2",
     type: "text",
     order: 2,
-    textType: "normal",
+    text_type: "normal",
     content: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr.",
   },
 
@@ -396,7 +396,7 @@ export const dummyBlocks = [
     id: "3",
     type: "text",
     order: 3,
-    textType: "normal",
+    text_type: "normal",
     content: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr.",
   },
 ];

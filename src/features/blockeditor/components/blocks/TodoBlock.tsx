@@ -10,6 +10,7 @@ import supabaseClient from "../../../../lib/supabase";
 import { useCurrentBlockeditor } from "../../hooks/useCurrentBlockeditor";
 import BlockOutline from "./BlockOutline";
 import BlockTexteditor from "./BlockTexteditor";
+import { SupabaseTables } from "../../../../base/enums";
 
 const useTodoClickHandler = (entity: Entity) => {
   const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -22,7 +23,7 @@ const useTodoClickHandler = (entity: Entity) => {
 
       const id = entity.get(IdentifierFacet)?.props.guid;
 
-      const { error } = await supabaseClient.from("blocks").update({ state: newTodoState }).eq("id", id);
+      const { error } = await supabaseClient.from(SupabaseTables.BLOCKS).update({ state: newTodoState }).eq("id", id);
 
       if (error) {
         console.error("Error updating block in supabase:", error);

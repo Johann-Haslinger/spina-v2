@@ -11,6 +11,7 @@ import {
 } from "@leanscope/ecs-models";
 import { BlocktypeFacet, ListStyleFacet, TexttypeFacet, TodoStateFacet } from "../../../app/additionalFacets";
 import supabaseClient from "../../../lib/supabase";
+import { SupabaseTables } from "../../../base/enums";
 
 export const addBlock = async (lsc: ILeanScopeClient, newBlockEntity: Entity, userId: string) => {
   lsc.engine.addEntity(newBlockEntity);
@@ -28,17 +29,17 @@ export const addBlock = async (lsc: ILeanScopeClient, newBlockEntity: Entity, us
   const listStyle = newBlockEntity.get(ListStyleFacet)?.props.listStyle;
   const state = newBlockEntity.get(TodoStateFacet)?.props.todoState;
 
-  const { error } = await supabaseClient.from("blocks").insert({
+  const { error } = await supabaseClient.from(SupabaseTables.BLOCKS).insert({
     id,
     type,
     order,
-    parentId,
-    imageUrl,
+    parent_id: parentId,
+    image_url: imageUrl,
     size,
     fit,
     content,
-    textType,
-    listStyle,
+    text_type: textType,
+    list_style: listStyle,
     state,
     user_id,
   });

@@ -17,7 +17,7 @@ import tw from "twin.macro";
 import { v4 } from "uuid";
 import { BlocktypeFacet, TexttypeFacet, TitleFacet } from "../../../../../app/additionalFacets";
 import { COLOR_ITEMS } from "../../../../../base/constants";
-import { AdditionalTags, Blocktypes, DataTypes, Stories, Texttypes } from "../../../../../base/enums";
+import { AdditionalTags, Blocktypes, DataTypes, Stories, SupabaseTables, Texttypes } from "../../../../../base/enums";
 import { useSelectedLanguage } from "../../../../../hooks/useSelectedLanguage";
 import { useUserData } from "../../../../../hooks/useUserData";
 import supabaseClient from "../../../../../lib/supabase";
@@ -78,7 +78,7 @@ const groupSelectedBlocks = (lsc: ILeanScopeClient, userId: string) => {
 
       const id = blockEntity.get(IdentifierFacet)?.props.guid;
 
-      const { error } = await supabaseClient.from("blocks").update({ parentId: newPageBlockId }).eq("id", id);
+      const { error } = await supabaseClient.from(SupabaseTables.BLOCKS).update({ parentId: newPageBlockId }).eq("id", id);
 
       if (error) {
         console.error("Error updating block in supabase:", error);
@@ -106,7 +106,7 @@ const addContentToSelectedBlock = async (lsc: ILeanScopeClient, userId: string) 
   addBlock(lsc, newBlockEntity, userId);
 
   const { error } = await supabaseClient
-    .from("blocks")
+    .from(SupabaseTables.BLOCKS)
     .update({ type: Blocktypes.PAGE })
     .eq("id", firstSelectedBlockId);
 
