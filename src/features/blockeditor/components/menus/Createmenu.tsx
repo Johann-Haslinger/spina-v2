@@ -39,7 +39,7 @@ const StyledTextWrapper = styled.p`
 `;
 
 type option = {
-  icon: React.ReactNode
+  icon: React.ReactNode;
   color: string;
   blockType: Blocktypes;
 };
@@ -169,7 +169,7 @@ const CreateOption = (props: { isVisible: boolean; option: option }) => {
 
   return (
     <Fragment>
-      <StyledCreateOptionWrapper  color={color} onClick={() => addBlockByBlockType(blockType)}>
+      <StyledCreateOptionWrapper color={color} onClick={() => addBlockByBlockType(blockType)}>
         <StyledIconWrapper> {icon}</StyledIconWrapper>
         <StyledTextWrapper>{getStringForBlockType(blockType)}</StyledTextWrapper>
       </StyledCreateOptionWrapper>
@@ -195,26 +195,26 @@ const Createmenu = () => {
     {
       blockType: Blocktypes.IMAGE,
       icon: <IoImage />,
-    
-      color: COLOR_ITEMS[1].backgroundColor,
+
+      color: COLOR_ITEMS[1].accentColor,
     },
     {
       blockType: Blocktypes.DIVIDER,
       icon: <IoRemove />,
-   
-      color: COLOR_ITEMS[3].backgroundColor,
+
+      color: COLOR_ITEMS[3].accentColor,
     },
     {
       blockType: Blocktypes.TABLE,
       icon: <IoGrid />,
-  
-      color: COLOR_ITEMS[4].backgroundColor,
+
+      color: COLOR_ITEMS[4].accentColor,
     },
     {
       blockType: Blocktypes.CODE,
       icon: <IoCodeSlash />,
-    
-      color: COLOR_ITEMS[8].backgroundColor,
+
+      color: COLOR_ITEMS[8].accentColor,
     },
   ];
 

@@ -22,8 +22,7 @@ const StyledLoadingIndicatorWrapper = styled.div`
 
 const StyledRoleIcon = styled.div<{ role: "gpt" | "user" }>`
   ${tw`w-4 h-4 rounded-full`}
-  background-color: ${(props) =>
-    props.role === "gpt" ? COLOR_ITEMS[0].backgroundColor : COLOR_ITEMS[1].backgroundColor};
+  background-color: ${(props) => (props.role === "gpt" ? COLOR_ITEMS[0].accentColor : COLOR_ITEMS[1].accentColor)};
 `;
 
 const StyledRoleTitle = styled.p`

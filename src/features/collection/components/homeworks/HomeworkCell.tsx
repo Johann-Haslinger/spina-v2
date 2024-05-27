@@ -6,11 +6,11 @@ import { useSelectedSchoolSubjectColor } from "../../hooks/useSelectedSchoolSubj
 
 const HomeworkCell = (props: TitleProps & EntityProps) => {
   const { title, entity } = props;
-  const { backgroundColor } = useSelectedSchoolSubjectColor();
+  const { accentColor } = useSelectedSchoolSubjectColor();
 
   const openHomework = () => entity.addTag(Tags.SELECTED);
 
-  return <NoteThumbNail color={backgroundColor} title={title} onClick={openHomework} type={"Hausaufgabe"} />;
+  return <NoteThumbNail color={accentColor} title={title} onClick={openHomework} type={"Hausaufgabe"} />;
 };
 
 export default HomeworkCell;

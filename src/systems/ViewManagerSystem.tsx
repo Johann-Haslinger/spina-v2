@@ -6,6 +6,8 @@ import { useCurrentSapientorConversation } from "../features/collection/componen
 import { useSelectedTheme } from "../features/collection/hooks/useSelectedTheme";
 import { useIsAnyStoryCurrent } from "../hooks/useIsAnyStoryCurrent";
 import { SucessSheet } from "../components";
+import { useIsStoryCurrent } from "@leanscope/storyboarding";
+import { useSelectedSchoolSubjectColor } from "../features/collection/hooks/useSelectedSchoolSubjectColor";
 
 const ViewManagerSystem = () => {
   const isSheetViewVisible = useIsAnyStoryCurrent([
@@ -35,11 +37,11 @@ const ViewManagerSystem = () => {
     Stories.GENERATING_PODCAST_STORY,
     Stories.GENERATING_IMPROVED_TEXT_STORY,
   ]);
-  // const isQuizViewVisible = useIsStoryCurrent(Stories.OBSERVING_FLASHCARD_QUIZ_STORY);
+  const isQuizViewVisible = useIsStoryCurrent(Stories.OBSERVING_FLASHCARD_QUIZ_STORY);
   const { isDarkMode } = useSelectedTheme();
   const [closingVews] = useEntities((e) => e.hasTag(Tags.SELECTED) && e.hasTag(AdditionalTags.NAVIGATE_BACK));
   const [themeColor, setThemeColor] = useState("#F5F5F5");
-  // const { backgroundColor } = useSelectedSchoolSubjectColor();
+  const { backgroundColor } = useSelectedSchoolSubjectColor();
   const { isChatSheetVisible } = useCurrentSapientorConversation();
 
   useEffect(() => {
@@ -62,21 +64,21 @@ const ViewManagerSystem = () => {
     }
   }, [isChatSheetVisible]);
 
-  // useEffect(() => {
-  //   if (isQuizViewVisible) {
-  //     if (isDarkMode) {
-  //       setThemeColor("#000000");
-  //     } else {
-  //       setThemeColor(backgroundColor);
-  //     }
-  //   } else {
-  //     if (isDarkMode) {
-  //       setThemeColor("#000000");
-  //     } else {
-  //       setThemeColor("#F5F5F5");
-  //     }
-  //   }
-  // }, [isQuizViewVisible]);
+  useEffect(() => {
+    if (isQuizViewVisible) {
+      if (isDarkMode) {
+        setThemeColor("#000000");
+      } else {
+        setThemeColor(backgroundColor);
+      }
+    } else {
+      if (isDarkMode) {
+        setThemeColor("#000000");
+      } else {
+        setThemeColor("#F5F5F5");
+      }
+    }
+  }, [isQuizViewVisible]);
 
   useEffect(() => {
     if (isDarkMode) {

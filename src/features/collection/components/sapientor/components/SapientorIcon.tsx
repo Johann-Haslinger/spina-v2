@@ -18,17 +18,23 @@ const useQuickChat = () => {
   const quickChatRef = useRef<HTMLDivElement>(null);
   const [promptEntities] = useEntities((e) => e.has(AdditionalTags.PROMPT));
   const [messageEntities] = useEntities((e) => e.has(MessageRoleFacet));
-  const { isChatSheetVisible, setQuickChatVisible, setChatSheetVisible, deleteCurrentConversation, isQuickChatVisible } = useCurrentSapientorConversation();
-
+  const {
+    isChatSheetVisible,
+    setQuickChatVisible,
+    setChatSheetVisible,
+    deleteCurrentConversation,
+    isQuickChatVisible,
+  } = useCurrentSapientorConversation();
 
   useEffect(() => {
     if (!isChatSheetVisible && !isQuickChatVisible) {
-      lsc.engine.entities.filter((e) => e?.has(AdditionalTags.RELATED_THREAD_RESOURCE)).forEach((entity) => {
-        lsc.engine.removeEntity(entity);
-      })
+      lsc.engine.entities
+        .filter((e) => e?.has(AdditionalTags.RELATED_THREAD_RESOURCE))
+        .forEach((entity) => {
+          lsc.engine.removeEntity(entity);
+        });
     }
-  }, [isQuickChatVisible, isChatSheetVisible,  deleteCurrentConversation, lsc.engine]);
-
+  }, [isQuickChatVisible, isChatSheetVisible, deleteCurrentConversation, lsc.engine]);
 
   const handleClickOutside = (event: MouseEvent) => {
     if (quickChatRef.current && !quickChatRef.current.contains(event.target as Node)) {
@@ -41,7 +47,6 @@ const useQuickChat = () => {
         [...promptEntities, ...messageEntities].forEach((entity) => {
           lsc.engine.removeEntity(entity);
         });
-
       }, 300);
     }
   };
@@ -49,7 +54,6 @@ const useQuickChat = () => {
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-
   }, [messageEntities, promptEntities, setQuickChatVisible, setChatSheetVisible]);
 
   return { quickChatRef };
@@ -61,7 +65,7 @@ const StyledIconWrapper = styled.div`
 
 const StyledSapientorOutline = styled.div`
   ${tw`w-full rounded-t-full h-8  md:h-12`}
-  background-color: ${COLOR_ITEMS[5].backgroundColor};
+  background-color: ${COLOR_ITEMS[5].accentColor};
 `;
 
 const StyledSapientorEyeWrapper = styled.div`
@@ -85,7 +89,7 @@ const SapientorIcon = () => {
       setQuickChatVisible(false);
       setChatSheetVisible(true);
     }
-  }
+  };
 
   return (
     <div ref={quickChatRef}>

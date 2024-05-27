@@ -57,7 +57,7 @@ const KanbanColumn = (props: {
   const { statusId, statusLabel, query, kanbanCell, sortingRule } = props;
   const [columEntities] = useEntities((e) => e.get(StatusFacet)?.props.status == Number(statusId) && query(e));
 
-  const { backgroundColor, color } = selectColorItemForColoumn(statusId);
+  const { accentColor: backgroundColor, color } = selectColorItemForColoumn(statusId);
 
   return (
     <StyledKanbanColumnWrapper backgroundColor={backgroundColor}>

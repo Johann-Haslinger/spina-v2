@@ -6,11 +6,11 @@ import { useSelectedSchoolSubjectColor } from "../../hooks/useSelectedSchoolSubj
 
 const FlashcardSetCell = (props: TitleProps & EntityProps) => {
   const { title, entity } = props;
-  const { backgroundColor } = useSelectedSchoolSubjectColor();
+  const { accentColor } = useSelectedSchoolSubjectColor();
 
   const openFlashcardSet = () => entity.addTag(Tags.SELECTED);
 
-  return <FlashcardSetThumbNail onClick={openFlashcardSet} title={title} color={backgroundColor} />;
+  return <FlashcardSetThumbNail onClick={openFlashcardSet} title={title} color={accentColor} />;
 };
 
 export default FlashcardSetCell;

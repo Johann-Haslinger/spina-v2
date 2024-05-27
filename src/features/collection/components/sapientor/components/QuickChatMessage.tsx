@@ -19,7 +19,7 @@ const StyledMessageHeader = styled.div`
 const StyledRoleIcon = styled.div<{ role: MessageRoles }>`
   ${tw`w-4 h-4 rounded-full`}
   background-color: ${(props) =>
-    props.role === MessageRoles.SAPIENTOR ? COLOR_ITEMS[0].backgroundColor : COLOR_ITEMS[1].backgroundColor};
+    props.role === MessageRoles.SAPIENTOR ? COLOR_ITEMS[0].accentColor : COLOR_ITEMS[1].accentColor};
 `;
 
 const StyledRoleTitle = styled.p`
@@ -33,7 +33,6 @@ const StyledRelatedResourcesWrapper = styled.div`
   ${tw`flex items-center hover:opacity-50 transition-all bg-white bg-opacity-5 ml-4 px-2 rounded-lg w-fit mt-3`}
 `;
 
-
 const QuickChatMessage = (props: TextProps & MessageRoleProps & RelatedResourcesProps) => {
   const { text, role, relatedResources = [] } = props;
   const [displayResources, setDisplayResources] = useState(false);
@@ -43,7 +42,6 @@ const QuickChatMessage = (props: TextProps & MessageRoleProps & RelatedResources
       setDisplayResources(true);
     }, 400);
   }, []);
-
 
   return (
     <div>
@@ -76,9 +74,7 @@ const QuickChatMessage = (props: TextProps & MessageRoleProps & RelatedResources
                 y: displayResources ? 0 : 5,
               }}
             >
-              <StyledRelatedResourcesWrapper>
-                {relatedResources.length} Resources
-              </StyledRelatedResourcesWrapper>
+              <StyledRelatedResourcesWrapper>{relatedResources.length} Resources</StyledRelatedResourcesWrapper>
             </motion.div>
           )}
         </StyledMessageContentWrapper>

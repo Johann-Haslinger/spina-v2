@@ -18,9 +18,8 @@ const StyledTopicCellWrapper = styled.div<{
   backgroundColor: string;
 }>`
   ${tw`w-full h-40  rounded-xl flex justify-center items-center  md:hover:scale-105 transition-all  text-7xl font-bold p-2 `}
-  background-color: ${({ backgroundColor }) => backgroundColor + "80"};
-  color: ${({ backgroundColor }) => backgroundColor};
-  
+  background-color: ${({ backgroundColor }) => backgroundColor};
+  color: ${({ color }) => color};
 `;
 
 const StyledTopicTitle = styled.p`
@@ -32,7 +31,7 @@ const StyledTopicDescription = styled.p`
 
 const TopicCell = (props: TitleProps & EntityProps & DescriptionProps) => {
   const { title, entity, description } = props;
-  const { color, backgroundColor } = useTopicColor(entity);
+  const {  accentColor } = useTopicColor(entity);
   const { isSidebarVisible } = useAppState();
   const { selectedLanguage } = useSelectedLanguage();
 
@@ -44,7 +43,7 @@ const TopicCell = (props: TitleProps & EntityProps & DescriptionProps) => {
 
   return (
     <StyledTopicCellContainer>
-      <StyledTopicCellWrapper onClick={handleOpenTopic} color={color} backgroundColor={backgroundColor}>
+      <StyledTopicCellWrapper onClick={handleOpenTopic} color={accentColor} backgroundColor={accentColor + "90"}>
         <IoBook />
       </StyledTopicCellWrapper>
       <StyledTopicTitle>{title}</StyledTopicTitle>

@@ -34,60 +34,68 @@ export const NAV_LINKS = [
 
 export const COLORS = ["#F4CF54", "#00965F", "#0B86D1", "#B9A0FF", "#F4BAB5", "#EE7A2C", "#446DFF"];
 
-export const COLOR_ITEMS: { color: string; backgroundColor: string, name?: string }[] = [
-   {
+export const COLOR_ITEMS: { color: string; accentColor: string; name?: string, backgroundColor: string }[] = [
+  {
     color: "#EF9D4A",
-    backgroundColor: "#397A45",
-    name: "FF7F3B"
+    accentColor: "#397A45",
+    name: "FF7F3B",
+    backgroundColor: "#97B79D"
   },
   {
     color: "#6D8FD9",
-    backgroundColor: "#A3CB63",
-    name: "violet"
+    accentColor: "#A3CB63",
+    name: "violet",
+    backgroundColor: "#CBE0AB"
   },
   {
     color: "#364893",
-    backgroundColor: "#6EBED9",
-    name: "lavender"
+    accentColor: "#6EBED9",
+    name: "lavender",
+    backgroundColor: "#B1D9E7"
   },
   {
     color: "#B9DA87",
-    backgroundColor: "#668FE8",
-    name: "green"
+    accentColor: "#668FE8",
+    name: "green",
+    backgroundColor: "#ADC1EE"
   },
   {
     color: "#397A45",
-    backgroundColor: "#EF9D4A",
-    name: "blue"
+    accentColor: "#EF9D4A",
+    name: "blue",
+    backgroundColor: "#F2C99F"
   },
   {
     color: "#E76542",
-    backgroundColor: "#FFCC00",
-    name: "violet"
+    accentColor: "#FFCC00",
+    name: "violet",
+    backgroundColor: "#FAE07A"
   },
   {
     color: "#F3A487",
-    backgroundColor: "#BF3039",
-    name: "yellow"
+    accentColor: "#BF3039",
+    name: "yellow",
+    backgroundColor: "#DA9297"
   },
   {
     color: "#FFCC00",
-    backgroundColor: "#E76542",
-    name: "violet"
+    accentColor: "#E76542",
+    name: "violet",
+    backgroundColor: "#EEAD9B"
   },
   {
     color: "#FFCC00",
-    backgroundColor: "#039FC4",
-    name: "yellow"
+    accentColor: "#039FC4",
+    name: "yellow",
+    backgroundColor: "#7CCADC"
   },
-
   {
     color: "#6EBED9",
-    backgroundColor: "#364893",
-    name: "yellow"
+    accentColor: "#364893",
+    name: "yellow",
+    backgroundColor: "#959EC4"
   },
 
-  
   // {
   //   color: "#FF7F3B",
   //   backgroundColor: "#F6D143",
@@ -139,8 +147,6 @@ export const COLOR_ITEMS: { color: string; backgroundColor: string, name?: strin
   //   name: "yellow"
   // },
 
-
-
   // {
   //   color: "#EE7A2C",
   //   backgroundColor: "#B9DA87",
@@ -187,7 +193,7 @@ export const COLOR_ITEMS: { color: string; backgroundColor: string, name?: strin
   //   name: "yellow"
   // },
 
-    // original
+  // original
 
   // {
   //   color: "#EE7A2C",
@@ -259,5 +265,4 @@ export const COLOR_ITEMS: { color: string; backgroundColor: string, name?: strin
   // { color: 'rgb(123, 85, 224)', name: 'Lavender', backgroundColor: 'rgba(123, 85, 224, 0.45)' },
   // { color: 'rgb(199, 76, 245)', name: 'Orchid', backgroundColor: 'rgba(199, 76, 245, 0.45)' },
   // { color: 'rgb(255, 64, 129)', name: 'Cherry', backgroundColor: 'rgba(255, 64, 129, 0.45)' },
- 
 ];

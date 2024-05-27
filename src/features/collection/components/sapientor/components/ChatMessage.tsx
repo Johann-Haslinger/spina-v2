@@ -1,34 +1,32 @@
+import styled from "@emotion/styled";
+import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import { Entity, EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
 import { IdentifierFacet, Tags, TextProps } from "@leanscope/ecs-models";
 import { motion } from "framer-motion";
-import { MessageRoleProps, RelatedResourcesProps, TitleFacet, TitleProps } from "../../../../../app/additionalFacets";
-import { AdditionalTags, DataTypes, MessageRoles } from "../../../../../base/enums";
-import SapientorConversationMessage from "../../../../../components/content/SapientorConversationMessage";
-import styled from "@emotion/styled";
-import tw from "twin.macro";
-import { Resource } from "../../../../../base/types";
-import { Fragment } from "react/jsx-runtime";
 import { useContext, useEffect } from "react";
-import { Entity, EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
-import { NoteThumbNail, TopicResoucreThumbNail } from "../../../../../components";
+import { Fragment } from "react/jsx-runtime";
+import tw from "twin.macro";
+import { MessageRoleProps, RelatedResourcesProps, TitleFacet, TitleProps } from "../../../../../app/additionalFacets";
 import { COLOR_ITEMS } from "../../../../../base/constants";
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { useAppState } from "../../../hooks/useAppState";
-import { displayDataTypeTexts } from "../../../../../utils/displayText";
+import { AdditionalTags, DataTypes, MessageRoles } from "../../../../../base/enums";
+import { Resource } from "../../../../../base/types";
+import { NoteThumbNail, TopicResoucreThumbNail } from "../../../../../components";
+import SapientorConversationMessage from "../../../../../components/content/SapientorConversationMessage";
 import { useSelectedLanguage } from "../../../../../hooks/useSelectedLanguage";
+import { displayDataTypeTexts } from "../../../../../utils/displayText";
+import { useAppState } from "../../../hooks/useAppState";
 
 const TopicResourceCell = (props: TitleProps & EntityProps) => {
   const { title, entity } = props;
-  const { appStateEntity } = useAppState()
+  const { appStateEntity } = useAppState();
 
   const openTopic = () => {
-    entity.addTag(Tags.SELECTED)
-    appStateEntity?.remove(AdditionalTags.CONVERSATION_VISIBLE)
-  }
+    entity.addTag(Tags.SELECTED);
+    appStateEntity?.remove(AdditionalTags.CONVERSATION_VISIBLE);
+  };
 
-  return (
-    <TopicResoucreThumbNail onClick={openTopic} color={COLOR_ITEMS[1].backgroundColor} title={title} />
-  );
-}
+  return <TopicResoucreThumbNail onClick={openTopic} color={COLOR_ITEMS[1].accentColor} title={title} />;
+};
 
 const StyledNoteResouceCellWrapper = styled.div`
   ${tw`h-fit w-36`}
@@ -36,38 +34,44 @@ const StyledNoteResouceCellWrapper = styled.div`
 const NoteResouceCell = (props: TitleProps & EntityProps) => {
   const { title, entity } = props;
 
-  const openNote = () => entity.addTag(Tags.SELECTED)
+  const openNote = () => entity.addTag(Tags.SELECTED);
 
   return (
     <StyledNoteResouceCellWrapper>
-      <NoteThumbNail color={COLOR_ITEMS[1].backgroundColor} onClick={openNote} title={title} />
+      <NoteThumbNail color={COLOR_ITEMS[1].accentColor} onClick={openNote} title={title} />
     </StyledNoteResouceCellWrapper>
-  )
-
-}
+  );
+};
 
 const HomeworkResourceCell = (props: TitleProps & EntityProps) => {
   const { title, entity } = props;
-  const { selectedLanguage } = useSelectedLanguage()
+  const { selectedLanguage } = useSelectedLanguage();
 
-  const openHomework = () => entity.addTag(Tags.SELECTED)
+  const openHomework = () => entity.addTag(Tags.SELECTED);
 
   return (
     <StyledNoteResouceCellWrapper>
-      <NoteThumbNail onClick={openHomework} color={COLOR_ITEMS[1].backgroundColor} title={title} type={displayDataTypeTexts(selectedLanguage).homework} />
+      <NoteThumbNail
+        onClick={openHomework}
+        color={COLOR_ITEMS[1].accentColor}
+        title={title}
+        type={displayDataTypeTexts(selectedLanguage).homework}
+      />
     </StyledNoteResouceCellWrapper>
   );
-}
+};
 
 const InitializeRelatedResourcesSystem = (props: { relatedResources: Resource[] }) => {
-  const lsc = useContext(LeanScopeClientContext)
+  const lsc = useContext(LeanScopeClientContext);
   const { relatedResources } = props;
 
   useEffect(() => {
-    console.log("relatedResources", relatedResources)
+    console.log("relatedResources", relatedResources);
 
     relatedResources.forEach((r) => {
-      const isExisting = lsc.engine.entities.some((e) => e.has(IdentifierFacet) && e.get(IdentifierFacet)?.props.guid === r.id)
+      const isExisting = lsc.engine.entities.some(
+        (e) => e.has(IdentifierFacet) && e.get(IdentifierFacet)?.props.guid === r.id
+      );
 
       if (!isExisting) {
         const newResoucreEntity = new Entity();
@@ -75,61 +79,58 @@ const InitializeRelatedResourcesSystem = (props: { relatedResources: Resource[] 
         newResoucreEntity.add(new IdentifierFacet({ guid: r.id }));
         newResoucreEntity.add(new TitleFacet({ title: r.title }));
         newResoucreEntity.add(r.resourceType as DataTypes);
-        newResoucreEntity.add(AdditionalTags.RELATED_THREAD_RESOURCE)
+        newResoucreEntity.add(AdditionalTags.RELATED_THREAD_RESOURCE);
 
-        console.log("newResoucreEntity", newResoucreEntity)
+        console.log("newResoucreEntity", newResoucreEntity);
       }
-    })
+    });
+  }, [lsc.engine, relatedResources, relatedResources.length]);
 
-
-
-  }, [lsc.engine, relatedResources, relatedResources.length])
-
-
-  return null
-}
+  return null;
+};
 
 const StyledRelatedResourcesWrapper = styled.div`
-  ${tw`border-t dark:border-opacity-50 border-opacity-50 flex w-[95%] mx-8 overflow-x-scroll dark:border-primaryBorderDark border-primaryBorder mt-6 pt-4 `} 
+  ${tw`border-t dark:border-opacity-50 border-opacity-50 flex w-[95%] mx-8 overflow-x-scroll dark:border-primaryBorderDark border-primaryBorder mt-6 pt-4 `}
 `;
 
 const RelatedResourcesInfo = (props: { relatedResources: Resource[] }) => {
   const { relatedResources } = props;
 
+  return (
+    <Fragment>
+      <InitializeRelatedResourcesSystem relatedResources={relatedResources} />
 
-  return <Fragment>
-    <InitializeRelatedResourcesSystem relatedResources={relatedResources} />
-
-    <StyledRelatedResourcesWrapper>
-      <EntityPropsMapper
-        query={(e) => e.has(DataTypes.TOPIC) && relatedResources.some((r) => r.id === e.get(IdentifierFacet)?.props.guid)}
-        get={[[TitleFacet], []]}
-        onMatch={TopicResourceCell}
-      />
-      <EntityPropsMapper
-        query={(e) => e.has(DataTypes.NOTE) && relatedResources.some((r) => r.id === e.get(IdentifierFacet)?.props.guid)}
-        get={[[TitleFacet], []]}
-        onMatch={NoteResouceCell}
-      />
-      <EntityPropsMapper
-        query={(e) => e.has(DataTypes.HOMEWORK) && relatedResources.some((r) => r.id === e.get(IdentifierFacet)?.props.guid)}
-        get={[[TitleFacet], []]}
-        onMatch={HomeworkResourceCell}
-      />
-
-
-
-    </StyledRelatedResourcesWrapper>
-  </Fragment>
-
-}
-
-
+      <StyledRelatedResourcesWrapper>
+        <EntityPropsMapper
+          query={(e) =>
+            e.has(DataTypes.TOPIC) && relatedResources.some((r) => r.id === e.get(IdentifierFacet)?.props.guid)
+          }
+          get={[[TitleFacet], []]}
+          onMatch={TopicResourceCell}
+        />
+        <EntityPropsMapper
+          query={(e) =>
+            e.has(DataTypes.NOTE) && relatedResources.some((r) => r.id === e.get(IdentifierFacet)?.props.guid)
+          }
+          get={[[TitleFacet], []]}
+          onMatch={NoteResouceCell}
+        />
+        <EntityPropsMapper
+          query={(e) =>
+            e.has(DataTypes.HOMEWORK) && relatedResources.some((r) => r.id === e.get(IdentifierFacet)?.props.guid)
+          }
+          get={[[TitleFacet], []]}
+          onMatch={HomeworkResourceCell}
+        />
+      </StyledRelatedResourcesWrapper>
+    </Fragment>
+  );
+};
 
 const ChatMessage = (props: TextProps & MessageRoleProps & RelatedResourcesProps) => {
   const { text, role, relatedResources = [] } = props;
 
-  console.log("relatedResources", relatedResources)
+  console.log("relatedResources", relatedResources);
 
   return (
     <div>
@@ -150,9 +151,6 @@ const ChatMessage = (props: TextProps & MessageRoleProps & RelatedResourcesProps
             message: text,
             specialContent: relatedResources.length > 0 && <RelatedResourcesInfo relatedResources={relatedResources} />,
           }}
-
-
-
         />
       </motion.div>
     </div>

@@ -105,7 +105,7 @@ const StyledProfileText = styled.div`
 
 const SettingsLink = (props: { isFullWidth: boolean }) => {
   const { isFullWidth } = props;
-  const { color, backgroundColor } = COLOR_ITEMS[3];
+  const { color, accentColor: backgroundColor } = COLOR_ITEMS[3];
   const { toggleSettings } = useAppState();
   const { selectedLanguage } = useSelectedLanguage();
   const { userEmail, signedIn, signOut } = useUserData();

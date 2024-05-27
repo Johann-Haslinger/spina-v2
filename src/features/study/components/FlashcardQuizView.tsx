@@ -83,7 +83,13 @@ const useFlashcardQuizEntities = () => {
         setSelectedFlashcardEntities(allFlashcardEntities);
       }
     }
-  }, [selectedFlashcardGroupId, selectedSubtopicId, bookmarkedFlashcardGroupEntities, isBookmarkedQuiz, allFlashcardEntities.length]);
+  }, [
+    selectedFlashcardGroupId,
+    selectedSubtopicId,
+    bookmarkedFlashcardGroupEntities,
+    isBookmarkedQuiz,
+    allFlashcardEntities.length,
+  ]);
 
   return selectedFlashcardEntities;
 };
@@ -110,7 +116,6 @@ const StyledProgressBar = styled.div<{ width?: number; backgroundColor: string }
   ${tw`transition-all bg-white  h-1 rounded-full`}
   width: ${(props) => props.width || 1}%;
   background-color: ${(props) => props.backgroundColor};
-  
 `;
 
 const StyledFlashcardsStatusWrapper = styled.div`
@@ -138,7 +143,7 @@ const formatElapsedTime = (timeInSeconds: number) => {
 
 const FlashcardQuizView = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const { backgroundColor } = useSelectedSchoolSubjectColor();
+  const { backgroundColor, accentColor } = useSelectedSchoolSubjectColor();
   const isVisible = useIsAnyStoryCurrent([
     Stories.OBSERVING_FLASHCARD_QUIZ_STORY,
     Stories.OBSERVING_BOOKMARKED_FLASHCARD_GROUP_QUIZ_STORY,
@@ -208,7 +213,7 @@ const FlashcardQuizView = () => {
   };
 
   return (
-    <View backgroundColor={backgroundColor + "95"} overlaySidebar visible={isVisible}>
+    <View backgroundColor={backgroundColor} overlaySidebar visible={isVisible}>
       <StyledStatusBarWrapper>
         <FlexBox>
           <StyledBackButtonWrapper onClick={handleBackButtonClick}>
@@ -223,7 +228,7 @@ const FlashcardQuizView = () => {
         </FlexBox>
         <StyledProgressBarWrapper>
           <StyledProgressBar
-            backgroundColor={backgroundColor}
+            backgroundColor={accentColor}
             width={((currentFlashcardIndex || 0) / (flashcardEntities.length || 1)) * 100 + 1}
           />
         </StyledProgressBarWrapper>
@@ -369,7 +374,7 @@ const FlashcardCell = (props: {
   const isCurrent = currentFlashcardIndex === flashcardIndex;
   const question = flashcardEntity.get(QuestionFacet)?.props.question;
   const answer = flashcardEntity.get(AnswerFacet)?.props.answer;
-  const { backgroundColor } = useSelectedSchoolSubjectColor();
+  const { accentColor } = useSelectedSchoolSubjectColor();
 
   useEffect(() => {
     if (isCurrent) {
@@ -420,9 +425,9 @@ const FlashcardCell = (props: {
             >
               <StyledFlashcardWrapper>
                 {isFlipped ? (
-                  <StyledAnswerText color={backgroundColor}>{answer}</StyledAnswerText>
+                  <StyledAnswerText color={accentColor}>{answer}</StyledAnswerText>
                 ) : (
-                  <StyledQuestionText color={backgroundColor}>{question}</StyledQuestionText>
+                  <StyledQuestionText color={accentColor}>{question}</StyledQuestionText>
                 )}
               </StyledFlashcardWrapper>
             </motion.div>

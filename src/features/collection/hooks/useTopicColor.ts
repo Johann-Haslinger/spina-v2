@@ -17,6 +17,6 @@ export const useTopicColor = (topicEntity: Entity) => {
     const colorItem = COLOR_ITEMS[orderIndex! % COLOR_ITEMS.length];
     return colorItem;
   } else {
-    return { color: "white", backgroundColor: "blue" };
+    return { color: "white", backgroundColor: "blue", accentColor: "blue" };
   }
 };

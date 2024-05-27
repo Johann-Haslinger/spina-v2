@@ -6,13 +6,13 @@ import { useSelectedSchoolSubjectColor } from "../../hooks/useSelectedSchoolSubj
 
 const NoteCell = (props: TitleProps & EntityProps) => {
   const { title, entity } = props;
-  const { backgroundColor } = useSelectedSchoolSubjectColor();
+  const { accentColor } = useSelectedSchoolSubjectColor();
 
   const openNote = () => {
     entity.addTag(Tags.SELECTED);
   };
 
-  return <NoteThumbNail onClick={openNote} color={backgroundColor} title={title} />;
+  return <NoteThumbNail onClick={openNote} color={accentColor} title={title} />;
 };
 
 export default NoteCell;
