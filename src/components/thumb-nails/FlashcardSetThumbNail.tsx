@@ -39,7 +39,7 @@ const FlashcardSetThumbNail = (props: { color: string; title: string; onClick?: 
       <CardWrapper>
         {Array.from({ length: 4 }, (_, index) => index + 1).map((_, idx) => (
           <CardItem key={idx}>
-            <StyledCardContent color={color}>
+            <StyledCardContent color={ (idx == 1 || idx == 2 )? color : color  + "95" }>
               {/* {[1, 2, 3, 4].map((_, idx) => (
                 <CardDot key={idx} style={{ backgroundColor: color }} />
               ))} */}

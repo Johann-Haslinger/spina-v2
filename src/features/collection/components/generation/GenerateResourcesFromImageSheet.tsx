@@ -19,6 +19,7 @@ import { addNote } from "../../../../functions/addNote";
 import { addPodcast } from "../../../../functions/addPodcast";
 import { addSubtopic } from "../../../../functions/addSubtopic";
 import { useUserData } from "../../../../hooks/useUserData";
+import supabaseClient from "../../../../lib/supabase";
 import { getBlockEntitiesFromText } from "../../../blockeditor/functions/getBlockEntitiesFromString";
 import { useSelectedTopic } from "../../hooks/useSelectedTopic";
 import PreviewFlashcard from "../flashcard-sets/PreviewFlashcard";
@@ -107,8 +108,6 @@ const GenerateResourcesFromImageSheet = () => {
   const [imagePromptEntity] = useEntity((e) => e.has(AdditionalTags.GENERATE_FROM_IMAGE_PROMPT));
   const imageSrc = imagePromptEntity?.get(SourceFacet)?.props.source;
 
-  console.log(imageSrc);
-
   const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_COLLECTION_STORY);
 
   useEffect(() => {
@@ -124,7 +123,7 @@ const GenerateResourcesFromImageSheet = () => {
         },
       ]);
     }
-  }, [isTypingAnimationPlaying, conversation]);
+  }, [isTypingAnimationPlaying, conversation, imageSrc]);
 
   const handleSelectGenerateFlashcardsFromImageOption = async () => {
     setGenerationState(GenerationState.GENERATING_FLASHCARDS);
@@ -174,11 +173,40 @@ const GenerateResourcesFromImageSheet = () => {
   };
 
   const handleSelectGenerateNoteFromImageOption = async () => {
+    const session = await supabaseClient.auth.getSession();
+
     setGenerationState(GenerationState.GENERATING_NOTE);
     setSuggestions([]);
-    // const { title: newTitel, text } = await generateNoteFromImage(imageSrc);
-    const newTitel = "hallo";
-    const text = dummyText;
+    if (false) {
+      const { data: noteData, error } = await supabaseClient.functions.invoke("generate-note-from-image", {
+        headers: {
+          Authorization: `Bearer ${session.data.session?.access_token}`,
+        },
+        body: { base64_image: imageSrc },
+      });
+      const note = JSON.parse(noteData);
+
+      console.log(note);
+
+      if (error) {
+        console.error("Error generating completion:", error.message);
+      }
+    }
+
+    const newTitel = "halo";
+    const text = `
+    ### Geologische Dynamik: Die unsichtbaren Kräfte der Erde <b>Endogene Kräfte</b> <br/><br/>
+    <i>(aus dem Erdinneren wirkend)</i> <br/><br/>
+    
+    <u>Ursache:</u> Ströme im Erdinneren, Bewegung (Driften) der Erdplatten <br/><br/>
+    
+    - <i>Erdbeben</i> <br/><br/>
+    - <i>Vulkanismus</i> <br/><br/>
+    - <i>Gebirgsbildung (Orogenese)</i>
+    `;
+
+    console.log(newTitel, text);
+
     setTitle(newTitel);
     setNote(text);
 
@@ -231,13 +259,64 @@ const GenerateResourcesFromImageSheet = () => {
   };
 
   const handleSelectGenerateFlashcardsOption = async (hasGeneratedPodcast: boolean, text: string) => {
+    // const session = await supabaseClient.auth.getSession();
+
     setSuggestions([]);
     setIsTypingAnimationPlaying(true);
     setTimeout(() => {
       setGenerationState(GenerationState.GENERATING_FLASHCARDS);
     }, 200);
 
-    // const generatedFlashcards = await generateFlashCards(text);
+    // const { data: flashcardsData, error } = await supabaseClient.functions.invoke("generate-flashcards", {
+    //   headers: {
+    //     Authorization: `Bearer ${session.data.session?.access_token}`,
+    //   },
+    //   body: { text: text },
+    // });
+
+    // console.log(flashcardsData);
+
+    // const flashcardsData = ```json
+    // {
+    //   "cards": [
+    //     {
+    //       "question": "Was versteht man unter endogenen Kräften?",
+    //       "answer": "Endogene Kräfte sind geologische Prozesse, die aus dem Erdinneren wirken."
+    //     },
+    //     {
+    //       "question": "Was ist die Ursache für endogene Kräfte?",
+    //       "answer": "Die Ursache für endogene Kräfte sind Ströme im Erdinneren und die Bewegung (Driften) der Erdplatten."
+    //     },
+    //     {
+    //       "question": "Welche geologischen Ereignisse werden durch endogene Kräfte verursacht?",
+    //       "answer": "Endogene Kräfte verursachen Erdbeben, Vulkanismus und Gebirgsbildung (Orogenese)."
+    //     },
+    //     {
+    //       "question": "Was bewirken Ströme im Erdinneren und die Bewegung der Erdplatten?",
+    //       "answer": "Sie verursachen Erdbeben, Vulkanismus und die Gebirgsbildung (Orogenese)."
+    //     },
+    //     {
+    //       "question": "Welches geologische Ereignis wird durch die Bewegung der Erdplatten ausgelöst?",
+    //       "answer": "Die Bewegung der Erdplatten kann Erdbeben hervorrufen."
+    //     },
+    //     {
+    //       "question": "Was ist Vulkanismus?",
+    //       "answer": "Vulkanismus ist ein geologisches Phänomen, das durch endogene Kräfte ausgelöst wird und zur Entstehung von Vulkanen führt."
+    //     },
+    //     {
+    //       "question": "Was versteht man unter Gebirgsbildung (Orogenese)?",
+    //       "answer": "Gebirgsbildung (Orogenese) ist der Prozess der Entstehung von Gebirgen, der durch endogene Kräfte verursacht wird."
+    //     }
+    //   ]
+    // }
+    // ```;
+
+    // const generatedFlashcards: { answer: string; question: string }[] = JSON.parse(flashcardsData.replace("`", ""));
+
+    // if (error) {
+    //   console.error("Error generating completion:", error.message);
+    // }
+
     const generatedFlashcards = dummyFlashcards;
 
     if (generatedFlashcards) {

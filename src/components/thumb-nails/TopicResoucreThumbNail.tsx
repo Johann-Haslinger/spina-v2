@@ -15,7 +15,7 @@ const StyledTopictCellContainer = styled.div`
 
 const StyledTopictCellItem = styled.div<{ backgroundColor: string }>`
   ${tw`p-2 w-full text-3xl  flex justify-center items-center rounded-md  h-full`}
-  background-color: ${({ backgroundColor }) => backgroundColor};
+  background-color: ${({ backgroundColor }) => backgroundColor + "95"};
 `;
 
 const StyledTopictCellTitle = styled.p`

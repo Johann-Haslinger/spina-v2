@@ -21,13 +21,17 @@ const useImageSelector = () => {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64 = reader.result as string;
+        const newImagePromptEntity = new Entity();
+        lsc.engine.addEntity(newImagePromptEntity);
+        newImagePromptEntity.add(new SourceFacet({ source: base64 }));
+        newImagePromptEntity.add(AdditionalTags.GENERATE_FROM_IMAGE_PROMPT);
 
-      const newImagePromptEntity = new Entity();
-      lsc.engine.addEntity(newImagePromptEntity);
-      newImagePromptEntity.add(new SourceFacet({ source: URL.createObjectURL(file) }));
-      newImagePromptEntity.add(AdditionalTags.GENERATE_FROM_IMAGE_PROMPT);
-
-      lsc.stories.transitTo(Stories.GENERATING_RESOURCES_FROM_IMAGE);
+        lsc.stories.transitTo(Stories.GENERATING_RESOURCES_FROM_IMAGE);
+      };
+      reader.readAsDataURL(file);
     }
   };
 
@@ -55,7 +59,6 @@ const AddResourceToTopicSheet = () => {
   const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_TOPIC_STORY);
   const openAddFlashcardsSheet = () => lsc.stories.transitTo(Stories.ADDING_FLASHCARD_SET_STORY);
   const openAddHomeworkSheet = () => lsc.stories.transitTo(Stories.ADDING_HOMEWORK_STORY);
-
 
   const addNote = async () => {
     if (selectedTopicId) {

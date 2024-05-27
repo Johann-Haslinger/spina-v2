@@ -104,7 +104,7 @@ const StyledTalkingModeButton = styled.div`
 `;
 
 const StyledProgressBarWrapper = styled.div`
-  ${tw` dark:bg-seconderyDark bg-white bg-opacity-50  overflow-hidden mb-4 h-fit w-full  rounded-full `}
+  ${tw` dark:bg-seconderyDark bg-white overflow-hidden mb-4 h-fit w-full  rounded-full `}
 `;
 const StyledProgressBar = styled.div<{ width?: number; backgroundColor: string }>`
   ${tw`transition-all bg-white  h-1 rounded-full`}
@@ -332,7 +332,7 @@ const StyledFlashcardCellContainer = styled.div`
 `;
 
 const StyledFlashcardWrapper = styled.div`
-  ${tw`bg-tertiary mx-auto pb-12  cursor-pointer flex items-center  w-11/12 md:w-8/12 lg:w-1/2 h-60 dark:bg-tertiaryDark  p-4 rounded-2xl dark:shadow-md`}
+  ${tw`bg-white mx-auto pb-12  cursor-pointer flex items-center  w-11/12 md:w-8/12 lg:w-1/2 h-60 dark:bg-tertiaryDark  p-4 rounded-2xl dark:shadow-md`}
 `;
 
 const StyledQuestionText = styled.div<{ color: string }>`

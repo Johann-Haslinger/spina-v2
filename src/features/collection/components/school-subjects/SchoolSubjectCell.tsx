@@ -6,7 +6,6 @@ import { TitleProps } from "../../../../app/additionalFacets";
 import { useSchoolSubjectColors } from "../../../../hooks/useSchoolSubjectColors";
 import { useAppState } from "../../hooks/useAppState";
 
-
 // const StyledCellWrapper = styled.div<{
 //   darkMode: boolean;
 //   backgroundColor: string;
@@ -16,7 +15,6 @@ import { useAppState } from "../../hooks/useAppState";
 //   color: ${({ color }) =>  color};
 //   background-color: ${({ color, darkMode, backgroundColor }) => darkMode ? backgroundColor : color + "75"} ;
 // `;
-
 
 const StyledCellWrapper = styled.div<{
   backgroundColor: string;

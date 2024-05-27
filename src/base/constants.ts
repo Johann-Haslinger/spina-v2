@@ -35,41 +35,196 @@ export const NAV_LINKS = [
 export const COLORS = ["#F4CF54", "#00965F", "#0B86D1", "#B9A0FF", "#F4BAB5", "#EE7A2C", "#446DFF"];
 
 export const COLOR_ITEMS: { color: string; backgroundColor: string, name?: string }[] = [
-  {
-    color: "#EE7A2C",
-    backgroundColor: "#F4CF54",
-    name: "orange"
+   {
+    color: "#EF9D4A",
+    backgroundColor: "#397A45",
+    name: "FF7F3B"
   },
   {
-    color: "#B9A0FF",
-    backgroundColor: "#00965F",
+    color: "#6D8FD9",
+    backgroundColor: "#A3CB63",
     name: "violet"
   },
   {
-    color: "#F4BAB5",
-    backgroundColor: "#0B86D1",
+    color: "#364893",
+    backgroundColor: "#6EBED9",
     name: "lavender"
   },
   {
-    color: "#00965F",
-    backgroundColor: "#B9A0FF",
+    color: "#B9DA87",
+    backgroundColor: "#668FE8",
     name: "green"
   },
   {
-    color: "#0B86D1",
-    backgroundColor: "#F4BAB5",
+    color: "#397A45",
+    backgroundColor: "#EF9D4A",
     name: "blue"
   },
   {
-    color: "#B9A0FF",
-    backgroundColor: "#446DFF",
+    color: "#E76542",
+    backgroundColor: "#FFCC00",
     name: "violet"
   },
   {
-    color: "#F4CF54",
-    backgroundColor: "#EE7A2C",
+    color: "#F3A487",
+    backgroundColor: "#BF3039",
     name: "yellow"
   },
+  {
+    color: "#FFCC00",
+    backgroundColor: "#E76542",
+    name: "violet"
+  },
+  {
+    color: "#FFCC00",
+    backgroundColor: "#039FC4",
+    name: "yellow"
+  },
+
+  {
+    color: "#6EBED9",
+    backgroundColor: "#364893",
+    name: "yellow"
+  },
+
+  
+  // {
+  //   color: "#FF7F3B",
+  //   backgroundColor: "#F6D143",
+  //   name: "FF7F3B"
+  // },
+  // {
+  //   color: "#FFEE8B",
+  //   backgroundColor: "#EC76CB",
+  //   name: "violet"
+  // },
+  // {
+  //   color: "#F6D143",
+  //   backgroundColor: "#FF7F3B",
+  //   name: "lavender"
+  // },
+  // {
+  //   color: "#797AFF",
+  //   backgroundColor: "#C4E7E1",
+  //   name: "green"
+  // },
+  // {
+  //   color: "#C4E7E1",
+  //   backgroundColor: "#797AFF",
+  //   name: "blue"
+  // },
+  // {
+  //   color: "#C8C8FF",
+  //   backgroundColor: "#1C8493",
+  //   name: "violet"
+  // },
+  // {
+  //   color: "#8547F0",
+  //   backgroundColor: "#FFEE8B",
+  //   name: "yellow"
+  // },
+  // {
+  //   color: "#FFEE8B",
+  //   backgroundColor: "#8547F0",
+  //   name: "violet"
+  // },
+  // {
+  //   color: "#E5D5CA",
+  //   backgroundColor: "#608AFF",
+  //   name: "yellow"
+  // },
+  // {
+  //   color: "#1C8493",
+  //   backgroundColor: "#C8C8FF",
+  //   name: "yellow"
+  // },
+
+
+
+  // {
+  //   color: "#EE7A2C",
+  //   backgroundColor: "#B9DA87",
+  //   name: "orange"
+  // },
+  // {
+  //   color: "#B9A0FF",
+  //   backgroundColor: "#039FC4",
+  //   name: "violet"
+  // },
+  // {
+  //   color: "#F4BAB5",
+  //   backgroundColor: "#484DAB",
+  //   name: "lavender"
+  // },
+  // {
+  //   color: "#00965F",
+  //   backgroundColor: "#97A3F7",
+  //   name: "green"
+  // },
+  // {
+  //   color: "#0B86D1",
+  //   backgroundColor: "#EF9D4A",
+  //   name: "blue"
+  // },
+  // {
+  //   color: "#B9A0FF",
+  //   backgroundColor: "#FE9690",
+  //   name: "violet"
+  // },
+  // {
+  //   color: "#F4CF54",
+  //   backgroundColor: "#32ADFF",
+  //   name: "yellow"
+  // },
+  // {
+  //   color: "#B9A0FF",
+  //   backgroundColor: "#007AFF",
+  //   name: "violet"
+  // },
+  // {
+  //   color: "#F4CF54",
+  //   backgroundColor: "#B97BD9",
+  //   name: "yellow"
+  // },
+
+    // original
+
+  // {
+  //   color: "#EE7A2C",
+  //   backgroundColor: "#F4CF54",
+  //   name: "orange"
+  // },
+  // {
+  //   color: "#B9A0FF",
+  //   backgroundColor: "#00965F",
+  //   name: "violet"
+  // },
+  // {
+  //   color: "#F4BAB5",
+  //   backgroundColor: "#0B86D1",
+  //   name: "lavender"
+  // },
+  // {
+  //   color: "#00965F",
+  //   backgroundColor: "#B9A0FF",
+  //   name: "green"
+  // },
+  // {
+  //   color: "#0B86D1",
+  //   backgroundColor: "#F4BAB5",
+  //   name: "blue"
+  // },
+  // {
+  //   color: "#B9A0FF",
+  //   backgroundColor: "#446DFF",
+  //   name: "violet"
+  // },
+  // {
+  //   color: "#F4CF54",
+  //   backgroundColor: "#EE7A2C",
+  //   name: "yellow"
+  // },
+
   // { color: '#FF3B30', name: 'Red', backgroundColor: '#FFB9B6' },
   // { color: '#FF9500', name: 'Orange', backgroundColor: '#FFD3A6' },
   // { color: '#FFCC00', name: 'Yellow', backgroundColor: '#FFE6A6' },

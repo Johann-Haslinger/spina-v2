@@ -38,7 +38,7 @@ const NoteThumbNail = (props: {
     <StyledNoteCellWrapper onClick={onClick}>
       <StyledNoteCellContainer>
         {[1, 2].map((cellIndex) => (
-          <StyledNoteCellItem key={cellIndex} backgroundColor={color}>
+          <StyledNoteCellItem key={cellIndex} backgroundColor={cellIndex == 2 ? color : color +  "95"}>
             {/* {[0, 1, 2, 3, 4, 5, 6].map((lineIndex) => (
               <StyledNoteCellLine
                 key={lineIndex}

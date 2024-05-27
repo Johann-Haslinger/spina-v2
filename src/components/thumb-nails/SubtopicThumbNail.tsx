@@ -13,8 +13,8 @@ const StyledSubtopicCellContainer = styled.div`
 
 const StyledSubtopicCellItem = styled.div<{ backgroundColor: string }>`
   ${tw`p-2 w-1/2  pt-4 rounded-md  h-full`}
-  background-color: ${({ backgroundColor }) => backgroundColor};
-`;
+  background-color: ${({ backgroundColor }) => backgroundColor + "95"};
+`; 
 
 const StyledSubtopicCellTitle = styled.p`
   ${tw`mt-2 text-sm   line-clamp-2  dark:text-primaryTextDark `}
