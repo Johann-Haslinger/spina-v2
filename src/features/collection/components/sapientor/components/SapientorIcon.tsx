@@ -41,8 +41,6 @@ const useQuickChat = () => {
       setQuickChatVisible(false);
       setChatSheetVisible(false);
 
-      console.log("invisible");
-
       setTimeout(() => {
         [...promptEntities, ...messageEntities].forEach((entity) => {
           lsc.engine.removeEntity(entity);

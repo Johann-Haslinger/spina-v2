@@ -15,7 +15,6 @@ const InitializeBlockeditorSystem = (props: { blockeditorId: string; initinalOpe
         lsc.engine.removeEntity(entity);
       });
 
-      console.log("initializeBlockeditor", blockeditorId);
       const newBlockeditorEntity = new Entity();
       lsc.engine.addEntity(newBlockeditorEntity);
       newBlockeditorEntity.add(new IdentifierFacet({ guid: blockeditorId }));

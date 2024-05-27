@@ -42,18 +42,6 @@ const SapientorConversationMessage = (props: {
   const { message, onWritingAnimationPlayed, isLoading } = props;
   const [additionalContent, setAdditionalContent] = useState<ReactNode>(null);
 
-  // useEffect(() => {
-  //   console.log('flashcards:', flashcards);
-
-  //   if (flashcards.length > 0) {
-  //     setAdditionalContent(<Fragment>
-  //       {flashcards.map((flashcard, index) => (
-  //         <PreviewFlashcard updateFlashcard={() => { }} flashcard={flashcard} key={index} />
-  //       ))}
-  //     </Fragment>)
-  //   }
-  // }, [flashcards]);
-
   useEffect(() => {
     setTimeout(() => {
       setAdditionalContent(message.specialContent);

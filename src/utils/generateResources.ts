@@ -27,8 +27,6 @@ export const generateFlashCards = async (prompt: string): Promise<{ question: st
   const completion = await getJSONCompletion(generateFlashCardsPrompt);
   const flashcards = JSON.parse(completion).cards;
 
-  console.log("generated flashcards", flashcards);
-
   return flashcards;
 };
 
@@ -37,8 +35,6 @@ export const generateImprovedText = async (textToImprove: string): Promise<strin
   " ${textToImprove}"`;
 
   const improvedText = await getCompletion(improveTextPrompt);
-
-  console.log("improved text", improvedText);
 
   return improvedText;
 };

@@ -10,7 +10,6 @@ const UpdateBlockStateSystem = () => {
   useEffect(() => {
     if (blockeditorState == "view" || blockeditorState == "create") {
       blockEntities.forEach((entity) => entity.remove(Tags.SELECTED));
-      // blockEntities.filter((e) => e.has(AdditionalTags.FOCUSED)).forEach((entity) => entity.remove(AdditionalTags.FOCUSED));
     }
   }, [blockeditorState]);
 

@@ -31,8 +31,6 @@ const GenerateImprovedTextSheet = () => {
   useEffect(() => {
     const handleGenerateImprovedText = async () => {
       setIsGenerating(true);
-      console.log("textToImprove", visibleText);
-
       if (visibleText === "") {
         setGeneratedText("Bitte füge erst Text hinzu, um ihn zu verbessern.");
         setIsGenerating(false);

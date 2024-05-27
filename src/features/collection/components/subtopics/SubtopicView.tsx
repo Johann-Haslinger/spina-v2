@@ -73,7 +73,6 @@ const SubtopicView = (props: TitleProps & EntityProps & IdentifierProps) => {
   const openAddFlashcardsSheet = () => lsc.stories.transitTo(Stories.ADDING_FLASHCARDS_STORY);
   const openFlashcardQuizView = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_QUIZ_STORY);
   const openGeneratePodcastSheet = () => lsc.stories.transitTo(Stories.GENERATING_PODCAST_STORY);
-  // const openGenerateLernVideoSheet = () => lsc.stories.transitTo(Stories.GENERATING_LEARN_VIDEO_STORY);
   const openAddResourceToLerningGroupSheet = () => lsc.stories.transitTo(Stories.ADDING_RESOURCE_TO_LEARNING_GROUP_STORY);
 
 

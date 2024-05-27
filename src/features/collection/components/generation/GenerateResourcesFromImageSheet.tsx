@@ -94,7 +94,7 @@ const GenerateResourcesFromImageSheet = () => {
   const [generationState, setGenerationState] = useState<GenerationState | undefined>(undefined);
   const [note, setNote] = useState<string | undefined>(undefined);
   const [flashcards, setFlashcards] = useState<{ question: string; answer: string }[]>([]);
-  const [podcast, setPodcast] = useState<Podcast | undefined>(undefined);
+  const [_, setPodcast] = useState<Podcast | undefined>(undefined);
   const [readyToSave, setReadyToSave] = useState(false);
   const [title, setTitle] = useState("");
   const [displayEndMessage, setDisplayEndMessage] = useState(false);
@@ -349,16 +349,16 @@ const GenerateResourcesFromImageSheet = () => {
   const handleGeneratePodcast = async (generatedFlashcards: boolean, text: string) => {
     setGenerationState(GenerationState.GENERATING_PODCAST);
     setSuggestions([]);
-    console.log("podcast", podcast);
+  
     // TODO: edge function for this
     // const generatinPodcastTranscriptPrompt = `
     // Erstelle bitte einen Podcast, der auf dem folgenden Text basiert, um die Inhalte des Textes zu lernen:
     //  "${note}".   Der Podcast sollte informativ und leicht verständlich sein, um das Lernen zu erleichtern. Außerdem soll es Spaß machen, den Podcast zu hören. Sprachlich soll der Podcast locker gestaltet sein. Du bist der Moderator des Podcasts. Sprich den Zuhörer direkt und mit du an. Der Podcast sollte eine Länge von 2-3 Minuten haben.
     // `;
-
     // const transcript = await getCompletion(generatinPodcastTranscriptPrompt);
-
-    // const base64Audio = await getAudioFromText(transcript);
+    // const base64Audio = await getAudioFromText(transcript)
+    
+    ;
     const transcript = "";
     const base64Audio = "";
 
@@ -446,17 +446,8 @@ const GenerateResourcesFromImageSheet = () => {
 
         addFlashcards(lsc, flashcardEntities, userId);
 
-        // if (podcast?.base64Audio !== "") {
-        //   const newPodcastEntity = new Entity();
-        //   newPodcastEntity.add(new IdentifierFacet({ guid: v4() }));
-        //   newPodcastEntity.add(new SourceFacet({ source: podcast?.base64Audio || "" }));
-        //   newPodcastEntity.add(new ParentFacet({ parentId: subTopicId }));
-        //   newPodcastEntity.add(new TitleFacet({ title: title }));
-        //   newPodcastEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
-        //   newPodcastEntity.add(DataTypes.PODCAST);
-
-        //   addPodcast(lsc, newPodcastEntity, userId);
-        // }
+       
+        // TODO: addd podcast to supabase
 
         const newBlockEntites = getBlockEntitiesFromText(note, subTopicId);
         addBlocks(lsc, newBlockEntites, userId);
@@ -558,49 +549,3 @@ const GenerateResourcesFromImageSheet = () => {
 
 export default GenerateResourcesFromImageSheet;
 
-// TODO: edge function for this
-// const generateNoteFromImage = async (imageSrc: File | null): Promise<{ title: string; text: string }> => {
-//   if (imageSrc) {
-//     console.log(imageSrc);
-
-//     // const output = await getVisionCompletion(
-//     //   `Schreibe bitte basierend auf dem folgenden Bild eine Erklärung des in ihm behandelten Themas, die gut nachvollziehbar ist. Formatieren den Text und nutze dafür <b> für Unterüberschriften, <i> für Fachbegriffe, <u> für wichtige Stellen und <br/><br/> für den Abstand zwischen Absätzen. Erzeuge eine neue Zeile mit <br/><br/>, anstelle von \n.
-//     //   `,
-//     //   imageSrc,
-//     // );
-//     const output = dummyText;
-
-//     // const title = await getCompletion(
-//     //   `Schreibe passened zu diesem Text eine Kurze Überschrift: ${output} `,
-//     // );
-
-//     const title = "hallo";
-
-//     return { title: title, text: output };
-//   }
-//   return { title: "Kein Bild", text: "" };
-// };
-
-// // TODO: edge function for this
-// const handleFlashcardsFromImage = async (
-//   imageSrc: File | null
-// ): Promise<{
-//   flashcards: { question: string; answer: string }[];
-//   title: string;
-// }> => {
-//   if (imageSrc) {
-//     const generatedFlashcards = dummyFlashcards;
-//     const title = "hallo";
-//     // const output = await getVisionCompletion(
-//     //   ' Schreibe genau das was auf dem folgenden Blatt steht auf. ',
-//     //   imageSrc,
-//     // );
-//     // const generatedFlashcards = await generateFlashCards(output);
-//     // const title = await getCompletion(
-//     //   `Schreibe passened zu diesem Text eine Kurze Überschrift: ${output} `,
-//     // );
-
-//     return { flashcards: generatedFlashcards, title };
-//   }
-//   return { flashcards: [], title: "Kein Bild" };
-// };

@@ -25,7 +25,6 @@ const createBase64Video = (photoUrl: string, audioUrl: string, width: number, he
       const img = new Image();
       img.onload = () => {
         ctx.drawImage(img, 0, 0, width, height);
-        console.log("ctx:", ctx);
         const base64Image = canvas.toDataURL("image/jpeg");
 
         const video = document.createElement("video");
@@ -43,7 +42,7 @@ const createBase64Video = (photoUrl: string, audioUrl: string, width: number, he
 
         audio.oncanplay = () => {
           const stream = canvas.captureStream();
-          const audioStream = (audio as any).captureStream(); // Cast audio to any to access captureStream() method
+          const audioStream = (audio as any).captureStream();
 
           stream.addTrack(audioStream.getAudioTracks()[0]);
 
@@ -63,7 +62,6 @@ const createBase64Video = (photoUrl: string, audioUrl: string, width: number, he
       };
 
       img.src = photoUrl;
-      console.log("Photo URL:", img.src);
     } else {
       reject(new Error("Canvas context is null"));
     }
@@ -88,7 +86,6 @@ const LernvideoView = (props: TitleProps & DateAddedProps & EntityProps & Identi
       audio: dummyBase64Audio,
       image: dummyBase64Image,
     },
-    // Weitere Objekte hinzufügen...
   ];
 
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -103,7 +100,6 @@ const LernvideoView = (props: TitleProps & DateAddedProps & EntityProps & Identi
           .then((videoUrl) => {
             if (videoRef.current) {
               videoRef.current.src = videoUrl;
-              console.log("Video URL:", videoUrl);
             }
           })
           .catch((error) => {

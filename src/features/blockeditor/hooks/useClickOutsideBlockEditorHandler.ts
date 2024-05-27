@@ -38,7 +38,6 @@ export const useClickOutsideBlockEditorHandler = () => {
         newBlockEntity.add(DataTypes.BLOCK);
 
         addBlock(lsc, newBlockEntity, userId);
-        console.log("add block", newBlockEntity);
       }
     };
     document.addEventListener("mousedown", handleClick);

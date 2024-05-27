@@ -66,8 +66,6 @@ const InitializeRelatedResourcesSystem = (props: { relatedResources: Resource[] 
   const { relatedResources } = props;
 
   useEffect(() => {
-    console.log("relatedResources", relatedResources);
-
     relatedResources.forEach((r) => {
       const isExisting = lsc.engine.entities.some(
         (e) => e.has(IdentifierFacet) && e.get(IdentifierFacet)?.props.guid === r.id
@@ -80,8 +78,6 @@ const InitializeRelatedResourcesSystem = (props: { relatedResources: Resource[] 
         newResoucreEntity.add(new TitleFacet({ title: r.title }));
         newResoucreEntity.add(r.resourceType as DataTypes);
         newResoucreEntity.add(AdditionalTags.RELATED_THREAD_RESOURCE);
-
-        console.log("newResoucreEntity", newResoucreEntity);
       }
     });
   }, [lsc.engine, relatedResources, relatedResources.length]);
@@ -129,8 +125,6 @@ const RelatedResourcesInfo = (props: { relatedResources: Resource[] }) => {
 
 const ChatMessage = (props: TextProps & MessageRoleProps & RelatedResourcesProps) => {
   const { text, role, relatedResources = [] } = props;
-
-  console.log("relatedResources", relatedResources);
 
   return (
     <div>

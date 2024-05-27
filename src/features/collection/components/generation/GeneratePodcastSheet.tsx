@@ -73,7 +73,6 @@ const GeneratePodcastSheet = () => {
 
       const transcript = await getCompletion(generatinPodcastTranscriptPrompt);
       const audioBase64 = await getAudioFromText(transcript);
-      // const audioBase64 = dummyBase64Audio;
 
       if (audioBase64) {
         const newPodcastId = v4();

@@ -124,7 +124,6 @@ const LoadSubtopicResourcesSystem = () => {
           subtopicText = dummyText;
         } else if (shouldFetchFromSupabase) {
           const isOldNoteVersion = shouldFetchFromSupabase && (await fetchNoteVersion(selectedSubtopicId));
-          console.log("isOldNoteVersion", isOldNoteVersion);
 
           if (isOldNoteVersion) {
             const { data: subtopicTextData, error } = await supabaseClient

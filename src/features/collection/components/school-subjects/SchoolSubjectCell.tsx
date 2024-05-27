@@ -6,16 +6,6 @@ import { TitleProps } from "../../../../app/additionalFacets";
 import { useSchoolSubjectColors } from "../../../../hooks/useSchoolSubjectColors";
 import { useAppState } from "../../hooks/useAppState";
 
-// const StyledCellWrapper = styled.div<{
-//   darkMode: boolean;
-//   backgroundColor: string;
-//   color: string;
-// }>`
-//   ${tw` p-2.5 w-full flex     cursor-pointer  items-end  text-7xl md:hover:text-8xl md:hover:scale-105  transition-all h-40`}
-//   color: ${({ color }) =>  color};
-//   background-color: ${({ color, darkMode, backgroundColor }) => darkMode ? backgroundColor : color + "75"} ;
-// `;
-
 const StyledCellWrapper = styled.div<{
   backgroundColor: string;
   color: string;

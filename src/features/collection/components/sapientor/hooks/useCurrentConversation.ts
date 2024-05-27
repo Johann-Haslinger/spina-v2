@@ -26,8 +26,6 @@ export const useCurrentSapientorConversation = () => {
         newConversationEntity.add(AdditionalTags.SAPIENTOR_CONVERSATION);
         newConversationEntity?.add(AdditionalTags.QUIK_CHAT_VISIBLE);
         newConversationEntity.add(SupportedModels.TURBO);
-
-        console.log("visible");
       } else {
         currentConversationEntity.add(AdditionalTags.QUIK_CHAT_VISIBLE);
       }
@@ -62,6 +60,6 @@ export const useCurrentSapientorConversation = () => {
     isChatSheetVisible,
     useSapientorAssistentModel,
     setChatSheetVisible,
-    changeModel
+    changeModel,
   };
 };

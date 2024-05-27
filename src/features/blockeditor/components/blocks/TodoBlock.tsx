@@ -12,7 +12,6 @@ import BlockOutline from "./BlockOutline";
 import BlockTexteditor from "./BlockTexteditor";
 
 const useTodoClickHandler = (entity: Entity) => {
-  // const clickCountRef = useRef<number>(0);
   const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const todoState = entity.get(TodoStateFacet)?.props.todoState || 0;
   const { blockeditorState } = useCurrentBlockeditor();
@@ -31,26 +30,7 @@ const useTodoClickHandler = (entity: Entity) => {
     }
   };
 
-  const handleClick = async () => {
-    // clickCountRef.current += 1;
-
-    // if (clickCountRef.current === 1) {
-    //   updateTodoState(0);
-    //   clickTimeoutRef.current = setTimeout(() => {
-    //     if (clickCountRef.current === 1) {
-    //       updateTodoState(todoState === 2 || todoState === 1 ? 0 : 2);
-    //     }
-    //     clickCountRef.current = 0;
-    //   }, 300);
-    // } else if (clickCountRef.current === 2) {
-    //   clearTimeout(clickTimeoutRef.current!);
-    //   clickCountRef.current = 0;
-
-    //   updateTodoState(1);
-    // }
-
-    updateTodoState(todoState === 2 || todoState === 1 ? 0 : 2);
-  };
+  const handleClick = async () => updateTodoState(todoState === 2 || todoState === 1 ? 0 : 2);
 
   useEffect(() => {
     return () => {
@@ -83,7 +63,6 @@ const TodoBlock = (props: EntityProps & FloatOrderProps) => {
   const { handleClick } = useTodoClickHandler(entity);
   const [todoStateProps] = useEntityFacets(entity, TodoStateFacet);
   const todoState = todoStateProps?.todoState || 0;
-  // const todoState = entity.get(TodoStateFacet)?.props.todoState
 
   return (
     <BlockOutline index={index || 0} blockEntity={entity}>

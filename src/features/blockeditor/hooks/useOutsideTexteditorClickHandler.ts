@@ -14,7 +14,6 @@ export const useTexteditorRef = (entity: Entity) => {
 
   useEffect(() => {
     if (isPressed) {
-      console.log("isPressed", isPressed);
       entity.remove(AdditionalTags.FOCUSED);
       changeBlockeditorState(blockeditorEntity, "edit");
     }

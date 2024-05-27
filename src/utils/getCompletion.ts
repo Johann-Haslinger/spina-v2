@@ -60,8 +60,6 @@ export async function getAudioFromText(text: string): Promise<string | undefined
       return "Fehler bei der Ausführung der Funktion";
     }
 
-    console.log("AudioFromText", mp3Blob);
-
     return mp3Blob;
   } else {
     return "Benutzer muss angemeldet sein, um diese Funktion aufzurufen";

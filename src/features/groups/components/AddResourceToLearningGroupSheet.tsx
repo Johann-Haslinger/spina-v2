@@ -121,7 +121,6 @@ const SchoolSubjectRow = (props: { schoolSubject: { title: string; id: string };
   const { userId } = useUserData();
   const topics = useSchoolSubjectTopics(schoolSubjectId, isSelected);
   const { selectedFlashcardSetTitle, selectedFlashcardSetId } = useSelectedFlashcardSet();
-  // const { selectedSubtopicTitle } = useSelectedSubtopic();
   const { selectedNoteTitle } = useSelectedNote();
 
   const handleClick = () => setIsSelected(!isSelected);
@@ -207,7 +206,6 @@ const useLearningGroups = (isVisible: boolean) => {
 
   useEffect(() => {
     const loadGroupSchoolSubjects = async () => {
-      console.log("fetch learning group");
       const learningGroups = mockupData
         ? dummyLearningGroups
         : shouldFetchFromSupabase

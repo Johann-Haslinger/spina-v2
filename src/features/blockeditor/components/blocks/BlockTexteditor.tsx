@@ -182,9 +182,8 @@ const handleBackSpacePressWithText = (
   blockEntity: Entity,
   texteditorRef: RefObject<HTMLDivElement>
 ) => {
-
   return;
-  
+
   const blockText = blockEntity?.get(TextFacet)?.props.text || "";
   const higherBlock = getNextLowerOrderEntity(lsc, blockEntity);
   const higherBlockType = higherBlock?.get(BlocktypeFacet)?.props.blocktype;
@@ -259,8 +258,6 @@ const BlockTexteditor = (props: EntityProps) => {
   const { texteditorRef } = useTexteditorRef(entity);
 
   const isBlockEditable = blockeditorState === "write" || blockeditorState === "view";
-
-  // const sanitizer = dompurify.sanitize;
 
   const handleFocus = () => {
     changeBlockeditorState(blockeditorEntity, "write");

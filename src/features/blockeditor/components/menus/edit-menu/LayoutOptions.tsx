@@ -50,8 +50,7 @@ const changeSize = (lsc: ILeanScopeClient, size: SizeTypes) => {
 
   selectedBlockEntities.forEach(async (blockEntity) => {
     blockEntity.add(new ImageSizeFacet({ size: size }));
-    console.log("blockEntity", blockEntity, size);
-
+    
     const blockId = blockEntity.get(IdentifierFacet)?.props.guid;
 
     const { error } = await supabaseClient.from("blocks").update({ size: size }).eq("id", blockId);

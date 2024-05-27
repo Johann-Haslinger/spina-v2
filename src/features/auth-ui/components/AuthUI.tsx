@@ -23,18 +23,9 @@ function AuthUI() {
               },
             },
           },
-          // className: {
-          //   container: {
-          //     width: "80px",
-          //   },
-          //   button: {
-          //     width: "2px",
-
-          //   }
-          // },
         }}
         theme="light"
-        // providers={["google"]}
+    
         providers={[]}
       />
     </StyledAuthWrapper>

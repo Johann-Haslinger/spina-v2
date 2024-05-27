@@ -21,7 +21,7 @@ export async function addBlockEntitiesFromString(
   let splitRegex = /<div>|<div\s*\/?>|<br\s*\/?>|<\/div>|<li>|<\/li>|<p>|<p\s*\/?>|<\/p>/g;
 
   let contentBlocks = cleanedHtmlString.split(splitRegex).filter((text) => text.trim() !== "");
-  console.log("contentBlocks", contentBlocks);
+
   contentBlocks.forEach((content, index) => {
     const isExisting = lsc.engine.entities.some(
       (e) => e.has(DataTypes.BLOCK) && e.get(TextFacet)?.props.text === content.replace(/<[^>]+>/g, "").trim()
@@ -45,40 +45,9 @@ export async function addBlockEntitiesFromString(
       newBlockEntity.add(new ParentFacet({ parentId: parentId }));
       newBlockEntity.add(new BlocktypeFacet({ blocktype: isList ? Blocktypes.LIST : Blocktypes.TEXT }));
       newBlockEntity.add(DataTypes.BLOCK);
-
-      console.log("newBlockEntity", newBlockEntity);
+;
 
       addBlock(lsc, newBlockEntity, userId);
     }
   });
 }
-
-// export const getStringFromBlockArray = (blocks: Block[]): string => {
-//   const filteredBlocks = blocks.filter(
-//     (block) => block.type === "text" || block.type === "list" || block.type === "todo"
-//   ) as (TextBlock | ListBlock | TodoBlock)[];
-//   const markdownString = filteredBlocks
-//     .map((block) => {
-//       if (block.type === "text") {
-//         let textContent = block.content;
-//         if (block.textType === TextTypes.BOLD) {
-//           textContent = `**${textContent}**`;
-//         }
-//         return textContent;
-//       } else if (block.type === "list") {
-//         let listContent = `- ${block.content}`;
-//         if (block.textType === TextTypes.BOLD) {
-//           listContent = `**${listContent}**`;
-//         }
-//         return listContent;
-//       } else if (block.type === "todo") {
-//         let todoContent = `- [${block.isPressed ? "x" : " "}] ${block.content}`;
-//         if (block.textType === TextTypes.BOLD) {
-//           todoContent = `**${todoContent}**`;
-//         }
-//         return todoContent;
-//       }
-//     })
-//     .join("\n");
-//   return markdownString;
-// };
