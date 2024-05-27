@@ -8,6 +8,8 @@ import { DataTypes } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedTopic } from "../hooks/useSelectedTopic";
+import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
+import { displayAlertTexts } from "../../../utils/displayText";
 
 const fetchSubtopicsForSchoolSubject = async (subjectId: string) => {
   const { data: subtopics, error } = await supabaseClient
@@ -26,6 +28,7 @@ const LoadSubtopicsSystem = () => {
   const { mockupData, shouldFetchFromSupabase } = useMockupData();
   const lsc = useContext(LeanScopeClientContext);
   const { selectedTopicId } = useSelectedTopic();
+  const { selectedLanguage } = useSelectedLanguage(); 
 
   useEffect(() => {
     const initializeSubtopicEntities = async () => {
@@ -44,7 +47,7 @@ const LoadSubtopicsSystem = () => {
           if (!isExisting) {
             const topicEntity = new Entity();
             lsc.engine.addEntity(topicEntity);
-            topicEntity.add(new TitleFacet({ title: topic.name }));
+            topicEntity.add(new TitleFacet({ title: topic.name || displayAlertTexts(selectedLanguage).noTitle }));
             topicEntity.add(new IdentifierFacet({ guid: topic.id }));
             topicEntity.add(new DateAddedFacet({ dateAdded: topic.date_added }));
 

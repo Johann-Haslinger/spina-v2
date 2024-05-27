@@ -8,6 +8,8 @@ import { DataTypes } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedTopic } from "../hooks/useSelectedTopic";
+import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
+import { displayAlertTexts } from "../../../utils/displayText";
 
 const fetchNotesForTopic = async (topicId: string) => {
   const { data: notes, error } = await supabaseClient
@@ -27,6 +29,7 @@ const LoadNotesSystem = () => {
   const { mockupData, shouldFetchFromSupabase } = useMockupData();
   const lsc = useContext(LeanScopeClientContext);
   const { selectedTopicId } = useSelectedTopic();
+  const {selectedLanguage} = useSelectedLanguage()
 
   useEffect(() => {
     const initializeNoteEntities = async () => {
@@ -45,7 +48,7 @@ const LoadNotesSystem = () => {
           if (!isExisting) {
             const noteEntity = new Entity();
             lsc.engine.addEntity(noteEntity);
-            noteEntity.add(new TitleFacet({ title: note.title }));
+            noteEntity.add(new TitleFacet({ title: note.title || displayAlertTexts(selectedLanguage).noTitle }));
             noteEntity.add(new IdentifierFacet({ guid: note.id }));
             noteEntity.add(new DateAddedFacet({ dateAdded: note.date_added }));
             noteEntity.add(new ParentFacet({ parentId: selectedTopicId }));
@@ -56,7 +59,7 @@ const LoadNotesSystem = () => {
     };
 
     initializeNoteEntities();
-  }, [selectedTopicId, mockupData, shouldFetchFromSupabase]);
+  }, [selectedTopicId, mockupData, shouldFetchFromSupabase, selectedLanguage]);
 
   return null;
 };

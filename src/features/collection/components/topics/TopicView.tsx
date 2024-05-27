@@ -22,6 +22,7 @@ import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { displayActionTexts, displayAlertTexts } from "../../../../utils/displayText";
 import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
 import { sortEntitiesByDateAdded } from "../../../../utils/sortEntitiesByTime";
+import AddResourceToLearningGroupSheet from "../../../groups/components/AddResourceToLearningGroupSheet";
 import { useEntityHasChildren } from "../../hooks/useEntityHasChildren";
 import { useSelectedSchoolSubject } from "../../hooks/useSelectedSchoolSubject";
 import LoadFlashcardSetsSystem from "../../systems/LoadFlashcardSetsSystem";
@@ -31,6 +32,7 @@ import LoadSubtopicsSystem from "../../systems/LoadSubtopicsSystem";
 import AddFlashcardSetSheet from "../flashcard-sets/AddFlashcardSetSheet";
 import FlashcardSetCell from "../flashcard-sets/FlashcardSetCell";
 import FlashcardSetView from "../flashcard-sets/FlashcardSetView";
+import GenerateResourcesFromImageSheet from "../generation/GenerateResourcesFromImageSheet";
 import AddHomeworkSheet from "../homeworks/AddHomeworkSheet";
 import HomeworkCell from "../homeworks/HomeworkCell";
 import HomeworkView from "../homeworks/HomeworkView";
@@ -41,8 +43,6 @@ import SubtopicView from "../subtopics/SubtopicView";
 import AddResourceToTopicSheet from "./AddResourceToTopicSheet";
 import DeleteTopicAlert from "./DeleteTopicAlert";
 import EditTopicSheet from "./EditTopicSheet";
-import GenerateResourcesFromImageSheet from "../generation/GenerateResourcesFromImageSheet";
-import AddResourceToLearningGroupSheet from "../../../groups/components/AddResourceToLearningGroupSheet";
 
 const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -158,7 +158,6 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
       <EditTopicSheet />
       <GenerateResourcesFromImageSheet />
       <AddResourceToLearningGroupSheet />
-      
     </Fragment>
   );
 };

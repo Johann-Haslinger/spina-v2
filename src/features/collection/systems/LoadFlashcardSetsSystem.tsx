@@ -8,6 +8,8 @@ import { DataTypes } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedTopic } from "../hooks/useSelectedTopic";
+import { displayAlertTexts } from "../../../utils/displayText";
+import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 
 const fetchFlashcardSetsForTopic = async (topicId: string) => {
   const { data: flashcardSets, error } = await supabaseClient
@@ -27,6 +29,7 @@ const LoadFlashcardSetsSystem = () => {
   const { mockupData, shouldFetchFromSupabase } = useMockupData();
   const lsc = useContext(LeanScopeClientContext);
   const { selectedTopicId } = useSelectedTopic();
+  const { selectedLanguage } = useSelectedLanguage();
 
   useEffect(() => {
     const initializeFlashcardSetEntities = async () => {
@@ -34,8 +37,8 @@ const LoadFlashcardSetsSystem = () => {
         const flashcardSets = mockupData
           ? dummyFlashcardSets
           : shouldFetchFromSupabase
-          ? await fetchFlashcardSetsForTopic(selectedTopicId)
-          : [];
+            ? await fetchFlashcardSetsForTopic(selectedTopicId)
+            : [];
 
         flashcardSets.forEach((flashcardSet) => {
           const isExisting = lsc.engine.entities.some(
@@ -45,7 +48,9 @@ const LoadFlashcardSetsSystem = () => {
           if (!isExisting) {
             const noteEntity = new Entity();
             lsc.engine.addEntity(noteEntity);
-            noteEntity.add(new TitleFacet({ title: flashcardSet.flashcardSetName }));
+            noteEntity.add(
+              new TitleFacet({ title: flashcardSet.flashcardSetName || displayAlertTexts(selectedLanguage).noTitle })
+            );
             noteEntity.add(new IdentifierFacet({ guid: flashcardSet.id }));
             noteEntity.add(new DateAddedFacet({ dateAdded: flashcardSet.date_added }));
 
