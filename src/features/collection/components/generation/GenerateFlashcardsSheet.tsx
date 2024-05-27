@@ -67,7 +67,7 @@ const GenerateFlashcardsSheet = () => {
       }, 200);
     };
 
-    if (isVisible  && generatedFlashcards.length === 0) {
+    if (isVisible && generatedFlashcards.length === 0) {
       generateFlashcards();
     } else if (!isVisible) {
       setGeneratedFlashcards([]);
@@ -118,6 +118,10 @@ const GenerateFlashcardsSheet = () => {
         subtopicEntity.add(DataTypes.SUBTOPIC);
 
         addSubtopic(lsc, subtopicEntity, userId);
+
+        if (selectedNoteEntity) {
+          lsc.engine.removeEntity(selectedNoteEntity);
+        }
 
         const { error: noteError } = await supabaseClient.from(SupabaseTables.NOTES).delete().eq("id", selectedNoteId);
 
