@@ -49,7 +49,7 @@ const GroupSubtopicView = (props: TitleProps & EntityProps & IdentifierProps) =>
   return (
     <Fragment>
       <LoadGroupSubtopicResourcesSystem />
-      <InitializeBlockeditorSystem blockeditorId={guid} />
+      <InitializeBlockeditorSystem isGroupBlockeditor blockeditorId={guid} />
 
       <View visible={isVisible}>
         <Blockeditor

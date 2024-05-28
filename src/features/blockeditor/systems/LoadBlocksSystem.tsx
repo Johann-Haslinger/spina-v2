@@ -76,7 +76,7 @@ const LoadBlocksSystem = () => {
 
         blocks.forEach((block) => {
           const isExisting = lsc.engine.entities.some(
-            (e) => e.get(IdentifierFacet)?.props.guid === block.id && e.hasTag(DataTypes.BLOCK)
+            (e) => e.get(IdentifierFacet)?.props.guid === block.id && e.hasTag(isGroupBlockeditor ? DataTypes.GROUP_BLOCK : DataTypes.BLOCK)
           );
 
           if (!isExisting) {

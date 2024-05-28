@@ -20,7 +20,6 @@ import { Blocktypes, DataTypes, Stories, SupabaseTables, Texttypes } from "../..
 import { CloseButton, FlexBox, ScrollableBox, Section, SectionRow, Sheet, Spacer } from "../../../components";
 import { addGroupsBlocks as addGroupBlocks } from "../../../functions/addGroupBlocks";
 import { addGroupFlashcards } from "../../../functions/addGroupFlashcards";
-import { addGroupFlashcardSet } from "../../../functions/addGroupFlashcardSet";
 import { addGroupNote } from "../../../functions/addGroupNote";
 import { useMockupData } from "../../../hooks/useMockupData";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
@@ -29,6 +28,8 @@ import supabaseClient from "../../../lib/supabase";
 import { displayAlertTexts } from "../../../utils/displayText";
 import { useSelectedFlashcardSet } from "../../collection/hooks/useSelectedFlashcardSet";
 import { useSelectedNote } from "../../collection/hooks/useSelectedNote";
+import { useSelectedSubtopic } from "../../collection/hooks/useSelectedSubtopic";
+import { addGroupSubtopic } from "../../../functions/addGroupSubtopic";
 
 const StyledMoreButtonWrapper = styled.div`
   ${tw`text-seconderyText text-opacity-50`}
@@ -137,6 +138,7 @@ const SchoolSubjectRow = (props: { schoolSubject: { title: string; id: string };
   const topics = useSchoolSubjectTopics(schoolSubjectId, isSelected);
   const { selectedFlashcardSetTitle, selectedFlashcardSetId } = useSelectedFlashcardSet();
   const { selectedNoteTitle, selectedNoteId } = useSelectedNote();
+  const { selectedSubtopicTitle, selectedSubtopicId } = useSelectedSubtopic();
 
   const handleClick = () => setIsSelected(!isSelected);
 
@@ -146,6 +148,8 @@ const SchoolSubjectRow = (props: { schoolSubject: { title: string; id: string };
     const newResourceId = v4();
 
     if (selectedFlashcardSetTitle) {
+      // TODO: Implement addGroupFlashcardSet
+
       const newGroupFlashcardSetEntity = new Entity();
       newGroupFlashcardSetEntity.add(new IdentifierFacet({ guid: newResourceId }));
       newGroupFlashcardSetEntity.add(new TitleFacet({ title: selectedFlashcardSetTitle }));
@@ -153,7 +157,7 @@ const SchoolSubjectRow = (props: { schoolSubject: { title: string; id: string };
       newGroupFlashcardSetEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
       newGroupFlashcardSetEntity.add(DataTypes.GROUP_FLASHCARD_SET);
 
-      addGroupFlashcardSet(lsc, newGroupFlashcardSetEntity, userId, learningGroupId);
+      // addGroupFlashcardSet(lsc, newGroupFlashcardSetEntity, userId, learningGroupId);
 
       const flashcardEntites = lsc.engine.entities.filter(
         (e) => e.has(DataTypes.FLASHCARD) && e.get(ParentFacet)?.props.parentId == selectedFlashcardSetId
@@ -184,7 +188,7 @@ const SchoolSubjectRow = (props: { schoolSubject: { title: string; id: string };
       addGroupNote(lsc, newNoteEntity, userId, learningGroupId);
 
       const blockEntities = lsc.engine.entities.filter(
-        (e) => e.has(DataTypes.BLOCK) && e.get(ParentFacet)?.props.parentId == selectedNoteId 
+        (e) => e.has(DataTypes.BLOCK) && e.get(ParentFacet)?.props.parentId == selectedNoteId
       );
 
       const newGroupBlockEntities = blockEntities.map((blockEntity) => {
@@ -206,6 +210,58 @@ const SchoolSubjectRow = (props: { schoolSubject: { title: string; id: string };
       });
 
       addGroupBlocks(lsc, newGroupBlockEntities, userId, learningGroupId);
+    } else if (selectedSubtopicTitle) {
+      const newSubtopicEntity = new Entity();
+      newSubtopicEntity.add(new IdentifierFacet({ guid: newResourceId }));
+      newSubtopicEntity.add(new TitleFacet({ title: selectedSubtopicTitle }));
+      newSubtopicEntity.add(new ParentFacet({ parentId: topicId }));
+      newSubtopicEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
+      newSubtopicEntity.add(DataTypes.GROUP_SUBTOPIC);
+
+      addGroupSubtopic(lsc, newSubtopicEntity, userId, learningGroupId);
+
+      const blockEntities = lsc.engine.entities.filter(
+        (e) => e.has(DataTypes.BLOCK) && e.get(ParentFacet)?.props.parentId == selectedSubtopicId
+      );
+
+      const newGroupBlockEntities = blockEntities.map((blockEntity) => {
+        const newGroupBlockEntity = new Entity();
+        newGroupBlockEntity.add(new IdentifierFacet({ guid: v4() }));
+        newGroupBlockEntity.add(new ParentFacet({ parentId: newResourceId }));
+        newGroupBlockEntity.add(new TextFacet({ text: blockEntity.get(TextFacet)?.props.text || "" }));
+        newGroupBlockEntity.add(
+          new BlocktypeFacet({ blocktype: blockEntity.get(BlocktypeFacet)?.props.blocktype || Blocktypes.TEXT })
+        );
+        newGroupBlockEntity.add(new ImageFacet({ imageSrc: blockEntity.get(ImageFacet)?.props.imageSrc || "" }));
+        newGroupBlockEntity.add(
+          new TexttypeFacet({ texttype: blockEntity.get(TexttypeFacet)?.props.texttype || Texttypes.NORMAL })
+        );
+        newGroupBlockEntity.add(new FloatOrderFacet({ index: blockEntity.get(FloatOrderFacet)?.props.index || 0 }));
+        newGroupBlockEntity.add(DataTypes.GROUP_BLOCK);
+
+        return newGroupBlockEntity;
+      });
+
+      addGroupBlocks(lsc, newGroupBlockEntities, userId, learningGroupId);
+
+      const flashcardEntites = lsc.engine.entities.filter(
+        (e) => e.has(DataTypes.FLASHCARD) && e.get(ParentFacet)?.props.parentId == selectedSubtopicId
+      );
+
+      const newGroupFlashcardEntities = flashcardEntites.map((flashcardEntity) => {
+        const newGroupFlashcardEntity = new Entity();
+        newGroupFlashcardEntity.add(new IdentifierFacet({ guid: v4() }));
+        newGroupFlashcardEntity.add(new ParentFacet({ parentId: newResourceId }));
+        newGroupFlashcardEntity.add(
+          new QuestionFacet({ question: flashcardEntity.get(QuestionFacet)?.props.question || "" })
+        );
+        newGroupFlashcardEntity.add(new AnswerFacet({ answer: flashcardEntity.get(AnswerFacet)?.props.answer || "" }));
+        newGroupFlashcardEntity.add(DataTypes.GROUP_FLASHCARD);
+
+        return newGroupFlashcardEntity;
+      });
+
+      addGroupFlashcards(lsc, newGroupFlashcardEntities, userId, learningGroupId);
     }
 
     lsc.stories.transitTo(Stories.SUCCESS_STORY);

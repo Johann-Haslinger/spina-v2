@@ -4,16 +4,16 @@ import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
 import { AnswerFacet, QuestionFacet } from "../../../app/additionalFacets";
 import { dummyFlashcards } from "../../../base/dummy";
-import { DataTypes } from "../../../base/enums";
+import { DataTypes, SupabaseTables } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedGroupSubtopic } from "../hooks/useSelectedGroupSubtopic";
 
 const fetchFlashcardsForGroupSubtopic = async (parentId: string) => {
   const { data: flashcards, error } = await supabaseClient
-    .from("group_flashcards")
+    .from(SupabaseTables.GROUP_FLASHCARDS)
     .select("question, id, answer")
-    .eq("parentId", parentId);
+    .eq("parent_id", parentId);
 
   if (error) {
     console.error("Error fetching subtopic flashcards:", error);
@@ -37,6 +37,7 @@ const LoadGroupSubtopicResourcesSystem = () => {
             ? await fetchFlashcardsForGroupSubtopic(selectedGroupSubtopicId)
             : [];
 
+        console.log(flashcards);
         flashcards.forEach((flashcard) => {
           const isExisting = lsc.engine.entities.some(
             (e) => e.get(IdentifierFacet)?.props.guid === flashcard.id && e.hasTag(DataTypes.GROUP_FLASHCARD)
@@ -62,5 +63,4 @@ const LoadGroupSubtopicResourcesSystem = () => {
   return null;
 };
 
-
-export default LoadGroupSubtopicResourcesSystem
+export default LoadGroupSubtopicResourcesSystem;
