@@ -31,7 +31,7 @@ const SchoolSubjectCell = (props: TitleProps & OrderProps & EntityProps) => {
   };
 
   return (
-    <StyledCellWrapper backgroundColor={accentColor} color={color} onClick={handleOpenSchoolSubject}>
+    <StyledCellWrapper backgroundColor={accentColor} color={color   || ""} onClick={handleOpenSchoolSubject}>
       <StyledTitle>{title.slice(0, 2)}</StyledTitle>
     </StyledCellWrapper>
   );

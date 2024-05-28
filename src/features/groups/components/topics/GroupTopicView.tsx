@@ -1,32 +1,40 @@
-import { LeanScopeClientContext } from '@leanscope/api-client/node';
-import { EntityProps, EntityPropsMapper } from '@leanscope/ecs-engine';
-import { DescriptionProps, IdentifierFacet, Tags } from '@leanscope/ecs-models';
-import { Fragment, useContext } from 'react';
-import { IoCreateOutline, IoEllipsisHorizontalCircleOutline, IoTrashOutline } from 'react-icons/io5';
-import { TitleFacet, TitleProps } from '../../../../app/additionalFacets';
-import { AdditionalTags, DataTypes, Stories } from '../../../../base/enums';
-import { ActionRow, BackButton, CollectionGrid, NavBarButton, NavigationBar, NoContentAddedHint, SecondaryText, Spacer, Title, View } from '../../../../components';
-import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
-import { displayActionTexts, displayAlertTexts } from '../../../../utils/displayText';
-import { dataTypeQuery, isChildOfQuery } from '../../../../utils/queries';
-import { sortEntitiesByDateAdded } from '../../../../utils/sortEntitiesByTime';
-import FlashcardSetCell from '../../../collection/components/flashcard-sets/FlashcardSetCell';
-import NoteCell from '../../../collection/components/notes/NoteCell';
-import SubtopicCell from '../../../collection/components/subtopics/SubtopicCell';
-import { useEntityHasChildren } from '../../../collection/hooks/useEntityHasChildren';
-import { useSelectedGroupSchoolSubject } from '../../hooks/useSelectedGroupSchoolSubject';
-import LoadGroupFlashcardSetsSystem from '../../systems/LoadGroupFlashcardSetsSystem';
-import LoadGroupHomeworksSystem from '../../systems/LoadGroupHomeworksSystem';
-import LoadGroupGroupNotesSystem from '../../systems/LoadGroupNotesSystem';
-import LoadGroupGroupSubtopicsSystem from '../../systems/LoadGroupSubtopicsSystem';
-import GroupFlashcardSetView from '../flashcard-sets/GroupFlashcardSetView';
-import GroupNoteView from '../notes/GroupNoteView';
-import GroupSubtopicView from '../subtopics/GroupSubtopicView';
-import DeleteGroupTopicAlert from './DeleteGroupTopicAlert';
-import EditGroupGroupTopicSheet from './EditGroupTopicSheet';
-import CloningResourceFromGroupSheet from '../CloningResourceFromGroupSheet';
-
+import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
+import { DescriptionProps, IdentifierFacet, Tags } from "@leanscope/ecs-models";
+import { Fragment, useContext } from "react";
+import { IoCreateOutline, IoEllipsisHorizontalCircleOutline, IoTrashOutline } from "react-icons/io5";
+import { TitleFacet, TitleProps } from "../../../../app/additionalFacets";
+import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
+import {
+  ActionRow,
+  BackButton,
+  CollectionGrid,
+  NavBarButton,
+  NavigationBar,
+  NoContentAddedHint,
+  SecondaryText,
+  Spacer,
+  Title,
+  View,
+} from "../../../../components";
+import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
+import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
+import { displayActionTexts, displayAlertTexts } from "../../../../utils/displayText";
+import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
+import { sortEntitiesByDateAdded } from "../../../../utils/sortEntitiesByTime";
+import FlashcardSetCell from "../../../collection/components/flashcard-sets/FlashcardSetCell";
+import NoteCell from "../../../collection/components/notes/NoteCell";
+import SubtopicCell from "../../../collection/components/subtopics/SubtopicCell";
+import { useEntityHasChildren } from "../../../collection/hooks/useEntityHasChildren";
+import { useSelectedGroupSchoolSubject } from "../../hooks/useSelectedGroupSchoolSubject";
+import LoadGroupGroupNotesSystem from "../../systems/LoadGroupNotesSystem";
+import LoadGroupGroupSubtopicsSystem from "../../systems/LoadGroupSubtopicsSystem";
+import CloningResourceFromGroupSheet from "../CloningResourceFromGroupSheet";
+import GroupFlashcardSetView from "../flashcard-sets/GroupFlashcardSetView";
+import GroupNoteView from "../notes/GroupNoteView";
+import GroupSubtopicView from "../subtopics/GroupSubtopicView";
+import DeleteGroupTopicAlert from "./DeleteGroupTopicAlert";
+import EditGroupGroupTopicSheet from "./EditGroupTopicSheet";
 
 const GroupTopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -44,13 +52,14 @@ const GroupTopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
     <Fragment>
       <LoadGroupGroupSubtopicsSystem />
       <LoadGroupGroupNotesSystem />
-      <LoadGroupFlashcardSetsSystem />
-      <LoadGroupHomeworksSystem />
 
+      {/* TODO: implement homeworks and flashcard sets to group topic view */}
+      
+      {/* <LoadGroupFlashcardSetsSystem />
+      <LoadGroupHomeworksSystem /> */}
 
       <View visible={isVisible}>
         <NavigationBar>
-
           <NavBarButton
             content={
               <Fragment>
@@ -101,7 +110,6 @@ const GroupTopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
             onMatch={FlashcardSetCell}
           />
         </CollectionGrid>
-
       </View>
 
       <EntityPropsMapper
@@ -117,19 +125,18 @@ const GroupTopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
       />
 
       <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataTypes.GROUP_FLASHCARD_SET) && isChildOfQuery(e, entity) && e.has(Tags.SELECTED)}
+        query={(e) =>
+          dataTypeQuery(e, DataTypes.GROUP_FLASHCARD_SET) && isChildOfQuery(e, entity) && e.has(Tags.SELECTED)
+        }
         get={[[TitleFacet, IdentifierFacet], []]}
         onMatch={GroupFlashcardSetView}
       />
 
-
-
       <DeleteGroupTopicAlert />
       <EditGroupGroupTopicSheet />
       <CloningResourceFromGroupSheet />
-      
     </Fragment>
   );
-}
+};
 
-export default GroupTopicView
+export default GroupTopicView;

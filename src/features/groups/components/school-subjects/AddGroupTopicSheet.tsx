@@ -5,25 +5,35 @@ import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext, useState } from "react";
 import { v4 } from "uuid";
 import { DateAddedFacet, TitleFacet } from "../../../../app/additionalFacets";
-import { DataTypes, Stories } from "../../../../base/enums";
-import { FlexBox, PrimaryButton, SecondaryButton, Section, SectionRow, Sheet, Spacer, TextAreaInput, TextInput } from "../../../../components";
+import { DataTypes, Stories, SupabaseTables } from "../../../../base/enums";
+import {
+  FlexBox,
+  PrimaryButton,
+  SecondaryButton,
+  Section,
+  SectionRow,
+  Sheet,
+  Spacer,
+  TextAreaInput,
+  TextInput,
+} from "../../../../components";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { useUserData } from "../../../../hooks/useUserData";
 import supabaseClient from "../../../../lib/supabase";
 import { displayButtonTexts, displayLabelTexts } from "../../../../utils/displayText";
 import { getCompletion } from "../../../../utils/getCompletion";
 import { useSelectedGroupSchoolSubject } from "../../hooks/useSelectedGroupSchoolSubject";
-
-
+import { useSelectedLearningGroup } from "../../hooks/useSelectedLearningGroup";
 
 const AddGroupTopicSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Stories.ADDING_GROUP_TOPIC_STORY);
-  const { selectedGroupSchoolSubjectId } = useSelectedGroupSchoolSubject()
+  const { selectedGroupSchoolSubjectId } = useSelectedGroupSchoolSubject();
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const { selectedLanguage } = useSelectedLanguage();
   const { userId } = useUserData();
+  const {selectedLearningGroupId} = useSelectedLearningGroup();
 
   const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_SCHOOL_SUBJECT_STORY);
 
@@ -51,17 +61,18 @@ const AddGroupTopicSheet = () => {
         newTopicEntity.add(new DescriptionFacet({ description: topicDescription }));
       }
 
-      const { error } = await supabaseClient.from("learning_group_topics").insert([
+      const { error } = await supabaseClient.from(SupabaseTables.GROUP_TOPICS).insert([
         {
-          user_id: userId,
           id: topicId,
-          parentId: selectedGroupSchoolSubjectId,
-          topicName: title,
-          topicDescription: topicDescription,
+          creator_id: userId,
+          group_id: selectedLearningGroupId,
+          parent_id: selectedGroupSchoolSubjectId,
+          title: title,
+          description: topicDescription,
         },
       ]);
       if (error) {
-        console.error("Error adding topic: ", error);
+        console.error("Error adding group topic: ", error);
       }
     }
   };
@@ -94,5 +105,4 @@ const AddGroupTopicSheet = () => {
   );
 };
 
-
-export default AddGroupTopicSheet
+export default AddGroupTopicSheet;

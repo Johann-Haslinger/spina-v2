@@ -14,7 +14,7 @@ const StyledComponentWrapper = styled.div`
 `;
 
 const ComponentRenderer = () => {
-  const { blockeditorId } = useCurrentBlockeditor();
+  const { blockeditorId, isGroupBlockeditor } = useCurrentBlockeditor();
 
   return (
     blockeditorId && (
@@ -24,7 +24,7 @@ const ComponentRenderer = () => {
             {(provided: any) => (
               <div ref={provided.innerRef} {...provided.droppableProps}>
                 <EntityPropsMapper
-                  query={(e) => e.get(ParentFacet)?.props.parentId == blockeditorId && e.has(DataTypes.BLOCK)}
+                  query={(e) => e.get(ParentFacet)?.props.parentId == blockeditorId && e.has(isGroupBlockeditor ? DataTypes.GROUP_BLOCK : DataTypes.BLOCK)}
                   get={[[IdentifierFacet, ParentFacet, BlocktypeFacet, TextFacet, FloatOrderFacet], []]}
                   sort={sortEntitiesByOrder}
                   onMatch={BlockRenderer}

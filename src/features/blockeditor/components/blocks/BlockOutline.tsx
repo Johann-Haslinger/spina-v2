@@ -42,7 +42,7 @@ interface BlockOutlineProps {
 
 const BlockOutline = (props: BlockOutlineProps & PropsWithChildren) => {
   const { blockEntity, paddingY, children } = props;
-  const { blockeditorState } = useCurrentBlockeditor();
+  const { blockeditorState, isGroupBlockeditor } = useCurrentBlockeditor();
   const isEditing = blockeditorState === "edit";
   const [isPressed] = useEntityHasTags(blockEntity, Tags.SELECTED);
   const blockId = blockEntity.get(IdentifierFacet)?.props.guid;
@@ -146,26 +146,32 @@ const BlockOutline = (props: BlockOutlineProps & PropsWithChildren) => {
   return (
     blockId && (
       <Draggable key={blockId} draggableId={blockId} index={0}>
-        {(provided: any) => (
-          <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-            <StyledBlockWrapper
-              isPressed={isPressed}
-              paddingY={paddingY ?? false}
-              onMouseDown={handleMouseDown}
-              onMouseUp={handleMouseUp}
-              onTouchStart={handleTouchStart}
-              onTouchMove={handleTouchMove}
-              onTouchEnd={handleTouchEnd}
-              style={blockeditorState !== "write" ? transitionStyle : {}}
-              ref={textBlockRef}
-            >
-              <StyledContentWrapper>{children}</StyledContentWrapper>
-              <StyledSelectionIndicatorWrapper isEdeting={isEditing}>
-                <StyledSelectionIndicator isVisible={isPressed && isEditing} />
-              </StyledSelectionIndicatorWrapper>
-            </StyledBlockWrapper>
-          </div>
-        )}
+        {(provided: any) =>
+          isGroupBlockeditor ? (
+            <StyledContentWrapper ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+              {children}
+            </StyledContentWrapper>
+          ) : (
+            <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+              <StyledBlockWrapper
+                isPressed={isPressed}
+                paddingY={paddingY ?? false}
+                onMouseDown={handleMouseDown}
+                onMouseUp={handleMouseUp}
+                onTouchStart={handleTouchStart}
+                onTouchMove={handleTouchMove}
+                onTouchEnd={handleTouchEnd}
+                style={blockeditorState !== "write" ? transitionStyle : {}}
+                ref={textBlockRef}
+              >
+                <StyledContentWrapper>{children}</StyledContentWrapper>
+                <StyledSelectionIndicatorWrapper isEdeting={isEditing}>
+                  <StyledSelectionIndicator isVisible={isPressed && isEditing} />
+                </StyledSelectionIndicatorWrapper>
+              </StyledBlockWrapper>
+            </div>
+          )
+        }
       </Draggable>
     )
   );

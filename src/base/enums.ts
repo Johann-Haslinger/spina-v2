@@ -100,7 +100,8 @@ export enum AdditionalTags {
   SAPIENTOR_CONVERSATION,
   QUIK_CHAT_VISIBLE,
   CHAt_SHEET_VISIBLE,
-  GENERATE_FROM_IMAGE_PROMPT
+  GENERATE_FROM_IMAGE_PROMPT,
+  GROUP_BLOCKEDITOR,
 }
 
 export enum NavigationLinks {
@@ -133,6 +134,7 @@ export enum DataTypes {
   GROUP_HOMEWORK = "groupHomework",
   GROUP_FLASHCARD_SET = "groupFlashcardSet",
   GROUP_FLASHCARD = "groupFlashcard",
+  GROUP_BLOCK = "groupBlock",
 }
 
 export enum SupportedLanguages {
@@ -203,4 +205,5 @@ export enum SupabaseTables {
   GROUP_NOTES = "group_notes",
   GROUP_FLASHCARD_SETS = "group_flashcard_sets",
   GROUP_FLASHCARDS = "group_flashcards",
+  GROUP_BLOCKS = "group_blocks",
 }

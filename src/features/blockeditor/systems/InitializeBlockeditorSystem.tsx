@@ -3,10 +3,15 @@ import { Entity, useEntities } from "@leanscope/ecs-engine";
 import { IdentifierFacet, Tags } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
 import { BlockeditorStateFacet } from "../../../app/additionalFacets";
+import { AdditionalTags } from "../../../base/enums";
 
-const InitializeBlockeditorSystem = (props: { blockeditorId: string; initinalOpen?: boolean }) => {
+const InitializeBlockeditorSystem = (props: {
+  blockeditorId: string;
+  initinalOpen?: boolean;
+  isGroupBlockeditor?: boolean;
+}) => {
   const lsc = useContext(LeanScopeClientContext);
-  const { blockeditorId } = props;
+  const { blockeditorId, isGroupBlockeditor } = props;
   const [blockeditorEntities] = useEntities((e) => e.has(BlockeditorStateFacet));
 
   useEffect(() => {
@@ -19,13 +24,18 @@ const InitializeBlockeditorSystem = (props: { blockeditorId: string; initinalOpe
       lsc.engine.addEntity(newBlockeditorEntity);
       newBlockeditorEntity.add(new IdentifierFacet({ guid: blockeditorId }));
       newBlockeditorEntity.add(new BlockeditorStateFacet({ blockeditorState: "view" }));
+
+      if (isGroupBlockeditor) {
+        console.log("isGroupBlockeditor", isGroupBlockeditor);
+        newBlockeditorEntity.add(AdditionalTags.GROUP_BLOCKEDITOR);
+      }
       newBlockeditorEntity.add(Tags.CURRENT);
     };
 
     if (blockeditorId) {
       initializeBlockeditor();
     }
-  }, [blockeditorId]);
+  }, [blockeditorId, isGroupBlockeditor]);
 
   return null;
 };

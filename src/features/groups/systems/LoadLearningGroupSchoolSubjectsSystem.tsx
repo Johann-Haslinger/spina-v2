@@ -4,16 +4,16 @@ import { IdentifierFacet, OrderFacet, ParentFacet } from "@leanscope/ecs-models"
 import { useContext, useEffect } from "react";
 import { TitleFacet } from "../../../app/additionalFacets";
 import { dummyGroupSchoolSubjects } from "../../../base/dummy";
-import { DataTypes } from "../../../base/enums";
+import { DataTypes, SupabaseTables } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedLearningGroup } from "../hooks/useSelectedLearningGroup";
 
 const fetchSchoolSubjectsForLearningGroup = async (learningGroupId: string) => {
   const { data: SchoolSubjects, error } = await supabaseClient
-    .from("group_school_subjects")
+    .from(SupabaseTables.GROUP_SCHOOL_SUBJECTS)
     .select("title, id")
-    .eq("parentId", learningGroupId);
+    .eq("group_id", learningGroupId);
 
   if (error) {
     console.error("Error fetching schoolSubjects:", error);

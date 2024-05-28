@@ -35,7 +35,10 @@ const updateTextBlockToListBlock = async (blockEntity: Entity) => {
 
   const id = blockEntity.get(IdentifierFacet)?.props.guid;
 
-  const { error } = await supabaseClient.from(SupabaseTables.BLOCKS).update({ type: "list", listStyle: "unordered" }).eq("id", id);
+  const { error } = await supabaseClient
+    .from(SupabaseTables.BLOCKS)
+    .update({ type: "list", listStyle: "unordered" })
+    .eq("id", id);
 
   if (error) {
     console.error("Error updating block to list block:", error);
@@ -141,7 +144,10 @@ const handleEnterPress = async (
 
     const blockId = blockEntity.get(IdentifierFacet)?.props.guid;
 
-    const { error } = await supabaseClient.from(SupabaseTables.BLOCKS).update({ type: Blocktypes.TEXT }).eq("id", blockId);
+    const { error } = await supabaseClient
+      .from(SupabaseTables.BLOCKS)
+      .update({ type: Blocktypes.TEXT })
+      .eq("id", blockId);
 
     if (error) {
       console.error("Error updating block type:", error);
@@ -170,7 +176,10 @@ const handleBackspacePressWithoutText = async (lsc: ILeanScopeClient, blockEntit
 
     const blockId = blockEntity.get(IdentifierFacet)?.props.guid;
 
-    const { error } = await supabaseClient.from(SupabaseTables.BLOCKS).update({ type: Blocktypes.TEXT }).eq("id", blockId);
+    const { error } = await supabaseClient
+      .from(SupabaseTables.BLOCKS)
+      .update({ type: Blocktypes.TEXT })
+      .eq("id", blockId);
 
     if (error) {
       console.error("Error updating block type:", error);
@@ -252,7 +261,7 @@ const BlockTexteditor = (props: EntityProps) => {
   const parentId = entity.get(ParentFacet)?.props.parentId || "";
   const [texttypeProps] = useEntityFacets(entity, TexttypeFacet);
   const texttype = texttypeProps?.texttype || Texttypes.NORMAL;
-  const { blockeditorState, blockeditorEntity } = useCurrentBlockeditor();
+  const { blockeditorState, blockeditorEntity, isGroupBlockeditor } = useCurrentBlockeditor();
   const { userId } = useUserData();
   const [initinalBlocktext] = useState<string>(text);
   const { texteditorRef } = useTexteditorRef(entity);
@@ -342,7 +351,15 @@ const BlockTexteditor = (props: EntityProps) => {
     }
   };
 
-  return (
+  return isGroupBlockeditor ? (
+    <StyledTexteditor
+      style={{
+        ...getTextStyle(texttype),
+        userSelect: "none",
+      }}
+      dangerouslySetInnerHTML={{ __html: initinalBlocktext }}
+    />
+  ) : (
     <Fragment>
       <HandleTexteditorKeyPressSystem entity={entity} />
       <StyledTexteditor

@@ -3,7 +3,7 @@ import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import React, { Fragment, useContext } from "react";
 import { IoAdd, IoColorWandOutline, IoEllipsisHorizontalCircleOutline, IoSparklesOutline } from "react-icons/io5";
 import tw from "twin.macro";
-import { Stories } from "../../../base/enums";
+import { AdditionalTags, Stories } from "../../../base/enums";
 import { ActionRow, BackButton, NavBarButton, NavigationBar, PrimaryButton, Spacer, Title } from "../../../components";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import { displayActionTexts, displayButtonTexts } from "../../../utils/displayText";
@@ -17,6 +17,7 @@ import UpdateBlockStateSystem from "../systems/UpdateBlockStateSystem";
 import ComponentRenderer from "./ComponentRenderer";
 import Createmenu from "./menus/Createmenu";
 import Editmenu from "./menus/edit-menu/Editmenu";
+import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntityComponents";
 
 const StyledTitleWrapper = styled.div`
   ${tw`px-2`}
@@ -58,6 +59,7 @@ const Blockeditor = (props: BlockeditorProps) => {
   const { selectedLanguage } = useSelectedLanguage();
   const { blockeditorState, blockeditorEntity, blockeditorId } = useCurrentBlockeditor();
   const { blocksAreaRef, addBlockAreaRef } = useClickOutsideBlockEditorHandler();
+  const [isGroupBlockeditor] = useEntityHasTags(blockeditorEntity, AdditionalTags.GROUP_BLOCKEDITOR);
 
   const openImproveTextSheet = () => lsc.stories.transitTo(Stories.GENERATING_IMPROVED_TEXT_STORY);
 
@@ -70,7 +72,7 @@ const Blockeditor = (props: BlockeditorProps) => {
         <NavigationBar>
           {blockeditorState === "view" ? (
             <Fragment>
-              {!customContent && (
+              {!customContent && !isGroupBlockeditor && (
                 <NavBarButton
                   content={
                     <Fragment>
@@ -90,7 +92,7 @@ const Blockeditor = (props: BlockeditorProps) => {
                 </NavBarButton>
               )}
               {customEditOptions}
-              {!customContent && (
+              {!customContent && !isGroupBlockeditor && (
                 <NavBarButton>
                   <IoAdd onClick={() => changeBlockeditorState(blockeditorEntity, "create")} />
                 </NavBarButton>
@@ -108,7 +110,7 @@ const Blockeditor = (props: BlockeditorProps) => {
         </NavigationBar>
         <StyledTitleWrapper>
           {navigateBack && <BackButton navigateBack={navigateBack}>{backbuttonLabel}</BackButton>}
-          <Title editable={handleTitleBlur ? true : false} onBlur={handleTitleBlur}>
+          <Title editable={handleTitleBlur && !isGroupBlockeditor ? true : false} onBlur={handleTitleBlur}>
             {title}
           </Title>
           {customHeaderArea ? customHeaderArea : null}

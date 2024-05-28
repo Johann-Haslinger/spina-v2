@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { IoArrowDownCircleOutline, IoTrashOutline } from "react-icons/io5";
 import { Fragment } from "react/jsx-runtime";
 import { DateAddedFacet, TitleFacet, TitleProps } from "../../../../app/additionalFacets";
-import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
+import { AdditionalTags, DataTypes, Stories, SupabaseTables } from "../../../../base/enums";
 import { ActionRow, NavBarButton, View } from "../../../../components";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
@@ -35,7 +35,7 @@ const GroupNoteView = (props: TitleProps & IdentifierProps & EntityProps) => {
 
   const handleTitleBlur = async (value: string) => {
     entity.add(new TitleFacet({ title: value }));
-    const { error } = await supabaseClient.from("group_notes").update({ title: value }).eq("id", guid);
+    const { error } = await supabaseClient.from(SupabaseTables.GROUP_NOTES).update({ title: value }).eq("id", guid);
 
     if (error) {
       console.error("Error updating group note title", error);
@@ -44,7 +44,7 @@ const GroupNoteView = (props: TitleProps & IdentifierProps & EntityProps) => {
 
   return (
     <Fragment>
-      <InitializeBlockeditorSystem blockeditorId={guid} />
+      <InitializeBlockeditorSystem isGroupBlockeditor blockeditorId={guid} />
 
       <View visible={isVisible}>
         <Blockeditor

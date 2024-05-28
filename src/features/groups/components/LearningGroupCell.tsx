@@ -15,7 +15,7 @@ const StyledLearningGroupCellContainer = styled.div`
 const StyledLearningGroupCellWrapper = styled.div<{
   backgroundColor: string;
 }>`
-  ${tw`w-full h-40  flex justify-center items-center  md:hover:scale-105 md:hover:text-[9.5rem] transition-all  text-9xl font-bold p-2 `}
+  ${tw`w-full h-40  flex justify-center items-center  md:hover:scale-105 md:hover:text-[8.5rem] transition-all  text-[7.5rem] font-bold p-2 `}
   background-color: ${({ backgroundColor }) => backgroundColor};
   color: ${({ backgroundColor }) => COLOR_ITEMS.find((e) => e.accentColor === backgroundColor)?.color};
 `;

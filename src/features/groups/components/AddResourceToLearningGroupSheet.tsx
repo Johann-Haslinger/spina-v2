@@ -1,12 +1,27 @@
 import styled from "@emotion/styled";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import { Entity } from "@leanscope/ecs-engine";
+import { FloatOrderFacet, IdentifierFacet, ImageFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { Fragment, useContext, useEffect, useState } from "react";
 import { IoAdd, IoChevronForward, IoChevronUp } from "react-icons/io5";
 import tw from "twin.macro";
+import { v4 } from "uuid";
+import {
+  AnswerFacet,
+  BlocktypeFacet,
+  DateAddedFacet,
+  QuestionFacet,
+  TexttypeFacet,
+  TitleFacet,
+} from "../../../app/additionalFacets";
 import { dummyGroupSchoolSubjects, dummyGroupTopics, dummyLearningGroups } from "../../../base/dummy";
-import { Stories } from "../../../base/enums";
+import { Blocktypes, DataTypes, Stories, SupabaseTables, Texttypes } from "../../../base/enums";
 import { CloseButton, FlexBox, ScrollableBox, Section, SectionRow, Sheet, Spacer } from "../../../components";
+import { addGroupsBlocks as addGroupBlocks } from "../../../functions/addGroupBlocks";
+import { addGroupFlashcards } from "../../../functions/addGroupFlashcards";
+import { addGroupFlashcardSet } from "../../../functions/addGroupFlashcardSet";
+import { addGroupNote } from "../../../functions/addGroupNote";
 import { useMockupData } from "../../../hooks/useMockupData";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import { useUserData } from "../../../hooks/useUserData";
@@ -20,7 +35,7 @@ const StyledMoreButtonWrapper = styled.div`
 `;
 
 const fetchLearningGroups = async () => {
-  const { data: learningGroups, error } = await supabaseClient.from("learning_groups").select("title, id");
+  const { data: learningGroups, error } = await supabaseClient.from(SupabaseTables.LEARNING_GROUPS).select("title, id");
 
   if (error) {
     console.error("Error fetching learningGroups:", error);
@@ -32,12 +47,12 @@ const fetchLearningGroups = async () => {
 
 const fetchSchoolSubjectsForLearnigGroup = async (learningGroupId: string) => {
   const { data: schoolSubjects, error } = await supabaseClient
-    .from("group_school_subjects")
+    .from(SupabaseTables.GROUP_SCHOOL_SUBJECTS)
     .select("title, id")
-    .eq("parentId", learningGroupId);
+    .eq("group_id", learningGroupId);
 
   if (error) {
-    console.error("Error fetching schoolSubjects:", error);
+    console.error("Error fetching group school subjects:", error);
     return [];
   }
 
@@ -46,12 +61,12 @@ const fetchSchoolSubjectsForLearnigGroup = async (learningGroupId: string) => {
 
 const fetchTopicsForGroupSchoolSubject = async (subjectId: string) => {
   const { data: topics, error } = await supabaseClient
-    .from("group_topics")
+    .from(SupabaseTables.GROUP_TOPICS)
     .select("title, id")
-    .eq("parentId", subjectId);
+    .eq("parent_id", subjectId);
 
   if (error) {
-    console.error("Error fetching topics:", error);
+    console.error("Error fetching group topics:", error);
     return [];
   }
 
@@ -121,65 +136,79 @@ const SchoolSubjectRow = (props: { schoolSubject: { title: string; id: string };
   const { userId } = useUserData();
   const topics = useSchoolSubjectTopics(schoolSubjectId, isSelected);
   const { selectedFlashcardSetTitle, selectedFlashcardSetId } = useSelectedFlashcardSet();
-  const { selectedNoteTitle } = useSelectedNote();
+  const { selectedNoteTitle, selectedNoteId } = useSelectedNote();
 
   const handleClick = () => setIsSelected(!isSelected);
-  console.log(selectedNoteTitle, selectedFlashcardSetTitle, selectedFlashcardSetId, userId, lsc, learningGroupId);
+
   const addResourceToTopic = (topicId: string) => {
-    console.log(topicId);
-    // const newResourceId = v4();
+    lsc.stories.transitTo(Stories.OBSERVING_TOPIC_STORY);
 
-    // if (selectedFlashcardSetTitle) {
-    //   const newGroupFlashcardSetEntity = new Entity();
-    //   newGroupFlashcardSetEntity.add(new IdentifierFacet({ guid: newResourceId }));
-    //   newGroupFlashcardSetEntity.add(new TitleFacet({ title: selectedFlashcardSetTitle }));
-    //   newGroupFlashcardSetEntity.add(new ParentFacet({ parentId: topicId }));
-    //   newGroupFlashcardSetEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
-    //   newGroupFlashcardSetEntity.add(DataTypes.GROUP_FLASHCARD_SET);
+    const newResourceId = v4();
 
-    //   addGroupFlashcardSet(lsc, newGroupFlashcardSetEntity, userId, learningGroupId);
+    if (selectedFlashcardSetTitle) {
+      const newGroupFlashcardSetEntity = new Entity();
+      newGroupFlashcardSetEntity.add(new IdentifierFacet({ guid: newResourceId }));
+      newGroupFlashcardSetEntity.add(new TitleFacet({ title: selectedFlashcardSetTitle }));
+      newGroupFlashcardSetEntity.add(new ParentFacet({ parentId: topicId }));
+      newGroupFlashcardSetEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
+      newGroupFlashcardSetEntity.add(DataTypes.GROUP_FLASHCARD_SET);
 
-    //   const flashcardEntites = lsc.engine.entities.filter(
-    //     (e) => e.has(DataTypes.FLASHCARD) && e.get(ParentFacet)?.props.parentId == selectedFlashcardSetId
-    //   );
+      addGroupFlashcardSet(lsc, newGroupFlashcardSetEntity, userId, learningGroupId);
 
-    //   const newGroupFlashcardEntities = flashcardEntites.map((flashcardEntity) => {
-    //     const newGroupFlashcardEntity = new Entity();
-    //     newGroupFlashcardEntity.add(new IdentifierFacet({ guid: v4() }));
-    //     newGroupFlashcardEntity.add(new ParentFacet({ parentId: newResourceId }));
-    //     newGroupFlashcardEntity.add(
-    //       new QuestionFacet({ question: flashcardEntity.get(QuestionFacet)?.props.question || "" })
-    //     );
-    //     newGroupFlashcardEntity.add(new AnswerFacet({ answer: flashcardEntity.get(AnswerFacet)?.props.answer || "" }));
-    //     newGroupFlashcardEntity.add(DataTypes.GROUP_FLASHCARD);
+      const flashcardEntites = lsc.engine.entities.filter(
+        (e) => e.has(DataTypes.FLASHCARD) && e.get(ParentFacet)?.props.parentId == selectedFlashcardSetId
+      );
 
-    //     return newGroupFlashcardEntity;
-    //   });
+      const newGroupFlashcardEntities = flashcardEntites.map((flashcardEntity) => {
+        const newGroupFlashcardEntity = new Entity();
+        newGroupFlashcardEntity.add(new IdentifierFacet({ guid: v4() }));
+        newGroupFlashcardEntity.add(new ParentFacet({ parentId: newResourceId }));
+        newGroupFlashcardEntity.add(
+          new QuestionFacet({ question: flashcardEntity.get(QuestionFacet)?.props.question || "" })
+        );
+        newGroupFlashcardEntity.add(new AnswerFacet({ answer: flashcardEntity.get(AnswerFacet)?.props.answer || "" }));
+        newGroupFlashcardEntity.add(DataTypes.GROUP_FLASHCARD);
 
-    //   addGroupFlashcards(lsc, newGroupFlashcardEntities, userId, learningGroupId);
-    // } else if (selectedNoteTitle) {
-    //   const newNoteEntity = new Entity();
-    //   newNoteEntity.add(new IdentifierFacet({ guid: newResourceId }));
-    //   newNoteEntity.add(new TitleFacet({ title: selectedNoteTitle }));
-    //   newNoteEntity.add(new ParentFacet({ parentId: topicId }));
-    //   newNoteEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
-    //   newNoteEntity.add(DataTypes.GROUP_NOTE);
+        return newGroupFlashcardEntity;
+      });
 
-    //   addGroupNote(lsc, newNoteEntity, userId, learningGroupId);
+      addGroupFlashcards(lsc, newGroupFlashcardEntities, userId, learningGroupId);
+    } else if (selectedNoteTitle) {
+      const newNoteEntity = new Entity();
+      newNoteEntity.add(new IdentifierFacet({ guid: newResourceId }));
+      newNoteEntity.add(new TitleFacet({ title: selectedNoteTitle }));
+      newNoteEntity.add(new ParentFacet({ parentId: topicId }));
+      newNoteEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
+      newNoteEntity.add(DataTypes.GROUP_NOTE);
 
-    //   const blockEntities = lsc.engine.entities.filter(
-    //     (e) => e.has(DataTypes.BLOCK) && e.get(ParentFacet)?.props.parentId == selectedFlashcardSetId
-    //   );
+      addGroupNote(lsc, newNoteEntity, userId, learningGroupId);
 
-    //   const newGroupBlockEntities = blockEntities.map((blockEntity) => {
-    //     const newGroupBlockEntity = new Entity();
-    //     newGroupBlockEntity.add(new IdentifierFacet({ guid: v4() }));
-    //     newGroupBlockEntity.add(new ParentFacet({ parentId: newResourceId }));
+      const blockEntities = lsc.engine.entities.filter(
+        (e) => e.has(DataTypes.BLOCK) && e.get(ParentFacet)?.props.parentId == selectedNoteId 
+      );
 
-    //     return newGroupBlockEntity;
-    //   });
+      const newGroupBlockEntities = blockEntities.map((blockEntity) => {
+        const newGroupBlockEntity = new Entity();
+        newGroupBlockEntity.add(new IdentifierFacet({ guid: v4() }));
+        newGroupBlockEntity.add(new ParentFacet({ parentId: newResourceId }));
+        newGroupBlockEntity.add(new TextFacet({ text: blockEntity.get(TextFacet)?.props.text || "" }));
+        newGroupBlockEntity.add(
+          new BlocktypeFacet({ blocktype: blockEntity.get(BlocktypeFacet)?.props.blocktype || Blocktypes.TEXT })
+        );
+        newGroupBlockEntity.add(new ImageFacet({ imageSrc: blockEntity.get(ImageFacet)?.props.imageSrc || "" }));
+        newGroupBlockEntity.add(
+          new TexttypeFacet({ texttype: blockEntity.get(TexttypeFacet)?.props.texttype || Texttypes.NORMAL })
+        );
+        newGroupBlockEntity.add(new FloatOrderFacet({ index: blockEntity.get(FloatOrderFacet)?.props.index || 0 }));
+        newGroupBlockEntity.add(DataTypes.GROUP_BLOCK);
 
-    // }
+        return newGroupBlockEntity;
+      });
+
+      addGroupBlocks(lsc, newGroupBlockEntities, userId, learningGroupId);
+    }
+
+    lsc.stories.transitTo(Stories.SUCCESS_STORY);
   };
 
   return (

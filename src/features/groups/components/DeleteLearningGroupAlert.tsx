@@ -1,7 +1,7 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext } from "react";
-import { Stories, AdditionalTags } from "../../../base/enums";
+import { Stories, AdditionalTags, SupabaseTables } from "../../../base/enums";
 import { Alert, AlertButton } from "../../../components";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../lib/supabase";
@@ -23,19 +23,13 @@ const DeleteLearningGroupAlert = () => {
       if (selectedLearningGroupEntity) {
         lsc.engine.removeEntity(selectedLearningGroupEntity);
 
-        const { error } = await supabaseClient.from("LearningGroups").delete().eq("id", selectedLearningGroupId);
+        const { error } = await supabaseClient
+          .from(SupabaseTables.LEARNING_GROUPS)
+          .delete()
+          .eq("id", selectedLearningGroupId);
 
         if (error) {
-          console.error("Error deleting flashcard set", error);
-        }
-
-        const { error: flashcardsError } = await supabaseClient
-          .from("learning_groups")
-          .delete()
-          .eq("parentId", selectedLearningGroupId);
-
-        if (flashcardsError) {
-          console.error("Error deleting flashcards", flashcardsError);
+          console.error("Error deleting learning group", error);
         }
       }
     }, 300);

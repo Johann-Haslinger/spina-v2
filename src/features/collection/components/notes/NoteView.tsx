@@ -2,7 +2,14 @@ import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
 import { IdentifierProps, TextProps } from "@leanscope/ecs-models";
 import { Fragment, useContext } from "react";
-import { IoAlbumsOutline, IoArrowUpCircleOutline, IoBookmark, IoBookmarkOutline, IoHeadsetOutline, IoTrashOutline } from "react-icons/io5";
+import {
+  IoAlbumsOutline,
+  IoArrowUpCircleOutline,
+  IoBookmark,
+  IoBookmarkOutline,
+  IoHeadsetOutline,
+  IoTrashOutline,
+} from "react-icons/io5";
 import { DateAddedFacet, TitleFacet, TitleProps } from "../../../../app/additionalFacets";
 import { AdditionalTags, DataTypes, Stories, SupabaseTables } from "../../../../base/enums";
 import { ActionRow, View } from "../../../../components";
@@ -34,8 +41,8 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
   const openDeleteAlert = () => lsc.stories.transitTo(Stories.DELETING_NOTE_STORY);
   const openGenerateFlashcardsSheet = () => lsc.stories.transitTo(Stories.GENERATING_FLASHCARDS_STORY);
   const openGeneratePodcastSheet = () => lsc.stories.transitTo(Stories.GENERATING_PODCAST_STORY);
-  const openAddResourceToLerningGroupSheet = () => lsc.stories.transitTo(Stories.ADDING_RESOURCE_TO_LEARNING_GROUP_STORY);
-
+  const openAddResourceToLerningGroupSheet = () =>
+    lsc.stories.transitTo(Stories.ADDING_RESOURCE_TO_LEARNING_GROUP_STORY);
 
   const handleTitleBlur = async (value: string) => {
     entity.add(new TitleFacet({ title: value }));
@@ -85,7 +92,7 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
                   ? displayActionTexts(selectedLanguage).unbookmark
                   : displayActionTexts(selectedLanguage).bookmark}
               </ActionRow>
-              <ActionRow icon={<IoArrowUpCircleOutline />} onClick={openAddResourceToLerningGroupSheet} >
+              <ActionRow icon={<IoArrowUpCircleOutline />} onClick={openAddResourceToLerningGroupSheet}>
                 {displayActionTexts(selectedLanguage).addToLearningGroup}
               </ActionRow>
               <ActionRow first last destructive onClick={openDeleteAlert} icon={<IoTrashOutline />}>
