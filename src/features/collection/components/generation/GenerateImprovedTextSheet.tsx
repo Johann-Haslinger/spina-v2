@@ -18,6 +18,7 @@ import { deleteBlock } from "../../../blockeditor/functions/deleteBlock";
 import { useCurrentBlockeditor } from "../../../blockeditor/hooks/useCurrentBlockeditor";
 import { useVisibleBlocks } from "../../../blockeditor/hooks/useVisibleBlocks";
 import { generateImprovedText } from "../../../../utils/generateResources";
+import { useUserData } from "../../../../hooks/useUserData";
 
 const GenerateImprovedTextSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -27,6 +28,7 @@ const GenerateImprovedTextSheet = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const { visibleText, visibleBlockEntities } = useVisibleBlocks();
   const { blockeditorId } = useCurrentBlockeditor();
+  const { userId } = useUserData();
 
   useEffect(() => {
     const handleGenerateImprovedText = async () => {
@@ -59,7 +61,7 @@ const GenerateImprovedTextSheet = () => {
       deleteBlock(lsc, blockEntity);
     });
 
-    addBlockEntitiesFromString(lsc, generatedText, blockeditorId, "");
+    addBlockEntitiesFromString(lsc, generatedText.replace(`Passt das so für dich?<br/> <br/>`, ""), blockeditorId, userId);
   };
 
   return (
