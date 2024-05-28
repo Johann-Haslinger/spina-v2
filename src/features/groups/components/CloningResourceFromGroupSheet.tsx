@@ -1,7 +1,7 @@
 import styled from "@emotion/styled/macro";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
-import { IdentifierFacet, ImageFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
+import { FloatOrderFacet, IdentifierFacet, ImageFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { Fragment, useContext, useEffect, useState } from "react";
 import { IoAdd, IoChevronForward, IoChevronUp } from "react-icons/io5";
@@ -101,7 +101,7 @@ const CloningResourceFromGroupSheet = () => {
 
       const blockEntities = lsc.engine.entities.filter(
         (e) =>
-          e.has(DataTypes.BLOCK) &&
+          e.has(DataTypes.GROUP_BLOCK) &&
           e.get(ParentFacet)?.props.parentId === selectedGroupNoteEntity.get(IdentifierFacet)?.props.guid
       );
 
@@ -114,6 +114,7 @@ const CloningResourceFromGroupSheet = () => {
           new BlocktypeFacet({ blocktype: blockEntity.get(BlocktypeFacet)?.props.blocktype || Blocktypes.TEXT })
         );
         newBlockEntity.add(new ImageFacet({ imageSrc: blockEntity.get(ImageFacet)?.props.imageSrc || "" }));
+        newBlockEntity.add(new FloatOrderFacet({ index: blockEntity.get(FloatOrderFacet)?.props.index || 0 }));
         newBlockEntity.add(DataTypes.BLOCK);
 
         return newBlockEntity;
@@ -131,7 +132,7 @@ const CloningResourceFromGroupSheet = () => {
 
       const blockEntities = lsc.engine.entities.filter(
         (e) =>
-          e.has(DataTypes.BLOCK) &&
+          e.has(DataTypes.GROUP_BLOCK) &&
           e.get(ParentFacet)?.props.parentId === selectedGroupSubtopicEntity.get(IdentifierFacet)?.props.guid
       );
 
@@ -145,6 +146,7 @@ const CloningResourceFromGroupSheet = () => {
           new BlocktypeFacet({ blocktype: blockEntity.get(BlocktypeFacet)?.props.blocktype || Blocktypes.TEXT })
         );
         newBlockEntity.add(new ImageFacet({ imageSrc: blockEntity.get(ImageFacet)?.props.imageSrc || "" }));
+        newBlockEntity.add(new FloatOrderFacet({ index: blockEntity.get(FloatOrderFacet)?.props.index || 0 }));
         newBlockEntity.add(DataTypes.BLOCK);
 
         return newBlockEntity;
