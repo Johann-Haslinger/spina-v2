@@ -14,6 +14,8 @@ import { displayHeaderTexts } from "../../../../utils/displayText";
 import { dataTypeQuery } from "../../../../utils/queries";
 import { useSelectedSubtopic } from "../../hooks/useSelectedSubtopic";
 
+// TODO: add button to components folder
+
 const StyledButtonWrapper = styled.div`
   ${tw`bg-primaryColor text-primaryColor bg-opacity-10 rounded-full py-1 justify-center transition-all px-5 md:hover:opacity-50 w-fit flex items-center`}
 `;
