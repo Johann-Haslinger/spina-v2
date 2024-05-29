@@ -33,11 +33,11 @@ const Exams = () => {
             <IoAdd />
           </NavBarButton>
         </NavigationBar>
+        <Spacer size={8} />
         <Title>{displayHeaderTexts(selectedLanguage).exams}</Title>
         <Spacer />
 
         <Kanban
-
           updateEntityStatus={updateExamStatus}
           sortingRule={sortEntitiesByDueDate}
           kanbanCell={ExamKanbanCell}

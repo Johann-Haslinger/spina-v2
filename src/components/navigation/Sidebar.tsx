@@ -17,7 +17,7 @@ import { NavLink, useLocation } from "react-router-dom";
 import tw from "twin.macro";
 import { DateAddedFacet, SourceFacet, TitleFacet } from "../../app/additionalFacets";
 import { ViSpina, ViSpinaColored } from "../../assets/icons";
-import { COLOR_ITEMS, COLORS, MEDIUM_DEVICE_WIDTH, NAV_LINKS } from "../../base/constants";
+import { COLOR_ITEMS, COLORS, LARGE_DEVICE_WIDTH, MEDIUM_DEVICE_WIDTH, NAV_LINKS } from "../../base/constants";
 import { DataTypes, NavigationLinks, SupportedLanguages } from "../../base/enums";
 import PodcastSheet from "../../features/collection/components/podcasts/PodcastSheet";
 import { useAppState } from "../../features/collection/hooks/useAppState";
@@ -300,8 +300,9 @@ const Sidebar = () => {
   const [isHoverd, setIsHoverd] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const isMobile = width < MEDIUM_DEVICE_WIDTH;
-  const isVisible = isMobile ? isSidebarVisible : true;
-  const isFullWidth = isMobile ? true : isHoverd;
+  const isMediumDevice = width < LARGE_DEVICE_WIDTH;
+  const isVisible = isMediumDevice ? isSidebarVisible : true;
+  const isFullWidth = isMediumDevice ? true : isHoverd;
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);
@@ -331,7 +332,7 @@ const Sidebar = () => {
         }}
         initial={{
           width: 72,
-          x: -100,
+          x: isMediumDevice ? "-110%" :  -100,
         }}
         transition={{
           duration: isMobile ? 0.2 : 0.6,
@@ -339,7 +340,7 @@ const Sidebar = () => {
         }}
         animate={{
           width: isMobile ? "100%" : isFullWidth ? 250 : 72,
-          x: isVisible ? 0 : isMobile ? "-100%" : -300,
+          x: isVisible ? 0 : isMediumDevice ? "-110%" : -300,
         }}
       >
         <StyledSidebarWrapper isFullWidth={isFullWidth}>

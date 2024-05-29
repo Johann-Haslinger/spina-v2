@@ -4,7 +4,7 @@ import { IoBook, IoCheckmarkCircleOutline, IoColorWand, IoPlay } from "react-ico
 import { Fragment } from "react/jsx-runtime";
 import tw from "twin.macro";
 import { DueDateFacet, StatusFacet, TitleFacet } from "../app/additionalFacets";
-import { COLOR_ITEMS } from "../base/constants";
+import { COLOR_ITEMS, MEDIUM_DEVICE_WIDTH } from "../base/constants";
 import { AdditionalTags, DataTypes } from "../base/enums";
 import { CardData } from "../base/types";
 import { Kanban, NavigationBar, SectionRow, Spacer, Title, View } from "../components";
@@ -22,6 +22,7 @@ import { useSelectedLanguage } from "../hooks/useSelectedLanguage";
 import { displayHeaderTexts, displayLabelTexts } from "../utils/displayText";
 import { dataTypeQuery } from "../utils/queries";
 import { sortEntitiesByDueDate } from "../utils/sortEntitiesByTime";
+import { useWindowDimensions } from "../hooks/useWindowDimensions";
 
 const useTwoWeeksFromNow = () => {
   const currentDate = new Date();
@@ -63,7 +64,7 @@ const StyledSubtitle = styled.p`
 `;
 
 const StyledOverviewCardsWrapper = styled.div`
-  ${tw`md:flex space-x-2 w-full`}
+  ${tw`md:flex md:space-x-2 w-full`}
 `;
 
 const Overview = () => {
@@ -77,6 +78,7 @@ const Overview = () => {
       [1, 2, 3].includes(e.get(StatusFacet)?.props.status || 0)
   );
   const [recentlyAddedResourceEntities] = useEntities((e) => e.has(AdditionalTags.RECENTLY_ADDED));
+  const { width } = useWindowDimensions();
 
   return (
     <Fragment>
@@ -86,10 +88,11 @@ const Overview = () => {
 
       <View viewType="baseView">
         <NavigationBar></NavigationBar>
+        <Spacer size={8} />
         <Title>{displayHeaderTexts(selectedLanguage).overview}</Title>
         <Spacer />
         <StyledOverviewCardsWrapper>
-          {OverviewCardsData.map((cardData, idx) => (
+          {OverviewCardsData.slice(0, width < MEDIUM_DEVICE_WIDTH ? 1 : 3).map((cardData, idx) => (
             <OverviewCard key={idx} cardData={cardData} />
           ))}
         </StyledOverviewCardsWrapper>

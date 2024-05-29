@@ -32,6 +32,7 @@ const Homeworks = () => {
             <IoAdd />
           </NavBarButton>
         </NavigationBar>
+        <Spacer size={8} />
         <Title>{displayHeaderTexts(selectedLanguage).homeworks}</Title>
         <Spacer />
         <Kanban

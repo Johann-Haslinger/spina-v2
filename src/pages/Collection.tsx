@@ -23,6 +23,7 @@ const Collection = () => {
     <Fragment>
       <View viewType="baseView">
         <NavigationBar />
+        <Spacer size={8} />
         <Title size="large">{displayHeaderTexts(selectedLanguage).collection}</Title>
         <Spacer />
         <CollectionGrid>

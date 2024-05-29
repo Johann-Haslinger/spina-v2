@@ -38,6 +38,8 @@ const Study = () => {
             <IoAdd />
           </NavBarButton>
         </NavigationBar>
+        
+        <Spacer size={8} />
         <Title>{displayHeaderTexts(selectedLanguage).study}</Title>
         <Spacer />
         {!existFlashcardGroups && <NoContentAddedHint />}
