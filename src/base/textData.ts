@@ -47,6 +47,14 @@ export const HEADER_TEXT_DATA = {
     de: "Karteikarten",
     en: "Flashcards",
   },
+  flashcard_test: {
+    de: "Karteikarten Test",
+    en: "Flashcard test",
+  },
+  blurting: {
+    de: "Blurting",
+    en: "Blurting",
+  },
 };
 
 export const ALERT_TEXT_DATA = {
@@ -207,6 +215,18 @@ export const ACTION_TEXT_DATA = {
     de: "Aus Foto erstellen",
     en: "Generate from Image",
   },
+  start_lern_session: {
+    de: "Lernsitzung",
+    en: "Learning session",
+  },
+  blurting: {
+    de: "Blurting",
+    en: "Blurting"
+  },
+  flashcard_test: {
+    de: "Karteikarten Test",
+    en: "Flashcard test"
+  }
 };
 
 export const LABEL_TEXT_DATA = {
@@ -297,7 +317,8 @@ export const LABEL_TEXT_DATA = {
   kanban: {
     de: "Kanban",
     en: "Kanban"
-  }
+  },
+ 
 };
 export const DATA_TYPE_TEXT_DATA = {
   note: {

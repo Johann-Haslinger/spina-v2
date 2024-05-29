@@ -22,6 +22,8 @@ export const displayHeaderTexts = (selectedLanguage: SupportedLanguages) => {
     bookmarkCollection: HEADER_TEXT_DATA.bookmark_collection[selectedLanguage],
     podcasts: HEADER_TEXT_DATA.podcasts[selectedLanguage],
     flashcards: HEADER_TEXT_DATA.flashcards[selectedLanguage],
+    flashcardTest: HEADER_TEXT_DATA.flashcard_test[selectedLanguage],
+    blurting: HEADER_TEXT_DATA.blurting[selectedLanguage],
   };
 };
 export const displayAlertTexts = (selectedLanguage: SupportedLanguages) => {
@@ -75,6 +77,9 @@ export const displayActionTexts = (selectedLanguage: SupportedLanguages) => {
     duplicate: ACTION_TEXT_DATA.duplicate[selectedLanguage],
     addToLearningGroup: ACTION_TEXT_DATA.add_to_learning_group[selectedLanguage],
     generateFromImage: ACTION_TEXT_DATA.generate_from_image[selectedLanguage],
+    startLernSession: ACTION_TEXT_DATA.start_lern_session[selectedLanguage],
+    flashcardTest: ACTION_TEXT_DATA.flashcard_test[selectedLanguage],
+    blurting: ACTION_TEXT_DATA.blurting[selectedLanguage],
   };
 };
 

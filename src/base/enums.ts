@@ -18,6 +18,8 @@ export enum Stories {
   OBSERVING_LERNING_GROUPS_STORY = "observingLerningGroupsStory",
   OBSERVING_LERNING_GROUP_STORY = "observingLerningGroupStory",
   OBSERVING_GROUP_TOPIC_STORY = "observingGroupTopicStory",
+  OBSERVING_BLURTING_STORY = "observingBlurtingStory",
+  OBSERVING_FLASHCARD_TEST_STORY = "observingFlashcardTestStory",
 
   ADDING_FLASHCARD_SET_STORY = "addFlashcardSetStory",
   ADDING_TOPIC_STORY = "addTopicStory",

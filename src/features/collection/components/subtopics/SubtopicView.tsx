@@ -8,10 +8,13 @@ import {
   IoArrowUpCircleOutline,
   IoBookmark,
   IoBookmarkOutline,
+  IoChatboxEllipsesOutline,
   IoCreateOutline,
   IoHeadsetOutline,
   IoPlayOutline,
-  IoTrashOutline
+  IoReaderOutline,
+  IoSchoolOutline,
+  IoTrashOutline,
 } from "react-icons/io5";
 import { Fragment } from "react/jsx-runtime";
 import {
@@ -52,6 +55,8 @@ import LernvideoView from "../lern-videos/LernvideoView";
 import PodcastRow from "../podcasts/PodcastRow";
 import DeleteSubtopicAlert from "./DeleteSubtopicAlert";
 import EditSubtopicSheet from "./EditSubtopicSheet";
+import BlurtingView from "./BlurtingView";
+import FlashcardTestView from "./FlashcardTestView";
 
 enum SubtopicViewStates {
   NOTE,
@@ -73,8 +78,10 @@ const SubtopicView = (props: TitleProps & EntityProps & IdentifierProps) => {
   const openAddFlashcardsSheet = () => lsc.stories.transitTo(Stories.ADDING_FLASHCARDS_STORY);
   const openFlashcardQuizView = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_QUIZ_STORY);
   const openGeneratePodcastSheet = () => lsc.stories.transitTo(Stories.GENERATING_PODCAST_STORY);
-  const openAddResourceToLerningGroupSheet = () => lsc.stories.transitTo(Stories.ADDING_RESOURCE_TO_LEARNING_GROUP_STORY);
-
+  const openAddResourceToLerningGroupSheet = () =>
+    lsc.stories.transitTo(Stories.ADDING_RESOURCE_TO_LEARNING_GROUP_STORY);
+  const openFlashcardTestView = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_TEST_STORY);
+  const openBlurtingView = () => lsc.stories.transitTo(Stories.OBSERVING_BLURTING_STORY);
 
   return (
     <Fragment>
@@ -100,7 +107,7 @@ const SubtopicView = (props: TitleProps & EntityProps & IdentifierProps) => {
                   ? displayActionTexts(selectedLanguage).unbookmark
                   : displayActionTexts(selectedLanguage).bookmark}
               </ActionRow>
-              <ActionRow icon={<IoArrowUpCircleOutline />} onClick={openAddResourceToLerningGroupSheet} >
+              <ActionRow icon={<IoArrowUpCircleOutline />} onClick={openAddResourceToLerningGroupSheet}>
                 {displayActionTexts(selectedLanguage).addToLearningGroup}
               </ActionRow>
               <ActionRow last destructive icon={<IoTrashOutline />} onClick={openDeleteAlert}>
@@ -110,18 +117,30 @@ const SubtopicView = (props: TitleProps & EntityProps & IdentifierProps) => {
           }
           customGenerateActionRows={
             <Fragment>
-              {/* <ActionRow icon={<IoVideocamOutline />} onClick={openGenerateLernVideoSheet}>
-                  {displayActionTexts(selectedLanguage).generateLearnVideo}
-                </ActionRow> */}
-              <ActionRow last first icon={<IoHeadsetOutline />} onClick={openGeneratePodcastSheet}>
+              <ActionRow first icon={<IoHeadsetOutline />} onClick={openGeneratePodcastSheet}>
                 {displayActionTexts(selectedLanguage).generatePodcast}
+              </ActionRow>
+              <ActionRow last icon={<IoChatboxEllipsesOutline />}>
+                {displayActionTexts(selectedLanguage).startLernSession}
               </ActionRow>
             </Fragment>
           }
           customEditOptions={
-            <NavBarButton content={<ActionRow first last icon={<IoAlbumsOutline />} onClick={() => openFlashcardQuizView()}>
-              {displayActionTexts(selectedLanguage).quiz}
-            </ActionRow>}>
+            <NavBarButton
+              content={
+                <Fragment>
+                  <ActionRow first icon={<IoAlbumsOutline />} onClick={() => openFlashcardQuizView()}>
+                    {displayActionTexts(selectedLanguage).quiz}
+                  </ActionRow>
+                  <ActionRow icon={<IoSchoolOutline />} onClick={() => openFlashcardTestView()}>
+                    {displayActionTexts(selectedLanguage).flashcardTest}
+                  </ActionRow>
+                  <ActionRow last icon={<IoReaderOutline />} onClick={() => openBlurtingView()}>
+                    {displayActionTexts(selectedLanguage).blurting}
+                  </ActionRow>
+                </Fragment>
+              }
+            >
               <IoPlayOutline />
             </NavBarButton>
           }
@@ -188,6 +207,8 @@ const SubtopicView = (props: TitleProps & EntityProps & IdentifierProps) => {
       <FlashcardQuizView />
       <GeneratePodcastSheet />
       <GenerateImprovedTextSheet />
+      <BlurtingView />
+      <FlashcardTestView />
     </Fragment>
   );
 };

@@ -17,7 +17,7 @@ const StyledPodcastRowWrapper = styled.div`
 `;
 
 const StyledPodcastIcon = styled.div<{ color: string }>`
-  ${tw` !size-10 rounded  text-white  flex items-center justify-center`}
+  ${tw` !size-10 rounded  text-white text-opacity-70  flex items-center justify-center`}
   background-color: ${({ color }) => color};
 `;
 const StyledPodcastTitle = styled.p`
@@ -35,7 +35,7 @@ const StyledLeftSideWrapper = styled.div`
 `;
 
 const PodcastRow = (props: TitleProps & DateAddedProps & EntityProps) => {
-  const { backgroundColor } = useSelectedSchoolSubjectColor();
+  const { accentColor } = useSelectedSchoolSubjectColor();
   const { title, dateAdded, entity } = props;
   const { selectedLanguage } = useSelectedLanguage();
   const [isActionMenuOpen, setIsActionMenuOpen] = useState(false);
@@ -48,7 +48,7 @@ const PodcastRow = (props: TitleProps & DateAddedProps & EntityProps) => {
       <StyledPodcastRowWrapper>
         <FlexBox>
           <StyledLeftSideWrapper onClick={openPodcast}>
-            <StyledPodcastIcon color={backgroundColor || "blue"}>
+            <StyledPodcastIcon color={accentColor || "blue"}>
               <IoHeadset />
             </StyledPodcastIcon>
 

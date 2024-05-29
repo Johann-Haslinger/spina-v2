@@ -6,7 +6,7 @@ import tw from "twin.macro";
 type size = "small" | "medium" | "large";
 
 const StyledTitle = styled.div<{ size: size; placeholderStyle: boolean }>`
-  ${tw` line-clamp-2 dark:text-white min-h-10 outline-none text-primatyText font-black`}
+  ${tw` line-clamp-2 dark:text-white min-h-10 outline-none text-primatyText font-extrabold`}
   ${({ size }) => size === "small" && tw`text-2xl`}
   ${({ size }) => size === "medium" && tw`text-3xl`}
   ${({ size }) => size === "large" && tw`text-4xl`}
