@@ -11,6 +11,7 @@ import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { displayActionTexts, displayAlertTexts, displayDataTypeTexts } from "../../../../utils/displayText";
 import { useSelectedSchoolSubjectColor } from "../../hooks/useSelectedSchoolSubjectColor";
 import DeletePodcastAlert from "./DeletePodcastAlert";
+import { COLOR_ITEMS } from "../../../../base/constants";
 
 const StyledPodcastRowWrapper = styled.div`
   ${tw`hover:bg-tertiary cursor-pointer items-center flex space-x-4 rounded-lg transition-all  md:hover:dark:bg-seconderyDark p-2`}
@@ -48,7 +49,7 @@ const PodcastRow = (props: TitleProps & DateAddedProps & EntityProps) => {
       <StyledPodcastRowWrapper>
         <FlexBox>
           <StyledLeftSideWrapper onClick={openPodcast}>
-            <StyledPodcastIcon color={accentColor || "blue"}>
+            <StyledPodcastIcon color={accentColor || COLOR_ITEMS[1].accentColor}>
               <IoHeadset />
             </StyledPodcastIcon>
 

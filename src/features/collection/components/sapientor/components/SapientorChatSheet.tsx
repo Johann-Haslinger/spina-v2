@@ -9,8 +9,29 @@ import { sortMessageEntitiesByDateAdded } from "../../../../../utils/sortEntitie
 import ChatMessage from "./ChatMessage";
 import SapientorPromptBox from "./SapientorPromptBox";
 import { useCurrentSapientorConversation } from "../hooks/useCurrentConversation";
-import { SupportedModels } from "../../../../../base/enums";
+import { AdditionalTags, SupportedModels } from "../../../../../base/enums";
 import { COLOR_ITEMS } from "../../../../../base/constants";
+import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntityComponents";
+import SapientorConversationMessage from "../../../../../components/content/SapientorConversationMessage";
+import { useEffect, useState } from "react";
+
+const useDisplayLoadingAnimation = () => {
+  const [promptEntity] = useEntities((e) => e.has(AdditionalTags.PROMPT) && e.has(AdditionalTags.PROCESSING))[0];
+  const [isProcessingCurrentPrompt] = useEntityHasTags(promptEntity, AdditionalTags.PROCESSING);
+  const [displayLoadingAnimation, setDisplayLoadingAnimation] = useState(false);
+
+  useEffect(() => {
+    if (isProcessingCurrentPrompt) {
+      setTimeout(() => {
+        setDisplayLoadingAnimation(true);
+      }, 200);
+    } else {
+      setDisplayLoadingAnimation(false);
+    }
+  }, [isProcessingCurrentPrompt]);
+
+  return displayLoadingAnimation;
+};
 
 const StyledCloseButtonWrapper = styled.div`
   ${tw`p-1 mr-2 transition-all md:hover:opacity-50 relative left-2 dark:bg-tertiaryDark dark:text-seconderyTextDark bg-tertiary rounded-full text-lg text-seconderyTextDark`}
@@ -37,20 +58,20 @@ const StyledFlexBox = styled.div`
 
 const StyledPlaceholderIcon = styled.div`
   ${tw`mx-auto mt-60 size-14 transition-all  rounded-full`}
-  background-color: ${COLOR_ITEMS[0].color};
+  background-color: ${COLOR_ITEMS[4].accentColor};
 `;
 
 const SapientorChatSheet = () => {
   const { isChatSheetVisible, setChatSheetVisible, useSapientorAssistentModel, changeModel } =
     useCurrentSapientorConversation();
   const [chatMessageEntities] = useEntities((e) => e.has(MessageRoleFacet));
+  const displayLoadingAnimation = useDisplayLoadingAnimation();
 
   const navigateBack = () => setChatSheetVisible(false);
 
   return (
     <Sheet visible={isChatSheetVisible} navigateBack={navigateBack}>
       <StyledContentWrapper>
-
         <StyledFlexBox>
           <div />
 
@@ -82,6 +103,15 @@ const SapientorChatSheet = () => {
             sort={(a, b) => sortMessageEntitiesByDateAdded(a, b)}
             onMatch={ChatMessage}
           />
+          {displayLoadingAnimation && (
+            <SapientorConversationMessage
+              message={{
+                role: "gpt",
+                message: "",
+              }}
+              isLoading
+            />
+          )}
         </ScrollableBox>
       </StyledContentWrapper>
       <StyledPromptTextBoxWrapper>

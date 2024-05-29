@@ -5,6 +5,7 @@ import tw from "twin.macro";
 import { COLOR_ITEMS } from "../../base/constants";
 import Spacer from "../layout/Spacer";
 import TypingAnimationInnerHTML from "./TypingAnimationInnerHTML";
+import { useSelectedTheme } from "../../features/collection/hooks/useSelectedTheme";
 
 type SapientorMessage = {
   role: "gpt" | "user";
@@ -41,6 +42,7 @@ const SapientorConversationMessage = (props: {
 }) => {
   const { message, onWritingAnimationPlayed, isLoading } = props;
   const [additionalContent, setAdditionalContent] = useState<ReactNode>(null);
+  const { isDarkMode } = useSelectedTheme();
 
   useEffect(() => {
     setTimeout(() => {
@@ -63,7 +65,7 @@ const SapientorConversationMessage = (props: {
           <StyledLoadingIndicatorWrapper>
             <motion.div
               style={{
-                backgroundColor: "black",
+                backgroundColor: isDarkMode ? "white" : "black",
                 width: "16px",
                 height: "16px",
                 borderRadius: "50%",
@@ -75,7 +77,7 @@ const SapientorConversationMessage = (props: {
             />
             <motion.div
               style={{
-                backgroundColor: "black",
+                backgroundColor: isDarkMode ? "white" : "black",
                 width: "16px",
                 height: "16px",
                 borderRadius: "50%",
@@ -87,7 +89,7 @@ const SapientorConversationMessage = (props: {
             />
             <motion.div
               style={{
-                backgroundColor: "black",
+                backgroundColor: isDarkMode ? "white" : "black",
                 width: "16px",
                 height: "16px",
                 borderRadius: "50%",

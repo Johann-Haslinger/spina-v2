@@ -14,8 +14,9 @@ const StyledTopictCellContainer = styled.div`
 `;
 
 const StyledTopictCellItem = styled.div<{ backgroundColor: string }>`
-  ${tw`p-2 w-full text-3xl  flex justify-center items-center rounded-md  h-full`}
-  background-color: ${({ backgroundColor }) => backgroundColor + "99"};
+  ${tw`p-2 w-full text-4xl  flex justify-center items-center rounded-md  h-full`}
+  background-color: ${({ backgroundColor }) => backgroundColor + "60"};
+  color: ${({ backgroundColor }) => backgroundColor};
 `;
 
 const StyledTopictCellTitle = styled.p`

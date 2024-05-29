@@ -89,6 +89,10 @@ const StyledRelatedResourcesWrapper = styled.div`
   ${tw`border-t dark:border-opacity-50 border-opacity-50 flex w-[95%] mx-8 overflow-x-scroll dark:border-primaryBorderDark border-primaryBorder mt-6 pt-4 `}
 `;
 
+const StyledContainer = styled.div`
+  ${tw`flex w-full`}
+`;
+
 const RelatedResourcesInfo = (props: { relatedResources: Resource[] }) => {
   const { relatedResources } = props;
 
@@ -97,27 +101,29 @@ const RelatedResourcesInfo = (props: { relatedResources: Resource[] }) => {
       <InitializeRelatedResourcesSystem relatedResources={relatedResources} />
 
       <StyledRelatedResourcesWrapper>
-        <EntityPropsMapper
-          query={(e) =>
-            e.has(DataTypes.TOPIC) && relatedResources.some((r) => r.id === e.get(IdentifierFacet)?.props.guid)
-          }
-          get={[[TitleFacet], []]}
-          onMatch={TopicResourceCell}
-        />
-        <EntityPropsMapper
-          query={(e) =>
-            e.has(DataTypes.NOTE) && relatedResources.some((r) => r.id === e.get(IdentifierFacet)?.props.guid)
-          }
-          get={[[TitleFacet], []]}
-          onMatch={NoteResouceCell}
-        />
-        <EntityPropsMapper
-          query={(e) =>
-            e.has(DataTypes.HOMEWORK) && relatedResources.some((r) => r.id === e.get(IdentifierFacet)?.props.guid)
-          }
-          get={[[TitleFacet], []]}
-          onMatch={HomeworkResourceCell}
-        />
+        <StyledContainer>
+          <EntityPropsMapper
+            query={(e) =>
+              e.has(DataTypes.TOPIC) && relatedResources.some((r) => r.id === e.get(IdentifierFacet)?.props.guid)
+            }
+            get={[[TitleFacet], []]}
+            onMatch={TopicResourceCell}
+          />
+          <EntityPropsMapper
+            query={(e) =>
+              e.has(DataTypes.NOTE) && relatedResources.some((r) => r.id === e.get(IdentifierFacet)?.props.guid)
+            }
+            get={[[TitleFacet], []]}
+            onMatch={NoteResouceCell}
+          />
+          <EntityPropsMapper
+            query={(e) =>
+              e.has(DataTypes.HOMEWORK) && relatedResources.some((r) => r.id === e.get(IdentifierFacet)?.props.guid)
+            }
+            get={[[TitleFacet], []]}
+            onMatch={HomeworkResourceCell}
+          />
+        </StyledContainer>
       </StyledRelatedResourcesWrapper>
     </Fragment>
   );

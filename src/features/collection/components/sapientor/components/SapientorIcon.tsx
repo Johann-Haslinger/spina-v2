@@ -80,7 +80,7 @@ const SapientorIcon = () => {
   const [promptEntity] = useEntities((e) => e.has(AdditionalTags.PROMPT) && e.has(AdditionalTags.PROCESSING))[0];
   const [isProcessingCurrentPrompt] = useEntityHasTags(promptEntity, AdditionalTags.PROCESSING);
   const { quickChatRef } = useQuickChat();
-  const { isQuickChatVisible, setQuickChatVisible, setChatSheetVisible } =
+  const { isQuickChatVisible, setQuickChatVisible, setChatSheetVisible, isChatSheetVisible } =
     useCurrentSapientorConversation();
   const { width } = useWindowDimensions();
 
@@ -110,8 +110,8 @@ const SapientorIcon = () => {
           <motion.div
             initial={{ y: -60 }}
             animate={{
-              opacity: isProcessingCurrentPrompt ? 1 : 0,
-              y: isProcessingCurrentPrompt ? 0 : -60,
+              opacity: isProcessingCurrentPrompt && !isChatSheetVisible ? 1 : 0,
+              y: isProcessingCurrentPrompt  && !isChatSheetVisible ? 0 : -60,
             }}
           >
             <StyledThinkingAnimationWrapper>
@@ -151,7 +151,7 @@ const SapientorIcon = () => {
             </StyledThinkingAnimationWrapper>
           </motion.div>
 
-          <motion.div initial={{ y: 0 }} animate={{ y: isProcessingCurrentPrompt ? 60 : 0 }}>
+          <motion.div initial={{ y: 0 }} animate={{ y: isProcessingCurrentPrompt  && !isChatSheetVisible ? 60 : 0 }}>
             <StyledSapientorOutline>
               <StyledSapientorEyeWrapper>
                 <SapientorEye />
