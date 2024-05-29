@@ -4,6 +4,8 @@ import { NavigationLinks, SupportedLanguages } from "./enums";
 
 export const SELECTED_LANGUAGE = SupportedLanguages.DE;
 
+export const MEDIUM_DEVICE_WIDTH = 768;
+
 export const NAV_LINKS = [
   {
     title: NavigationLinks.OVERVIEW,

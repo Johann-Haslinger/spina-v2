@@ -1,14 +1,23 @@
 import styled from "@emotion/styled";
-import { EntityPropsMapper } from "@leanscope/ecs-engine";
+import { EntityPropsMapper, useEntities } from "@leanscope/ecs-engine";
 import { Tags } from "@leanscope/ecs-models";
 import { motion } from "framer-motion";
 import { Fragment, useEffect, useRef, useState } from "react";
-import { IoHelpOutline, IoLogInOutline, IoLogOutOutline, IoPause, IoPlay, IoSettingsOutline } from "react-icons/io5";
+import {
+  IoClose,
+  IoEllipsisHorizontal,
+  IoHelpOutline,
+  IoLogInOutline,
+  IoLogOutOutline,
+  IoPause,
+  IoPlay,
+  IoSettingsOutline,
+} from "react-icons/io5";
 import { NavLink, useLocation } from "react-router-dom";
 import tw from "twin.macro";
 import { DateAddedFacet, SourceFacet, TitleFacet } from "../../app/additionalFacets";
 import { ViSpina, ViSpinaColored } from "../../assets/icons";
-import { COLOR_ITEMS, COLORS, NAV_LINKS } from "../../base/constants";
+import { COLOR_ITEMS, COLORS, MEDIUM_DEVICE_WIDTH, NAV_LINKS } from "../../base/constants";
 import { DataTypes, NavigationLinks, SupportedLanguages } from "../../base/enums";
 import PodcastSheet from "../../features/collection/components/podcasts/PodcastSheet";
 import { useAppState } from "../../features/collection/hooks/useAppState";
@@ -63,7 +72,7 @@ const SelectedPodcastCell = (props: { isFullWidth: boolean }) => {
 };
 
 const StyledSettingsMenuWrapper = styled.div`
-  ${tw` px-2 py-2 dark:text-primaryTextDark w-56 h-52 bg-secondery  bg-opacity-95 backdrop-blur-xl dark:bg-tertiaryDark rounded-lg`}
+  ${tw` px-2 py-2 dark:text-primaryTextDark md:w-56 w-full h-52 bg-black bg-opacity-[3%] dark:bg-tertiaryDark rounded-lg`}
 `;
 
 const StyledEmailText = styled.div`
@@ -78,7 +87,7 @@ const StyledSettingsText = styled.div`
   ${tw`w-full px-1 pb-3  transition-all md:hover:opacity-50  pt-1 flex items-center  `}
 `;
 const StyledAccountStatusText = styled.div`
-  ${tw`w-full px-1 py-3  transition-all md:hover:opacity-50   flex items-center `}
+  ${tw`w-full px-1 py-3   transition-all md:hover:opacity-50   flex items-center `}
 `;
 const StyledSettingsMenuIcon = styled.div`
   ${tw`text-base mr-3 `}
@@ -87,20 +96,32 @@ const StyledSettingsDivider = styled.div`
   ${tw`w-full h-0.5 dark:border-primaryBorderDark border-primaryBorder border-b `}
 `;
 const StyledSettingsWrapper = styled.div<{ isHoverd: boolean }>`
-  ${tw`flex w-[226px] cursor-pointer  md:hover:bg-primary dark:hover:bg-tertiaryDark   mx-1 absolute bottom-0 my-2 dark:text-white  overflow-hidden py-1 transition-all  rounded-xl space-x-4 items-center`}
-  ${({ isHoverd }) => isHoverd && tw`xl:bg-primary xl:dark:bg-tertiaryDark`}
+  ${tw`flex w-full  md:w-[226px] pr-4 justify-between cursor-pointer  md:hover:bg-primary dark:hover:bg-tertiaryDark  mx-1  my-2 dark:text-white  overflow-hidden py-1 transition-all  rounded-xl space-x-4 items-center`}
+  ${({ isHoverd }) => isHoverd && tw`bg-black bg-opacity-[3%] dark:bg-tertiaryDark`}
+`;
+
+const StyledLinkSpacer = styled.div`
+  ${tw`w-full absolute left-0 right-0 pl-2 pr-4 md:pl-0 md:pr-0 md:right-auto  bottom-6 md:bottom-0`}
 `;
 
 const StyledProfileIcon = styled.div<{
   color: string;
   backgroundColor: string;
 }>`
-  ${tw`text-2xl md:hover:opacity-80 transition-all font-black mx-1 size-10 rounded-lg flex items-center justify-center`}
+  ${tw`text-2xl md:ml-3 md:hover:opacity-80 transition-all font-black mx-1 size-10 rounded-lg flex items-center justify-center`}
   color: ${({ color }) => color};
   background-color: ${({ backgroundColor }) => backgroundColor};
 `;
 const StyledProfileText = styled.div`
-  ${tw` font-semibold `}
+  ${tw`text-lg md:text-base ml-3 font-semibold `}
+`;
+
+const StyledLeftSideWrapper = styled.div`
+  ${tw`flex w-fit items-center`}
+`;
+
+const StyledProfileIconWrapper = styled.div`
+  ${tw`text-xl md:hidden`}
 `;
 
 const SettingsLink = (props: { isFullWidth: boolean }) => {
@@ -111,6 +132,8 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
   const { userEmail, signedIn, signOut } = useUserData();
   const [isSettingsQuickMenuVisible, setIsSettingsQuickMenuVisible] = useState(false);
   const settingsQuickMenuRef = useRef<HTMLDivElement>(null);
+  const { width } = useWindowDimensions();
+  const isMobile = width < MEDIUM_DEVICE_WIDTH;
 
   useEffect(() => {
     document.addEventListener("click", handleClickOutside, true);
@@ -142,6 +165,7 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
         style={{
           position: "absolute",
           left: 14,
+          right: isMobile ? 14 : "auto",
         }}
         transition={{
           duration: 0.1,
@@ -151,7 +175,7 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
           opacity: 0,
         }}
         animate={{
-          bottom: isSettingsQuickMenuVisible ? 65 : 55,
+          bottom: isSettingsQuickMenuVisible ? (isMobile ? 100 : 65) : 55,
           opacity: isSettingsQuickMenuVisible ? 1 : 0,
         }}
       >
@@ -177,27 +201,36 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
           </StyledAccountStatusText>
         </StyledSettingsMenuWrapper>
       </motion.div>
-      <StyledSettingsWrapper
-        onClick={() => setIsSettingsQuickMenuVisible(!isSettingsQuickMenuVisible)}
-        isHoverd={isSettingsQuickMenuVisible}
-      >
-        <StyledProfileIcon color={color} backgroundColor={backgroundColor}>
-          S
-        </StyledProfileIcon>
-        <motion.div
-          initial={{ x: -10, opacity: 0 }}
-          animate={{ x: isFullWidth ? 0 : -10, opacity: isFullWidth ? 1 : 0 }}
+
+      <StyledLinkSpacer>
+        <StyledSettingsWrapper
+          onClick={() => setIsSettingsQuickMenuVisible(!isSettingsQuickMenuVisible)}
+          isHoverd={isSettingsQuickMenuVisible}
         >
-          <StyledProfileText>User</StyledProfileText>
-        </motion.div>
-      </StyledSettingsWrapper>
+          <StyledLeftSideWrapper>
+            <StyledProfileIcon color={color} backgroundColor={backgroundColor}>
+              S
+            </StyledProfileIcon>
+            <motion.div
+              initial={{ x: -10, opacity: 0 }}
+              animate={{ x: isFullWidth ? 0 : -10, opacity: isFullWidth ? 1 : 0 }}
+            >
+              <StyledProfileText>User</StyledProfileText>
+            </motion.div>
+          </StyledLeftSideWrapper>
+
+          <StyledProfileIconWrapper>
+            <IoEllipsisHorizontal />
+          </StyledProfileIconWrapper>
+        </StyledSettingsWrapper>
+      </StyledLinkSpacer>
     </Fragment>
   );
 };
 
 const StyledSidebarLinkWrapper = styled.div<{ isCurrent: boolean }>`
   ${tw`flex my-1.5 dark:text-white md:hover:bg-secondery dark:hover:bg-tertiaryDark overflow-hidden py-3 transition-all px-2 rounded-lg space-x-4 items-center`}
-  ${({ isCurrent }) => isCurrent && tw``}
+  ${({ isCurrent }) => isCurrent && tw`bg-black bg-opacity-[3%] dark:bg-tertiaryDark`}
 `;
 const StyledNavLinkIcon = styled.div<{ color: string }>`
   ${tw`text-2xl  dark:text-white dark:opacity-100 transition-all  px-1.5 rounded-full `}
@@ -227,8 +260,11 @@ const SidebarLink = (props: { title: NavigationLinks; path: string; idx: number;
   const { selectedLanguage } = useSelectedLanguage();
   const { pathname } = useLocation();
   const { toggleSettings, isSettingVisible, toggleSidebar } = useAppState();
+  const [selectedEntities] = useEntities((e) => e.has(Tags.SELECTED));
 
   const handleClick = () => {
+    selectedEntities.forEach((e) => e.remove(Tags.SELECTED));
+
     toggleSidebar();
     if (isSettingVisible) {
       toggleSettings();
@@ -237,7 +273,7 @@ const SidebarLink = (props: { title: NavigationLinks; path: string; idx: number;
 
   return (
     <NavLink to={path}>
-      <StyledSidebarLinkWrapper onClick={handleClick} isCurrent={path == pathname}>
+      <StyledSidebarLinkWrapper onClick={handleClick} isCurrent={path == pathname && isHoverd}>
         <StyledNavLinkIcon color={COLORS[idx]}>
           <NavigationLinkIcon navLink={title} />
         </StyledNavLinkIcon>
@@ -251,10 +287,10 @@ const SidebarLink = (props: { title: NavigationLinks; path: string; idx: number;
 };
 
 const StyledSpinaIcon = styled.div`
-  ${tw`w-5 h-5 md:hover:scale-90 transition-all  mb-12 ml-2.5 scale-75`}
+  ${tw`w-5 text-4xl dark:text-primaryTextDark h-5 md:hover:scale-90 transition-all  mb-12 ml-2.5 scale-75`}
 `;
 const StyledSidebarWrapper = styled.div<{ isFullWidth: boolean }>`
-  ${tw`h-full  pt-6 bg-white dark:bg-seconderyDark  transition-all  px-2 rounded-xl backdrop-blur-2xl bg-opacity-95  `}
+  ${tw`h-full md:rounded-xl pt-6 bg-white dark:bg-seconderyDark  transition-all  px-2 backdrop-blur-2xl bg-opacity-95  `}
 `;
 
 const Sidebar = () => {
@@ -263,7 +299,7 @@ const Sidebar = () => {
   const { width } = useWindowDimensions();
   const [isHoverd, setIsHoverd] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
-  const isMobile = width < 1280;
+  const isMobile = width < MEDIUM_DEVICE_WIDTH;
   const isVisible = isMobile ? isSidebarVisible : true;
   const isFullWidth = isMobile ? true : isHoverd;
 
@@ -288,9 +324,9 @@ const Sidebar = () => {
         onHoverEnd={() => setIsHoverd(false)}
         style={{
           position: "fixed",
-          height: isMobile ? "98%" : "96%",
-          top: isMobile ? "1%" : "2%",
-          left: isMobile ? "14px" : "1%",
+          height: isMobile ? "100%" : "96%",
+          top: isMobile ? "0" : "2%",
+          left: isMobile ? "0" : "1%",
           zIndex: 20,
         }}
         initial={{
@@ -302,12 +338,14 @@ const Sidebar = () => {
           type: isMobile ? "tween" : "spring",
         }}
         animate={{
-          width: isFullWidth ? 250 : 72,
-          x: isVisible ? 0 : -300,
+          width: isMobile ? "100%" : isFullWidth ? 250 : 72,
+          x: isVisible ? 0 : isMobile ? "-100%" : -300,
         }}
       >
         <StyledSidebarWrapper isFullWidth={isFullWidth}>
-          <StyledSpinaIcon>{isDarkMode ? <ViSpinaColored /> : <ViSpina />}</StyledSpinaIcon>
+          <StyledSpinaIcon onClick={isMobile ? toggleSidebar : () => {}}>
+            {isMobile ? <IoClose /> : isDarkMode ? <ViSpinaColored /> : <ViSpina />}
+          </StyledSpinaIcon>
 
           {NAV_LINKS.map((navLink, idx) => (
             <SidebarLink isFullWidth={isFullWidth} key={idx} idx={idx} title={navLink.title} path={navLink.path} />

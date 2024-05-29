@@ -6,8 +6,9 @@ import { motion } from "framer-motion";
 import { useContext, useEffect, useRef } from "react";
 import tw from "twin.macro";
 import { MessageRoleFacet } from "../../../../../app/additionalFacets";
-import { COLOR_ITEMS } from "../../../../../base/constants";
+import { COLOR_ITEMS, MEDIUM_DEVICE_WIDTH } from "../../../../../base/constants";
 import { AdditionalTags } from "../../../../../base/enums";
+import { useWindowDimensions } from "../../../../../hooks/useWindowDimensions";
 import { useCurrentSapientorConversation } from "../hooks/useCurrentConversation";
 import SapientorChatSheet from "./SapientorChatSheet";
 import SapientorEye from "./SapientorEye";
@@ -40,6 +41,7 @@ const useQuickChat = () => {
     if (quickChatRef.current && !quickChatRef.current.contains(event.target as Node)) {
       setQuickChatVisible(false);
       setChatSheetVisible(false);
+      console.log("handleClickOutside");
 
       setTimeout(() => {
         [...promptEntities, ...messageEntities].forEach((entity) => {
@@ -58,11 +60,11 @@ const useQuickChat = () => {
 };
 
 const StyledIconWrapper = styled.div`
-  ${tw` overflow-hidden  pt-4 z-50 m-4 md:m-6 xl:m-8  bg-tertiary dark:bg-tertiaryDark transition-all hover:scale-105 rounded-xl size-16 md:size-20`}
+  ${tw` overflow-hidden  pt-4 z-50 m-4 md:m-6 xl:m-8  bg-tertiary dark:bg-tertiaryDark transition-all hover:scale-105 rounded-xl size-20`}
 `;
 
 const StyledSapientorOutline = styled.div`
-  ${tw`w-full rounded-t-full h-8  md:h-12`}
+  ${tw`w-full rounded-t-full h-12`}
   background-color: ${COLOR_ITEMS[5].accentColor};
 `;
 
@@ -78,14 +80,20 @@ const SapientorIcon = () => {
   const [promptEntity] = useEntities((e) => e.has(AdditionalTags.PROMPT) && e.has(AdditionalTags.PROCESSING))[0];
   const [isProcessingCurrentPrompt] = useEntityHasTags(promptEntity, AdditionalTags.PROCESSING);
   const { quickChatRef } = useQuickChat();
-  const { isQuickChatVisible, setQuickChatVisible, setChatSheetVisible } = useCurrentSapientorConversation();
+  const { isQuickChatVisible, setQuickChatVisible, setChatSheetVisible } =
+    useCurrentSapientorConversation();
+  const { width } = useWindowDimensions();
 
   const openPromptBox = () => {
-    setQuickChatVisible(true);
-
-    if (isQuickChatVisible) {
-      setQuickChatVisible(false);
+    if (width < MEDIUM_DEVICE_WIDTH) {
       setChatSheetVisible(true);
+    } else {
+      setQuickChatVisible(true);
+
+      if (isQuickChatVisible) {
+        setQuickChatVisible(false);
+        setChatSheetVisible(true);
+      }
     }
   };
 

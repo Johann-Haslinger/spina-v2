@@ -10,7 +10,7 @@ import { FlexBox } from "../../../../../components";
 import { useCurrentSapientorConversation } from "../hooks/useCurrentConversation";
 
 const StyledPromptBoxContainer = styled.div`
-  ${tw`w-full space-x-2 mb-8 mt-4 flex h-fit items-end`}
+  ${tw`w-full space-x-2 mb-8 mt-4  flex h-fit items-end`}
 `;
 
 const StyledPromptBoxWrapper = styled.div<{ isChatSheetVisible: boolean }>`

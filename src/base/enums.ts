@@ -99,7 +99,7 @@ export enum AdditionalTags {
   RELATED_THREAD_RESOURCE,
   SAPIENTOR_CONVERSATION,
   QUIK_CHAT_VISIBLE,
-  CHAt_SHEET_VISIBLE,
+  CHAT_SHEET_VISIBLE,
   GENERATE_FROM_IMAGE_PROMPT,
   GROUP_BLOCKEDITOR,
 }
@@ -184,7 +184,6 @@ export enum SupportedModels {
   SAPIENTOR_ASSISTENT,
   TURBO,
 }
-
 
 export enum SupabaseTables {
   USERS = "users",

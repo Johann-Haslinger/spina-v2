@@ -16,7 +16,7 @@ const StyledMessagesWrapper = styled.div`
 `;
 
 const StyledPromptBoxWrapper = styled.div`
-  ${tw`w-72 ml-8  `}
+  ${tw`w-72 md:ml-8 ml-14  `}
 `;
 
 const SapientorQuickChat = () => {

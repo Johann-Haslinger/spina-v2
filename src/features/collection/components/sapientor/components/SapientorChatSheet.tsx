@@ -20,7 +20,7 @@ const StyledPromptTextBoxWrapper = styled.div`
 `;
 
 const StyledContentWrapper = styled.div`
-  ${tw`   overflow-y-scroll h-[90%] `}
+  ${tw`  overflow-x-hidden w-full overflow-y-scroll h-[90%] `}
 `;
 const StyledSegmentedControlWrapper = styled.div`
   ${tw` flex rounded-full p-0.5 bg-tertiary dark:bg-tertiaryDark w-56  h-10`}

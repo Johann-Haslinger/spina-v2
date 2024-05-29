@@ -1,16 +1,16 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity, useEntity } from "@leanscope/ecs-engine";
 import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntityComponents";
-import { useContext } from "react";
-import { AdditionalTags, SupportedModels } from "../../../../../base/enums";
 import { IdentifierFacet } from "@leanscope/ecs-models";
+import { useContext } from "react";
 import { v4 } from "uuid";
+import { AdditionalTags, SupportedModels } from "../../../../../base/enums";
 
 export const useCurrentSapientorConversation = () => {
   const lsc = useContext(LeanScopeClientContext);
   const [currentConversationEntity] = useEntity((e) => e.hasTag(AdditionalTags.SAPIENTOR_CONVERSATION));
   const [isQuickChatVisible] = useEntityHasTags(currentConversationEntity, AdditionalTags.QUIK_CHAT_VISIBLE);
-  const [isChatSheetVisible] = useEntityHasTags(currentConversationEntity, AdditionalTags.CHAt_SHEET_VISIBLE);
+  const [isChatSheetVisible] = useEntityHasTags(currentConversationEntity, AdditionalTags.CHAT_SHEET_VISIBLE);
   const [useSapientorAssistentModel] = useEntityHasTags(currentConversationEntity, SupportedModels.SAPIENTOR_ASSISTENT);
 
   const deleteCurrentConversation = () => {
@@ -36,9 +36,18 @@ export const useCurrentSapientorConversation = () => {
 
   const setChatSheetVisible = (isVisible: boolean) => {
     if (isVisible) {
-      currentConversationEntity?.add(AdditionalTags.CHAt_SHEET_VISIBLE);
+      if (!currentConversationEntity) {
+        const newConversationEntity = new Entity();
+        lsc.engine.addEntity(newConversationEntity);
+        newConversationEntity.add(new IdentifierFacet({ guid: v4() }));
+        newConversationEntity.add(AdditionalTags.SAPIENTOR_CONVERSATION);
+        newConversationEntity?.add(AdditionalTags.CHAT_SHEET_VISIBLE);
+        newConversationEntity.add(SupportedModels.TURBO);
+      } else {
+        currentConversationEntity.add(AdditionalTags.CHAT_SHEET_VISIBLE);
+      }
     } else {
-      currentConversationEntity?.remove(AdditionalTags.CHAt_SHEET_VISIBLE);
+      currentConversationEntity?.remove(AdditionalTags.CHAT_SHEET_VISIBLE);
     }
   };
 
