@@ -4,7 +4,6 @@ import { ColorProps, DescriptionProps, Tags } from "@leanscope/ecs-models";
 import { IoPeople } from "react-icons/io5";
 import tw from "twin.macro";
 import { TitleProps } from "../../../app/additionalFacets";
-import { COLOR_ITEMS } from "../../../base/constants";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import { displayAlertTexts } from "../../../utils/displayText";
 
@@ -15,9 +14,8 @@ const StyledLearningGroupCellContainer = styled.div`
 const StyledLearningGroupCellWrapper = styled.div<{
   backgroundColor: string;
 }>`
-  ${tw`w-full h-40  flex justify-center items-center  md:hover:scale-105 md:hover:text-[8.5rem] transition-all  text-[7.5rem] font-bold p-2 `}
+  ${tw`w-full h-40  text-white text-opacity-30  flex justify-center items-center  md:hover:scale-105 md:hover:text-[8.5rem] transition-all  text-8xl font-bold p-2 `}
   background-color: ${({ backgroundColor }) => backgroundColor};
-  color: ${({ backgroundColor }) => COLOR_ITEMS.find((e) => e.accentColor === backgroundColor)?.color};
 `;
 
 const StyledLearningGroupTitle = styled.p`

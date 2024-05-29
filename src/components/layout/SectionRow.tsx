@@ -6,7 +6,7 @@ import tw from "twin.macro";
 type Role = "default" | "destructive" | "button";
 
 const StyledSectionRowWrapper = styled.div<{ role: Role}>`
-  ${tw`flex  pl-2 items-center min-h-8  pr-0 w-full`}
+  ${tw`flex  cursor-pointer pl-2 items-center min-h-8  pr-0 w-full`}
   ${({ role }) => role === "destructive" && tw` text-red-500   cursor-pointer md:hover:opacity-50 transition-all`}
   ${({ role }) => role === "button" && tw`text-primaryColor cursor-pointer dark:text-primaryTextDark md:hover:opacity-50 transition-all `}
 `;

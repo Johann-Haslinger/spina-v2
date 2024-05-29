@@ -35,6 +35,7 @@ export const displayAlertTexts = (selectedLanguage: SupportedLanguages) => {
     deleteAlertSubtitle: ALERT_TEXT_DATA.deleting_alert_subtitle[selectedLanguage],
     noUserSignedIn: ALERT_TEXT_DATA.no_user_signed_in[selectedLanguage],
     noLearningGroups: ALERT_TEXT_DATA.no_learning_groups[selectedLanguage],
+    
   };
 };
 
@@ -98,6 +99,9 @@ export const displayLabelTexts = (selectedLanguage: SupportedLanguages) => {
     adjustImage: LABEL_TEXT_DATA.adjust_image[selectedLanguage],
     imageSize: LABEL_TEXT_DATA.image_size[selectedLanguage],
     color: LABEL_TEXT_DATA.color[selectedLanguage],
+    pendingResources: LABEL_TEXT_DATA.pending_resources[selectedLanguage],
+    recentlyAdded: LABEL_TEXT_DATA.recently_added[selectedLanguage],
+    kanban: LABEL_TEXT_DATA.kanban[selectedLanguage],
   };
 };
 

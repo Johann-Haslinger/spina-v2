@@ -285,7 +285,19 @@ export const LABEL_TEXT_DATA = {
   color: {
     de: "Farbe",
     en: "Color",
+  }, 
+  pending_resources: {
+    de: "Anstehende Leistungen",
+    en: "Pending Resources"
   },
+  recently_added: {
+    de: "Zuletzt hinzugefügt",
+    en: "Recently added"
+  },
+  kanban: {
+    de: "Kanban",
+    en: "Kanban"
+  }
 };
 export const DATA_TYPE_TEXT_DATA = {
   note: {

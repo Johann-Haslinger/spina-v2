@@ -102,6 +102,7 @@ export enum AdditionalTags {
   CHAT_SHEET_VISIBLE,
   GENERATE_FROM_IMAGE_PROMPT,
   GROUP_BLOCKEDITOR,
+  RECENTLY_ADDED
 }
 
 export enum NavigationLinks {

@@ -23,9 +23,9 @@ export const useSchoolSubjectTopics = (schoolSubjectId: string) => {
       if (topics) {
         setSchoolSubjectTopics(
           topics.map((topic: any) => ({
-            title: topic.topicName,
+            title: topic.title,
             id: topic.id,
-          })) as unknown as Topic[]
+          })) as Topic[]
         );
       }
     };

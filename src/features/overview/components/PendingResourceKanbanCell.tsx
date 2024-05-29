@@ -10,10 +10,10 @@ import { useSchoolSubject } from "../../../hooks/useSchoolSubject";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import { displayAlertTexts } from "../../../utils/displayText";
 
-const StyledHomeworkCellContainer = styled.div`
+const StyledResourceCellContainer = styled.div`
   ${tw`w-full  transition-all h-32 px-2 py-1`}
 `;
-const StyledHomeworkCellWrapper = styled.div<{
+const StyledResourceCellWrapper = styled.div<{
   backgroundColor: string;
   color: string;
 }>`
@@ -22,14 +22,14 @@ const StyledHomeworkCellWrapper = styled.div<{
   color: ${(props) => props.backgroundColor};
 `;
 
-const StyledHomeworkCellTitle = styled.div`
+const StyledResourceCellTitle = styled.div`
   ${tw`text-lg line-clamp-2 font-black`}
 `;
-const StyledHomeworkCellSubtitle = styled.div`
+const StyledResourceCellSubtitle = styled.div`
   ${tw` text-sm font-medium line-clamp-2`}
 `;
 
-const HomeworkKanbanCell = (props: { entity: Entity; backgroundColor: string; color: string }) => {
+const PendingResourceKanbanCell = (props: { entity: Entity; backgroundColor: string; color: string }) => {
   const { entity, backgroundColor, color } = props;
   const { selectedLanguage } = useSelectedLanguage();
   const [titleProps, relationShipProps] = useEntityFacets(entity, TitleFacet, RelationshipFacet);
@@ -38,7 +38,7 @@ const HomeworkKanbanCell = (props: { entity: Entity; backgroundColor: string; co
   const relatedSchoolSubjectId = relationShipProps?.relationship;
   const { schoolSubjectTitle } = useSchoolSubject(relatedSchoolSubjectId);
 
-  const handleOpenHomework = () => entity.add(Tags.SELECTED);
+  const handleOpenResource = () => entity.add(Tags.SELECTED);
 
   return (
     <motion.div
@@ -51,16 +51,16 @@ const HomeworkKanbanCell = (props: { entity: Entity; backgroundColor: string; co
         y: 0,
       }}
     >
-      <StyledHomeworkCellContainer onClick={handleOpenHomework}>
-        <StyledHomeworkCellWrapper backgroundColor={backgroundColor} color={color}>
-          <StyledHomeworkCellTitle>{title}</StyledHomeworkCellTitle>
-          <StyledHomeworkCellSubtitle>
+      <StyledResourceCellContainer onClick={handleOpenResource}>
+        <StyledResourceCellWrapper backgroundColor={backgroundColor} color={color}>
+          <StyledResourceCellTitle>{title}</StyledResourceCellTitle>
+          <StyledResourceCellSubtitle>
             {schoolSubjectTitle}, {daysUntilDue}
-          </StyledHomeworkCellSubtitle>
-        </StyledHomeworkCellWrapper>
-      </StyledHomeworkCellContainer>
+          </StyledResourceCellSubtitle>
+        </StyledResourceCellWrapper>
+      </StyledResourceCellContainer>
     </motion.div>
   );
 };
 
-export default HomeworkKanbanCell;
+export default PendingResourceKanbanCell;
