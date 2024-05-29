@@ -4,8 +4,9 @@ import { Fragment, PropsWithChildren, useEffect, useState } from "react";
 import tw from "twin.macro";
 
 const StyledViewContainer = styled.div<{ backgroundColor?: string }>`
-  ${tw`  w-screen transition-all h-screen  bg-primary dark:bg-primaryDark  backdrop-blur-2xl `}
+  ${tw`  w-screen transition-all h-screen  backdrop-blur-2xl `}
   background-color: ${({ backgroundColor }) => backgroundColor};
+  ${({ backgroundColor }) => !backgroundColor && tw` bg-primary dark:bg-primaryDark `}
 `;
 
 const StyledViewWrapper = styled.div`

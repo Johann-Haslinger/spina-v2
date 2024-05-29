@@ -14,11 +14,11 @@ import DeletePodcastAlert from "./DeletePodcastAlert";
 import { COLOR_ITEMS } from "../../../../base/constants";
 
 const StyledPodcastRowWrapper = styled.div`
-  ${tw`hover:bg-tertiary cursor-pointer items-center flex space-x-4 rounded-lg transition-all  md:hover:dark:bg-seconderyDark p-2`}
+  ${tw`hover:bg-tertiary dark:hover:bg-seconderyDark cursor-pointer items-center flex space-x-4 rounded-lg transition-all  md:hover:dark:bg-seconderyDark p-2`}
 `;
 
 const StyledPodcastIcon = styled.div<{ color: string }>`
-  ${tw` !size-10 rounded  text-white text-opacity-70  flex items-center justify-center`}
+  ${tw` !size-10 mr-2 rounded   text-white text-opacity-70  flex items-center justify-center`}
   background-color: ${({ color }) => color};
 `;
 const StyledPodcastTitle = styled.p`
@@ -35,6 +35,10 @@ const StyledLeftSideWrapper = styled.div`
   ${tw`flex space-x-2 w-full items-center`}
 `;
 
+const StyledPodcastIconContainer = styled.div`
+  ${tw`w-12 `}
+`;
+
 const PodcastRow = (props: TitleProps & DateAddedProps & EntityProps) => {
   const { accentColor } = useSelectedSchoolSubjectColor();
   const { title, dateAdded, entity } = props;
@@ -42,6 +46,7 @@ const PodcastRow = (props: TitleProps & DateAddedProps & EntityProps) => {
   const [isActionMenuOpen, setIsActionMenuOpen] = useState(false);
 
   const openPodcast = () => entity.add(Tags.SELECTED);
+
   const openDeleteAlert = () => entity.add(AdditionalTags.DELETE);
 
   return (
@@ -49,11 +54,13 @@ const PodcastRow = (props: TitleProps & DateAddedProps & EntityProps) => {
       <StyledPodcastRowWrapper>
         <FlexBox>
           <StyledLeftSideWrapper onClick={openPodcast}>
-            <StyledPodcastIcon color={accentColor || COLOR_ITEMS[1].accentColor}>
-              <IoHeadset />
-            </StyledPodcastIcon>
+            <StyledPodcastIconContainer >
+              <StyledPodcastIcon color={accentColor || COLOR_ITEMS[1].accentColor}>
+                <IoHeadset />
+              </StyledPodcastIcon>
+            </StyledPodcastIconContainer>
 
-            <div>
+            <div >
               <StyledPodcastTitle>{title || displayAlertTexts(selectedLanguage).noTitle}</StyledPodcastTitle>
               <StyledPodcastSubtitle>
                 {displayDataTypeTexts(selectedLanguage).podcast}

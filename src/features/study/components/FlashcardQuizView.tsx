@@ -110,7 +110,7 @@ const StyledTalkingModeButton = styled.div`
 `;
 
 const StyledProgressBarWrapper = styled.div`
-  ${tw` dark:bg-seconderyDark bg-white overflow-hidden mb-4 h-fit w-full  rounded-full `}
+  ${tw`  bg-white overflow-hidden mb-4 h-fit w-full  rounded-full `}
 `;
 const StyledProgressBar = styled.div<{ width?: number; backgroundColor: string }>`
   ${tw`transition-all bg-white  h-1 rounded-full`}
@@ -269,7 +269,7 @@ const FlashcardQuizView = () => {
   );
 };
 const StyledFlashcardQuizEndCardWrapper = styled.div`
-  ${tw` dark:text-primaryTextDark absolute top-0 right-0  left-0 flex justify-center items-center h-full w-full `}
+  ${tw` absolute top-0 right-0  left-0 flex justify-center items-center h-full w-full `}
 `;
 
 const StyledDoneIcon = styled.div<{ color: string }>`
@@ -335,20 +335,20 @@ const FlashcardQuizEndCard = (props: { elapsedTime: number }) => {
 };
 
 const StyledFlashcardCellContainer = styled.div`
-  ${tw` dark:text-primaryTextDark absolute top-0 right-0  left-0 flex justify-center items-center h-full w-full `}
+  ${tw`  absolute top-0 right-0  left-0 flex justify-center items-center h-full w-full `}
 `;
 
 const StyledFlashcardWrapper = styled.div`
-  ${tw`bg-white mx-auto pb-12  cursor-pointer flex items-center  w-11/12 md:w-8/12 lg:w-1/2 h-60 dark:bg-tertiaryDark  p-4 rounded-2xl dark:shadow-md`}
+  ${tw`bg-white   mx-auto pb-12  cursor-pointer flex items-center  w-11/12 md:w-8/12 lg:w-1/2 h-60  p-4 rounded-2xl`}
 `;
 
 const StyledQuestionText = styled.div<{ color: string }>`
-  ${tw`text-lg text-center mx-auto w-fit font-bold dark:text-primaryTextDark`}
+  ${tw`text-lg text-center mx-auto w-fit font-bold `}
   color: ${(props) => props.color};
 `;
 
 const StyledAnswerText = styled.div<{ color: string }>`
-  ${tw`text-lg text-center mx-auto w-fit scale-x-[-1]  dark:text-primaryTextDark`}
+  ${tw`text-lg text-center mx-auto w-fit scale-x-[-1]  `}
   color: ${(props) => props.color};
 `;
 

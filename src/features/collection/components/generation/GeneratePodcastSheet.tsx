@@ -91,7 +91,7 @@ const GeneratePodcastSheet = () => {
           newPodcastEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
           newPodcastEntity.add(DataTypes.PODCAST);
 
-          addPodcast(lsc, newPodcastEntity, userId);
+          addPodcast(lsc, newPodcastEntity, userId, audioBase64);
         }
       }
 

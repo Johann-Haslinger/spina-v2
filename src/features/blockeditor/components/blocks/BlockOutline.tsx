@@ -148,9 +148,9 @@ const BlockOutline = (props: BlockOutlineProps & PropsWithChildren) => {
       <Draggable key={blockId} draggableId={blockId} index={0}>
         {(provided: any) =>
           isGroupBlockeditor ? (
-            <StyledContentWrapper ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-              {children}
-            </StyledContentWrapper>
+            <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={{paddingLeft: 8}}>
+              <StyledContentWrapper>{children}</StyledContentWrapper>
+            </div>
           ) : (
             <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
               <StyledBlockWrapper

@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import tw from "twin.macro";
-import { NavigationLinks, Stories } from "./base/enums";
+import { DataTypes, NavigationLinks, Stories } from "./base/enums";
 import { Sidebar } from "./components";
 import { AuthUI } from "./features/auth-ui";
 import { Settings } from "./features/settings";
@@ -14,6 +14,11 @@ import InitializeUserSystem from "./systems/InitializeUserSystem";
 import ViewManagerSystem from "./systems/ViewManagerSystem";
 import { formatNavLinkAsPath } from "./utils/formatNavLinkAsPath";
 import { SapientorIcon } from "./features/collection/components/sapientor";
+import { EntityPropsMapper } from "@leanscope/ecs-engine";
+import { TitleFacet, DateAddedFacet, SourceFacet } from "./app/additionalFacets";
+import PodcastSheet from "./features/collection/components/podcasts/PodcastSheet";
+import { dataTypeQuery } from "./utils/queries";
+import { Tags } from "@leanscope/ecs-models";
 
 const StyledContentWrapper = styled.div`
   ${tw`w-screen h-screen bg-primary dark:bg-primaryDark`}
@@ -46,6 +51,12 @@ function App() {
 
         <Settings />
       </BrowserRouter>
+
+      <EntityPropsMapper
+        query={(e) => dataTypeQuery(e, DataTypes.PODCAST) && e.has(Tags.SELECTED)}
+        get={[[TitleFacet, DateAddedFacet, SourceFacet], []]}
+        onMatch={PodcastSheet}
+      />
 
       <SapientorIcon />
     </StyledContentWrapper>

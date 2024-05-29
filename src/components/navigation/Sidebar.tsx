@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { EntityPropsMapper, useEntities } from "@leanscope/ecs-engine";
+import { useEntities } from "@leanscope/ecs-engine";
 import { Tags } from "@leanscope/ecs-models";
 import { motion } from "framer-motion";
 import { Fragment, useEffect, useRef, useState } from "react";
@@ -16,11 +16,9 @@ import {
 } from "react-icons/io5";
 import { NavLink, useLocation } from "react-router-dom";
 import tw from "twin.macro";
-import { DateAddedFacet, SourceFacet, TitleFacet } from "../../app/additionalFacets";
 import { ViSpina } from "../../assets/icons";
 import { COLOR_ITEMS, COLORS, LARGE_DEVICE_WIDTH, MEDIUM_DEVICE_WIDTH, NAV_LINKS } from "../../base/constants";
-import { DataTypes, NavigationLinks, SupportedLanguages, SupportedThemes } from "../../base/enums";
-import PodcastSheet from "../../features/collection/components/podcasts/PodcastSheet";
+import { NavigationLinks, SupportedLanguages, SupportedThemes } from "../../base/enums";
 import { useAppState } from "../../features/collection/hooks/useAppState";
 import { usePlayingPodcast } from "../../features/collection/hooks/usePlayingPodcast";
 import { useSelectedTheme } from "../../features/collection/hooks/useSelectedTheme";
@@ -28,7 +26,6 @@ import { useSelectedLanguage } from "../../hooks/useSelectedLanguage";
 import { useUserData } from "../../hooks/useUserData";
 import { useWindowDimensions } from "../../hooks/useWindowDimensions";
 import { displayAlertTexts, displayButtonTexts, displayHeaderTexts } from "../../utils/displayText";
-import { dataTypeQuery } from "../../utils/queries";
 import NavigationLinkIcon from "./NavigationLinkIcon";
 
 const StyledSelectedPodcasrCellWrapper = styled.div<{ visible: boolean }>`
@@ -360,12 +357,6 @@ const Sidebar = () => {
           <SettingsLink isFullWidth={isFullWidth} />
         </StyledSidebarWrapper>
       </motion.div>
-
-      <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataTypes.PODCAST)}
-        get={[[TitleFacet, DateAddedFacet, SourceFacet], []]}
-        onMatch={PodcastSheet}
-      />
     </Fragment>
   );
 };

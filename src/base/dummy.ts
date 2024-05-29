@@ -375,7 +375,16 @@ export const dummyLernVideos = [
   },
 ];
 
-export const dummyBlocks = [
+export const dummyBlocks: {
+  id: string;
+  type: string;
+  order: number;
+  text_type: string;
+  content: string;
+  fit?: string;
+  size?: string;
+  image_url?: string;
+}[] = [
   {
     id: "1",
     type: "text",

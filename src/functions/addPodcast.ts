@@ -1,11 +1,11 @@
 import { ILeanScopeClient } from "@leanscope/api-client/interfaces";
 import { Entity } from "@leanscope/ecs-engine";
-import supabaseClient from "../lib/supabase";
 import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
+import { TitleFacet } from "../app/additionalFacets";
 import { SupabaseTables } from "../base/enums";
-import { SourceFacet, TitleFacet } from "../app/additionalFacets";
+import supabaseClient from "../lib/supabase";
 
-export const addPodcast = async (lsc: ILeanScopeClient, podcastEntity: Entity, userId: string) => {
+export const addPodcast = async (lsc: ILeanScopeClient, podcastEntity: Entity, userId: string, audioBase64: string) => {
   lsc.engine.addEntity(podcastEntity);
 
   const { error } = await supabaseClient.from(SupabaseTables.PODCASTS).insert([
@@ -13,7 +13,7 @@ export const addPodcast = async (lsc: ILeanScopeClient, podcastEntity: Entity, u
       parent_id: podcastEntity.get(ParentFacet)?.props.parentId,
       user_id: userId,
       id: podcastEntity.get(IdentifierFacet)?.props.guid,
-      audio: podcastEntity.get(SourceFacet)?.props.source,
+      audio: audioBase64,
       title: podcastEntity.get(TitleFacet)?.props.title,
     },
   ]);

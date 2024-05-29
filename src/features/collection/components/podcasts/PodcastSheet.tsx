@@ -1,6 +1,5 @@
 import styled from "@emotion/styled";
-import { EntityProps, useEntities } from "@leanscope/ecs-engine";
-import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntityComponents";
+import { EntityProps } from "@leanscope/ecs-engine";
 import React, { useEffect, useRef, useState } from "react";
 import { IoHeadset, IoPlay, IoPlayBack, IoPlayForward } from "react-icons/io5";
 import tw from "twin.macro";
@@ -9,8 +8,6 @@ import { AdditionalTags } from "../../../../base/enums";
 import { FlexBox, Sheet } from "../../../../components";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 import { formatCounterTime } from "../../../../utils/formatTime";
-import { usePlayingPodcast } from "../../hooks/usePlayingPodcast";
-import { useSelectedPodcast } from "../../hooks/useSelectedPodcast";
 import { useSelectedSchoolSubjectColor } from "../../hooks/useSelectedSchoolSubjectColor";
 import LoadPodcastAudioSystem from "../../systems/LoadPodcastAudioSystem";
 
@@ -68,21 +65,19 @@ const PodcastSheet = (props: TitleProps & SourceProps & EntityProps & DateAddedP
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [duration, setDuration] = useState<number>(0);
   const audioRef = useRef<HTMLAudioElement>(null);
-  const { backgroundColor } = useSelectedSchoolSubjectColor();
-  const { setIsPlaying, selectedPodcastEntity } = useSelectedPodcast();
-  const { setIsPaused } = usePlayingPodcast();
-  const [isPlaying] = useEntityHasTags(entity, AdditionalTags.PLAYING);
-  const [playingPodcastEntities] = useEntities((e) => e.has(AdditionalTags.PLAYING) || e.has(AdditionalTags.PAUSED));
+  const { accentColor } = useSelectedSchoolSubjectColor();
+  const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [audioUrl, setAudioUrl] = useState<string>("");
 
-  useEffect(() => {
-    if (selectedPodcastEntity) {
-      playingPodcastEntities.forEach((playingPodcastEntity) => {
-        playingPodcastEntity.remove(AdditionalTags.PLAYING);
-        playingPodcastEntity.remove(AdditionalTags.PAUSED);
-      });
-    }
-  }, [selectedPodcastEntity]);
+  // TODO: managing playing podcast trough tag
+  // useEffect(() => {
+  //   if (selectedPodcastEntity) {
+  //     playingPodcastEntities.forEach((playingPodcastEntity) => {
+  //       playingPodcastEntity.remove(AdditionalTags.PLAYING);
+  //       playingPodcastEntity.remove(AdditionalTags.PAUSED);
+  //     });
+  //   }
+  // }, [selectedPodcastEntity]);
 
   useEffect(() => {
     if (audioRef.current) {
@@ -98,7 +93,7 @@ const PodcastSheet = (props: TitleProps & SourceProps & EntityProps & DateAddedP
     const audio = audioRef.current;
     setAudioUrl(source);
 
-    if (audio) {
+    if (audio && source) {
       setIsPlaying(true);
 
       audio.addEventListener("loadedmetadata", () => {
@@ -109,7 +104,7 @@ const PodcastSheet = (props: TitleProps & SourceProps & EntityProps & DateAddedP
 
   useEffect(() => {
     if (audioRef.current?.paused && isPlaying) {
-      setIsPaused(true);
+      setIsPlaying(false);
     }
   }, [audioRef.current?.paused]);
 
@@ -138,7 +133,7 @@ const PodcastSheet = (props: TitleProps & SourceProps & EntityProps & DateAddedP
       <Sheet navigateBack={navigateBack} visible={isVisible}>
         <StyledPodcastPlayerWrapper>
           <StyledPodcastIconContainer>
-            <StyledPodcastIconWrapper backgroundColor={backgroundColor} isPlaying={isPlaying}>
+            <StyledPodcastIconWrapper backgroundColor={accentColor} isPlaying={isPlaying}>
               <IoHeadset />
             </StyledPodcastIconWrapper>
           </StyledPodcastIconContainer>
@@ -168,14 +163,14 @@ const PodcastSheet = (props: TitleProps & SourceProps & EntityProps & DateAddedP
             <StyledTimeBarText>{formatCounterTime(duration - currentTime)}</StyledTimeBarText>
           </FlexBox>
 
-          <StyledButtonWrapper color={backgroundColor}>
+          <StyledButtonWrapper color={accentColor}>
             <IoPlayBack />
 
             <div onClick={() => setIsPlaying(!isPlaying)}>
               {isPlaying ? (
                 <StyledPauseButtonWrapper>
-                  <StyledPauseButtonStroke color={backgroundColor} />
-                  <StyledPauseButtonStroke color={backgroundColor} />
+                  <StyledPauseButtonStroke color={accentColor} />
+                  <StyledPauseButtonStroke color={accentColor} />
                 </StyledPauseButtonWrapper>
               ) : (
                 <IoPlay />
