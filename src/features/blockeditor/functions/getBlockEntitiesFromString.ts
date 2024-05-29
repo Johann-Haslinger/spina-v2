@@ -19,15 +19,13 @@ export const getBlockEntitiesFromText = (text: string, parentId: string): Entity
     let trimmedContent = content.trim();
 
     const isList = /^<li(\s|>)/.test(trimmedContent);
-    const isBold = /^(<b(\s|>)|<strong(\s|>))/i.test(trimmedContent);
+    const isBold = /^(<b(\s|>).*<\/b(\s|>)|<strong(\s|>).*<\/strong(\s|>))/i.test(trimmedContent);
 
     let textType = isBold ? Texttypes.BOLD : Texttypes.NORMAL;
 
-    let plainTextContent = trimmedContent.replace(/<[^>]+>/g, "");
-
     const newBlockEntity = new Entity();
     newBlockEntity.add(new IdentifierFacet({ guid: v4() }));
-    newBlockEntity.add(new TextFacet({ text: plainTextContent }));
+    newBlockEntity.add(new TextFacet({ text: trimmedContent }));
     newBlockEntity.add(new FloatOrderFacet({ index: index + 1 }));
     newBlockEntity.add(new TexttypeFacet({ texttype: textType }));
     newBlockEntity.add(new ParentFacet({ parentId: parentId }));
