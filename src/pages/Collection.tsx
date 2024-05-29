@@ -9,9 +9,8 @@ import {
   PodcastCollectionCard,
   PodcastCollectionView,
   SchoolSubjectCell,
-  SchoolSubjectView
+  SchoolSubjectView,
 } from "../features/collection";
-import { SapientorIcon } from "../features/collection/components/sapientor";
 import { useSelectedLanguage } from "../hooks/useSelectedLanguage";
 import { displayHeaderTexts } from "../utils/displayText";
 import { dataTypeQuery } from "../utils/queries";
@@ -33,7 +32,6 @@ const Collection = () => {
             onMatch={SchoolSubjectCell}
           />
           <PodcastCollectionCard />
-          {/* <BookmarkCollectionCard /> */}
         </CollectionGrid>
       </View>
 
@@ -45,15 +43,6 @@ const Collection = () => {
 
       <PodcastCollectionView />
       <BookmarkCollectionView />
-      <SapientorIcon />
-
-      {/* <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataTypes.TOPIC) && e.hasTag(Tags.SELECTED)}
-        get={[[TitleFacet, DescriptionFacet], []]}
-        onMatch={TopicView}
-      /> */}
-
-
     </Fragment>
   );
 };

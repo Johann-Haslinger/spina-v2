@@ -8,6 +8,9 @@ import { useIsAnyStoryCurrent } from "../hooks/useIsAnyStoryCurrent";
 import { SucessSheet } from "../components";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useSelectedSchoolSubjectColor } from "../features/collection/hooks/useSelectedSchoolSubjectColor";
+import { useAppState } from "../features/collection/hooks/useAppState";
+import { useWindowDimensions } from "../hooks/useWindowDimensions";
+import { MEDIUM_DEVICE_WIDTH } from "../base/constants";
 
 const ViewManagerSystem = () => {
   const isSheetViewVisible = useIsAnyStoryCurrent([
@@ -64,6 +67,8 @@ const ViewManagerSystem = () => {
   const [themeColor, setThemeColor] = useState("#F5F5F5");
   const { backgroundColor } = useSelectedSchoolSubjectColor();
   const { isChatSheetVisible } = useCurrentSapientorConversation();
+  const { isSidebarVisible } = useAppState();
+  const { width } = useWindowDimensions();
 
   useEffect(() => {
     if (isSheetViewVisible) {
@@ -78,10 +83,30 @@ const ViewManagerSystem = () => {
   }, [isSheetViewVisible]);
 
   useEffect(() => {
+    if (isSidebarVisible && width < MEDIUM_DEVICE_WIDTH) {
+      if (isDarkMode) {
+        setThemeColor("#1a1a1a");
+      } else {
+        setThemeColor("#ffffff");
+      }
+    } else if (width < MEDIUM_DEVICE_WIDTH) {
+      if (isDarkMode) {
+        setThemeColor("#000000");
+      } else {
+        setThemeColor("#F5F5F5");
+      }
+    }
+  }, [isSidebarVisible]);
+
+  useEffect(() => {
     if (isChatSheetVisible) {
-      document.body.classList.add("overflow-hidden");
+      if (!isDarkMode) {
+        setThemeColor("rgb(214,214,214)");
+      }
     } else {
-      document.body.classList.remove("overflow-hidden");
+      if (!isDarkMode) {
+        setThemeColor("#F5F5F5");
+      }
     }
   }, [isChatSheetVisible]);
 

@@ -13,10 +13,11 @@ import InitializeStoriesSystem from "./systems/InitializeStoriesSystem";
 import InitializeUserSystem from "./systems/InitializeUserSystem";
 import ViewManagerSystem from "./systems/ViewManagerSystem";
 import { formatNavLinkAsPath } from "./utils/formatNavLinkAsPath";
+import { SapientorIcon } from "./features/collection/components/sapientor";
 
 const StyledContentWrapper = styled.div`
-${tw`w-screen h-screen bg-primary dark:bg-primaryDark`}
-`
+  ${tw`w-screen h-screen bg-primary dark:bg-primaryDark`}
+`;
 
 function App() {
   const { session } = useSession();
@@ -45,6 +46,8 @@ function App() {
 
         <Settings />
       </BrowserRouter>
+
+      <SapientorIcon />
     </StyledContentWrapper>
   );
 }

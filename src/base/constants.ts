@@ -6,7 +6,7 @@ export const SELECTED_LANGUAGE = SupportedLanguages.DE;
 
 export const MEDIUM_DEVICE_WIDTH = 768;
 
-export const LARGE_DEVICE_WIDTH = 1024;
+export const LARGE_DEVICE_WIDTH = 1200;
 
 export const NAV_LINKS = [
   {

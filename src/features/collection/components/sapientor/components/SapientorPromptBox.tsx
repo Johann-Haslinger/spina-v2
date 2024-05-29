@@ -3,7 +3,7 @@ import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
 import { TextFacet } from "@leanscope/ecs-models";
 import { Fragment, useContext, useEffect, useRef, useState } from "react";
-import { IoArrowUp, IoAttachOutline, IoClose } from "react-icons/io5";
+import { IoArrowUp, IoClose } from "react-icons/io5";
 import tw from "twin.macro";
 import { AdditionalTags } from "../../../../../base/enums";
 import { FlexBox } from "../../../../../components";
@@ -28,10 +28,6 @@ const StyledSubmitButton = styled.button<{ active: boolean }>`
     active
       ? tw`dark:bg-white text-white bg-black dark:bg-opacity-80 hover:opacity-50`
       : tw` dark:bg-white bg-black bg-opacity-10  dark:bg-opacity-10 dark:text-opacity-60  `}
-`;
-
-const StyledAddResourceButton = styled.button`
-  ${tw`mr-4 text-2xl text-seconderyText dark:text-seconderyTextDark hover:opacity-50 transition-all`}
 `;
 
 const StyledSelectedImage = styled.img`
@@ -126,6 +122,7 @@ const SapientorPromptBox = (props: { isVisible: boolean }) => {
   };
 
   const openFilePicker = () => {
+    console.log(openFilePicker);
     setIsSelectingImageSrc(true);
     if (fileInputRef.current) {
       fileInputRef.current.click();
@@ -156,11 +153,11 @@ const SapientorPromptBox = (props: { isVisible: boolean }) => {
           )}
           <FlexBox>
             {" "}
-            {isChatSheetVisible && (
+            {/* {isChatSheetVisible && (
               <StyledAddResourceButton onClick={openFilePicker}>
                 <IoAttachOutline />
               </StyledAddResourceButton>
-            )}
+            )} */}
             <StyledPromptInput
               value={prompt}
               onChange={(e) => setPrompt(e.target.value)}

@@ -9,6 +9,7 @@ import {
   IoHelpOutline,
   IoLogInOutline,
   IoLogOutOutline,
+  IoMoon,
   IoPause,
   IoPlay,
   IoSettingsOutline,
@@ -16,9 +17,9 @@ import {
 import { NavLink, useLocation } from "react-router-dom";
 import tw from "twin.macro";
 import { DateAddedFacet, SourceFacet, TitleFacet } from "../../app/additionalFacets";
-import { ViSpina, ViSpinaColored } from "../../assets/icons";
+import { ViSpina } from "../../assets/icons";
 import { COLOR_ITEMS, COLORS, LARGE_DEVICE_WIDTH, MEDIUM_DEVICE_WIDTH, NAV_LINKS } from "../../base/constants";
-import { DataTypes, NavigationLinks, SupportedLanguages } from "../../base/enums";
+import { DataTypes, NavigationLinks, SupportedLanguages, SupportedThemes } from "../../base/enums";
 import PodcastSheet from "../../features/collection/components/podcasts/PodcastSheet";
 import { useAppState } from "../../features/collection/hooks/useAppState";
 import { usePlayingPodcast } from "../../features/collection/hooks/usePlayingPodcast";
@@ -72,7 +73,7 @@ const SelectedPodcastCell = (props: { isFullWidth: boolean }) => {
 };
 
 const StyledSettingsMenuWrapper = styled.div`
-  ${tw` px-2 py-2 dark:text-primaryTextDark md:w-56 w-full h-52 bg-black bg-opacity-[3%] dark:bg-tertiaryDark rounded-lg`}
+  ${tw` px-2 py-2 dark:text-primaryTextDark md:w-56 w-full h-52 bg-primary dark:bg-tertiaryDark rounded-lg`}
 `;
 
 const StyledEmailText = styled.div`
@@ -90,25 +91,25 @@ const StyledAccountStatusText = styled.div`
   ${tw`w-full px-1 py-3   transition-all md:hover:opacity-50   flex items-center `}
 `;
 const StyledSettingsMenuIcon = styled.div`
-  ${tw`text-base mr-3 `}
+  ${tw`text-base mr-3`}
 `;
 const StyledSettingsDivider = styled.div`
   ${tw`w-full h-0.5 dark:border-primaryBorderDark border-primaryBorder border-b `}
 `;
 const StyledSettingsWrapper = styled.div<{ isHoverd: boolean }>`
-  ${tw`flex w-full  md:w-[226px] pr-4 justify-between cursor-pointer  md:hover:bg-primary dark:hover:bg-tertiaryDark  mx-1  my-2 dark:text-white  overflow-hidden py-1 transition-all  rounded-xl space-x-4 items-center`}
+  ${tw`flex w-full ml-3  md:mb-3 md:w-[226px] pr-4 justify-between cursor-pointer  md:hover:bg-primary dark:hover:bg-tertiaryDark  mx-1  my-2 dark:text-white  overflow-hidden py-1 transition-all  rounded-xl space-x-4 items-center`}
   ${({ isHoverd }) => isHoverd && tw`bg-black bg-opacity-[3%] dark:bg-tertiaryDark`}
 `;
 
 const StyledLinkSpacer = styled.div`
-  ${tw`w-full absolute left-0 right-0 pl-2 pr-4 md:pl-0 md:pr-0 md:right-auto  bottom-6 md:bottom-0`}
+  ${tw`w-full absolute left-0 right-0  pr-6 md:pl-0 md:pr-0 md:right-auto  bottom-6 md:bottom-0`}
 `;
 
 const StyledProfileIcon = styled.div<{
   color: string;
   backgroundColor: string;
 }>`
-  ${tw`text-2xl md:ml-3 md:hover:opacity-80 transition-all font-black mx-1 size-10 rounded-lg flex items-center justify-center`}
+  ${tw`text-2xl  md:hover:opacity-80 transition-all font-black mx-1 size-10 rounded-lg flex items-center justify-center`}
   color: ${({ color }) => color};
   background-color: ${({ backgroundColor }) => backgroundColor};
 `;
@@ -287,7 +288,7 @@ const SidebarLink = (props: { title: NavigationLinks; path: string; idx: number;
 };
 
 const StyledSpinaIcon = styled.div`
-  ${tw`w-5 text-4xl dark:text-primaryTextDark h-5 md:hover:scale-90 transition-all  mb-12 ml-2.5 scale-75`}
+  ${tw` flex w-[54px] justify-center text-3xl dark:text-primaryTextDark h-5 md:hover:scale-90 transition-all  mb-12  scale-75`}
 `;
 const StyledSidebarWrapper = styled.div<{ isFullWidth: boolean }>`
   ${tw`h-full md:rounded-xl pt-6 bg-white dark:bg-seconderyDark  transition-all  px-2 backdrop-blur-2xl bg-opacity-95  `}
@@ -295,7 +296,7 @@ const StyledSidebarWrapper = styled.div<{ isFullWidth: boolean }>`
 
 const Sidebar = () => {
   const { isSidebarVisible, toggleSidebar } = useAppState();
-  const { isDarkMode } = useSelectedTheme();
+  const { isDarkMode, changeTheme } = useSelectedTheme();
   const { width } = useWindowDimensions();
   const [isHoverd, setIsHoverd] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
@@ -332,7 +333,7 @@ const Sidebar = () => {
         }}
         initial={{
           width: 72,
-          x: isMediumDevice ? "-110%" :  -100,
+          x: isMediumDevice ? "-110%" : -100,
         }}
         transition={{
           duration: isMobile ? 0.2 : 0.6,
@@ -344,8 +345,12 @@ const Sidebar = () => {
         }}
       >
         <StyledSidebarWrapper isFullWidth={isFullWidth}>
-          <StyledSpinaIcon onClick={isMobile ? toggleSidebar : () => {}}>
-            {isMobile ? <IoClose /> : isDarkMode ? <ViSpinaColored /> : <ViSpina />}
+          <StyledSpinaIcon
+            onClick={
+              isMobile ? toggleSidebar : () => changeTheme(isDarkMode ? SupportedThemes.LIGHT : SupportedThemes.DARK)
+            }
+          >
+            {isMobile ? <IoClose /> : isDarkMode ? <IoMoon /> : <ViSpina />}
           </StyledSpinaIcon>
 
           {NAV_LINKS.map((navLink, idx) => (
