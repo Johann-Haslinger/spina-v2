@@ -13,7 +13,7 @@ const fetchGroupHomeworksForTopic = async (topicId: string) => {
   const { data: groupHomeworks, error } = await supabaseClient
     .from("group_homeworks")
     .select("title, id, date_added, dueDate")
-    .eq("parentId", topicId);
+    .eq("parent_id", topicId);
 
   if (error) {
     console.error("Error fetching group homeworks:", error);

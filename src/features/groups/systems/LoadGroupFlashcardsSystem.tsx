@@ -13,7 +13,7 @@ const fetchGroupFlashcardsForGroupFlashcardGroup = async (parentId: string) => {
   const { data: groupFlashcards, error } = await supabaseClient
     .from("group_flashcards")
     .select("question, id, answer")
-    .eq("parentId", parentId);
+    .eq("parent_id", parentId);
 
   if (error) {
     console.error("Error fetching GroupFlashcards:", error);
@@ -26,7 +26,7 @@ const fetchGroupFlashcardsForGroupFlashcardGroup = async (parentId: string) => {
 const LoadGroupFlashcardsSystem = () => {
   const { mockupData, shouldFetchFromSupabase } = useMockupData();
   const lsc = useContext(LeanScopeClientContext);
-  const { selectedGroupFlashcardSetId } = useSelectedGroupFlashcardSet()
+  const { selectedGroupFlashcardSetId } = useSelectedGroupFlashcardSet();
 
   useEffect(() => {
     const initializeGroupFlashcardEntities = async () => {

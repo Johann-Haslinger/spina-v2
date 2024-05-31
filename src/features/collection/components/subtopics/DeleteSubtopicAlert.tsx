@@ -1,7 +1,7 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext } from "react";
-import { Stories, AdditionalTags, SupabaseTables } from "../../../../base/enums";
+import { AdditionalTags, Stories, SupabaseTables } from "../../../../base/enums";
 import { Alert, AlertButton } from "../../../../components";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../../lib/supabase";
@@ -23,7 +23,10 @@ const DeleteSubtopicAlert = () => {
       if (selectedSubtopicEntity) {
         lsc.engine.removeEntity(selectedSubtopicEntity);
 
-        const { error: subtopicError } = await supabaseClient.from(SupabaseTables.SUBTOPICS).delete().eq("id", selectedSubtopicId);
+        const { error: subtopicError } = await supabaseClient
+          .from(SupabaseTables.SUBTOPICS)
+          .delete()
+          .eq("id", selectedSubtopicId);
 
         if (subtopicError) {
           console.error("Error deleting Subtopic", subtopicError);
@@ -32,7 +35,7 @@ const DeleteSubtopicAlert = () => {
         const { error: knowledgeError } = await supabaseClient
           .from("knowledges")
           .delete()
-          .eq("parentId", selectedSubtopicId);
+          .eq("parent_id", selectedSubtopicId);
 
         if (knowledgeError) {
           console.error("Error deleting knowledge", knowledgeError);
@@ -47,7 +50,10 @@ const DeleteSubtopicAlert = () => {
           console.error("Error deleting flashcards", flashcardsError);
         }
 
-        const { error: blocksError } = await supabaseClient.from(SupabaseTables.BLOCKS).delete().eq("parentId", selectedSubtopicId);
+        const { error: blocksError } = await supabaseClient
+          .from(SupabaseTables.BLOCKS)
+          .delete()
+          .eq("parent_id", selectedSubtopicId);
 
         if (blocksError) {
           console.error("Error deleting blocks", blocksError);

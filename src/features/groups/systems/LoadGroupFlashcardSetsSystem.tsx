@@ -13,7 +13,7 @@ const fetchGroupFlashcardSetsForTopic = async (topicId: string) => {
   const { data: groupFlashcardSets, error } = await supabaseClient
     .from("group_flashcard_sets")
     .select("title, id, date_added")
-    .eq("parentId", topicId);
+    .eq("parent_id", topicId);
 
   if (error) {
     console.error("Error fetching GroupFlashcardSets:", error);

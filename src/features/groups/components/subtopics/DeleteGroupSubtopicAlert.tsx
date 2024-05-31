@@ -1,7 +1,7 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext } from "react";
-import { Stories, AdditionalTags, SupabaseTables } from "../../../../base/enums";
+import { AdditionalTags, Stories, SupabaseTables } from "../../../../base/enums";
 import { Alert, AlertButton } from "../../../../components";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../../lib/supabase";
@@ -23,7 +23,10 @@ const DeleteGroupSubtopicAlert = () => {
       if (selectedGroupSubtopicEntity) {
         lsc.engine.removeEntity(selectedGroupSubtopicEntity);
 
-        const { error: GroupSubtopicError } = await supabaseClient.from("group_subtopics").delete().eq("id", selectedGroupSubtopicId);
+        const { error: GroupSubtopicError } = await supabaseClient
+          .from("group_subtopics")
+          .delete()
+          .eq("id", selectedGroupSubtopicId);
 
         if (GroupSubtopicError) {
           console.error("Error deleting group subtopic", GroupSubtopicError);
@@ -41,7 +44,7 @@ const DeleteGroupSubtopicAlert = () => {
         const { error: flashcardsError } = await supabaseClient
           .from("group_flashcards")
           .delete()
-          .eq("parentId", selectedGroupSubtopicId);
+          .eq("parent_id", selectedGroupSubtopicId);
 
         if (flashcardsError) {
           console.error("Error deleting flashcards", flashcardsError);

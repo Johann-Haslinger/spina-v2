@@ -129,7 +129,7 @@ const LoadSubtopicResourcesSystem = () => {
             const { data: subtopicTextData, error } = await supabaseClient
               .from("knowledges")
               .select("text")
-              .eq("parentId", selectedSubtopicId)
+              .eq("parent_id", selectedSubtopicId)
               .single();
 
             if (error) {
