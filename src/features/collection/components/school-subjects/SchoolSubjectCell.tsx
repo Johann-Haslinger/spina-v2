@@ -10,9 +10,9 @@ const StyledCellWrapper = styled.div<{
   backgroundColor: string;
   color: string;
 }>`
-  ${tw` p-2.5 w-full flex    cursor-pointer  items-end  text-7xl md:hover:text-8xl md:hover:scale-105  transition-all h-40`}
-  background-color: ${({ backgroundColor }) => backgroundColor};
-  color: ${({ color }) => color};
+  ${tw` p-4 w-full flex  text-[#F5F5F5]   cursor-pointer  items-end  text-7xl md:hover:text-8xl md:hover:scale-105  transition-all h-40`}
+  background-color: ${({ backgroundColor }) => backgroundColor + "90"};
+  color: ${({ backgroundColor }) => backgroundColor};
 `;
 
 const StyledTitle = styled.p`
