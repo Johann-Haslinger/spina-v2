@@ -80,7 +80,7 @@ const AddResourceToLearningGroupSheet = () => {
   const { selectedLanguage } = useSelectedLanguage();
   const learningGroups = useLearningGroups(isVisible);
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.ADDING_RESOURCE_TO_LEARNING_GROUP_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_TOPIC_STORY);
 
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>

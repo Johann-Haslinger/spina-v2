@@ -36,7 +36,7 @@ export const NAV_LINKS = [
   },
 ];
 
-export const COLORS = ["#F4CF54", "#00965F", "#0B86D1", "#B9A0FF", "#F4BAB5", "#EE7A2C", "#446DFF"];
+export const COLORS = ["#FFD600", "#FF8A00", "#FF0000", "#DB00FF", "#8F00FF", "#0000FF", "#0094FF", "#00E0FF", "#0ECB65"];
 
 export const COLOR_ITEMS: { color: string; accentColor: string; name?: string; backgroundColor: string }[] = [
   {

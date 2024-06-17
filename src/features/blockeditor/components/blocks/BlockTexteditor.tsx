@@ -114,16 +114,6 @@ const handleEnterPress = async (
 
     const blockId = blockEntity.get(IdentifierFacet)?.props.guid;
 
-    const { error } = await supabaseClient.from(SupabaseTables.BLOCKS).update({ content: newtext }).eq("id", blockId);
-
-    if (error) {
-      console.error("Error updating block text:", error);
-    }
-
-    if (textEditor) {
-      textEditor.innerHTML = newtext;
-    }
-
     const newTextBlockOrder =
       getHighestOrder(lsc, blockEntity.get(ParentFacet)?.props.parentId || "") === blockOrder
         ? blockOrder + 1
@@ -139,6 +129,16 @@ const handleEnterPress = async (
     newBlockEntity.add(AdditionalTags.FOCUSED);
 
     addBlock(lsc, newBlockEntity, userId);
+
+    const { error } = await supabaseClient.from(SupabaseTables.BLOCKS).update({ content: newtext }).eq("id", blockId);
+
+    if (error) {
+      console.error("Error updating block text:", error);
+    }
+
+    if (textEditor) {
+      textEditor.innerHTML = newtext;
+    }
   } else {
     blockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.TEXT }));
 
@@ -212,7 +212,6 @@ const handleBackSpacePressWithText = (
 };
 
 const handleArrowUpPress = (lsc: ILeanScopeClient, blockEntity: Entity) => {
-  blockEntity.removeTag(AdditionalTags.FOCUSED);
   const nextLowerBlockEntity = getNextLowerOrderEntity(lsc, blockEntity);
   const nextLowerBlockType = nextLowerBlockEntity?.get(BlocktypeFacet)?.props.blocktype;
 
@@ -221,11 +220,11 @@ const handleArrowUpPress = (lsc: ILeanScopeClient, blockEntity: Entity) => {
     nextLowerBlockType === Blocktypes.LIST ||
     nextLowerBlockType === Blocktypes.TODO
   ) {
+    blockEntity.removeTag(AdditionalTags.FOCUSED);
     nextLowerBlockEntity?.add(AdditionalTags.FOCUSED);
   }
 };
 const handleArrowDownPress = (lsc: ILeanScopeClient, blockEntity: Entity) => {
-  blockEntity.removeTag(AdditionalTags.FOCUSED);
   const nextLowerBlockEntity = getNextHigherOrderEntity(lsc, blockEntity);
   const nextLowerBlockType = nextLowerBlockEntity?.get(BlocktypeFacet)?.props.blocktype;
 
@@ -234,6 +233,7 @@ const handleArrowDownPress = (lsc: ILeanScopeClient, blockEntity: Entity) => {
     nextLowerBlockType === Blocktypes.LIST ||
     nextLowerBlockType === Blocktypes.TODO
   ) {
+    blockEntity.removeTag(AdditionalTags.FOCUSED);
     nextLowerBlockEntity?.add(AdditionalTags.FOCUSED);
   }
 };
@@ -355,7 +355,6 @@ const BlockTexteditor = (props: EntityProps) => {
     <StyledTexteditor
       style={{
         ...getTextStyle(texttype),
-        userSelect: "none",
       }}
       dangerouslySetInnerHTML={{ __html: initinalBlocktext }}
     />
@@ -369,7 +368,6 @@ const BlockTexteditor = (props: EntityProps) => {
         onFocus={handleFocus}
         style={{
           ...getTextStyle(texttype),
-          userSelect: "none",
         }}
         onPaste={(e) => handlePaste(e)}
         contentEditable={isBlockEditable}

@@ -1,9 +1,16 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
-import { DescriptionProps, IdentifierFacet, Tags, TextFacet } from "@leanscope/ecs-models";
+import { Entity, EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
+import { DescriptionProps, IdentifierFacet, ParentFacet, Tags, TextFacet } from "@leanscope/ecs-models";
 import { Fragment, useContext } from "react";
-import { IoAdd, IoCreateOutline, IoEllipsisHorizontalCircleOutline, IoTrashOutline } from "react-icons/io5";
-import { TitleFacet, TitleProps } from "../../../../app/additionalFacets";
+import {
+  IoAdd,
+  IoCameraOutline,
+  IoCreateOutline,
+  IoEllipsisHorizontalCircleOutline,
+  IoTrashOutline,
+} from "react-icons/io5";
+import { v4 } from "uuid";
+import { DateAddedFacet, SourceFacet, TitleFacet, TitleProps } from "../../../../app/additionalFacets";
 import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
 import {
   ActionRow,
@@ -17,14 +24,17 @@ import {
   View,
 } from "../../../../components";
 import BackButton from "../../../../components/buttons/BackButton";
+import { addNote } from "../../../../functions/addNote";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import { displayActionTexts, displayAlertTexts } from "../../../../utils/displayText";
+import { useUserData } from "../../../../hooks/useUserData";
+import { displayActionTexts, displayAlertTexts, displayDataTypeTexts } from "../../../../utils/displayText";
 import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
 import { sortEntitiesByDateAdded } from "../../../../utils/sortEntitiesByTime";
 import AddResourceToLearningGroupSheet from "../../../groups/components/AddResourceToLearningGroupSheet";
 import { useEntityHasChildren } from "../../hooks/useEntityHasChildren";
 import { useSelectedSchoolSubject } from "../../hooks/useSelectedSchoolSubject";
+import { useSelectedTopic } from "../../hooks/useSelectedTopic";
 import LoadFlashcardSetsSystem from "../../systems/LoadFlashcardSetsSystem";
 import LoadHomeworksSystem from "../../systems/LoadHomeworksSystem";
 import LoadNotesSystem from "../../systems/LoadNotesSystem";
@@ -40,9 +50,42 @@ import NoteCell from "../notes/NoteCell";
 import NoteView from "../notes/NoteView";
 import SubtopicCell from "../subtopics/SubtopicCell";
 import SubtopicView from "../subtopics/SubtopicView";
-import AddResourceToTopicSheet from "./AddResourceToTopicSheet";
 import DeleteTopicAlert from "./DeleteTopicAlert";
 import EditTopicSheet from "./EditTopicSheet";
+
+const useImageSelector = () => {
+  const lsc = useContext(LeanScopeClientContext);
+
+  const handleImageUpload = (event: Event) => {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        const base64 = reader.result as string;
+        const newImagePromptEntity = new Entity();
+        lsc.engine.addEntity(newImagePromptEntity);
+        newImagePromptEntity.add(new SourceFacet({ source: base64 }));
+        newImagePromptEntity.add(AdditionalTags.GENERATE_FROM_IMAGE_PROMPT);
+
+        lsc.stories.transitTo(Stories.GENERATING_RESOURCES_FROM_IMAGE);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const openImageSelector = () => {
+    const fileInput = document.createElement("input");
+    fileInput.type = "file";
+    fileInput.accept = "image/*";
+    fileInput.addEventListener("change", handleImageUpload);
+    fileInput.click();
+  };
+
+  return {
+    openImageSelector,
+  };
+};
 
 const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -51,11 +94,32 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
   const { selectedSchoolSubjectTitle } = useSelectedSchoolSubject();
   const { selectedLanguage } = useSelectedLanguage();
   const { hasChildren } = useEntityHasChildren(entity);
+  const { openImageSelector } = useImageSelector();
+  const { userId } = useUserData();
+  const { selectedTopicId } = useSelectedTopic();
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
   const openAddResourceSheet = () => lsc.stories.transitTo(Stories.ADDING_RESOURCE_TO_TOPIC_STORY);
   const openEditTopicSheet = () => lsc.stories.transitTo(Stories.EDITING_TOPIC_STORY);
   const openDeleteTopicAlert = () => lsc.stories.transitTo(Stories.DELETING_TOPIC_STORY);
+  const openAddFlashcardsSheet = () => lsc.stories.transitTo(Stories.ADDING_FLASHCARD_SET_STORY);
+  const openAddHomeworkSheet = () => lsc.stories.transitTo(Stories.ADDING_HOMEWORK_STORY);
+
+  const saveNote = async () => {
+    if (selectedTopicId) {
+      navigateBack();
+      const noteId = v4();
+
+      const newNoteEntity = new Entity();
+      newNoteEntity.add(new IdentifierFacet({ guid: noteId }));
+      newNoteEntity.add(new ParentFacet({ parentId: selectedTopicId }));
+      newNoteEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
+      newNoteEntity.add(DataTypes.NOTE);
+      newNoteEntity.add(Tags.SELECTED);
+
+      addNote(lsc, newNoteEntity, userId);
+    }
+  };
 
   return (
     <Fragment>
@@ -66,7 +130,25 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
 
       <View visible={isVisible}>
         <NavigationBar>
-          <NavBarButton onClick={openAddResourceSheet}>
+          <NavBarButton
+            content={
+              <Fragment>
+                <ActionRow icon={<IoAdd />} onClick={saveNote}>
+                  {displayDataTypeTexts(selectedLanguage).note}
+                </ActionRow>
+                <ActionRow icon={<IoAdd />} onClick={openAddFlashcardsSheet}>
+                  {displayDataTypeTexts(selectedLanguage).flashcardSet}
+                </ActionRow>
+                <ActionRow icon={<IoAdd />} hasSpace onClick={openAddHomeworkSheet}>
+                  {displayDataTypeTexts(selectedLanguage).homework}
+                </ActionRow>
+                <ActionRow icon={<IoCameraOutline />} onClick={openImageSelector} last>
+                  {displayActionTexts(selectedLanguage).generateFromImage}
+                </ActionRow>
+              </Fragment>
+            }
+            onClick={openAddResourceSheet}
+          >
             <IoAdd />
           </NavBarButton>
           <NavBarButton
@@ -153,7 +235,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
 
       <AddHomeworkSheet />
       <AddFlashcardSetSheet />
-      <AddResourceToTopicSheet />
+
       <DeleteTopicAlert />
       <EditTopicSheet />
       <GenerateResourcesFromImageSheet />
