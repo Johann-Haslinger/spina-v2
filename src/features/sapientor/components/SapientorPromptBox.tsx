@@ -5,9 +5,10 @@ import { TextFacet } from "@leanscope/ecs-models";
 import { Fragment, useContext, useEffect, useRef, useState } from "react";
 import { IoArrowUp, IoClose } from "react-icons/io5";
 import tw from "twin.macro";
-import { AdditionalTags } from "../../../../../base/enums";
-import { FlexBox } from "../../../../../components";
+
 import { useCurrentSapientorConversation } from "../hooks/useCurrentConversation";
+import { AdditionalTags } from "../../../base/enums";
+import { FlexBox } from "../../../components";
 
 const StyledPromptBoxContainer = styled.div`
   ${tw`w-full space-x-2 mb-8 mt-4  flex h-fit items-end`}

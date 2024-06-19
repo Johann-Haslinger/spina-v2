@@ -5,14 +5,15 @@ import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntit
 import { motion } from "framer-motion";
 import { useContext, useEffect, useRef } from "react";
 import tw from "twin.macro";
-import { MessageRoleFacet } from "../../../../../app/additionalFacets";
-import { COLOR_ITEMS, MEDIUM_DEVICE_WIDTH } from "../../../../../base/constants";
-import { AdditionalTags } from "../../../../../base/enums";
-import { useWindowDimensions } from "../../../../../hooks/useWindowDimensions";
+
 import { useCurrentSapientorConversation } from "../hooks/useCurrentConversation";
 import SapientorChatSheet from "./SapientorChatSheet";
 import SapientorEye from "./SapientorEye";
 import SapientorQuickChat from "./SapientorQuickChat";
+import { MessageRoleFacet } from "../../../app/additionalFacets";
+import { COLOR_ITEMS, MEDIUM_DEVICE_WIDTH } from "../../../base/constants";
+import { AdditionalTags } from "../../../base/enums";
+import { useWindowDimensions } from "../../../hooks/useWindowDimensions";
 
 const useQuickChat = () => {
   const lsc = useContext(LeanScopeClientContext);

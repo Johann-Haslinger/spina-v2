@@ -2,11 +2,12 @@ import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity, useEntities } from "@leanscope/ecs-engine";
 import { IdentifierFacet, TextFacet } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
-import { DateAddedFacet, MessageRoleFacet, RelatedResourcesFacet } from "../../../../../app/additionalFacets";
-import { AdditionalTags, MessageRoles } from "../../../../../base/enums";
-import supabaseClient from "../../../../../lib/supabase";
-import { Resource } from "../../../../../base/types";
+import { MessageRoleFacet, DateAddedFacet, RelatedResourcesFacet } from "../../../app/additionalFacets";
+import { AdditionalTags, MessageRoles } from "../../../base/enums";
+import { Resource } from "../../../base/types";
+import supabaseClient from "../../../lib/supabase";
 import { useCurrentSapientorConversation } from "../hooks/useCurrentConversation";
+
 
 export const getSapientorAssistenCompletion = async (
   prompt: string,

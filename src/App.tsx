@@ -13,12 +13,13 @@ import InitializeStoriesSystem from "./systems/InitializeStoriesSystem";
 import InitializeUserSystem from "./systems/InitializeUserSystem";
 import ViewManagerSystem from "./systems/ViewManagerSystem";
 import { formatNavLinkAsPath } from "./utils/formatNavLinkAsPath";
-import { SapientorIcon } from "./features/collection/components/sapientor";
+
 import { EntityPropsMapper } from "@leanscope/ecs-engine";
 import { TitleFacet, DateAddedFacet, SourceFacet } from "./app/additionalFacets";
 import PodcastSheet from "./features/collection/components/podcasts/PodcastSheet";
 import { dataTypeQuery } from "./utils/queries";
 import { Tags } from "@leanscope/ecs-models";
+import { SapientorIcon } from "./features/sapientor";
 
 const StyledContentWrapper = styled.div`
   ${tw`w-screen h-screen bg-primary dark:bg-primaryDark`}

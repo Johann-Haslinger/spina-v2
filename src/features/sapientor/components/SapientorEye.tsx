@@ -1,7 +1,8 @@
 import styled from "@emotion/styled";
 import { useEffect, useState } from "react";
 import tw from "twin.macro";
-import { COLOR_ITEMS } from "../../../../../base/constants";
+import { COLOR_ITEMS } from "../../../base/constants";
+
 
 const StyledSapientorEyeAccent = styled.div<{ top: number; left: number }>`
   ${tw`size-2 rounded-full`}

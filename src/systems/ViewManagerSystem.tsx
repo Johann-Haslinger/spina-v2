@@ -2,7 +2,7 @@ import { useEntities } from "@leanscope/ecs-engine";
 import { Tags } from "@leanscope/ecs-models";
 import { Fragment, useEffect, useState } from "react";
 import { AdditionalTags, Stories } from "../base/enums";
-import { useCurrentSapientorConversation } from "../features/collection/components/sapientor/hooks/useCurrentConversation";
+
 import { useSelectedTheme } from "../features/collection/hooks/useSelectedTheme";
 import { useIsAnyStoryCurrent } from "../hooks/useIsAnyStoryCurrent";
 import { SucessSheet } from "../components";
@@ -11,6 +11,7 @@ import { useSelectedSchoolSubjectColor } from "../features/collection/hooks/useS
 import { useAppState } from "../features/collection/hooks/useAppState";
 import { useWindowDimensions } from "../hooks/useWindowDimensions";
 import { MEDIUM_DEVICE_WIDTH } from "../base/constants";
+import { useCurrentSapientorConversation } from "../features/sapientor/hooks/useCurrentConversation";
 
 const ViewManagerSystem = () => {
   const isSheetViewVisible = useIsAnyStoryCurrent([

@@ -3,17 +3,18 @@ import { EntityPropsMapper, useEntities } from "@leanscope/ecs-engine";
 import { TextFacet } from "@leanscope/ecs-models";
 import { IoBulb, IoClose, IoFlash } from "react-icons/io5";
 import tw from "twin.macro";
-import { MessageRoleFacet, RelatedResourcesFacet } from "../../../../../app/additionalFacets";
-import { ScrollableBox, Sheet, Spacer } from "../../../../../components";
-import { sortMessageEntitiesByDateAdded } from "../../../../../utils/sortEntitiesByTime";
+
+import { useEffect, useState } from "react";
+import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntityComponents";
+import { MessageRoleFacet, RelatedResourcesFacet } from "../../../app/additionalFacets";
+import { COLOR_ITEMS } from "../../../base/constants";
+import { AdditionalTags, SupportedModels } from "../../../base/enums";
+import { Sheet, Spacer, ScrollableBox } from "../../../components";
+import SapientorConversationMessage from "../../../components/content/SapientorConversationMessage";
+import { sortMessageEntitiesByDateAdded } from "../../../utils/sortEntitiesByTime";
+import { useCurrentSapientorConversation } from "../hooks/useCurrentConversation";
 import ChatMessage from "./ChatMessage";
 import SapientorPromptBox from "./SapientorPromptBox";
-import { useCurrentSapientorConversation } from "../hooks/useCurrentConversation";
-import { AdditionalTags, SupportedModels } from "../../../../../base/enums";
-import { COLOR_ITEMS } from "../../../../../base/constants";
-import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntityComponents";
-import SapientorConversationMessage from "../../../../../components/content/SapientorConversationMessage";
-import { useEffect, useState } from "react";
 
 const useDisplayLoadingAnimation = () => {
   const [promptEntity] = useEntities((e) => e.has(AdditionalTags.PROMPT) && e.has(AdditionalTags.PROCESSING))[0];
