@@ -73,7 +73,7 @@ const InitializeRecentlyAddedResources = () => {
         const newSubtopicEntity = new Entity();
         lsc.engine.addEntity(newSubtopicEntity);
         newSubtopicEntity.add(new IdentifierFacet({ guid: subtopic.id }));
-        newSubtopicEntity.add(new TitleFacet({ title: subtopic.title }));
+        newSubtopicEntity.add(new TitleFacet({ title: subtopic.title || "Kein Titel" }));
         newSubtopicEntity.add(DataTypes.SUBTOPIC);
         newSubtopicEntity.add(AdditionalTags.RECENTLY_ADDED);
       });
@@ -92,7 +92,7 @@ const InitializeRecentlyAddedResources = () => {
         const newNoteEntity = new Entity();
         lsc.engine.addEntity(newNoteEntity);
         newNoteEntity.add(new IdentifierFacet({ guid: note.id }));
-        newNoteEntity.add(new TitleFacet({ title: note.title }));
+        newNoteEntity.add(new TitleFacet({ title: note.title|| "Kein Titel" }));
         newNoteEntity.add(DataTypes.NOTE);
         newNoteEntity.add(AdditionalTags.RECENTLY_ADDED);
       });
@@ -111,7 +111,7 @@ const InitializeRecentlyAddedResources = () => {
         const newFlashcardSetEntity = new Entity();
         lsc.engine.addEntity(newFlashcardSetEntity);
         newFlashcardSetEntity.add(new IdentifierFacet({ guid: flashcardSet.id }));
-        newFlashcardSetEntity.add(new TitleFacet({ title: flashcardSet.title }));
+        newFlashcardSetEntity.add(new TitleFacet({ title: flashcardSet.title || "Kein Titel"}));
         newFlashcardSetEntity.add(DataTypes.FLASHCARD_SET);
         newFlashcardSetEntity.add(AdditionalTags.RECENTLY_ADDED);
       });

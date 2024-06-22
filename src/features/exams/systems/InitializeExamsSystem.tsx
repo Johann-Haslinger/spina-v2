@@ -48,7 +48,7 @@ const InitializeExamsSystem = () => {
         if (!isExisting) {
           const examEntity = new Entity();
           lsc.engine.addEntity(examEntity);
-          examEntity.add(new TitleFacet({ title: exam.title }));
+          examEntity.add(new TitleFacet({ title: exam.title || "Kein Titel" }));
           examEntity.add(new IdentifierFacet({ guid: exam.id }));
           examEntity.add(new DueDateFacet({ dueDate: exam.due_date }));
           examEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));

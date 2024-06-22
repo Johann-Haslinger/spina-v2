@@ -47,7 +47,7 @@ const InitializeHomeworksSystem = () => {
         if (!isExisting) {
           const homeworkEntity = new Entity();
           lsc.engine.addEntity(homeworkEntity);
-          homeworkEntity.add(new TitleFacet({ title: homework.title }));
+          homeworkEntity.add(new TitleFacet({ title: homework.title || "Kein Titel"}));
           homeworkEntity.add(new IdentifierFacet({ guid: homework.id }));
           homeworkEntity.add(new DueDateFacet({ dueDate: homework.due_date }));
           homeworkEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));

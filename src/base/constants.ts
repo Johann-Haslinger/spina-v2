@@ -36,7 +36,17 @@ export const NAV_LINKS = [
   },
 ];
 
-export const COLORS = ["#FFD600", "#FF8A00", "#FF0000", "#DB00FF", "#8F00FF", "#0000FF", "#0094FF", "#00E0FF", "#0ECB65"];
+export const COLORS = [
+  "#FFD600",
+  "#FF8A00",
+  "#FF0000",
+  "#DB00FF",
+  "#8F00FF",
+  "#0000FF",
+  "#0094FF",
+  "#00E0FF",
+  "#0ECB65",
+];
 
 export const COLOR_ITEMS: { color: string; accentColor: string; name?: string; backgroundColor: string }[] = [
   {
@@ -69,12 +79,14 @@ export const COLOR_ITEMS: { color: string; accentColor: string; name?: string; b
     name: "orange",
     backgroundColor: "#F2C99F",
   },
+
   {
-    color: "#E76542",
-    accentColor: "#FFCC00",
-    name: "yellow",
-    backgroundColor: "#FAE07A",
+    color: "#FFCC00",
+    accentColor: "#E76542",
+    name: "red",
+    backgroundColor: "#EEAD9B",
   },
+
   {
     color: "#F3A487",
     accentColor: "#BF3039",
@@ -82,10 +94,10 @@ export const COLOR_ITEMS: { color: string; accentColor: string; name?: string; b
     backgroundColor: "#DA9297",
   },
   {
-    color: "#FFCC00",
-    accentColor: "#E76542",
-    name: "red",
-    backgroundColor: "#EEAD9B",
+    color: "#E76542",
+    accentColor: "#FFCC00",
+    name: "yellow",
+    backgroundColor: "#FAE07A",
   },
   {
     color: "#FFCC00",

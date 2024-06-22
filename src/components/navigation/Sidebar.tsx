@@ -17,7 +17,7 @@ import {
 import { NavLink, useLocation } from "react-router-dom";
 import tw from "twin.macro";
 import { ViSpina } from "../../assets/icons";
-import { COLOR_ITEMS, COLORS, LARGE_DEVICE_WIDTH, MEDIUM_DEVICE_WIDTH, NAV_LINKS } from "../../base/constants";
+import { COLOR_ITEMS, LARGE_DEVICE_WIDTH, MEDIUM_DEVICE_WIDTH, NAV_LINKS } from "../../base/constants";
 import { NavigationLinks, SupportedLanguages, SupportedThemes } from "../../base/enums";
 import { useAppState } from "../../features/collection/hooks/useAppState";
 import { usePlayingPodcast } from "../../features/collection/hooks/usePlayingPodcast";
@@ -231,7 +231,8 @@ const StyledSidebarLinkWrapper = styled.div<{ isCurrent: boolean }>`
   ${({ isCurrent }) => isCurrent && tw`bg-black bg-opacity-[3%] dark:bg-tertiaryDark`}
 `;
 const StyledNavLinkIcon = styled.div<{ color: string }>`
-  ${tw`text-2xl  dark:text-white dark:opacity-100 transition-all  px-1.5 rounded-full `}
+  ${tw`text-2xl  dark:text-white dark:opacity-100 transition-all  px-2 rounded-lg  `}
+  color: ${({ color }) => color};
 `;
 
 const selectNavLinkText = (navLink: NavigationLinks, selectedLanguage: SupportedLanguages) => {
@@ -272,7 +273,7 @@ const SidebarLink = (props: { title: NavigationLinks; path: string; idx: number;
   return (
     <NavLink to={path}>
       <StyledSidebarLinkWrapper onClick={handleClick} isCurrent={path == pathname && isHoverd}>
-        <StyledNavLinkIcon color={COLORS[idx]}>
+        <StyledNavLinkIcon color={COLOR_ITEMS[idx].accentColor}>
           <NavigationLinkIcon navLink={title} />
         </StyledNavLinkIcon>
 

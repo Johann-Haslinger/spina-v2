@@ -66,7 +66,7 @@ const StyledIconWrapper = styled.div`
 
 const StyledSapientorOutline = styled.div`
   ${tw`w-full rounded-t-full h-12`}
-  background-color: ${COLOR_ITEMS[5].accentColor};
+  background-color: ${COLOR_ITEMS[7].accentColor};
 `;
 
 const StyledSapientorEyeWrapper = styled.div`
