@@ -13,10 +13,10 @@ export const NAV_LINKS = [
     title: NavigationLinks.OVERVIEW,
     path: formatNavLinkAsPath(NavigationLinks.OVERVIEW),
   },
-  {
-    title: NavigationLinks.STUDY,
-    path: formatNavLinkAsPath(NavigationLinks.STUDY),
-  },
+  // {
+  //   title: NavigationLinks.STUDY,
+  //   path: formatNavLinkAsPath(NavigationLinks.STUDY),
+  // },
   {
     title: NavigationLinks.HOMEWORKS,
     path: formatNavLinkAsPath(NavigationLinks.HOMEWORKS),

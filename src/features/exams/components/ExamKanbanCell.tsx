@@ -7,6 +7,7 @@ import tw from "twin.macro";
 import { RelationshipFacet, TitleFacet } from "../../../app/additionalFacets";
 import { useDaysUntilDue } from "../../../hooks/useDaysUntilDue";
 import { useSchoolSubject } from "../../../hooks/useSchoolSubject";
+import { useSelectedTheme } from "../../collection/hooks/useSelectedTheme";
 
 const StyledExamCellContainer = styled.div`
   ${tw`w-full  transition-all h-32 px-2 py-1`}
@@ -15,16 +16,15 @@ const StyledExamCellWrapper = styled.div<{
   backgroundColor: string;
   color: string;
 }>`
-  ${tw`h-full  transition-all hover:scale-105  px-2.5 pt-2  w-full`}
-  background-color: ${(props) => props.color};
-  color: ${(props) => props.backgroundColor};
+  ${tw`h-full text-white text-opacity-70 bg-opacity-50 backdrop-blur-xl transition-all md:hover:scale-105  px-2.5 pt-2  w-full`}
+  background-color: ${(props) => props.backgroundColor};
 `;
 
 const StyledExamCellTitle = styled.div`
-  ${tw`text-lg line-clamp-2 font-black`}
+  ${tw` line-clamp-2 font-bold leading-6`}
 `;
 const StyledExamCellSubtitle = styled.div`
-  ${tw` text-sm font-medium line-clamp-2`}
+  ${tw` text-sm mt-0.5 text-opacity-50 font-medium line-clamp-2`}
 `;
 
 const ExamKanbanCell = (pops: { entity: Entity; backgroundColor: string; color: string }) => {
@@ -35,6 +35,7 @@ const ExamKanbanCell = (pops: { entity: Entity; backgroundColor: string; color: 
   const title = titleProps?.title || "No Title";
   const relatedSchoolSubjectId = relationShipProps?.relationship;
   const { schoolSubjectTitle } = useSchoolSubject(relatedSchoolSubjectId);
+    const { isDarkMode } = useSelectedTheme();
 
   const handleOpenExam = () => entity.add(Tags.SELECTED);
 
@@ -50,7 +51,7 @@ const ExamKanbanCell = (pops: { entity: Entity; backgroundColor: string; color: 
       }}
     >
       <StyledExamCellContainer onClick={handleOpenExam}>
-        <StyledExamCellWrapper backgroundColor={backgroundColor} color={color}>
+        <StyledExamCellWrapper backgroundColor={isDarkMode ? backgroundColor + 60 : backgroundColor} color={color}>
           <StyledExamCellTitle>{title}</StyledExamCellTitle>
           <StyledExamCellSubtitle>
             {schoolSubjectTitle}, {daysUntilDue}

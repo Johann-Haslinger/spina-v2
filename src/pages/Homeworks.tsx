@@ -26,7 +26,7 @@ const Homeworks = () => {
     <Fragment>
       <InitializeHomeworksSystem />
 
-      <View reducePaddingX viewType="baseView">
+      <View viewType="baseView">
         <NavigationBar>
           <NavBarButton onClick={openAddHomeworkSheet}>
             <IoAdd />

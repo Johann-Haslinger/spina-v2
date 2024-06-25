@@ -41,7 +41,7 @@ const StyledStatusWrapper = styled.div<{
   backgroundColor: string;
   color: string;
 }>`
-  ${tw`px-2  mb-2 font-black pt-1`}
+  ${tw`px-2  mb-2 font-extrabold pt-1`}
   background-color: ${({ backgroundColor }) => backgroundColor};
   color: ${({ color }) => color};
 `;
@@ -60,8 +60,8 @@ const KanbanColumn = (props: {
   const { accentColor: backgroundColor, color } = selectColorItemForColoumn(statusId);
 
   return (
-    <StyledKanbanColumnWrapper backgroundColor={backgroundColor}>
-      <StyledStatusWrapper backgroundColor={backgroundColor} color={color}>
+    <StyledKanbanColumnWrapper backgroundColor={backgroundColor + 90}>
+      <StyledStatusWrapper backgroundColor={backgroundColor + 0} color={backgroundColor}>
         {statusLabel}
       </StyledStatusWrapper>
       <Droppable key={statusId} droppableId={`droppable-${statusId}`}>
@@ -96,7 +96,7 @@ const KanbanColumn = (props: {
 };
 
 const StyledKanbanWrapper = styled.div`
-  ${tw`flex overflow-hidden  transition-all space-x-2.5 w-full  h-fit  overflow-x-scroll `}
+  ${tw`flex overflow-hidden  transition-all space-x-2 w-full  h-fit  overflow-x-scroll `}
 `;
 interface KanbanProps {
   kanbanCell: (props: any) => ReactNode;

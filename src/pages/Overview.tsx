@@ -1,18 +1,15 @@
 import styled from "@emotion/styled";
 import { EntityPropsMapper, useEntities } from "@leanscope/ecs-engine";
-import { IoBook, IoCheckmarkCircleOutline, IoColorWand, IoPlay } from "react-icons/io5";
+import { IoCheckmarkCircleOutline } from "react-icons/io5";
 import { Fragment } from "react/jsx-runtime";
 import tw from "twin.macro";
 import { DueDateFacet, StatusFacet, TitleFacet } from "../app/additionalFacets";
-import { COLOR_ITEMS, MEDIUM_DEVICE_WIDTH } from "../base/constants";
 import { AdditionalTags, DataTypes } from "../base/enums";
-import { CardData } from "../base/types";
 import { Kanban, NavigationBar, SectionRow, Spacer, Title, View } from "../components";
 import InitializeExamsSystem from "../features/exams/systems/InitializeExamsSystem";
 import InitializeHomeworksSystem from "../features/homeworks/systems/InitializeHomeworksSystem";
 import {
   InitializeRecentlyAddedResources,
-  OverviewCard,
   PendingResourceKanbanCell,
   PendingResourceRow,
   RecentlyAddedResourceRow,
@@ -22,7 +19,6 @@ import { useSelectedLanguage } from "../hooks/useSelectedLanguage";
 import { displayHeaderTexts, displayLabelTexts } from "../utils/displayText";
 import { dataTypeQuery } from "../utils/queries";
 import { sortEntitiesByDueDate } from "../utils/sortEntitiesByTime";
-import { useWindowDimensions } from "../hooks/useWindowDimensions";
 
 const useTwoWeeksFromNow = () => {
   const currentDate = new Date();
@@ -32,39 +28,8 @@ const useTwoWeeksFromNow = () => {
   return twoWeeksFromNow;
 };
 
-const OverviewCardsData: CardData[] = [
-  {
-    title: "Ein neues Kapitel beginnt",
-    description: "Wir haben eine neue Ära der digitalen Innovation eingeleitet.",
-    backgroundColor: COLOR_ITEMS[3].accentColor,
-    color: COLOR_ITEMS[3].color,
-    buttonText: "Mehr erfahren",
-    icon: <IoBook />,
-  },
-  {
-    title: "Abfrage starten",
-    description: "Teste dein Wissen und lerne effektiver.",
-    backgroundColor: COLOR_ITEMS[2].accentColor,
-    color: COLOR_ITEMS[2].color,
-    buttonText: "Mehr erfahren",
-    icon: <IoPlay />,
-  },
-  {
-    title: "Frag Sapientor",
-    description: "Erhalte Antworten auf deine Fragen.",
-    backgroundColor: COLOR_ITEMS[1].accentColor,
-    color: COLOR_ITEMS[1].color,
-    buttonText: "Mehr erfahren",
-    icon: <IoColorWand />,
-  },
-];
-
 const StyledSubtitle = styled.p`
   ${tw`md:text-xl text-lg font-bold`}
-`;
-
-const StyledOverviewCardsWrapper = styled.div`
-  ${tw`md:flex md:space-x-2 w-full`}
 `;
 
 const Overview = () => {
@@ -78,7 +43,6 @@ const Overview = () => {
       [1, 2, 3].includes(e.get(StatusFacet)?.props.status || 0)
   );
   const [recentlyAddedResourceEntities] = useEntities((e) => e.has(AdditionalTags.RECENTLY_ADDED));
-  const { width } = useWindowDimensions();
 
   return (
     <Fragment>
@@ -90,12 +54,6 @@ const Overview = () => {
         <NavigationBar></NavigationBar>
         <Spacer size={8} />
         <Title>{displayHeaderTexts(selectedLanguage).overview}</Title>
-        <Spacer />
-        <StyledOverviewCardsWrapper>
-          {OverviewCardsData.slice(0, width < MEDIUM_DEVICE_WIDTH ? 1 : 3).map((cardData, idx) => (
-            <OverviewCard key={idx} cardData={cardData} />
-          ))}
-        </StyledOverviewCardsWrapper>
 
         <Spacer size={8} />
         <StyledSubtitle>{displayLabelTexts(selectedLanguage).pendingResources}</StyledSubtitle>
@@ -145,8 +103,6 @@ const Overview = () => {
 
         <Spacer size={20} />
       </View>
-
-  
     </Fragment>
   );
 };
