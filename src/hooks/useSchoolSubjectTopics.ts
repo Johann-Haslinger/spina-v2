@@ -38,5 +38,6 @@ export const useSchoolSubjectTopics = (schoolSubjectId: string) => {
   return {
     schoolSubjectTopics: schoolSubjectTopics || [],
     hasSchoolSubjectTopics: schoolSubjectTopics.length > 0,
+    setSchoolSubjectTopics,
   };
 };

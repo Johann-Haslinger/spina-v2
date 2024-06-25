@@ -27,7 +27,7 @@ const Exams = () => {
     <Fragment>
       <InitializeExamsSystem />
 
-      <View  viewType="baseView">
+      <View reducePaddingX viewType="baseView">
         <NavigationBar>
           <NavBarButton onClick={openAddExamSheet}>
             <IoAdd />

@@ -47,7 +47,8 @@ const AddHomeworkSheet = () => {
     relatedSchoolSubject: "",
   });
   const { userId } = useUserData();
-  const { schoolSubjectTopics, hasSchoolSubjectTopics } = useSchoolSubjectTopics(selectedSchoolSubjectId);
+  const { schoolSubjectTopics, hasSchoolSubjectTopics, setSchoolSubjectTopics } =
+    useSchoolSubjectTopics(selectedSchoolSubjectId);
   const location = useLocation();
   const inCollectionVisible = location.pathname.includes("/collection");
 
@@ -60,6 +61,8 @@ const AddHomeworkSheet = () => {
       description: "",
       relatedSchoolSubject: "",
     });
+    setSelectedSchoolSubjectId("");
+    setSchoolSubjectTopics([]);
   }, [isVisible]);
 
   const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_HOMEWORKS_STORY);

@@ -3,7 +3,7 @@ import { Entity } from "@leanscope/ecs-engine";
 import { DescriptionFacet, IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { SupabaseTables } from "../base/enums";
 import supabaseClient from "../lib/supabase";
-import { RelationshipFacet, TitleFacet } from "../app/additionalFacets";
+import { DueDateFacet, RelationshipFacet, TitleFacet } from "../app/additionalFacets";
 
 export const addHomework = async (lsc: ILeanScopeClient, homeworkEntity: Entity, userId: string) => {
   lsc.engine.addEntity(homeworkEntity);
@@ -15,7 +15,7 @@ export const addHomework = async (lsc: ILeanScopeClient, homeworkEntity: Entity,
       title: homeworkEntity.get(TitleFacet)?.props.title,
       parent_id: homeworkEntity.get(ParentFacet)?.props.parentId || null,
       text: homeworkEntity.get(DescriptionFacet)?.props.description,
-      due_date: new Date().toISOString(),
+      due_date: homeworkEntity.get(DueDateFacet)?.props.dueDate,
       status: 1,
       related_subject: homeworkEntity.get(RelationshipFacet)?.props.relationship,
     },
