@@ -15,8 +15,6 @@ export const addGroupFlashcards = async (
     lsc.engine.addEntity(flashcardEntity);
   });
 
-  console.log(flashcardEntities);
-
   const { error } = await supabaseClient.from(SupabaseTables.GROUP_FLASHCARDS).insert(
     flashcardEntities.map((flashcardEntity) => ({
       question: flashcardEntity.get(QuestionFacet)?.props.question,

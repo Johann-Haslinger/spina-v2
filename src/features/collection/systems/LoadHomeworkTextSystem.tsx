@@ -13,7 +13,7 @@ const fetchHomeworkText = async (homeworkId: string, userId: string) => {
     .select("text")
     .eq("id", homeworkId)
     .single();
-  console.log("text", text);
+
   if (error) {
     console.error("Error fetching homework text:", error);
     return [];
@@ -53,8 +53,6 @@ const fetchNoteVersion = async (homeworkId: string) => {
     return;
   }
 
-
-  console.log("noteVersionData", noteVersionData);
   return noteVersionData?.old_note_version;
 };
 

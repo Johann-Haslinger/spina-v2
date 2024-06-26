@@ -6,9 +6,9 @@ import { Fragment, useContext, useEffect, useRef, useState } from "react";
 import { IoArrowUp, IoClose } from "react-icons/io5";
 import tw from "twin.macro";
 
-import { useCurrentSapientorConversation } from "../hooks/useCurrentConversation";
 import { AdditionalTags } from "../../../base/enums";
 import { FlexBox } from "../../../components";
+import { useCurrentSapientorConversation } from "../hooks/useCurrentConversation";
 
 const StyledPromptBoxContainer = styled.div`
   ${tw`w-full space-x-2 mb-8 mt-4  flex h-fit items-end`}
@@ -122,13 +122,12 @@ const SapientorPromptBox = (props: { isVisible: boolean }) => {
     return "";
   };
 
-  const openFilePicker = () => {
-    console.log(openFilePicker);
-    setIsSelectingImageSrc(true);
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
-  };
+  // const openFilePicker = () => {
+  //   setIsSelectingImageSrc(true);
+  //   if (fileInputRef.current) {
+  //     fileInputRef.current.click();
+  //   }
+  // };
 
   const submitPrompt = () => {
     if (prompt === "") return;

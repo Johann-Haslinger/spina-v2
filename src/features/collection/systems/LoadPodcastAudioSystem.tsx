@@ -40,9 +40,9 @@ const LoadPodcastAudioSystem = () => {
         const audioData = mockupData
           ? { audio: dummyBase64Audio }
           : shouldFetchFromSupabase
-          ? await fetchPodcastAudio(selectedPodcastId || "")
-          : null;
-          console.log(audioData);
+            ? await fetchPodcastAudio(selectedPodcastId || "")
+            : null;
+
         const audioBlob = audioData && base64toBlob(audioData?.audio, "audio/mpeg");
         const audioUrl = audioBlob && URL.createObjectURL(audioBlob);
 

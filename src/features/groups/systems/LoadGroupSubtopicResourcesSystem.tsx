@@ -37,7 +37,6 @@ const LoadGroupSubtopicResourcesSystem = () => {
             ? await fetchFlashcardsForGroupSubtopic(selectedGroupSubtopicId)
             : [];
 
-        console.log(flashcards);
         flashcards.forEach((flashcard) => {
           const isExisting = lsc.engine.entities.some(
             (e) => e.get(IdentifierFacet)?.props.guid === flashcard.id && e.hasTag(DataTypes.GROUP_FLASHCARD)

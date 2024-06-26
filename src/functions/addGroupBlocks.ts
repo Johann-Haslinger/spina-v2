@@ -1,16 +1,27 @@
 import { ILeanScopeClient } from "@leanscope/api-client/interfaces";
 import { Entity } from "@leanscope/ecs-engine";
 import supabaseClient from "../lib/supabase";
-import { ParentFacet, IdentifierFacet, FloatOrderFacet, ImageFacet, ImageFitFacet, ImageSizeFacet, TextFacet } from "@leanscope/ecs-models";
+import {
+  ParentFacet,
+  IdentifierFacet,
+  FloatOrderFacet,
+  ImageFacet,
+  ImageFitFacet,
+  ImageSizeFacet,
+  TextFacet,
+} from "@leanscope/ecs-models";
 import { BlocktypeFacet, TodoStateFacet, ListStyleFacet, TexttypeFacet } from "../app/additionalFacets";
 import { SupabaseTables } from "../base/enums";
 
-export const addGroupsBlocks = async (lsc: ILeanScopeClient, blockEntities: Entity[], userId: string, learningGroupId: string) => {
+export const addGroupsBlocks = async (
+  lsc: ILeanScopeClient,
+  blockEntities: Entity[],
+  userId: string,
+  learningGroupId: string
+) => {
   blockEntities.forEach((blockEntity) => {
     lsc.engine.addEntity(blockEntity);
   });
-
-  console.log("blockEntities", blockEntities);
 
   const { error } = await supabaseClient.from(SupabaseTables.GROUP_BLOCKS).insert(
     blockEntities.map((blockEntity) => ({
@@ -26,7 +37,7 @@ export const addGroupsBlocks = async (lsc: ILeanScopeClient, blockEntities: Enti
       fit: blockEntity.get(ImageFitFacet)?.props.fit,
       size: blockEntity.get(ImageSizeFacet)?.props.size,
       image_url: blockEntity.get(ImageFacet)?.props.imageSrc,
-      group_id: learningGroupId
+      group_id: learningGroupId,
     }))
   );
 

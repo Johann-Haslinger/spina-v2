@@ -1,6 +1,14 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
-import { FloatOrderFacet, IdentifierFacet, ImageFacet, ImageFitFacet, ImageSizeFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
+import {
+  FloatOrderFacet,
+  IdentifierFacet,
+  ImageFacet,
+  ImageFitFacet,
+  ImageSizeFacet,
+  ParentFacet,
+  TextFacet,
+} from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
 import { BlocktypeFacet, TexttypeFacet } from "../../../app/additionalFacets";
 import { dummyBlocks } from "../../../base/dummy";
@@ -29,14 +37,10 @@ const fetchBlocks = async (blockeditorId: string) => {
 };
 
 const fetchGroupBlocks = async (blockeditorId: string) => {
-  console.log("fetchGroupBlocks", blockeditorId);
-
   const { data: blocks, error } = await supabaseClient
     .from(SupabaseTables.GROUP_BLOCKS)
     .select("id, type, text_type, content, order, image_url, size, fit")
     .eq("parent_id", blockeditorId);
-
-  console.log("blocks", blocks);
 
   if (error) {
     console.error("Error fetching blocks:", error);

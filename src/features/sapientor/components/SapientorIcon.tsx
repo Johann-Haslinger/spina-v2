@@ -42,7 +42,6 @@ const useQuickChat = () => {
     if (quickChatRef.current && !quickChatRef.current.contains(event.target as Node)) {
       setQuickChatVisible(false);
       setChatSheetVisible(false);
-      console.log("handleClickOutside");
 
       setTimeout(() => {
         [...promptEntities, ...messageEntities].forEach((entity) => {
@@ -112,7 +111,7 @@ const SapientorIcon = () => {
             initial={{ y: -60 }}
             animate={{
               opacity: isProcessingCurrentPrompt && !isChatSheetVisible ? 1 : 0,
-              y: isProcessingCurrentPrompt  && !isChatSheetVisible ? 0 : -60,
+              y: isProcessingCurrentPrompt && !isChatSheetVisible ? 0 : -60,
             }}
           >
             <StyledThinkingAnimationWrapper>
@@ -152,7 +151,7 @@ const SapientorIcon = () => {
             </StyledThinkingAnimationWrapper>
           </motion.div>
 
-          <motion.div initial={{ y: 0 }} animate={{ y: isProcessingCurrentPrompt  && !isChatSheetVisible ? 60 : 0 }}>
+          <motion.div initial={{ y: 0 }} animate={{ y: isProcessingCurrentPrompt && !isChatSheetVisible ? 60 : 0 }}>
             <StyledSapientorOutline>
               <StyledSapientorEyeWrapper>
                 <SapientorEye />

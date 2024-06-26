@@ -18,8 +18,6 @@ export const addBlocks = async (lsc: ILeanScopeClient, blockEntities: Entity[], 
     lsc.engine.addEntity(blockEntity);
   });
 
-  console.log("blockEntities", blockEntities); 
-
   const { error } = await supabaseClient.from(SupabaseTables.BLOCKS).insert(
     blockEntities.map((blockEntity) => ({
       parent_id: blockEntity.get(ParentFacet)?.props.parentId,

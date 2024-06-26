@@ -26,7 +26,6 @@ const InitializeBlockeditorSystem = (props: {
       newBlockeditorEntity.add(new BlockeditorStateFacet({ blockeditorState: "view" }));
 
       if (isGroupBlockeditor) {
-        console.log("isGroupBlockeditor", isGroupBlockeditor);
         newBlockeditorEntity.add(AdditionalTags.GROUP_BLOCKEDITOR);
       }
       newBlockeditorEntity.add(Tags.CURRENT);
