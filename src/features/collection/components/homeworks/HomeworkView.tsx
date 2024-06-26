@@ -2,26 +2,26 @@ import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { EntityProps } from "@leanscope/ecs-engine";
 import { IdentifierProps, TextProps } from "@leanscope/ecs-models";
 import { Fragment, useContext } from "react";
-import { IoCreateOutline, IoTrashOutline } from "react-icons/io5";
+import { IoCreateOutline, IoEllipsisHorizontalCircleOutline, IoTrashOutline } from "react-icons/io5";
 import { TitleProps } from "../../../../app/additionalFacets";
 import { AdditionalTags, Stories } from "../../../../base/enums";
-import { ActionRow, View } from "../../../../components";
+import { ActionRow, BackButton, NavBarButton, NavigationBar, Spacer, TextEditor, Title, View } from "../../../../components";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import { displayActionTexts, displayHeaderTexts } from "../../../../utils/displayText";
-import Blockeditor from "../../../blockeditor/components/Blockeditor";
-import InitializeBlockeditorSystem from "../../../blockeditor/systems/InitializeBlockeditorSystem";
+import { displayActionTexts, displayButtonTexts } from "../../../../utils/displayText";
 import { useSelectedTopic } from "../../hooks/useSelectedTopic";
+import { useText } from "../../hooks/useText";
 import LoadHomeworkTextSystem from "../../systems/LoadHomeworkTextSystem";
 import DeleteHomeworkAlert from "./DeleteHomeworkAlert";
 import EditHomeworkSheet from "./EditHomeworkSheet";
 
 const HomeworkView = (props: EntityProps & TitleProps & TextProps & IdentifierProps) => {
   const lsc = useContext(LeanScopeClientContext);
-  const { title, guid, entity } = props;
+  const { title, entity } = props;
   const isVisible = useIsViewVisible(entity);
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedTopicTitle } = useSelectedTopic();
+  const { text, updateText } = useText(entity);
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
   const openEditHomeworkSheet = () => lsc.stories.transitTo(Stories.EDITING_HOMEWORK_STORY);
@@ -29,26 +29,32 @@ const HomeworkView = (props: EntityProps & TitleProps & TextProps & IdentifierPr
 
   return (
     <Fragment>
-      <InitializeBlockeditorSystem blockeditorId={guid} />
       <LoadHomeworkTextSystem />
 
       <View visible={isVisible}>
-        <Blockeditor
-          title={title}
-          id={guid}
-          backbuttonLabel={selectedTopicTitle || displayHeaderTexts(selectedLanguage).homeworks}
-          navigateBack={navigateBack}
-          customActionRows={
-            <Fragment>
-              <ActionRow first onClick={openEditHomeworkSheet} icon={<IoCreateOutline />}>
-                {displayActionTexts(selectedLanguage).edit}
-              </ActionRow>
-              <ActionRow onClick={openDeleteHomeworkAlert} icon={<IoTrashOutline />} destructive last>
-                {displayActionTexts(selectedLanguage).delete}
-              </ActionRow>
-            </Fragment>
-          }
-        />
+        <NavigationBar>
+          <NavBarButton
+            content={
+              <Fragment>
+                <ActionRow first onClick={openEditHomeworkSheet} icon={<IoCreateOutline />}>
+                  {displayActionTexts(selectedLanguage).edit}
+                </ActionRow>
+                <ActionRow onClick={openDeleteHomeworkAlert} icon={<IoTrashOutline />} destructive last>
+                  {displayActionTexts(selectedLanguage).delete}
+                </ActionRow>
+              </Fragment>
+            }
+          >
+            <IoEllipsisHorizontalCircleOutline />
+          </NavBarButton>
+        </NavigationBar>
+
+        <BackButton navigateBack={navigateBack}>
+          {selectedTopicTitle || displayButtonTexts(selectedLanguage).back}
+        </BackButton>
+        <Title>{title}</Title>
+        <Spacer />
+        <TextEditor value={text} onBlur={updateText} />
       </View>
 
       <DeleteHomeworkAlert />

@@ -14,11 +14,12 @@ import { DataTypes, SupabaseTables } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedSubtopic } from "../hooks/useSelectedSubtopic";
+import { useUserData } from "../../../hooks/useUserData";
 
 const fetchNoteVersion = async (noteId: string) => {
   const { data: noteVersionData, error } = await supabaseClient
     .from(SupabaseTables.SUBTOPICS)
-    .select("old_note_version")
+    .select("old_note_version, new_note_version")
     .eq("id", noteId)
     .single();
 
@@ -26,7 +27,11 @@ const fetchNoteVersion = async (noteId: string) => {
     console.error("error fetching note version", error);
     return;
   }
-  return noteVersionData?.old_note_version;
+
+  const isOldNoteVersion = noteVersionData?.old_note_version;
+  const isNewNoteVersion = noteVersionData?.new_note_version;
+
+  return isOldNoteVersion ? "old-version" : isNewNoteVersion ? "new-version" : "blocks-version";
 };
 
 const fetchFlashcardsForSubtopic = async (parentId: string) => {
@@ -61,6 +66,7 @@ const LoadSubtopicResourcesSystem = () => {
   const { mockupData, shouldFetchFromSupabase } = useMockupData();
   const lsc = useContext(LeanScopeClientContext);
   const { selectedSubtopicId, selectedSubtopicEntity } = useSelectedSubtopic();
+  const { userId } = useUserData();
 
   useEffect(() => {
     const initializeSubtopicFlashcardEntities = async () => {
@@ -123,9 +129,9 @@ const LoadSubtopicResourcesSystem = () => {
         if (mockupData) {
           subtopicText = dummyText;
         } else if (shouldFetchFromSupabase) {
-          const isOldNoteVersion = shouldFetchFromSupabase && (await fetchNoteVersion(selectedSubtopicId));
+          const noteVersion = shouldFetchFromSupabase && (await fetchNoteVersion(selectedSubtopicId));
 
-          if (isOldNoteVersion) {
+          if (noteVersion == "old-version") {
             const { data: subtopicTextData, error } = await supabaseClient
               .from("knowledges")
               .select("text")
@@ -145,6 +151,45 @@ const LoadSubtopicResourcesSystem = () => {
 
             if (error2) {
               console.error("error updating subtopic to oldNoteVersion", error2);
+            }
+          } else if (noteVersion == "blocks-version") {
+            const { data: blocks, error } = await supabaseClient
+              .from(SupabaseTables.BLOCKS)
+              .select("content")
+              .eq("parent_id", selectedSubtopicId);
+
+            if (error) {
+              console.error("error fetching blocks", error);
+            }
+
+            const text = blocks?.map((block) => block.content).join("\n");
+
+            selectedSubtopicEntity?.add(new TextFacet({ text: text || "" }));
+
+            const { error: error2 } = await supabaseClient
+              .from(SupabaseTables.TEXTS)
+              .upsert([{ text, parent_id: selectedSubtopicId, user_id: userId }]);
+
+            if (error2) {
+              console.error("error inserting text", error2);
+            }
+
+            const { error: error3 } = await supabaseClient
+              .from(SupabaseTables.SUBTOPICS)
+              .update({ old_note_version: false, new_note_version: true })
+              .eq("id", selectedSubtopicId);
+
+            if (error3) {
+              console.error("error updating note to newNoteVersion", error3);
+            }
+
+            const { error: error4 } = await supabaseClient
+              .from(SupabaseTables.BLOCKS)
+              .delete()
+              .eq("parent_id", selectedSubtopicId);
+
+            if (error4) {
+              console.error("error deleting blocks", error4);
             }
           }
 

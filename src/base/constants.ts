@@ -30,10 +30,10 @@ export const NAV_LINKS = [
     path: formatNavLinkAsPath(NavigationLinks.COLLECTION),
   },
 
-  {
-    title: NavigationLinks.GROUPS,
-    path: formatNavLinkAsPath(NavigationLinks.GROUPS),
-  },
+  // {
+  //   title: NavigationLinks.GROUPS,
+  //   path: formatNavLinkAsPath(NavigationLinks.GROUPS),
+  // },
 ];
 
 export const COLORS = [

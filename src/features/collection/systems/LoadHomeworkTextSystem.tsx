@@ -5,10 +5,15 @@ import { dummyText } from "../../../base/dummy";
 import { DataTypes, SupabaseTables } from "../../../base/enums";
 import supabaseClient from "../../../lib/supabase";
 import { useMockupData } from "../../../hooks/useMockupData";
+import { useUserData } from "../../../hooks/useUserData";
 
-const fetchHomeworkText = async (homeworkId: string) => {
-  const { data: text, error } = await supabaseClient.from(SupabaseTables.HOMEWORKS).select("text").eq("id", homeworkId).single();
-
+const fetchHomeworkText = async (homeworkId: string, userId: string) => {
+  const { data: text, error } = await supabaseClient
+    .from(SupabaseTables.HOMEWORKS)
+    .select("text")
+    .eq("id", homeworkId)
+    .single();
+  console.log("text", text);
   if (error) {
     console.error("Error fetching homework text:", error);
     return [];
@@ -16,14 +21,24 @@ const fetchHomeworkText = async (homeworkId: string) => {
 
   const { error: error2 } = await supabaseClient
     .from(SupabaseTables.HOMEWORKS)
-    .update({ old_note_version: false })
+    .update({ old_note_version: false, new_note_version: true, text: "" })
     .eq("id", homeworkId);
 
   if (error2) {
     console.error("error updating homework to oldNoteVersion", error2);
   }
 
-  return text.text || [];
+  const homeworkText = text?.text;
+
+  const { error: error3 } = await supabaseClient
+    .from(SupabaseTables.TEXTS)
+    .upsert([{ text: homeworkText, parent_id: homeworkId, user_id: userId }]);
+
+  if (error3) {
+    console.error("error inserting text", error3);
+  }
+
+  return homeworkText || [];
 };
 
 const fetchNoteVersion = async (homeworkId: string) => {
@@ -37,12 +52,15 @@ const fetchNoteVersion = async (homeworkId: string) => {
     console.error("error fetching homework version", error);
     return;
   }
+
+
+  console.log("noteVersionData", noteVersionData);
   return noteVersionData?.old_note_version;
 };
 
 const LoadHomeworkTextSystem = () => {
   const { mockupData, shouldFetchFromSupabase } = useMockupData();
-
+  const { userId } = useUserData();
   const [selectedHomework] = useEntity((e) => e.hasTag(DataTypes.HOMEWORK) && e.hasTag(Tags.SELECTED));
   const selectedHomeworkId = selectedHomework?.get(IdentifierFacet)?.props.guid;
 
@@ -54,7 +72,7 @@ const LoadHomeworkTextSystem = () => {
         if (isOldNoteVersion) {
           const homeworkText = mockupData
             ? dummyText
-            : shouldFetchFromSupabase && (await fetchHomeworkText(selectedHomeworkId));
+            : shouldFetchFromSupabase && (await fetchHomeworkText(selectedHomeworkId, userId));
 
           if (homeworkText) {
             selectedHomework?.add(new TextFacet({ text: homeworkText }));
@@ -66,7 +84,7 @@ const LoadHomeworkTextSystem = () => {
     if (selectedHomework) {
       loadHomeworkText();
     }
-  }, [selectedHomework, mockupData, shouldFetchFromSupabase]);
+  }, [selectedHomework, mockupData, shouldFetchFromSupabase, userId]);
 
   return null;
 };

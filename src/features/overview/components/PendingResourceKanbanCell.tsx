@@ -17,16 +17,15 @@ const StyledResourceCellWrapper = styled.div<{
   backgroundColor: string;
   color: string;
 }>`
-  ${tw`h-full  transition-all md:hover:scale-105  px-2.5 pt-2  w-full`}
-  background-color: ${(props) => props.color};
-  color: ${(props) => props.backgroundColor};
+  ${tw`h-full  text-white text-opacity-60 bg-opacity-50 backdrop-blur-xl transition-all md:hover:scale-105  px-2.5 pt-2  w-full`}
+  background-color: ${(props) => props.backgroundColor};
 `;
 
 const StyledResourceCellTitle = styled.div`
-  ${tw`text-lg line-clamp-2 font-black`}
+  ${tw` line-clamp-2 font-bold leading-6`}
 `;
 const StyledResourceCellSubtitle = styled.div`
-  ${tw` text-sm font-medium line-clamp-2`}
+  ${tw` text-sm mt-0.5 text-opacity-50 font-medium line-clamp-2`}
 `;
 
 const PendingResourceKanbanCell = (props: { entity: Entity; backgroundColor: string; color: string }) => {

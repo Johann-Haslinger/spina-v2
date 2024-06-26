@@ -9,7 +9,9 @@ import {
   IoBookmark,
   IoBookmarkOutline,
   IoChatboxEllipsesOutline,
+  IoColorWandOutline,
   IoCreateOutline,
+  IoEllipsisHorizontalCircleOutline,
   IoHeadsetOutline,
   IoPlayOutline,
   IoReaderOutline,
@@ -28,22 +30,25 @@ import {
 import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
 import {
   ActionRow,
+  BackButton,
   CollectionGrid,
   NavBarButton,
+  NavigationBar,
   SegmentedControl,
   SegmentedControlCell,
   Spacer,
+  TextEditor,
+  Title,
   View,
 } from "../../../../components";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { displayActionTexts } from "../../../../utils/displayText";
 import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
-import Blockeditor from "../../../blockeditor/components/Blockeditor";
-import InitializeBlockeditorSystem from "../../../blockeditor/systems/InitializeBlockeditorSystem";
 import FlashcardQuizView from "../../../study/components/FlashcardQuizView";
 import { useBookmarked } from "../../../study/hooks/useBookmarked";
 import { useSelectedTopic } from "../../hooks/useSelectedTopic";
+import { useText } from "../../hooks/useText";
 import LoadSubtopicResourcesSystem from "../../systems/LoadSubtopicResourcesSystem";
 import AddFlashcardsSheet from "../flashcard-sets/AddFlashcardsSheet";
 import EditFlashcardSheet from "../flashcard-sets/EditFlashcardSheet";
@@ -53,9 +58,9 @@ import GeneratePodcastSheet from "../generation/GeneratePodcastSheet";
 import LernvideoRow from "../lern-videos/LernvideoRow";
 import LernvideoView from "../lern-videos/LernvideoView";
 import PodcastRow from "../podcasts/PodcastRow";
+import BlurtingView from "./BlurtingView";
 import DeleteSubtopicAlert from "./DeleteSubtopicAlert";
 import EditSubtopicSheet from "./EditSubtopicSheet";
-import BlurtingView from "./BlurtingView";
 import FlashcardTestView from "./FlashcardTestView";
 
 enum SubtopicViewStates {
@@ -65,12 +70,13 @@ enum SubtopicViewStates {
 
 const SubtopicView = (props: TitleProps & EntityProps & IdentifierProps) => {
   const lsc = useContext(LeanScopeClientContext);
-  const { title, entity, guid } = props;
+  const { title, entity } = props;
   const isVisible = useIsViewVisible(entity);
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedTopicTitle } = useSelectedTopic();
   const [subtopicViewState, setSubtopicViewState] = useState(SubtopicViewStates.NOTE);
   const { isBookmarked, toggleBookmark } = useBookmarked(entity);
+  const { text, updateText } = useText(entity);
 
   const navigateBack = () => entity.add(AdditionalTags.NAVIGATE_BACK);
   const openDeleteAlert = () => lsc.stories.transitTo(Stories.DELETING_SUBTOPIC_STORY);
@@ -86,108 +92,110 @@ const SubtopicView = (props: TitleProps & EntityProps & IdentifierProps) => {
   return (
     <Fragment>
       <LoadSubtopicResourcesSystem />
-      <InitializeBlockeditorSystem blockeditorId={guid} />
 
       <View visible={isVisible}>
-        <Blockeditor
-          id={guid}
-          title={title}
-          backbuttonLabel={selectedTopicTitle}
-          navigateBack={navigateBack}
-          customActionRows={
-            <Fragment>
-              <ActionRow icon={<IoCreateOutline />} onClick={openEditSheet} first>
-                {displayActionTexts(selectedLanguage).edit}
-              </ActionRow>
-              <ActionRow icon={<IoAddCircleOutline />} onClick={openAddFlashcardsSheet}>
-                {displayActionTexts(selectedLanguage).addFlashcards}
-              </ActionRow>
-              <ActionRow icon={isBookmarked ? <IoBookmark /> : <IoBookmarkOutline />} onClick={toggleBookmark}>
-                {isBookmarked
-                  ? displayActionTexts(selectedLanguage).unbookmark
-                  : displayActionTexts(selectedLanguage).bookmark}
-              </ActionRow>
-              <ActionRow icon={<IoArrowUpCircleOutline />} onClick={openAddResourceToLerningGroupSheet}>
-                {displayActionTexts(selectedLanguage).addToLearningGroup}
-              </ActionRow>
-              <ActionRow last destructive icon={<IoTrashOutline />} onClick={openDeleteAlert}>
-                {displayActionTexts(selectedLanguage).delete}
-              </ActionRow>
-            </Fragment>
-          }
-          customGenerateActionRows={
-            <Fragment>
-              <ActionRow first icon={<IoHeadsetOutline />} onClick={openGeneratePodcastSheet}>
-                {displayActionTexts(selectedLanguage).generatePodcast}
-              </ActionRow>
-              <ActionRow last icon={<IoChatboxEllipsesOutline />}>
-                {displayActionTexts(selectedLanguage).startLernSession}
-              </ActionRow>
-            </Fragment>
-          }
-          customEditOptions={
-            <NavBarButton
-              content={
-                <Fragment>
-                  <ActionRow first icon={<IoAlbumsOutline />} onClick={() => openFlashcardQuizView()}>
-                    {displayActionTexts(selectedLanguage).quiz}
-                  </ActionRow>
-                  <ActionRow icon={<IoSchoolOutline />} onClick={() => openFlashcardTestView()}>
-                    {displayActionTexts(selectedLanguage).flashcardTest}
-                  </ActionRow>
-                  <ActionRow last icon={<IoReaderOutline />} onClick={() => openBlurtingView()}>
-                    {displayActionTexts(selectedLanguage).blurting}
-                  </ActionRow>
-                </Fragment>
-              }
-            >
-              <IoPlayOutline />
-            </NavBarButton>
-          }
-          customHeaderArea={
-            <div>
-              <SegmentedControl>
-                <SegmentedControlCell
-                  active={subtopicViewState == SubtopicViewStates.NOTE}
-                  onClick={() => setSubtopicViewState(SubtopicViewStates.NOTE)}
-                  first
-                >
-                  {displayActionTexts(selectedLanguage).note}
-                </SegmentedControlCell>
-                <SegmentedControlCell
-                  active={subtopicViewState == SubtopicViewStates.FLASHCARDS}
-                  onClick={() => setSubtopicViewState(SubtopicViewStates.FLASHCARDS)}
-                  leftNeighbourActive={subtopicViewState == SubtopicViewStates.NOTE}
-                >
-                  {displayActionTexts(selectedLanguage).flashcards}
-                </SegmentedControlCell>
-              </SegmentedControl>
+        <NavigationBar>
+          <NavBarButton
+            content={
+              <Fragment>
+                <ActionRow first icon={<IoAlbumsOutline />} onClick={() => openFlashcardQuizView()}>
+                  {displayActionTexts(selectedLanguage).quiz}
+                </ActionRow>
+                <ActionRow icon={<IoSchoolOutline />} onClick={() => openFlashcardTestView()}>
+                  {displayActionTexts(selectedLanguage).flashcardTest}
+                </ActionRow>
+                <ActionRow last icon={<IoReaderOutline />} onClick={() => openBlurtingView()}>
+                  {displayActionTexts(selectedLanguage).blurting}
+                </ActionRow>
+              </Fragment>
+            }
+          >
+            <IoPlayOutline />
+          </NavBarButton>
+          <NavBarButton
+            content={
+              <Fragment>
+                <ActionRow first icon={<IoHeadsetOutline />} onClick={openGeneratePodcastSheet}>
+                  {displayActionTexts(selectedLanguage).generatePodcast}
+                </ActionRow>
+                <ActionRow last icon={<IoChatboxEllipsesOutline />}>
+                  {displayActionTexts(selectedLanguage).startLernSession}
+                </ActionRow>
+              </Fragment>
+            }
+          >
+            <IoColorWandOutline />
+          </NavBarButton>
+          <NavBarButton
+            content={
+              <Fragment>
+                <ActionRow icon={<IoCreateOutline />} onClick={openEditSheet} first>
+                  {displayActionTexts(selectedLanguage).edit}
+                </ActionRow>
+                <ActionRow icon={<IoAddCircleOutline />} onClick={openAddFlashcardsSheet}>
+                  {displayActionTexts(selectedLanguage).addFlashcards}
+                </ActionRow>
+                <ActionRow icon={isBookmarked ? <IoBookmark /> : <IoBookmarkOutline />} onClick={toggleBookmark}>
+                  {isBookmarked
+                    ? displayActionTexts(selectedLanguage).unbookmark
+                    : displayActionTexts(selectedLanguage).bookmark}
+                </ActionRow>
+                <ActionRow icon={<IoArrowUpCircleOutline />} onClick={openAddResourceToLerningGroupSheet}>
+                  {displayActionTexts(selectedLanguage).addToLearningGroup}
+                </ActionRow>
+                <ActionRow last destructive icon={<IoTrashOutline />} onClick={openDeleteAlert}>
+                  {displayActionTexts(selectedLanguage).delete}
+                </ActionRow>
+              </Fragment>
+            }
+          >
+            <IoEllipsisHorizontalCircleOutline />
+          </NavBarButton>
+        </NavigationBar>
 
-              <Spacer />
-              <EntityPropsMapper
-                query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.PODCAST)}
-                get={[[TitleFacet, DateAddedFacet], []]}
-                onMatch={PodcastRow}
-              />
-              <EntityPropsMapper
-                query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.LERNVIDEO)}
-                get={[[TitleFacet, DateAddedFacet], []]}
-                onMatch={LernvideoRow}
-              />
-            </div>
-          }
-          customContent={
-            subtopicViewState == SubtopicViewStates.FLASHCARDS && (
-              <CollectionGrid columnSize="large">
-                <EntityPropsMapper
-                  query={(e) => dataTypeQuery(e, DataTypes.FLASHCARD) && isChildOfQuery(e, entity)}
-                  get={[[QuestionFacet, AnswerFacet, MasteryLevelFacet], []]}
-                  onMatch={FlashcardCell}
-                />
-              </CollectionGrid>
-            )
-          }
+        <BackButton navigateBack={navigateBack}>{selectedTopicTitle}</BackButton>
+        <Title>{title}</Title>
+
+        <SegmentedControl>
+          <SegmentedControlCell
+            active={subtopicViewState == SubtopicViewStates.NOTE}
+            onClick={() => setSubtopicViewState(SubtopicViewStates.NOTE)}
+            first
+          >
+            {displayActionTexts(selectedLanguage).note}
+          </SegmentedControlCell>
+          <SegmentedControlCell
+            active={subtopicViewState == SubtopicViewStates.FLASHCARDS}
+            onClick={() => setSubtopicViewState(SubtopicViewStates.FLASHCARDS)}
+            leftNeighbourActive={subtopicViewState == SubtopicViewStates.NOTE}
+          >
+            {displayActionTexts(selectedLanguage).flashcards}
+          </SegmentedControlCell>
+        </SegmentedControl>
+
+        <Spacer />
+        <EntityPropsMapper
+          query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.PODCAST)}
+          get={[[TitleFacet, DateAddedFacet], []]}
+          onMatch={PodcastRow}
         />
+        <EntityPropsMapper
+          query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.LERNVIDEO)}
+          get={[[TitleFacet, DateAddedFacet], []]}
+          onMatch={LernvideoRow}
+        />
+
+        {subtopicViewState == SubtopicViewStates.NOTE ? (
+          <TextEditor value={text} onBlur={updateText} />
+        ) : (
+          <CollectionGrid columnSize="large">
+            <EntityPropsMapper
+              query={(e) => dataTypeQuery(e, DataTypes.FLASHCARD) && isChildOfQuery(e, entity)}
+              get={[[QuestionFacet, AnswerFacet, MasteryLevelFacet], []]}
+              onMatch={FlashcardCell}
+            />
+          </CollectionGrid>
+        )}
       </View>
 
       <EntityPropsMapper

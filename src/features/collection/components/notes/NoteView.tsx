@@ -7,21 +7,31 @@ import {
   IoArrowUpCircleOutline,
   IoBookmark,
   IoBookmarkOutline,
+  IoColorWandOutline,
+  IoEllipsisHorizontalCircleOutline,
   IoHeadsetOutline,
   IoTrashOutline,
 } from "react-icons/io5";
 import { DateAddedFacet, TitleFacet, TitleProps } from "../../../../app/additionalFacets";
 import { AdditionalTags, DataTypes, Stories, SupabaseTables } from "../../../../base/enums";
-import { ActionRow, View } from "../../../../components";
+import {
+  ActionRow,
+  BackButton,
+  NavBarButton,
+  NavigationBar,
+  Spacer,
+  TextEditor,
+  Title,
+  View,
+} from "../../../../components";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../../lib/supabase";
 import { displayActionTexts } from "../../../../utils/displayText";
 import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
-import Blockeditor from "../../../blockeditor/components/Blockeditor";
-import InitializeBlockeditorSystem from "../../../blockeditor/systems/InitializeBlockeditorSystem";
 import { useBookmarked } from "../../../study/hooks/useBookmarked";
 import { useSelectedTopic } from "../../hooks/useSelectedTopic";
+import { useText } from "../../hooks/useText";
 import LoadNotePodcastsSystem from "../../systems/LoadNotePodcastsSystem";
 import LoadNoteTextSystem from "../../systems/LoadNoteTextSystem";
 import GenerateFlashcardsSheet from "../generation/GenerateFlashcardsSheet";
@@ -36,6 +46,7 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
   const { selectedLanguage } = useSelectedLanguage();
   const isVisible = useIsViewVisible(entity);
   const { isBookmarked, toggleBookmark } = useBookmarked(entity);
+  const { text, updateText } = useText(entity);
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
   const openDeleteAlert = () => lsc.stories.transitTo(Stories.DELETING_NOTE_STORY);
@@ -55,52 +66,55 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
 
   return (
     <Fragment>
-      <InitializeBlockeditorSystem blockeditorId={guid} />
       <LoadNoteTextSystem />
       <LoadNotePodcastsSystem />
 
       <View visible={isVisible}>
-        <Blockeditor
-          id={guid}
-          handleTitleBlur={handleTitleBlur}
-          title={title}
-          backbuttonLabel={selectedTopicTitle}
-          navigateBack={navigateBack}
-          customHeaderArea={
-            <div>
-              <EntityPropsMapper
-                query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.PODCAST)}
-                get={[[TitleFacet, DateAddedFacet], []]}
-                onMatch={PodcastRow}
-              />
-            </div>
-          }
-          customGenerateActionRows={
-            <Fragment>
-              <ActionRow icon={<IoHeadsetOutline />} onClick={openGeneratePodcastSheet}>
-                {displayActionTexts(selectedLanguage).generatePodcast}
-              </ActionRow>
-              <ActionRow last icon={<IoAlbumsOutline />} onClick={openGenerateFlashcardsSheet}>
-                {displayActionTexts(selectedLanguage).generateFlashcards}
-              </ActionRow>
-            </Fragment>
-          }
-          customActionRows={
-            <Fragment>
-              <ActionRow first icon={isBookmarked ? <IoBookmark /> : <IoBookmarkOutline />} onClick={toggleBookmark}>
-                {isBookmarked
-                  ? displayActionTexts(selectedLanguage).unbookmark
-                  : displayActionTexts(selectedLanguage).bookmark}
-              </ActionRow>
-              <ActionRow icon={<IoArrowUpCircleOutline />} onClick={openAddResourceToLerningGroupSheet}>
-                {displayActionTexts(selectedLanguage).addToLearningGroup}
-              </ActionRow>
-              <ActionRow first last destructive onClick={openDeleteAlert} icon={<IoTrashOutline />}>
-                {displayActionTexts(selectedLanguage).delete}
-              </ActionRow>
-            </Fragment>
-          }
+        <NavigationBar>
+          <NavBarButton
+            content={
+              <Fragment>
+                <ActionRow icon={<IoHeadsetOutline />} onClick={openGeneratePodcastSheet}>
+                  {displayActionTexts(selectedLanguage).generatePodcast}
+                </ActionRow>
+                <ActionRow last icon={<IoAlbumsOutline />} onClick={openGenerateFlashcardsSheet}>
+                  {displayActionTexts(selectedLanguage).generateFlashcards}
+                </ActionRow>
+              </Fragment>
+            }
+          >
+            <IoColorWandOutline />
+          </NavBarButton>
+          <NavBarButton
+            content={
+              <Fragment>
+                <ActionRow first icon={isBookmarked ? <IoBookmark /> : <IoBookmarkOutline />} onClick={toggleBookmark}>
+                  {isBookmarked
+                    ? displayActionTexts(selectedLanguage).unbookmark
+                    : displayActionTexts(selectedLanguage).bookmark}
+                </ActionRow>
+                <ActionRow icon={<IoArrowUpCircleOutline />} onClick={openAddResourceToLerningGroupSheet}>
+                  {displayActionTexts(selectedLanguage).addToLearningGroup}
+                </ActionRow>
+                <ActionRow first last destructive onClick={openDeleteAlert} icon={<IoTrashOutline />}>
+                  {displayActionTexts(selectedLanguage).delete}
+                </ActionRow>
+              </Fragment>
+            }
+          >
+            <IoEllipsisHorizontalCircleOutline />
+          </NavBarButton>
+        </NavigationBar>
+
+        <BackButton navigateBack={navigateBack}>{selectedTopicTitle}</BackButton>
+        <Title onBlur={handleTitleBlur}>{title}</Title>
+        <Spacer />
+        <EntityPropsMapper
+          query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.PODCAST)}
+          get={[[TitleFacet, DateAddedFacet], []]}
+          onMatch={PodcastRow}
         />
+        <TextEditor value={text} onBlur={updateText} />
       </View>
 
       <DeleteNoteAlert />

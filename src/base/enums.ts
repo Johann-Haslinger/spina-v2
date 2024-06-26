@@ -208,4 +208,5 @@ export enum SupabaseTables {
   GROUP_FLASHCARD_SETS = "group_flashcard_sets",
   GROUP_FLASHCARDS = "group_flashcards",
   GROUP_BLOCKS = "group_blocks",
+  TEXTS = "texts",
 }
