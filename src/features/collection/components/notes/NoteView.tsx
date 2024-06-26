@@ -107,7 +107,7 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
         </NavigationBar>
 
         <BackButton navigateBack={navigateBack}>{selectedTopicTitle}</BackButton>
-        <Title onBlur={handleTitleBlur}>{title}</Title>
+        <Title editable  onBlur={handleTitleBlur}>{title}</Title>
         <Spacer />
         <EntityPropsMapper
           query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.PODCAST)}

@@ -99,7 +99,6 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
   const { selectedTopicId } = useSelectedTopic();
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
-  const openAddResourceSheet = () => lsc.stories.transitTo(Stories.ADDING_RESOURCE_TO_TOPIC_STORY);
   const openEditTopicSheet = () => lsc.stories.transitTo(Stories.EDITING_TOPIC_STORY);
   const openDeleteTopicAlert = () => lsc.stories.transitTo(Stories.DELETING_TOPIC_STORY);
   const openAddFlashcardsSheet = () => lsc.stories.transitTo(Stories.ADDING_FLASHCARD_SET_STORY);
@@ -107,7 +106,6 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
 
   const saveNote = async () => {
     if (selectedTopicId) {
-      navigateBack();
       const noteId = v4();
 
       const newNoteEntity = new Entity();
@@ -147,7 +145,6 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
                 </ActionRow>
               </Fragment>
             }
-            onClick={openAddResourceSheet}
           >
             <IoAdd />
           </NavBarButton>
