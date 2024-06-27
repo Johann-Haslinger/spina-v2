@@ -16,10 +16,10 @@ import { useIsAnyStoryCurrent } from "../../../../hooks/useIsAnyStoryCurrent";
 import { useUserData } from "../../../../hooks/useUserData";
 import { getAudioFromText, getCompletion } from "../../../../utils/getCompletion";
 import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
-import { useVisibleBlocks } from "../../../blockeditor/hooks/useVisibleBlocks";
 import { useSelectedFlashcardSet } from "../../hooks/useSelectedFlashcardSet";
 import { useSelectedNote } from "../../hooks/useSelectedNote";
 import { useSelectedSubtopic } from "../../hooks/useSelectedSubtopic";
+import { useVisibleText } from "../../hooks/useVisibleText";
 
 function base64toBlob(base64Data: string, contentType: string) {
   const byteCharacters = atob(base64Data);
@@ -48,7 +48,7 @@ const GeneratePodcastSheet = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const { userId } = useUserData();
   const [flashcardEntities] = useEntities((e) => dataTypeQuery(e, DataTypes.FLASHCARD));
-  const { visibleText } = useVisibleBlocks();
+  const { visibleText } = useVisibleText();
 
   useEffect(() => {
     const handleGeneratePodcast = async () => {

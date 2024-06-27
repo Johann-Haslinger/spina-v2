@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
-import { IdentifierFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
+import { IdentifierFacet, ParentFacet, Tags, TextFacet } from "@leanscope/ecs-models";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext, useEffect, useState } from "react";
 import tw from "twin.macro";
@@ -18,16 +18,16 @@ import {
   Spacer,
 } from "../../../../components";
 import SapientorConversationMessage from "../../../../components/content/SapientorConversationMessage";
+import { addFlashcards } from "../../../../functions/addFlashcards";
+import { addSubtopic } from "../../../../functions/addSubtopic";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { useUserData } from "../../../../hooks/useUserData";
 import supabaseClient from "../../../../lib/supabase";
 import { displayButtonTexts } from "../../../../utils/displayText";
 import { generateFlashCards } from "../../../../utils/generateResources";
-import { useVisibleBlocks } from "../../../blockeditor/hooks/useVisibleBlocks";
 import { useSelectedNote } from "../../hooks/useSelectedNote";
+import { useVisibleText } from "../../hooks/useVisibleText";
 import PreviewFlashcard from "../flashcard-sets/PreviewFlashcard";
-import { addFlashcards } from "../../../../functions/addFlashcards";
-import { addSubtopic } from "../../../../functions/addSubtopic";
 
 type Flashcard = {
   question: string;
@@ -47,7 +47,7 @@ const GenerateFlashcardsSheet = () => {
   const { selectedLanguage } = useSelectedLanguage();
   const [isGenerating, setIsGenerating] = useState(false);
   const { userId } = useUserData();
-  const { visibleText } = useVisibleBlocks();
+  const { visibleText } = useVisibleText();
   const [message, setMessage] = useState<string>("");
 
   useEffect(() => {
@@ -116,6 +116,7 @@ const GenerateFlashcardsSheet = () => {
         subtopicEntity.add(new TitleFacet({ title: selectedNoteTitle || "" }));
         subtopicEntity.add(new TextFacet({ text: selectedNoteText || "" }));
         subtopicEntity.add(DataTypes.SUBTOPIC);
+        subtopicEntity.add(Tags.SELECTED);
 
         addSubtopic(lsc, subtopicEntity, userId);
 
