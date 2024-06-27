@@ -2,20 +2,20 @@ import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
 import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
-import { TitleFacet, DateAddedFacet } from "../../../app/additionalFacets";
-import { SupabaseTables, DataTypes } from "../../../base/enums";
+import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
+import { dummyExercises } from "../../../base/dummy";
+import { DataTypes, SupabaseColumns, SupabaseTables } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../lib/supabase";
 import { displayAlertTexts } from "../../../utils/displayText";
 import { useSelectedTopic } from "../hooks/useSelectedTopic";
-import { dummyExercises } from "../../../base/dummy";
 
 const fetchExercisesForTopic = async (topicId: string) => {
   const { data: exercises, error } = await supabaseClient
     .from(SupabaseTables.EXERCISES)
     .select("title, id, date_added")
-    .eq("parent_id", topicId);
+    .eq(SupabaseColumns.PARENT_ID, topicId);
 
   if (error) {
     console.error("Error fetching exercises:", error);

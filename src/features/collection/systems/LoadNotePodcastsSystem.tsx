@@ -4,7 +4,7 @@ import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
 import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
 import { dummyPodcasts } from "../../../base/dummy";
-import { DataTypes, SupabaseTables } from "../../../base/enums";
+import { DataTypes, SupabaseColumns, SupabaseTables } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedNote } from "../hooks/useSelectedNote";
@@ -13,7 +13,7 @@ const fetchPodcastsForNote = async (noteId: string) => {
   const { data: podcasts, error } = await supabaseClient
     .from(SupabaseTables.PODCASTS)
     .select("title, id, date_added")
-    .eq("parent_id", noteId);
+    .eq(SupabaseColumns.PARENT_ID, noteId);
 
   if (error) {
     console.error("Error fetching note podcasts:", error);

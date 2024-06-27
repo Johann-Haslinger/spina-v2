@@ -1,7 +1,7 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext } from "react";
-import { Stories, AdditionalTags, SupabaseTables } from "../../../../base/enums";
+import { AdditionalTags, Stories, SupabaseColumns, SupabaseTables } from "../../../../base/enums";
 import { Alert, AlertButton } from "../../../../components";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../../lib/supabase";
@@ -23,7 +23,10 @@ const DeleteTopicAlert = () => {
       if (selectedTopicEntity) {
         lsc.engine.removeEntity(selectedTopicEntity);
 
-        const { error } = await supabaseClient.from(SupabaseTables.TOPICS).delete().eq("id", selectedTopicId);
+        const { error } = await supabaseClient
+          .from(SupabaseTables.TOPICS)
+          .delete()
+          .eq(SupabaseColumns.ID, selectedTopicId);
 
         if (error) {
           console.error("Error deleting Topic", error);

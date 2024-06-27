@@ -4,18 +4,18 @@ import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
 import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
 import { dummySubtopics } from "../../../base/dummy";
-import { DataTypes, SupabaseTables } from "../../../base/enums";
+import { DataTypes, SupabaseColumns, SupabaseTables } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
-import supabaseClient from "../../../lib/supabase";
-import { useSelectedTopic } from "../hooks/useSelectedTopic";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
+import supabaseClient from "../../../lib/supabase";
 import { displayAlertTexts } from "../../../utils/displayText";
+import { useSelectedTopic } from "../hooks/useSelectedTopic";
 
 const fetchSubtopicsForSchoolSubject = async (subjectId: string) => {
   const { data: subtopics, error } = await supabaseClient
     .from(SupabaseTables.SUBTOPICS)
     .select("title, id, date_added")
-    .eq("parent_id", subjectId);
+    .eq(SupabaseColumns.PARENT_ID, subjectId);
 
   if (error) {
     console.error("Error fetching Subtopics:", error);
@@ -28,7 +28,7 @@ const LoadSubtopicsSystem = () => {
   const { mockupData, shouldFetchFromSupabase } = useMockupData();
   const lsc = useContext(LeanScopeClientContext);
   const { selectedTopicId } = useSelectedTopic();
-  const { selectedLanguage } = useSelectedLanguage(); 
+  const { selectedLanguage } = useSelectedLanguage();
 
   useEffect(() => {
     const initializeSubtopicEntities = async () => {
@@ -36,8 +36,8 @@ const LoadSubtopicsSystem = () => {
         const Subtopics = mockupData
           ? dummySubtopics
           : shouldFetchFromSupabase
-          ? await fetchSubtopicsForSchoolSubject(selectedTopicId)
-          : [];
+            ? await fetchSubtopicsForSchoolSubject(selectedTopicId)
+            : [];
 
         Subtopics.forEach((topic) => {
           const isExisting = lsc.engine.entities.some(

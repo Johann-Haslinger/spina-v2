@@ -104,7 +104,7 @@ export enum AdditionalTags {
   CHAT_SHEET_VISIBLE,
   GENERATE_FROM_IMAGE_PROMPT,
   GROUP_BLOCKEDITOR,
-  RECENTLY_ADDED
+  RECENTLY_ADDED,
 }
 
 export enum NavigationLinks {
@@ -211,4 +211,14 @@ export enum SupabaseTables {
   GROUP_BLOCKS = "group_blocks",
   TEXTS = "texts",
   EXERCISES = "exercises",
+  PROFILES = "profiles",
+}
+
+export enum SupabaseColumns {
+  ID = "id",
+  USER_ID = "user_id",
+  TITLE = "title",
+  DESCRIPTION = "description",
+  PARENT_ID = "parent_id",
+  DUE_DATE = "due_date",
 }

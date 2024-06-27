@@ -1,7 +1,7 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext } from "react";
-import { Stories, AdditionalTags } from "../../../../base/enums";
+import { AdditionalTags, Stories, SupabaseColumns } from "../../../../base/enums";
 import { Alert, AlertButton } from "../../../../components";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../../lib/supabase";
@@ -23,7 +23,7 @@ const DeleteGroupNoteAlert = () => {
       if (selectedGroupNoteEntity) {
         lsc.engine.removeEntity(selectedGroupNoteEntity);
 
-        const { error } = await supabaseClient.from("group_notes").delete().eq("id", selectedGroupNoteId);
+        const { error } = await supabaseClient.from("group_notes").delete().eq(SupabaseColumns.ID, selectedGroupNoteId);
 
         if (error) {
           console.error("Error deleting group note", error);

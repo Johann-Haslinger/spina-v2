@@ -4,7 +4,7 @@ import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
 import { AnswerFacet, QuestionFacet } from "../../../app/additionalFacets";
 import { dummyFlashcards } from "../../../base/dummy";
-import { DataTypes, SupabaseTables } from "../../../base/enums";
+import { DataTypes, SupabaseColumns, SupabaseTables } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedGroupSubtopic } from "../hooks/useSelectedGroupSubtopic";
@@ -13,7 +13,7 @@ const fetchFlashcardsForGroupSubtopic = async (parentId: string) => {
   const { data: flashcards, error } = await supabaseClient
     .from(SupabaseTables.GROUP_FLASHCARDS)
     .select("question, id, answer")
-    .eq("parent_id", parentId);
+    .eq(SupabaseColumns.PARENT_ID, parentId);
 
   if (error) {
     console.error("Error fetching subtopic flashcards:", error);

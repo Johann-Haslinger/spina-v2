@@ -9,8 +9,13 @@ import tw from "twin.macro";
 import { v4 } from "uuid";
 import { AnswerFacet, BlocktypeFacet, QuestionFacet, TitleFacet } from "../../../app/additionalFacets";
 import { dummyTopics } from "../../../base/dummy";
-import { Blocktypes, DataTypes, Stories, SupabaseTables } from "../../../base/enums";
+import { Blocktypes, DataTypes, Stories, SupabaseColumns, SupabaseTables } from "../../../base/enums";
 import { FlexBox, SecondaryButton, Section, SectionRow, Sheet, Spacer } from "../../../components";
+import { addBlocks } from "../../../functions/addBlocks";
+import { addFlashcardSet } from "../../../functions/addFlashcardSet";
+import { addFlashcards } from "../../../functions/addFlashcards";
+import { addNote } from "../../../functions/addNote";
+import { addSubtopic } from "../../../functions/addSubtopic";
 import { useMockupData } from "../../../hooks/useMockupData";
 import { useSchoolSubjectEntities } from "../../../hooks/useSchoolSubjects";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
@@ -20,11 +25,6 @@ import { displayAlertTexts, displayButtonTexts } from "../../../utils/displayTex
 import { useSelectedGroupFlashcardSet } from "../hooks/useSelectedGroupFlashcardSet";
 import { useSelectedGroupNote } from "../hooks/useSelectedGroupNote";
 import { useSelectedGroupSubtopic } from "../hooks/useSelectedGroupSubtopic";
-import { addFlashcardSet } from "../../../functions/addFlashcardSet";
-import { addFlashcards } from "../../../functions/addFlashcards";
-import { addNote } from "../../../functions/addNote";
-import { addBlocks } from "../../../functions/addBlocks";
-import { addSubtopic } from "../../../functions/addSubtopic";
 
 const StyledMoreButtonWrapper = styled.div`
   ${tw`text-seconderyText text-opacity-50`}
@@ -34,7 +34,7 @@ const fetchTopicsForSchoolSubject = async (subjectId: string) => {
   const { data: topics, error } = await supabaseClient
     .from(SupabaseTables.TOPICS)
     .select("title, id")
-    .eq("parent_id", subjectId);
+    .eq(SupabaseColumns.PARENT_ID, subjectId);
 
   if (error) {
     console.error("Error fetching topics:", error);

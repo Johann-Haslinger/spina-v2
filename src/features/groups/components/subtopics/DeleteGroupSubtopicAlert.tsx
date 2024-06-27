@@ -1,7 +1,7 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext } from "react";
-import { AdditionalTags, Stories, SupabaseTables } from "../../../../base/enums";
+import { AdditionalTags, Stories, SupabaseColumns, SupabaseTables } from "../../../../base/enums";
 import { Alert, AlertButton } from "../../../../components";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../../lib/supabase";
@@ -26,7 +26,7 @@ const DeleteGroupSubtopicAlert = () => {
         const { error: GroupSubtopicError } = await supabaseClient
           .from("group_subtopics")
           .delete()
-          .eq("id", selectedGroupSubtopicId);
+          .eq(SupabaseColumns.ID, selectedGroupSubtopicId);
 
         if (GroupSubtopicError) {
           console.error("Error deleting group subtopic", GroupSubtopicError);
@@ -35,7 +35,7 @@ const DeleteGroupSubtopicAlert = () => {
         const { error: blockError } = await supabaseClient
           .from(SupabaseTables.BLOCKS)
           .delete()
-          .eq("parent_id", selectedGroupSubtopicId);
+          .eq(SupabaseColumns.PARENT_ID, selectedGroupSubtopicId);
 
         if (blockError) {
           console.error("Error deleting blocks", blockError);
@@ -44,7 +44,7 @@ const DeleteGroupSubtopicAlert = () => {
         const { error: flashcardsError } = await supabaseClient
           .from("group_flashcards")
           .delete()
-          .eq("parent_id", selectedGroupSubtopicId);
+          .eq(SupabaseColumns.PARENT_ID, selectedGroupSubtopicId);
 
         if (flashcardsError) {
           console.error("Error deleting flashcards", flashcardsError);

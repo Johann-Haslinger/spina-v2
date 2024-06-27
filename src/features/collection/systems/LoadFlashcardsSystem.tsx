@@ -4,7 +4,7 @@ import { IdentifierFacet, ParentFacet, Tags } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
 import { AnswerFacet, MasteryLevelFacet, QuestionFacet } from "../../../app/additionalFacets";
 import { dummyFlashcards } from "../../../base/dummy";
-import { DataTypes, SupabaseTables } from "../../../base/enums";
+import { DataTypes, SupabaseColumns, SupabaseTables } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { dataTypeQuery } from "../../../utils/queries";
@@ -13,7 +13,7 @@ const fetchFlashcardsForFlashcardGroup = async (parentId: string) => {
   const { data: flashcards, error } = await supabaseClient
     .from(SupabaseTables.FLASHCARDS)
     .select("question, id, answer, mastery_level")
-    .eq("parent_id", parentId);
+    .eq(SupabaseColumns.PARENT_ID, parentId);
 
   if (error) {
     console.error("Error fetching flashcards:", error);
@@ -39,8 +39,8 @@ const LoadFlashcardsSystem = () => {
         const flashcards = mockupData
           ? dummyFlashcards
           : shouldFetchFromSupabase
-          ? await fetchFlashcardsForFlashcardGroup(selectedFlashcardGroupId)
-          : [];
+            ? await fetchFlashcardsForFlashcardGroup(selectedFlashcardGroupId)
+            : [];
 
         flashcards.forEach((flashcard) => {
           const isExisting = lsc.engine.entities.some(

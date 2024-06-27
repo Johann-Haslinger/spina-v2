@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
+import { SupabaseColumns, SupabaseTables } from "../base/enums";
 import supabaseClient from "../lib/supabase";
-import { SupabaseTables } from "../base/enums";
 
 interface Topic {
   title: string;
@@ -15,7 +15,7 @@ export const useSchoolSubjectTopics = (schoolSubjectId: string) => {
       const { data: topics, error } = await supabaseClient
         .from(SupabaseTables.TOPICS)
         .select("title, id")
-        .eq("parent_id", schoolSubjectId);
+        .eq(SupabaseColumns.PARENT_ID, schoolSubjectId);
 
       if (error) {
         console.error("Error fetching topics:", error);

@@ -122,6 +122,8 @@ const SapientorPromptBox = (props: { isVisible: boolean }) => {
     return "";
   };
 
+  // TODO: Implement file picker for image upload
+
   // const openFilePicker = () => {
   //   setIsSelectingImageSrc(true);
   //   if (fileInputRef.current) {

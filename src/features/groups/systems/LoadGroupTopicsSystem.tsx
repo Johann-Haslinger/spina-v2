@@ -1,21 +1,19 @@
-import { LeanScopeClientContext } from '@leanscope/api-client/node';
-import { Entity } from '@leanscope/ecs-engine';
-import { DescriptionFacet, IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
-import { useContext, useEffect } from 'react';
-import { DateAddedFacet, TitleFacet } from '../../../app/additionalFacets';
-import { dummyGroupTopics } from '../../../base/dummy';
-import { DataTypes, SupabaseTables } from '../../../base/enums';
-import { useMockupData } from '../../../hooks/useMockupData';
-import supabaseClient from '../../../lib/supabase';
-import { useSelectedGroupSchoolSubject } from '../hooks/useSelectedGroupSchoolSubject';
-
-
+import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import { Entity } from "@leanscope/ecs-engine";
+import { DescriptionFacet, IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
+import { useContext, useEffect } from "react";
+import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
+import { dummyGroupTopics } from "../../../base/dummy";
+import { DataTypes, SupabaseColumns, SupabaseTables } from "../../../base/enums";
+import { useMockupData } from "../../../hooks/useMockupData";
+import supabaseClient from "../../../lib/supabase";
+import { useSelectedGroupSchoolSubject } from "../hooks/useSelectedGroupSchoolSubject";
 
 const fetchGroupTopicsForSchoolSubject = async (subjectId: string) => {
   const { data: GroupTopics, error } = await supabaseClient
     .from(SupabaseTables.GROUP_TOPICS)
     .select("title, id, date_added, description")
-    .eq("parent_id", subjectId);
+    .eq(SupabaseColumns.PARENT_ID, subjectId);
 
   if (error) {
     console.error("Error fetching learning group topics:", error);
@@ -43,7 +41,6 @@ const LoadGroupTopicsSystem = () => {
           const isExisting = lsc.engine.entities.some(
             (e) => e.get(IdentifierFacet)?.props.guid === topic.id && e.hasTag(DataTypes.GROUP_TOPIC)
           );
-
 
           if (!isExisting) {
             const learningGroupTopicEntity = new Entity();

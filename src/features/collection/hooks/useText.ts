@@ -1,7 +1,7 @@
 import { Entity } from "@leanscope/ecs-engine";
 import { IdentifierFacet, TextFacet } from "@leanscope/ecs-models";
 import { useEffect } from "react";
-import { SupabaseTables } from "../../../base/enums";
+import { SupabaseColumns, SupabaseTables } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import { useUserData } from "../../../hooks/useUserData";
 import supabaseClient from "../../../lib/supabase";
@@ -10,7 +10,7 @@ const fetchText = async (parentId: string, userId: string) => {
   const { data: textData, error } = await supabaseClient
     .from(SupabaseTables.TEXTS)
     .select("text")
-    .eq("parent_id", parentId);
+    .eq(SupabaseColumns.PARENT_ID, parentId);
 
   if (error) {
     console.error("Error fetching text", error);
@@ -34,12 +34,8 @@ const fetchText = async (parentId: string, userId: string) => {
 export const useText = (entity: Entity) => {
   const parentId = entity.get(IdentifierFacet)?.props.guid;
   const { userId } = useUserData();
-  // const [textProps] = useEntityFacets(entity, TextFacet);
-  // const text = textProps.text || "";
   const text = entity.get(TextFacet)?.props.text || "";
   const { shouldFetchFromSupabase, mockupData } = useMockupData();
-
-  console.log("useText", text, entity.get(TextFacet)?.props.text);
 
   useEffect(() => {
     const loadText = async () => {
@@ -66,7 +62,7 @@ export const useText = (entity: Entity) => {
     const { error } = await supabaseClient
       .from(SupabaseTables.TEXTS)
       .update({ text: newText })
-      .eq("parent_id", parentId);
+      .eq(SupabaseColumns.PARENT_ID, parentId);
 
     if (error) {
       console.error("Error updating text", error);

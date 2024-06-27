@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { SourceFacet } from "../../../app/additionalFacets";
 import { dummyBase64Audio } from "../../../base/dummyBase64Audio";
+import { SupabaseColumns, SupabaseTables } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedPodcast } from "../hooks/useSelectedPodcast";
-import { SupabaseTables } from "../../../base/enums";
 
 const base64toBlob = (base64Data: string, contentType: string) => {
   const byteCharacters = atob(base64Data);
@@ -20,7 +20,7 @@ const fetchPodcastAudio = async (podcastId: string) => {
   const { data: audioData, error } = await supabaseClient
     .from(SupabaseTables.PODCASTS)
     .select("audio")
-    .eq("id", podcastId)
+    .eq(SupabaseColumns.ID, podcastId)
     .single();
 
   if (error) {

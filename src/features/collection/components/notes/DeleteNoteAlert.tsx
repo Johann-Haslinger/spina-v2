@@ -1,12 +1,12 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext } from "react";
-import { Stories, AdditionalTags, SupabaseTables } from "../../../../base/enums";
+import { AdditionalTags, Stories, SupabaseColumns, SupabaseTables } from "../../../../base/enums";
 import { Alert, AlertButton } from "../../../../components";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
+import supabaseClient from "../../../../lib/supabase";
 import { displayActionTexts } from "../../../../utils/displayText";
 import { useSelectedNote } from "../../hooks/useSelectedNote";
-import supabaseClient from "../../../../lib/supabase";
 
 const DeleteNoteAlert = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -23,19 +23,28 @@ const DeleteNoteAlert = () => {
       if (selectedNoteEntity) {
         lsc.engine.removeEntity(selectedNoteEntity);
 
-        const { error } = await supabaseClient.from(SupabaseTables.NOTES).delete().eq("id", selectedNoteId);
+        const { error } = await supabaseClient
+          .from(SupabaseTables.NOTES)
+          .delete()
+          .eq(SupabaseColumns.ID, selectedNoteId);
 
         if (error) {
           console.error("Error deleting note", error);
         }
 
-        const { error: error2 } = await supabaseClient.from(SupabaseTables.BLOCKS).delete().eq("parent_id", selectedNoteId);
+        const { error: error2 } = await supabaseClient
+          .from(SupabaseTables.BLOCKS)
+          .delete()
+          .eq(SupabaseColumns.PARENT_ID, selectedNoteId);
 
         if (error2) {
           console.error("Error deleting blocks", error2);
         }
 
-        const { error: error3 } = await supabaseClient.from(SupabaseTables.PODCASTS).delete().eq("parent_id", selectedNoteId);
+        const { error: error3 } = await supabaseClient
+          .from(SupabaseTables.PODCASTS)
+          .delete()
+          .eq(SupabaseColumns.PARENT_ID, selectedNoteId);
 
         if (error3) {
           console.error("Error deleting podcasts", error3);

@@ -1,13 +1,13 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { useIsStoryCurrent } from "@leanscope/storyboarding";
-import { useContext } from "react";
-import { Stories, DataTypes, SupabaseTables } from "../../../base/enums";
-import { Alert, AlertButton } from "../../../components";
-import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
-import { displayActionTexts } from "../../../utils/displayText";
 import { useEntities } from "@leanscope/ecs-engine";
 import { IdentifierFacet, Tags } from "@leanscope/ecs-models";
+import { useIsStoryCurrent } from "@leanscope/storyboarding";
+import { useContext } from "react";
+import { DataTypes, Stories, SupabaseColumns, SupabaseTables } from "../../../base/enums";
+import { Alert, AlertButton } from "../../../components";
+import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../lib/supabase";
+import { displayActionTexts } from "../../../utils/displayText";
 
 const DeleteBlocksAlert = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -25,7 +25,7 @@ const DeleteBlocksAlert = () => {
 
       const id = blockEntity.get(IdentifierFacet)?.props.guid;
 
-      const { error } = await supabaseClient.from(SupabaseTables.BLOCKS).delete().eq("id", id);
+      const { error } = await supabaseClient.from(SupabaseTables.BLOCKS).delete().eq(SupabaseColumns.ID, id);
 
       if (error) {
         console.error("Error deleting block from supabase:", error);

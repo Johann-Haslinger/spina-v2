@@ -1,9 +1,19 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
-import { useContext, useState, useEffect } from "react";
-import { TitleFacet, DueDateFacet } from "../../../../app/additionalFacets";
-import { Stories } from "../../../../base/enums";
-import { Sheet, FlexBox, SecondaryButton, PrimaryButton, Spacer, Section, SectionRow, TextInput, DateInput } from "../../../../components";
+import { useContext, useEffect, useState } from "react";
+import { DueDateFacet, TitleFacet } from "../../../../app/additionalFacets";
+import { Stories, SupabaseColumns } from "../../../../base/enums";
+import {
+  DateInput,
+  FlexBox,
+  PrimaryButton,
+  SecondaryButton,
+  Section,
+  SectionRow,
+  Sheet,
+  Spacer,
+  TextInput,
+} from "../../../../components";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../../lib/supabase";
 import { displayButtonTexts, displayLabelTexts } from "../../../../utils/displayText";
@@ -13,8 +23,12 @@ const EditGroupHomeworkSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Stories.EDETING_GROUP_HOMEWORK_STORY);
   const { selectedLanguage } = useSelectedLanguage();
-  const { selectedGroupHomeworkTitle, selectedGroupHomeworkEntity, selectedGroupHomeworkId, selectedGroupHomeworkDueDate } =
-    useSelectedGroupHomework();
+  const {
+    selectedGroupHomeworkTitle,
+    selectedGroupHomeworkEntity,
+    selectedGroupHomeworkId,
+    selectedGroupHomeworkDueDate,
+  } = useSelectedGroupHomework();
   const [newTitle, setNewTitle] = useState(selectedGroupHomeworkTitle);
   const [newDueDate, setNewDueDate] = useState(selectedGroupHomeworkTitle);
 
@@ -37,7 +51,7 @@ const EditGroupHomeworkSheet = () => {
           title: newTitle,
           dueDate: newDueDate,
         })
-        .eq("id", selectedGroupHomeworkId);
+        .eq(SupabaseColumns.ID, selectedGroupHomeworkId);
 
       if (error) {
         console.error("Error updating group homework", error);

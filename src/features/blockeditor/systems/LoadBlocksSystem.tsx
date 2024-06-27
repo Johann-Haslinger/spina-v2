@@ -1,5 +1,6 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
+import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntityComponents";
 import {
   FloatOrderFacet,
   IdentifierFacet,
@@ -12,7 +13,7 @@ import {
 import { useContext, useEffect } from "react";
 import { BlocktypeFacet, TexttypeFacet } from "../../../app/additionalFacets";
 import { dummyBlocks } from "../../../base/dummy";
-import { AdditionalTags, DataTypes, SupabaseTables } from "../../../base/enums";
+import { AdditionalTags, DataTypes, SupabaseColumns, SupabaseTables } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import { useUserData } from "../../../hooks/useUserData";
 import supabaseClient from "../../../lib/supabase";
@@ -21,13 +22,12 @@ import { useSelectedNote } from "../../collection/hooks/useSelectedNote";
 import { useSelectedSubtopic } from "../../collection/hooks/useSelectedSubtopic";
 import { addBlockEntitiesFromString } from "../functions/addBlockEntitiesFromString";
 import { useCurrentBlockeditor } from "../hooks/useCurrentBlockeditor";
-import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntityComponents";
 
 const fetchBlocks = async (blockeditorId: string) => {
   const { data: blocks, error } = await supabaseClient
     .from(SupabaseTables.BLOCKS)
     .select("id, type, text_type, content, order, image_url, size, fit")
-    .eq("parent_id", blockeditorId);
+    .eq(SupabaseColumns.PARENT_ID, blockeditorId);
 
   if (error) {
     console.error("Error fetching blocks:", error);
@@ -40,7 +40,7 @@ const fetchGroupBlocks = async (blockeditorId: string) => {
   const { data: blocks, error } = await supabaseClient
     .from(SupabaseTables.GROUP_BLOCKS)
     .select("id, type, text_type, content, order, image_url, size, fit")
-    .eq("parent_id", blockeditorId);
+    .eq(SupabaseColumns.PARENT_ID, blockeditorId);
 
   if (error) {
     console.error("Error fetching blocks:", error);

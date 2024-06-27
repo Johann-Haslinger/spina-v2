@@ -3,7 +3,7 @@ import { DescriptionFacet } from "@leanscope/ecs-models";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext, useEffect, useState } from "react";
 import { TitleFacet } from "../../../../app/additionalFacets";
-import { Stories, SupabaseTables } from "../../../../base/enums";
+import { Stories, SupabaseColumns, SupabaseTables } from "../../../../base/enums";
 import {
   FlexBox,
   PrimaryButton,
@@ -47,7 +47,7 @@ const EditTopicSheet = () => {
           title: newTitle,
           description: newDescription,
         })
-        .eq("id", selectedTopicId);
+        .eq(SupabaseColumns.ID, selectedTopicId);
 
       if (error) {
         console.error("Error updating topic set", error);

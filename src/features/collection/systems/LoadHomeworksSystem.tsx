@@ -4,7 +4,7 @@ import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
 import { DateAddedFacet, DueDateFacet, TitleFacet } from "../../../app/additionalFacets";
 import { dummyHomeworks } from "../../../base/dummy";
-import { DataTypes, SupabaseTables } from "../../../base/enums";
+import { DataTypes, SupabaseColumns, SupabaseTables } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedTopic } from "../hooks/useSelectedTopic";
@@ -13,7 +13,7 @@ const fetchHomeworksForTopic = async (topicId: string) => {
   const { data: homeworks, error } = await supabaseClient
     .from(SupabaseTables.HOMEWORKS)
     .select("title, id, date_added, due_date")
-    .eq("parent_id", topicId);
+    .eq(SupabaseColumns.PARENT_ID, topicId);
 
   if (error) {
     console.error("Error fetching homeworks:", error);

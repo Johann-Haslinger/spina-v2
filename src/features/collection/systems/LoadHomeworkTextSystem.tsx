@@ -2,16 +2,16 @@ import { useEntity } from "@leanscope/ecs-engine";
 import { IdentifierFacet, Tags, TextFacet } from "@leanscope/ecs-models";
 import { useEffect } from "react";
 import { dummyText } from "../../../base/dummy";
-import { DataTypes, SupabaseTables } from "../../../base/enums";
-import supabaseClient from "../../../lib/supabase";
+import { DataTypes, SupabaseColumns, SupabaseTables } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import { useUserData } from "../../../hooks/useUserData";
+import supabaseClient from "../../../lib/supabase";
 
 const fetchHomeworkText = async (homeworkId: string, userId: string) => {
   const { data: text, error } = await supabaseClient
     .from(SupabaseTables.HOMEWORKS)
     .select("text")
-    .eq("id", homeworkId)
+    .eq(SupabaseColumns.ID, homeworkId)
     .single();
 
   if (error) {
@@ -22,7 +22,7 @@ const fetchHomeworkText = async (homeworkId: string, userId: string) => {
   const { error: error2 } = await supabaseClient
     .from(SupabaseTables.HOMEWORKS)
     .update({ old_note_version: false, new_note_version: true, text: "" })
-    .eq("id", homeworkId);
+    .eq(SupabaseColumns.ID, homeworkId);
 
   if (error2) {
     console.error("error updating homework to oldNoteVersion", error2);
@@ -45,7 +45,7 @@ const fetchNoteVersion = async (homeworkId: string) => {
   const { data: noteVersionData, error } = await supabaseClient
     .from(SupabaseTables.HOMEWORKS)
     .select("old_note_version")
-    .eq("id", homeworkId)
+    .eq(SupabaseColumns.ID, homeworkId)
     .single();
 
   if (error) {

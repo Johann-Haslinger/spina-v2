@@ -6,7 +6,7 @@ import { FloatOrderProps, IdentifierFacet, ParentFacet, Tags, TextFacet } from "
 import { useContext, useEffect } from "react";
 import { Fragment } from "react/jsx-runtime";
 import tw from "twin.macro";
-import { AdditionalTags, SupabaseTables } from "../../../../base/enums";
+import { AdditionalTags, SupabaseColumns, SupabaseTables } from "../../../../base/enums";
 import { View } from "../../../../components";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../../lib/supabase";
@@ -80,7 +80,10 @@ const PageBlock = (props: EntityProps & FloatOrderProps) => {
   const handleTitleBlur = async (value: string) => {
     entity.add(new TextFacet({ text: value }));
 
-    const { error } = await supabaseClient.from(SupabaseTables.BLOCKS).update({ content: value }).eq("id", id);
+    const { error } = await supabaseClient
+      .from(SupabaseTables.BLOCKS)
+      .update({ content: value })
+      .eq(SupabaseColumns.ID, id);
 
     if (error) {
       console.error("Error updating block title", error);

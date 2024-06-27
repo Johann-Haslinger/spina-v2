@@ -10,17 +10,17 @@ import {
   TitleFacet,
 } from "../../../app/additionalFacets";
 import { dummyFlashcards, dummyPodcasts, dummyText } from "../../../base/dummy";
-import { DataTypes, SupabaseTables } from "../../../base/enums";
+import { DataTypes, SupabaseColumns, SupabaseTables } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
+import { useUserData } from "../../../hooks/useUserData";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedSubtopic } from "../hooks/useSelectedSubtopic";
-import { useUserData } from "../../../hooks/useUserData";
 
 const fetchNoteVersion = async (noteId: string) => {
   const { data: noteVersionData, error } = await supabaseClient
     .from(SupabaseTables.SUBTOPICS)
     .select("old_note_version, new_note_version")
-    .eq("id", noteId)
+    .eq(SupabaseColumns.ID, noteId)
     .single();
 
   if (error) {
@@ -38,7 +38,7 @@ const fetchFlashcardsForSubtopic = async (parentId: string) => {
   const { data: flashcards, error } = await supabaseClient
     .from(SupabaseTables.FLASHCARDS)
     .select("question, id, answer, mastery_level")
-    .eq("parent_id", parentId);
+    .eq(SupabaseColumns.PARENT_ID, parentId);
 
   if (error) {
     console.error("Error fetching subtopic flashcards:", error);
@@ -51,7 +51,7 @@ const fetchPodcastForSubtopic = async (parentId: string) => {
   const { data: podcast, error } = await supabaseClient
     .from(SupabaseTables.PODCASTS)
     .select("title, id, date_added")
-    .eq("parent_id", parentId)
+    .eq(SupabaseColumns.PARENT_ID, parentId)
     .single();
 
   if (error) {
@@ -135,7 +135,7 @@ const LoadSubtopicResourcesSystem = () => {
             const { data: subtopicTextData, error } = await supabaseClient
               .from("knowledges")
               .select("text")
-              .eq("parent_id", selectedSubtopicId)
+              .eq(SupabaseColumns.PARENT_ID, selectedSubtopicId)
               .single();
 
             if (error) {
@@ -147,7 +147,7 @@ const LoadSubtopicResourcesSystem = () => {
             const { error: error2 } = await supabaseClient
               .from(SupabaseTables.SUBTOPICS)
               .update({ old_note_version: false })
-              .eq("id", selectedSubtopicId);
+              .eq(SupabaseColumns.ID, selectedSubtopicId);
 
             if (error2) {
               console.error("error updating subtopic to oldNoteVersion", error2);
@@ -156,7 +156,7 @@ const LoadSubtopicResourcesSystem = () => {
             const { data: blocks, error } = await supabaseClient
               .from(SupabaseTables.BLOCKS)
               .select("content")
-              .eq("parent_id", selectedSubtopicId);
+              .eq(SupabaseColumns.PARENT_ID, selectedSubtopicId);
 
             if (error) {
               console.error("error fetching blocks", error);
@@ -177,7 +177,7 @@ const LoadSubtopicResourcesSystem = () => {
             const { error: error3 } = await supabaseClient
               .from(SupabaseTables.SUBTOPICS)
               .update({ old_note_version: false, new_note_version: true })
-              .eq("id", selectedSubtopicId);
+              .eq(SupabaseColumns.ID, selectedSubtopicId);
 
             if (error3) {
               console.error("error updating note to newNoteVersion", error3);
@@ -186,7 +186,7 @@ const LoadSubtopicResourcesSystem = () => {
             const { error: error4 } = await supabaseClient
               .from(SupabaseTables.BLOCKS)
               .delete()
-              .eq("parent_id", selectedSubtopicId);
+              .eq(SupabaseColumns.PARENT_ID, selectedSubtopicId);
 
             if (error4) {
               console.error("error deleting blocks", error4);

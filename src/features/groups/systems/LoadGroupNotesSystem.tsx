@@ -4,7 +4,7 @@ import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
 import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
 import { dummyNotes } from "../../../base/dummy";
-import { DataTypes, SupabaseTables } from "../../../base/enums";
+import { DataTypes, SupabaseColumns, SupabaseTables } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedGroupTopic } from "../hooks/useSelectedGroupTopic";
@@ -13,7 +13,7 @@ const fetchGroupNotesForTopic = async (topicId: string) => {
   const { data: groupNotes, error } = await supabaseClient
     .from(SupabaseTables.GROUP_NOTES)
     .select("title, id, date_added")
-    .eq("parent_id", topicId);
+    .eq(SupabaseColumns.PARENT_ID, topicId);
 
   if (error) {
     console.error("Error fetching group notes:", error);

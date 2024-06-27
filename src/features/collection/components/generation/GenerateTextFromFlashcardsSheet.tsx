@@ -4,7 +4,7 @@ import { IdentifierFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext, useEffect, useState } from "react";
 import { AnswerFacet, QuestionFacet, TitleFacet } from "../../../../app/additionalFacets";
-import { AdditionalTags, DataTypes, Stories, SupabaseTables } from "../../../../base/enums";
+import { AdditionalTags, DataTypes, Stories, SupabaseColumns, SupabaseTables } from "../../../../base/enums";
 import {
   FlexBox,
   GeneratingIndecator,
@@ -15,6 +15,7 @@ import {
   Spacer,
 } from "../../../../components";
 import SapientorConversationMessage from "../../../../components/content/SapientorConversationMessage";
+import { addSubtopic } from "../../../../functions/addSubtopic";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { useUserData } from "../../../../hooks/useUserData";
 import supabaseClient from "../../../../lib/supabase";
@@ -23,7 +24,6 @@ import { generateImprovedText } from "../../../../utils/generateResources";
 import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
 import { addBlockEntitiesFromString } from "../../../blockeditor/functions/addBlockEntitiesFromString";
 import { useSelectedFlashcardSet } from "../../hooks/useSelectedFlashcardSet";
-import { addSubtopic } from "../../../../functions/addSubtopic";
 
 const GenerateTextFromFlashcardsSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -89,7 +89,7 @@ const GenerateTextFromFlashcardsSheet = () => {
         const { error: flashcardSetError } = await supabaseClient
           .from(SupabaseTables.FLASHCARD_SETS)
           .delete()
-          .eq("id", selectedFlashcardSetId);
+          .eq(SupabaseColumns.ID, selectedFlashcardSetId);
 
         if (flashcardSetError) {
           console.error("Error deleting flashcard set", flashcardSetError);

@@ -4,17 +4,16 @@ import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
 import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
 import { dummySubtopics } from "../../../base/dummy";
-import { DataTypes, SupabaseTables } from "../../../base/enums";
+import { DataTypes, SupabaseColumns, SupabaseTables } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedGroupTopic } from "../hooks/useSelectedGroupTopic";
-
 
 const fetchGroupSubtopicsForSchoolSubject = async (subjectId: string) => {
   const { data: groupSubtopics, error } = await supabaseClient
     .from(SupabaseTables.GROUP_SUBTOPICS)
     .select("title, id, date_added")
-    .eq("parent_id", subjectId);
+    .eq(SupabaseColumns.PARENT_ID, subjectId);
 
   if (error) {
     console.error("Error fetching group subtopics:", error);
@@ -62,4 +61,4 @@ const LoadGroupGroupSubtopicsSystem = () => {
   return null;
 };
 
-export default LoadGroupGroupSubtopicsSystem
+export default LoadGroupGroupSubtopicsSystem;

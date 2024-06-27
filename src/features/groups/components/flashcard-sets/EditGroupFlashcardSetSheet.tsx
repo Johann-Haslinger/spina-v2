@@ -1,9 +1,18 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { TitleFacet } from "../../../../app/additionalFacets";
-import { Stories } from "../../../../base/enums";
-import { Sheet, FlexBox, SecondaryButton, PrimaryButton, Spacer, Section, SectionRow, TextInput } from "../../../../components";
+import { Stories, SupabaseColumns } from "../../../../base/enums";
+import {
+  FlexBox,
+  PrimaryButton,
+  SecondaryButton,
+  Section,
+  SectionRow,
+  Sheet,
+  Spacer,
+  TextInput,
+} from "../../../../components";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../../lib/supabase";
 import { displayButtonTexts, displayLabelTexts } from "../../../../utils/displayText";
@@ -13,7 +22,8 @@ const EditGroupFlashcardSetSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Stories.EDETING_GROUP_FLASHCARD_SET_STORY);
   const { selectedLanguage } = useSelectedLanguage();
-  const { selectedGroupFlashcardSetTitle, selectedGroupFlashcardSetEntity, selectedGroupFlashcardSetId } = useSelectedGroupFlashcardSet();
+  const { selectedGroupFlashcardSetTitle, selectedGroupFlashcardSetEntity, selectedGroupFlashcardSetId } =
+    useSelectedGroupFlashcardSet();
   const [newTitle, setNewTitle] = useState(selectedGroupFlashcardSetTitle);
 
   useEffect(() => {
@@ -32,7 +42,7 @@ const EditGroupFlashcardSetSheet = () => {
         .update({
           title: newTitle,
         })
-        .eq("id", selectedGroupFlashcardSetId);
+        .eq(SupabaseColumns.ID, selectedGroupFlashcardSetId);
 
       if (error) {
         console.error("Error updating flashcard set", error);

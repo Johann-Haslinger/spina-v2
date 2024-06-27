@@ -2,16 +2,16 @@ import styled from "@emotion/styled";
 import { ILeanScopeClient } from "@leanscope/api-client/interfaces";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useEntities } from "@leanscope/ecs-engine";
+import { useEntityFacets } from "@leanscope/ecs-engine/react-api/hooks/useEntityFacets";
 import { FitTypes, IdentifierFacet, ImageFitFacet, ImageSizeFacet, SizeTypes, Tags } from "@leanscope/ecs-models";
 import React, { useContext } from "react";
 import { IoCropOutline, IoMoveOutline, IoScanOutline, IoSquareOutline } from "react-icons/io5";
 import tw from "twin.macro";
-import { DataTypes, SupabaseTables } from "../../../../../base/enums";
-import supabaseClient from "../../../../../lib/supabase";
-import { useEntityFacets } from "@leanscope/ecs-engine/react-api/hooks/useEntityFacets";
-import { useSelectedLanguage } from "../../../../../hooks/useSelectedLanguage";
-import { displayLabelTexts } from "../../../../../utils/displayText";
+import { DataTypes, SupabaseColumns, SupabaseTables } from "../../../../../base/enums";
 import { IMAGE_FIT_TEXT_DATA, IMAGE_SIZE_TEXT_DATA } from "../../../../../base/textData";
+import { useSelectedLanguage } from "../../../../../hooks/useSelectedLanguage";
+import supabaseClient from "../../../../../lib/supabase";
+import { displayLabelTexts } from "../../../../../utils/displayText";
 
 const StyledLayoutOptionButtonWrapper = styled.div<{ isActive: boolean }>`
   ${tw`text-sm pt-4 rounded-md border transition-all w-1/2 py-2 px-4`}
@@ -50,10 +50,13 @@ const changeSize = (lsc: ILeanScopeClient, size: SizeTypes) => {
 
   selectedBlockEntities.forEach(async (blockEntity) => {
     blockEntity.add(new ImageSizeFacet({ size: size }));
-    
+
     const blockId = blockEntity.get(IdentifierFacet)?.props.guid;
 
-    const { error } = await supabaseClient.from(SupabaseTables.BLOCKS).update({ size: size }).eq("id", blockId);
+    const { error } = await supabaseClient
+      .from(SupabaseTables.BLOCKS)
+      .update({ size: size })
+      .eq(SupabaseColumns.ID, blockId);
 
     if (error) {
       console.error("Error updating block size", error);
@@ -69,7 +72,10 @@ const changeFit = (lsc: ILeanScopeClient, fit: FitTypes) => {
 
     const blockId = blockEntity.get(IdentifierFacet)?.props.guid;
 
-    const { error } = await supabaseClient.from(SupabaseTables.BLOCKS).update({ fit: fit }).eq("id", blockId);
+    const { error } = await supabaseClient
+      .from(SupabaseTables.BLOCKS)
+      .update({ fit: fit })
+      .eq(SupabaseColumns.ID, blockId);
 
     if (error) {
       console.error("Error updating block fit", error);

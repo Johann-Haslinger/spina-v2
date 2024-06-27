@@ -1,7 +1,7 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext } from "react";
-import { Stories, AdditionalTags } from "../../../../base/enums";
+import { AdditionalTags, Stories, SupabaseColumns } from "../../../../base/enums";
 import { Alert, AlertButton } from "../../../../components";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../../lib/supabase";
@@ -23,7 +23,10 @@ const DeleteGroupHomeworkAlert = () => {
       if (selectedGroupHomeworkEntity) {
         lsc.engine.removeEntity(selectedGroupHomeworkEntity);
 
-        const { error } = await supabaseClient.from("group_homeworks").delete().eq("id", selectedGroupHomeworkId);
+        const { error } = await supabaseClient
+          .from("group_homeworks")
+          .delete()
+          .eq(SupabaseColumns.ID, selectedGroupHomeworkId);
 
         if (error) {
           console.error("Error deleting group homework", error);

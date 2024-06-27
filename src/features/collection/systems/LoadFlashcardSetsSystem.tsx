@@ -4,7 +4,7 @@ import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
 import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
 import { dummyFlashcardSets } from "../../../base/dummy";
-import { DataTypes, SupabaseTables } from "../../../base/enums";
+import { DataTypes, SupabaseColumns, SupabaseTables } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../lib/supabase";
@@ -15,7 +15,7 @@ const fetchFlashcardSetsForTopic = async (topicId: string) => {
   const { data: flashcardSets, error } = await supabaseClient
     .from(SupabaseTables.FLASHCARD_SETS)
     .select("title, id, date_added")
-    .eq("parent_id", topicId);
+    .eq(SupabaseColumns.PARENT_ID, topicId);
 
   if (error) {
     console.error("Error fetching flashcardSets:", error);

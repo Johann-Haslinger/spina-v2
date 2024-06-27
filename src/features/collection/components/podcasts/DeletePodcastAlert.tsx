@@ -1,13 +1,13 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import { useEntity } from "@leanscope/ecs-engine";
+import { IdentifierFacet } from "@leanscope/ecs-models";
 import { useContext } from "react";
-import { AdditionalTags, DataTypes, SupabaseTables } from "../../../../base/enums";
+import { AdditionalTags, DataTypes, SupabaseColumns, SupabaseTables } from "../../../../base/enums";
 import { Alert, AlertButton } from "../../../../components";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../../lib/supabase";
 import { displayActionTexts } from "../../../../utils/displayText";
-import { useEntity } from "@leanscope/ecs-engine";
 import { dataTypeQuery } from "../../../../utils/queries";
-import { IdentifierFacet } from "@leanscope/ecs-models";
 
 const DeletePodcastAlert = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -21,7 +21,10 @@ const DeletePodcastAlert = () => {
     if (selectedPodcastEntity) {
       lsc.engine.removeEntity(selectedPodcastEntity);
 
-      const { error } = await supabaseClient.from(SupabaseTables.PODCASTS).delete().eq("id", selectedPodcastId);
+      const { error } = await supabaseClient
+        .from(SupabaseTables.PODCASTS)
+        .delete()
+        .eq(SupabaseColumns.ID, selectedPodcastId);
 
       if (error) {
         console.error("Error deleting podcast", error);

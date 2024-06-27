@@ -15,7 +15,7 @@ import {
 } from "react-icons/io5";
 import tw from "twin.macro";
 import { AnswerFacet, LastReviewedFacet, MasteryLevelFacet, QuestionFacet } from "../../../app/additionalFacets";
-import { AdditionalTags, DataTypes, Stories, SupabaseTables } from "../../../base/enums";
+import { AdditionalTags, DataTypes, Stories, SupabaseColumns, SupabaseTables } from "../../../base/enums";
 import { FlexBox, View } from "../../../components";
 import { useIsAnyStoryCurrent } from "../../../hooks/useIsAnyStoryCurrent";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
@@ -48,7 +48,7 @@ const useFlashcardQuizEntities = () => {
           const { data: flashcards, error } = await supabaseClient
             .from(SupabaseTables.FLASHCARDS)
             .select("answer, question, id")
-            .eq("parent_id", id);
+            .eq(SupabaseColumns.PARENT_ID, id);
           if (error) {
             console.error("Error fetching flashcards:", error);
           }
@@ -202,7 +202,7 @@ const FlashcardQuizView = () => {
 
     const { error } = await supabaseClient
       .from(SupabaseTables.FLASHCARDS)
-      .upsert(updatedFlashcards, { onConflict: "id" });
+      .upsert(updatedFlashcards, { onConflict: SupabaseColumns.ID });
 
     if (error) {
       console.error("Fehler beim Aktualisieren der Flashcards:", error);

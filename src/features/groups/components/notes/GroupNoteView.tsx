@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { IoArrowDownCircleOutline, IoTrashOutline } from "react-icons/io5";
 import { Fragment } from "react/jsx-runtime";
 import { DateAddedFacet, TitleFacet, TitleProps } from "../../../../app/additionalFacets";
-import { AdditionalTags, DataTypes, Stories, SupabaseTables } from "../../../../base/enums";
+import { AdditionalTags, DataTypes, Stories, SupabaseColumns, SupabaseTables } from "../../../../base/enums";
 import { ActionRow, NavBarButton, View } from "../../../../components";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
@@ -20,7 +20,6 @@ import PodcastRow from "../../../collection/components/podcasts/PodcastRow";
 import { useSelectedGroupTopic } from "../../hooks/useSelectedGroupTopic";
 import DeleteGroupNoteAlert from "./DeleteGroupAlert";
 
-
 const GroupNoteView = (props: TitleProps & IdentifierProps & EntityProps) => {
   const lsc = useContext(LeanScopeClientContext);
   const { title, entity, guid } = props;
@@ -32,10 +31,12 @@ const GroupNoteView = (props: TitleProps & IdentifierProps & EntityProps) => {
   const openDeleteAlert = () => lsc.stories.transitTo(Stories.DELETING_GROUP_NOTE_STORY);
   const openCloneResourceSheet = () => lsc.stories.transitTo(Stories.CLONING_RESOURCE_FROM_GROUP_STORY);
 
-
   const handleTitleBlur = async (value: string) => {
     entity.add(new TitleFacet({ title: value }));
-    const { error } = await supabaseClient.from(SupabaseTables.GROUP_NOTES).update({ title: value }).eq("id", guid);
+    const { error } = await supabaseClient
+      .from(SupabaseTables.GROUP_NOTES)
+      .update({ title: value })
+      .eq(SupabaseColumns.ID, guid);
 
     if (error) {
       console.error("Error updating group note title", error);
@@ -84,4 +85,4 @@ const GroupNoteView = (props: TitleProps & IdentifierProps & EntityProps) => {
   );
 };
 
-export default GroupNoteView
+export default GroupNoteView;

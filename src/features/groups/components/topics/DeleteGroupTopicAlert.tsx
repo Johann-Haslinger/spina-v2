@@ -1,7 +1,7 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext } from "react";
-import { Stories, AdditionalTags } from "../../../../base/enums";
+import { AdditionalTags, Stories, SupabaseColumns } from "../../../../base/enums";
 import { Alert, AlertButton } from "../../../../components";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../../lib/supabase";
@@ -23,7 +23,10 @@ const DeleteGroupTopicAlert = () => {
       if (selectedGroupTopicEntity) {
         lsc.engine.removeEntity(selectedGroupTopicEntity);
 
-        const { error } = await supabaseClient.from("learning_group_topics").delete().eq("id", selectedGroupTopicId);
+        const { error } = await supabaseClient
+          .from("learning_group_topics")
+          .delete()
+          .eq(SupabaseColumns.ID, selectedGroupTopicId);
 
         if (error) {
           console.error("Error deleting learning group topic", error);
@@ -44,4 +47,4 @@ const DeleteGroupTopicAlert = () => {
   );
 };
 
-export default DeleteGroupTopicAlert
+export default DeleteGroupTopicAlert;

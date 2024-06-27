@@ -1,12 +1,12 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext } from "react";
-import { Stories, AdditionalTags, SupabaseTables } from "../../../../base/enums";
+import { AdditionalTags, Stories, SupabaseColumns, SupabaseTables } from "../../../../base/enums";
 import { Alert, AlertButton } from "../../../../components";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
+import supabaseClient from "../../../../lib/supabase";
 import { displayActionTexts } from "../../../../utils/displayText";
 import { useSelectedHomework } from "../../hooks/useSelectedHomework";
-import supabaseClient from "../../../../lib/supabase";
 
 const DeleteHomeworkAlert = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -23,7 +23,10 @@ const DeleteHomeworkAlert = () => {
       if (selectedHomeworkEntity) {
         lsc.engine.removeEntity(selectedHomeworkEntity);
 
-        const { error } = await supabaseClient.from(SupabaseTables.HOMEWORKS).delete().eq("id", selectedHomeworkId);
+        const { error } = await supabaseClient
+          .from(SupabaseTables.HOMEWORKS)
+          .delete()
+          .eq(SupabaseColumns.ID, selectedHomeworkId);
 
         if (error) {
           console.error("Error deleting homework", error);

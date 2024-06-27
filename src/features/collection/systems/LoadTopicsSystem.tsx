@@ -4,7 +4,7 @@ import { DescriptionFacet, IdentifierFacet, ParentFacet } from "@leanscope/ecs-m
 import { useContext, useEffect } from "react";
 import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
 import { dummyTopics } from "../../../base/dummy";
-import { DataTypes, SupabaseTables } from "../../../base/enums";
+import { DataTypes, SupabaseColumns, SupabaseTables } from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { useSchoolSubjectTopicEntities } from "../hooks/useSchoolSubjectTopicEntities";
@@ -14,7 +14,7 @@ const fetchTopicsForSchoolSubject = async (subjectId: string) => {
   const { data: topics, error } = await supabaseClient
     .from(SupabaseTables.TOPICS)
     .select("title, id, date_added, description")
-    .eq("parent_id", subjectId);
+    .eq(SupabaseColumns.PARENT_ID, subjectId);
 
   if (error) {
     console.error("Error fetching topics:", error);
@@ -36,8 +36,8 @@ const LoadTopicsSystem = () => {
         const topics = mockupData
           ? dummyTopics
           : shouldFetchFromSupabase
-          ? await fetchTopicsForSchoolSubject(selectedSchoolSubjectId)
-          : [];
+            ? await fetchTopicsForSchoolSubject(selectedSchoolSubjectId)
+            : [];
 
         topics.forEach((topic) => {
           const isExisting = lsc.engine.entities.some(

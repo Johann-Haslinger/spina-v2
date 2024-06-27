@@ -16,11 +16,12 @@ import {
   TitleFacet,
 } from "../../../app/additionalFacets";
 import { dummyGroupSchoolSubjects, dummyGroupTopics, dummyLearningGroups } from "../../../base/dummy";
-import { Blocktypes, DataTypes, Stories, SupabaseTables, Texttypes } from "../../../base/enums";
+import { Blocktypes, DataTypes, Stories, SupabaseColumns, SupabaseTables, Texttypes } from "../../../base/enums";
 import { CloseButton, FlexBox, ScrollableBox, Section, SectionRow, Sheet, Spacer } from "../../../components";
 import { addGroupsBlocks as addGroupBlocks } from "../../../functions/addGroupBlocks";
 import { addGroupFlashcards } from "../../../functions/addGroupFlashcards";
 import { addGroupNote } from "../../../functions/addGroupNote";
+import { addGroupSubtopic } from "../../../functions/addGroupSubtopic";
 import { useMockupData } from "../../../hooks/useMockupData";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import { useUserData } from "../../../hooks/useUserData";
@@ -29,7 +30,6 @@ import { displayAlertTexts } from "../../../utils/displayText";
 import { useSelectedFlashcardSet } from "../../collection/hooks/useSelectedFlashcardSet";
 import { useSelectedNote } from "../../collection/hooks/useSelectedNote";
 import { useSelectedSubtopic } from "../../collection/hooks/useSelectedSubtopic";
-import { addGroupSubtopic } from "../../../functions/addGroupSubtopic";
 
 const StyledMoreButtonWrapper = styled.div`
   ${tw`text-seconderyText text-opacity-50`}
@@ -64,7 +64,7 @@ const fetchTopicsForGroupSchoolSubject = async (subjectId: string) => {
   const { data: topics, error } = await supabaseClient
     .from(SupabaseTables.GROUP_TOPICS)
     .select("title, id")
-    .eq("parent_id", subjectId);
+    .eq(SupabaseColumns.PARENT_ID, subjectId);
 
   if (error) {
     console.error("Error fetching group topics:", error);

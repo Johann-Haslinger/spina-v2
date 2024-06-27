@@ -14,7 +14,7 @@ import {
   IoTrashOutline,
 } from "react-icons/io5";
 import { DateAddedFacet, TitleFacet, TitleProps } from "../../../../app/additionalFacets";
-import { AdditionalTags, DataTypes, Stories, SupabaseTables } from "../../../../base/enums";
+import { AdditionalTags, DataTypes, Stories, SupabaseColumns, SupabaseTables } from "../../../../base/enums";
 import {
   ActionRow,
   BackButton,
@@ -36,10 +36,10 @@ import { useText } from "../../hooks/useText";
 import LoadNotePodcastsSystem from "../../systems/LoadNotePodcastsSystem";
 import LoadNoteTextSystem from "../../systems/LoadNoteTextSystem";
 import GenerateFlashcardsSheet from "../generation/GenerateFlashcardsSheet";
+import GenerateImprovedTextSheet from "../generation/GenerateImprovedTextSheet";
 import GeneratePodcastSheet from "../generation/GeneratePodcastSheet";
 import PodcastRow from "../podcasts/PodcastRow";
 import DeleteNoteAlert from "./DeleteNoteAlert";
-import GenerateImprovedTextSheet from "../generation/GenerateImprovedTextSheet";
 
 const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -60,7 +60,10 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
 
   const handleTitleBlur = async (value: string) => {
     entity.add(new TitleFacet({ title: value }));
-    const { error } = await supabaseClient.from(SupabaseTables.NOTES).update({ title: value }).eq("id", guid);
+    const { error } = await supabaseClient
+      .from(SupabaseTables.NOTES)
+      .update({ title: value })
+      .eq(SupabaseColumns.ID, guid);
 
     if (error) {
       console.error("Error updating note title", error);
@@ -133,4 +136,4 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
   );
 };
 
-export default NoteView
+export default NoteView;

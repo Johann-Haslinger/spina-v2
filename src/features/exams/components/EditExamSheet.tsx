@@ -2,7 +2,7 @@ import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext, useEffect, useState } from "react";
 import { DueDateFacet, TitleFacet } from "../../../app/additionalFacets";
-import { Stories, SupabaseTables } from "../../../base/enums";
+import { Stories, SupabaseColumns, SupabaseTables } from "../../../base/enums";
 import {
   DateInput,
   FlexBox,
@@ -46,7 +46,7 @@ const EditExamSheet = () => {
           title: newTitle,
           due_date: newDueDate,
         })
-        .eq("id", selectedExamId);
+        .eq(SupabaseColumns.ID, selectedExamId);
 
       if (error) {
         console.error("Error updating exam set", error);

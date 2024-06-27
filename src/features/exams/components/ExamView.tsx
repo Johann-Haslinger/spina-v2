@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { IoCreateOutline, IoEllipsisHorizontalCircleOutline, IoTrashOutline } from "react-icons/io5";
 import { Fragment } from "react/jsx-runtime";
 import { TitleProps } from "../../../app/additionalFacets";
-import { AdditionalTags, Stories, SupabaseTables } from "../../../base/enums";
+import { AdditionalTags, Stories, SupabaseColumns, SupabaseTables } from "../../../base/enums";
 import {
   ActionRow,
   BackButton,
@@ -36,7 +36,10 @@ const ExamView = (props: TitleProps & TextProps & IdentifierProps & EntityProps)
 
   const handleTextBlur = async (value: string) => {
     entity.add(new TextFacet({ text: value }));
-    const { error } = await supabaseClient.from(SupabaseTables.EXAMS).update({ text: value }).eq("id", guid);
+    const { error } = await supabaseClient
+      .from(SupabaseTables.EXAMS)
+      .update({ text: value })
+      .eq(SupabaseColumns.ID, guid);
 
     if (error) {
       console.error("Error updating exam text", error);

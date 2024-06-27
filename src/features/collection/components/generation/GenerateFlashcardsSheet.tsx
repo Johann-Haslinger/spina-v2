@@ -7,7 +7,7 @@ import { useContext, useEffect, useState } from "react";
 import tw from "twin.macro";
 import { v4 } from "uuid";
 import { AnswerFacet, MasteryLevelFacet, QuestionFacet, TitleFacet } from "../../../../app/additionalFacets";
-import { AdditionalTags, DataTypes, Stories, SupabaseTables } from "../../../../base/enums";
+import { AdditionalTags, DataTypes, Stories, SupabaseColumns, SupabaseTables } from "../../../../base/enums";
 import {
   FlexBox,
   GeneratingIndecator,
@@ -124,7 +124,10 @@ const GenerateFlashcardsSheet = () => {
           lsc.engine.removeEntity(selectedNoteEntity);
         }
 
-        const { error: noteError } = await supabaseClient.from(SupabaseTables.NOTES).delete().eq("id", selectedNoteId);
+        const { error: noteError } = await supabaseClient
+          .from(SupabaseTables.NOTES)
+          .delete()
+          .eq(SupabaseColumns.ID, selectedNoteId);
 
         if (noteError) {
           console.error("Error deleting note", noteError);
