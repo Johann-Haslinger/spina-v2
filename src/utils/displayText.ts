@@ -37,7 +37,6 @@ export const displayAlertTexts = (selectedLanguage: SupportedLanguages) => {
     deleteAlertSubtitle: ALERT_TEXT_DATA.deleting_alert_subtitle[selectedLanguage],
     noUserSignedIn: ALERT_TEXT_DATA.no_user_signed_in[selectedLanguage],
     noLearningGroups: ALERT_TEXT_DATA.no_learning_groups[selectedLanguage],
-    
   };
 };
 
@@ -123,5 +122,6 @@ export const displayDataTypeTexts = (selectedLanguage: SupportedLanguages) => {
     subTopic: DATA_TYPE_TEXT_DATA.subtopic[selectedLanguage],
     podcast: DATA_TYPE_TEXT_DATA.podcast[selectedLanguage],
     lernvideo: DATA_TYPE_TEXT_DATA.lernvideo[selectedLanguage],
+    exercise: DATA_TYPE_TEXT_DATA.exercise[selectedLanguage],
   };
 };

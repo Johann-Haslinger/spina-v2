@@ -365,6 +365,10 @@ export const DATA_TYPE_TEXT_DATA = {
     de: "Lernvideo",
     en: "Lernvideo",
   },
+  exercise: {
+    de: "Übung",
+    en: "Exercise",
+  },
 };
 
 export const TEXT_TYPE_TEXT_DATA = {

@@ -52,6 +52,9 @@ import SubtopicCell from "../subtopics/SubtopicCell";
 import SubtopicView from "../subtopics/SubtopicView";
 import DeleteTopicAlert from "./DeleteTopicAlert";
 import EditTopicSheet from "./EditTopicSheet";
+import LoadExercisesSystem from "../../systems/LoadExercisesSystem";
+import ExerciseCell from "../exercises/ExerciseCell";
+import ExerciseView from "../exercises/ExerciseView";
 
 const useImageSelector = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -125,6 +128,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
       <LoadFlashcardSetsSystem />
       <LoadHomeworksSystem />
       <LoadSubtopicsSystem />
+      <LoadExercisesSystem />
 
       <View visible={isVisible}>
         <NavigationBar>
@@ -192,6 +196,15 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
 
         <CollectionGrid>
           <EntityPropsMapper
+            query={(e) => dataTypeQuery(e, DataTypes.EXERCISE) && isChildOfQuery(e, entity)}
+            sort={(a, b) => sortEntitiesByDateAdded(a, b)}
+            get={[[TitleFacet], []]}
+            onMatch={ExerciseCell}
+          />
+        </CollectionGrid>
+
+        <CollectionGrid>
+          <EntityPropsMapper
             query={(e) => dataTypeQuery(e, DataTypes.FLASHCARD_SET) && isChildOfQuery(e, entity)}
             get={[[TitleFacet, IdentifierFacet], []]}
             sort={(a, b) => sortEntitiesByDateAdded(a, b)}
@@ -228,6 +241,11 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
         query={(e) => dataTypeQuery(e, DataTypes.SUBTOPIC) && e.has(Tags.SELECTED)}
         get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
         onMatch={SubtopicView}
+      />
+      <EntityPropsMapper
+        query={(e) => dataTypeQuery(e, DataTypes.EXERCISE) && e.has(Tags.SELECTED)}
+        get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
+        onMatch={ExerciseView}
       />
 
       <AddHomeworkSheet />

@@ -27,7 +27,7 @@ const TextEditor = (props: { onBlur?: (newValue: string) => void; value?: string
   return (
     <StyledTextEditorWrapper
       ref={textEditorRef}
-      contentEditable="plaintext-only"
+      contentEditable
       onBlur={() => onBlur && textEditorRef.current && onBlur(textEditorRef.current.innerHTML)}
       dangerouslySetInnerHTML={{ __html: value || "" }}
     />

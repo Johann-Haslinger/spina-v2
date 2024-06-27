@@ -138,6 +138,7 @@ export enum DataTypes {
   GROUP_FLASHCARD_SET = "groupFlashcardSet",
   GROUP_FLASHCARD = "groupFlashcard",
   GROUP_BLOCK = "groupBlock",
+  EXERCISE = "exercise",
 }
 
 export enum SupportedLanguages {
@@ -209,4 +210,5 @@ export enum SupabaseTables {
   GROUP_FLASHCARDS = "group_flashcards",
   GROUP_BLOCKS = "group_blocks",
   TEXTS = "texts",
+  EXERCISES = "exercises",
 }

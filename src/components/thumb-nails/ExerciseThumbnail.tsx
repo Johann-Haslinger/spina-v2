@@ -16,6 +16,16 @@ const StyledNoteCellItem = styled.div<{ backgroundColor: string }>`
   background-color: ${({ backgroundColor }) => backgroundColor};
 `;
 
+const StyledNoteCellItem2 = styled.div<{ backgroundColor: string }>`
+  ${tw`p-2 w-full  pt-4 rounded-md  h-1/4`}
+  background-color: ${({ backgroundColor }) => backgroundColor};
+`;
+
+const StyledNoteCellItem3 = styled.div<{ backgroundColor: string }>`
+  ${tw`p-2 w-full  pt-4 rounded-md  h-[71%]`}
+  background-color: ${({ backgroundColor }) => backgroundColor};
+`;
+
 const StyledNoteCellTitle = styled.p`
   ${tw`mt-2 text-sm   line-clamp-2  dark:text-primaryTextDark `}
 `;
@@ -24,23 +34,29 @@ const StyledResourceTypeText = styled.p`
   ${tw`text-sm  text-seconderyText dark:text-seconderyTextDark `}
 `;
 
-const NoteThumbNail = (props: { color: string; title: string; onClick?: () => void; type?: string }) => {
+const StyledLeftSideWrapper = styled.div`
+  ${tw`w-1/2 space-y-1 h-full`}
+`;
+
+const ExerciseThumbnail = (props: { color: string; title: string; onClick?: () => void }) => {
   const { selectedLanguage } = useSelectedLanguage();
-  const { color, title, onClick, type = displayDataTypeTexts(selectedLanguage).note } = props;
+  const { color, title, onClick } = props;
 
   return (
     <StyledNoteCellWrapper onClick={onClick}>
       <StyledNoteCellContainer>
-        {[1, 2].map((cellIndex) => (
-          <StyledNoteCellItem key={cellIndex} backgroundColor={cellIndex == 2 ? color : color + "99"} />
-        ))}
+        <StyledLeftSideWrapper>
+          <StyledNoteCellItem2 backgroundColor={color} />
+          <StyledNoteCellItem3 backgroundColor={color + "99"} />
+        </StyledLeftSideWrapper>
+        <StyledNoteCellItem backgroundColor={color + "99"} />
       </StyledNoteCellContainer>
 
       <StyledNoteCellTitle>{title || displayAlertTexts(selectedLanguage).noTitle}</StyledNoteCellTitle>
 
-      <StyledResourceTypeText>{type} </StyledResourceTypeText>
+      <StyledResourceTypeText>{displayDataTypeTexts(selectedLanguage).exercise} </StyledResourceTypeText>
     </StyledNoteCellWrapper>
   );
 };
 
-export default NoteThumbNail;
+export default ExerciseThumbnail;

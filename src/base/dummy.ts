@@ -507,3 +507,18 @@ export const dummyGroupTopics = [
     parent_id: "0",
   },
 ];
+
+export const dummyExercises = [
+  {
+    title: "Exercise 1",
+    id: "1",
+    date_added: new Date().toISOString(),
+    parent_id: "1",
+  },
+  {
+    title: "Exercise 2",
+    id: "2",
+    date_added: new Date().toISOString(),
+    parent_id: "1",
+  },
+];

@@ -16,6 +16,7 @@ import {
   IoPlayOutline,
   IoReaderOutline,
   IoSchoolOutline,
+  IoSparklesOutline,
   IoTrashOutline,
 } from "react-icons/io5";
 import { Fragment } from "react/jsx-runtime";
@@ -88,6 +89,7 @@ const SubtopicView = (props: TitleProps & EntityProps & IdentifierProps) => {
     lsc.stories.transitTo(Stories.ADDING_RESOURCE_TO_LEARNING_GROUP_STORY);
   const openFlashcardTestView = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_TEST_STORY);
   const openBlurtingView = () => lsc.stories.transitTo(Stories.OBSERVING_BLURTING_STORY);
+  const openImproveTextSheet = () => lsc.stories.transitTo(Stories.GENERATING_IMPROVED_TEXT_STORY);
 
   return (
     <Fragment>
@@ -115,6 +117,9 @@ const SubtopicView = (props: TitleProps & EntityProps & IdentifierProps) => {
           <NavBarButton
             content={
               <Fragment>
+                <ActionRow icon={<IoSparklesOutline />} first onClick={openImproveTextSheet}>
+                  {displayActionTexts(selectedLanguage).improveText}
+                </ActionRow>
                 <ActionRow first icon={<IoHeadsetOutline />} onClick={openGeneratePodcastSheet}>
                   {displayActionTexts(selectedLanguage).generatePodcast}
                 </ActionRow>
@@ -217,6 +222,7 @@ const SubtopicView = (props: TitleProps & EntityProps & IdentifierProps) => {
       <GenerateImprovedTextSheet />
       <BlurtingView />
       <FlashcardTestView />
+      
     </Fragment>
   );
 };

@@ -10,6 +10,7 @@ import {
   IoColorWandOutline,
   IoEllipsisHorizontalCircleOutline,
   IoHeadsetOutline,
+  IoSparklesOutline,
   IoTrashOutline,
 } from "react-icons/io5";
 import { DateAddedFacet, TitleFacet, TitleProps } from "../../../../app/additionalFacets";
@@ -38,6 +39,7 @@ import GenerateFlashcardsSheet from "../generation/GenerateFlashcardsSheet";
 import GeneratePodcastSheet from "../generation/GeneratePodcastSheet";
 import PodcastRow from "../podcasts/PodcastRow";
 import DeleteNoteAlert from "./DeleteNoteAlert";
+import GenerateImprovedTextSheet from "../generation/GenerateImprovedTextSheet";
 
 const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -52,6 +54,7 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
   const openDeleteAlert = () => lsc.stories.transitTo(Stories.DELETING_NOTE_STORY);
   const openGenerateFlashcardsSheet = () => lsc.stories.transitTo(Stories.GENERATING_FLASHCARDS_STORY);
   const openGeneratePodcastSheet = () => lsc.stories.transitTo(Stories.GENERATING_PODCAST_STORY);
+  const openImproveTextSheet = () => lsc.stories.transitTo(Stories.GENERATING_IMPROVED_TEXT_STORY);
   const openAddResourceToLerningGroupSheet = () =>
     lsc.stories.transitTo(Stories.ADDING_RESOURCE_TO_LEARNING_GROUP_STORY);
 
@@ -74,6 +77,9 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
           <NavBarButton
             content={
               <Fragment>
+                <ActionRow icon={<IoSparklesOutline />} first onClick={openImproveTextSheet}>
+                  {displayActionTexts(selectedLanguage).improveText}
+                </ActionRow>
                 <ActionRow icon={<IoHeadsetOutline />} onClick={openGeneratePodcastSheet}>
                   {displayActionTexts(selectedLanguage).generatePodcast}
                 </ActionRow>
@@ -107,7 +113,9 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
         </NavigationBar>
 
         <BackButton navigateBack={navigateBack}>{selectedTopicTitle}</BackButton>
-        <Title editable  onBlur={handleTitleBlur}>{title}</Title>
+        <Title editable onBlur={handleTitleBlur}>
+          {title}
+        </Title>
         <Spacer />
         <EntityPropsMapper
           query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.PODCAST)}
@@ -120,8 +128,9 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
       <DeleteNoteAlert />
       <GenerateFlashcardsSheet />
       <GeneratePodcastSheet />
+      <GenerateImprovedTextSheet />
     </Fragment>
   );
 };
 
-export default NoteView;
+export default NoteView

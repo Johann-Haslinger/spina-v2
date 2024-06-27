@@ -13,12 +13,8 @@ import {
 import SapientorConversationMessage from "../../../../components/content/SapientorConversationMessage";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { displayButtonTexts } from "../../../../utils/displayText";
-import { addBlockEntitiesFromString } from "../../../blockeditor/functions/addBlockEntitiesFromString";
-import { deleteBlock } from "../../../blockeditor/functions/deleteBlock";
-import { useCurrentBlockeditor } from "../../../blockeditor/hooks/useCurrentBlockeditor";
-import { useVisibleBlocks } from "../../../blockeditor/hooks/useVisibleBlocks";
 import { generateImprovedText } from "../../../../utils/generateResources";
-import { useUserData } from "../../../../hooks/useUserData";
+import { useVisibleText } from "../../hooks/useVisibleText";
 
 const GenerateImprovedTextSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -26,9 +22,7 @@ const GenerateImprovedTextSheet = () => {
   const { selectedLanguage } = useSelectedLanguage();
   const [generatedText, setGeneratedText] = useState<string>("");
   const [isGenerating, setIsGenerating] = useState(false);
-  const { visibleText, visibleBlockEntities } = useVisibleBlocks();
-  const { blockeditorId } = useCurrentBlockeditor();
-  const { userId } = useUserData();
+  const { visibleText, setVisibleText } = useVisibleText();
 
   useEffect(() => {
     const handleGenerateImprovedText = async () => {
@@ -57,11 +51,7 @@ const GenerateImprovedTextSheet = () => {
   const saveImprovedText = async () => {
     navigateBack();
 
-    visibleBlockEntities.forEach((blockEntity) => {
-      deleteBlock(lsc, blockEntity);
-    });
-
-    addBlockEntitiesFromString(lsc, generatedText.replace(`Passt das so für dich?<br/> <br/>`, ""), blockeditorId, userId);
+    setVisibleText(generatedText.replace(`Passt das so für dich?<br/> <br/>`, ""));
   };
 
   return (
