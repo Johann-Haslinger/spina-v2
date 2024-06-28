@@ -63,6 +63,7 @@ import BlurtingView from "./BlurtingView";
 import DeleteSubtopicAlert from "./DeleteSubtopicAlert";
 import EditSubtopicSheet from "./EditSubtopicSheet";
 import FlashcardTestView from "./FlashcardTestView";
+import GenerateExerciseSheet from "../exercises/GenerateExerciseSheet";
 
 enum SubtopicViewStates {
   NOTE,
@@ -90,6 +91,7 @@ const SubtopicView = (props: TitleProps & EntityProps & IdentifierProps) => {
   const openFlashcardTestView = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_TEST_STORY);
   const openBlurtingView = () => lsc.stories.transitTo(Stories.OBSERVING_BLURTING_STORY);
   const openImproveTextSheet = () => lsc.stories.transitTo(Stories.GENERATING_IMPROVED_TEXT_STORY);
+  const openGenerateExerciseSheet = () => lsc.stories.transitTo(Stories.GENERATING_EXERCISE_STORY);
 
   return (
     <Fragment>
@@ -97,6 +99,26 @@ const SubtopicView = (props: TitleProps & EntityProps & IdentifierProps) => {
 
       <View visible={isVisible}>
         <NavigationBar>
+          <NavBarButton
+            content={
+              <Fragment>
+                <ActionRow icon={<IoSparklesOutline />} first onClick={openImproveTextSheet}>
+                  {displayActionTexts(selectedLanguage).improveText}
+                </ActionRow>
+                <ActionRow icon={<IoReaderOutline />} first onClick={openGenerateExerciseSheet}>
+                  {displayActionTexts(selectedLanguage).generateExercise}
+                </ActionRow>
+                <ActionRow first icon={<IoHeadsetOutline />} onClick={openGeneratePodcastSheet}>
+                  {displayActionTexts(selectedLanguage).generatePodcast}
+                </ActionRow>
+                <ActionRow last icon={<IoChatboxEllipsesOutline />}>
+                  {displayActionTexts(selectedLanguage).startLernSession}
+                </ActionRow>
+              </Fragment>
+            }
+          >
+            <IoColorWandOutline />
+          </NavBarButton>
           <NavBarButton
             content={
               <Fragment>
@@ -113,23 +135,6 @@ const SubtopicView = (props: TitleProps & EntityProps & IdentifierProps) => {
             }
           >
             <IoPlayOutline />
-          </NavBarButton>
-          <NavBarButton
-            content={
-              <Fragment>
-                <ActionRow icon={<IoSparklesOutline />} first onClick={openImproveTextSheet}>
-                  {displayActionTexts(selectedLanguage).improveText}
-                </ActionRow>
-                <ActionRow first icon={<IoHeadsetOutline />} onClick={openGeneratePodcastSheet}>
-                  {displayActionTexts(selectedLanguage).generatePodcast}
-                </ActionRow>
-                <ActionRow last icon={<IoChatboxEllipsesOutline />}>
-                  {displayActionTexts(selectedLanguage).startLernSession}
-                </ActionRow>
-              </Fragment>
-            }
-          >
-            <IoColorWandOutline />
           </NavBarButton>
           <NavBarButton
             content={
@@ -189,7 +194,7 @@ const SubtopicView = (props: TitleProps & EntityProps & IdentifierProps) => {
           get={[[TitleFacet, DateAddedFacet], []]}
           onMatch={LernvideoRow}
         />
-
+        <Spacer />
         {subtopicViewState == SubtopicViewStates.NOTE ? (
           <TextEditor value={text} onBlur={updateText} />
         ) : (
@@ -222,7 +227,7 @@ const SubtopicView = (props: TitleProps & EntityProps & IdentifierProps) => {
       <GenerateImprovedTextSheet />
       <BlurtingView />
       <FlashcardTestView />
-      
+      <GenerateExerciseSheet />
     </Fragment>
   );
 };

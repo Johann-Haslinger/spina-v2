@@ -13,6 +13,8 @@ const ExerciseView = (props: TitleProps & EntityProps) => {
 
   const navigateBack = () => entity.add(AdditionalTags.NAVIGATE_BACK);
 
+
+
   return (
     <Fragment>
       <View visible={isVisible}>
@@ -20,6 +22,7 @@ const ExerciseView = (props: TitleProps & EntityProps) => {
         <BackButton navigateBack={navigateBack}>{selectedTopicTitle}</BackButton>
         <Title>{title}</Title>
         <Spacer />
+      
       </View>
     </Fragment>
   );

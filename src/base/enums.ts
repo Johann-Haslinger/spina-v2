@@ -70,6 +70,7 @@ export enum Stories {
   GENERATING_PODCAST_FROM_FLASHCARDS_STORY = "generatePodcastFromFlashcardsStory",
   GENERATING_LEARN_VIDEO_STORY = "generateLearnVideoStory",
   GENERATING_RESOURCES_FROM_IMAGE = "generateResourceFromImage",
+  GENERATING_EXERCISE_STORY = "generateExerciseStory",
 
   CLONING_RESOURCE_FROM_GROUP_STORY = "cloneResourceFromGroupStory",
 
@@ -139,6 +140,7 @@ export enum DataTypes {
   GROUP_FLASHCARD = "groupFlashcard",
   GROUP_BLOCK = "groupBlock",
   EXERCISE = "exercise",
+  EXERCISE_PART = "exercisePart",
 }
 
 export enum SupportedLanguages {
@@ -211,6 +213,7 @@ export enum SupabaseTables {
   GROUP_BLOCKS = "group_blocks",
   TEXTS = "texts",
   EXERCISES = "exercises",
+  EXERCISE_PARTS = "exercise_parts",
   PROFILES = "profiles",
 }
 

@@ -175,6 +175,10 @@ export const ACTION_TEXT_DATA = {
     de: "Podcast generieren",
     en: "Generate podcast",
   },
+  generate_exercise: {
+    de: "Übung generieren",
+    en: "Generate exercise",
+  },
   generate_text: {
     de: "Text generieren",
     en: "Generate text",

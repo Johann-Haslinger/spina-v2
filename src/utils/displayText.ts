@@ -79,6 +79,7 @@ export const displayActionTexts = (selectedLanguage: SupportedLanguages) => {
     startLernSession: ACTION_TEXT_DATA.start_lern_session[selectedLanguage],
     flashcardTest: ACTION_TEXT_DATA.flashcard_test[selectedLanguage],
     blurting: ACTION_TEXT_DATA.blurting[selectedLanguage],
+    generateExercise: ACTION_TEXT_DATA.generate_exercise[selectedLanguage],
   };
 };
 

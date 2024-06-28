@@ -522,3 +522,19 @@ export const dummyExercises = [
     parent_id: "1",
   },
 ];
+
+export const dummyExerciseParts = [
+  {
+    title: "Exercise Part 1",
+    id: "1",
+    parent_id: "1",
+    order: 1,
+  },
+  {
+    title: "Exercise Part 2",
+    id: "2",
+    parent_id: "1",
+    order: 2,
+  },
+  
+];
