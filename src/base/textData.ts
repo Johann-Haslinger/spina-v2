@@ -92,8 +92,8 @@ export const ALERT_TEXT_DATA = {
   },
   no_learning_groups: {
     de: "Keine Lerngruppen",
-    en: "No learning groups"
-  }
+    en: "No learning groups",
+  },
 };
 
 export const BUTTON_TEXT_DATA = {
@@ -225,12 +225,16 @@ export const ACTION_TEXT_DATA = {
   },
   blurting: {
     de: "Blurting",
-    en: "Blurting"
+    en: "Blurting",
   },
   flashcard_test: {
     de: "Karteikarten Test",
-    en: "Flashcard test"
-  }
+    en: "Flashcard test",
+  },
+  add_topic: {
+    de: "Thema hinzufügen",
+    en: "Add topic",
+  },
 };
 
 export const LABEL_TEXT_DATA = {
@@ -309,20 +313,19 @@ export const LABEL_TEXT_DATA = {
   color: {
     de: "Farbe",
     en: "Color",
-  }, 
+  },
   pending_resources: {
     de: "Anstehende Leistungen",
-    en: "Pending Resources"
+    en: "Pending Resources",
   },
   recently_added: {
     de: "Zuletzt hinzugefügt",
-    en: "Recently added"
+    en: "Recently added",
   },
   kanban: {
     de: "Kanban",
-    en: "Kanban"
+    en: "Kanban",
   },
- 
 };
 export const DATA_TYPE_TEXT_DATA = {
   note: {

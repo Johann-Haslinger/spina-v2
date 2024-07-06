@@ -80,6 +80,7 @@ export const displayActionTexts = (selectedLanguage: SupportedLanguages) => {
     flashcardTest: ACTION_TEXT_DATA.flashcard_test[selectedLanguage],
     blurting: ACTION_TEXT_DATA.blurting[selectedLanguage],
     generateExercise: ACTION_TEXT_DATA.generate_exercise[selectedLanguage],
+    addTopic: ACTION_TEXT_DATA.add_topic[selectedLanguage],
   };
 };
 

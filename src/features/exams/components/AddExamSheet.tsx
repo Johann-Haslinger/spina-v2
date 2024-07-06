@@ -2,8 +2,8 @@ import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
 import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
-import { useContext, useEffect, useState } from "react";
-import { IoCheckmarkCircle, IoEllipseOutline } from "react-icons/io5";
+import { useContext, useEffect, useRef, useState } from "react";
+import { IoAdd, IoCheckmarkCircle, IoEllipseOutline } from "react-icons/io5";
 import { v4 } from "uuid";
 import { DueDateFacet, RelationshipFacet, StatusFacet, TitleFacet } from "../../../app/additionalFacets";
 import { DataTypes, Stories } from "../../../base/enums";
@@ -20,11 +20,12 @@ import {
   TextInput,
 } from "../../../components";
 import { addExam } from "../../../functions/addExam";
+import { addTopic } from "../../../functions/addTopic";
 import { useSchoolSubjectEntities } from "../../../hooks/useSchoolSubjects";
 import { useSchoolSubjectTopics } from "../../../hooks/useSchoolSubjectTopics";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import { useUserData } from "../../../hooks/useUserData";
-import { displayAlertTexts, displayButtonTexts, displayLabelTexts } from "../../../utils/displayText";
+import { displayActionTexts, displayButtonTexts, displayLabelTexts } from "../../../utils/displayText";
 
 const AddExamSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -32,7 +33,7 @@ const AddExamSheet = () => {
   const { selectedLanguage } = useSelectedLanguage();
   const schooolSubjectEntities = useSchoolSubjectEntities();
   const [selectedSchoolSubjectId, setSelectedSchoolSubjectId] = useState<string>("");
-  const { schoolSubjectTopics, hasSchoolSubjectTopics } = useSchoolSubjectTopics(selectedSchoolSubjectId);
+  const { schoolSubjectTopics } = useSchoolSubjectTopics(selectedSchoolSubjectId);
   const { userId } = useUserData();
   const [newExam, setNewExam] = useState({
     id: v4(),
@@ -40,6 +41,14 @@ const AddExamSheet = () => {
     dueDate: "",
     parent: "",
   });
+  const [isAddingNewTopic, setIsAddingNewTopic] = useState(false);
+  const [newTopicTitle, setNewTopicTitle] = useState("");
+  const examTitleInputRef = useRef<HTMLInputElement>(null);
+  const topicTitleInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (isVisible) setTimeout(() => examTitleInputRef.current?.focus(), 10);
+  }, [isVisible]);
 
   useEffect(() => {
     if (!isVisible) {
@@ -70,6 +79,20 @@ const AddExamSheet = () => {
     newExamEntity.add(new StatusFacet({ status: 1 }));
     newExamEntity.add(DataTypes.EXAM);
 
+    if (newTopicTitle !== "") {
+      const newTopicId = v4();
+      const newTopicEntity = new Entity();
+      lsc.engine.addEntity(newTopicEntity);
+      newTopicEntity.add(new IdentifierFacet({ guid: newTopicId }));
+      newTopicEntity.add(new TitleFacet({ title: newTopicTitle }));
+      newTopicEntity.add(new ParentFacet({ parentId: selectedSchoolSubjectId }));
+      newTopicEntity.add(DataTypes.TOPIC);
+
+      addTopic(lsc, newTopicEntity, userId);
+
+      newExamEntity.add(new ParentFacet({ parentId: newTopicId }));
+    }
+
     addExam(lsc, newExamEntity, userId);
 
     navigateBack();
@@ -87,6 +110,7 @@ const AddExamSheet = () => {
       <Section>
         <SectionRow>
           <TextInput
+            ref={examTitleInputRef}
             placeholder={displayLabelTexts(selectedLanguage).title}
             value={newExam.title}
             onChange={(e) => setNewExam({ ...newExam, title: e.target.value })}
@@ -125,7 +149,6 @@ const AddExamSheet = () => {
         <Section>
           {schoolSubjectTopics.map((topic, idx) => (
             <SectionRow
-              last={idx === schoolSubjectTopics.length - 1}
               key={idx}
               onClick={() => setNewExam({ ...newExam, parent: topic.id })}
               icon={newExam.parent === topic.id ? <IoCheckmarkCircle /> : <IoEllipseOutline />}
@@ -133,7 +156,40 @@ const AddExamSheet = () => {
               {topic.title}
             </SectionRow>
           ))}
-          {!hasSchoolSubjectTopics && <SectionRow last>{displayAlertTexts(selectedLanguage).noTopics}</SectionRow>}
+          {!isAddingNewTopic ? (
+            <SectionRow
+              icon={<IoAdd />}
+              last
+              role="button"
+              onClick={() => {
+                setIsAddingNewTopic(true);
+                setTimeout(() => topicTitleInputRef.current?.focus(), 10);
+              }}
+            >
+              {displayActionTexts(selectedLanguage).addTopic}
+            </SectionRow>
+          ) : (
+            <SectionRow
+              last
+              icon={
+                newTopicTitle !== "" ? (
+                  newExam.parent === "newTopic" ? (
+                    <IoCheckmarkCircle />
+                  ) : (
+                    <IoEllipseOutline onClick={() => setNewExam({ ...newExam, parent: "newTopic" })} />
+                  )
+                ) : (
+                  <IoEllipseOutline style={{ color: "#86858A" }} />
+                )
+              }
+            >
+              <TextInput
+                ref={topicTitleInputRef}
+                value={newTopicTitle}
+                onChange={(e) => setNewTopicTitle(e.target.value)}
+              />
+            </SectionRow>
+          )}
         </Section>
       )}
     </Sheet>

@@ -2,8 +2,8 @@ import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
 import { DescriptionFacet, IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
-import { Fragment, useContext, useEffect, useState } from "react";
-import { IoCheckmarkCircle, IoEllipseOutline } from "react-icons/io5";
+import { Fragment, useContext, useEffect, useRef, useState } from "react";
+import { IoAdd, IoCheckmarkCircle, IoEllipseOutline } from "react-icons/io5";
 import { useLocation } from "react-router";
 import { v4 } from "uuid";
 import { DueDateFacet, RelationshipFacet, StatusFacet, TitleFacet } from "../../../../app/additionalFacets";
@@ -22,11 +22,12 @@ import {
   TextInput,
 } from "../../../../components";
 import { addHomework } from "../../../../functions/addHomework";
+import { addTopic } from "../../../../functions/addTopic";
 import { useSchoolSubjectEntities } from "../../../../hooks/useSchoolSubjects";
 import { useSchoolSubjectTopics } from "../../../../hooks/useSchoolSubjectTopics";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { useUserData } from "../../../../hooks/useUserData";
-import { displayAlertTexts, displayButtonTexts, displayLabelTexts } from "../../../../utils/displayText";
+import { displayActionTexts, displayButtonTexts, displayLabelTexts } from "../../../../utils/displayText";
 import { useSelectedSchoolSubject } from "../../hooks/useSelectedSchoolSubject";
 import { useSelectedTopic } from "../../hooks/useSelectedTopic";
 
@@ -47,10 +48,17 @@ const AddHomeworkSheet = () => {
     relatedSchoolSubject: "",
   });
   const { userId } = useUserData();
-  const { schoolSubjectTopics, hasSchoolSubjectTopics, setSchoolSubjectTopics } =
-    useSchoolSubjectTopics(selectedSchoolSubjectId);
+  const { schoolSubjectTopics, setSchoolSubjectTopics } = useSchoolSubjectTopics(selectedSchoolSubjectId);
   const location = useLocation();
   const inCollectionVisible = location.pathname.includes("/collection");
+  const [isAddingNewTopic, setIsAddingNewTopic] = useState(false);
+  const [newTopicTitle, setNewTopicTitle] = useState("");
+  const homeworkTitleInputRef = useRef<HTMLInputElement>(null);
+  const topicTitleInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    if (isVisible)setTimeout(() => homeworkTitleInputRef.current?.focus(), 10);
+  }, [isVisible]);
 
   useEffect(() => {
     setNewHomework({
@@ -63,6 +71,7 @@ const AddHomeworkSheet = () => {
     });
     setSelectedSchoolSubjectId("");
     setSchoolSubjectTopics([]);
+    setNewTopicTitle("");
   }, [isVisible]);
 
   const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_HOMEWORKS_STORY);
@@ -94,6 +103,20 @@ const AddHomeworkSheet = () => {
     newHomeworkEntity.add(new StatusFacet({ status: 1 }));
     newHomeworkEntity.add(DataTypes.HOMEWORK);
 
+    if (newTopicTitle !== "") {
+      const newTopicId = v4();
+      const newTopicEntity = new Entity();
+      lsc.engine.addEntity(newTopicEntity);
+      newTopicEntity.add(new IdentifierFacet({ guid: newTopicId }));
+      newTopicEntity.add(new TitleFacet({ title: newTopicTitle }));
+      newTopicEntity.add(new ParentFacet({ parentId: selectedSchoolSubjectId }));
+      newTopicEntity.add(DataTypes.TOPIC);
+
+      addTopic(lsc, newTopicEntity, userId);
+
+      newHomeworkEntity.add(new ParentFacet({ parentId: newTopicId }));
+    }
+
     addHomework(lsc, newHomeworkEntity, userId);
 
     navigateBack();
@@ -112,6 +135,7 @@ const AddHomeworkSheet = () => {
       <Section>
         <SectionRow>
           <TextInput
+            ref={homeworkTitleInputRef}
             value={newHomework.title}
             onChange={(e) => setNewHomework({ ...newHomework, title: e.target.value })}
             placeholder={displayLabelTexts(selectedLanguage).title}
@@ -147,13 +171,12 @@ const AddHomeworkSheet = () => {
           </SectionRow>
         )}
       </Section>
-      {(hasSchoolSubjectTopics || selectedSchoolSubjectId) && (
+      {selectedSchoolSubjectId && (
         <Fragment>
           <Spacer size={2} />
           <Section>
             {schoolSubjectTopics.map((topic, idx) => (
               <SectionRow
-                last={idx === schoolSubjectTopics.length - 1}
                 key={idx}
                 onClick={() => setNewHomework({ ...newHomework, parent: topic.id })}
                 icon={newHomework.parent === topic.id ? <IoCheckmarkCircle /> : <IoEllipseOutline />}
@@ -161,7 +184,40 @@ const AddHomeworkSheet = () => {
                 {topic.title}
               </SectionRow>
             ))}
-            {!hasSchoolSubjectTopics && <SectionRow last>{displayAlertTexts(selectedLanguage).noTopics}</SectionRow>}
+            {!isAddingNewTopic ? (
+              <SectionRow
+                icon={<IoAdd />}
+                last
+                role="button"
+                onClick={() => {
+                  setIsAddingNewTopic(true);
+                  setTimeout(() => topicTitleInputRef.current?.focus(), 10);
+                }}
+              >
+                {displayActionTexts(selectedLanguage).addTopic}
+              </SectionRow>
+            ) : (
+              <SectionRow
+                last
+                icon={
+                  newTopicTitle !== "" ? (
+                    newHomework.parent === "newTopic" ? (
+                      <IoCheckmarkCircle />
+                    ) : (
+                      <IoEllipseOutline onClick={() => setNewHomework({ ...newHomework, parent: "newTopic" })} />
+                    )
+                  ) : (
+                    <IoEllipseOutline style={{ color: "#86858A" }} />
+                  )
+                }
+              >
+                <TextInput
+                  ref={topicTitleInputRef}
+                  value={newTopicTitle}
+                  onChange={(e) => setNewTopicTitle(e.target.value)}
+                />
+              </SectionRow>
+            )}
           </Section>
         </Fragment>
       )}
