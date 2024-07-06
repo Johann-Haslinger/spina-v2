@@ -4,22 +4,23 @@ import tw from "twin.macro";
 import { DataTypes, NavigationLinks, Stories } from "./base/enums";
 import { Sidebar } from "./components";
 import { AuthUI } from "./features/auth-ui";
-import { Settings } from "./features/settings";
+import { Profile, Settings } from "./features/settings";
 import { useSession } from "./hooks/useSession";
 import { Collection, Exams, Groups, Homeworks, Overview, Study } from "./pages/Index";
-import InitializeAppSystem from "./systems/InitializeAppSystem";
-import InitializeSchoolSubjectsSystem from "./systems/InitializeSchoolSubjectsSystem";
-import InitializeStoriesSystem from "./systems/InitializeStoriesSystem";
-import InitializeUserSystem from "./systems/InitializeUserSystem";
-import ViewManagerSystem from "./systems/ViewManagerSystem";
 import { formatNavLinkAsPath } from "./utils/formatNavLinkAsPath";
-
 import { EntityPropsMapper } from "@leanscope/ecs-engine";
 import { TitleFacet, DateAddedFacet, SourceFacet } from "./app/additionalFacets";
 import PodcastSheet from "./features/collection/components/podcasts/PodcastSheet";
 import { dataTypeQuery } from "./utils/queries";
 import { Tags } from "@leanscope/ecs-models";
 import { SapientorIcon } from "./features/sapientor";
+import {
+  InitializeUserSystem,
+  InitializeStoriesSystem,
+  InitializeAppSystem,
+  ViewManagerSystem,
+  InitializeSchoolSubjectsSystem,
+} from "./systems";
 
 const StyledContentWrapper = styled.div`
   ${tw`w-screen h-screen bg-primary dark:bg-primaryDark`}
@@ -51,6 +52,7 @@ function App() {
         </Routes>
 
         <Settings />
+        <Profile />
       </BrowserRouter>
 
       <EntityPropsMapper

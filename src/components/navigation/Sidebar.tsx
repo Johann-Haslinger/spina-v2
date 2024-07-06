@@ -6,11 +6,11 @@ import { Fragment, useEffect, useRef, useState } from "react";
 import {
   IoClose,
   IoEllipsisHorizontal,
-  IoHelpOutline,
   IoLogInOutline,
   IoLogOutOutline,
   IoMoon,
   IoPause,
+  IoPersonCircleOutline,
   IoPlay,
   IoSettingsOutline,
 } from "react-icons/io5";
@@ -111,7 +111,7 @@ const StyledProfileIcon = styled.div<{
   background-color: ${({ backgroundColor }) => backgroundColor};
 `;
 const StyledProfileText = styled.div`
-  ${tw`text-lg md:text-base ml-3 font-semibold `}
+  ${tw`text-lg md:text-base ml-3 font-medium `}
 `;
 
 const StyledLeftSideWrapper = styled.div`
@@ -122,12 +122,16 @@ const StyledProfileIconWrapper = styled.div`
   ${tw`text-xl md:hidden`}
 `;
 
+const StyledProfilePicture = styled.img`
+  ${tw`w-10 h-10 rounded-full`}
+`;  
+
 const SettingsLink = (props: { isFullWidth: boolean }) => {
   const { isFullWidth } = props;
   const { color, accentColor: backgroundColor } = COLOR_ITEMS[3];
-  const { toggleSettings } = useAppState();
+  const { toggleSettings, toggleProfile } = useAppState();
   const { selectedLanguage } = useSelectedLanguage();
-  const { userEmail, signedIn, signOut } = useUserData();
+  const { userEmail, signedIn, signOut, userName, profilePicture } = useUserData();
   const [isSettingsQuickMenuVisible, setIsSettingsQuickMenuVisible] = useState(false);
   const settingsQuickMenuRef = useRef<HTMLDivElement>(null);
   const { width } = useWindowDimensions();
@@ -180,11 +184,18 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
         <StyledSettingsMenuWrapper>
           <StyledEmailText>{userEmail}</StyledEmailText>
           <StyledSettingsDivider />
-          <StyledHelpText>
+          {/* <StyledHelpText>
             <StyledSettingsMenuIcon>
               <IoHelpOutline />
             </StyledSettingsMenuIcon>
             {displayHeaderTexts(selectedLanguage).whatToDo}
+          </StyledHelpText> */}
+
+          <StyledHelpText onClick={toggleProfile}>
+            <StyledSettingsMenuIcon>
+              <IoPersonCircleOutline />
+            </StyledSettingsMenuIcon>
+            {displayHeaderTexts(selectedLanguage).profile}
           </StyledHelpText>
           <StyledSettingsText onClick={toggleSettings}>
             <StyledSettingsMenuIcon>
@@ -206,14 +217,14 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
           isHoverd={isSettingsQuickMenuVisible}
         >
           <StyledLeftSideWrapper>
-            <StyledProfileIcon color={color} backgroundColor={backgroundColor}>
+           {profilePicture ? <StyledProfilePicture src={profilePicture}/> :  <StyledProfileIcon color={color} backgroundColor={backgroundColor}>
               S
-            </StyledProfileIcon>
+            </StyledProfileIcon>}
             <motion.div
               initial={{ x: -10, opacity: 0 }}
               animate={{ x: isFullWidth ? 0 : -10, opacity: isFullWidth ? 1 : 0 }}
             >
-              <StyledProfileText>User</StyledProfileText>
+              <StyledProfileText>{userName ? userName : "Account"}</StyledProfileText>
             </motion.div>
           </StyledLeftSideWrapper>
 
@@ -231,7 +242,7 @@ const StyledSidebarLinkWrapper = styled.div<{ isCurrent: boolean }>`
   ${({ isCurrent }) => isCurrent && tw`bg-black bg-opacity-[3%] dark:bg-tertiaryDark`}
 `;
 const StyledNavLinkIcon = styled.div<{ color: string }>`
-  ${tw`text-2xl  dark:text-white dark:opacity-100 transition-all  px-2 rounded-lg  `}
+  ${tw`text-2xl  dark:opacity-100 transition-all  px-2 rounded-lg  `}
   color: ${({ color }) => color};
 `;
 

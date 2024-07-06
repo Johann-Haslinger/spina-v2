@@ -55,6 +55,10 @@ export const HEADER_TEXT_DATA = {
     de: "Blurting",
     en: "Blurting",
   },
+  profile: {
+    de: "Profil",
+    en: "Profile",
+  },
 };
 
 export const ALERT_TEXT_DATA = {

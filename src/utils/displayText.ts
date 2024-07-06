@@ -24,6 +24,7 @@ export const displayHeaderTexts = (selectedLanguage: SupportedLanguages) => {
     flashcards: HEADER_TEXT_DATA.flashcards[selectedLanguage],
     flashcardTest: HEADER_TEXT_DATA.flashcard_test[selectedLanguage],
     blurting: HEADER_TEXT_DATA.blurting[selectedLanguage],
+    profile: HEADER_TEXT_DATA.profile[selectedLanguage],
   };
 };
 export const displayAlertTexts = (selectedLanguage: SupportedLanguages) => {

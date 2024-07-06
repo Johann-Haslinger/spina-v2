@@ -17,6 +17,10 @@ export const useAppState = () => {
     appStateEntity,
     AdditionalTags.SETTING_VISIBLE
   );
+  const [isProfileVisible] = useEntityHasTags(
+    appStateEntity,
+    AdditionalTags.PROFILE_VISIBLE
+  );
 
   const toggleSettings = () => {
     if (isSettingVisible) {
@@ -27,6 +31,16 @@ export const useAppState = () => {
       appStateEntity?.add(AdditionalTags.SETTING_VISIBLE);
     }
   }
+
+  const toggleProfile = () => {
+    if (isProfileVisible) {
+      appStateEntity?.remove(AdditionalTags.PROFILE_VISIBLE);
+    } else {
+      appStateEntity?.add(AdditionalTags.PROFILE_VISIBLE);
+    }
+  }
+
+
 
  
 
@@ -43,6 +57,8 @@ export const useAppState = () => {
     toggleSidebar,
     appStateEntity,
     toggleSettings,
-    isSettingVisible
+    isSettingVisible,
+    toggleProfile,
+    isProfileVisible
   };
 };
