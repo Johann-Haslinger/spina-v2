@@ -13,9 +13,11 @@ const StyledLearningGroupCellContainer = styled.div`
 
 const StyledLearningGroupCellWrapper = styled.div<{
   backgroundColor: string;
+  color?: string;
 }>`
-  ${tw`w-full h-40 rounded-xl  text-white text-opacity-30  flex justify-center items-center  md:hover:scale-105 md:hover:text-[8.5rem] transition-all  text-8xl font-bold p-2 `}
+  ${tw`w-full h-40 rounded-xl flex justify-center items-center  md:hover:scale-105 md:hover:text-[8.5rem] transition-all  text-8xl font-bold p-2 `}
   background-color: ${({ backgroundColor }) => backgroundColor};
+  color: ${({ color }) => color || "white"};
 `;
 
 const StyledLearningGroupTitle = styled.p`
@@ -33,7 +35,7 @@ const LearningGroupCell = (props: TitleProps & ColorProps & DescriptionProps & E
 
   return (
     <StyledLearningGroupCellContainer onClick={openLearningGroup}>
-      <StyledLearningGroupCellWrapper backgroundColor={colorName || "blue"}>
+      <StyledLearningGroupCellWrapper color={colorName} backgroundColor={colorName + "90"}>
         <IoPeople />
       </StyledLearningGroupCellWrapper>
 

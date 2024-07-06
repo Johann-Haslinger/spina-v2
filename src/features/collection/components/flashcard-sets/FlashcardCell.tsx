@@ -9,7 +9,6 @@ const StyledFlashcardCellWrapper = styled.div<{
   backgroundColor: string;
 }>`
   ${tw`w-full cursor-pointer bg-black bg-opacity-5 h-40 dark:bg-tertiaryDark dark:text-white  rounded-lg p-3 transition-all md:hover:scale-105`}
-
 `;
 
 const StyledTextWrapper = styled.div`
@@ -24,32 +23,36 @@ const StyledAnswerText = styled.div`
 `;
 
 const StyledProgressBarWrapper = styled.div`
-  ${tw`flex items-center  rounded-full bg-white bg-opacity-20 dark:bg-primaryDark mt-3 `}
+  ${tw`flex items-center  rounded-full bg-primaryColor bg-opacity-10 dark:bg-primaryDark mt-3 `}
 `;
 
 const StyledProgressBar = styled.div<{
   width: string;
+  backgroundColor: string;
 }>`
-  ${tw` h-0.5 bg-white rounded-full`}
+  ${tw` h-0.5   dark:bg-white bg-primaryColor rounded-full`}
 
   width: ${(props) => props.width};
 `;
 
 const FlashcardCell = (props: QuestionProps & AnswerProps & EntityProps & MasteryLevelProps) => {
   const { question, answer, entity, masteryLevel = 0 } = props;
-  const { backgroundColor } = useSelectedSchoolSubjectColor();
+  const { accentColor } = useSelectedSchoolSubjectColor();
 
   const openFlashcard = () => entity.add(Tags.SELECTED);
 
   return (
-    <StyledFlashcardCellWrapper onClick={openFlashcard} backgroundColor={backgroundColor}>
+    <StyledFlashcardCellWrapper onClick={openFlashcard} backgroundColor={accentColor}>
       <StyledTextWrapper>
         {" "}
         <StyledQuestionText>{question}</StyledQuestionText>
         <StyledAnswerText>{answer}</StyledAnswerText>
       </StyledTextWrapper>
       <StyledProgressBarWrapper>
-        <StyledProgressBar width={((masteryLevel ? masteryLevel : 0) / 5) * 100 + 2 + "%"} />
+        <StyledProgressBar
+          backgroundColor={accentColor}
+          width={((masteryLevel ? masteryLevel : 0) / 5) * 100 + 2 + "%"}
+        />
       </StyledProgressBarWrapper>
     </StyledFlashcardCellWrapper>
   );

@@ -16,13 +16,14 @@ const StyledPodcastPlayerWrapper = styled.div`
 `;
 
 const StyledPodcastIconContainer = styled.div`
-  ${tw`h-[60%] flex items-center md:mt-6`}
+  ${tw`h-[55%] flex items-center md:mt-6`}
 `;
 
-const StyledPodcastIconWrapper = styled.div<{ isPlaying: boolean; backgroundColor: string }>`
-  ${tw` transition-all text-white mx-auto size-44 text-7xl flex items-center justify-center  rounded-2xl`}
-  ${(props) => (props.isPlaying ? tw`scale-125` : tw` opacity-80`)}
-  background-color: ${(props) => props.backgroundColor};
+const StyledPodcastIconWrapper = styled.div<{ isPlaying: boolean; backgroundColor: string; color: string }>`
+  ${tw` transition-all bg-white bg-opacity-60 text-white mx-auto size-44 text-7xl flex items-center justify-center  rounded-2xl`}
+  ${(props) => (props.isPlaying ? tw`scale-125` : tw` bg-opacity-45`)}
+ 
+  color: ${(props) => props.color};
 `;
 
 const StyleldPodcastInfoWrapper = styled.div`
@@ -30,11 +31,11 @@ const StyleldPodcastInfoWrapper = styled.div`
 `;
 
 const StyledPodcastTitle = styled.p`
-  ${tw`font-semibold line-clamp-2 text-lg`}
+  ${tw`font-semibold  text-white line-clamp-2 text-xl`}
 `;
 
 const StyledPodcastSubTitle = styled.p`
-  ${tw`text-seconderyText`}
+  ${tw` text-white text-opacity-50 text-lg `}
 `;
 
 const StyledTimeBar = styled.input`
@@ -42,13 +43,11 @@ const StyledTimeBar = styled.input`
 `;
 
 const StyledTimeBarText = styled.div`
-  ${tw`text-seconderyText text-sm`}
+  ${tw` text-white text-opacity-50 text-sm`}
 `;
 
 const StyledButtonWrapper = styled.div<{ color: string }>`
-  ${tw` mt-4 text-[#656565c2] dark:text-white  items-center  space-x-12  py-4  rounded-full w-full flex justify-between mx-auto text-5xl`}/* color: ${(
-    props
-  ) => props.color}; */
+  ${tw` mt-4 text-white text-opacity-80 dark:text-white  items-center  space-x-12  py-4  rounded-full w-full flex justify-between mx-auto text-5xl`}
 `;
 
 const StyledPauseButtonWrapper = styled.div`
@@ -56,7 +55,7 @@ const StyledPauseButtonWrapper = styled.div`
 `;
 
 const StyledPauseButtonStroke = styled.div<{ color: string }>`
-  ${tw`h-9 w-3 bg-[#656565c2] dark:bg-white rounded`}/* background-color: ${(props) => props.color}; */
+  ${tw`h-9 w-3 bg-white bg-opacity-80 dark:bg-white rounded`}/* background-color: ${(props) => props.color}; */
 `;
 
 const PodcastSheet = (props: TitleProps & SourceProps & EntityProps & DateAddedProps) => {
@@ -65,7 +64,7 @@ const PodcastSheet = (props: TitleProps & SourceProps & EntityProps & DateAddedP
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [duration, setDuration] = useState<number>(0);
   const audioRef = useRef<HTMLAudioElement>(null);
-  const { accentColor } = useSelectedSchoolSubjectColor();
+  const { accentColor, backgroundColor } = useSelectedSchoolSubjectColor();
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [audioUrl, setAudioUrl] = useState<string>("");
 
@@ -130,10 +129,10 @@ const PodcastSheet = (props: TitleProps & SourceProps & EntityProps & DateAddedP
       <LoadPodcastAudioSystem />
       <audio src={audioUrl} ref={audioRef} onTimeUpdate={handleTimeUpdate} />
 
-      <Sheet navigateBack={navigateBack} visible={isVisible}>
+      <Sheet backgroundColor={accentColor} navigateBack={navigateBack} visible={isVisible}>
         <StyledPodcastPlayerWrapper>
           <StyledPodcastIconContainer>
-            <StyledPodcastIconWrapper backgroundColor={accentColor} isPlaying={isPlaying}>
+            <StyledPodcastIconWrapper color={accentColor} backgroundColor={backgroundColor} isPlaying={isPlaying}>
               <IoHeadset />
             </StyledPodcastIconWrapper>
           </StyledPodcastIconContainer>

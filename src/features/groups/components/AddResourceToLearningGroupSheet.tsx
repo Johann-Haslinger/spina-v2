@@ -1,24 +1,16 @@
 import styled from "@emotion/styled";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
-import { FloatOrderFacet, IdentifierFacet, ImageFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
+import { IdentifierFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { Fragment, useContext, useEffect, useState } from "react";
 import { IoAdd, IoChevronForward, IoChevronUp } from "react-icons/io5";
 import tw from "twin.macro";
 import { v4 } from "uuid";
-import {
-  AnswerFacet,
-  BlocktypeFacet,
-  DateAddedFacet,
-  QuestionFacet,
-  TexttypeFacet,
-  TitleFacet,
-} from "../../../app/additionalFacets";
+import { AnswerFacet, DateAddedFacet, QuestionFacet, TitleFacet } from "../../../app/additionalFacets";
 import { dummyGroupSchoolSubjects, dummyGroupTopics, dummyLearningGroups } from "../../../base/dummy";
-import { Blocktypes, DataTypes, Stories, SupabaseColumns, SupabaseTables, Texttypes } from "../../../base/enums";
+import { DataTypes, Stories, SupabaseColumns, SupabaseTables } from "../../../base/enums";
 import { CloseButton, FlexBox, ScrollableBox, Section, SectionRow, Sheet, Spacer } from "../../../components";
-import { addGroupsBlocks as addGroupBlocks } from "../../../functions/addGroupBlocks";
 import { addGroupFlashcards } from "../../../functions/addGroupFlashcards";
 import { addGroupNote } from "../../../functions/addGroupNote";
 import { addGroupSubtopic } from "../../../functions/addGroupSubtopic";
@@ -137,8 +129,8 @@ const SchoolSubjectRow = (props: { schoolSubject: { title: string; id: string };
   const { userId } = useUserData();
   const topics = useSchoolSubjectTopics(schoolSubjectId, isSelected);
   const { selectedFlashcardSetTitle, selectedFlashcardSetId } = useSelectedFlashcardSet();
-  const { selectedNoteTitle, selectedNoteId } = useSelectedNote();
-  const { selectedSubtopicTitle, selectedSubtopicId } = useSelectedSubtopic();
+  const { selectedNoteTitle, selectedNoteText } = useSelectedNote();
+  const { selectedSubtopicTitle, selectedSubtopicId, selectedSubtopicText } = useSelectedSubtopic();
 
   const handleClick = () => setIsSelected(!isSelected);
 
@@ -184,32 +176,9 @@ const SchoolSubjectRow = (props: { schoolSubject: { title: string; id: string };
       newNoteEntity.add(new ParentFacet({ parentId: topicId }));
       newNoteEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
       newNoteEntity.add(DataTypes.GROUP_NOTE);
+      newNoteEntity.add(new TextFacet({ text: selectedNoteText || "" }));
 
       addGroupNote(lsc, newNoteEntity, userId, learningGroupId);
-
-      const blockEntities = lsc.engine.entities.filter(
-        (e) => e.has(DataTypes.BLOCK) && e.get(ParentFacet)?.props.parentId == selectedNoteId
-      );
-
-      const newGroupBlockEntities = blockEntities.map((blockEntity) => {
-        const newGroupBlockEntity = new Entity();
-        newGroupBlockEntity.add(new IdentifierFacet({ guid: v4() }));
-        newGroupBlockEntity.add(new ParentFacet({ parentId: newResourceId }));
-        newGroupBlockEntity.add(new TextFacet({ text: blockEntity.get(TextFacet)?.props.text || "" }));
-        newGroupBlockEntity.add(
-          new BlocktypeFacet({ blocktype: blockEntity.get(BlocktypeFacet)?.props.blocktype || Blocktypes.TEXT })
-        );
-        newGroupBlockEntity.add(new ImageFacet({ imageSrc: blockEntity.get(ImageFacet)?.props.imageSrc || "" }));
-        newGroupBlockEntity.add(
-          new TexttypeFacet({ texttype: blockEntity.get(TexttypeFacet)?.props.texttype || Texttypes.NORMAL })
-        );
-        newGroupBlockEntity.add(new FloatOrderFacet({ index: blockEntity.get(FloatOrderFacet)?.props.index || 0 }));
-        newGroupBlockEntity.add(DataTypes.GROUP_BLOCK);
-
-        return newGroupBlockEntity;
-      });
-
-      addGroupBlocks(lsc, newGroupBlockEntities, userId, learningGroupId);
     } else if (selectedSubtopicTitle) {
       const newSubtopicEntity = new Entity();
       newSubtopicEntity.add(new IdentifierFacet({ guid: newResourceId }));
@@ -217,32 +186,11 @@ const SchoolSubjectRow = (props: { schoolSubject: { title: string; id: string };
       newSubtopicEntity.add(new ParentFacet({ parentId: topicId }));
       newSubtopicEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
       newSubtopicEntity.add(DataTypes.GROUP_SUBTOPIC);
+      newSubtopicEntity.add(new TextFacet({ text: selectedSubtopicText || "" }));
+
+      console.log("selectedSubtopicText", selectedSubtopicText);
 
       addGroupSubtopic(lsc, newSubtopicEntity, userId, learningGroupId);
-
-      const blockEntities = lsc.engine.entities.filter(
-        (e) => e.has(DataTypes.BLOCK) && e.get(ParentFacet)?.props.parentId == selectedSubtopicId
-      );
-
-      const newGroupBlockEntities = blockEntities.map((blockEntity) => {
-        const newGroupBlockEntity = new Entity();
-        newGroupBlockEntity.add(new IdentifierFacet({ guid: v4() }));
-        newGroupBlockEntity.add(new ParentFacet({ parentId: newResourceId }));
-        newGroupBlockEntity.add(new TextFacet({ text: blockEntity.get(TextFacet)?.props.text || "" }));
-        newGroupBlockEntity.add(
-          new BlocktypeFacet({ blocktype: blockEntity.get(BlocktypeFacet)?.props.blocktype || Blocktypes.TEXT })
-        );
-        newGroupBlockEntity.add(new ImageFacet({ imageSrc: blockEntity.get(ImageFacet)?.props.imageSrc || "" }));
-        newGroupBlockEntity.add(
-          new TexttypeFacet({ texttype: blockEntity.get(TexttypeFacet)?.props.texttype || Texttypes.NORMAL })
-        );
-        newGroupBlockEntity.add(new FloatOrderFacet({ index: blockEntity.get(FloatOrderFacet)?.props.index || 0 }));
-        newGroupBlockEntity.add(DataTypes.GROUP_BLOCK);
-
-        return newGroupBlockEntity;
-      });
-
-      addGroupBlocks(lsc, newGroupBlockEntities, userId, learningGroupId);
 
       const flashcardEntites = lsc.engine.entities.filter(
         (e) => e.has(DataTypes.FLASHCARD) && e.get(ParentFacet)?.props.parentId == selectedSubtopicId

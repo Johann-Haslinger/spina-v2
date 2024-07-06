@@ -17,12 +17,20 @@ import tw from "twin.macro";
 import { v4 } from "uuid";
 import { BlocktypeFacet, TexttypeFacet, TitleFacet } from "../../../../../app/additionalFacets";
 import { COLOR_ITEMS } from "../../../../../base/constants";
-import { AdditionalTags, Blocktypes, DataTypes, Stories, SupabaseColumns, SupabaseTables, Texttypes } from "../../../../../base/enums";
+import {
+  AdditionalTags,
+  Blocktypes,
+  DataTypes,
+  Stories,
+  SupabaseColumns,
+  SupabaseTables,
+  Texttypes,
+} from "../../../../../base/enums";
 import { useSelectedLanguage } from "../../../../../hooks/useSelectedLanguage";
 import { useUserData } from "../../../../../hooks/useUserData";
 import supabaseClient from "../../../../../lib/supabase";
 import { displayLabelTexts } from "../../../../../utils/displayText";
-import { sortEntitiesByOrder } from "../../../../../utils/sortEntitiesByOrder";
+import { sortEntitiesByFloatOrder } from "../../../../../utils/sortEntitiesByFloatOrder";
 import { addBlock } from "../../../functions/addBlock";
 import { changeBlockeditorState } from "../../../functions/changeBlockeditorState";
 import { useCurrentBlockeditor } from "../../../hooks/useCurrentBlockeditor";
@@ -53,7 +61,9 @@ const StyledMenuWrapper = styled.div`
 
 const groupSelectedBlocks = (lsc: ILeanScopeClient, userId: string) => {
   const selectedBlockEntities = lsc.engine.entities.filter((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
-  const firstSelectedBlockEntity = selectedBlockEntities.filter((e) => e.has(TextFacet)).sort(sortEntitiesByOrder)[0];
+  const firstSelectedBlockEntity = selectedBlockEntities
+    .filter((e) => e.has(TextFacet))
+    .sort(sortEntitiesByFloatOrder)[0];
 
   const firstBlockOrder = firstSelectedBlockEntity.get(FloatOrderFacet)?.props.index || 0;
   const firstBlockText = firstSelectedBlockEntity.get(TextFacet)?.props.text || "";

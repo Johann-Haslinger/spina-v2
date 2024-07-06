@@ -1,6 +1,6 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
-import { DescriptionProps, IdentifierFacet, Tags } from "@leanscope/ecs-models";
+import { DescriptionProps, IdentifierFacet, Tags, TextFacet } from "@leanscope/ecs-models";
 import { Fragment, useContext } from "react";
 import { IoCreateOutline, IoEllipsisHorizontalCircleOutline, IoTrashOutline } from "react-icons/io5";
 import { TitleFacet, TitleProps } from "../../../../app/additionalFacets";
@@ -114,7 +114,7 @@ const GroupTopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
 
       <EntityPropsMapper
         query={(e) => dataTypeQuery(e, DataTypes.GROUP_SUBTOPIC) && e.has(Tags.SELECTED) && isChildOfQuery(e, entity)}
-        get={[[TitleFacet, IdentifierFacet], []]}
+        get={[[TitleFacet, IdentifierFacet, TextFacet], []]}
         onMatch={GroupSubtopicView}
       />
 

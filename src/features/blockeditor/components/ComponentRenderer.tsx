@@ -5,7 +5,7 @@ import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import tw from "twin.macro";
 import { BlocktypeFacet } from "../../../app/additionalFacets";
 import { DataTypes } from "../../../base/enums";
-import { sortEntitiesByOrder } from "../../../utils/sortEntitiesByOrder";
+import { sortEntitiesByFloatOrder } from "../../../utils/sortEntitiesByFloatOrder";
 import { useCurrentBlockeditor } from "../hooks/useCurrentBlockeditor";
 import BlockRenderer from "./Blockrenderer";
 
@@ -24,9 +24,12 @@ const ComponentRenderer = () => {
             {(provided: any) => (
               <div ref={provided.innerRef} {...provided.droppableProps}>
                 <EntityPropsMapper
-                  query={(e) => e.get(ParentFacet)?.props.parentId == blockeditorId && e.has(isGroupBlockeditor ? DataTypes.GROUP_BLOCK : DataTypes.BLOCK)}
+                  query={(e) =>
+                    e.get(ParentFacet)?.props.parentId == blockeditorId &&
+                    e.has(isGroupBlockeditor ? DataTypes.GROUP_BLOCK : DataTypes.BLOCK)
+                  }
                   get={[[IdentifierFacet, ParentFacet, BlocktypeFacet, TextFacet, FloatOrderFacet], []]}
-                  sort={sortEntitiesByOrder}
+                  sort={sortEntitiesByFloatOrder}
                   onMatch={BlockRenderer}
                 />
 

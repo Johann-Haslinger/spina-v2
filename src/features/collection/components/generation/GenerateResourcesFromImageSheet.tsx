@@ -1,7 +1,7 @@
 import styled from "@emotion/styled/macro";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity, useEntity } from "@leanscope/ecs-engine";
-import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
+import { IdentifierFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext, useEffect, useState } from "react";
 import tw from "twin.macro";
@@ -16,6 +16,7 @@ import { addFlashcards } from "../../../../functions/addFlashcards";
 import { addFlashcardSet } from "../../../../functions/addFlashcardSet";
 import { addNote } from "../../../../functions/addNote";
 import { addSubtopic } from "../../../../functions/addSubtopic";
+import { addText } from "../../../../functions/addText";
 import { useUserData } from "../../../../hooks/useUserData";
 import supabaseClient from "../../../../lib/supabase";
 import { getCompletion } from "../../../../utils/getCompletion";
@@ -349,7 +350,7 @@ const GenerateResourcesFromImageSheet = () => {
   const handleGeneratePodcast = async (generatedFlashcards: boolean, text: string) => {
     setGenerationState(GenerationState.GENERATING_PODCAST);
     setSuggestions([]);
-  
+
     // TODO: edge function for this
     // const generatinPodcastTranscriptPrompt = `
     // Erstelle bitte einen Podcast, der auf dem folgenden Text basiert, um die Inhalte des Textes zu lernen:
@@ -357,8 +358,7 @@ const GenerateResourcesFromImageSheet = () => {
     // `;
     // const transcript = await getCompletion(generatinPodcastTranscriptPrompt);
     // const base64Audio = await getAudioFromText(transcript)
-    
-    ;
+
     const transcript = "";
     const base64Audio = "";
 
@@ -430,6 +430,7 @@ const GenerateResourcesFromImageSheet = () => {
         newSubtopicEntity.add(new ParentFacet({ parentId: selectedTopicId || "" }));
         newSubtopicEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
         newSubtopicEntity.add(DataTypes.SUBTOPIC);
+        newSubtopicEntity.add(new TextFacet({ text: note }));
 
         addSubtopic(lsc, newSubtopicEntity, userId);
 
@@ -446,11 +447,14 @@ const GenerateResourcesFromImageSheet = () => {
 
         addFlashcards(lsc, flashcardEntities, userId);
 
-       
         // TODO: addd podcast to supabase
 
-        const newBlockEntites = getBlockEntitiesFromText(note, subTopicId);
-        addBlocks(lsc, newBlockEntites, userId);
+        const newTextEntity = new Entity();
+        newTextEntity.add(new IdentifierFacet({ guid: v4() }));
+        newTextEntity.add(new ParentFacet({ parentId: subTopicId }));
+        newTextEntity.add(new TextFacet({ text: note }));
+
+        addText(newTextEntity, userId);
       } else {
         const flashcardSetId = v4();
 
@@ -548,4 +552,3 @@ const GenerateResourcesFromImageSheet = () => {
 };
 
 export default GenerateResourcesFromImageSheet;
-

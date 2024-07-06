@@ -1,9 +1,9 @@
 import { Entity } from "@leanscope/ecs-engine";
-import { FloatOrderFacet } from "@leanscope/ecs-models";
+import { OrderFacet } from "@leanscope/ecs-models";
 
 export const sortEntitiesByOrder = (a: Entity, b: Entity) => {
-  const orderA = a.get(FloatOrderFacet)?.props.index || 0;
-  const orderB = b.get(FloatOrderFacet)?.props.index || 0;
+  const orderA = a.get(OrderFacet)?.props.orderIndex || 0;
+  const orderB = b.get(OrderFacet)?.props.orderIndex || 0;
 
   return orderA - orderB;
 };

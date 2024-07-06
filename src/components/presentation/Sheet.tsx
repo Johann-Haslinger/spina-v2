@@ -7,14 +7,16 @@ import { useSelectedTheme } from "../../features/collection/hooks/useSelectedThe
 interface SheetProps {
   navigateBack: () => void;
   visible: boolean;
+  backgroundColor?: string;
 }
 
-const StyledSheetWrapper = styled.div`
+const StyledSheetWrapper = styled.div<{ backgroundColor?: string }>`
   ${tw`p-4 overflow-hidden lg:px-8 dark:bg-seconderyDark transition-all dark:text-primaryTextDark w-full md:h-[90%] mx-auto mt-[6%] md:mt-[2.5%]  h-[97%] md:w-8/12  md:rounded-2xl rounded-t-xl  bg-primary`}
+  background-color: ${({ backgroundColor }) => backgroundColor};
 `;
 
 const Sheet = (props: PropsWithChildren & SheetProps) => {
-  const { children, visible = true, navigateBack } = props;
+  const { children, visible = true, navigateBack, backgroundColor } = props;
   const sheetRef = useRef<HTMLDivElement>(null);
   const [isSheetDisplayed, setIsSheetDisplayed] = useState(false);
   const { isDarkMode } = useSelectedTheme();
@@ -59,7 +61,6 @@ const Sheet = (props: PropsWithChildren & SheetProps) => {
             height: "100%",
             top: 0,
             left: 0,
-          
           }}
         />
         <motion.div
@@ -78,7 +79,9 @@ const Sheet = (props: PropsWithChildren & SheetProps) => {
             zIndex: 200,
           }}
         >
-          <StyledSheetWrapper ref={sheetRef}>{children}</StyledSheetWrapper>
+          <StyledSheetWrapper backgroundColor={backgroundColor} ref={sheetRef}>
+            {children}
+          </StyledSheetWrapper>
         </motion.div>
       </Fragment>
     )

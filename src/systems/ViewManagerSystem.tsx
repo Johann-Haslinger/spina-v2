@@ -1,7 +1,7 @@
-import { useEntities } from "@leanscope/ecs-engine";
+import { useEntities, useEntity } from "@leanscope/ecs-engine";
 import { Tags } from "@leanscope/ecs-models";
 import { Fragment, useEffect, useState } from "react";
-import { AdditionalTags, Stories } from "../base/enums";
+import { AdditionalTags, DataTypes, Stories } from "../base/enums";
 
 import { useSelectedTheme } from "../features/collection/hooks/useSelectedTheme";
 import { useIsAnyStoryCurrent } from "../hooks/useIsAnyStoryCurrent";
@@ -12,6 +12,8 @@ import { useAppState } from "../features/collection/hooks/useAppState";
 import { useWindowDimensions } from "../hooks/useWindowDimensions";
 import { MEDIUM_DEVICE_WIDTH } from "../base/constants";
 import { useCurrentSapientorConversation } from "../features/sapientor/hooks/useCurrentConversation";
+import { useSelectedPodcast } from "../features/collection/hooks/useSelectedPodcast";
+import { dataTypeQuery } from "../utils/queries";
 
 const ViewManagerSystem = () => {
   const isSheetViewVisible = useIsAnyStoryCurrent([
@@ -72,9 +74,11 @@ const ViewManagerSystem = () => {
   const { isChatSheetVisible } = useCurrentSapientorConversation();
   const { isSidebarVisible } = useAppState();
   const { width } = useWindowDimensions();
+  const { selectedPodcastEntity } = useSelectedPodcast();
+  const [selectedFlashcardEntity] = useEntity((e) => dataTypeQuery(e, DataTypes.FLASHCARD) && e.hasTag(Tags.SELECTED));
 
   useEffect(() => {
-    if (isSheetViewVisible) {
+    if (isSheetViewVisible || selectedPodcastEntity || selectedFlashcardEntity) {
       if (!isDarkMode) {
         setThemeColor("rgb(214,214,214)");
       }
@@ -83,7 +87,7 @@ const ViewManagerSystem = () => {
         setThemeColor("#F5F5F5");
       }
     }
-  }, [isSheetViewVisible]);
+  }, [isSheetViewVisible, selectedPodcastEntity, selectedFlashcardEntity]);
 
   useEffect(() => {
     if (isSidebarVisible && width < MEDIUM_DEVICE_WIDTH) {
