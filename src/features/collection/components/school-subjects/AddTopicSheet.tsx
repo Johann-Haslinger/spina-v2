@@ -5,7 +5,7 @@ import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext, useState } from "react";
 import { v4 } from "uuid";
 import { DateAddedFacet, TitleFacet } from "../../../../app/additionalFacets";
-import { DataTypes, Stories } from "../../../../base/enums";
+import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
 import {
   FlexBox,
   PrimaryButton,
@@ -49,6 +49,7 @@ const AddTopicSheet = () => {
       newTopicEntity.add(new TitleFacet({ title: title }));
       newTopicEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
       newTopicEntity.add(DataTypes.TOPIC);
+      newTopicEntity.add(AdditionalTags.GENERATING)
       navigateBack();
 
       if (description === "") {
@@ -57,10 +58,12 @@ const AddTopicSheet = () => {
         const generatingImagePrompt = "Bitte generiere ein passendes Bild zu folgendem Thema: '" + title + "' Das Bild soll im Malstyle des Expressionismus sein."
 
         const topicImage = await getImageFromText(generatingImagePrompt);
+        console.log("topicImage", topicImage);
         newTopicEntity.add(new ImageFacet({ imageSrc: topicImage }));
 
         topicDescription = await getCompletion(generatingDescriptionPrompt);
         newTopicEntity.add(new DescriptionFacet({ description: topicDescription }));
+        newTopicEntity.remove(AdditionalTags.GENERATING)
      
 
       }

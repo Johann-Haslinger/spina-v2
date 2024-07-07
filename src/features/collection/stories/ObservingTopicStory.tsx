@@ -1,6 +1,6 @@
 import { LeanScopeClient, LeanScopeClientApp } from "@leanscope/api-client/node";
 import { EntityCreator } from "@leanscope/ecs-engine";
-import { DescriptionFacet, IdentifierFacet, OrderFacet, ParentFacet, Tags } from "@leanscope/ecs-models";
+import { DescriptionFacet, IdentifierFacet, ImageFacet, OrderFacet, ParentFacet, Tags } from "@leanscope/ecs-models";
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import { TitleFacet } from "../../../app/additionalFacets";
@@ -13,6 +13,7 @@ import InitializeStoriesSystem from "../../../systems/InitializeStoriesSystem";
 import ViewManagerSystem from "../../../systems/ViewManagerSystem";
 import { Settings } from "../../settings";
 import LoadTopicsSystem from "../systems/LoadTopicsSystem";
+import { dummyTopicImage } from "../../../base/dummyTopicImage";
 
 const ObservingTopicStory = () => {
   return (
@@ -26,6 +27,7 @@ const ObservingTopicStory = () => {
               new IdentifierFacet({ guid: "100" }),
               new OrderFacet({ orderIndex: 1 }),
               new ParentFacet({ parentId: "1" }),
+              new ImageFacet({ imageSrc: dummyTopicImage }),
             ]}
             tags={[DataTypes.TOPIC, Tags.SELECTED]}
           />

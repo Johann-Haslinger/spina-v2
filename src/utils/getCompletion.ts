@@ -86,4 +86,4 @@ export const getImageFromText = async (text: string): Promise<string | undefined
   } else {
     return "User must be signed in to call this function";
   }
-}
+};

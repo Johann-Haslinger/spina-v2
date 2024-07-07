@@ -50,6 +50,7 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
           get={[[TitleFacet, DescriptionFacet, ImageFacet], []]}
           onMatch={TopicCell}
         />
+        <Spacer size={20} />
       </View>
 
       <EntityPropsMapper

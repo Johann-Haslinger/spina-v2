@@ -14,7 +14,6 @@ import {
 import tw from "twin.macro";
 import { v4 } from "uuid";
 import { DateAddedFacet, SourceFacet, TitleFacet, TitleProps } from "../../../../app/additionalFacets";
-import { dummyTopicImage } from "../../../../base/dummyTopicImage";
 import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
 import {
   ActionRow,
@@ -28,6 +27,7 @@ import { addNote } from "../../../../functions/addNote";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { useUserData } from "../../../../hooks/useUserData";
+import { useWindowDimensions } from "../../../../hooks/useWindowDimensions";
 import { displayActionTexts, displayDataTypeTexts } from "../../../../utils/displayText";
 import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
 import { sortEntitiesByDateAdded } from "../../../../utils/sortEntitiesByTime";
@@ -54,14 +54,14 @@ import SubtopicCell from "../subtopics/SubtopicCell";
 import SubtopicView from "../subtopics/SubtopicView";
 import DeleteTopicAlert from "./DeleteTopicAlert";
 import EditTopicSheet from "./EditTopicSheet";
-import { useWindowDimensions } from "../../../../hooks/useWindowDimensions";
 
 const StyledTopAreaWrapper = styled.div`
-  ${tw`w-full  mt-16 xl:mt-0 h-96 2xl:h-[28rem] flex`}
+  ${tw`w-full xl:fixed top-0 z-0 mt-16 xl:mt-0 h-96 2xl:h-[28rem] flex`}
 `;
 
 const StyledBackgroundImageWrapper = styled.div<{ image: string }>`
-  ${tw` h-full w-full transition-all  xl:bg-fixed bg-black  bg-cover bg-center`}
+  ${tw` h-full w-full transition-all   bg-contain bg-center`}
+
   background-image: ${({ image }) => `url(${image})`};
 `;
 
@@ -70,7 +70,7 @@ const StyledTopicTitle = styled.div`
 `;
 
 const StyledTopicResourcesWrapper = styled.div`
-  ${tw` px-4 md:px-20 h-full    pt-10 pb-40 shadow-[0px_0px_60px_0px_rgba(0, 0, 0)] xl:shadow-[0px_0px_60px_0px_rgba(0, 0, 0, 0.7)]   bg-primary  lg:px-32 xl:px-60 2xl:px-96 w-full`}
+  ${tw` px-4  xl:mt-96 xl:2xl:mt-[28rem] md:px-20 h-fit min-h-screen relative  z-20  pt-10 pb-40 shadow-[0px_0px_60px_0px_rgba(0, 0, 0, 0.6)] xl:shadow-[0px_0px_60px_0px_rgba(0, 0, 0, 0.5)]   bg-primary  lg:px-32 xl:px-60 2xl:px-96 w-full`}
 `;
 
 // const StyledTopicInfoBackground = styled.div<{ image: string }>`
@@ -97,6 +97,12 @@ const StyledBackButton = styled.div`
 const StyledSpacer = styled.div`
   ${tw`h-64 2xl:h-80`}
 `;
+
+const StyledTopicViewContainer = styled.div`
+  ${tw`w-screen overflow-y-scroll absolute h-screen `}
+`;
+
+
 
 const useImageSelector = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -134,7 +140,7 @@ const useImageSelector = () => {
 
 const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImageProps) => {
   const lsc = useContext(LeanScopeClientContext);
-  const { title, entity } = props;
+  const { title, entity, imageSrc } = props;
   const isVisible = useIsViewVisible(entity);
   const { selectedLanguage } = useSelectedLanguage();
   const { hasChildren } = useEntityHasChildren(entity);
@@ -165,8 +171,6 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
     }
   };
 
-  const imageSrc = dummyTopicImage;
-
   return (
     <Fragment>
       <LoadNotesSystem />
@@ -175,117 +179,117 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
       <LoadSubtopicsSystem />
       <LoadExercisesSystem />
 
-      <View
-        onScroll={(e) => {
-          const scrollY = (e.target as HTMLDivElement).scrollTop;
-          setScrollY(scrollY);
-        }}
-        hidePadding
-        visible={isVisible}
-      >
-        <StyledNavbarBackground />
-        <NavigationBar>
-          <NavBarButton
-            content={
-              <Fragment>
-                <ActionRow icon={<IoAdd />} onClick={saveNote}>
-                  {displayDataTypeTexts(selectedLanguage).note}
-                </ActionRow>
-                <ActionRow icon={<IoAdd />} onClick={openAddFlashcardsSheet}>
-                  {displayDataTypeTexts(selectedLanguage).flashcardSet}
-                </ActionRow>
-                <ActionRow icon={<IoAdd />} hasSpace onClick={openAddHomeworkSheet}>
-                  {displayDataTypeTexts(selectedLanguage).homework}
-                </ActionRow>
-                <ActionRow icon={<IoCameraOutline />} onClick={openImageSelector} last>
-                  {displayActionTexts(selectedLanguage).generateFromImage}
-                </ActionRow>
-              </Fragment>
-            }
-          >
-            <IoAdd color={scrollY < 360 && width > 1280 ? "white" : ""} />
-          </NavBarButton>
+      <View hidePadding visible={isVisible}>
+        <StyledTopicViewContainer
+          onScroll={(e) => {
+            const scrollY = e.currentTarget.scrollTop;
+            setScrollY(scrollY);
+          }}
+        >
+          <StyledNavbarBackground />
+          <NavigationBar>
+            <NavBarButton
+              content={
+                <Fragment>
+                  <ActionRow icon={<IoAdd />} onClick={saveNote}>
+                    {displayDataTypeTexts(selectedLanguage).note}
+                  </ActionRow>
+                  <ActionRow icon={<IoAdd />} onClick={openAddFlashcardsSheet}>
+                    {displayDataTypeTexts(selectedLanguage).flashcardSet}
+                  </ActionRow>
+                  <ActionRow icon={<IoAdd />} hasSpace onClick={openAddHomeworkSheet}>
+                    {displayDataTypeTexts(selectedLanguage).homework}
+                  </ActionRow>
+                  <ActionRow icon={<IoCameraOutline />} onClick={openImageSelector} last>
+                    {displayActionTexts(selectedLanguage).generateFromImage}
+                  </ActionRow>
+                </Fragment>
+              }
+            >
+              <IoAdd color={scrollY < 360 && width > 1280 ? "white" : ""} />
+            </NavBarButton>
 
-          <NavBarButton
-            content={
-              <Fragment>
-                <ActionRow first onClick={openEditTopicSheet} icon={<IoCreateOutline />}>
-                  {displayActionTexts(selectedLanguage).edit}
-                </ActionRow>
-                <ActionRow onClick={openDeleteTopicAlert} icon={<IoTrashOutline />} destructive last>
-                  {displayActionTexts(selectedLanguage).delete}
-                </ActionRow>
-              </Fragment>
-            }
-          >
-            <IoEllipsisHorizontalCircleOutline color={scrollY < 360 && width > 1280 ? "white" : ""} />
-          </NavBarButton>
-        </NavigationBar>
-        <StyledTopAreaWrapper>
-          <StyledBackgroundImageWrapper image={imageSrc || ""}>
-            <StyledImageOverlay>
-              <StyledSpacer />
-              <StyledBackButton onClick={navigateBack}>
-                <IoArrowBack/>
-              </StyledBackButton>
-              <StyledTopicTitle>{title}</StyledTopicTitle>
-            </StyledImageOverlay>
-          </StyledBackgroundImageWrapper>
-          {/* <StyledTopicInfoBackground image={imageSrc}>
+            <NavBarButton
+              content={
+                <Fragment>
+                  <ActionRow first onClick={openEditTopicSheet} icon={<IoCreateOutline />}>
+                    {displayActionTexts(selectedLanguage).edit}
+                  </ActionRow>
+                  <ActionRow onClick={openDeleteTopicAlert} icon={<IoTrashOutline />} destructive last>
+                    {displayActionTexts(selectedLanguage).delete}
+                  </ActionRow>
+                </Fragment>
+              }
+            >
+              <IoEllipsisHorizontalCircleOutline color={scrollY < 360 && width > 1280 ? "white" : ""} />
+            </NavBarButton>
+          </NavigationBar>
+          <StyledTopAreaWrapper>
+            <StyledBackgroundImageWrapper image={imageSrc || ""}>
+              <StyledImageOverlay>
+                <StyledSpacer />
+                <StyledBackButton onClick={navigateBack}>
+                  <IoArrowBack />
+                </StyledBackButton>
+                <StyledTopicTitle>{title}</StyledTopicTitle>
+              </StyledImageOverlay>
+            </StyledBackgroundImageWrapper>
+            {/* <StyledTopicInfoBackground image={imageSrc}>
             <StyledInfoWrapper>
 
             </StyledInfoWrapper>
           </StyledTopicInfoBackground> */}
-        </StyledTopAreaWrapper>
+          </StyledTopAreaWrapper>
 
-        <StyledTopicResourcesWrapper>
-          {!hasChildren && <NoContentAddedHint />}
+          <StyledTopicResourcesWrapper>
+            {!hasChildren && <NoContentAddedHint />}
 
-          <CollectionGrid columnSize="small">
-            <EntityPropsMapper
-              query={(e) => dataTypeQuery(e, DataTypes.SUBTOPIC) && isChildOfQuery(e, entity)}
-              sort={(a, b) => sortEntitiesByDateAdded(a, b)}
-              get={[[TitleFacet], []]}
-              onMatch={SubtopicCell}
-            />
-          </CollectionGrid>
+            <CollectionGrid columnSize="small">
+              <EntityPropsMapper
+                query={(e) => dataTypeQuery(e, DataTypes.SUBTOPIC) && isChildOfQuery(e, entity)}
+                sort={(a, b) => sortEntitiesByDateAdded(a, b)}
+                get={[[TitleFacet], []]}
+                onMatch={SubtopicCell}
+              />
+            </CollectionGrid>
 
-          <CollectionGrid columnSize="small">
-            <EntityPropsMapper
-              query={(e) => dataTypeQuery(e, DataTypes.NOTE) && isChildOfQuery(e, entity)}
-              sort={(a, b) => sortEntitiesByDateAdded(a, b)}
-              get={[[TitleFacet], []]}
-              onMatch={NoteCell}
-            />
-          </CollectionGrid>
+            <CollectionGrid columnSize="small">
+              <EntityPropsMapper
+                query={(e) => dataTypeQuery(e, DataTypes.NOTE) && isChildOfQuery(e, entity)}
+                sort={(a, b) => sortEntitiesByDateAdded(a, b)}
+                get={[[TitleFacet], []]}
+                onMatch={NoteCell}
+              />
+            </CollectionGrid>
 
-          <CollectionGrid columnSize="small">
-            <EntityPropsMapper
-              query={(e) => dataTypeQuery(e, DataTypes.EXERCISE) && isChildOfQuery(e, entity)}
-              sort={(a, b) => sortEntitiesByDateAdded(a, b)}
-              get={[[TitleFacet], []]}
-              onMatch={ExerciseCell}
-            />
-          </CollectionGrid>
+            <CollectionGrid columnSize="small">
+              <EntityPropsMapper
+                query={(e) => dataTypeQuery(e, DataTypes.EXERCISE) && isChildOfQuery(e, entity)}
+                sort={(a, b) => sortEntitiesByDateAdded(a, b)}
+                get={[[TitleFacet], []]}
+                onMatch={ExerciseCell}
+              />
+            </CollectionGrid>
 
-          <CollectionGrid columnSize="small">
-            <EntityPropsMapper
-              query={(e) => dataTypeQuery(e, DataTypes.FLASHCARD_SET) && isChildOfQuery(e, entity)}
-              get={[[TitleFacet, IdentifierFacet], []]}
-              sort={(a, b) => sortEntitiesByDateAdded(a, b)}
-              onMatch={FlashcardSetCell}
-            />
-          </CollectionGrid>
+            <CollectionGrid columnSize="small">
+              <EntityPropsMapper
+                query={(e) => dataTypeQuery(e, DataTypes.FLASHCARD_SET) && isChildOfQuery(e, entity)}
+                get={[[TitleFacet, IdentifierFacet], []]}
+                sort={(a, b) => sortEntitiesByDateAdded(a, b)}
+                onMatch={FlashcardSetCell}
+              />
+            </CollectionGrid>
 
-          <CollectionGrid columnSize="small">
-            <EntityPropsMapper
-              query={(e) => dataTypeQuery(e, DataTypes.HOMEWORK) && isChildOfQuery(e, entity)}
-              get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
-              sort={(a, b) => sortEntitiesByDateAdded(a, b)}
-              onMatch={HomeworkCell}
-            />
-          </CollectionGrid>
-        </StyledTopicResourcesWrapper>
+            <CollectionGrid columnSize="small">
+              <EntityPropsMapper
+                query={(e) => dataTypeQuery(e, DataTypes.HOMEWORK) && isChildOfQuery(e, entity)}
+                get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
+                sort={(a, b) => sortEntitiesByDateAdded(a, b)}
+                onMatch={HomeworkCell}
+              />
+            </CollectionGrid>
+          </StyledTopicResourcesWrapper>
+        </StyledTopicViewContainer>
       </View>
 
       <EntityPropsMapper

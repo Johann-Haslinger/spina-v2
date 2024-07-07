@@ -106,7 +106,8 @@ export enum AdditionalTags {
   GENERATE_FROM_IMAGE_PROMPT,
   GROUP_BLOCKEDITOR,
   RECENTLY_ADDED,
-  PROFILE_VISIBLE
+  PROFILE_VISIBLE,
+  GENERATING
 }
 
 export enum NavigationLinks {
