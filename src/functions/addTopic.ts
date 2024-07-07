@@ -1,6 +1,6 @@
 import { ILeanScopeClient } from "@leanscope/api-client/interfaces";
 import { Entity } from "@leanscope/ecs-engine";
-import { DescriptionFacet, IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
+import { DescriptionFacet, IdentifierFacet, ImageFacet, ParentFacet } from "@leanscope/ecs-models";
 import { TitleFacet } from "../app/additionalFacets";
 import { SupabaseTables } from "../base/enums";
 import supabaseClient from "../lib/supabase";
@@ -19,6 +19,7 @@ export const addTopic = async (lsc: ILeanScopeClient, topicEntity: Entity, userI
       title: title,
       user_id: userId,
       description: topicEntity.get(DescriptionFacet)?.props.description,
+      image_url: topicEntity.get(ImageFacet)?.props.imageSrc,
     },
   ]);
 

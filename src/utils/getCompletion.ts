@@ -65,3 +65,25 @@ export async function getAudioFromText(text: string): Promise<string | undefined
     return "Benutzer muss angemeldet sein, um diese Funktion aufzurufen";
   }
 }
+
+export const getImageFromText = async (text: string): Promise<string | undefined> => {
+  const session = await supabaseClient.auth.getSession();
+
+  if (session) {
+    const { data: image, error } = await supabaseClient.functions.invoke("get-image-from-text", {
+      headers: {
+        Authorization: `Bearer ${session.data.session?.access_token}`,
+      },
+      body: { prompt: text },
+    });
+
+    if (error) {
+      console.error("error generating image:", error.message);
+      return `error generating image:` + error.message;
+    }
+
+    return image;
+  } else {
+    return "User must be signed in to call this function";
+  }
+}

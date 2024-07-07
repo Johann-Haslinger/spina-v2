@@ -8,14 +8,14 @@ const ViSpina = () => {
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
     >
-      <circle cx="17.5548" cy="16.5904" r="4.33486" fill="#325FFF" />
+      <circle cx="17.5548" cy="16.5904" r="4.33486" fill="#000000" />
       <rect
         x="16.3774"
         y="0.00012207"
         width="3.5"
         height="9.63303"
         rx="1.75"
-        fill="#325FFF"
+        fill="#000000"
       />
       <rect
         x="16.3774"
@@ -23,7 +23,7 @@ const ViSpina = () => {
         width="3.5"
         height="9.63303"
         rx="1.75"
-        fill="#325FFF"
+        fill="#000000"
       />
       <rect
         x="25.3682"
@@ -32,7 +32,7 @@ const ViSpina = () => {
         height="9.63303"
         rx="1.75"
         transform="rotate(-90 25.3682 17.3396)"
-        fill="#325FFF"
+        fill="#000000"
       />
       <rect
         x="0.0012207"
@@ -41,7 +41,7 @@ const ViSpina = () => {
         height="9.63303"
         rx="1.75"
         transform="rotate(-90 0.0012207 18.0889)"
-        fill="#325FFF"
+        fill="#000000"
       />
       <rect
         x="4.00122"
@@ -50,14 +50,14 @@ const ViSpina = () => {
         height="9.63303"
         rx="1.75"
         transform="rotate(-45 4.00122 4.74084)"
-        fill="#325FFF"
+        fill="#000000"
       />
       <rect
         width="3.5"
         height="9.63303"
         rx="1.75"
         transform="matrix(-0.707107 -0.707107 -0.707107 0.707107 31.5535 4.74084)"
-        fill="#325FFF"
+        fill="#000000"
       />
       <rect
         x="31.5535"
@@ -66,14 +66,14 @@ const ViSpina = () => {
         height="9.63303"
         rx="1.75"
         transform="rotate(135 31.5535 27.8118)"
-        fill="#325FFF"
+        fill="#000000"
       />
       <rect
         width="3.5"
         height="9.63303"
         rx="1.75"
         transform="matrix(0.707107 0.707107 0.707107 -0.707107 4.00122 27.8118)"
-        fill="#325FFF"
+        fill="#000000"
       />
     </svg>
   );

@@ -1,11 +1,11 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
-import { DescriptionFacet, Tags } from "@leanscope/ecs-models";
+import { DescriptionFacet, ImageFacet, Tags } from "@leanscope/ecs-models";
 import { Fragment, useContext } from "react";
 import { IoAdd } from "react-icons/io5";
 import { TitleFacet, TitleProps } from "../../../../app/additionalFacets";
 import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
-import { BackButton, CollectionGrid, NavBarButton, NavigationBar, Spacer, Title, View } from "../../../../components";
+import { BackButton, NavBarButton, NavigationBar, Spacer, Title, View } from "../../../../components";
 import NoContentAddedHint from "../../../../components/content/NoContentAddedHint";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
@@ -43,19 +43,18 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
         <Title>{title}</Title>
         <Spacer size={6} />
         {!hasTopics && <NoContentAddedHint />}
-        <CollectionGrid columnSize="large">
-          <EntityPropsMapper
-            query={(e) => dataTypeQuery(e, DataTypes.TOPIC) && isChildOfQuery(e, entity)}
-            sort={(a, b) => sortEntitiesByDateAdded(a, b)}
-            get={[[TitleFacet, DescriptionFacet], []]}
-            onMatch={TopicCell}
-          />
-        </CollectionGrid>
+
+        <EntityPropsMapper
+          query={(e) => dataTypeQuery(e, DataTypes.TOPIC) && isChildOfQuery(e, entity)}
+          sort={(a, b) => sortEntitiesByDateAdded(a, b)}
+          get={[[TitleFacet, DescriptionFacet, ImageFacet], []]}
+          onMatch={TopicCell}
+        />
       </View>
 
       <EntityPropsMapper
         query={(e) => dataTypeQuery(e, DataTypes.TOPIC) && e.hasTag(Tags.SELECTED)}
-        get={[[TitleFacet, DescriptionFacet], []]}
+        get={[[TitleFacet, DescriptionFacet, ImageFacet], []]}
         onMatch={TopicView}
       />
 

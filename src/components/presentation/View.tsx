@@ -16,10 +16,11 @@ const StyledViewWrapper = styled.div`
 const StyledViewContent = styled.div<{
   reducePaddingX?: boolean;
   isOverlayView: boolean;
+  hidePadding: boolean;
 }>`
   ${tw` mx-auto  text-primatyText dark:text-primaryTextDark pb-40 md:pt-28 xl:pt-36 pt-20    w-full  px-4`}
   ${({ reducePaddingX: ignorePaddingX }) => (ignorePaddingX ? tw`md:w-[52rem]` : tw` md:w-[45rem] xl:w-[51rem] `)} 
-    /* ${({ isOverlayView }) => (!isOverlayView ? tw`md:pt-20 xl:pt-28 pt-10 ` : tw`md:pt-28 xl:pt-36 pt-20  `)} */
+  ${({ hidePadding }) => hidePadding && tw`!w-full !pt-0 px-0 !pb-0 `}
 `;
 
 interface ViewProps {
@@ -28,10 +29,12 @@ interface ViewProps {
   reducePaddingX?: boolean;
   overlaySidebar?: boolean;
   backgroundColor?: string;
+  hidePadding?: boolean;
+  onScroll?: (e: any) => void;
 }
 const View = (props: ViewProps & PropsWithChildren) => {
   const [isDisplayed, setIsDisplayed] = useState(false);
-  const { viewType = "overlayView", visible = true, children, reducePaddingX, overlaySidebar, backgroundColor } = props;
+  const { viewType = "overlayView", visible = true, children, reducePaddingX, overlaySidebar, backgroundColor, hidePadding = false, onScroll } = props;
 
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
@@ -82,10 +85,11 @@ const View = (props: ViewProps & PropsWithChildren) => {
           animate={{
             x: visible ? 0 : "100%",
           }}
+         
         >
           <StyledViewContainer backgroundColor={backgroundColor}>
-            <StyledViewWrapper>
-              <StyledViewContent isOverlayView={viewType == "overlayView"} reducePaddingX={reducePaddingX}>
+            <StyledViewWrapper onScroll={onScroll} >
+              <StyledViewContent   hidePadding={hidePadding} isOverlayView={viewType == "overlayView"} reducePaddingX={reducePaddingX}>
                 {children}
               </StyledViewContent>
             </StyledViewWrapper>

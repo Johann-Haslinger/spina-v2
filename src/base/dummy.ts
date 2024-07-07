@@ -1,5 +1,7 @@
 import { v4 } from "uuid";
 import { COLORS } from "./constants";
+import { dummyTopicImage } from "./dummyTopicImage";
+
 export const dummySchoolSubjects = [
   {
     id: "1",
@@ -54,6 +56,7 @@ export const dummyTopics = [
     date_added: new Date().toISOString(),
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     parent_id: "0",
+    image_url: dummyTopicImage,
   },
   {
     title: "Subtraction",
@@ -61,6 +64,7 @@ export const dummyTopics = [
     date_added: new Date().toISOString(),
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     parent_id: "0",
+    image_url: dummyTopicImage,
   },
   {
     title: "Multiplication",
@@ -68,6 +72,7 @@ export const dummyTopics = [
     date_added: new Date().toISOString(),
     description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     parent_id: "0",
+    image_url: dummyTopicImage,
   },
 ];
 

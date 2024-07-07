@@ -4,10 +4,9 @@ import { PropsWithChildren, useState } from "react";
 import { IoArrowBack } from "react-icons/io5";
 import tw from "twin.macro";
 import { useSelectedLanguage } from "../../hooks/useSelectedLanguage";
-import { displayButtonTexts } from "../../utils/displayText";
 
 const StyledBackButtonWrapper = styled.div`
-  ${tw`flex h-10 w-fit  dark:text-primaryTextDark text-sm space-x-2 items-center cursor-pointer`}
+  ${tw`flex size-7 rounded-full p-1 text-xl bg-opacity-70 bg-[#D9D9D9] dark:text-primaryTextDark mb-4 space-x-2 items-center cursor-pointer`}
 `;
 
 const StyledBackButtonIcon = styled.div`
@@ -23,6 +22,8 @@ const BackButton = (
   const [isHovered, setIsHovered] = useState(false);
   const { selectedLanguage } = useSelectedLanguage();
 
+  console.log("BackButton rendered", selectedLanguage, children);
+
   return (
     <StyledBackButtonWrapper
       onMouseEnter={() => setIsHovered(true)}
@@ -32,14 +33,13 @@ const BackButton = (
       <motion.div
         initial={{ x: 0 }}
         animate={{
-          x: isHovered ? -8 : 0,
+          x: isHovered ? -3 : 0,
         }}
       >
         <StyledBackButtonIcon>
           <IoArrowBack />
         </StyledBackButtonIcon>
       </motion.div>
-      <p>{children ? children : displayButtonTexts(selectedLanguage).back}</p>
     </StyledBackButtonWrapper>
   );
 };

@@ -9,7 +9,7 @@ const ViSidebar = () => {
     >
       <path
         d="M9.6001 14.8H30.2001M9.6001 24H23.2001"
-        stroke="#325FFF"
+        stroke="#000000"
         strokeWidth="2.4"
         strokeLinecap="round"
       />
