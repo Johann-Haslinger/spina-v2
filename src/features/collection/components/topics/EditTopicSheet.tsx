@@ -1,9 +1,11 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
+import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntityComponents";
 import { DescriptionFacet } from "@leanscope/ecs-models";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext, useEffect, useState } from "react";
+import { IoColorWandOutline } from "react-icons/io5";
 import { TitleFacet } from "../../../../app/additionalFacets";
-import { Stories, SupabaseColumns, SupabaseTables } from "../../../../base/enums";
+import { AdditionalTags, Stories, SupabaseColumns, SupabaseTables } from "../../../../base/enums";
 import {
   FlexBox,
   PrimaryButton,
@@ -17,7 +19,8 @@ import {
 } from "../../../../components";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../../lib/supabase";
-import { displayButtonTexts, displayLabelTexts } from "../../../../utils/displayText";
+import { displayActionTexts, displayButtonTexts, displayLabelTexts } from "../../../../utils/displayText";
+import { generateImageForTopic } from "../../functions/generateImageForTopic";
 import { useSelectedTopic } from "../../hooks/useSelectedTopic";
 
 const EditTopicSheet = () => {
@@ -27,6 +30,7 @@ const EditTopicSheet = () => {
   const { selectedTopicTitle, selectedTopicDescription, selectedTopicEntity, selectedTopicId } = useSelectedTopic();
   const [newTitle, setNewTitle] = useState(selectedTopicTitle);
   const [newDescription, setNewDescription] = useState(selectedTopicDescription);
+  const [isGeneratingImage] = useEntityHasTags(selectedTopicEntity, AdditionalTags.GENERATING);
 
   useEffect(() => {
     setNewTitle(selectedTopicTitle);
@@ -34,6 +38,8 @@ const EditTopicSheet = () => {
   }, [selectedTopicTitle, selectedTopicDescription]);
 
   const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_TOPIC_STORY);
+  const handleRegenerateImage = async () =>
+    selectedTopicEntity && (await generateImageForTopic(selectedTopicEntity, true));
 
   const updateTopic = async () => {
     if (newTitle && newDescription) {
@@ -80,6 +86,14 @@ const EditTopicSheet = () => {
           />
         </SectionRow>
       </Section>
+      <Spacer size={2} />
+      {!isGeneratingImage && (
+        <Section>
+          <SectionRow last role="button" onClick={handleRegenerateImage} icon={<IoColorWandOutline />}>
+            {displayActionTexts(selectedLanguage).regenerateImage}
+          </SectionRow>
+        </Section>
+      )}
     </Sheet>
   );
 };

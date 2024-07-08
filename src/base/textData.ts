@@ -239,6 +239,10 @@ export const ACTION_TEXT_DATA = {
     de: "Thema hinzufügen",
     en: "Add topic",
   },
+  regenerate_image: {
+    de: "Bild neu generieren",
+    en: "Regenerate image",
+  },
 };
 
 export const LABEL_TEXT_DATA = {

@@ -33,6 +33,7 @@ import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
 import { sortEntitiesByDateAdded } from "../../../../utils/sortEntitiesByTime";
 import AddResourceToLearningGroupSheet from "../../../groups/components/AddResourceToLearningGroupSheet";
 import { useEntityHasChildren } from "../../hooks/useEntityHasChildren";
+import { useSelectedSchoolSubjectColor } from "../../hooks/useSelectedSchoolSubjectColor";
 import { useSelectedTopic } from "../../hooks/useSelectedTopic";
 import LoadExercisesSystem from "../../systems/LoadExercisesSystem";
 import LoadFlashcardSetsSystem from "../../systems/LoadFlashcardSetsSystem";
@@ -54,55 +55,6 @@ import SubtopicCell from "../subtopics/SubtopicCell";
 import SubtopicView from "../subtopics/SubtopicView";
 import DeleteTopicAlert from "./DeleteTopicAlert";
 import EditTopicSheet from "./EditTopicSheet";
-
-const StyledTopAreaWrapper = styled.div`
-  ${tw`w-full xl:fixed top-0 z-0 mt-16 xl:mt-0 h-96 2xl:h-[28rem] flex`}
-`;
-
-const StyledBackgroundImageWrapper = styled.div<{ image: string }>`
-  ${tw` h-full w-full transition-all   bg-contain bg-center`}
-
-  background-image: ${({ image }) => `url(${image})`};
-`;
-
-const StyledTopicTitle = styled.div`
-  ${tw`text-5xl  pl-4 md:pl-20 lg:pl-32 xl:pl-60 2xl:pl-96 text-white font-extrabold`}
-`;
-
-const StyledTopicResourcesWrapper = styled.div`
-  ${tw` px-4  xl:mt-96 xl:2xl:mt-[28rem] md:px-20 h-fit min-h-screen relative  z-20  pt-10 pb-40 shadow-[0px_0px_60px_0px_rgba(0, 0, 0, 0.6)] xl:shadow-[0px_0px_60px_0px_rgba(0, 0, 0, 0.5)]   bg-primary  lg:px-32 xl:px-60 2xl:px-96 w-full`}
-`;
-
-// const StyledTopicInfoBackground = styled.div<{ image: string }>`
-//   ${tw`w-1/4 h-full bg-fixed  bg-cover`}
-//   background-image: ${({ image }) => `url(${image})`};
-// `;
-
-const StyledNavbarBackground = styled.div`
-  ${tw`w-full xl:h-0 h-16 bg-primary  absolute top-0 left-0 dark:bg-primaryDark`}
-`;
-
-// const StyledInfoWrapper = styled.div`
-//   ${tw`w-full backdrop-blur-lg h-full`}
-// `;
-
-const StyledImageOverlay = styled.div`
-  ${tw`w-full h-full bg-black bg-opacity-20 `}
-`;
-
-const StyledBackButton = styled.div`
-  ${tw` size-9 mb-4  transition-all md:hover:scale-105 text-2xl ml-4 md:ml-20 lg:ml-32 xl:ml-60 2xl:ml-96 bg-white bg-opacity-25 backdrop-blur-lg text-white rounded-full flex justify-center items-center`}
-`;
-
-const StyledSpacer = styled.div`
-  ${tw`h-64 2xl:h-80`}
-`;
-
-const StyledTopicViewContainer = styled.div`
-  ${tw`w-screen overflow-y-scroll absolute h-screen `}
-`;
-
-
 
 const useImageSelector = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -138,6 +90,58 @@ const useImageSelector = () => {
   };
 };
 
+const StyledTopAreaWrapper = styled.div<{ backgroundColor: string }>`
+  ${tw`w-full top-0 z-0 mt-16 xl:mt-0 h-96 2xl:h-[28rem] flex`}
+  background-color: ${({ backgroundColor }) => backgroundColor};
+`;
+
+const StyledBackgroundImageWrapper = styled.div<{ image: string }>`
+  ${tw` h-full bg-repeat-x w-full transition-all bg-contain bg-center`}
+
+  background-image: ${({ image }) => `url(${image})`};
+`;
+
+// const StyledBackgroundImageWrapper2 = styled.div<{ image: string }>`
+//   ${tw` h-full w-1/3 transition-all relative right-1  bg-cover bg-center`}
+
+//   background-image: ${({ image }) => `url(${image})`};
+// `;
+
+const StyledTopicTitle = styled.div`
+  ${tw`text-5xl w-[40rem] pl-4 md:pl-20 lg:pl-32 xl:pl-60 2xl:pl-96 text-white font-extrabold`}
+`;
+
+const StyledTopicResourcesWrapper = styled.div<{ largeShadow: boolean }>`
+  ${tw` px-4  md:px-20 h-fit min-h-screen relative  z-20  pt-10 pb-40   bg-primary  lg:px-32 xl:px-60 2xl:px-96 w-full`}
+  ${({ largeShadow }) =>
+    largeShadow
+      ? tw`shadow-[0px_0px_60px_0px_rgba(0, 0, 0, 0.6)] xl:shadow-[0px_0px_60px_0px_rgba(0, 0, 0, 0.5)] `
+      : tw`shadow-[0px_0px_20px_0px_rgba(0, 0, 0, 0.1)]  `}
+`;
+
+const StyledNavbarBackground = styled.div`
+  ${tw`w-full xl:h-0 h-16 bg-primary  absolute top-0 left-0 dark:bg-primaryDark`}
+`;
+
+const StyledImageOverlay = styled.div<{ overlay?: string }>`
+  ${tw`w-full h-full overflow-visible`}
+  ${({ overlay }) => overlay && tw`bg-black  bg-opacity-20  `}
+`;
+
+const StyledBackButton = styled.div`
+  ${tw` size-9 mb-4  transition-all md:hover:scale-105 text-2xl ml-4 md:ml-20 lg:ml-32 xl:ml-60 2xl:ml-96 bg-white bg-opacity-25 backdrop-blur-lg text-white rounded-full flex justify-center items-center`}
+`;
+
+const StyledSpacer = styled.div`
+  ${tw`h-60 2xl:h-72`}
+`;
+
+const StyledTopicViewContainer = styled.div`
+  ${tw`w-screen overflow-y-scroll absolute h-screen `}
+`;
+
+// ″
+
 const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImageProps) => {
   const lsc = useContext(LeanScopeClientContext);
   const { title, entity, imageSrc } = props;
@@ -149,6 +153,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
   const { selectedTopicId } = useSelectedTopic();
   const [scrollY, setScrollY] = useState(0);
   const { width } = useWindowDimensions();
+  const { backgroundColor } = useSelectedSchoolSubjectColor();
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
   const openEditTopicSheet = () => lsc.stories.transitTo(Stories.EDITING_TOPIC_STORY);
@@ -224,9 +229,9 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
               <IoEllipsisHorizontalCircleOutline color={scrollY < 360 && width > 1280 ? "white" : ""} />
             </NavBarButton>
           </NavigationBar>
-          <StyledTopAreaWrapper>
+          <StyledTopAreaWrapper backgroundColor={backgroundColor}>
             <StyledBackgroundImageWrapper image={imageSrc || ""}>
-              <StyledImageOverlay>
+              <StyledImageOverlay overlay={imageSrc}>
                 <StyledSpacer />
                 <StyledBackButton onClick={navigateBack}>
                   <IoArrowBack />
@@ -234,14 +239,19 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
                 <StyledTopicTitle>{title}</StyledTopicTitle>
               </StyledImageOverlay>
             </StyledBackgroundImageWrapper>
-            {/* <StyledTopicInfoBackground image={imageSrc}>
-            <StyledInfoWrapper>
-
-            </StyledInfoWrapper>
-          </StyledTopicInfoBackground> */}
+            {/* <StyledFlippedImage image={imageSrc || ""}>
+              <StyledImageOverlay  overlay={imageSrc} />
+            </StyledFlippedImage> */}
+            {/* <StyledBackgroundImageWrapper2 image={imageSrc || ""}>
+              <StyledBlurOverlay backgroundColor={!imageSrc ? accentColor : ""}>
+                <StyledTopicDescription>
+                 
+                </StyledTopicDescription>
+              </StyledBlurOverlay>
+            </StyledBackgroundImageWrapper2> */}
           </StyledTopAreaWrapper>
 
-          <StyledTopicResourcesWrapper>
+          <StyledTopicResourcesWrapper largeShadow={imageSrc ? true : false}>
             {!hasChildren && <NoContentAddedHint />}
 
             <CollectionGrid columnSize="small">

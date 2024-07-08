@@ -1,23 +1,15 @@
 import styled from "@emotion/styled";
-import { Entity, EntityProps } from "@leanscope/ecs-engine";
+import { EntityProps } from "@leanscope/ecs-engine";
 import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntityComponents";
-import {
-  DescriptionFacet,
-  DescriptionProps,
-  IdentifierFacet,
-  ImageFacet,
-  ImageProps,
-  Tags,
-} from "@leanscope/ecs-models";
+import { DescriptionProps, ImageProps, Tags } from "@leanscope/ecs-models";
 import { motion } from "framer-motion";
 import { IoBook, IoColorWand } from "react-icons/io5";
 import tw from "twin.macro";
-import { TitleFacet, TitleProps } from "../../../../app/additionalFacets";
-import { AdditionalTags, SupabaseTables } from "../../../../base/enums";
+import { TitleProps } from "../../../../app/additionalFacets";
+import { AdditionalTags } from "../../../../base/enums";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import supabaseClient from "../../../../lib/supabase";
 import { displayAlertTexts } from "../../../../utils/displayText";
-import { getCompletion, getImageFromText } from "../../../../utils/getCompletion";
+import { generateImageForTopic } from "../../functions/generateImageForTopic";
 import { useAppState } from "../../hooks/useAppState";
 import { useTopicColor } from "../../hooks/useTopicColor";
 
@@ -94,12 +86,12 @@ const StyledTopicDescription = styled.p`
 `;
 
 const StyledImageBackground = styled.div<{ image: string }>`
-  ${tw`w-1/2 bg-cover flex flex-col items-end transition-all h-full text-white `}
+  ${tw`w-1/2 bg-cover flex flex-col items-end bg-center transition-all h-full text-white `}
   background-image: ${({ image }) => `url(${image})`};
 `;
 
 const StyledLeftSideImageBackground = styled.div<{ image: string }>`
-  ${tw`w-1/2 hover:w-2/3  transition-all bg-cover h-full text-white flex`}
+  ${tw`w-1/2 hover:w-3/4  transition-all bg-cover h-full text-white flex`}
   background-image: ${({ image }) => `url(${image})`};
 `;
 
@@ -112,46 +104,6 @@ const StyledRegenerateButton = styled.div<{ color: string }>`
   ${tw` size-7 m-2 text-opacity-70 rounded-full flex justify-center items-center cursor-pointer hover:scale-110  text-base transition-all text-white`}
   background-color: ${({ color }) => color};
 `;
-
-const generateImageForTopic = async (entity: Entity) => {
-  const description = entity.get(DescriptionFacet)?.props.description;
-  const image = entity?.get(ImageFacet)?.props.imageSrc;
-  const title = entity?.get(TitleFacet)?.props.title;
-  const id = entity.get(IdentifierFacet)?.props.guid;
-  let topicDescription = description;
-  let topicImage = image;
-
-  const generatingDescriptionPrompt = "Bitte schreibe einen sehr kurzen Beschreibungssatz zu folgendem Thema:" + title;
-  const generatingImagePrompt =
-    "Bitte generiere ein passendes Bild zu folgendem Thema: '" +
-    title +
-    "' Das Bild soll im Malstyle des Expressionismus sein.";
-
-  entity.addTag(AdditionalTags.GENERATING);
-  if (!description) {
-    topicDescription = await getCompletion(generatingDescriptionPrompt);
-    entity.add(new DescriptionFacet({ description: topicDescription }));
-  }
-  if (!image) {
-    topicImage = await getImageFromText(generatingImagePrompt);
-    console.log("topicImage", topicImage);
-    entity.add(new ImageFacet({ imageSrc: topicImage }));
-  }
-
-  const { error } = await supabaseClient
-    .from(SupabaseTables.TOPICS)
-    .update({
-      image_url: topicImage,
-      description: topicDescription,
-    })
-    .eq("id", id);
-
-  if (error) {
-    console.error("Error updating topic:", error);
-  }
-
-  entity.remove(AdditionalTags.GENERATING);
-};
 
 const TopicCell = (props: TitleProps & EntityProps & DescriptionProps & ImageProps) => {
   const { title, entity, description, imageSrc } = props;
@@ -170,12 +122,16 @@ const TopicCell = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
 
   return (
     <StyledTopicCellContainer>
-      <StyledTopicCellWrapper onClick={imageSrc ? handleOpenTopic: ()=> {}}  color={accentColor} backgroundColor={accentColor + "90"}>
+      <StyledTopicCellWrapper
+        onClick={imageSrc ? handleOpenTopic : () => {}}
+        color={accentColor}
+        backgroundColor={accentColor + "90"}
+      >
         <StyledLeftSideImageBackground onClick={handleOpenTopic} image={imageSrc || ""}>
           <StyledTopicInfoWrapper color={!imageSrc ? accentColor : ""}>
             <StyledTopicTitle>{title}</StyledTopicTitle>
             <StyledTopicDescription>
-              {description || displayAlertTexts(selectedLanguage).noContentAddedTitle}
+              {description || displayAlertTexts(selectedLanguage).noDescription}
             </StyledTopicDescription>
           </StyledTopicInfoWrapper>
         </StyledLeftSideImageBackground>

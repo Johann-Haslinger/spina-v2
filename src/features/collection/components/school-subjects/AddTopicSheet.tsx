@@ -1,6 +1,6 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
-import { DescriptionFacet, IdentifierFacet, ImageFacet, ParentFacet } from "@leanscope/ecs-models";
+import { DescriptionFacet, IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext, useState } from "react";
 import { v4 } from "uuid";
@@ -21,7 +21,7 @@ import { addTopic } from "../../../../functions/addTopic";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { useUserData } from "../../../../hooks/useUserData";
 import { displayButtonTexts, displayLabelTexts } from "../../../../utils/displayText";
-import { getCompletion, getImageFromText } from "../../../../utils/getCompletion";
+import { generateImageForTopic } from "../../functions/generateImageForTopic";
 import { useSelectedSchoolSubject } from "../../hooks/useSelectedSchoolSubject";
 
 const AddTopicSheet = () => {
@@ -40,7 +40,6 @@ const AddTopicSheet = () => {
       const topicId = v4();
       let topicDescription = description;
 
-
       const newTopicEntity = new Entity();
       lsc.engine.addEntity(newTopicEntity);
       newTopicEntity.add(new IdentifierFacet({ guid: topicId }));
@@ -49,24 +48,10 @@ const AddTopicSheet = () => {
       newTopicEntity.add(new TitleFacet({ title: title }));
       newTopicEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
       newTopicEntity.add(DataTypes.TOPIC);
-      newTopicEntity.add(AdditionalTags.GENERATING)
+      newTopicEntity.add(AdditionalTags.GENERATING);
       navigateBack();
 
-      if (description === "") {
-        const generatingDescriptionPrompt =
-          "Bitte schreibe einen sehr kurzen Beschreibungssatz zu folgendem Thema:" + title;
-        const generatingImagePrompt = "Bitte generiere ein passendes Bild zu folgendem Thema: '" + title + "' Das Bild soll im Malstyle des Expressionismus sein."
-
-        const topicImage = await getImageFromText(generatingImagePrompt);
-        console.log("topicImage", topicImage);
-        newTopicEntity.add(new ImageFacet({ imageSrc: topicImage }));
-
-        topicDescription = await getCompletion(generatingDescriptionPrompt);
-        newTopicEntity.add(new DescriptionFacet({ description: topicDescription }));
-        newTopicEntity.remove(AdditionalTags.GENERATING)
-     
-
-      }
+      await generateImageForTopic(newTopicEntity);
 
       addTopic(lsc, newTopicEntity, userId);
     }
