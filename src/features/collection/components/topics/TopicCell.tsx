@@ -91,7 +91,7 @@ const StyledImageBackground = styled.div<{ image: string }>`
 `;
 
 const StyledLeftSideImageBackground = styled.div<{ image: string }>`
-  ${tw`w-1/2 hover:w-3/4  transition-all bg-cover h-full text-white flex`}
+  ${tw`w-3/5 hover:w-10/12  transition-all bg-contain h-full text-white flex`}
   background-image: ${({ image }) => `url(${image})`};
 `;
 
