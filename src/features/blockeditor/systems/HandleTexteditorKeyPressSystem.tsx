@@ -19,17 +19,32 @@ const HandleTexteditorKeyPressSystem = (props: EntityProps) => {
         switch (e.key) {
           case "b":
             entity.add(
-              new TexttypeFacet({ texttype: textType === Texttypes.BOLD ? Texttypes.NORMAL : Texttypes.BOLD })
+              new TexttypeFacet({
+                texttype:
+                  textType === Texttypes.BOLD
+                    ? Texttypes.NORMAL
+                    : Texttypes.BOLD,
+              }),
             );
             break;
           case "u":
             entity.add(
-              new TexttypeFacet({ texttype: textType === Texttypes.UNDERLINE ? Texttypes.NORMAL : Texttypes.UNDERLINE })
+              new TexttypeFacet({
+                texttype:
+                  textType === Texttypes.UNDERLINE
+                    ? Texttypes.NORMAL
+                    : Texttypes.UNDERLINE,
+              }),
             );
             break;
           case "i":
             entity.add(
-              new TexttypeFacet({ texttype: textType === Texttypes.ITALIC ? Texttypes.NORMAL : Texttypes.ITALIC })
+              new TexttypeFacet({
+                texttype:
+                  textType === Texttypes.ITALIC
+                    ? Texttypes.NORMAL
+                    : Texttypes.ITALIC,
+              }),
             );
             break;
         }

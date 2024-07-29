@@ -1,6 +1,15 @@
-import { LeanScopeClient, LeanScopeClientApp } from "@leanscope/api-client/node";
+import {
+  LeanScopeClient,
+  LeanScopeClientApp,
+} from "@leanscope/api-client/node";
 import { EntityCreator } from "@leanscope/ecs-engine";
-import { DescriptionFacet, IdentifierFacet, OrderFacet, ParentFacet, Tags } from "@leanscope/ecs-models";
+import {
+  DescriptionFacet,
+  IdentifierFacet,
+  OrderFacet,
+  ParentFacet,
+  Tags,
+} from "@leanscope/ecs-models";
 import React from "react";
 import { TitleFacet } from "../../../app/additionalFacets";
 import { DataTypes, Stories } from "../../../base/enums";
@@ -17,7 +26,9 @@ const ObservingFlashcardQuizStory = () => {
     <React.StrictMode>
       <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
         <BrowserRouter>
-          <InitializeStoriesSystem initialStory={Stories.OBSERVING_FLASHCARD_QUIZ_STORY} />
+          <InitializeStoriesSystem
+            initialStory={Stories.OBSERVING_FLASHCARD_QUIZ_STORY}
+          />
 
           <EntityCreator
             facets={[
@@ -53,7 +64,8 @@ const ObservingFlashcardQuizStory = () => {
           <InitializeSchoolSubjectsSystem />
           <LoadTopicsSystem />
 
-          <Collection /></BrowserRouter>
+          <Collection />
+        </BrowserRouter>
       </LeanScopeClientApp>
     </React.StrictMode>
   );

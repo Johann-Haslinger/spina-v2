@@ -107,7 +107,7 @@ export enum AdditionalTags {
   GROUP_BLOCKEDITOR,
   RECENTLY_ADDED,
   PROFILE_VISIBLE,
-  GENERATING
+  GENERATING,
 }
 
 export enum NavigationLinks {

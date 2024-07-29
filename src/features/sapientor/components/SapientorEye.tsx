@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import tw from "twin.macro";
 import { COLOR_ITEMS } from "../../../base/constants";
 
-
 const StyledSapientorEyeAccent = styled.div<{ top: number; left: number }>`
   ${tw`size-2 rounded-full`}
   background-color: ${COLOR_ITEMS[7].accentColor};

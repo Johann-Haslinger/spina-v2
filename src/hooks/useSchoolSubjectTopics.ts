@@ -25,7 +25,7 @@ export const useSchoolSubjectTopics = (schoolSubjectId: string) => {
           topics.map((topic: any) => ({
             title: topic.title,
             id: topic.id,
-          })) as Topic[]
+          })) as Topic[],
         );
       }
     };

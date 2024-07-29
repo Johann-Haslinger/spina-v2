@@ -2,9 +2,17 @@ import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity, useEntity } from "@leanscope/ecs-engine";
 import { IdentifierFacet, ParentFacet, Tags } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
-import { AnswerFacet, MasteryLevelFacet, QuestionFacet } from "../../../app/additionalFacets";
+import {
+  AnswerFacet,
+  MasteryLevelFacet,
+  QuestionFacet,
+} from "../../../app/additionalFacets";
 import { dummyFlashcards } from "../../../base/dummy";
-import { DataTypes, SupabaseColumns, SupabaseTables } from "../../../base/enums";
+import {
+  DataTypes,
+  SupabaseColumns,
+  SupabaseTables,
+} from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { dataTypeQuery } from "../../../utils/queries";
@@ -28,10 +36,12 @@ const LoadFlashcardsSystem = () => {
   const lsc = useContext(LeanScopeClientContext);
   const [selectedFlashcardGroupEntity] = useEntity(
     (e) =>
-      (dataTypeQuery(e, DataTypes.FLASHCARD_GROUP) || dataTypeQuery(e, DataTypes.FLASHCARD_SET)) &&
-      e.hasTag(Tags.SELECTED)
+      (dataTypeQuery(e, DataTypes.FLASHCARD_GROUP) ||
+        dataTypeQuery(e, DataTypes.FLASHCARD_SET)) &&
+      e.hasTag(Tags.SELECTED),
   );
-  const selectedFlashcardGroupId = selectedFlashcardGroupEntity?.get(IdentifierFacet)?.props.guid;
+  const selectedFlashcardGroupId =
+    selectedFlashcardGroupEntity?.get(IdentifierFacet)?.props.guid;
 
   useEffect(() => {
     const initializeFlashcardEntities = async () => {
@@ -44,17 +54,25 @@ const LoadFlashcardsSystem = () => {
 
         flashcards.forEach((flashcard) => {
           const isExisting = lsc.engine.entities.some(
-            (e) => e.get(IdentifierFacet)?.props.guid === flashcard.id && e.hasTag(DataTypes.FLASHCARD)
+            (e) =>
+              e.get(IdentifierFacet)?.props.guid === flashcard.id &&
+              e.hasTag(DataTypes.FLASHCARD),
           );
 
           if (!isExisting) {
             const flashcardEntity = new Entity();
             lsc.engine.addEntity(flashcardEntity);
             flashcardEntity.add(new IdentifierFacet({ guid: flashcard.id }));
-            flashcardEntity.add(new MasteryLevelFacet({ masteryLevel: flashcard.mastery_level }));
-            flashcardEntity.add(new QuestionFacet({ question: flashcard.question }));
+            flashcardEntity.add(
+              new MasteryLevelFacet({ masteryLevel: flashcard.mastery_level }),
+            );
+            flashcardEntity.add(
+              new QuestionFacet({ question: flashcard.question }),
+            );
             flashcardEntity.add(new AnswerFacet({ answer: flashcard.answer }));
-            flashcardEntity.add(new ParentFacet({ parentId: selectedFlashcardGroupId }));
+            flashcardEntity.add(
+              new ParentFacet({ parentId: selectedFlashcardGroupId }),
+            );
 
             flashcardEntity.addTag(DataTypes.FLASHCARD);
           }

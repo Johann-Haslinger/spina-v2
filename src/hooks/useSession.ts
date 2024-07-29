@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import supabaseClient from "../lib/supabase";
 
 export const useSession = () => {
-  const [session, setSession] = useState<any>();
+  const [session, setSession] = useState<unknown>();
 
   useEffect(() => {
     const fetchSession = async () => {

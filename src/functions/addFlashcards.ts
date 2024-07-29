@@ -5,7 +5,11 @@ import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { AnswerFacet, QuestionFacet } from "../app/additionalFacets";
 import { SupabaseTables } from "../base/enums";
 
-export const addFlashcards = async (lsc: ILeanScopeClient, flashcardEntities: Entity[], userId: string) => {
+export const addFlashcards = async (
+  lsc: ILeanScopeClient,
+  flashcardEntities: Entity[],
+  userId: string,
+) => {
   flashcardEntities.forEach((flashcardEntity) => {
     lsc.engine.addEntity(flashcardEntity);
   });
@@ -17,7 +21,7 @@ export const addFlashcards = async (lsc: ILeanScopeClient, flashcardEntities: En
       parent_id: flashcardEntity.get(ParentFacet)?.props.parentId,
       id: flashcardEntity.get(IdentifierFacet)?.props.guid,
       user_id: userId,
-    }))
+    })),
   );
 
   if (error) {

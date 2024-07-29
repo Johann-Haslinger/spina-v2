@@ -10,7 +10,14 @@ const HomeworkCell = (props: TitleProps & EntityProps) => {
 
   const openHomework = () => entity.addTag(Tags.SELECTED);
 
-  return <NoteThumbNail color={accentColor} title={title} onClick={openHomework} type={"Hausaufgabe"} />;
+  return (
+    <NoteThumbNail
+      color={accentColor}
+      title={title}
+      onClick={openHomework}
+      type={"Hausaufgabe"}
+    />
+  );
 };
 
 export default HomeworkCell;

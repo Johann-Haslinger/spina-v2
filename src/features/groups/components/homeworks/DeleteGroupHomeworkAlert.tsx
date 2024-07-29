@@ -1,7 +1,11 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext } from "react";
-import { AdditionalTags, Stories, SupabaseColumns } from "../../../../base/enums";
+import {
+  AdditionalTags,
+  Stories,
+  SupabaseColumns,
+} from "../../../../base/enums";
 import { Alert, AlertButton } from "../../../../components";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../../lib/supabase";
@@ -12,9 +16,11 @@ const DeleteGroupHomeworkAlert = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Stories.DELETING_GROUP_HOMEWORK_STORY);
   const { selectedLanguage } = useSelectedLanguage();
-  const { selectedGroupHomeworkId, selectedGroupHomeworkEntity } = useSelectedGroupHomework();
+  const { selectedGroupHomeworkId, selectedGroupHomeworkEntity } =
+    useSelectedGroupHomework();
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_GROUP_TOPIC_STORY);
+  const navigateBack = () =>
+    lsc.stories.transitTo(Stories.OBSERVING_GROUP_TOPIC_STORY);
 
   const deleteGroupHomework = async () => {
     navigateBack();

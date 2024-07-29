@@ -1,7 +1,14 @@
 import styled from "@emotion/styled";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity, EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
-import { DescriptionProps, IdentifierFacet, ImageProps, ParentFacet, Tags, TextFacet } from "@leanscope/ecs-models";
+import {
+  DescriptionProps,
+  IdentifierFacet,
+  ImageProps,
+  ParentFacet,
+  Tags,
+  TextFacet,
+} from "@leanscope/ecs-models";
 import { Fragment, useContext, useState } from "react";
 import {
   IoAdd,
@@ -13,7 +20,12 @@ import {
 } from "react-icons/io5";
 import tw from "twin.macro";
 import { v4 } from "uuid";
-import { DateAddedFacet, SourceFacet, TitleFacet, TitleProps } from "../../../../app/additionalFacets";
+import {
+  DateAddedFacet,
+  SourceFacet,
+  TitleFacet,
+  TitleProps,
+} from "../../../../app/additionalFacets";
 import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
 import {
   ActionRow,
@@ -28,7 +40,10 @@ import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { useUserData } from "../../../../hooks/useUserData";
 import { useWindowDimensions } from "../../../../hooks/useWindowDimensions";
-import { displayActionTexts, displayDataTypeTexts } from "../../../../utils/displayText";
+import {
+  displayActionTexts,
+  displayDataTypeTexts,
+} from "../../../../utils/displayText";
 import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
 import { sortEntitiesByDateAdded } from "../../../../utils/sortEntitiesByTime";
 import AddResourceToLearningGroupSheet from "../../../groups/components/AddResourceToLearningGroupSheet";
@@ -112,7 +127,7 @@ const StyledTopicTitle = styled.div`
 `;
 
 const StyledTopicResourcesWrapper = styled.div<{ largeShadow: boolean }>`
-  ${tw` px-4  md:px-20 h-fit min-h-screen relative  z-20  pt-10 pb-40   bg-primary  lg:px-32 xl:px-60 2xl:px-96 w-full`}
+  ${tw` px-4  md:px-20 h-fit min-h-screen relative  z-20  pt-10 pb-40  dark:bg-primaryDark transition-all   bg-primary  lg:px-32 xl:px-60 2xl:px-96 w-full`}
   ${({ largeShadow }) =>
     largeShadow
       ? tw`shadow-[0px_0px_60px_0px_rgba(0, 0, 0, 0.6)] xl:shadow-[0px_0px_60px_0px_rgba(0, 0, 0, 0.5)] `
@@ -142,7 +157,9 @@ const StyledTopicViewContainer = styled.div`
 
 // ″
 
-const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImageProps) => {
+const TopicView = (
+  props: TitleProps & EntityProps & DescriptionProps & ImageProps,
+) => {
   const lsc = useContext(LeanScopeClientContext);
   const { title, entity, imageSrc } = props;
   const isVisible = useIsViewVisible(entity);
@@ -156,10 +173,14 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
   const { backgroundColor } = useSelectedSchoolSubjectColor();
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
-  const openEditTopicSheet = () => lsc.stories.transitTo(Stories.EDITING_TOPIC_STORY);
-  const openDeleteTopicAlert = () => lsc.stories.transitTo(Stories.DELETING_TOPIC_STORY);
-  const openAddFlashcardsSheet = () => lsc.stories.transitTo(Stories.ADDING_FLASHCARD_SET_STORY);
-  const openAddHomeworkSheet = () => lsc.stories.transitTo(Stories.ADDING_HOMEWORK_STORY);
+  const openEditTopicSheet = () =>
+    lsc.stories.transitTo(Stories.EDITING_TOPIC_STORY);
+  const openDeleteTopicAlert = () =>
+    lsc.stories.transitTo(Stories.DELETING_TOPIC_STORY);
+  const openAddFlashcardsSheet = () =>
+    lsc.stories.transitTo(Stories.ADDING_FLASHCARD_SET_STORY);
+  const openAddHomeworkSheet = () =>
+    lsc.stories.transitTo(Stories.ADDING_HOMEWORK_STORY);
 
   const saveNote = async () => {
     if (selectedTopicId) {
@@ -168,7 +189,9 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
       const newNoteEntity = new Entity();
       newNoteEntity.add(new IdentifierFacet({ guid: noteId }));
       newNoteEntity.add(new ParentFacet({ parentId: selectedTopicId }));
-      newNoteEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
+      newNoteEntity.add(
+        new DateAddedFacet({ dateAdded: new Date().toISOString() }),
+      );
       newNoteEntity.add(DataTypes.NOTE);
       newNoteEntity.add(Tags.SELECTED);
 
@@ -202,10 +225,18 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
                   <ActionRow icon={<IoAdd />} onClick={openAddFlashcardsSheet}>
                     {displayDataTypeTexts(selectedLanguage).flashcardSet}
                   </ActionRow>
-                  <ActionRow icon={<IoAdd />} hasSpace onClick={openAddHomeworkSheet}>
+                  <ActionRow
+                    icon={<IoAdd />}
+                    hasSpace
+                    onClick={openAddHomeworkSheet}
+                  >
                     {displayDataTypeTexts(selectedLanguage).homework}
                   </ActionRow>
-                  <ActionRow icon={<IoCameraOutline />} onClick={openImageSelector} last>
+                  <ActionRow
+                    icon={<IoCameraOutline />}
+                    onClick={openImageSelector}
+                    last
+                  >
                     {displayActionTexts(selectedLanguage).generateFromImage}
                   </ActionRow>
                 </Fragment>
@@ -217,16 +248,27 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
             <NavBarButton
               content={
                 <Fragment>
-                  <ActionRow first onClick={openEditTopicSheet} icon={<IoCreateOutline />}>
+                  <ActionRow
+                    first
+                    onClick={openEditTopicSheet}
+                    icon={<IoCreateOutline />}
+                  >
                     {displayActionTexts(selectedLanguage).edit}
                   </ActionRow>
-                  <ActionRow onClick={openDeleteTopicAlert} icon={<IoTrashOutline />} destructive last>
+                  <ActionRow
+                    onClick={openDeleteTopicAlert}
+                    icon={<IoTrashOutline />}
+                    destructive
+                    last
+                  >
                     {displayActionTexts(selectedLanguage).delete}
                   </ActionRow>
                 </Fragment>
               }
             >
-              <IoEllipsisHorizontalCircleOutline color={scrollY < 360 && width > 1280 ? "white" : ""} />
+              <IoEllipsisHorizontalCircleOutline
+                color={scrollY < 360 && width > 1280 ? "white" : ""}
+              />
             </NavBarButton>
           </NavigationBar>
           <StyledTopAreaWrapper backgroundColor={backgroundColor}>
@@ -256,7 +298,10 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
 
             <CollectionGrid columnSize="small">
               <EntityPropsMapper
-                query={(e) => dataTypeQuery(e, DataTypes.SUBTOPIC) && isChildOfQuery(e, entity)}
+                query={(e) =>
+                  dataTypeQuery(e, DataTypes.SUBTOPIC) &&
+                  isChildOfQuery(e, entity)
+                }
                 sort={(a, b) => sortEntitiesByDateAdded(a, b)}
                 get={[[TitleFacet], []]}
                 onMatch={SubtopicCell}
@@ -265,7 +310,9 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
 
             <CollectionGrid columnSize="small">
               <EntityPropsMapper
-                query={(e) => dataTypeQuery(e, DataTypes.NOTE) && isChildOfQuery(e, entity)}
+                query={(e) =>
+                  dataTypeQuery(e, DataTypes.NOTE) && isChildOfQuery(e, entity)
+                }
                 sort={(a, b) => sortEntitiesByDateAdded(a, b)}
                 get={[[TitleFacet], []]}
                 onMatch={NoteCell}
@@ -274,7 +321,10 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
 
             <CollectionGrid columnSize="small">
               <EntityPropsMapper
-                query={(e) => dataTypeQuery(e, DataTypes.EXERCISE) && isChildOfQuery(e, entity)}
+                query={(e) =>
+                  dataTypeQuery(e, DataTypes.EXERCISE) &&
+                  isChildOfQuery(e, entity)
+                }
                 sort={(a, b) => sortEntitiesByDateAdded(a, b)}
                 get={[[TitleFacet], []]}
                 onMatch={ExerciseCell}
@@ -283,7 +333,10 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
 
             <CollectionGrid columnSize="small">
               <EntityPropsMapper
-                query={(e) => dataTypeQuery(e, DataTypes.FLASHCARD_SET) && isChildOfQuery(e, entity)}
+                query={(e) =>
+                  dataTypeQuery(e, DataTypes.FLASHCARD_SET) &&
+                  isChildOfQuery(e, entity)
+                }
                 get={[[TitleFacet, IdentifierFacet], []]}
                 sort={(a, b) => sortEntitiesByDateAdded(a, b)}
                 onMatch={FlashcardSetCell}
@@ -292,7 +345,10 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
 
             <CollectionGrid columnSize="small">
               <EntityPropsMapper
-                query={(e) => dataTypeQuery(e, DataTypes.HOMEWORK) && isChildOfQuery(e, entity)}
+                query={(e) =>
+                  dataTypeQuery(e, DataTypes.HOMEWORK) &&
+                  isChildOfQuery(e, entity)
+                }
                 get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
                 sort={(a, b) => sortEntitiesByDateAdded(a, b)}
                 onMatch={HomeworkCell}
@@ -308,22 +364,30 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
         onMatch={NoteView}
       />
       <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataTypes.FLASHCARD_SET) && e.has(Tags.SELECTED)}
+        query={(e) =>
+          dataTypeQuery(e, DataTypes.FLASHCARD_SET) && e.has(Tags.SELECTED)
+        }
         get={[[TitleFacet, IdentifierFacet], []]}
         onMatch={FlashcardSetView}
       />
       <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataTypes.HOMEWORK) && e.has(Tags.SELECTED)}
+        query={(e) =>
+          dataTypeQuery(e, DataTypes.HOMEWORK) && e.has(Tags.SELECTED)
+        }
         get={[[TitleFacet, IdentifierFacet, TextFacet], []]}
         onMatch={HomeworkView}
       />
       <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataTypes.SUBTOPIC) && e.has(Tags.SELECTED)}
+        query={(e) =>
+          dataTypeQuery(e, DataTypes.SUBTOPIC) && e.has(Tags.SELECTED)
+        }
         get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
         onMatch={SubtopicView}
       />
       <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataTypes.EXERCISE) && e.has(Tags.SELECTED)}
+        query={(e) =>
+          dataTypeQuery(e, DataTypes.EXERCISE) && e.has(Tags.SELECTED)
+        }
         get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
         onMatch={ExerciseView}
       />

@@ -34,21 +34,33 @@ const LoadGroupFlashcardsSystem = () => {
         const groupFlashcards = mockupData
           ? dummyFlashcards
           : shouldFetchFromSupabase
-            ? await fetchGroupFlashcardsForGroupFlashcardGroup(selectedGroupFlashcardSetId)
+            ? await fetchGroupFlashcardsForGroupFlashcardGroup(
+                selectedGroupFlashcardSetId,
+              )
             : [];
 
         groupFlashcards.forEach((flashcard) => {
           const isExisting = lsc.engine.entities.some(
-            (e) => e.get(IdentifierFacet)?.props.guid === flashcard.id && e.hasTag(DataTypes.GROUP_FLASHCARD)
+            (e) =>
+              e.get(IdentifierFacet)?.props.guid === flashcard.id &&
+              e.hasTag(DataTypes.GROUP_FLASHCARD),
           );
 
           if (!isExisting) {
             const groupFlashcardEntity = new Entity();
             lsc.engine.addEntity(groupFlashcardEntity);
-            groupFlashcardEntity.add(new IdentifierFacet({ guid: flashcard.id }));
-            groupFlashcardEntity.add(new QuestionFacet({ question: flashcard.question }));
-            groupFlashcardEntity.add(new AnswerFacet({ answer: flashcard.answer }));
-            groupFlashcardEntity.add(new ParentFacet({ parentId: selectedGroupFlashcardSetId }));
+            groupFlashcardEntity.add(
+              new IdentifierFacet({ guid: flashcard.id }),
+            );
+            groupFlashcardEntity.add(
+              new QuestionFacet({ question: flashcard.question }),
+            );
+            groupFlashcardEntity.add(
+              new AnswerFacet({ answer: flashcard.answer }),
+            );
+            groupFlashcardEntity.add(
+              new ParentFacet({ parentId: selectedGroupFlashcardSetId }),
+            );
 
             groupFlashcardEntity.addTag(DataTypes.GROUP_FLASHCARD);
           }

@@ -14,7 +14,7 @@ import {
   IoHeadsetOutline,
   IoPlayOutline,
   IoSparklesOutline,
-  IoTrashOutline
+  IoTrashOutline,
 } from "react-icons/io5";
 import {
   AnswerFacet,
@@ -55,7 +55,9 @@ import EditFlashcardSetSheet from "./EditFlashcardSetSheet";
 import EditFlashcardSheet from "./EditFlashcardSheet";
 import FlashcardCell from "./FlashcardCell";
 
-const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => {
+const FlashcardSetView = (
+  props: TitleProps & EntityProps & IdentifierProps,
+) => {
   const lsc = useContext(LeanScopeClientContext);
   const { title, entity } = props;
   const isVisible = useIsViewVisible(entity);
@@ -65,13 +67,20 @@ const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => 
   const { isBookmarked, toggleBookmark } = useBookmarked(entity);
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
-  const openEditFlashcardSetSheet = () => lsc.stories.transitTo(Stories.EDITING_FLASHCARD_SET_STORY);
-  const openDeleteFlashcardSetAlert = () => lsc.stories.transitTo(Stories.DELETING_FLASHCARD_SET_STORY);
-  const openAddFlashcardsSheet = () => lsc.stories.transitTo(Stories.ADDING_FLASHCARDS_STORY);
-  const openFlashcardQuizView = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_QUIZ_STORY);
-  const openGeneratePodcastSheet = () => lsc.stories.transitTo(Stories.GENERATING_PODCAST_STORY);
-  const openGenerateTextSheet = () => lsc.stories.transitTo(Stories.GENERATING_TEXT_FROM_FLASHCARDS_STORY);
-  const openAddResourceToLerningGroupSheet = () => lsc.stories.transitTo(Stories.ADDING_RESOURCE_TO_LEARNING_GROUP_STORY);
+  const openEditFlashcardSetSheet = () =>
+    lsc.stories.transitTo(Stories.EDITING_FLASHCARD_SET_STORY);
+  const openDeleteFlashcardSetAlert = () =>
+    lsc.stories.transitTo(Stories.DELETING_FLASHCARD_SET_STORY);
+  const openAddFlashcardsSheet = () =>
+    lsc.stories.transitTo(Stories.ADDING_FLASHCARDS_STORY);
+  const openFlashcardQuizView = () =>
+    lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_QUIZ_STORY);
+  const openGeneratePodcastSheet = () =>
+    lsc.stories.transitTo(Stories.GENERATING_PODCAST_STORY);
+  const openGenerateTextSheet = () =>
+    lsc.stories.transitTo(Stories.GENERATING_TEXT_FROM_FLASHCARDS_STORY);
+  const openAddResourceToLerningGroupSheet = () =>
+    lsc.stories.transitTo(Stories.ADDING_RESOURCE_TO_LEARNING_GROUP_STORY);
 
   return (
     <Fragment>
@@ -83,10 +92,18 @@ const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => 
           <NavBarButton
             content={
               <Fragment>
-                <ActionRow first icon={<IoHeadsetOutline />} onClick={openGeneratePodcastSheet}>
+                <ActionRow
+                  first
+                  icon={<IoHeadsetOutline />}
+                  onClick={openGeneratePodcastSheet}
+                >
                   {displayActionTexts(selectedLanguage).generatePodcast}
                 </ActionRow>
-                <ActionRow onClick={openGenerateTextSheet} last icon={<IoSparklesOutline />}>
+                <ActionRow
+                  onClick={openGenerateTextSheet}
+                  last
+                  icon={<IoSparklesOutline />}
+                >
                   {displayActionTexts(selectedLanguage).generateText}
                 </ActionRow>
               </Fragment>
@@ -97,7 +114,12 @@ const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => 
           <NavBarButton
             content={
               <Fragment>
-                <ActionRow first last icon={<IoAlbumsOutline />} onClick={() => openFlashcardQuizView()}>
+                <ActionRow
+                  first
+                  last
+                  icon={<IoAlbumsOutline />}
+                  onClick={() => openFlashcardQuizView()}
+                >
                   {displayActionTexts(selectedLanguage).quiz}
                 </ActionRow>
               </Fragment>
@@ -111,18 +133,33 @@ const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => 
           <NavBarButton
             content={
               <Fragment>
-                <ActionRow first icon={<IoCreateOutline />} onClick={openEditFlashcardSetSheet}>
+                <ActionRow
+                  first
+                  icon={<IoCreateOutline />}
+                  onClick={openEditFlashcardSetSheet}
+                >
                   {displayActionTexts(selectedLanguage).edit}
                 </ActionRow>
-                <ActionRow icon={isBookmarked ? <IoBookmark /> : <IoBookmarkOutline />} onClick={toggleBookmark}>
+                <ActionRow
+                  icon={isBookmarked ? <IoBookmark /> : <IoBookmarkOutline />}
+                  onClick={toggleBookmark}
+                >
                   {isBookmarked
                     ? displayActionTexts(selectedLanguage).unbookmark
                     : displayActionTexts(selectedLanguage).bookmark}
                 </ActionRow>
-                <ActionRow icon={<IoArrowUpCircleOutline />} onClick={openAddResourceToLerningGroupSheet} >
+                <ActionRow
+                  icon={<IoArrowUpCircleOutline />}
+                  onClick={openAddResourceToLerningGroupSheet}
+                >
                   {displayActionTexts(selectedLanguage).addToLearningGroup}
                 </ActionRow>
-                <ActionRow destructive last icon={<IoTrashOutline />} onClick={openDeleteFlashcardSetAlert}>
+                <ActionRow
+                  destructive
+                  last
+                  icon={<IoTrashOutline />}
+                  onClick={openDeleteFlashcardSetAlert}
+                >
                   {displayActionTexts(selectedLanguage).delete}
                 </ActionRow>
               </Fragment>
@@ -132,11 +169,15 @@ const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => 
           </NavBarButton>
         </NavigationBar>
 
-        <BackButton navigateBack={navigateBack}>{selectedTopicTitle}</BackButton>
+        <BackButton navigateBack={navigateBack}>
+          {selectedTopicTitle}
+        </BackButton>
         <Title>{title}</Title>
         <Spacer size={2} />
         <EntityPropsMapper
-          query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.PODCAST)}
+          query={(e) =>
+            isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.PODCAST)
+          }
           get={[[TitleFacet, DateAddedFacet], []]}
           onMatch={PodcastRow}
         />
@@ -144,7 +185,9 @@ const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => 
         {!hasChildren && <NoContentAddedHint />}
         <CollectionGrid columnSize="large">
           <EntityPropsMapper
-            query={(e) => e.hasTag(DataTypes.FLASHCARD) && isChildOfQuery(e, entity)}
+            query={(e) =>
+              e.hasTag(DataTypes.FLASHCARD) && isChildOfQuery(e, entity)
+            }
             get={[[QuestionFacet, AnswerFacet, MasteryLevelFacet], []]}
             onMatch={FlashcardCell}
           />
@@ -152,8 +195,13 @@ const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => 
       </View>
 
       <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataTypes.FLASHCARD) && e.hasTag(Tags.SELECTED)}
-        get={[[QuestionFacet, AnswerFacet, MasteryLevelFacet, IdentifierFacet], []]}
+        query={(e) =>
+          dataTypeQuery(e, DataTypes.FLASHCARD) && e.hasTag(Tags.SELECTED)
+        }
+        get={[
+          [QuestionFacet, AnswerFacet, MasteryLevelFacet, IdentifierFacet],
+          [],
+        ]}
         onMatch={EditFlashcardSheet}
       />
 

@@ -2,13 +2,22 @@ import styled from "@emotion/styled";
 import { EntityProps } from "@leanscope/ecs-engine";
 import { Tags } from "@leanscope/ecs-models";
 import { Fragment, useState } from "react";
-import { IoBookmarkOutline, IoEllipsisHorizontal, IoTrashOutline, IoVideocam } from "react-icons/io5";
+import {
+  IoBookmarkOutline,
+  IoEllipsisHorizontal,
+  IoTrashOutline,
+  IoVideocam,
+} from "react-icons/io5";
 import tw from "twin.macro";
 import { DateAddedProps, TitleProps } from "../../../../app/additionalFacets";
 import { AdditionalTags } from "../../../../base/enums";
 import { ActionRow, ActionSheet, FlexBox } from "../../../../components";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import { displayActionTexts, displayAlertTexts, displayDataTypeTexts } from "../../../../utils/displayText";
+import {
+  displayActionTexts,
+  displayAlertTexts,
+  displayDataTypeTexts,
+} from "../../../../utils/displayText";
 import { useSelectedSchoolSubjectColor } from "../../hooks/useSelectedSchoolSubjectColor";
 import DeleteLernvideoAlert from "./DeleteLernvideoAlert";
 
@@ -53,7 +62,9 @@ const LernvideoRow = (props: TitleProps & DateAddedProps & EntityProps) => {
             </StyledLernvideoIcon>
 
             <div>
-              <StyledLernvideoTitle>{title || displayAlertTexts(selectedLanguage).noTitle}</StyledLernvideoTitle>
+              <StyledLernvideoTitle>
+                {title || displayAlertTexts(selectedLanguage).noTitle}
+              </StyledLernvideoTitle>
               <StyledLernvideoSubtitle>
                 {displayDataTypeTexts(selectedLanguage).lernvideo}
                 {", "}
@@ -65,13 +76,24 @@ const LernvideoRow = (props: TitleProps & DateAddedProps & EntityProps) => {
               </StyledLernvideoSubtitle>
             </div>
           </StyledLeftSideWrapper>
-          <StyledLernvideoActionsWrapper onClick={() => setIsActionMenuOpen(true)}>
+          <StyledLernvideoActionsWrapper
+            onClick={() => setIsActionMenuOpen(true)}
+          >
             <IoEllipsisHorizontal />
-            <ActionSheet direction="left" navigateBack={() => setIsActionMenuOpen(false)} visible={isActionMenuOpen}>
+            <ActionSheet
+              direction="left"
+              navigateBack={() => setIsActionMenuOpen(false)}
+              visible={isActionMenuOpen}
+            >
               <ActionRow first icon={<IoBookmarkOutline />}>
                 {displayActionTexts(selectedLanguage).bookmark}
               </ActionRow>
-              <ActionRow onClick={openDeleteAlert} last destructive icon={<IoTrashOutline />}>
+              <ActionRow
+                onClick={openDeleteAlert}
+                last
+                destructive
+                icon={<IoTrashOutline />}
+              >
                 {displayActionTexts(selectedLanguage).delete}
               </ActionRow>
             </ActionSheet>

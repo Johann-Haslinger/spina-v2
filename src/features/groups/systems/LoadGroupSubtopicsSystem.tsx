@@ -4,7 +4,11 @@ import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
 import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
 import { dummySubtopics } from "../../../base/dummy";
-import { DataTypes, SupabaseColumns, SupabaseTables } from "../../../base/enums";
+import {
+  DataTypes,
+  SupabaseColumns,
+  SupabaseTables,
+} from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedGroupTopic } from "../hooks/useSelectedGroupTopic";
@@ -38,7 +42,9 @@ const LoadGroupGroupSubtopicsSystem = () => {
 
         groupSubtopics.forEach((topic) => {
           const isExisting = lsc.engine.entities.some(
-            (e) => e.get(IdentifierFacet)?.props.guid === topic.id && e.hasTag(DataTypes.GROUP_SUBTOPIC)
+            (e) =>
+              e.get(IdentifierFacet)?.props.guid === topic.id &&
+              e.hasTag(DataTypes.GROUP_SUBTOPIC),
           );
 
           if (!isExisting) {
@@ -46,9 +52,13 @@ const LoadGroupGroupSubtopicsSystem = () => {
             lsc.engine.addEntity(topicEntity);
             topicEntity.add(new TitleFacet({ title: topic.title }));
             topicEntity.add(new IdentifierFacet({ guid: topic.id }));
-            topicEntity.add(new DateAddedFacet({ dateAdded: topic.date_added }));
+            topicEntity.add(
+              new DateAddedFacet({ dateAdded: topic.date_added }),
+            );
 
-            topicEntity.add(new ParentFacet({ parentId: selectedGroupTopicId }));
+            topicEntity.add(
+              new ParentFacet({ parentId: selectedGroupTopicId }),
+            );
             topicEntity.addTag(DataTypes.GROUP_SUBTOPIC);
           }
         });

@@ -28,7 +28,7 @@ interface AlertProps {
 }
 
 const Alert = (props: AlertProps & PropsWithChildren) => {
-  const { visible = true, navigateBack,  children } = props;
+  const { visible = true, navigateBack, children } = props;
   const [isAlertDisplayed, setIsAlertDisplayed] = useState(false);
   const alertRef = useRef<HTMLDivElement>(null);
   const { isDarkMode } = useSelectedTheme();
@@ -70,7 +70,11 @@ const Alert = (props: AlertProps & PropsWithChildren) => {
           position: "fixed",
         }}
         animate={{
-          backgroundColor: visible ? (isDarkMode ? "#00000080" : "#00000020") : "#0000000",
+          backgroundColor: visible
+            ? isDarkMode
+              ? "#00000080"
+              : "#00000020"
+            : "#0000000",
         }}
       >
         <motion.div
@@ -79,8 +83,13 @@ const Alert = (props: AlertProps & PropsWithChildren) => {
           transition={{ duration: 0.2 }}
         >
           <StyledAlertWrapper ref={alertRef}>
-            <StyledAlertTitle>{displayAlertTexts(selectedLanguage).deleteAlertTitle}</StyledAlertTitle>
-            <StyledAlertSubTitle> {displayAlertTexts(selectedLanguage).deleteAlertSubtitle}</StyledAlertSubTitle>
+            <StyledAlertTitle>
+              {displayAlertTexts(selectedLanguage).deleteAlertTitle}
+            </StyledAlertTitle>
+            <StyledAlertSubTitle>
+              {" "}
+              {displayAlertTexts(selectedLanguage).deleteAlertSubtitle}
+            </StyledAlertSubTitle>
             <StyledButtonWrapper>{children}</StyledButtonWrapper>
           </StyledAlertWrapper>
         </motion.div>

@@ -3,15 +3,21 @@ import { useContext, useEffect } from "react";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { dummyLearningGroups } from "../../../base/dummy";
-import { ColorFacet, DescriptionFacet, IdentifierFacet, OrderFacet } from "@leanscope/ecs-models";
+import {
+  ColorFacet,
+  DescriptionFacet,
+  IdentifierFacet,
+  OrderFacet,
+} from "@leanscope/ecs-models";
 import { Entity } from "@leanscope/ecs-engine";
 import { TitleFacet } from "../../../app/additionalFacets";
 import { DataTypes } from "../../../base/enums";
 import { dataTypeQuery } from "../../../utils/queries";
 
 const fetchLearningGroups = async () => {
-
-  const { data: learningGroups, error } = await supabaseClient.from("learning_groups").select("title, id, color, description");
+  const { data: learningGroups, error } = await supabaseClient
+    .from("learning_groups")
+    .select("title, id, color, description");
 
   if (error) {
     console.error("Error fetching learning groups:", error);
@@ -19,7 +25,7 @@ const fetchLearningGroups = async () => {
   }
 
   return learningGroups || [];
-}
+};
 
 const InitializeLearningGroupsSystem = () => {
   const { mockupData, shouldFetchFromSupabase } = useMockupData();
@@ -35,17 +41,27 @@ const InitializeLearningGroupsSystem = () => {
 
       LearningGroups.forEach((learningGroup, idx) => {
         const isExisting = lsc.engine.entities.some(
-          (e) => e.get(IdentifierFacet)?.props.guid === learningGroup.id && dataTypeQuery(e, DataTypes.LEARNING_GROUP)
+          (e) =>
+            e.get(IdentifierFacet)?.props.guid === learningGroup.id &&
+            dataTypeQuery(e, DataTypes.LEARNING_GROUP),
         );
 
         if (!isExisting) {
           const learningGroupEntity = new Entity();
           lsc.engine.addEntity(learningGroupEntity);
-          learningGroupEntity.add(new TitleFacet({ title: learningGroup.title }));
-          learningGroupEntity.add(new IdentifierFacet({ guid: learningGroup.id }));
+          learningGroupEntity.add(
+            new TitleFacet({ title: learningGroup.title }),
+          );
+          learningGroupEntity.add(
+            new IdentifierFacet({ guid: learningGroup.id }),
+          );
           learningGroupEntity.add(new OrderFacet({ orderIndex: idx }));
-          learningGroupEntity.add(new ColorFacet({ colorName: learningGroup.color }))
-          learningGroupEntity.add(new DescriptionFacet({ description: learningGroup.description }))
+          learningGroupEntity.add(
+            new ColorFacet({ colorName: learningGroup.color }),
+          );
+          learningGroupEntity.add(
+            new DescriptionFacet({ description: learningGroup.description }),
+          );
           learningGroupEntity.addTag(DataTypes.LEARNING_GROUP);
         }
       });
@@ -54,7 +70,7 @@ const InitializeLearningGroupsSystem = () => {
     initializeLearningGroupEntities();
   }, [mockupData, shouldFetchFromSupabase]);
 
-  return null
-}
+  return null;
+};
 
-export default InitializeLearningGroupsSystem
+export default InitializeLearningGroupsSystem;

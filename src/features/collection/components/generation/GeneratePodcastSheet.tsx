@@ -7,14 +7,28 @@ import { useContext, useEffect, useState } from "react";
 import { IoCheckmarkCircle } from "react-icons/io5";
 import tw from "twin.macro";
 import { v4 } from "uuid";
-import { AnswerFacet, DateAddedFacet, QuestionFacet, SourceFacet, TitleFacet } from "../../../../app/additionalFacets";
+import {
+  AnswerFacet,
+  DateAddedFacet,
+  QuestionFacet,
+  SourceFacet,
+  TitleFacet,
+} from "../../../../app/additionalFacets";
 import { DataTypes, Stories } from "../../../../base/enums";
-import { CloseButton, FlexBox, GeneratingIndecator, Sheet } from "../../../../components";
+import {
+  CloseButton,
+  FlexBox,
+  GeneratingIndecator,
+  Sheet,
+} from "../../../../components";
 import SapientorConversationMessage from "../../../../components/content/SapientorConversationMessage";
 import { addPodcast } from "../../../../functions/addPodcast";
 import { useIsAnyStoryCurrent } from "../../../../hooks/useIsAnyStoryCurrent";
 import { useUserData } from "../../../../hooks/useUserData";
-import { getAudioFromText, getCompletion } from "../../../../utils/getCompletion";
+import {
+  getAudioFromText,
+  getCompletion,
+} from "../../../../utils/getCompletion";
 import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
 import { useSelectedFlashcardSet } from "../../hooks/useSelectedFlashcardSet";
 import { useSelectedNote } from "../../hooks/useSelectedNote";
@@ -41,13 +55,21 @@ const GeneratePodcastSheet = () => {
     Stories.GENERATING_PODCAST_STORY,
     Stories.GENERATING_PODCAST_FROM_FLASHCARDS_STORY,
   ]);
-  const generatePodcastFromFlashcards = useIsStoryCurrent(Stories.GENERATING_PODCAST_FROM_FLASHCARDS_STORY);
+  const generatePodcastFromFlashcards = useIsStoryCurrent(
+    Stories.GENERATING_PODCAST_FROM_FLASHCARDS_STORY,
+  );
   const { selectedSubtopicId, selectedSubtopicTitle } = useSelectedSubtopic();
   const { selectedNoteId, selectedNoteTitle } = useSelectedNote();
-  const { selectedFlashcardSetEntity, selectedFlashcardSetId, selectedFlashcardSetTitle } = useSelectedFlashcardSet();
+  const {
+    selectedFlashcardSetEntity,
+    selectedFlashcardSetId,
+    selectedFlashcardSetTitle,
+  } = useSelectedFlashcardSet();
   const [isGenerating, setIsGenerating] = useState(false);
   const { userId } = useUserData();
-  const [flashcardEntities] = useEntities((e) => dataTypeQuery(e, DataTypes.FLASHCARD));
+  const [flashcardEntities] = useEntities((e) =>
+    dataTypeQuery(e, DataTypes.FLASHCARD),
+  );
   const { visibleText } = useVisibleText();
 
   useEffect(() => {
@@ -64,7 +86,11 @@ const GeneratePodcastSheet = () => {
             })
             .join(" ")
         : visibleText;
-      const title = selectedFlashcardSetTitle || selectedNoteTitle || selectedSubtopicTitle || "";
+      const title =
+        selectedFlashcardSetTitle ||
+        selectedNoteTitle ||
+        selectedSubtopicTitle ||
+        "";
 
       const generatinPodcastTranscriptPrompt = `
       Erstelle bitte einen Podcast, der auf dem folgenden Text basiert, um die Inhalte des Textes zu lernen:
@@ -76,7 +102,8 @@ const GeneratePodcastSheet = () => {
 
       if (audioBase64) {
         const newPodcastId = v4();
-        const parentId = selectedFlashcardSetId || selectedNoteId || selectedSubtopicId;
+        const parentId =
+          selectedFlashcardSetId || selectedNoteId || selectedSubtopicId;
 
         const audioBlob = base64toBlob(audioBase64, "audio/mpeg");
         const audioUrl = URL.createObjectURL(audioBlob).toString();
@@ -88,7 +115,9 @@ const GeneratePodcastSheet = () => {
           newPodcastEntity.add(new ParentFacet({ parentId: parentId }));
           newPodcastEntity.add(new SourceFacet({ source: audioUrl }));
           newPodcastEntity.add(new ParentFacet({ parentId: parentId }));
-          newPodcastEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
+          newPodcastEntity.add(
+            new DateAddedFacet({ dateAdded: new Date().toISOString() }),
+          );
           newPodcastEntity.add(DataTypes.PODCAST);
 
           addPodcast(lsc, newPodcastEntity, userId, audioBase64);
@@ -103,7 +132,8 @@ const GeneratePodcastSheet = () => {
     }
   }, [isVisible]);
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_SUBTOPIC_STORY);
+  const navigateBack = () =>
+    lsc.stories.transitTo(Stories.OBSERVING_SUBTOPIC_STORY);
 
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>
@@ -116,7 +146,8 @@ const GeneratePodcastSheet = () => {
         <SapientorConversationMessage
           message={{
             role: "gpt",
-            message: "Bitte füge erst Text hinzu, um einen Podcast zu generieren.",
+            message:
+              "Bitte füge erst Text hinzu, um einen Podcast zu generieren.",
           }}
         />
       )}

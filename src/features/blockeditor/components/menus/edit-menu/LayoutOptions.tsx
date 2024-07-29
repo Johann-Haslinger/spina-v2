@@ -3,12 +3,31 @@ import { ILeanScopeClient } from "@leanscope/api-client/interfaces";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useEntities } from "@leanscope/ecs-engine";
 import { useEntityFacets } from "@leanscope/ecs-engine/react-api/hooks/useEntityFacets";
-import { FitTypes, IdentifierFacet, ImageFitFacet, ImageSizeFacet, SizeTypes, Tags } from "@leanscope/ecs-models";
+import {
+  FitTypes,
+  IdentifierFacet,
+  ImageFitFacet,
+  ImageSizeFacet,
+  SizeTypes,
+  Tags,
+} from "@leanscope/ecs-models";
 import React, { useContext } from "react";
-import { IoCropOutline, IoMoveOutline, IoScanOutline, IoSquareOutline } from "react-icons/io5";
+import {
+  IoCropOutline,
+  IoMoveOutline,
+  IoScanOutline,
+  IoSquareOutline,
+} from "react-icons/io5";
 import tw from "twin.macro";
-import { DataTypes, SupabaseColumns, SupabaseTables } from "../../../../../base/enums";
-import { IMAGE_FIT_TEXT_DATA, IMAGE_SIZE_TEXT_DATA } from "../../../../../base/textData";
+import {
+  DataTypes,
+  SupabaseColumns,
+  SupabaseTables,
+} from "../../../../../base/enums";
+import {
+  IMAGE_FIT_TEXT_DATA,
+  IMAGE_SIZE_TEXT_DATA,
+} from "../../../../../base/textData";
 import { useSelectedLanguage } from "../../../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../../../lib/supabase";
 import { displayLabelTexts } from "../../../../../utils/displayText";
@@ -46,7 +65,9 @@ const StyledOptionButtonsWrapper = styled.div`
 `;
 
 const changeSize = (lsc: ILeanScopeClient, size: SizeTypes) => {
-  const selectedBlockEntities = lsc.engine.entities.filter((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
+  const selectedBlockEntities = lsc.engine.entities.filter(
+    (e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED),
+  );
 
   selectedBlockEntities.forEach(async (blockEntity) => {
     blockEntity.add(new ImageSizeFacet({ size: size }));
@@ -65,7 +86,9 @@ const changeSize = (lsc: ILeanScopeClient, size: SizeTypes) => {
 };
 
 const changeFit = (lsc: ILeanScopeClient, fit: FitTypes) => {
-  const selectedBlockEntities = lsc.engine.entities.filter((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
+  const selectedBlockEntities = lsc.engine.entities.filter(
+    (e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED),
+  );
 
   selectedBlockEntities.forEach(async (blockEntity) => {
     blockEntity.add(new ImageFitFacet({ fit: fit }));
@@ -102,18 +125,26 @@ const LayoutOptionButton = ({
 
 const LayoutOptions = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const [selectedBlockEntities] = useEntities((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
+  const [selectedBlockEntities] = useEntities(
+    (e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED),
+  );
   const { selectedLanguage } = useSelectedLanguage();
 
   const firstSelectedBlockEntity = selectedBlockEntities[0];
-  const [imageSizeProps, ImgageFitProps] = useEntityFacets(firstSelectedBlockEntity, ImageSizeFacet, ImageFitFacet);
+  const [imageSizeProps, ImgageFitProps] = useEntityFacets(
+    firstSelectedBlockEntity,
+    ImageSizeFacet,
+    ImageFitFacet,
+  );
   const currentSize = imageSizeProps?.size || SizeTypes.AUTO_SIZE;
   const currentFit = ImgageFitProps?.fit || FitTypes.AUTO_FIT;
 
   return (
     <StyledLayoutOptionsWrapper>
       <StyledOptionWrapper>
-        <StyledLayoutTextWrapper>{displayLabelTexts(selectedLanguage).adjustImage}</StyledLayoutTextWrapper>
+        <StyledLayoutTextWrapper>
+          {displayLabelTexts(selectedLanguage).adjustImage}
+        </StyledLayoutTextWrapper>
         <StyledOptionButtonsWrapper>
           <LayoutOptionButton
             isActive={currentFit === FitTypes.AUTO_FIT}
@@ -130,7 +161,9 @@ const LayoutOptions = () => {
         </StyledOptionButtonsWrapper>
       </StyledOptionWrapper>
       <StyledOptionWrapper>
-        <StyledLayoutTextWrapper>{displayLabelTexts(selectedLanguage).imageSize}</StyledLayoutTextWrapper>
+        <StyledLayoutTextWrapper>
+          {displayLabelTexts(selectedLanguage).imageSize}
+        </StyledLayoutTextWrapper>
         <StyledOptionButtonsWrapper>
           <LayoutOptionButton
             isActive={currentSize === SizeTypes.AUTO_SIZE}

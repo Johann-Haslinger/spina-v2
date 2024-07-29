@@ -5,7 +5,12 @@ import { TitleFacet } from "../app/additionalFacets";
 import { SupabaseTables } from "../base/enums";
 import supabaseClient from "../lib/supabase";
 
-export const addPodcast = async (lsc: ILeanScopeClient, podcastEntity: Entity, userId: string, audioBase64: string) => {
+export const addPodcast = async (
+  lsc: ILeanScopeClient,
+  podcastEntity: Entity,
+  userId: string,
+  audioBase64: string,
+) => {
   lsc.engine.addEntity(podcastEntity);
 
   const { error } = await supabaseClient.from(SupabaseTables.PODCASTS).insert([

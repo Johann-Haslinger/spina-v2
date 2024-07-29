@@ -1,6 +1,12 @@
 import styled from "@emotion/styled";
 import { motion } from "framer-motion";
-import { Fragment, PropsWithChildren, useEffect, useRef, useState } from "react";
+import {
+  Fragment,
+  PropsWithChildren,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import tw from "twin.macro";
 import { useSelectedTheme } from "../../features/collection/hooks/useSelectedTheme";
 
@@ -52,7 +58,11 @@ const Sheet = (props: PropsWithChildren & SheetProps) => {
             backgroundColor: "#0000010",
           }}
           animate={{
-            backgroundColor: visible ? (isDarkMode ? "#00000080" : "#00000020") : "#0000000",
+            backgroundColor: visible
+              ? isDarkMode
+                ? "#00000080"
+                : "#00000020"
+              : "#0000000",
             zIndex: 100,
           }}
           style={{

@@ -3,7 +3,11 @@ import { EntityProps } from "@leanscope/ecs-engine";
 import React, { useEffect, useRef, useState } from "react";
 import { IoHeadset, IoPlay, IoPlayBack, IoPlayForward } from "react-icons/io5";
 import tw from "twin.macro";
-import { DateAddedProps, SourceProps, TitleProps } from "../../../../app/additionalFacets";
+import {
+  DateAddedProps,
+  SourceProps,
+  TitleProps,
+} from "../../../../app/additionalFacets";
 import { AdditionalTags } from "../../../../base/enums";
 import { FlexBox, Sheet } from "../../../../components";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
@@ -19,7 +23,11 @@ const StyledPodcastIconContainer = styled.div`
   ${tw`h-[55%] flex items-center md:mt-6`}
 `;
 
-const StyledPodcastIconWrapper = styled.div<{ isPlaying: boolean; backgroundColor: string; color: string }>`
+const StyledPodcastIconWrapper = styled.div<{
+  isPlaying: boolean;
+  backgroundColor: string;
+  color: string;
+}>`
   ${tw` transition-all bg-white bg-opacity-60 text-white mx-auto size-44 text-7xl flex items-center justify-center  rounded-2xl`}
   ${(props) => (props.isPlaying ? tw`scale-125` : tw` bg-opacity-45`)}
  
@@ -55,10 +63,14 @@ const StyledPauseButtonWrapper = styled.div`
 `;
 
 const StyledPauseButtonStroke = styled.div<{ color: string }>`
-  ${tw`h-9 w-3 bg-white bg-opacity-80 dark:bg-white rounded`}/* background-color: ${(props) => props.color}; */
+  ${tw`h-9 w-3 bg-white bg-opacity-80 dark:bg-white rounded`}/* background-color: ${(
+    props,
+  ) => props.color}; */
 `;
 
-const PodcastSheet = (props: TitleProps & SourceProps & EntityProps & DateAddedProps) => {
+const PodcastSheet = (
+  props: TitleProps & SourceProps & EntityProps & DateAddedProps,
+) => {
   const { title, source, entity, dateAdded } = props;
   const isVisible = useIsViewVisible(entity);
   const [currentTime, setCurrentTime] = useState<number>(0);
@@ -129,10 +141,18 @@ const PodcastSheet = (props: TitleProps & SourceProps & EntityProps & DateAddedP
       <LoadPodcastAudioSystem />
       <audio src={audioUrl} ref={audioRef} onTimeUpdate={handleTimeUpdate} />
 
-      <Sheet backgroundColor={accentColor} navigateBack={navigateBack} visible={isVisible}>
+      <Sheet
+        backgroundColor={accentColor}
+        navigateBack={navigateBack}
+        visible={isVisible}
+      >
         <StyledPodcastPlayerWrapper>
           <StyledPodcastIconContainer>
-            <StyledPodcastIconWrapper color={accentColor} backgroundColor={backgroundColor} isPlaying={isPlaying}>
+            <StyledPodcastIconWrapper
+              color={accentColor}
+              backgroundColor={backgroundColor}
+              isPlaying={isPlaying}
+            >
               <IoHeadset />
             </StyledPodcastIconWrapper>
           </StyledPodcastIconContainer>
@@ -158,8 +178,12 @@ const PodcastSheet = (props: TitleProps & SourceProps & EntityProps & DateAddedP
             onMouseUp={() => setIsPlaying(true)}
           />
           <FlexBox>
-            <StyledTimeBarText>{formatCounterTime(currentTime)}</StyledTimeBarText>
-            <StyledTimeBarText>{formatCounterTime(duration - currentTime)}</StyledTimeBarText>
+            <StyledTimeBarText>
+              {formatCounterTime(currentTime)}
+            </StyledTimeBarText>
+            <StyledTimeBarText>
+              {formatCounterTime(duration - currentTime)}
+            </StyledTimeBarText>
           </FlexBox>
 
           <StyledButtonWrapper color={accentColor}>

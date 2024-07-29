@@ -1,11 +1,19 @@
 import { ILeanScopeClient } from "@leanscope/api-client/interfaces";
 import { Entity } from "@leanscope/ecs-engine";
 import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
-import { DueDateFacet, RelationshipFacet, TitleFacet } from "../app/additionalFacets";
+import {
+  DueDateFacet,
+  RelationshipFacet,
+  TitleFacet,
+} from "../app/additionalFacets";
 import { SupabaseTables } from "../base/enums";
 import supabaseClient from "../lib/supabase";
 
-export const addExam = async (lsc: ILeanScopeClient, examEntity: Entity, userId: string) => {
+export const addExam = async (
+  lsc: ILeanScopeClient,
+  examEntity: Entity,
+  userId: string,
+) => {
   lsc.engine.addEntity(examEntity);
 
   const { error } = await supabaseClient.from(SupabaseTables.EXAMS).insert([

@@ -12,7 +12,8 @@ const StyledCellWrapper = styled.div`
 const BookmarkCollectionCard = () => {
   const lsc = useContext(LeanScopeClientContext);
 
-  const openBookmarkCollection = () => lsc.stories.transitTo(Stories.OBSERVING_BOOKMARK_COLLECTION_STORY);
+  const openBookmarkCollection = () =>
+    lsc.stories.transitTo(Stories.OBSERVING_BOOKMARK_COLLECTION_STORY);
 
   return (
     <StyledCellWrapper onClick={openBookmarkCollection}>

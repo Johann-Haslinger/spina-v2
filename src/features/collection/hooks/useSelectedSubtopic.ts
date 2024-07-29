@@ -5,10 +5,15 @@ import { DataTypes } from "../../../base/enums";
 import { dataTypeQuery } from "../../../utils/queries";
 
 export const useSelectedSubtopic = () => {
-  const [selectedSubtopicEntity] = useEntity((e) => dataTypeQuery(e, DataTypes.SUBTOPIC) && e.hasTag(Tags.SELECTED));
-  const selectedSubtopicTitle = selectedSubtopicEntity?.get(TitleFacet)?.props.title;
-  const selectedSubtopicId = selectedSubtopicEntity?.get(IdentifierFacet)?.props.guid;
-  const selectedSubtopicText = selectedSubtopicEntity?.get(TextFacet)?.props.text;
+  const [selectedSubtopicEntity] = useEntity(
+    (e) => dataTypeQuery(e, DataTypes.SUBTOPIC) && e.hasTag(Tags.SELECTED),
+  );
+  const selectedSubtopicTitle =
+    selectedSubtopicEntity?.get(TitleFacet)?.props.title;
+  const selectedSubtopicId =
+    selectedSubtopicEntity?.get(IdentifierFacet)?.props.guid;
+  const selectedSubtopicText =
+    selectedSubtopicEntity?.get(TextFacet)?.props.text;
 
   return {
     selectedSubtopicEntity,

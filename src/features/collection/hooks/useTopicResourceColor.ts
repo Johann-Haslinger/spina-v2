@@ -1,4 +1,3 @@
-
 import { Entity, useEntity } from "@leanscope/ecs-engine";
 import {
   IdentifierFacet,
@@ -15,14 +14,14 @@ export const useTopicResourceColor = (resourceEntity: Entity) => {
   const [topicEntity] = useEntity(
     (e) =>
       e.get(IdentifierFacet)?.props.guid === topicId &&
-      dataTypeQuery(e, DataTypes.TOPIC)
+      dataTypeQuery(e, DataTypes.TOPIC),
   );
 
   const schoolSubjectId = topicEntity?.get(ParentFacet)?.props.parentId;
   const [schoolSubjectEntity] = useEntity(
     (e) =>
       e.get(IdentifierFacet)?.props.guid === schoolSubjectId &&
-      dataTypeQuery(e, DataTypes.SCHOOL_SUBJECT)
+      dataTypeQuery(e, DataTypes.SCHOOL_SUBJECT),
   );
 
   if (schoolSubjectEntity) {

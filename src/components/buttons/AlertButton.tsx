@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import  { PropsWithChildren } from "react";
+import { PropsWithChildren } from "react";
 import tw from "twin.macro";
 
 type AlertButtonRole = "destructive" | "primary" | "secondary";

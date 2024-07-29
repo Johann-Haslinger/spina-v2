@@ -1,7 +1,10 @@
 import styled from "@emotion/styled";
 import tw from "twin.macro";
 import { useSelectedLanguage } from "../../hooks/useSelectedLanguage";
-import { displayAlertTexts, displayDataTypeTexts } from "../../utils/displayText";
+import {
+  displayAlertTexts,
+  displayDataTypeTexts,
+} from "../../utils/displayText";
 
 const StyledNoteCellWrapper = styled.div`
   ${tw`pb-4 min-h-48 `}
@@ -24,19 +27,34 @@ const StyledResourceTypeText = styled.p`
   ${tw`text-sm  text-seconderyText dark:text-seconderyTextDark `}
 `;
 
-const NoteThumbNail = (props: { color: string; title: string; onClick?: () => void; type?: string }) => {
+const NoteThumbNail = (props: {
+  color: string;
+  title: string;
+  onClick?: () => void;
+  type?: string;
+}) => {
   const { selectedLanguage } = useSelectedLanguage();
-  const { color, title, onClick, type = displayDataTypeTexts(selectedLanguage).note } = props;
+  const {
+    color,
+    title,
+    onClick,
+    type = displayDataTypeTexts(selectedLanguage).note,
+  } = props;
 
   return (
     <StyledNoteCellWrapper onClick={onClick}>
       <StyledNoteCellContainer>
         {[1, 2].map((cellIndex) => (
-          <StyledNoteCellItem key={cellIndex} backgroundColor={cellIndex == 2 ? color : color + "99"} />
+          <StyledNoteCellItem
+            key={cellIndex}
+            backgroundColor={cellIndex == 2 ? color : color + "99"}
+          />
         ))}
       </StyledNoteCellContainer>
 
-      <StyledNoteCellTitle>{title || displayAlertTexts(selectedLanguage).noTitle}</StyledNoteCellTitle>
+      <StyledNoteCellTitle>
+        {title || displayAlertTexts(selectedLanguage).noTitle}
+      </StyledNoteCellTitle>
 
       <StyledResourceTypeText>{type} </StyledResourceTypeText>
     </StyledNoteCellWrapper>

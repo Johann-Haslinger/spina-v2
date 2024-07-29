@@ -26,9 +26,12 @@ const PodcastCollectionView = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Stories.OBSERVING_PODCASTS_COLLECTION);
   const { selectedLanguage } = useSelectedLanguage();
-  const [podcastEntities] = useEntities((e) => dataTypeQuery(e, DataTypes.PODCAST));
+  const [podcastEntities] = useEntities((e) =>
+    dataTypeQuery(e, DataTypes.PODCAST),
+  );
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_COLLECTION_STORY);
+  const navigateBack = () =>
+    lsc.stories.transitTo(Stories.OBSERVING_COLLECTION_STORY);
 
   return (
     <Fragment>
@@ -40,7 +43,9 @@ const PodcastCollectionView = () => {
             <IoAdd />
           </NavBarButton>
         </NavigationBar>
-        <BackButton navigateBack={navigateBack}>{displayHeaderTexts(selectedLanguage).collection}</BackButton>
+        <BackButton navigateBack={navigateBack}>
+          {displayHeaderTexts(selectedLanguage).collection}
+        </BackButton>
         <Title>{displayHeaderTexts(selectedLanguage).podcastCollection}</Title>
         <Spacer />
         {podcastEntities.length === 0 && <NoContentAddedHint />}

@@ -1,4 +1,10 @@
-import { Blocktypes, ListStyles, MessageRoles, SupportedLanguages, Texttypes } from "../base/enums";
+import {
+  Blocktypes,
+  ListStyles,
+  MessageRoles,
+  SupportedLanguages,
+  Texttypes,
+} from "../base/enums";
 import { Facet } from "../base/facet";
 import { BlockeditorState, Resource } from "../base/types";
 
@@ -192,8 +198,6 @@ export class MessageRoleFacet extends Facet<MessageRoleProps> {
     super(props);
   }
 }
-
-
 
 export interface RelatedResourcesProps {
   relatedResources: Resource[];

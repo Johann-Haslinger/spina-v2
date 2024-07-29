@@ -2,11 +2,21 @@ import styled from "@emotion/styled";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { EntityProps, useEntity } from "@leanscope/ecs-engine";
 import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntityComponents";
-import { FloatOrderProps, IdentifierFacet, ParentFacet, Tags, TextFacet } from "@leanscope/ecs-models";
+import {
+  FloatOrderProps,
+  IdentifierFacet,
+  ParentFacet,
+  Tags,
+  TextFacet,
+} from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
 import { Fragment } from "react/jsx-runtime";
 import tw from "twin.macro";
-import { AdditionalTags, SupabaseColumns, SupabaseTables } from "../../../../base/enums";
+import {
+  AdditionalTags,
+  SupabaseColumns,
+  SupabaseTables,
+} from "../../../../base/enums";
 import { View } from "../../../../components";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../../lib/supabase";
@@ -52,7 +62,9 @@ const PageBlock = (props: EntityProps & FloatOrderProps) => {
   const [isPageViewVisible] = useEntityHasTags(entity, AdditionalTags.OPEN);
   const id = entity.get(IdentifierFacet)?.props.guid;
   const [parentBlockEntity] = useEntity(
-    (e) => e.get(IdentifierFacet)?.props.guid === entity.get(ParentFacet)?.props.parentId
+    (e) =>
+      e.get(IdentifierFacet)?.props.guid ===
+      entity.get(ParentFacet)?.props.parentId,
   );
   const parentBlockText = parentBlockEntity?.get(TextFacet)?.props.text;
 
@@ -64,17 +76,24 @@ const PageBlock = (props: EntityProps & FloatOrderProps) => {
       changeBlockeditorState(blockeditorEntity, "view");
     }
     const parentBlockEntity = lsc.engine.entities.find(
-      (e) => e.get(IdentifierFacet)?.props.guid === entity?.get(ParentFacet)?.props.parentId
+      (e) =>
+        e.get(IdentifierFacet)?.props.guid ===
+        entity?.get(ParentFacet)?.props.parentId,
     );
 
     if (isPageViewVisible) {
       blockeditorEntity?.add(new IdentifierFacet({ guid: id || "" }));
     } else {
-      blockeditorEntity?.add(new IdentifierFacet({ guid: parentBlockEntity?.get(IdentifierFacet)?.props.guid || "" }));
+      blockeditorEntity?.add(
+        new IdentifierFacet({
+          guid: parentBlockEntity?.get(IdentifierFacet)?.props.guid || "",
+        }),
+      );
     }
   }, [isPageViewVisible, entity, blockeditorEntity]);
 
-  const openPageBlock = () => blockeditorState === "view" && entity.add(AdditionalTags.OPEN);
+  const openPageBlock = () =>
+    blockeditorState === "view" && entity.add(AdditionalTags.OPEN);
   const closePageBlock = () => entity.remove(AdditionalTags.OPEN);
 
   const handleTitleBlur = async (value: string) => {
@@ -104,8 +123,12 @@ const PageBlock = (props: EntityProps & FloatOrderProps) => {
             <StyledPageLine marginTop={0.5} width={3} />
           </StyledPageIconWrapper>
           <StyledTextWrapper>
-            <StyledTitleWrapper>{title ? title : displayAlertTexts(selectedLanguage).noTitle}</StyledTitleWrapper>
-            <StyledSubtitleWrapper>Seiteninhalt wird hier angezeigt</StyledSubtitleWrapper>
+            <StyledTitleWrapper>
+              {title ? title : displayAlertTexts(selectedLanguage).noTitle}
+            </StyledTitleWrapper>
+            <StyledSubtitleWrapper>
+              Seiteninhalt wird hier angezeigt
+            </StyledSubtitleWrapper>
           </StyledTextWrapper>
         </StyledContentWrapper>
       </BlockOutline>

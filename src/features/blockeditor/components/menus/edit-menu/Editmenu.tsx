@@ -2,7 +2,13 @@ import styled from "@emotion/styled";
 import { ILeanScopeClient } from "@leanscope/api-client/interfaces";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
-import { FloatOrderFacet, IdentifierFacet, ParentFacet, Tags, TextFacet } from "@leanscope/ecs-models";
+import {
+  FloatOrderFacet,
+  IdentifierFacet,
+  ParentFacet,
+  Tags,
+  TextFacet,
+} from "@leanscope/ecs-models";
 import { motion } from "framer-motion";
 import { Fragment, useContext } from "react";
 import {
@@ -15,7 +21,11 @@ import {
 } from "react-icons/io5";
 import tw from "twin.macro";
 import { v4 } from "uuid";
-import { BlocktypeFacet, TexttypeFacet, TitleFacet } from "../../../../../app/additionalFacets";
+import {
+  BlocktypeFacet,
+  TexttypeFacet,
+  TitleFacet,
+} from "../../../../../app/additionalFacets";
 import { COLOR_ITEMS } from "../../../../../base/constants";
 import {
   AdditionalTags,
@@ -60,14 +70,19 @@ const StyledMenuWrapper = styled.div`
 `;
 
 const groupSelectedBlocks = (lsc: ILeanScopeClient, userId: string) => {
-  const selectedBlockEntities = lsc.engine.entities.filter((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
+  const selectedBlockEntities = lsc.engine.entities.filter(
+    (e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED),
+  );
   const firstSelectedBlockEntity = selectedBlockEntities
     .filter((e) => e.has(TextFacet))
     .sort(sortEntitiesByFloatOrder)[0];
 
-  const firstBlockOrder = firstSelectedBlockEntity.get(FloatOrderFacet)?.props.index || 0;
-  const firstBlockText = firstSelectedBlockEntity.get(TextFacet)?.props.text || "";
-  const firstBlockParentId = firstSelectedBlockEntity.get(ParentFacet)?.props.parentId || "";
+  const firstBlockOrder =
+    firstSelectedBlockEntity.get(FloatOrderFacet)?.props.index || 0;
+  const firstBlockText =
+    firstSelectedBlockEntity.get(TextFacet)?.props.text || "";
+  const firstBlockParentId =
+    firstSelectedBlockEntity.get(ParentFacet)?.props.parentId || "";
 
   const newPageBlockId = v4();
 
@@ -99,12 +114,20 @@ const groupSelectedBlocks = (lsc: ILeanScopeClient, userId: string) => {
     });
 };
 
-const addContentToSelectedBlock = async (lsc: ILeanScopeClient, userId: string) => {
-  const selectedBlockEntities = lsc.engine.entities.filter((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
+const addContentToSelectedBlock = async (
+  lsc: ILeanScopeClient,
+  userId: string,
+) => {
+  const selectedBlockEntities = lsc.engine.entities.filter(
+    (e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED),
+  );
   const firstSelectedBlockEntity = selectedBlockEntities[0];
-  const firstSelectedBlockId = firstSelectedBlockEntity.get(IdentifierFacet)?.props.guid || "";
+  const firstSelectedBlockId =
+    firstSelectedBlockEntity.get(IdentifierFacet)?.props.guid || "";
 
-  firstSelectedBlockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.PAGE }));
+  firstSelectedBlockEntity.add(
+    new BlocktypeFacet({ blocktype: Blocktypes.PAGE }),
+  );
   firstSelectedBlockEntity.add(AdditionalTags.OPEN);
 
   const newBlockEntity = new Entity();
@@ -142,20 +165,25 @@ const showStyleOptionQuery = (pressedBlocks: readonly Entity[]) => {
 };
 
 const showImageOptionQuery = (pressedBlocks: readonly Entity[]) => {
-  return pressedBlocks.every((block) => block.get(BlocktypeFacet)?.props.blocktype === Blocktypes.IMAGE);
+  return pressedBlocks.every(
+    (block) => block.get(BlocktypeFacet)?.props.blocktype === Blocktypes.IMAGE,
+  );
 };
 
 const showAddContentOptionQuery = (pressedBlocks: readonly Entity[]) => {
   return (
     pressedBlocks.length === 1 &&
     pressedBlocks[0] &&
-    (pressedBlocks[0].get(BlocktypeFacet)?.props.blocktype === Blocktypes.TEXT ||
-      pressedBlocks[0].get(BlocktypeFacet)?.props.blocktype === Blocktypes.TODO ||
+    (pressedBlocks[0].get(BlocktypeFacet)?.props.blocktype ===
+      Blocktypes.TEXT ||
+      pressedBlocks[0].get(BlocktypeFacet)?.props.blocktype ===
+        Blocktypes.TODO ||
       pressedBlocks[0].get(BlocktypeFacet)?.props.blocktype === Blocktypes.LIST)
   );
 };
 
-const showGroupOptionQuery = (pressedBlocks: readonly Entity[]) => pressedBlocks.length > 1;
+const showGroupOptionQuery = (pressedBlocks: readonly Entity[]) =>
+  pressedBlocks.length > 1;
 
 const Editmenu = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -164,7 +192,8 @@ const Editmenu = () => {
   const { selectedLanguage } = useSelectedLanguage();
   const { userId } = useUserData();
 
-  const openDeleteSheet = () => lsc.stories.transitTo(Stories.DELETING_BLOCKS_STORY);
+  const openDeleteSheet = () =>
+    lsc.stories.transitTo(Stories.DELETING_BLOCKS_STORY);
 
   const editOptions = [
     {
@@ -200,7 +229,11 @@ const Editmenu = () => {
       name: displayLabelTexts(selectedLanguage).share,
       icon: <IoShareOutline />,
       color: COLOR_ITEMS[1].accentColor,
-      content: <ActionOptions backfuction={() => changeBlockeditorState(blockeditorEntity, "view")} />,
+      content: (
+        <ActionOptions
+          backfuction={() => changeBlockeditorState(blockeditorEntity, "view")}
+        />
+      ),
       canShow: () => true,
     },
     {
@@ -234,7 +267,12 @@ const Editmenu = () => {
         >
           <StyledMenuWrapper>
             {editOptions.map((option, idx) => (
-              <EditOption key={idx} canShow={option.canShow} isVisible={isVisible} option={option as Option} />
+              <EditOption
+                key={idx}
+                canShow={option.canShow}
+                isVisible={isVisible}
+                option={option as Option}
+              />
             ))}
           </StyledMenuWrapper>
         </motion.div>

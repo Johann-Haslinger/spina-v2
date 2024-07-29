@@ -13,8 +13,18 @@ import {
   IoSparklesOutline,
   IoTrashOutline,
 } from "react-icons/io5";
-import { DateAddedFacet, TitleFacet, TitleProps } from "../../../../app/additionalFacets";
-import { AdditionalTags, DataTypes, Stories, SupabaseColumns, SupabaseTables } from "../../../../base/enums";
+import {
+  DateAddedFacet,
+  TitleFacet,
+  TitleProps,
+} from "../../../../app/additionalFacets";
+import {
+  AdditionalTags,
+  DataTypes,
+  Stories,
+  SupabaseColumns,
+  SupabaseTables,
+} from "../../../../base/enums";
 import {
   ActionRow,
   BackButton,
@@ -41,7 +51,9 @@ import GeneratePodcastSheet from "../generation/GeneratePodcastSheet";
 import PodcastRow from "../podcasts/PodcastRow";
 import DeleteNoteAlert from "./DeleteNoteAlert";
 
-const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps) => {
+const NoteView = (
+  props: TitleProps & IdentifierProps & EntityProps & TextProps,
+) => {
   const lsc = useContext(LeanScopeClientContext);
   const { title, entity, guid } = props;
   const { selectedTopicTitle } = useSelectedTopic();
@@ -51,10 +63,14 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
   const { text, updateText } = useText(entity);
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
-  const openDeleteAlert = () => lsc.stories.transitTo(Stories.DELETING_NOTE_STORY);
-  const openGenerateFlashcardsSheet = () => lsc.stories.transitTo(Stories.GENERATING_FLASHCARDS_STORY);
-  const openGeneratePodcastSheet = () => lsc.stories.transitTo(Stories.GENERATING_PODCAST_STORY);
-  const openImproveTextSheet = () => lsc.stories.transitTo(Stories.GENERATING_IMPROVED_TEXT_STORY);
+  const openDeleteAlert = () =>
+    lsc.stories.transitTo(Stories.DELETING_NOTE_STORY);
+  const openGenerateFlashcardsSheet = () =>
+    lsc.stories.transitTo(Stories.GENERATING_FLASHCARDS_STORY);
+  const openGeneratePodcastSheet = () =>
+    lsc.stories.transitTo(Stories.GENERATING_PODCAST_STORY);
+  const openImproveTextSheet = () =>
+    lsc.stories.transitTo(Stories.GENERATING_IMPROVED_TEXT_STORY);
   const openAddResourceToLerningGroupSheet = () =>
     lsc.stories.transitTo(Stories.ADDING_RESOURCE_TO_LEARNING_GROUP_STORY);
 
@@ -80,13 +96,24 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
           <NavBarButton
             content={
               <Fragment>
-                <ActionRow icon={<IoSparklesOutline />} first onClick={openImproveTextSheet}>
+                <ActionRow
+                  icon={<IoSparklesOutline />}
+                  first
+                  onClick={openImproveTextSheet}
+                >
                   {displayActionTexts(selectedLanguage).improveText}
                 </ActionRow>
-                <ActionRow icon={<IoHeadsetOutline />} onClick={openGeneratePodcastSheet}>
+                <ActionRow
+                  icon={<IoHeadsetOutline />}
+                  onClick={openGeneratePodcastSheet}
+                >
                   {displayActionTexts(selectedLanguage).generatePodcast}
                 </ActionRow>
-                <ActionRow last icon={<IoAlbumsOutline />} onClick={openGenerateFlashcardsSheet}>
+                <ActionRow
+                  last
+                  icon={<IoAlbumsOutline />}
+                  onClick={openGenerateFlashcardsSheet}
+                >
                   {displayActionTexts(selectedLanguage).generateFlashcards}
                 </ActionRow>
               </Fragment>
@@ -97,15 +124,28 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
           <NavBarButton
             content={
               <Fragment>
-                <ActionRow first icon={isBookmarked ? <IoBookmark /> : <IoBookmarkOutline />} onClick={toggleBookmark}>
+                <ActionRow
+                  first
+                  icon={isBookmarked ? <IoBookmark /> : <IoBookmarkOutline />}
+                  onClick={toggleBookmark}
+                >
                   {isBookmarked
                     ? displayActionTexts(selectedLanguage).unbookmark
                     : displayActionTexts(selectedLanguage).bookmark}
                 </ActionRow>
-                <ActionRow icon={<IoArrowUpCircleOutline />} onClick={openAddResourceToLerningGroupSheet}>
+                <ActionRow
+                  icon={<IoArrowUpCircleOutline />}
+                  onClick={openAddResourceToLerningGroupSheet}
+                >
                   {displayActionTexts(selectedLanguage).addToLearningGroup}
                 </ActionRow>
-                <ActionRow first last destructive onClick={openDeleteAlert} icon={<IoTrashOutline />}>
+                <ActionRow
+                  first
+                  last
+                  destructive
+                  onClick={openDeleteAlert}
+                  icon={<IoTrashOutline />}
+                >
                   {displayActionTexts(selectedLanguage).delete}
                 </ActionRow>
               </Fragment>
@@ -115,13 +155,17 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
           </NavBarButton>
         </NavigationBar>
 
-        <BackButton navigateBack={navigateBack}>{selectedTopicTitle}</BackButton>
+        <BackButton navigateBack={navigateBack}>
+          {selectedTopicTitle}
+        </BackButton>
         <Title editable onBlur={handleTitleBlur}>
           {title}
         </Title>
         <Spacer />
         <EntityPropsMapper
-          query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.PODCAST)}
+          query={(e) =>
+            isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.PODCAST)
+          }
           get={[[TitleFacet, DateAddedFacet], []]}
           onMatch={PodcastRow}
         />

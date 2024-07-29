@@ -10,7 +10,11 @@ import {
   TitleFacet,
 } from "../../../app/additionalFacets";
 import { dummyFlashcards, dummyPodcasts, dummyText } from "../../../base/dummy";
-import { DataTypes, SupabaseColumns, SupabaseTables } from "../../../base/enums";
+import {
+  DataTypes,
+  SupabaseColumns,
+  SupabaseTables,
+} from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import { useUserData } from "../../../hooks/useUserData";
 import supabaseClient from "../../../lib/supabase";
@@ -31,7 +35,11 @@ const fetchNoteVersion = async (noteId: string) => {
   const isOldNoteVersion = noteVersionData?.old_note_version;
   const isNewNoteVersion = noteVersionData?.new_note_version;
 
-  return isOldNoteVersion ? "old-version" : isNewNoteVersion ? "new-version" : "blocks-version";
+  return isOldNoteVersion
+    ? "old-version"
+    : isNewNoteVersion
+      ? "new-version"
+      : "blocks-version";
 };
 
 const fetchFlashcardsForSubtopic = async (parentId: string) => {
@@ -79,17 +87,25 @@ const LoadSubtopicResourcesSystem = () => {
 
         flashcards.forEach((flashcard) => {
           const isExisting = lsc.engine.entities.some(
-            (e) => e.get(IdentifierFacet)?.props.guid === flashcard.id && e.hasTag(DataTypes.FLASHCARD)
+            (e) =>
+              e.get(IdentifierFacet)?.props.guid === flashcard.id &&
+              e.hasTag(DataTypes.FLASHCARD),
           );
 
           if (!isExisting) {
             const flashcardEntity = new Entity();
             lsc.engine.addEntity(flashcardEntity);
             flashcardEntity.add(new IdentifierFacet({ guid: flashcard.id }));
-            flashcardEntity.add(new MasteryLevelFacet({ masteryLevel: flashcard.mastery_level }));
-            flashcardEntity.add(new QuestionFacet({ question: flashcard.question }));
+            flashcardEntity.add(
+              new MasteryLevelFacet({ masteryLevel: flashcard.mastery_level }),
+            );
+            flashcardEntity.add(
+              new QuestionFacet({ question: flashcard.question }),
+            );
             flashcardEntity.add(new AnswerFacet({ answer: flashcard.answer }));
-            flashcardEntity.add(new ParentFacet({ parentId: selectedSubtopicId }));
+            flashcardEntity.add(
+              new ParentFacet({ parentId: selectedSubtopicId }),
+            );
 
             flashcardEntity.addTag(DataTypes.FLASHCARD);
           }
@@ -107,16 +123,22 @@ const LoadSubtopicResourcesSystem = () => {
 
         if (podcast) {
           const isExisting = lsc.engine.entities.some(
-            (e) => e.get(IdentifierFacet)?.props.guid === podcast.id && e.hasTag(DataTypes.PODCAST)
+            (e) =>
+              e.get(IdentifierFacet)?.props.guid === podcast.id &&
+              e.hasTag(DataTypes.PODCAST),
           );
 
           if (!isExisting) {
             const podcastEntity = new Entity();
             lsc.engine.addEntity(podcastEntity);
             podcastEntity.add(new IdentifierFacet({ guid: podcast.id }));
-            podcastEntity.add(new ParentFacet({ parentId: selectedSubtopicId }));
+            podcastEntity.add(
+              new ParentFacet({ parentId: selectedSubtopicId }),
+            );
             podcastEntity.add(new TitleFacet({ title: podcast.title || "" }));
-            podcastEntity.add(new DateAddedFacet({ dateAdded: podcast.date_added }));
+            podcastEntity.add(
+              new DateAddedFacet({ dateAdded: podcast.date_added }),
+            );
             podcastEntity.addTag(DataTypes.PODCAST);
           }
         }
@@ -129,7 +151,9 @@ const LoadSubtopicResourcesSystem = () => {
         if (mockupData) {
           subtopicText = dummyText;
         } else if (shouldFetchFromSupabase) {
-          const noteVersion = shouldFetchFromSupabase && (await fetchNoteVersion(selectedSubtopicId));
+          const noteVersion =
+            shouldFetchFromSupabase &&
+            (await fetchNoteVersion(selectedSubtopicId));
 
           if (noteVersion == "old-version") {
             const { data: subtopicTextData, error } = await supabaseClient
@@ -150,7 +174,10 @@ const LoadSubtopicResourcesSystem = () => {
               .eq(SupabaseColumns.ID, selectedSubtopicId);
 
             if (error2) {
-              console.error("error updating subtopic to oldNoteVersion", error2);
+              console.error(
+                "error updating subtopic to oldNoteVersion",
+                error2,
+              );
             }
           } else if (noteVersion == "blocks-version") {
             const { data: blocks, error } = await supabaseClient
@@ -168,7 +195,9 @@ const LoadSubtopicResourcesSystem = () => {
 
             const { error: error2 } = await supabaseClient
               .from(SupabaseTables.TEXTS)
-              .upsert([{ text, parent_id: selectedSubtopicId, user_id: userId }]);
+              .upsert([
+                { text, parent_id: selectedSubtopicId, user_id: userId },
+              ]);
 
             if (error2) {
               console.error("error inserting text", error2);

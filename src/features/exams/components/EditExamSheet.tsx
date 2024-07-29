@@ -16,14 +16,22 @@ import {
 } from "../../../components";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../lib/supabase";
-import { displayButtonTexts, displayLabelTexts } from "../../../utils/displayText";
+import {
+  displayButtonTexts,
+  displayLabelTexts,
+} from "../../../utils/displayText";
 import { useSelectedExam } from "../hooks/useSelectedExam";
 
 const EditExamSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Stories.EDITING_EXAM_STORY);
   const { selectedLanguage } = useSelectedLanguage();
-  const { selectedExamTitle, selectedExamEntity, selectedExamId, selectedExamDueDate } = useSelectedExam();
+  const {
+    selectedExamTitle,
+    selectedExamEntity,
+    selectedExamId,
+    selectedExamDueDate,
+  } = useSelectedExam();
   const [newTitle, setNewTitle] = useState(selectedExamTitle);
   const [newDueDate, setNewDueDate] = useState(selectedExamTitle);
 
@@ -32,7 +40,8 @@ const EditExamSheet = () => {
     setNewDueDate(selectedExamDueDate);
   }, [selectedExamTitle, selectedExamDueDate]);
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_EXAMS_STORY);
+  const navigateBack = () =>
+    lsc.stories.transitTo(Stories.OBSERVING_EXAMS_STORY);
 
   const updateExam = async () => {
     if (newTitle && newDueDate) {
@@ -57,9 +66,14 @@ const EditExamSheet = () => {
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>
       <FlexBox>
-        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
-        {(newTitle !== selectedExamTitle || newDueDate !== selectedExamDueDate) && (
-          <PrimaryButton onClick={updateExam}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
+        <SecondaryButton onClick={navigateBack}>
+          {displayButtonTexts(selectedLanguage).cancel}
+        </SecondaryButton>
+        {(newTitle !== selectedExamTitle ||
+          newDueDate !== selectedExamDueDate) && (
+          <PrimaryButton onClick={updateExam}>
+            {displayButtonTexts(selectedLanguage).save}
+          </PrimaryButton>
         )}
       </FlexBox>
       <Spacer />
@@ -74,7 +88,11 @@ const EditExamSheet = () => {
         <SectionRow last>
           <FlexBox>
             <div>{displayLabelTexts(selectedLanguage).dueDate}</div>
-            <DateInput type="date" value={newDueDate} onChange={(e) => setNewDueDate(e.target.value)} />
+            <DateInput
+              type="date"
+              value={newDueDate}
+              onChange={(e) => setNewDueDate(e.target.value)}
+            />
           </FlexBox>
         </SectionRow>
       </Section>

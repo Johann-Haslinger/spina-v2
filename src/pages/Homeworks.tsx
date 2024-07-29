@@ -1,11 +1,23 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { EntityPropsMapper } from "@leanscope/ecs-engine";
-import { IdentifierFacet, ParentFacet, Tags, TextFacet } from "@leanscope/ecs-models";
+import {
+  IdentifierFacet,
+  ParentFacet,
+  Tags,
+  TextFacet,
+} from "@leanscope/ecs-models";
 import { Fragment, useContext } from "react";
 import { IoAdd } from "react-icons/io5";
 import { DueDateFacet, TitleFacet } from "../app/additionalFacets";
 import { DataTypes, Stories } from "../base/enums";
-import { Kanban, NavBarButton, NavigationBar, Spacer, Title, View } from "../components";
+import {
+  Kanban,
+  NavBarButton,
+  NavigationBar,
+  Spacer,
+  Title,
+  View,
+} from "../components";
 import { AddHomeworkSheet, HomeworkView } from "../features/collection";
 import { HomeworkKanbanCell } from "../features/homeworks";
 import { useHomeworkStatus } from "../features/homeworks/hooks/useHomeworkStatus";
@@ -20,7 +32,8 @@ const Homeworks = () => {
   const { selectedLanguage } = useSelectedLanguage();
   const { updateHomeworkStatus } = useHomeworkStatus();
 
-  const openAddHomeworkSheet = () => lsc.stories.transitTo(Stories.ADDING_HOMEWORK_STORY);
+  const openAddHomeworkSheet = () =>
+    lsc.stories.transitTo(Stories.ADDING_HOMEWORK_STORY);
 
   return (
     <Fragment>
@@ -44,8 +57,13 @@ const Homeworks = () => {
       </View>
 
       <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataTypes.HOMEWORK) && e.has(Tags.SELECTED)}
-        get={[[TitleFacet, DueDateFacet, ParentFacet, TextFacet, IdentifierFacet], []]}
+        query={(e) =>
+          dataTypeQuery(e, DataTypes.HOMEWORK) && e.has(Tags.SELECTED)
+        }
+        get={[
+          [TitleFacet, DueDateFacet, ParentFacet, TextFacet, IdentifierFacet],
+          [],
+        ]}
         onMatch={HomeworkView}
       />
       <AddHomeworkSheet />

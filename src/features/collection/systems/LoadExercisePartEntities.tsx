@@ -4,7 +4,11 @@ import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
 import { TitleFacet } from "../../../app/additionalFacets";
 import { dummyExerciseParts } from "../../../base/dummy";
-import { DataTypes, SupabaseColumns, SupabaseTables } from "../../../base/enums";
+import {
+  DataTypes,
+  SupabaseColumns,
+  SupabaseTables,
+} from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../lib/supabase";
@@ -42,18 +46,28 @@ const LoadExercisePartsSystem = () => {
 
         exerciseParts.forEach((exercisePart) => {
           const isExisting = lsc.engine.entities.some(
-            (e) => e.get(IdentifierFacet)?.props.guid === exercisePart.id && e.hasTag(DataTypes.EXERCISE_PART)
+            (e) =>
+              e.get(IdentifierFacet)?.props.guid === exercisePart.id &&
+              e.hasTag(DataTypes.EXERCISE_PART),
           );
 
           if (!isExisting) {
             const exercisePartEntity = new Entity();
             lsc.engine.addEntity(exercisePartEntity);
             exercisePartEntity.add(
-              new TitleFacet({ title: exercisePart.title || displayAlertTexts(selectedLanguage).noTitle })
+              new TitleFacet({
+                title:
+                  exercisePart.title ||
+                  displayAlertTexts(selectedLanguage).noTitle,
+              }),
             );
-            exercisePartEntity.add(new IdentifierFacet({ guid: exercisePart.id }));
+            exercisePartEntity.add(
+              new IdentifierFacet({ guid: exercisePart.id }),
+            );
 
-            exercisePartEntity.add(new ParentFacet({ parentId: selectedTopicId }));
+            exercisePartEntity.add(
+              new ParentFacet({ parentId: selectedTopicId }),
+            );
             exercisePartEntity.addTag(DataTypes.EXERCISE_PART);
           }
         });

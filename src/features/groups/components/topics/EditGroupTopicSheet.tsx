@@ -17,29 +17,41 @@ import {
 } from "../../../../components";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../../lib/supabase";
-import { displayButtonTexts, displayLabelTexts } from "../../../../utils/displayText";
+import {
+  displayButtonTexts,
+  displayLabelTexts,
+} from "../../../../utils/displayText";
 import { useSelectedGroupTopic } from "../../hooks/useSelectedGroupTopic";
 const EditGroupGroupTopicSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Stories.EDETING_GROUP_TOPIC_STORY);
   const { selectedLanguage } = useSelectedLanguage();
-  const { selectedGroupTopicTitle, selectedGroupTopicDescription, selectedGroupTopicEntity, selectedGroupTopicId } =
-    useSelectedGroupTopic();
+  const {
+    selectedGroupTopicTitle,
+    selectedGroupTopicDescription,
+    selectedGroupTopicEntity,
+    selectedGroupTopicId,
+  } = useSelectedGroupTopic();
   const [newTitle, setNewTitle] = useState(selectedGroupTopicTitle);
-  const [newDescription, setNewDescription] = useState(selectedGroupTopicDescription);
+  const [newDescription, setNewDescription] = useState(
+    selectedGroupTopicDescription,
+  );
 
   useEffect(() => {
     setNewTitle(selectedGroupTopicTitle);
     setNewDescription(selectedGroupTopicDescription);
   }, [selectedGroupTopicTitle, selectedGroupTopicDescription]);
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_GROUP_TOPIC_STORY);
+  const navigateBack = () =>
+    lsc.stories.transitTo(Stories.OBSERVING_GROUP_TOPIC_STORY);
 
   const updateGroupTopic = async () => {
     if (newTitle && newDescription) {
       navigateBack();
       selectedGroupTopicEntity?.add(new TitleFacet({ title: newTitle }));
-      selectedGroupTopicEntity?.add(new DescriptionFacet({ description: newDescription }));
+      selectedGroupTopicEntity?.add(
+        new DescriptionFacet({ description: newDescription }),
+      );
 
       const { error } = await supabaseClient
         .from("learning_group_topics")
@@ -58,9 +70,14 @@ const EditGroupGroupTopicSheet = () => {
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>
       <FlexBox>
-        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
-        {(newTitle !== selectedGroupTopicTitle || newDescription !== selectedGroupTopicDescription) && (
-          <PrimaryButton onClick={updateGroupTopic}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
+        <SecondaryButton onClick={navigateBack}>
+          {displayButtonTexts(selectedLanguage).cancel}
+        </SecondaryButton>
+        {(newTitle !== selectedGroupTopicTitle ||
+          newDescription !== selectedGroupTopicDescription) && (
+          <PrimaryButton onClick={updateGroupTopic}>
+            {displayButtonTexts(selectedLanguage).save}
+          </PrimaryButton>
         )}
       </FlexBox>
       <Spacer />

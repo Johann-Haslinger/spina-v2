@@ -5,7 +5,14 @@ import { Fragment, useContext } from "react";
 import { IoAdd } from "react-icons/io5";
 import { TitleFacet } from "../app/additionalFacets";
 import { DataTypes, Stories } from "../base/enums";
-import { Kanban, NavBarButton, NavigationBar, Spacer, Title, View } from "../components";
+import {
+  Kanban,
+  NavBarButton,
+  NavigationBar,
+  Spacer,
+  Title,
+  View,
+} from "../components";
 import AddExamSheet from "../features/exams/components/AddExamSheet";
 import ExamKanbanCell from "../features/exams/components/ExamKanbanCell";
 import ExamView from "../features/exams/components/ExamView";
@@ -14,14 +21,18 @@ import InitializeExamsSystem from "../features/exams/systems/InitializeExamsSyst
 import { useSelectedLanguage } from "../hooks/useSelectedLanguage";
 import { displayHeaderTexts } from "../utils/displayText";
 import { dataTypeQuery } from "../utils/queries";
-import { sortEntitiesByDateAdded, sortEntitiesByDueDate } from "../utils/sortEntitiesByTime";
+import {
+  sortEntitiesByDateAdded,
+  sortEntitiesByDueDate,
+} from "../utils/sortEntitiesByTime";
 
 const Exams = () => {
   const lsc = useContext(LeanScopeClientContext);
   const { selectedLanguage } = useSelectedLanguage();
   const { updateExamStatus } = useExamStatus();
 
-  const openAddExamSheet = () => lsc.stories.transitTo(Stories.ADDING_EXAM_STORY);
+  const openAddExamSheet = () =>
+    lsc.stories.transitTo(Stories.ADDING_EXAM_STORY);
 
   return (
     <Fragment>

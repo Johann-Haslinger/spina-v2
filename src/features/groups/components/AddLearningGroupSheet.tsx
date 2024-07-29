@@ -1,7 +1,13 @@
 import styled from "@emotion/styled/macro";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
-import { ColorFacet, DescriptionFacet, IdentifierFacet, OrderFacet, ParentFacet } from "@leanscope/ecs-models";
+import {
+  ColorFacet,
+  DescriptionFacet,
+  IdentifierFacet,
+  OrderFacet,
+  ParentFacet,
+} from "@leanscope/ecs-models";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext, useEffect, useState } from "react";
 import tw from "twin.macro";
@@ -25,7 +31,11 @@ import { useSchoolSubjectEntities } from "../../../hooks/useSchoolSubjects";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import { useUserData } from "../../../hooks/useUserData";
 import supabaseClient from "../../../lib/supabase";
-import { displayAlertTexts, displayButtonTexts, displayLabelTexts } from "../../../utils/displayText";
+import {
+  displayAlertTexts,
+  displayButtonTexts,
+  displayLabelTexts,
+} from "../../../utils/displayText";
 
 const StyledColorSelect = styled.select<{ color: string }>`
   ${tw`rounded-md text-white px-2 outline-none py-0.5`}
@@ -63,7 +73,8 @@ const AddLearningGroupSheet = () => {
   const { shouldFetchFromSupabase } = useMockupData();
   const schoolSubjectEntities = useSchoolSubjectEntities();
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_LERNING_GROUPS_STORY);
+  const navigateBack = () =>
+    lsc.stories.transitTo(Stories.OBSERVING_LERNING_GROUPS_STORY);
 
   const saveLearningGroup = async () => {
     navigateBack();
@@ -72,23 +83,33 @@ const AddLearningGroupSheet = () => {
 
     const newLearningGroupEntity = new Entity();
     lsc.engine.addEntity(newLearningGroupEntity);
-    newLearningGroupEntity.add(new IdentifierFacet({ guid: newLearningGroupId }));
-    newLearningGroupEntity.add(new TitleFacet({ title: newLearningGroup.title }));
-    newLearningGroupEntity.add(new ColorFacet({ colorName: newLearningGroup.color }));
-    newLearningGroupEntity.add(new DescriptionFacet({ description: newLearningGroup.description }));
+    newLearningGroupEntity.add(
+      new IdentifierFacet({ guid: newLearningGroupId }),
+    );
+    newLearningGroupEntity.add(
+      new TitleFacet({ title: newLearningGroup.title }),
+    );
+    newLearningGroupEntity.add(
+      new ColorFacet({ colorName: newLearningGroup.color }),
+    );
+    newLearningGroupEntity.add(
+      new DescriptionFacet({ description: newLearningGroup.description }),
+    );
     newLearningGroupEntity.add(DataTypes.LEARNING_GROUP);
 
     if (shouldFetchFromSupabase) {
-      const { error } = await supabaseClient.from(SupabaseTables.LEARNING_GROUPS).insert([
-        {
-          id: newLearningGroupId,
-          title: newLearningGroup.title,
-          color: newLearningGroup.color,
-          description: newLearningGroup.description,
-          owner_id: userId,
-          members: [userId],
-        },
-      ]);
+      const { error } = await supabaseClient
+        .from(SupabaseTables.LEARNING_GROUPS)
+        .insert([
+          {
+            id: newLearningGroupId,
+            title: newLearningGroup.title,
+            color: newLearningGroup.color,
+            description: newLearningGroup.description,
+            owner_id: userId,
+            members: [userId],
+          },
+        ]);
 
       if (error) {
         console.error("Error inserting new learning group", error);
@@ -97,27 +118,40 @@ const AddLearningGroupSheet = () => {
       schoolSubjectEntities.forEach(async (schoolSubjectEntity, idx) => {
         const newLearningGroupSchoolSubjectId = v4();
         const newLearningGroupSchoolSubjectTitle =
-          schoolSubjectEntity.get(TitleFacet)?.props.title || displayAlertTexts(selectedLanguage).noTitle;
+          schoolSubjectEntity.get(TitleFacet)?.props.title ||
+          displayAlertTexts(selectedLanguage).noTitle;
 
         const newLearningGroupSchoolSubjectEntity = new Entity();
         lsc.engine.addEntity(newLearningGroupSchoolSubjectEntity);
-        newLearningGroupSchoolSubjectEntity.add(new IdentifierFacet({ guid: newLearningGroupSchoolSubjectId }));
-        newLearningGroupSchoolSubjectEntity.add(new TitleFacet({ title: newLearningGroupSchoolSubjectTitle }));
-        newLearningGroupSchoolSubjectEntity.add(new ParentFacet({ parentId: newLearningGroupId }));
-        newLearningGroupSchoolSubjectEntity.add(new OrderFacet({ orderIndex: idx }));
+        newLearningGroupSchoolSubjectEntity.add(
+          new IdentifierFacet({ guid: newLearningGroupSchoolSubjectId }),
+        );
+        newLearningGroupSchoolSubjectEntity.add(
+          new TitleFacet({ title: newLearningGroupSchoolSubjectTitle }),
+        );
+        newLearningGroupSchoolSubjectEntity.add(
+          new ParentFacet({ parentId: newLearningGroupId }),
+        );
+        newLearningGroupSchoolSubjectEntity.add(
+          new OrderFacet({ orderIndex: idx }),
+        );
         newLearningGroupSchoolSubjectEntity.add(DataTypes.GROUP_SCHOOL_SUBJECT);
-      
 
-        const { error } = await supabaseClient.from(SupabaseTables.GROUP_SCHOOL_SUBJECTS).insert([
-          {
-            id: newLearningGroupSchoolSubjectId,
-            group_id: newLearningGroupId,
-            title: newLearningGroupSchoolSubjectTitle,
-          },
-        ]);
+        const { error } = await supabaseClient
+          .from(SupabaseTables.GROUP_SCHOOL_SUBJECTS)
+          .insert([
+            {
+              id: newLearningGroupSchoolSubjectId,
+              group_id: newLearningGroupId,
+              title: newLearningGroupSchoolSubjectTitle,
+            },
+          ]);
 
         if (error) {
-          console.error("Error inserting new learning group school subject", error);
+          console.error(
+            "Error inserting new learning group school subject",
+            error,
+          );
         }
       });
     }
@@ -126,9 +160,13 @@ const AddLearningGroupSheet = () => {
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>
       <FlexBox>
-        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
+        <SecondaryButton onClick={navigateBack}>
+          {displayButtonTexts(selectedLanguage).cancel}
+        </SecondaryButton>
         {newLearningGroup.title && (
-          <PrimaryButton onClick={saveLearningGroup}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
+          <PrimaryButton onClick={saveLearningGroup}>
+            {displayButtonTexts(selectedLanguage).save}
+          </PrimaryButton>
         )}
       </FlexBox>
       <Spacer />
@@ -136,14 +174,24 @@ const AddLearningGroupSheet = () => {
         <SectionRow>
           <TextInput
             placeholder={displayLabelTexts(selectedLanguage).title}
-            onChange={(e) => setNewLearningGroup({ ...newLearningGroup, title: e.target.value })}
+            onChange={(e) =>
+              setNewLearningGroup({
+                ...newLearningGroup,
+                title: e.target.value,
+              })
+            }
           />
         </SectionRow>
         <SectionRow>
           <FlexBox>
             <p>{displayLabelTexts(selectedLanguage).color}</p>
             <StyledColorSelect
-              onChange={(e) => setNewLearningGroup({ ...newLearningGroup, color: e.target.value })}
+              onChange={(e) =>
+                setNewLearningGroup({
+                  ...newLearningGroup,
+                  color: e.target.value,
+                })
+              }
               color={newLearningGroup.color}
               value={newLearningGroup.color}
             >
@@ -158,7 +206,12 @@ const AddLearningGroupSheet = () => {
         <SectionRow last>
           <TextAreaInput
             placeholder={displayLabelTexts(selectedLanguage).description}
-            onChange={(e) => setNewLearningGroup({ ...newLearningGroup, description: e.target.value })}
+            onChange={(e) =>
+              setNewLearningGroup({
+                ...newLearningGroup,
+                description: e.target.value,
+              })
+            }
           />
         </SectionRow>
       </Section>

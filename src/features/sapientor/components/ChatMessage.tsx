@@ -6,7 +6,12 @@ import { motion } from "framer-motion";
 import { useContext, useEffect } from "react";
 import { Fragment } from "react/jsx-runtime";
 import tw from "twin.macro";
-import { TitleProps, TitleFacet, MessageRoleProps, RelatedResourcesProps } from "../../../app/additionalFacets";
+import {
+  TitleProps,
+  TitleFacet,
+  MessageRoleProps,
+  RelatedResourcesProps,
+} from "../../../app/additionalFacets";
 import { COLOR_ITEMS } from "../../../base/constants";
 import { AdditionalTags, DataTypes, MessageRoles } from "../../../base/enums";
 import { Resource } from "../../../base/types";
@@ -15,7 +20,6 @@ import SapientorConversationMessage from "../../../components/content/SapientorC
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import { displayDataTypeTexts } from "../../../utils/displayText";
 import { useAppState } from "../../collection/hooks/useAppState";
-
 
 const TopicResourceCell = (props: TitleProps & EntityProps) => {
   const { title, entity } = props;
@@ -26,7 +30,13 @@ const TopicResourceCell = (props: TitleProps & EntityProps) => {
     appStateEntity?.remove(AdditionalTags.CONVERSATION_VISIBLE);
   };
 
-  return <TopicResoucreThumbNail onClick={openTopic} color={COLOR_ITEMS[1].accentColor} title={title} />;
+  return (
+    <TopicResoucreThumbNail
+      onClick={openTopic}
+      color={COLOR_ITEMS[1].accentColor}
+      title={title}
+    />
+  );
 };
 
 const StyledNoteResouceCellWrapper = styled.div`
@@ -39,7 +49,11 @@ const NoteResouceCell = (props: TitleProps & EntityProps) => {
 
   return (
     <StyledNoteResouceCellWrapper>
-      <NoteThumbNail color={COLOR_ITEMS[1].accentColor} onClick={openNote} title={title} />
+      <NoteThumbNail
+        color={COLOR_ITEMS[1].accentColor}
+        onClick={openNote}
+        title={title}
+      />
     </StyledNoteResouceCellWrapper>
   );
 };
@@ -62,14 +76,17 @@ const HomeworkResourceCell = (props: TitleProps & EntityProps) => {
   );
 };
 
-const InitializeRelatedResourcesSystem = (props: { relatedResources: Resource[] }) => {
+const InitializeRelatedResourcesSystem = (props: {
+  relatedResources: Resource[];
+}) => {
   const lsc = useContext(LeanScopeClientContext);
   const { relatedResources } = props;
 
   useEffect(() => {
     relatedResources.forEach((r) => {
       const isExisting = lsc.engine.entities.some(
-        (e) => e.has(IdentifierFacet) && e.get(IdentifierFacet)?.props.guid === r.id
+        (e) =>
+          e.has(IdentifierFacet) && e.get(IdentifierFacet)?.props.guid === r.id,
       );
 
       if (!isExisting) {
@@ -105,21 +122,30 @@ const RelatedResourcesInfo = (props: { relatedResources: Resource[] }) => {
         <StyledContainer>
           <EntityPropsMapper
             query={(e) =>
-              e.has(DataTypes.TOPIC) && relatedResources.some((r) => r.id === e.get(IdentifierFacet)?.props.guid)
+              e.has(DataTypes.TOPIC) &&
+              relatedResources.some(
+                (r) => r.id === e.get(IdentifierFacet)?.props.guid,
+              )
             }
             get={[[TitleFacet], []]}
             onMatch={TopicResourceCell}
           />
           <EntityPropsMapper
             query={(e) =>
-              e.has(DataTypes.NOTE) && relatedResources.some((r) => r.id === e.get(IdentifierFacet)?.props.guid)
+              e.has(DataTypes.NOTE) &&
+              relatedResources.some(
+                (r) => r.id === e.get(IdentifierFacet)?.props.guid,
+              )
             }
             get={[[TitleFacet], []]}
             onMatch={NoteResouceCell}
           />
           <EntityPropsMapper
             query={(e) =>
-              e.has(DataTypes.HOMEWORK) && relatedResources.some((r) => r.id === e.get(IdentifierFacet)?.props.guid)
+              e.has(DataTypes.HOMEWORK) &&
+              relatedResources.some(
+                (r) => r.id === e.get(IdentifierFacet)?.props.guid,
+              )
             }
             get={[[TitleFacet], []]}
             onMatch={HomeworkResourceCell}
@@ -130,7 +156,9 @@ const RelatedResourcesInfo = (props: { relatedResources: Resource[] }) => {
   );
 };
 
-const ChatMessage = (props: TextProps & MessageRoleProps & RelatedResourcesProps) => {
+const ChatMessage = (
+  props: TextProps & MessageRoleProps & RelatedResourcesProps,
+) => {
   const { text, role, relatedResources = [] } = props;
 
   return (
@@ -150,7 +178,9 @@ const ChatMessage = (props: TextProps & MessageRoleProps & RelatedResourcesProps
           message={{
             role: role == MessageRoles.USER ? "user" : "gpt",
             message: text,
-            specialContent: relatedResources.length > 0 && <RelatedResourcesInfo relatedResources={relatedResources} />,
+            specialContent: relatedResources.length > 0 && (
+              <RelatedResourcesInfo relatedResources={relatedResources} />
+            ),
           }}
         />
       </motion.div>

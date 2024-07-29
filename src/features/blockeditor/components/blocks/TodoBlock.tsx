@@ -3,7 +3,11 @@ import { Entity, EntityProps } from "@leanscope/ecs-engine";
 import { useEntityFacets } from "@leanscope/ecs-engine/react-api/hooks/useEntityFacets";
 import { FloatOrderProps, IdentifierFacet } from "@leanscope/ecs-models";
 import { useEffect, useRef } from "react";
-import { IoCheckmarkCircle, IoCloseCircle, IoEllipseOutline } from "react-icons/io5";
+import {
+  IoCheckmarkCircle,
+  IoCloseCircle,
+  IoEllipseOutline,
+} from "react-icons/io5";
 import tw from "twin.macro";
 import { TodoStateFacet } from "../../../../app/additionalFacets";
 import { SupabaseColumns, SupabaseTables } from "../../../../base/enums";
@@ -34,7 +38,8 @@ const useTodoClickHandler = (entity: Entity) => {
     }
   };
 
-  const handleClick = async () => updateTodoState(todoState === 2 || todoState === 1 ? 0 : 2);
+  const handleClick = async () =>
+    updateTodoState(todoState === 2 || todoState === 1 ? 0 : 2);
 
   useEffect(() => {
     return () => {

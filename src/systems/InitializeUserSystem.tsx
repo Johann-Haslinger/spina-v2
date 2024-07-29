@@ -19,8 +19,12 @@ const InitializeUserSystem = () => {
       const userEmail = user.data.user?.email;
       const userId = user.data.user?.id;
 
-      const { data, error} = await supabaseClient.from(SupabaseTables.PROFILES).select("user_name, profile_picture").eq("user_id", userId).single(); 
-console.log(data);
+      const { data, error } = await supabaseClient
+        .from(SupabaseTables.PROFILES)
+        .select("user_name, profile_picture")
+        .eq("user_id", userId)
+        .single();
+      console.log(data);
       if (error) {
         console.error("Error fetching user data", error);
       }
@@ -31,9 +35,10 @@ console.log(data);
         userEntity.add(new ImageFacet({ imageSrc: profile_picture }));
       }
 
-      userEntity.add(new IdentifierFacet({ guid: "user", displayName: userId || "" }));
+      userEntity.add(
+        new IdentifierFacet({ guid: "user", displayName: userId || "" }),
+      );
       userEntity.add(new EmailFacet({ email: userEmail || "" }));
-    
     };
 
     fetchUserData();

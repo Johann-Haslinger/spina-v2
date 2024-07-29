@@ -12,7 +12,8 @@ const StyledCellWrapper = styled.div`
 const PodcastCollectionCard = () => {
   const lsc = useContext(LeanScopeClientContext);
 
-  const openPodcastCollection = () => lsc.stories.transitTo(Stories.OBSERVING_PODCASTS_COLLECTION);
+  const openPodcastCollection = () =>
+    lsc.stories.transitTo(Stories.OBSERVING_PODCASTS_COLLECTION);
 
   return (
     <StyledCellWrapper onClick={openPodcastCollection}>

@@ -14,7 +14,7 @@ interface ActionSheetProps {
 }
 
 const ActionSheet = (props: PropsWithChildren & ActionSheetProps) => {
-  const { visible, children, navigateBack, direction  = "right"} = props;
+  const { visible, children, navigateBack, direction = "right" } = props;
   const refOne = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {

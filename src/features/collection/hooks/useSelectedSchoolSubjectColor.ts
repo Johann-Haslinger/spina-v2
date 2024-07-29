@@ -9,10 +9,13 @@ export const useSelectedSchoolSubjectColor = () => {
   const [selectedSchoolSubjectEntity] = useEntities(
     (e) =>
       e.has(Tags.SELECTED) &&
-      (dataTypeQuery(e, DataTypes.SCHOOL_SUBJECT) || dataTypeQuery(e, DataTypes.GROUP_SCHOOL_SUBJECT))
+      (dataTypeQuery(e, DataTypes.SCHOOL_SUBJECT) ||
+        dataTypeQuery(e, DataTypes.GROUP_SCHOOL_SUBJECT)),
   )[0];
   if (selectedSchoolSubjectEntity) {
-    const { accentColor, color, backgroundColor } = useSchoolSubjectColors(selectedSchoolSubjectEntity);
+    const { accentColor, color, backgroundColor } = useSchoolSubjectColors(
+      selectedSchoolSubjectEntity,
+    );
 
     return { backgroundColor, color, accentColor };
   } else {

@@ -1,7 +1,11 @@
 import { EntityProps } from "@leanscope/ecs-engine";
 import { Tags } from "@leanscope/ecs-models";
 import { IoHomeOutline, IoTrophyOutline } from "react-icons/io5";
-import { StatusFacet, StatusProps, TitleProps } from "../../../app/additionalFacets";
+import {
+  StatusFacet,
+  StatusProps,
+  TitleProps,
+} from "../../../app/additionalFacets";
 import { DataTypes } from "../../../base/enums";
 import { FlexBox, SectionRow } from "../../../components";
 import tw from "twin.macro";
@@ -40,15 +44,23 @@ const PendingResourceRow = (props: TitleProps & StatusProps & EntityProps) => {
   const { isDarkMode } = useSelectedTheme();
 
   const openResource = () => entity.add(Tags.SELECTED);
-  const updateStatus = (status: number) => entity.add(new StatusFacet({ status }));
+  const updateStatus = (status: number) =>
+    entity.add(new StatusFacet({ status }));
 
   return (
-    <SectionRow onClick={openResource} icon={isHomework ? <IoHomeOutline /> : <IoTrophyOutline />}>
+    <SectionRow
+      onClick={openResource}
+      icon={isHomework ? <IoHomeOutline /> : <IoTrophyOutline />}
+    >
       <FlexBox>
         {title}
 
         <StyledSelectWrapper dark={isDarkMode} status={status}>
-          <StyledSelect onChange={(e) => updateStatus(parseInt(e.target.value))} defaultValue={0} value={status}>
+          <StyledSelect
+            onChange={(e) => updateStatus(parseInt(e.target.value))}
+            defaultValue={0}
+            value={status}
+          >
             <option value={1}>Nicht begonnen</option>
             <option value={3}>In Arbeit</option>
             <option value={2}>In Gefahr</option>

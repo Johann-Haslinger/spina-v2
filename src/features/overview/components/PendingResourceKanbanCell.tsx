@@ -28,12 +28,21 @@ const StyledResourceCellSubtitle = styled.div`
   ${tw` text-sm mt-0.5 text-opacity-50 font-medium line-clamp-2`}
 `;
 
-const PendingResourceKanbanCell = (props: { entity: Entity; backgroundColor: string; color: string }) => {
+const PendingResourceKanbanCell = (props: {
+  entity: Entity;
+  backgroundColor: string;
+  color: string;
+}) => {
   const { entity, backgroundColor, color } = props;
   const { selectedLanguage } = useSelectedLanguage();
-  const [titleProps, relationShipProps] = useEntityFacets(entity, TitleFacet, RelationshipFacet);
+  const [titleProps, relationShipProps] = useEntityFacets(
+    entity,
+    TitleFacet,
+    RelationshipFacet,
+  );
   const daysUntilDue = useDaysUntilDue(entity);
-  const title = titleProps?.title || displayAlertTexts(selectedLanguage).noTitle;
+  const title =
+    titleProps?.title || displayAlertTexts(selectedLanguage).noTitle;
   const relatedSchoolSubjectId = relationShipProps?.relationship;
   const { schoolSubjectTitle } = useSchoolSubject(relatedSchoolSubjectId);
 
@@ -51,7 +60,10 @@ const PendingResourceKanbanCell = (props: { entity: Entity; backgroundColor: str
       }}
     >
       <StyledResourceCellContainer onClick={handleOpenResource}>
-        <StyledResourceCellWrapper backgroundColor={backgroundColor} color={color}>
+        <StyledResourceCellWrapper
+          backgroundColor={backgroundColor}
+          color={color}
+        >
           <StyledResourceCellTitle>{title}</StyledResourceCellTitle>
           <StyledResourceCellSubtitle>
             {schoolSubjectTitle}, {daysUntilDue}

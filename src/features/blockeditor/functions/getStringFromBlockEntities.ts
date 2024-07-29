@@ -1,9 +1,15 @@
 import { Entity } from "@leanscope/ecs-engine";
 import { TextFacet } from "@leanscope/ecs-models";
-import { BlocktypeFacet, TexttypeFacet, TodoStateFacet } from "../../../app/additionalFacets";
+import {
+  BlocktypeFacet,
+  TexttypeFacet,
+  TodoStateFacet,
+} from "../../../app/additionalFacets";
 import { Texttypes } from "../../../base/enums";
 
-export const getStringFromBlockEntities = (blockEntities: readonly Entity[]) => {
+export const getStringFromBlockEntities = (
+  blockEntities: readonly Entity[],
+) => {
   const markdownString = blockEntities
     .map((bockEntity) => {
       const blockType = bockEntity.get(BlocktypeFacet)?.props.blocktype;

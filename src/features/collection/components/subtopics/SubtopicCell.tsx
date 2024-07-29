@@ -10,7 +10,13 @@ const SubtopicCell = (props: EntityProps & TitleProps) => {
 
   const openSubtopicView = () => entity.add(Tags.SELECTED);
 
-  return <SubtopicThumbNail color={accentColor} title={title} onClick={openSubtopicView} />;
+  return (
+    <SubtopicThumbNail
+      color={accentColor}
+      title={title}
+      onClick={openSubtopicView}
+    />
+  );
 };
 
 export default SubtopicCell;

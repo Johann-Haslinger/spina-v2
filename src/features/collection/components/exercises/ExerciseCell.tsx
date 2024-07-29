@@ -10,7 +10,13 @@ const ExerciseCell = (props: TitleProps & EntityProps) => {
 
   const openExercise = () => entity.add(Tags.SELECTED);
 
-  return <ExerciseThumbnail color={accentColor} title={title} onClick={openExercise} />;
+  return (
+    <ExerciseThumbnail
+      color={accentColor}
+      title={title}
+      onClick={openExercise}
+    />
+  );
 };
 
 export default ExerciseCell;

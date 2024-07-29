@@ -45,21 +45,33 @@ const InitializeFlashcardGroupsSystem = () => {
 
   useEffect(() => {
     const initializeFlashcardSetEntities = async () => {
-      const flashcardSets = mockupData ? dummyFlashcardSets : shouldFetchFromSupabase ? await fetchFlashcardSets() : [];
+      const flashcardSets = mockupData
+        ? dummyFlashcardSets
+        : shouldFetchFromSupabase
+          ? await fetchFlashcardSets()
+          : [];
 
       flashcardSets.forEach((flashcardSet) => {
         const isExisting = lsc.engine.entities.some(
-          (e) => e.get(IdentifierFacet)?.props.guid === flashcardSet.id && dataTypeQuery(e, DataTypes.FLASHCARD_SET)
+          (e) =>
+            e.get(IdentifierFacet)?.props.guid === flashcardSet.id &&
+            dataTypeQuery(e, DataTypes.FLASHCARD_SET),
         );
 
         if (!isExisting) {
           const flashcardGroupEntity = new Entity();
           lsc.engine.addEntity(flashcardGroupEntity);
           flashcardGroupEntity.add(
-            new DateAddedFacet({ dateAdded: flashcardSet.date_added || new Date().toISOString() })
+            new DateAddedFacet({
+              dateAdded: flashcardSet.date_added || new Date().toISOString(),
+            }),
           );
-          flashcardGroupEntity.add(new TitleFacet({ title: flashcardSet.title }));
-          flashcardGroupEntity.add(new IdentifierFacet({ guid: flashcardSet.id }));
+          flashcardGroupEntity.add(
+            new TitleFacet({ title: flashcardSet.title }),
+          );
+          flashcardGroupEntity.add(
+            new IdentifierFacet({ guid: flashcardSet.id }),
+          );
           flashcardGroupEntity.addTag(DataTypes.FLASHCARD_SET);
           flashcardGroupEntity.addTag(DataTypes.FLASHCARD_GROUP);
 
@@ -75,13 +87,19 @@ const InitializeFlashcardGroupsSystem = () => {
 
       subtopics.forEach((subtopic) => {
         const isExisting = lsc.engine.entities.some(
-          (e) => e.get(IdentifierFacet)?.props.guid === subtopic.id && dataTypeQuery(e, DataTypes.SUBTOPIC)
+          (e) =>
+            e.get(IdentifierFacet)?.props.guid === subtopic.id &&
+            dataTypeQuery(e, DataTypes.SUBTOPIC),
         );
 
         if (!isExisting) {
           const subtopicEntity = new Entity();
           lsc.engine.addEntity(subtopicEntity);
-          subtopicEntity.add(new DateAddedFacet({ dateAdded: subtopic.date_added || new Date().toISOString() }));
+          subtopicEntity.add(
+            new DateAddedFacet({
+              dateAdded: subtopic.date_added || new Date().toISOString(),
+            }),
+          );
           subtopicEntity.add(new TitleFacet({ title: subtopic.title }));
           subtopicEntity.add(new IdentifierFacet({ guid: subtopic.id }));
           subtopicEntity.addTag(DataTypes.SUBTOPIC);

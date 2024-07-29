@@ -12,7 +12,9 @@ const InitializeBlockeditorSystem = (props: {
 }) => {
   const lsc = useContext(LeanScopeClientContext);
   const { blockeditorId, isGroupBlockeditor } = props;
-  const [blockeditorEntities] = useEntities((e) => e.has(BlockeditorStateFacet));
+  const [blockeditorEntities] = useEntities((e) =>
+    e.has(BlockeditorStateFacet),
+  );
 
   useEffect(() => {
     const initializeBlockeditor = async () => {
@@ -23,7 +25,9 @@ const InitializeBlockeditorSystem = (props: {
       const newBlockeditorEntity = new Entity();
       lsc.engine.addEntity(newBlockeditorEntity);
       newBlockeditorEntity.add(new IdentifierFacet({ guid: blockeditorId }));
-      newBlockeditorEntity.add(new BlockeditorStateFacet({ blockeditorState: "view" }));
+      newBlockeditorEntity.add(
+        new BlockeditorStateFacet({ blockeditorState: "view" }),
+      );
 
       if (isGroupBlockeditor) {
         newBlockeditorEntity.add(AdditionalTags.GROUP_BLOCKEDITOR);

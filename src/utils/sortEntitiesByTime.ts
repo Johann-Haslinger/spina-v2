@@ -19,7 +19,10 @@ export function sortEntitiesByDueDate(a: Entity, b: Entity) {
 }
 
 export function sortEntitiesByDateAdded(a: Entity, b: Entity) {
-  return sortEntitiesByTime(a.get(DateAddedFacet)?.props.dateAdded, b.get(DateAddedFacet)?.props.dateAdded);
+  return sortEntitiesByTime(
+    a.get(DateAddedFacet)?.props.dateAdded,
+    b.get(DateAddedFacet)?.props.dateAdded,
+  );
 }
 export function sortMessageEntitiesByDateAdded(a: Entity, b: Entity) {
   const timeA = new Date(a.get(DateAddedFacet)?.props.dateAdded || 0).getTime();

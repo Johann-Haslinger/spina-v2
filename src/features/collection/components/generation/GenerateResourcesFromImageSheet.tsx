@@ -6,10 +6,21 @@ import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext, useEffect, useState } from "react";
 import tw from "twin.macro";
 import { v4 } from "uuid";
-import { AnswerFacet, DateAddedFacet, QuestionFacet, SourceFacet, TitleFacet } from "../../../../app/additionalFacets";
+import {
+  AnswerFacet,
+  DateAddedFacet,
+  QuestionFacet,
+  SourceFacet,
+  TitleFacet,
+} from "../../../../app/additionalFacets";
 import { COLOR_ITEMS } from "../../../../base/constants";
 import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
-import { CloseButton, FlexBox, ScrollableBox, Sheet } from "../../../../components";
+import {
+  CloseButton,
+  FlexBox,
+  ScrollableBox,
+  Sheet,
+} from "../../../../components";
 import SapientorConversationMessage from "../../../../components/content/SapientorConversationMessage";
 import { addBlocks } from "../../../../functions/addBlocks";
 import { addFlashcards } from "../../../../functions/addFlashcards";
@@ -74,9 +85,16 @@ interface Suggestion {
   func?: () => void;
 }
 
-const AnswerSugesstion = (props: { sugesstion: string; onClick: () => void }) => {
+const AnswerSugesstion = (props: {
+  sugesstion: string;
+  onClick: () => void;
+}) => {
   const { sugesstion, onClick } = props;
-  return <StyledSugesstionWrapper onClick={onClick}>{sugesstion}</StyledSugesstionWrapper>;
+  return (
+    <StyledSugesstionWrapper onClick={onClick}>
+      {sugesstion}
+    </StyledSugesstionWrapper>
+  );
 };
 
 interface Podcast {
@@ -92,9 +110,13 @@ interface Podcast {
 
 const GenerateResourcesFromImageSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const [generationState, setGenerationState] = useState<GenerationState | undefined>(undefined);
+  const [generationState, setGenerationState] = useState<
+    GenerationState | undefined
+  >(undefined);
   const [note, setNote] = useState<string | undefined>(undefined);
-  const [flashcards, setFlashcards] = useState<{ question: string; answer: string }[]>([]);
+  const [flashcards, setFlashcards] = useState<
+    { question: string; answer: string }[]
+  >([]);
   const [_, setPodcast] = useState<Podcast | undefined>(undefined);
   const [readyToSave, setReadyToSave] = useState(false);
   const [title, setTitle] = useState("");
@@ -103,9 +125,12 @@ const GenerateResourcesFromImageSheet = () => {
   const { userId } = useUserData();
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const { selectedTopicId } = useSelectedTopic();
-  const [isTypingAnimationPlaying, setIsTypingAnimationPlaying] = useState(true);
+  const [isTypingAnimationPlaying, setIsTypingAnimationPlaying] =
+    useState(true);
   const isVisible = useIsStoryCurrent(Stories.GENERATING_RESOURCES_FROM_IMAGE);
-  const [imagePromptEntity] = useEntity((e) => e.has(AdditionalTags.GENERATE_FROM_IMAGE_PROMPT));
+  const [imagePromptEntity] = useEntity((e) =>
+    e.has(AdditionalTags.GENERATE_FROM_IMAGE_PROMPT),
+  );
   const imageSrc = imagePromptEntity?.get(SourceFacet)?.props.source;
 
   useEffect(() => {
@@ -120,13 +145,15 @@ const GenerateResourcesFromImageSheet = () => {
     setSuggestions([]);
   }, [isVisible]);
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_COLLECTION_STORY);
+  const navigateBack = () =>
+    lsc.stories.transitTo(Stories.OBSERVING_COLLECTION_STORY);
 
   useEffect(() => {
     if (!isTypingAnimationPlaying && conversation.length == 1) {
       setSuggestions([
         {
-          answer: "Kannst du mir eine verbesserte Erklärung zu diesem Bild erstellen?",
+          answer:
+            "Kannst du mir eine verbesserte Erklärung zu diesem Bild erstellen?",
           func: () => handleSelectGenerateNoteFromImageOption(),
         },
         {
@@ -142,18 +169,20 @@ const GenerateResourcesFromImageSheet = () => {
     setGenerationState(GenerationState.GENERATING_FLASHCARDS);
     setSuggestions([]);
 
-    const { data: flashcardsData, error } = await supabaseClient.functions.invoke("generate-flashcards", {
-      headers: {
-        Authorization: `Bearer ${session.data.session?.access_token}`,
-      },
-      body: { base64_image: imageSrc },
-    });
+    const { data: flashcardsData, error } =
+      await supabaseClient.functions.invoke("generate-flashcards", {
+        headers: {
+          Authorization: `Bearer ${session.data.session?.access_token}`,
+        },
+        body: { base64_image: imageSrc },
+      });
 
     if (error) {
       console.error("Error generating completion:", error.message);
     }
 
-    const generatedFlashcards: { answer: string; question: string }[] = JSON.parse(flashcardsData).cards;
+    const generatedFlashcards: { answer: string; question: string }[] =
+      JSON.parse(flashcardsData).cards;
     const flashcardText = generatedFlashcards
       .map((flashcard) => `${flashcard.question} - ${flashcard.answer}`)
       .join("\n");
@@ -172,7 +201,11 @@ const GenerateResourcesFromImageSheet = () => {
       specialContent: (
         <div className="px-4">
           {generatedFlashcards.map((flashcard, index) => (
-            <PreviewFlashcard key={index} flashcard={flashcard} updateFlashcard={() => {}} />
+            <PreviewFlashcard
+              key={index}
+              flashcard={flashcard}
+              updateFlashcard={() => {}}
+            />
           ))}
         </div>
       ),
@@ -205,12 +238,15 @@ const GenerateResourcesFromImageSheet = () => {
     setGenerationState(GenerationState.GENERATING_NOTE);
     setSuggestions([]);
 
-    const { data: noteData, error } = await supabaseClient.functions.invoke("generate-note-from-image", {
-      headers: {
-        Authorization: `Bearer ${session.data.session?.access_token}`,
+    const { data: noteData, error } = await supabaseClient.functions.invoke(
+      "generate-note-from-image",
+      {
+        headers: {
+          Authorization: `Bearer ${session.data.session?.access_token}`,
+        },
+        body: { base64_image: imageSrc },
       },
-      body: { base64_image: imageSrc },
-    });
+    );
     const note = JSON.parse(noteData);
 
     if (error) {
@@ -271,7 +307,10 @@ const GenerateResourcesFromImageSheet = () => {
     ]);
   };
 
-  const handleSelectGenerateFlashcardsOption = async (hasGeneratedPodcast: boolean, text: string) => {
+  const handleSelectGenerateFlashcardsOption = async (
+    hasGeneratedPodcast: boolean,
+    text: string,
+  ) => {
     const session = await supabaseClient.auth.getSession();
 
     setSuggestions([]);
@@ -280,14 +319,16 @@ const GenerateResourcesFromImageSheet = () => {
       setGenerationState(GenerationState.GENERATING_FLASHCARDS);
     }, 200);
 
-    const { data: flashcardsData, error } = await supabaseClient.functions.invoke("generate-flashcards", {
-      headers: {
-        Authorization: `Bearer ${session.data.session?.access_token}`,
-      },
-      body: { text: text },
-    });
+    const { data: flashcardsData, error } =
+      await supabaseClient.functions.invoke("generate-flashcards", {
+        headers: {
+          Authorization: `Bearer ${session.data.session?.access_token}`,
+        },
+        body: { text: text },
+      });
 
-    const generatedFlashcards: { answer: string; question: string }[] = JSON.parse(flashcardsData).cards;
+    const generatedFlashcards: { answer: string; question: string }[] =
+      JSON.parse(flashcardsData).cards;
 
     if (error) {
       console.error("Error generating completion:", error.message);
@@ -301,7 +342,11 @@ const GenerateResourcesFromImageSheet = () => {
         specialContent: (
           <div className="px-4">
             {generatedFlashcards.map((flashcard, idx) => (
-              <PreviewFlashcard updateFlashcard={() => {}} key={idx} flashcard={flashcard} />
+              <PreviewFlashcard
+                updateFlashcard={() => {}}
+                key={idx}
+                flashcard={flashcard}
+              />
             ))}
           </div>
         ),
@@ -341,13 +386,17 @@ const GenerateResourcesFromImageSheet = () => {
 
           {
             answer: "Nein, kannst du die nochmal machen?",
-            func: () => handleSelectGenerateFlashcardsOption(hasGeneratedPodcast, text),
+            func: () =>
+              handleSelectGenerateFlashcardsOption(hasGeneratedPodcast, text),
           },
         ]);
       setGenerationState(GenerationState.GENERATED_FLASHCARDS);
     }
   };
-  const handleGeneratePodcast = async (generatedFlashcards: boolean, text: string) => {
+  const handleGeneratePodcast = async (
+    generatedFlashcards: boolean,
+    text: string,
+  ) => {
     setGenerationState(GenerationState.GENERATING_PODCAST);
     setSuggestions([]);
 
@@ -390,7 +439,8 @@ const GenerateResourcesFromImageSheet = () => {
               : [
                   {
                     answer: "Ja, Karteikarten darüber wären hilfreich.",
-                    func: () => handleSelectGenerateFlashcardsOption(true, text),
+                    func: () =>
+                      handleSelectGenerateFlashcardsOption(true, text),
                   },
                   {
                     answer: "Nein, danke!",
@@ -399,7 +449,7 @@ const GenerateResourcesFromImageSheet = () => {
                       setReadyToSave(true);
                     },
                   },
-                ]
+                ],
           );
           if (generatedFlashcards) {
             setDisplayEndMessage(true);
@@ -427,8 +477,12 @@ const GenerateResourcesFromImageSheet = () => {
         const newSubtopicEntity = new Entity();
         newSubtopicEntity.add(new IdentifierFacet({ guid: subTopicId }));
         newSubtopicEntity.add(new TitleFacet({ title: title }));
-        newSubtopicEntity.add(new ParentFacet({ parentId: selectedTopicId || "" }));
-        newSubtopicEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
+        newSubtopicEntity.add(
+          new ParentFacet({ parentId: selectedTopicId || "" }),
+        );
+        newSubtopicEntity.add(
+          new DateAddedFacet({ dateAdded: new Date().toISOString() }),
+        );
         newSubtopicEntity.add(DataTypes.SUBTOPIC);
         newSubtopicEntity.add(new TextFacet({ text: note }));
 
@@ -437,8 +491,12 @@ const GenerateResourcesFromImageSheet = () => {
         const flashcardEntities = flashcards.map((flashcard) => {
           const newFlashcardEntity = new Entity();
           newFlashcardEntity.add(new IdentifierFacet({ guid: v4() }));
-          newFlashcardEntity.add(new ParentFacet({ parentId: subTopicId || "" }));
-          newFlashcardEntity.add(new QuestionFacet({ question: flashcard.question }));
+          newFlashcardEntity.add(
+            new ParentFacet({ parentId: subTopicId || "" }),
+          );
+          newFlashcardEntity.add(
+            new QuestionFacet({ question: flashcard.question }),
+          );
           newFlashcardEntity.add(new AnswerFacet({ answer: flashcard.answer }));
           newFlashcardEntity.add(DataTypes.FLASHCARD);
 
@@ -459,10 +517,16 @@ const GenerateResourcesFromImageSheet = () => {
         const flashcardSetId = v4();
 
         const newFlashcardSetEntity = new Entity();
-        newFlashcardSetEntity.add(new IdentifierFacet({ guid: flashcardSetId }));
+        newFlashcardSetEntity.add(
+          new IdentifierFacet({ guid: flashcardSetId }),
+        );
         newFlashcardSetEntity.add(new TitleFacet({ title: title }));
-        newFlashcardSetEntity.add(new ParentFacet({ parentId: selectedTopicId || "" }));
-        newFlashcardSetEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
+        newFlashcardSetEntity.add(
+          new ParentFacet({ parentId: selectedTopicId || "" }),
+        );
+        newFlashcardSetEntity.add(
+          new DateAddedFacet({ dateAdded: new Date().toISOString() }),
+        );
         newFlashcardSetEntity.add(DataTypes.FLASHCARD_SET);
 
         addFlashcardSet(lsc, newFlashcardSetEntity, userId);
@@ -471,7 +535,9 @@ const GenerateResourcesFromImageSheet = () => {
           const newFlashcardEntity = new Entity();
           newFlashcardEntity.add(new IdentifierFacet({ guid: v4() }));
           newFlashcardEntity.add(new ParentFacet({ parentId: flashcardSetId }));
-          newFlashcardEntity.add(new QuestionFacet({ question: flashcard.question }));
+          newFlashcardEntity.add(
+            new QuestionFacet({ question: flashcard.question }),
+          );
           newFlashcardEntity.add(new AnswerFacet({ answer: flashcard.answer }));
           newFlashcardEntity.add(DataTypes.FLASHCARD);
 
@@ -487,7 +553,9 @@ const GenerateResourcesFromImageSheet = () => {
       newNoteEntity.add(new IdentifierFacet({ guid: noteId }));
       newNoteEntity.add(new TitleFacet({ title: title }));
       newNoteEntity.add(new ParentFacet({ parentId: selectedTopicId || "" }));
-      newNoteEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
+      newNoteEntity.add(
+        new DateAddedFacet({ dateAdded: new Date().toISOString() }),
+      );
       newNoteEntity.add(DataTypes.NOTE);
 
       addNote(lsc, newNoteEntity, userId);
@@ -517,7 +585,9 @@ const GenerateResourcesFromImageSheet = () => {
           <div>
             {conversation.map((message, index) => (
               <SapientorConversationMessage
-                onWritingAnimationPlayed={() => setIsTypingAnimationPlaying(false)}
+                onWritingAnimationPlayed={() =>
+                  setIsTypingAnimationPlaying(false)
+                }
                 key={index}
                 message={message}
               />
@@ -542,7 +612,10 @@ const GenerateResourcesFromImageSheet = () => {
             {(generationState === GenerationState.GENERATING_FLASHCARDS ||
               generationState == GenerationState.GENERATING_PODCAST ||
               generationState == GenerationState.GENERATING_NOTE) && (
-              <SapientorConversationMessage isLoading={true} message={{ role: "gpt", message: "..." }} />
+              <SapientorConversationMessage
+                isLoading={true}
+                message={{ role: "gpt", message: "..." }}
+              />
             )}
           </div>
         ) : null}

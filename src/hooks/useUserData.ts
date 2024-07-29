@@ -8,7 +8,9 @@ import { useSelectedLanguage } from "./useSelectedLanguage";
 
 export const useUserData = () => {
   const { selectedLanguage } = useSelectedLanguage();
-  const [userEntity] = useEntity((e) => e.get(IdentifierFacet)?.props.guid === "user");
+  const [userEntity] = useEntity(
+    (e) => e.get(IdentifierFacet)?.props.guid === "user",
+  );
   const userId = userEntity?.get(IdentifierFacet)?.props.displayName;
   const userEmail = userEntity?.get(EmailFacet)?.props.email;
   const userName = userEntity?.get(NameFacet)?.props.firstName;
@@ -29,6 +31,6 @@ export const useUserData = () => {
     session,
     userName: userName,
     signOut,
-    profilePicture
+    profilePicture,
   };
 };

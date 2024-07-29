@@ -6,10 +6,17 @@ import { dataTypeQuery } from "../../../utils/queries";
 
 export const useSelectedSchoolSubject = () => {
   const [selectedSchoolSubjectEntity] = useEntity(
-    (e) => dataTypeQuery(e, DataTypes.SCHOOL_SUBJECT) && e.hasTag(Tags.SELECTED)
+    (e) =>
+      dataTypeQuery(e, DataTypes.SCHOOL_SUBJECT) && e.hasTag(Tags.SELECTED),
   );
-  const selectedSchoolSubjectId = selectedSchoolSubjectEntity?.get(IdentifierFacet)?.props.guid;
-  const selectedSchoolSubjectTitle = selectedSchoolSubjectEntity?.get(TitleFacet)?.props.title;
+  const selectedSchoolSubjectId =
+    selectedSchoolSubjectEntity?.get(IdentifierFacet)?.props.guid;
+  const selectedSchoolSubjectTitle =
+    selectedSchoolSubjectEntity?.get(TitleFacet)?.props.title;
 
-  return { selectedSchoolSubjectEntity, selectedSchoolSubjectTitle, selectedSchoolSubjectId };
+  return {
+    selectedSchoolSubjectEntity,
+    selectedSchoolSubjectTitle,
+    selectedSchoolSubjectId,
+  };
 };

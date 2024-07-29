@@ -1,7 +1,12 @@
 import styled from "@emotion/styled/macro";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
-import { IdentifierFacet, IdentifierProps, Tags, TextProps } from "@leanscope/ecs-models";
+import {
+  IdentifierFacet,
+  IdentifierProps,
+  Tags,
+  TextProps,
+} from "@leanscope/ecs-models";
 import { Fragment, useContext, useState } from "react";
 import {
   IoArrowDownCircleOutline,
@@ -54,18 +59,25 @@ enum GroupSubtopicViewStates {
   FLASHCARDS,
 }
 
-const GroupSubtopicView = (props: TitleProps & EntityProps & IdentifierProps & TextProps) => {
+const GroupSubtopicView = (
+  props: TitleProps & EntityProps & IdentifierProps & TextProps,
+) => {
   const lsc = useContext(LeanScopeClientContext);
   const { title, entity, guid, text } = props;
   const isVisible = useIsViewVisible(entity);
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedGroupTopicTitle } = useSelectedGroupTopic();
-  const [groupSubtopicViewState, setGroupSubtopicViewState] = useState(GroupSubtopicViewStates.NOTE);
+  const [groupSubtopicViewState, setGroupSubtopicViewState] = useState(
+    GroupSubtopicViewStates.NOTE,
+  );
 
   const navigateBack = () => entity.add(AdditionalTags.NAVIGATE_BACK);
-  const openDeleteAlert = () => lsc.stories.transitTo(Stories.DELETING_GROUP_SUBTOPIC_STORY);
-  const openEditSheet = () => lsc.stories.transitTo(Stories.EDETING_GROUP_SUBTOPIC_STORY);
-  const openCloneResourceSheet = () => lsc.stories.transitTo(Stories.CLONING_RESOURCE_FROM_GROUP_STORY);
+  const openDeleteAlert = () =>
+    lsc.stories.transitTo(Stories.DELETING_GROUP_SUBTOPIC_STORY);
+  const openEditSheet = () =>
+    lsc.stories.transitTo(Stories.EDETING_GROUP_SUBTOPIC_STORY);
+  const openCloneResourceSheet = () =>
+    lsc.stories.transitTo(Stories.CLONING_RESOURCE_FROM_GROUP_STORY);
 
   return (
     <Fragment>
@@ -80,11 +92,20 @@ const GroupSubtopicView = (props: TitleProps & EntityProps & IdentifierProps & T
           <NavBarButton
             content={
               <Fragment>
-                <ActionRow icon={<IoCreateOutline />} onClick={openEditSheet} first>
+                <ActionRow
+                  icon={<IoCreateOutline />}
+                  onClick={openEditSheet}
+                  first
+                >
                   {displayActionTexts(selectedLanguage).edit}
                 </ActionRow>
 
-                <ActionRow last destructive icon={<IoTrashOutline />} onClick={openDeleteAlert}>
+                <ActionRow
+                  last
+                  destructive
+                  icon={<IoTrashOutline />}
+                  onClick={openDeleteAlert}
+                >
                   {displayActionTexts(selectedLanguage).delete}
                 </ActionRow>
               </Fragment>
@@ -94,22 +115,32 @@ const GroupSubtopicView = (props: TitleProps & EntityProps & IdentifierProps & T
           </NavBarButton>
         </NavigationBar>
 
-        <BackButton navigateBack={navigateBack}>{selectedGroupTopicTitle}</BackButton>
+        <BackButton navigateBack={navigateBack}>
+          {selectedGroupTopicTitle}
+        </BackButton>
         <Title>{title}</Title>
         <Spacer />
         <div>
           <SegmentedControl>
             <SegmentedControlCell
               active={groupSubtopicViewState == GroupSubtopicViewStates.NOTE}
-              onClick={() => setGroupSubtopicViewState(GroupSubtopicViewStates.NOTE)}
+              onClick={() =>
+                setGroupSubtopicViewState(GroupSubtopicViewStates.NOTE)
+              }
               first
             >
               {displayActionTexts(selectedLanguage).note}
             </SegmentedControlCell>
             <SegmentedControlCell
-              active={groupSubtopicViewState == GroupSubtopicViewStates.FLASHCARDS}
-              onClick={() => setGroupSubtopicViewState(GroupSubtopicViewStates.FLASHCARDS)}
-              leftNeighbourActive={groupSubtopicViewState == GroupSubtopicViewStates.NOTE}
+              active={
+                groupSubtopicViewState == GroupSubtopicViewStates.FLASHCARDS
+              }
+              onClick={() =>
+                setGroupSubtopicViewState(GroupSubtopicViewStates.FLASHCARDS)
+              }
+              leftNeighbourActive={
+                groupSubtopicViewState == GroupSubtopicViewStates.NOTE
+              }
             >
               {displayActionTexts(selectedLanguage).flashcards}
             </SegmentedControlCell>
@@ -117,12 +148,16 @@ const GroupSubtopicView = (props: TitleProps & EntityProps & IdentifierProps & T
 
           <Spacer />
           <EntityPropsMapper
-            query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.PODCAST)}
+            query={(e) =>
+              isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.PODCAST)
+            }
             get={[[TitleFacet, DateAddedFacet], []]}
             onMatch={PodcastRow}
           />
           <EntityPropsMapper
-            query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.LERNVIDEO)}
+            query={(e) =>
+              isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.LERNVIDEO)
+            }
             get={[[TitleFacet, DateAddedFacet], []]}
             onMatch={LernvideoRow}
           />
@@ -134,7 +169,10 @@ const GroupSubtopicView = (props: TitleProps & EntityProps & IdentifierProps & T
             <StyledCardsWrapper>
               <CollectionGrid columnSize="large">
                 <EntityPropsMapper
-                  query={(e) => dataTypeQuery(e, DataTypes.GROUP_FLASHCARD) && isChildOfQuery(e, entity)}
+                  query={(e) =>
+                    dataTypeQuery(e, DataTypes.GROUP_FLASHCARD) &&
+                    isChildOfQuery(e, entity)
+                  }
                   get={[[QuestionFacet, AnswerFacet], []]}
                   onMatch={GroupFlashcardCell}
                 />
@@ -147,8 +185,13 @@ const GroupSubtopicView = (props: TitleProps & EntityProps & IdentifierProps & T
       </View>
 
       <EntityPropsMapper
-        query={(e) => e.hasTag(Tags.SELECTED) && dataTypeQuery(e, DataTypes.FLASHCARD)}
-        get={[[AnswerFacet, QuestionFacet, IdentifierFacet, MasteryLevelFacet], []]}
+        query={(e) =>
+          e.hasTag(Tags.SELECTED) && dataTypeQuery(e, DataTypes.FLASHCARD)
+        }
+        get={[
+          [AnswerFacet, QuestionFacet, IdentifierFacet, MasteryLevelFacet],
+          [],
+        ]}
         onMatch={EditFlashcardSheet}
       />
 

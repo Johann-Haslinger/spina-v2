@@ -1,4 +1,7 @@
-import { LeanScopeClientApp, LeanScopeClient } from "@leanscope/api-client/node";
+import {
+  LeanScopeClientApp,
+  LeanScopeClient,
+} from "@leanscope/api-client/node";
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import { Stories } from "../../../base/enums";
@@ -15,7 +18,9 @@ const ObservingHomeworksStory = () => {
     <React.StrictMode>
       <BrowserRouter>
         <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
-          <InitializeStoriesSystem initialStory={Stories.OBSERVING_COLLECTION_STORY} />
+          <InitializeStoriesSystem
+            initialStory={Stories.OBSERVING_COLLECTION_STORY}
+          />
           <ViewManagerSystem />
           <InitializeAppSystem />
 

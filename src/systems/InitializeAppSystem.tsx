@@ -2,7 +2,11 @@ import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
 import { useContext, useEffect } from "react";
 import { SelectedLanguageFacet } from "../app/additionalFacets";
-import { AdditionalTags, SupportedLanguages, SupportedThemes } from "../base/enums";
+import {
+  AdditionalTags,
+  SupportedLanguages,
+  SupportedThemes,
+} from "../base/enums";
 
 const InitializeAppSystem = (props: { mockupData?: boolean }) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -22,7 +26,9 @@ const InitializeAppSystem = (props: { mockupData?: boolean }) => {
     const storedTheme = localStorage.getItem("theme");
 
     if (storedTheme) {
-      appStateEntity.add(storedTheme === "dark" ? SupportedThemes.DARK : SupportedThemes.LIGHT);
+      appStateEntity.add(
+        storedTheme === "dark" ? SupportedThemes.DARK : SupportedThemes.LIGHT,
+      );
     } else {
       localStorage.setItem("theme", SupportedThemes.LIGHT);
       appStateEntity.add(SupportedThemes.LIGHT);
@@ -33,8 +39,11 @@ const InitializeAppSystem = (props: { mockupData?: boolean }) => {
     if (storedLanguage) {
       appStateEntity.add(
         new SelectedLanguageFacet({
-          selectedLanguage: storedLanguage == "en" ? SupportedLanguages.EN : SupportedLanguages.DE,
-        })
+          selectedLanguage:
+            storedLanguage == "en"
+              ? SupportedLanguages.EN
+              : SupportedLanguages.DE,
+        }),
       );
     }
 

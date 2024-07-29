@@ -7,9 +7,24 @@ import { IdentifierFacet, Tags } from "@leanscope/ecs-models";
 import { motion } from "framer-motion";
 import { Fragment, useContext, useEffect, useState } from "react";
 import tw from "twin.macro";
-import { BlocktypeFacet, ListStyleFacet, TexttypeFacet, TodoStateFacet } from "../../../../../app/additionalFacets";
-import { Blocktypes, DataTypes, ListStyles, SupabaseColumns, SupabaseTables, Texttypes } from "../../../../../base/enums";
-import { BLOCK_TYPE_TEXT_DATA, TEXT_TYPE_TEXT_DATA } from "../../../../../base/textData";
+import {
+  BlocktypeFacet,
+  ListStyleFacet,
+  TexttypeFacet,
+  TodoStateFacet,
+} from "../../../../../app/additionalFacets";
+import {
+  Blocktypes,
+  DataTypes,
+  ListStyles,
+  SupabaseColumns,
+  SupabaseTables,
+  Texttypes,
+} from "../../../../../base/enums";
+import {
+  BLOCK_TYPE_TEXT_DATA,
+  TEXT_TYPE_TEXT_DATA,
+} from "../../../../../base/textData";
 import { useSelectedLanguage } from "../../../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../../../lib/supabase";
 import { displayButtonTexts } from "../../../../../utils/displayText";
@@ -53,39 +68,57 @@ const StyledOptionWrapper = styled.div<{ isSelected: boolean }>`
 `;
 
 const useSelectedBlockTypes = () => {
-  const [selectedBlocks] = useEntities((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
+  const [selectedBlocks] = useEntities(
+    (e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED),
+  );
   const firstSelectedBlockEntity = selectedBlocks[0];
-  const [textTypeProps, blocktypeProps] = useEntityFacets(firstSelectedBlockEntity, TexttypeFacet, BlocktypeFacet);
+  const [textTypeProps, blocktypeProps] = useEntityFacets(
+    firstSelectedBlockEntity,
+    TexttypeFacet,
+    BlocktypeFacet,
+  );
   const firstSelectedBlockTextType = textTypeProps?.texttype;
   const firstSelectedBlockType = blocktypeProps?.blocktype;
-  const [currentTextType, setCurrentTextType] = useState<Texttypes | null>(null);
-  const [currentBlockType, setCurrentBlockType] = useState<Blocktypes | null>(null);
+  const [currentTextType, setCurrentTextType] = useState<Texttypes | null>(
+    null,
+  );
+  const [currentBlockType, setCurrentBlockType] = useState<Blocktypes | null>(
+    null,
+  );
 
   useEffect(() => {
     setCurrentTextType(
       (selectedBlocks.length !== 0 &&
         selectedBlocks.every(
           (blockEntity) =>
-            (blockEntity?.get(TexttypeFacet)?.props.texttype || Texttypes.NORMAL) ===
-            (selectedBlocks[0].get(TexttypeFacet)?.props.texttype || Texttypes.NORMAL)
+            (blockEntity?.get(TexttypeFacet)?.props.texttype ||
+              Texttypes.NORMAL) ===
+            (selectedBlocks[0].get(TexttypeFacet)?.props.texttype ||
+              Texttypes.NORMAL),
         ) &&
         selectedBlocks[0].get(TexttypeFacet)?.props.texttype) ||
         Texttypes.NORMAL ||
-        null
+        null,
     );
 
     setCurrentBlockType(
       (selectedBlocks.length !== 0 &&
         selectedBlocks.every(
           (blockEntity) =>
-            (blockEntity.get(BlocktypeFacet)?.props.blocktype || Blocktypes.TEXT) ===
-            (selectedBlocks[0].get(BlocktypeFacet)?.props.blocktype || Blocktypes.TEXT)
+            (blockEntity.get(BlocktypeFacet)?.props.blocktype ||
+              Blocktypes.TEXT) ===
+            (selectedBlocks[0].get(BlocktypeFacet)?.props.blocktype ||
+              Blocktypes.TEXT),
         ) &&
         selectedBlocks[0].get(BlocktypeFacet)?.props.blocktype) ||
         Blocktypes.TEXT ||
-        null
+        null,
     );
-  }, [selectedBlocks.length, firstSelectedBlockTextType, firstSelectedBlockType]);
+  }, [
+    selectedBlocks.length,
+    firstSelectedBlockTextType,
+    firstSelectedBlockType,
+  ]);
 
   return { currentTextType, currentBlockType };
 };
@@ -93,17 +126,28 @@ const useSelectedBlockTypes = () => {
 const BlockTypeOption = (props: {
   blockType: Blocktypes;
   currentBlockType: Blocktypes | null;
-  updateSelectedBlocksBlockType: (lsc: ILeanScopeClient, blockType: Blocktypes) => void;
+  updateSelectedBlocksBlockType: (
+    lsc: ILeanScopeClient,
+    blockType: Blocktypes,
+  ) => void;
   customIcon?: React.ReactNode;
 }) => {
   const lsc = useContext(LeanScopeClientContext);
-  const { blockType, currentBlockType, updateSelectedBlocksBlockType, customIcon } = props;
+  const {
+    blockType,
+    currentBlockType,
+    updateSelectedBlocksBlockType,
+    customIcon,
+  } = props;
   const { selectedLanguage } = useSelectedLanguage();
 
   const handleClick = () => updateSelectedBlocksBlockType(lsc, blockType);
 
   return (
-    <StyledOptionWrapper onClick={handleClick} isSelected={currentBlockType == blockType}>
+    <StyledOptionWrapper
+      onClick={handleClick}
+      isSelected={currentBlockType == blockType}
+    >
       {customIcon || BLOCK_TYPE_TEXT_DATA[blockType][selectedLanguage]}
     </StyledOptionWrapper>
   );
@@ -112,11 +156,19 @@ const BlockTypeOption = (props: {
 const TextTypeOption = (props: {
   textType: Texttypes;
   currentTextType: Texttypes | null;
-  updateSelectedBlocksTextType: (lsc: ILeanScopeClient, textType: Texttypes) => void;
+  updateSelectedBlocksTextType: (
+    lsc: ILeanScopeClient,
+    textType: Texttypes,
+  ) => void;
   customIcon?: React.ReactNode;
 }) => {
   const lsc = useContext(LeanScopeClientContext);
-  const { textType, currentTextType, updateSelectedBlocksTextType, customIcon } = props;
+  const {
+    textType,
+    currentTextType,
+    updateSelectedBlocksTextType,
+    customIcon,
+  } = props;
   const { selectedLanguage } = useSelectedLanguage();
 
   const handleClick = () => updateSelectedBlocksTextType(lsc, textType);
@@ -132,12 +184,21 @@ const TextTypeOption = (props: {
   );
 };
 
-const updateSelectedBlocksTextType = async (lsc: ILeanScopeClient, newTextType: Texttypes) => {
-  const selectedBlockEntities = lsc.engine.entities.filter((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
+const updateSelectedBlocksTextType = async (
+  lsc: ILeanScopeClient,
+  newTextType: Texttypes,
+) => {
+  const selectedBlockEntities = lsc.engine.entities.filter(
+    (e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED),
+  );
   selectedBlockEntities.forEach(async (blockEntity) => {
     const blockType = blockEntity.get(BlocktypeFacet)?.props.blocktype;
 
-    if (blockType !== Blocktypes.TEXT && blockType !== Blocktypes.TODO && blockType !== Blocktypes.LIST) {
+    if (
+      blockType !== Blocktypes.TEXT &&
+      blockType !== Blocktypes.TODO &&
+      blockType !== Blocktypes.LIST
+    ) {
       blockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.TEXT }));
     }
 
@@ -156,11 +217,17 @@ const updateSelectedBlocksTextType = async (lsc: ILeanScopeClient, newTextType: 
   });
 };
 
-const updateSelectedBlocksBlockType = async (lsc: ILeanScopeClient, newBlockType: Blocktypes) => {
-  const selectedBlockEntities = lsc.engine.entities.filter((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
+const updateSelectedBlocksBlockType = async (
+  lsc: ILeanScopeClient,
+  newBlockType: Blocktypes,
+) => {
+  const selectedBlockEntities = lsc.engine.entities.filter(
+    (e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED),
+  );
 
   const isAlreadyBlockType = selectedBlockEntities.every(
-    (blockEntity) => blockEntity.get(BlocktypeFacet)?.props?.blocktype === newBlockType
+    (blockEntity) =>
+      blockEntity.get(BlocktypeFacet)?.props?.blocktype === newBlockType,
   );
 
   selectedBlockEntities.forEach(async (blockEntity) => {
@@ -194,7 +261,8 @@ const updateSelectedBlocksBlockType = async (lsc: ILeanScopeClient, newBlockType
 const StyleOptions = () => {
   const { currentTextType, currentBlockType } = useSelectedBlockTypes();
   const { blockeditorState } = useCurrentBlockeditor();
-  const [isMoreTextOptionsVisible, setIsMoreTextOptionsVisible] = useState<boolean>(false);
+  const [isMoreTextOptionsVisible, setIsMoreTextOptionsVisible] =
+    useState<boolean>(false);
   const { selectedLanguage } = useSelectedLanguage();
 
   // TODO: Custom hook for isVisible state

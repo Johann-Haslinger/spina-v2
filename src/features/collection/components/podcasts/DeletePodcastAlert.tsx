@@ -2,7 +2,12 @@ import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useEntity } from "@leanscope/ecs-engine";
 import { IdentifierFacet } from "@leanscope/ecs-models";
 import { useContext } from "react";
-import { AdditionalTags, DataTypes, SupabaseColumns, SupabaseTables } from "../../../../base/enums";
+import {
+  AdditionalTags,
+  DataTypes,
+  SupabaseColumns,
+  SupabaseTables,
+} from "../../../../base/enums";
 import { Alert, AlertButton } from "../../../../components";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../../lib/supabase";
@@ -12,10 +17,14 @@ import { dataTypeQuery } from "../../../../utils/queries";
 const DeletePodcastAlert = () => {
   const lsc = useContext(LeanScopeClientContext);
   const { selectedLanguage } = useSelectedLanguage();
-  const [selectedPodcastEntity] = useEntity((e) => e.has(AdditionalTags.DELETE) && dataTypeQuery(e, DataTypes.PODCAST));
-  const selectedPodcastId = selectedPodcastEntity?.get(IdentifierFacet)?.props.guid;
+  const [selectedPodcastEntity] = useEntity(
+    (e) => e.has(AdditionalTags.DELETE) && dataTypeQuery(e, DataTypes.PODCAST),
+  );
+  const selectedPodcastId =
+    selectedPodcastEntity?.get(IdentifierFacet)?.props.guid;
 
-  const navigateBack = () => selectedPodcastEntity?.remove(AdditionalTags.DELETE);
+  const navigateBack = () =>
+    selectedPodcastEntity?.remove(AdditionalTags.DELETE);
   const deletePodcast = async () => {
     navigateBack();
     if (selectedPodcastEntity) {

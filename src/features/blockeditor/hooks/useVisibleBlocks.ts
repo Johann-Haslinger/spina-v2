@@ -10,7 +10,8 @@ export const useVisibleBlocks = () => {
   const { blockeditorId } = useCurrentBlockeditor();
 
   const visibleBlockEntities = blockEntities.filter(
-    (blockEntity) => blockEntity.get(ParentFacet)?.props.parentId === blockeditorId
+    (blockEntity) =>
+      blockEntity.get(ParentFacet)?.props.parentId === blockeditorId,
   );
   const visibleText = getStringFromBlockEntities(visibleBlockEntities);
 

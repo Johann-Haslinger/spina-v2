@@ -5,7 +5,11 @@ import { TitleFacet } from "../app/additionalFacets";
 import supabaseClient from "../lib/supabase";
 import { SupabaseTables } from "../base/enums";
 
-export const addSubtopic = async (lsc: ILeanScopeClient, subtopicEntity: Entity, userId: string) => {
+export const addSubtopic = async (
+  lsc: ILeanScopeClient,
+  subtopicEntity: Entity,
+  userId: string,
+) => {
   lsc.engine.addEntity(subtopicEntity);
 
   const subtopicId = subtopicEntity.get(IdentifierFacet)?.props.guid;

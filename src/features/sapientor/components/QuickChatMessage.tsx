@@ -3,14 +3,17 @@ import { TextProps } from "@leanscope/ecs-models";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import tw from "twin.macro";
-import { MessageRoleProps, RelatedResourcesProps } from "../../../app/additionalFacets";
+import {
+  MessageRoleProps,
+  RelatedResourcesProps,
+} from "../../../app/additionalFacets";
 import { COLOR_ITEMS } from "../../../base/constants";
 import { MessageRoles } from "../../../base/enums";
 
-
 const StyledMessageContentWrapper = styled.div<{ role: MessageRoles }>`
   ${tw` ml-8   mb-1 w-72  bg-tertiary dark:text-primaryTextDark  dark:bg-seconderyDark pb-3 transition-all rounded-xl p-2 `}
-  ${({ role }) => (role == MessageRoles.USER ? tw`rounded-bl-none ` : tw`rounded-br-none  `)}
+  ${({ role }) =>
+    role == MessageRoles.USER ? tw`rounded-bl-none ` : tw`rounded-br-none  `}
 `;
 
 const StyledMessageHeader = styled.div`
@@ -20,7 +23,9 @@ const StyledMessageHeader = styled.div`
 const StyledRoleIcon = styled.div<{ role: MessageRoles }>`
   ${tw`w-4 h-4 rounded-full`}
   background-color: ${(props) =>
-    props.role === MessageRoles.SAPIENTOR ? COLOR_ITEMS[0].accentColor : COLOR_ITEMS[1].accentColor};
+    props.role === MessageRoles.SAPIENTOR
+      ? COLOR_ITEMS[0].accentColor
+      : COLOR_ITEMS[1].accentColor};
 `;
 
 const StyledRoleTitle = styled.p`
@@ -34,7 +39,9 @@ const StyledRelatedResourcesWrapper = styled.div`
   ${tw`flex items-center hover:opacity-50 transition-all bg-white bg-opacity-5 ml-4 px-2 rounded-lg w-fit mt-3`}
 `;
 
-const QuickChatMessage = (props: TextProps & MessageRoleProps & RelatedResourcesProps) => {
+const QuickChatMessage = (
+  props: TextProps & MessageRoleProps & RelatedResourcesProps,
+) => {
   const { text, role, relatedResources = [] } = props;
   const [displayResources, setDisplayResources] = useState(false);
 
@@ -59,7 +66,9 @@ const QuickChatMessage = (props: TextProps & MessageRoleProps & RelatedResources
         <StyledMessageContentWrapper role={role}>
           <StyledMessageHeader>
             <StyledRoleIcon role={role} />
-            <StyledRoleTitle>{role === MessageRoles.USER ? "Du" : "Sapientor"}</StyledRoleTitle>
+            <StyledRoleTitle>
+              {role === MessageRoles.USER ? "Du" : "Sapientor"}
+            </StyledRoleTitle>
           </StyledMessageHeader>
 
           <StyledTextWrapper dangerouslySetInnerHTML={{ __html: text }} />
@@ -75,7 +84,9 @@ const QuickChatMessage = (props: TextProps & MessageRoleProps & RelatedResources
                 y: displayResources ? 0 : 5,
               }}
             >
-              <StyledRelatedResourcesWrapper>{relatedResources.length} Resources</StyledRelatedResourcesWrapper>
+              <StyledRelatedResourcesWrapper>
+                {relatedResources.length} Resources
+              </StyledRelatedResourcesWrapper>
             </motion.div>
           )}
         </StyledMessageContentWrapper>

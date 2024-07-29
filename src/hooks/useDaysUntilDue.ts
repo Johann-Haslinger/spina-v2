@@ -14,7 +14,9 @@ export const useDaysUntilDue = (entity: Entity) => {
         const now = new Date();
         const due = new Date(dueDate);
         const differenceInTime = due.getTime() - now.getTime();
-        const differenceInDays = Math.ceil(differenceInTime / (1000 * 3600 * 24));
+        const differenceInDays = Math.ceil(
+          differenceInTime / (1000 * 3600 * 24),
+        );
 
         if (differenceInDays > 1) {
           setDaysUntilDue(`Noch ${differenceInDays} Tage`);

@@ -2,9 +2,17 @@ import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
 import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
-import { DateAddedFacet, DueDateFacet, TitleFacet } from "../../../app/additionalFacets";
+import {
+  DateAddedFacet,
+  DueDateFacet,
+  TitleFacet,
+} from "../../../app/additionalFacets";
 import { dummyHomeworks } from "../../../base/dummy";
-import { DataTypes, SupabaseColumns, SupabaseTables } from "../../../base/enums";
+import {
+  DataTypes,
+  SupabaseColumns,
+  SupabaseTables,
+} from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedTopic } from "../hooks/useSelectedTopic";
@@ -39,7 +47,9 @@ const LoadHomeworksSystem = () => {
 
         homeworks.forEach((homework) => {
           const isExisting = lsc.engine.entities.some(
-            (e) => e.get(IdentifierFacet)?.props.guid === homework.id && e.hasTag(DataTypes.HOMEWORK)
+            (e) =>
+              e.get(IdentifierFacet)?.props.guid === homework.id &&
+              e.hasTag(DataTypes.HOMEWORK),
           );
 
           if (!isExisting) {
@@ -47,10 +57,14 @@ const LoadHomeworksSystem = () => {
             lsc.engine.addEntity(homeworkEntity);
             homeworkEntity.add(new TitleFacet({ title: homework.title }));
             homeworkEntity.add(new IdentifierFacet({ guid: homework.id }));
-            homeworkEntity.add(new DateAddedFacet({ dateAdded: homework.date_added }));
+            homeworkEntity.add(
+              new DateAddedFacet({ dateAdded: homework.date_added }),
+            );
 
             homeworkEntity.add(new ParentFacet({ parentId: selectedTopicId }));
-            homeworkEntity.add(new DueDateFacet({ dueDate: homework.due_date }));
+            homeworkEntity.add(
+              new DueDateFacet({ dueDate: homework.due_date }),
+            );
             homeworkEntity.addTag(DataTypes.HOMEWORK);
           }
         });

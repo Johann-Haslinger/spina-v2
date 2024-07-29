@@ -13,7 +13,12 @@ import {
 import { useContext, useEffect } from "react";
 import { BlocktypeFacet, TexttypeFacet } from "../../../app/additionalFacets";
 import { dummyBlocks } from "../../../base/dummy";
-import { AdditionalTags, DataTypes, SupabaseColumns, SupabaseTables } from "../../../base/enums";
+import {
+  AdditionalTags,
+  DataTypes,
+  SupabaseColumns,
+  SupabaseTables,
+} from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import { useUserData } from "../../../hooks/useUserData";
 import supabaseClient from "../../../lib/supabase";
@@ -56,7 +61,10 @@ const LoadBlocksSystem = () => {
   const { selectedHomeworkText } = useSelectedHomework();
   const { selectedNoteText } = useSelectedNote();
   const { selectedSubtopicText } = useSelectedSubtopic();
-  const [isGroupBlockeditor] = useEntityHasTags(blockeditorEntity, AdditionalTags.GROUP_BLOCKEDITOR);
+  const [isGroupBlockeditor] = useEntityHasTags(
+    blockeditorEntity,
+    AdditionalTags.GROUP_BLOCKEDITOR,
+  );
 
   const { userId } = useUserData();
 
@@ -72,17 +80,25 @@ const LoadBlocksSystem = () => {
               ? await fetchGroupBlocks(blockeditorId)
               : await fetchBlocks(blockeditorId)
             : [];
-        const resouceText = selectedSubtopicText || selectedHomeworkText || selectedNoteText;
+        const resouceText =
+          selectedSubtopicText || selectedHomeworkText || selectedNoteText;
 
         if (resouceText) {
-          await addBlockEntitiesFromString(lsc, resouceText, blockeditorId, userId);
+          await addBlockEntitiesFromString(
+            lsc,
+            resouceText,
+            blockeditorId,
+            userId,
+          );
         }
 
         blocks.forEach((block) => {
           const isExisting = lsc.engine.entities.some(
             (e) =>
               e.get(IdentifierFacet)?.props.guid === block.id &&
-              e.hasTag(isGroupBlockeditor ? DataTypes.GROUP_BLOCK : DataTypes.BLOCK)
+              e.hasTag(
+                isGroupBlockeditor ? DataTypes.GROUP_BLOCK : DataTypes.BLOCK,
+              ),
           );
 
           if (!isExisting) {
@@ -91,13 +107,21 @@ const LoadBlocksSystem = () => {
             newBlockEntity.add(new IdentifierFacet({ guid: block.id }));
             newBlockEntity.add(new ParentFacet({ parentId: blockeditorId }));
             newBlockEntity.add(new BlocktypeFacet({ blocktype: block.type }));
-            newBlockEntity.add(new TexttypeFacet({ texttype: block.text_type }));
+            newBlockEntity.add(
+              new TexttypeFacet({ texttype: block.text_type }),
+            );
             newBlockEntity.add(new TextFacet({ text: block.content }));
-            newBlockEntity.add(new FloatOrderFacet({ index: block.order || 0 }));
-            newBlockEntity.add(new ImageFacet({ imageSrc: block.image_url || "" }));
+            newBlockEntity.add(
+              new FloatOrderFacet({ index: block.order || 0 }),
+            );
+            newBlockEntity.add(
+              new ImageFacet({ imageSrc: block.image_url || "" }),
+            );
             newBlockEntity.add(new ImageSizeFacet({ size: block.size || "" }));
             newBlockEntity.add(new ImageFitFacet({ fit: block.fit || "" }));
-            newBlockEntity.add(isGroupBlockeditor ? DataTypes.GROUP_BLOCK : DataTypes.BLOCK);
+            newBlockEntity.add(
+              isGroupBlockeditor ? DataTypes.GROUP_BLOCK : DataTypes.BLOCK,
+            );
           }
         });
       }

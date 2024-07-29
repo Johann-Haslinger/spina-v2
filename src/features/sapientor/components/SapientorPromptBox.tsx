@@ -16,7 +16,8 @@ const StyledPromptBoxContainer = styled.div`
 
 const StyledPromptBoxWrapper = styled.div<{ isChatSheetVisible: boolean }>`
   ${tw`h-fit pl-4   bg-tertiary dark:bg-tertiaryDark  rounded-3xl `}
-  ${({ isChatSheetVisible }) => (isChatSheetVisible ? tw` w-[90%]  pr-1.5 py-1` : tw`w-full pr-1`)}
+  ${({ isChatSheetVisible }) =>
+    isChatSheetVisible ? tw` w-[90%]  pr-1.5 py-1` : tw`w-full pr-1`}
 `;
 
 const StyledPromptInput = styled.input`

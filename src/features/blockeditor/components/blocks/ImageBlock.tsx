@@ -1,5 +1,12 @@
 import { EntityProps } from "@leanscope/ecs-engine";
-import { FitTypes, FloatOrderProps, ImageFacet, ImageFitFacet, ImageSizeFacet, SizeTypes } from "@leanscope/ecs-models";
+import {
+  FitTypes,
+  FloatOrderProps,
+  ImageFacet,
+  ImageFitFacet,
+  ImageSizeFacet,
+  SizeTypes,
+} from "@leanscope/ecs-models";
 import BlockOutline from "./BlockOutline";
 import { Fragment, useState } from "react";
 import { useCurrentBlockeditor } from "../../hooks/useCurrentBlockeditor";
@@ -28,7 +35,11 @@ const ImageBlock = (props: EntityProps & FloatOrderProps) => {
   const { blockeditorState } = useCurrentBlockeditor();
   const [_, setIsFullViewVisible] = useState(false);
   const imageUrl = entity.get(ImageFacet)?.props.imageSrc;
-  const [imageSizeProps, imageFitProps] = useEntityFacets(entity, ImageSizeFacet, ImageFitFacet);
+  const [imageSizeProps, imageFitProps] = useEntityFacets(
+    entity,
+    ImageSizeFacet,
+    ImageFitFacet,
+  );
   const size = imageSizeProps?.size || SizeTypes.AUTO_SIZE;
   const fit = imageFitProps?.fit || FitTypes.AUTO_FIT;
 
@@ -40,7 +51,9 @@ const ImageBlock = (props: EntityProps & FloatOrderProps) => {
         {imageUrl ? (
           <StyledImageWrapper>
             <StyledImage
-              onClick={() => blockeditorState == "view" && setIsFullViewVisible(true)}
+              onClick={() =>
+                blockeditorState == "view" && setIsFullViewVisible(true)
+              }
               src={imageUrl}
               size={size}
               fit={fit}

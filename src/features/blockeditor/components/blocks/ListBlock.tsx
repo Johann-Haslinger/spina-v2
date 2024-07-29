@@ -21,12 +21,15 @@ const StyledTexteditorWrapper = styled.div`
 
 const ListBlock = (props: FloatOrderProps & EntityProps) => {
   const { entity, index } = props;
-  const listStyle = entity.get(ListStyleFacet)?.props.listStyle || ListStyles.UNORDERED;
+  const listStyle =
+    entity.get(ListStyleFacet)?.props.listStyle || ListStyles.UNORDERED;
 
   return (
     <BlockOutline index={index} blockEntity={entity}>
       <StyledContentWrapper>
-        {listStyle == ListStyles.UNORDERED ? <StyledUnorderedListSymbol /> : null}
+        {listStyle == ListStyles.UNORDERED ? (
+          <StyledUnorderedListSymbol />
+        ) : null}
         <StyledTexteditorWrapper>
           <BlockTexteditor entity={entity} />
         </StyledTexteditorWrapper>

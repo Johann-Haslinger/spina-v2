@@ -6,16 +6,27 @@ import { useContext } from "react";
 import { v4 } from "uuid";
 import { AdditionalTags, SupportedModels } from "../../../base/enums";
 
-
 export const useCurrentSapientorConversation = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const [currentConversationEntity] = useEntity((e) => e.hasTag(AdditionalTags.SAPIENTOR_CONVERSATION));
-  const [isQuickChatVisible] = useEntityHasTags(currentConversationEntity, AdditionalTags.QUIK_CHAT_VISIBLE);
-  const [isChatSheetVisible] = useEntityHasTags(currentConversationEntity, AdditionalTags.CHAT_SHEET_VISIBLE);
-  const [useSapientorAssistentModel] = useEntityHasTags(currentConversationEntity, SupportedModels.SAPIENTOR_ASSISTENT);
+  const [currentConversationEntity] = useEntity((e) =>
+    e.hasTag(AdditionalTags.SAPIENTOR_CONVERSATION),
+  );
+  const [isQuickChatVisible] = useEntityHasTags(
+    currentConversationEntity,
+    AdditionalTags.QUIK_CHAT_VISIBLE,
+  );
+  const [isChatSheetVisible] = useEntityHasTags(
+    currentConversationEntity,
+    AdditionalTags.CHAT_SHEET_VISIBLE,
+  );
+  const [useSapientorAssistentModel] = useEntityHasTags(
+    currentConversationEntity,
+    SupportedModels.SAPIENTOR_ASSISTENT,
+  );
 
   const deleteCurrentConversation = () => {
-    currentConversationEntity && lsc.engine.removeEntity(currentConversationEntity);
+    currentConversationEntity &&
+      lsc.engine.removeEntity(currentConversationEntity);
   };
 
   const setQuickChatVisible = (isVisible: boolean) => {

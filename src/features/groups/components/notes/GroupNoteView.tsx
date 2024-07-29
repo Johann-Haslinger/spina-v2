@@ -4,8 +4,18 @@ import { IdentifierProps } from "@leanscope/ecs-models";
 import { useContext } from "react";
 import { IoArrowDownCircleOutline, IoTrashOutline } from "react-icons/io5";
 import { Fragment } from "react/jsx-runtime";
-import { DateAddedFacet, TitleFacet, TitleProps } from "../../../../app/additionalFacets";
-import { AdditionalTags, DataTypes, Stories, SupabaseColumns, SupabaseTables } from "../../../../base/enums";
+import {
+  DateAddedFacet,
+  TitleFacet,
+  TitleProps,
+} from "../../../../app/additionalFacets";
+import {
+  AdditionalTags,
+  DataTypes,
+  Stories,
+  SupabaseColumns,
+  SupabaseTables,
+} from "../../../../base/enums";
 import { ActionRow, NavBarButton, View } from "../../../../components";
 import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
@@ -28,8 +38,10 @@ const GroupNoteView = (props: TitleProps & IdentifierProps & EntityProps) => {
   const isVisible = useIsViewVisible(entity);
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
-  const openDeleteAlert = () => lsc.stories.transitTo(Stories.DELETING_GROUP_NOTE_STORY);
-  const openCloneResourceSheet = () => lsc.stories.transitTo(Stories.CLONING_RESOURCE_FROM_GROUP_STORY);
+  const openDeleteAlert = () =>
+    lsc.stories.transitTo(Stories.DELETING_GROUP_NOTE_STORY);
+  const openCloneResourceSheet = () =>
+    lsc.stories.transitTo(Stories.CLONING_RESOURCE_FROM_GROUP_STORY);
 
   const handleTitleBlur = async (value: string) => {
     entity.add(new TitleFacet({ title: value }));
@@ -57,7 +69,10 @@ const GroupNoteView = (props: TitleProps & IdentifierProps & EntityProps) => {
           customHeaderArea={
             <div>
               <EntityPropsMapper
-                query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.PODCAST)}
+                query={(e) =>
+                  isChildOfQuery(e, entity) &&
+                  dataTypeQuery(e, DataTypes.PODCAST)
+                }
                 get={[[TitleFacet, DateAddedFacet], []]}
                 onMatch={PodcastRow}
               />
@@ -70,7 +85,13 @@ const GroupNoteView = (props: TitleProps & IdentifierProps & EntityProps) => {
           }
           customActionRows={
             <Fragment>
-              <ActionRow first last destructive onClick={openDeleteAlert} icon={<IoTrashOutline />}>
+              <ActionRow
+                first
+                last
+                destructive
+                onClick={openDeleteAlert}
+                icon={<IoTrashOutline />}
+              >
                 {displayActionTexts(selectedLanguage).delete}
               </ActionRow>
             </Fragment>

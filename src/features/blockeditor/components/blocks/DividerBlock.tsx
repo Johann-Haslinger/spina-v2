@@ -10,7 +10,7 @@ const StyledDivider = styled.div`
 
 const DividerBlock = (props: EntityProps & FloatOrderProps) => {
   const { entity, index } = props;
-  
+
   return (
     <BlockOutline blockEntity={entity} index={index}>
       <StyledDivider />

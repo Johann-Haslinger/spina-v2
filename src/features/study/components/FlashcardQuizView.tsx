@@ -14,15 +14,29 @@ import {
   IoHeadset,
 } from "react-icons/io5";
 import tw from "twin.macro";
-import { AnswerFacet, LastReviewedFacet, MasteryLevelFacet, QuestionFacet } from "../../../app/additionalFacets";
-import { AdditionalTags, DataTypes, Stories, SupabaseColumns, SupabaseTables } from "../../../base/enums";
+import {
+  AnswerFacet,
+  LastReviewedFacet,
+  MasteryLevelFacet,
+  QuestionFacet,
+} from "../../../app/additionalFacets";
+import {
+  AdditionalTags,
+  DataTypes,
+  Stories,
+  SupabaseColumns,
+  SupabaseTables,
+} from "../../../base/enums";
 import { FlexBox, View } from "../../../components";
 import { useIsAnyStoryCurrent } from "../../../hooks/useIsAnyStoryCurrent";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import { useTimer } from "../../../hooks/useTimer";
 import { useUserData } from "../../../hooks/useUserData";
 import supabaseClient from "../../../lib/supabase";
-import { displayButtonTexts, displayLabelTexts } from "../../../utils/displayText";
+import {
+  displayButtonTexts,
+  displayLabelTexts,
+} from "../../../utils/displayText";
 import { dataTypeQuery } from "../../../utils/queries";
 import { useSeletedFlashcardGroup } from "../../collection/hooks/useSelectedFlashcardGroup";
 import { useSelectedSchoolSubjectColor } from "../../collection/hooks/useSelectedSchoolSubjectColor";
@@ -31,53 +45,65 @@ import { useBookmarkedFlashcardGroups } from "../hooks/useBookmarkedFlashcardGro
 
 const useFlashcardQuizEntities = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isBookmarkedQuiz = useIsStoryCurrent(Stories.OBSERVING_BOOKMARKED_FLASHCARD_GROUP_QUIZ_STORY);
+  const isBookmarkedQuiz = useIsStoryCurrent(
+    Stories.OBSERVING_BOOKMARKED_FLASHCARD_GROUP_QUIZ_STORY,
+  );
   const { bookmarkedFlashcardGroupEntities } = useBookmarkedFlashcardGroups();
-  const [allFlashcardEntities] = useEntities((e) => dataTypeQuery(e, DataTypes.FLASHCARD));
+  const [allFlashcardEntities] = useEntities((e) =>
+    dataTypeQuery(e, DataTypes.FLASHCARD),
+  );
   const { selectedFlashcardGroupId } = useSeletedFlashcardGroup();
   const { selectedSubtopicId } = useSelectedSubtopic();
-  const [selectedFlashcardEntities, setSelectedFlashcardEntities] = useState<readonly Entity[]>([]);
+  const [selectedFlashcardEntities, setSelectedFlashcardEntities] = useState<
+    readonly Entity[]
+  >([]);
 
   useEffect(() => {
     if (isBookmarkedQuiz) {
       let flashcardEntities: Entity[] = [];
-      bookmarkedFlashcardGroupEntities.forEach(async (bookmarkedFlashcardGroup) => {
-        const id = bookmarkedFlashcardGroup.get(IdentifierFacet)?.props.guid;
+      bookmarkedFlashcardGroupEntities.forEach(
+        async (bookmarkedFlashcardGroup) => {
+          const id = bookmarkedFlashcardGroup.get(IdentifierFacet)?.props.guid;
 
-        if (id) {
-          const { data: flashcards, error } = await supabaseClient
-            .from(SupabaseTables.FLASHCARDS)
-            .select("answer, question, id")
-            .eq(SupabaseColumns.PARENT_ID, id);
-          if (error) {
-            console.error("Error fetching flashcards:", error);
+          if (id) {
+            const { data: flashcards, error } = await supabaseClient
+              .from(SupabaseTables.FLASHCARDS)
+              .select("answer, question, id")
+              .eq(SupabaseColumns.PARENT_ID, id);
+            if (error) {
+              console.error("Error fetching flashcards:", error);
+            }
+
+            flashcards?.forEach((flashcard) => {
+              const entity = new Entity();
+              lsc.engine.addEntity(entity);
+              flashcardEntities.push(entity);
+              entity.add(new IdentifierFacet({ guid: flashcard.id }));
+              entity.add(new QuestionFacet({ question: flashcard.question }));
+              entity.add(new AnswerFacet({ answer: flashcard.answer }));
+              entity.add(new ParentFacet({ parentId: id }));
+              entity.add(DataTypes.FLASHCARD);
+            });
           }
-
-          flashcards?.forEach((flashcard) => {
-            const entity = new Entity();
-            lsc.engine.addEntity(entity);
-            flashcardEntities.push(entity);
-            entity.add(new IdentifierFacet({ guid: flashcard.id }));
-            entity.add(new QuestionFacet({ question: flashcard.question }));
-            entity.add(new AnswerFacet({ answer: flashcard.answer }));
-            entity.add(new ParentFacet({ parentId: id }));
-            entity.add(DataTypes.FLASHCARD);
-          });
-        }
-      });
+        },
+      );
       setSelectedFlashcardEntities(flashcardEntities);
     } else {
       if (selectedSubtopicId) {
         setSelectedFlashcardEntities(
           allFlashcardEntities.filter(
-            (flashcardEntity) => flashcardEntity.get(ParentFacet)?.props.parentId === selectedSubtopicId
-          )
+            (flashcardEntity) =>
+              flashcardEntity.get(ParentFacet)?.props.parentId ===
+              selectedSubtopicId,
+          ),
         );
       } else if (selectedFlashcardGroupId) {
         setSelectedFlashcardEntities(
           allFlashcardEntities.filter(
-            (flashcardEntity) => flashcardEntity.get(ParentFacet)?.props.parentId === selectedFlashcardGroupId
-          )
+            (flashcardEntity) =>
+              flashcardEntity.get(ParentFacet)?.props.parentId ===
+              selectedFlashcardGroupId,
+          ),
         );
       } else {
         setSelectedFlashcardEntities(allFlashcardEntities);
@@ -112,7 +138,10 @@ const StyledTalkingModeButton = styled.div`
 const StyledProgressBarWrapper = styled.div`
   ${tw`  bg-white overflow-hidden mb-4 h-fit w-full  rounded-full `}
 `;
-const StyledProgressBar = styled.div<{ width?: number; backgroundColor: string }>`
+const StyledProgressBar = styled.div<{
+  width?: number;
+  backgroundColor: string;
+}>`
   ${tw`transition-all bg-white  h-1 rounded-full`}
   width: ${(props) => props.width || 1}%;
   background-color: ${(props) => props.backgroundColor};
@@ -168,7 +197,8 @@ const FlashcardQuizView = () => {
     }
   }, [currentFlashcardIndex]);
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_SET_STORY);
+  const navigateBack = () =>
+    lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_SET_STORY);
 
   const updateFlashcardsMasteryLavel = async () => {
     let updatedFlashcards: {
@@ -179,7 +209,8 @@ const FlashcardQuizView = () => {
     }[] = [];
 
     flashcardEntities.map((flashcardEntity) => {
-      const currentMasteryLevel = flashcardEntity.get(MasteryLevelFacet)?.props.masteryLevel;
+      const currentMasteryLevel =
+        flashcardEntity.get(MasteryLevelFacet)?.props.masteryLevel;
       const answerdRight = flashcardEntity.has(AdditionalTags.ANSWERD_RIGHT);
       let newMasterLevel = 0;
 
@@ -189,8 +220,12 @@ const FlashcardQuizView = () => {
 
       flashcardEntity.removeTag(AdditionalTags.ANSWERD_RIGHT);
       flashcardEntity.removeTag(AdditionalTags.ANSWERD_WRONG);
-      flashcardEntity.add(new MasteryLevelFacet({ masteryLevel: newMasterLevel }));
-      flashcardEntity.add(new LastReviewedFacet({ lastReviewed: new Date().toISOString() }));
+      flashcardEntity.add(
+        new MasteryLevelFacet({ masteryLevel: newMasterLevel }),
+      );
+      flashcardEntity.add(
+        new LastReviewedFacet({ lastReviewed: new Date().toISOString() }),
+      );
 
       updatedFlashcards.push({
         id: flashcardEntity.get(IdentifierFacet)?.props.guid || "",
@@ -221,7 +256,8 @@ const FlashcardQuizView = () => {
           <StyledBackButtonWrapper onClick={handleBackButtonClick}>
             <IoChevronBack />
             <StyledBackButtonText>
-              {selectedFlashcardGroupTitle || displayButtonTexts(selectedLanguage).back}
+              {selectedFlashcardGroupTitle ||
+                displayButtonTexts(selectedLanguage).back}
             </StyledBackButtonText>
           </StyledBackButtonWrapper>
           <StyledTalkingModeButton>
@@ -231,34 +267,50 @@ const FlashcardQuizView = () => {
         <StyledProgressBarWrapper>
           <StyledProgressBar
             backgroundColor={accentColor}
-            width={((currentFlashcardIndex || 0) / (flashcardEntities.length || 1)) * 100 + 1}
+            width={
+              ((currentFlashcardIndex || 0) / (flashcardEntities.length || 1)) *
+                100 +
+              1
+            }
           />
         </StyledProgressBarWrapper>
 
         <StyledFlashcardsStatusWrapper>
           <div>
-            <StyledStatusText>{displayLabelTexts(selectedLanguage).queriedCards}</StyledStatusText>
+            <StyledStatusText>
+              {displayLabelTexts(selectedLanguage).queriedCards}
+            </StyledStatusText>
             <StyledQueriedFlashcardsStatusWrapper>
               <IoFileTray />
-              <StyledFlashcardCountText>{currentFlashcardIndex}</StyledFlashcardCountText>
+              <StyledFlashcardCountText>
+                {currentFlashcardIndex}
+              </StyledFlashcardCountText>
             </StyledQueriedFlashcardsStatusWrapper>
           </div>
 
           <div>
-            <StyledStatusText>{displayLabelTexts(selectedLanguage).remainingCards}</StyledStatusText>
+            <StyledStatusText>
+              {displayLabelTexts(selectedLanguage).remainingCards}
+            </StyledStatusText>
             <StyledRemaningFlashcardsStatusWrapper>
-              <StyledFlashcardCountText>{flashcardEntities.length - currentFlashcardIndex}</StyledFlashcardCountText>
+              <StyledFlashcardCountText>
+                {flashcardEntities.length - currentFlashcardIndex}
+              </StyledFlashcardCountText>
               <IoFileTray />
             </StyledRemaningFlashcardsStatusWrapper>
           </div>
         </StyledFlashcardsStatusWrapper>
       </StyledStatusBarWrapper>
 
-      {currentFlashcardIndex === flashcardEntities.length && <FlashcardQuizEndCard elapsedTime={elapsedTime} />}
+      {currentFlashcardIndex === flashcardEntities.length && (
+        <FlashcardQuizEndCard elapsedTime={elapsedTime} />
+      )}
 
       {flashcardEntities.map((flashcardEntity, index) => (
         <FlashcardCell
-          navigateToNextFlashcard={() => setCurrentFlashcardIndex((prev) => prev + 1)}
+          navigateToNextFlashcard={() =>
+            setCurrentFlashcardIndex((prev) => prev + 1)
+          }
           flashcardEntity={flashcardEntity}
           currentFlashcardIndex={currentFlashcardIndex}
           flashcardIndex={index}
@@ -281,13 +333,18 @@ const FlashcardQuizEndCard = (props: { elapsedTime: number }) => {
   const { elapsedTime } = props;
   const { backgroundColor } = useSelectedSchoolSubjectColor();
   const [isFlipped, setIsFlipped] = useState(false);
-  const [rightAnswerdFlashcards] = useEntities((e) => e.has(AdditionalTags.ANSWERD_RIGHT));
-  const [wrongAnswerdFlashcards] = useEntities((e) => e.has(AdditionalTags.ANSWERD_WRONG));
+  const [rightAnswerdFlashcards] = useEntities((e) =>
+    e.has(AdditionalTags.ANSWERD_RIGHT),
+  );
+  const [wrongAnswerdFlashcards] = useEntities((e) =>
+    e.has(AdditionalTags.ANSWERD_WRONG),
+  );
 
   const rightAnswerdFlashcardsCount = rightAnswerdFlashcards.length;
   const wrongAnswerdFlashcardsCount = wrongAnswerdFlashcards.length;
 
-  const sessionFlashCardsCount = rightAnswerdFlashcardsCount + wrongAnswerdFlashcardsCount;
+  const sessionFlashCardsCount =
+    rightAnswerdFlashcardsCount + wrongAnswerdFlashcardsCount;
 
   // TODO: Add dynamic text
 
@@ -315,15 +372,18 @@ const FlashcardQuizEndCard = (props: { elapsedTime: number }) => {
             ) : (
               <StyledAnswerText color={backgroundColor}>
                 <p>
-                  Abgefragte Karten: {sessionFlashCardsCount} {sessionFlashCardsCount == 1 ? "Karte" : "Karten"}
+                  Abgefragte Karten: {sessionFlashCardsCount}{" "}
+                  {sessionFlashCardsCount == 1 ? "Karte" : "Karten"}
                 </p>
                 <p>Abgefragedauer: {formatElapsedTime(elapsedTime)} </p>
 
                 <p>
-                  Richtige Karten: {rightAnswerdFlashcardsCount} {rightAnswerdFlashcardsCount == 1 ? "Karte" : "Karten"}
+                  Richtige Karten: {rightAnswerdFlashcardsCount}{" "}
+                  {rightAnswerdFlashcardsCount == 1 ? "Karte" : "Karten"}
                 </p>
                 <p>
-                  Falsche Karten: {wrongAnswerdFlashcardsCount} {wrongAnswerdFlashcardsCount == 1 ? "Karte" : "Karten"}
+                  Falsche Karten: {wrongAnswerdFlashcardsCount}{" "}
+                  {wrongAnswerdFlashcardsCount == 1 ? "Karte" : "Karten"}
                 </p>
               </StyledAnswerText>
             )}
@@ -369,7 +429,12 @@ const FlashcardCell = (props: {
   flashcardIndex: number;
   navigateToNextFlashcard: () => void;
 }) => {
-  const { flashcardEntity, currentFlashcardIndex, flashcardIndex, navigateToNextFlashcard } = props;
+  const {
+    flashcardEntity,
+    currentFlashcardIndex,
+    flashcardIndex,
+    navigateToNextFlashcard,
+  } = props;
   const { selectedLanguage } = useSelectedLanguage();
   const [isDisplayed, setIsDisplayed] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
@@ -409,7 +474,11 @@ const FlashcardCell = (props: {
               width: "100%",
             }}
             animate={{
-              x: isCurrent ? 0 : flashcardIndex < currentFlashcardIndex ? 600 : -600,
+              x: isCurrent
+                ? 0
+                : flashcardIndex < currentFlashcardIndex
+                  ? 600
+                  : -600,
               opacity: isCurrent ? 1 : 0,
             }}
           >
@@ -427,9 +496,13 @@ const FlashcardCell = (props: {
             >
               <StyledFlashcardWrapper>
                 {isFlipped ? (
-                  <StyledAnswerText color={accentColor}>{answer}</StyledAnswerText>
+                  <StyledAnswerText color={accentColor}>
+                    {answer}
+                  </StyledAnswerText>
                 ) : (
-                  <StyledQuestionText color={accentColor}>{question}</StyledQuestionText>
+                  <StyledQuestionText color={accentColor}>
+                    {question}
+                  </StyledQuestionText>
                 )}
               </StyledFlashcardWrapper>
             </motion.div>
@@ -439,10 +512,14 @@ const FlashcardCell = (props: {
         <StyledNavButtonAreaWrapper>
           <StyledNavButton onClick={handleRightAnswerClick}>
             <IoCheckmarkCircle />
-            <StyledNavButtonText>{displayButtonTexts(selectedLanguage).true}</StyledNavButtonText>
+            <StyledNavButtonText>
+              {displayButtonTexts(selectedLanguage).true}
+            </StyledNavButtonText>
           </StyledNavButton>
           <StyledNavButton onClick={handleWrongAnswerClick}>
-            <StyledNavButtonText>{displayButtonTexts(selectedLanguage).false}</StyledNavButtonText>
+            <StyledNavButtonText>
+              {displayButtonTexts(selectedLanguage).false}
+            </StyledNavButtonText>
             <IoCloseCircle />
           </StyledNavButton>
         </StyledNavButtonAreaWrapper>

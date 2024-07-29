@@ -36,10 +36,18 @@ const useQuickChat = () => {
           lsc.engine.removeEntity(entity);
         });
     }
-  }, [isQuickChatVisible, isChatSheetVisible, deleteCurrentConversation, lsc.engine]);
+  }, [
+    isQuickChatVisible,
+    isChatSheetVisible,
+    deleteCurrentConversation,
+    lsc.engine,
+  ]);
 
   const handleClickOutside = (event: MouseEvent) => {
-    if (quickChatRef.current && !quickChatRef.current.contains(event.target as Node)) {
+    if (
+      quickChatRef.current &&
+      !quickChatRef.current.contains(event.target as Node)
+    ) {
       setQuickChatVisible(false);
       setChatSheetVisible(false);
 
@@ -54,7 +62,12 @@ const useQuickChat = () => {
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [messageEntities, promptEntities, setQuickChatVisible, setChatSheetVisible]);
+  }, [
+    messageEntities,
+    promptEntities,
+    setQuickChatVisible,
+    setChatSheetVisible,
+  ]);
 
   return { quickChatRef };
 };
@@ -77,11 +90,20 @@ const StyledThinkingAnimationWrapper = styled.div`
 `;
 
 const SapientorIcon = () => {
-  const [promptEntity] = useEntities((e) => e.has(AdditionalTags.PROMPT) && e.has(AdditionalTags.PROCESSING))[0];
-  const [isProcessingCurrentPrompt] = useEntityHasTags(promptEntity, AdditionalTags.PROCESSING);
+  const [promptEntity] = useEntities(
+    (e) => e.has(AdditionalTags.PROMPT) && e.has(AdditionalTags.PROCESSING),
+  )[0];
+  const [isProcessingCurrentPrompt] = useEntityHasTags(
+    promptEntity,
+    AdditionalTags.PROCESSING,
+  );
   const { quickChatRef } = useQuickChat();
-  const { isQuickChatVisible, setQuickChatVisible, setChatSheetVisible, isChatSheetVisible } =
-    useCurrentSapientorConversation();
+  const {
+    isQuickChatVisible,
+    setQuickChatVisible,
+    setChatSheetVisible,
+    isChatSheetVisible,
+  } = useCurrentSapientorConversation();
   const { width } = useWindowDimensions();
 
   const openPromptBox = () => {
@@ -151,7 +173,12 @@ const SapientorIcon = () => {
             </StyledThinkingAnimationWrapper>
           </motion.div>
 
-          <motion.div initial={{ y: 0 }} animate={{ y: isProcessingCurrentPrompt && !isChatSheetVisible ? 60 : 0 }}>
+          <motion.div
+            initial={{ y: 0 }}
+            animate={{
+              y: isProcessingCurrentPrompt && !isChatSheetVisible ? 60 : 0,
+            }}
+          >
             <StyledSapientorOutline>
               <StyledSapientorEyeWrapper>
                 <SapientorEye />

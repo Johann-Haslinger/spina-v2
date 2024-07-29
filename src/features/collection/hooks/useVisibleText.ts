@@ -7,11 +7,15 @@ import { SupabaseTables } from "../../../base/enums";
 
 export const useVisibleText = () => {
   const { selectedNoteText, selectedNoteEntity } = useSelectedNote();
-  const { selectedSubtopicText, selectedSubtopicEntity } = useSelectedSubtopic();
-  const { selectedHomeworkText, selectedHomeworkEntity } = useSelectedHomework();
+  const { selectedSubtopicText, selectedSubtopicEntity } =
+    useSelectedSubtopic();
+  const { selectedHomeworkText, selectedHomeworkEntity } =
+    useSelectedHomework();
 
-  const visibleText = selectedNoteText || selectedSubtopicText || selectedHomeworkText || "";
-  const visibletextEntity = selectedNoteEntity || selectedSubtopicEntity || selectedHomeworkEntity;
+  const visibleText =
+    selectedNoteText || selectedSubtopicText || selectedHomeworkText || "";
+  const visibletextEntity =
+    selectedNoteEntity || selectedSubtopicEntity || selectedHomeworkEntity;
 
   const setVisibleText = async (newText: string) => {
     if (visibletextEntity) {

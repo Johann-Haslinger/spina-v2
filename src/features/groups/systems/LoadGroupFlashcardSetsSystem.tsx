@@ -40,7 +40,8 @@ const LoadGroupFlashcardSetsSystem = () => {
         groupFlashcardSets.forEach((groupFlashcardSet) => {
           const isExisting = lsc.engine.entities.some(
             (e) =>
-              e.get(IdentifierFacet)?.props.guid === groupFlashcardSet.id && e.hasTag(DataTypes.GROUP_FLASHCARD_SET)
+              e.get(IdentifierFacet)?.props.guid === groupFlashcardSet.id &&
+              e.hasTag(DataTypes.GROUP_FLASHCARD_SET),
           );
 
           if (!isExisting) {
@@ -48,7 +49,9 @@ const LoadGroupFlashcardSetsSystem = () => {
             lsc.engine.addEntity(noteEntity);
             noteEntity.add(new TitleFacet({ title: groupFlashcardSet.title }));
             noteEntity.add(new IdentifierFacet({ guid: groupFlashcardSet.id }));
-            noteEntity.add(new DateAddedFacet({ dateAdded: groupFlashcardSet.date_added }));
+            noteEntity.add(
+              new DateAddedFacet({ dateAdded: groupFlashcardSet.date_added }),
+            );
             noteEntity.add(new ParentFacet({ parentId: selectedGroupTopicId }));
             noteEntity.addTag(DataTypes.GROUP_FLASHCARD_SET);
           }

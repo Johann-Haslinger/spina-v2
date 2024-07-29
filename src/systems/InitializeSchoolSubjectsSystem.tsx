@@ -10,7 +10,9 @@ import supabaseClient from "../lib/supabase";
 import { dataTypeQuery } from "../utils/queries";
 
 const fetchSchoolSubjects = async () => {
-  const { data: schoolSubjects, error } = await supabaseClient.from(SupabaseTables.SCHOOL_SUBJECTS).select("title, id");
+  const { data: schoolSubjects, error } = await supabaseClient
+    .from(SupabaseTables.SCHOOL_SUBJECTS)
+    .select("title, id");
 
   if (error) {
     console.error("Error fetching school subjects:", error);
@@ -34,14 +36,20 @@ const InitializeSchoolSubjectsSystem = () => {
 
       schoolSubjects.forEach((schoolSubject, idx) => {
         const isExisting = lsc.engine.entities.some(
-          (e) => e.get(IdentifierFacet)?.props.guid === schoolSubject.id && dataTypeQuery(e, DataTypes.SCHOOL_SUBJECT)
+          (e) =>
+            e.get(IdentifierFacet)?.props.guid === schoolSubject.id &&
+            dataTypeQuery(e, DataTypes.SCHOOL_SUBJECT),
         );
 
         if (!isExisting) {
           const schoolSubjectEntity = new Entity();
           lsc.engine.addEntity(schoolSubjectEntity);
-          schoolSubjectEntity.add(new TitleFacet({ title: schoolSubject.title }));
-          schoolSubjectEntity.add(new IdentifierFacet({ guid: schoolSubject.id }));
+          schoolSubjectEntity.add(
+            new TitleFacet({ title: schoolSubject.title }),
+          );
+          schoolSubjectEntity.add(
+            new IdentifierFacet({ guid: schoolSubject.id }),
+          );
           schoolSubjectEntity.add(new OrderFacet({ orderIndex: idx }));
           schoolSubjectEntity.addTag(DataTypes.SCHOOL_SUBJECT);
         }

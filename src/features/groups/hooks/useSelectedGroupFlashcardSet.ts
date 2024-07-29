@@ -6,11 +6,16 @@ import { dataTypeQuery } from "../../../utils/queries";
 
 export const useSelectedGroupFlashcardSet = () => {
   const [selectedGroupFlashcardSetEntity] = useEntity(
-    (e) => dataTypeQuery(e, DataTypes.GROUP_FLASHCARD_SET) && e.hasTag(Tags.SELECTED)
+    (e) =>
+      dataTypeQuery(e, DataTypes.GROUP_FLASHCARD_SET) &&
+      e.hasTag(Tags.SELECTED),
   );
-  const selectedGroupFlashcardSetTitle = selectedGroupFlashcardSetEntity?.get(TitleFacet)?.props.title;
-  const selectedGroupFlashcardSetId = selectedGroupFlashcardSetEntity?.get(IdentifierFacet)?.props.guid;
-  const selectedGroupFlashcardSetParentId = selectedGroupFlashcardSetEntity?.get(ParentFacet)?.props.parentId;
+  const selectedGroupFlashcardSetTitle =
+    selectedGroupFlashcardSetEntity?.get(TitleFacet)?.props.title;
+  const selectedGroupFlashcardSetId =
+    selectedGroupFlashcardSetEntity?.get(IdentifierFacet)?.props.guid;
+  const selectedGroupFlashcardSetParentId =
+    selectedGroupFlashcardSetEntity?.get(ParentFacet)?.props.parentId;
 
   return {
     selectedGroupFlashcardSetEntity,

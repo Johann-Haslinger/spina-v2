@@ -67,19 +67,29 @@ const ViewManagerSystem = () => {
     Stories.CLONING_RESOURCE_FROM_GROUP_STORY,
     Stories.SUCCESS_STORY,
   ]);
-  const isQuizViewVisible = useIsStoryCurrent(Stories.OBSERVING_FLASHCARD_QUIZ_STORY);
+  const isQuizViewVisible = useIsStoryCurrent(
+    Stories.OBSERVING_FLASHCARD_QUIZ_STORY,
+  );
   const { isDarkMode } = useSelectedTheme();
-  const [closingVews] = useEntities((e) => e.hasTag(Tags.SELECTED) && e.hasTag(AdditionalTags.NAVIGATE_BACK));
+  const [closingVews] = useEntities(
+    (e) => e.hasTag(Tags.SELECTED) && e.hasTag(AdditionalTags.NAVIGATE_BACK),
+  );
   const [themeColor, setThemeColor] = useState("#F5F5F5");
   const { backgroundColor } = useSelectedSchoolSubjectColor();
   const { isChatSheetVisible } = useCurrentSapientorConversation();
   const { isSidebarVisible } = useAppState();
   const { width } = useWindowDimensions();
   const { selectedPodcastEntity } = useSelectedPodcast();
-  const [selectedFlashcardEntity] = useEntity((e) => dataTypeQuery(e, DataTypes.FLASHCARD) && e.hasTag(Tags.SELECTED));
+  const [selectedFlashcardEntity] = useEntity(
+    (e) => dataTypeQuery(e, DataTypes.FLASHCARD) && e.hasTag(Tags.SELECTED),
+  );
 
   useEffect(() => {
-    if (isSheetViewVisible || selectedPodcastEntity || selectedFlashcardEntity) {
+    if (
+      isSheetViewVisible ||
+      selectedPodcastEntity ||
+      selectedFlashcardEntity
+    ) {
       if (!isDarkMode) {
         setThemeColor("rgb(214,214,214)");
       }

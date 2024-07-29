@@ -1,4 +1,3 @@
-
 const ViSpina = () => {
   return (
     <svg
@@ -81,6 +80,4 @@ const ViSpina = () => {
 
 export default ViSpina;
 
-
 //#FFCC00
- 

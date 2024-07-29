@@ -1,7 +1,12 @@
 import styled from "@emotion/styled";
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
-import { FloatOrderFacet, IdentifierFacet, ImageFacet, ParentFacet } from "@leanscope/ecs-models";
+import {
+  FloatOrderFacet,
+  IdentifierFacet,
+  ImageFacet,
+  ParentFacet,
+} from "@leanscope/ecs-models";
 import { motion } from "framer-motion";
 import { Fragment, useContext, useEffect, useRef, useState } from "react";
 import { IoCodeSlash, IoGrid, IoImage, IoRemove } from "react-icons/io5";
@@ -136,7 +141,11 @@ const CreateOption = (props: { isVisible: boolean; option: option }) => {
     newImageBlock.add(new IdentifierFacet({ guid: v4() }));
     newImageBlock.add(new ImageFacet({ imageSrc: url || "" }));
     newImageBlock.add(new BlocktypeFacet({ blocktype: Blocktypes.IMAGE }));
-    newImageBlock.add(new FloatOrderFacet({ index: getHighestOrder(lsc, blockeditorId || "") + 1 }));
+    newImageBlock.add(
+      new FloatOrderFacet({
+        index: getHighestOrder(lsc, blockeditorId || "") + 1,
+      }),
+    );
     newImageBlock.add(new ParentFacet({ parentId: blockeditorId || "" }));
     newImageBlock.add(DataTypes.BLOCK);
 
@@ -147,7 +156,11 @@ const CreateOption = (props: { isVisible: boolean; option: option }) => {
     const newDividerBlock = new Entity();
     newDividerBlock.add(new IdentifierFacet({ guid: v4() }));
     newDividerBlock.add(new BlocktypeFacet({ blocktype: Blocktypes.DIVIDER }));
-    newDividerBlock.add(new FloatOrderFacet({ index: getHighestOrder(lsc, blockeditorId || "") + 1 }));
+    newDividerBlock.add(
+      new FloatOrderFacet({
+        index: getHighestOrder(lsc, blockeditorId || "") + 1,
+      }),
+    );
     newDividerBlock.add(new ParentFacet({ parentId: blockeditorId || "" }));
     newDividerBlock.add(DataTypes.BLOCK);
 
@@ -169,9 +182,14 @@ const CreateOption = (props: { isVisible: boolean; option: option }) => {
 
   return (
     <Fragment>
-      <StyledCreateOptionWrapper color={color} onClick={() => addBlockByBlockType(blockType)}>
+      <StyledCreateOptionWrapper
+        color={color}
+        onClick={() => addBlockByBlockType(blockType)}
+      >
         <StyledIconWrapper> {icon}</StyledIconWrapper>
-        <StyledTextWrapper>{getStringForBlockType(blockType)}</StyledTextWrapper>
+        <StyledTextWrapper>
+          {getStringForBlockType(blockType)}
+        </StyledTextWrapper>
       </StyledCreateOptionWrapper>
 
       {isSelectingImageSrc && (
@@ -244,7 +262,11 @@ const Createmenu = () => {
       <StyledCreateMenuContainer>
         <StyledCreateMenuWrapper>
           {editOptions.map((option) => (
-            <CreateOption isVisible={isVisible} option={option} key={option.blockType} />
+            <CreateOption
+              isVisible={isVisible}
+              option={option}
+              key={option.blockType}
+            />
           ))}
         </StyledCreateMenuWrapper>
       </StyledCreateMenuContainer>

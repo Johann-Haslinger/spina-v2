@@ -1,7 +1,12 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext } from "react";
-import { AdditionalTags, Stories, SupabaseColumns, SupabaseTables } from "../../../../base/enums";
+import {
+  AdditionalTags,
+  Stories,
+  SupabaseColumns,
+  SupabaseTables,
+} from "../../../../base/enums";
 import { Alert, AlertButton } from "../../../../components";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../../lib/supabase";
@@ -14,7 +19,8 @@ const DeleteNoteAlert = () => {
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedNoteId, selectedNoteEntity } = useSelectedNote();
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_TOPIC_STORY);
+  const navigateBack = () =>
+    lsc.stories.transitTo(Stories.OBSERVING_TOPIC_STORY);
 
   const deleteNote = async () => {
     navigateBack();

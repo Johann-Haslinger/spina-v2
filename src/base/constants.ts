@@ -48,7 +48,12 @@ export const COLORS = [
   "#0ECB65",
 ];
 
-export const COLOR_ITEMS: { color: string; accentColor: string; name?: string; backgroundColor: string }[] = [
+export const COLOR_ITEMS: {
+  color: string;
+  accentColor: string;
+  name?: string;
+  backgroundColor: string;
+}[] = [
   {
     color: "#EF9D4A",
     accentColor: "#397A45",

@@ -16,7 +16,7 @@ const StyledCellWrapper = styled.div<{
 `;
 
 const StyledTitle = styled.p`
-  ${tw`mt-2 font-black  `}
+  ${tw`mt-2 font-black dark:opacity-60 `}
 `;
 
 const SchoolSubjectCell = (props: TitleProps & OrderProps & EntityProps) => {
@@ -31,7 +31,11 @@ const SchoolSubjectCell = (props: TitleProps & OrderProps & EntityProps) => {
   };
 
   return (
-    <StyledCellWrapper backgroundColor={accentColor} color={color   || ""} onClick={handleOpenSchoolSubject}>
+    <StyledCellWrapper
+      backgroundColor={accentColor}
+      color={color || ""}
+      onClick={handleOpenSchoolSubject}
+    >
       <StyledTitle>{title.slice(0, 2)}</StyledTitle>
     </StyledCellWrapper>
   );

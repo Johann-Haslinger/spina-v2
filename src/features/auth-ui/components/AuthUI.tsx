@@ -25,7 +25,6 @@ function AuthUI() {
           },
         }}
         theme="light"
-    
         providers={[]}
       />
     </StyledAuthWrapper>

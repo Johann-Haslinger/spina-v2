@@ -9,7 +9,12 @@ import { COLOR_ITEMS } from "../../../../base/constants";
 import { useExerciseParts } from "../../hooks/useExerciseParts";
 import { useState } from "react";
 
-const SytledExercisePartWrapper = styled.div<{ backgroundColor: string; color: string; first: boolean; last: boolean }>`
+const SytledExercisePartWrapper = styled.div<{
+  backgroundColor: string;
+  color: string;
+  first: boolean;
+  last: boolean;
+}>`
   ${tw`w-full py-2.5 flex justify-between px-4`}
   ${({ first }) => (first ? tw`rounded-t-xl` : null)}
   ${({ last }) => (last ? tw`rounded-b-xl` : null)}
@@ -50,7 +55,9 @@ function numberToLetter(num: number): string {
   return alphabet[num];
 }
 
-const ExercisePart = (props: QuestionProps & AnswerProps & OrderProps & EntityProps) => {
+const ExercisePart = (
+  props: QuestionProps & AnswerProps & OrderProps & EntityProps,
+) => {
   const { orderIndex, question, entity } = props;
   const color = useExercisePartColor(entity);
   const { exercisePartsCount } = useExerciseParts(undefined, entity);
@@ -59,7 +66,10 @@ const ExercisePart = (props: QuestionProps & AnswerProps & OrderProps & EntityPr
 
   console.log("userAnswer", userAnswer);
 
-  const toggleTextareaVisibility = () => (isTextareaVisible ? entity.remove(Tags.SELECTED) : entity.add(Tags.SELECTED));
+  const toggleTextareaVisibility = () =>
+    isTextareaVisible
+      ? entity.remove(Tags.SELECTED)
+      : entity.add(Tags.SELECTED);
 
   return (
     <div>
@@ -78,9 +88,16 @@ const ExercisePart = (props: QuestionProps & AnswerProps & OrderProps & EntityPr
           <StyledQuestionText> {question}</StyledQuestionText>
         </StyledLeftSideWrapper>
 
-        <StyledMoreButton>{isTextareaVisible ? <IoChevronUp /> : <IoChevronForward />}</StyledMoreButton>
+        <StyledMoreButton>
+          {isTextareaVisible ? <IoChevronUp /> : <IoChevronForward />}
+        </StyledMoreButton>
       </SytledExercisePartWrapper>
-      {isTextareaVisible && <StyledTextarea contentEditable onBlur={(e) => setUserAnswer(e.currentTarget.innerText)} />}
+      {isTextareaVisible && (
+        <StyledTextarea
+          contentEditable
+          onBlur={(e) => setUserAnswer(e.currentTarget.innerText)}
+        />
+      )}
     </div>
   );
 };

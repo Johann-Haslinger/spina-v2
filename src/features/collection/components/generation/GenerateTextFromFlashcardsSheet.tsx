@@ -3,8 +3,18 @@ import { Entity, useEntities } from "@leanscope/ecs-engine";
 import { IdentifierFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext, useEffect, useState } from "react";
-import { AnswerFacet, QuestionFacet, TitleFacet } from "../../../../app/additionalFacets";
-import { AdditionalTags, DataTypes, Stories, SupabaseColumns, SupabaseTables } from "../../../../base/enums";
+import {
+  AnswerFacet,
+  QuestionFacet,
+  TitleFacet,
+} from "../../../../app/additionalFacets";
+import {
+  AdditionalTags,
+  DataTypes,
+  Stories,
+  SupabaseColumns,
+  SupabaseTables,
+} from "../../../../base/enums";
 import {
   FlexBox,
   GeneratingIndecator,
@@ -34,13 +44,18 @@ const GenerateTextFromFlashcardsSheet = () => {
     selectedFlashcardSetTitle,
   } = useSelectedFlashcardSet();
   const { selectedLanguage } = useSelectedLanguage();
-  const isVisible = useIsStoryCurrent(Stories.GENERATING_TEXT_FROM_FLASHCARDS_STORY);
+  const isVisible = useIsStoryCurrent(
+    Stories.GENERATING_TEXT_FROM_FLASHCARDS_STORY,
+  );
   const [isGenerating, setIsGenerating] = useState(false);
-  const [flashcardEntities] = useEntities((e) => dataTypeQuery(e, DataTypes.FLASHCARD));
+  const [flashcardEntities] = useEntities((e) =>
+    dataTypeQuery(e, DataTypes.FLASHCARD),
+  );
   const [generatedText, setGeneratedText] = useState<string>("");
   const { userId } = useUserData();
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_SET_STORY);
+  const navigateBack = () =>
+    lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_SET_STORY);
 
   useEffect(() => {
     const generateTextFromFlashcards = async () => {
@@ -76,15 +91,26 @@ const GenerateTextFromFlashcardsSheet = () => {
     if (selectedFlashcardSetId) {
       setTimeout(async () => {
         const subtopicEntity = new Entity();
-        subtopicEntity.add(new IdentifierFacet({ guid: selectedFlashcardSetId }));
-        subtopicEntity.add(new ParentFacet({ parentId: selectedFlashcardSetParentId || "" }));
-        subtopicEntity.add(new TitleFacet({ title: selectedFlashcardSetTitle || "" }));
+        subtopicEntity.add(
+          new IdentifierFacet({ guid: selectedFlashcardSetId }),
+        );
+        subtopicEntity.add(
+          new ParentFacet({ parentId: selectedFlashcardSetParentId || "" }),
+        );
+        subtopicEntity.add(
+          new TitleFacet({ title: selectedFlashcardSetTitle || "" }),
+        );
         subtopicEntity.add(new TextFacet({ text: generatedText || "" }));
         subtopicEntity.add(DataTypes.SUBTOPIC);
 
         addSubtopic(lsc, subtopicEntity, userId);
 
-        addBlockEntitiesFromString(lsc, generatedText, selectedFlashcardSetId, "");
+        addBlockEntitiesFromString(
+          lsc,
+          generatedText,
+          selectedFlashcardSetId,
+          "",
+        );
 
         const { error: flashcardSetError } = await supabaseClient
           .from(SupabaseTables.FLASHCARD_SETS)
@@ -101,9 +127,13 @@ const GenerateTextFromFlashcardsSheet = () => {
   return (
     <Sheet navigateBack={navigateBack} visible={isVisible}>
       <FlexBox>
-        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
+        <SecondaryButton onClick={navigateBack}>
+          {displayButtonTexts(selectedLanguage).cancel}
+        </SecondaryButton>
         {!isGenerating && generatedText !== "" && (
-          <PrimaryButton onClick={saveText}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
+          <PrimaryButton onClick={saveText}>
+            {displayButtonTexts(selectedLanguage).save}
+          </PrimaryButton>
         )}
       </FlexBox>
       <Spacer />

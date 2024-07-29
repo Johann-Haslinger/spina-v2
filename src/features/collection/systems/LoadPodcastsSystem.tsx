@@ -5,7 +5,12 @@ import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext, useEffect } from "react";
 import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
 import { dummyPodcasts } from "../../../base/dummy";
-import { DataTypes, Stories, SupabaseColumns, SupabaseTables } from "../../../base/enums";
+import {
+  DataTypes,
+  Stories,
+  SupabaseColumns,
+  SupabaseTables,
+} from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedTopic } from "../hooks/useSelectedTopic";
@@ -38,7 +43,9 @@ const fetchPodcastsForTopic = async (parentId: string) => {
 
 const LoadPodcastsSystem = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isPodcastCollectionVisible = useIsStoryCurrent(Stories.OBSERVING_PODCASTS_COLLECTION);
+  const isPodcastCollectionVisible = useIsStoryCurrent(
+    Stories.OBSERVING_PODCASTS_COLLECTION,
+  );
   const { mockupData, shouldFetchFromSupabase } = useMockupData();
   const { selectedTopicId } = useSelectedTopic();
 
@@ -55,19 +62,27 @@ const LoadPodcastsSystem = () => {
 
         podcasts.forEach((podcast) => {
           const isExisting = lsc.engine.entities.some(
-            (e) => e.get(IdentifierFacet)?.props.guid === podcast.id && e.hasTag(DataTypes.PODCAST)
+            (e) =>
+              e.get(IdentifierFacet)?.props.guid === podcast.id &&
+              e.hasTag(DataTypes.PODCAST),
           );
 
           if (!isExisting) {
             const newPodcastEntity = new Entity();
             lsc.engine.addEntity(newPodcastEntity);
             newPodcastEntity.add(new IdentifierFacet({ guid: podcast.id }));
-            newPodcastEntity.add(new DateAddedFacet({ dateAdded: podcast.date_added }));
-            newPodcastEntity.add(new TitleFacet({ title: podcast.title || "" }));
+            newPodcastEntity.add(
+              new DateAddedFacet({ dateAdded: podcast.date_added }),
+            );
+            newPodcastEntity.add(
+              new TitleFacet({ title: podcast.title || "" }),
+            );
             newPodcastEntity.addTag(DataTypes.PODCAST);
 
             if (selectedTopicId) {
-              newPodcastEntity.add(new ParentFacet({ parentId: selectedTopicId }));
+              newPodcastEntity.add(
+                new ParentFacet({ parentId: selectedTopicId }),
+              );
             }
           }
         });
@@ -75,7 +90,12 @@ const LoadPodcastsSystem = () => {
     };
 
     initializePodcastEntities();
-  }, [isPodcastCollectionVisible, mockupData, selectedTopicId, shouldFetchFromSupabase]);
+  }, [
+    isPodcastCollectionVisible,
+    mockupData,
+    selectedTopicId,
+    shouldFetchFromSupabase,
+  ]);
 
   return null;
 };

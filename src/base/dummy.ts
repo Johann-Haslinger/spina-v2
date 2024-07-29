@@ -241,7 +241,8 @@ export const dummySubtopics = [
   },
 ];
 
-export const dummyAudio = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
+export const dummyAudio =
+  "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
 
 export const dummyPodcasts = [
   {
@@ -541,5 +542,4 @@ export const dummyExerciseParts = [
     parent_id: "1",
     order: 2,
   },
-  
 ];

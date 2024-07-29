@@ -4,7 +4,11 @@ import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
 import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
 import { dummyPodcasts } from "../../../base/dummy";
-import { DataTypes, SupabaseColumns, SupabaseTables } from "../../../base/enums";
+import {
+  DataTypes,
+  SupabaseColumns,
+  SupabaseTables,
+} from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedNote } from "../hooks/useSelectedNote";
@@ -39,7 +43,9 @@ const LoadNotePodcastsSystem = () => {
 
         podcasts?.forEach((podcast) => {
           const isExisting = lsc.engine.entities.some(
-            (e) => e.get(IdentifierFacet)?.props.guid === podcast.id && e.hasTag(DataTypes.PODCAST)
+            (e) =>
+              e.get(IdentifierFacet)?.props.guid === podcast.id &&
+              e.hasTag(DataTypes.PODCAST),
           );
 
           if (!isExisting) {
@@ -48,7 +54,9 @@ const LoadNotePodcastsSystem = () => {
             podcastEntity.add(new IdentifierFacet({ guid: podcast.id }));
             podcastEntity.add(new ParentFacet({ parentId: selectedNoteId }));
             podcastEntity.add(new TitleFacet({ title: podcast.title || "" }));
-            podcastEntity.add(new DateAddedFacet({ dateAdded: podcast.date_added }));
+            podcastEntity.add(
+              new DateAddedFacet({ dateAdded: podcast.date_added }),
+            );
             podcastEntity.addTag(DataTypes.PODCAST);
           }
         });

@@ -6,7 +6,7 @@ import tw from "twin.macro";
 import { useSelectedLanguage } from "../../hooks/useSelectedLanguage";
 
 const StyledBackButtonWrapper = styled.div`
-  ${tw`flex size-7 rounded-full p-1 text-xl bg-opacity-70 bg-[#D9D9D9] dark:text-primaryTextDark mb-4 space-x-2 items-center cursor-pointer`}
+  ${tw`flex size-7 rounded-full p-1 text-xl bg-opacity-70  transition-all bg-[#D9D9D9] dark:bg-opacity-20 dark:text-primaryTextDark mb-4 space-x-2 items-center cursor-pointer`}
 `;
 
 const StyledBackButtonIcon = styled.div`
@@ -16,7 +16,7 @@ const StyledBackButtonIcon = styled.div`
 const BackButton = (
   props: PropsWithChildren & {
     navigateBack?: () => void;
-  }
+  },
 ) => {
   const { navigateBack, children } = props;
   const [isHovered, setIsHovered] = useState(false);

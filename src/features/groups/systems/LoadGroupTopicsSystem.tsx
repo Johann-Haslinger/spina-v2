@@ -1,10 +1,18 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
-import { DescriptionFacet, IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
+import {
+  DescriptionFacet,
+  IdentifierFacet,
+  ParentFacet,
+} from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
 import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
 import { dummyGroupTopics } from "../../../base/dummy";
-import { DataTypes, SupabaseColumns, SupabaseTables } from "../../../base/enums";
+import {
+  DataTypes,
+  SupabaseColumns,
+  SupabaseTables,
+} from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedGroupSchoolSubject } from "../hooks/useSelectedGroupSchoolSubject";
@@ -34,22 +42,36 @@ const LoadGroupTopicsSystem = () => {
         const learningGroupTopics = mockupData
           ? dummyGroupTopics
           : shouldFetchFromSupabase
-            ? await fetchGroupTopicsForSchoolSubject(selectedGroupSchoolSubjectId)
+            ? await fetchGroupTopicsForSchoolSubject(
+                selectedGroupSchoolSubjectId,
+              )
             : [];
 
         learningGroupTopics.forEach((topic) => {
           const isExisting = lsc.engine.entities.some(
-            (e) => e.get(IdentifierFacet)?.props.guid === topic.id && e.hasTag(DataTypes.GROUP_TOPIC)
+            (e) =>
+              e.get(IdentifierFacet)?.props.guid === topic.id &&
+              e.hasTag(DataTypes.GROUP_TOPIC),
           );
 
           if (!isExisting) {
             const learningGroupTopicEntity = new Entity();
             lsc.engine.addEntity(learningGroupTopicEntity);
-            learningGroupTopicEntity.add(new TitleFacet({ title: topic.title }));
-            learningGroupTopicEntity.add(new IdentifierFacet({ guid: topic.id }));
-            learningGroupTopicEntity.add(new DateAddedFacet({ dateAdded: topic.date_added }));
-            learningGroupTopicEntity.add(new DescriptionFacet({ description: topic.description }));
-            learningGroupTopicEntity.add(new ParentFacet({ parentId: selectedGroupSchoolSubjectId }));
+            learningGroupTopicEntity.add(
+              new TitleFacet({ title: topic.title }),
+            );
+            learningGroupTopicEntity.add(
+              new IdentifierFacet({ guid: topic.id }),
+            );
+            learningGroupTopicEntity.add(
+              new DateAddedFacet({ dateAdded: topic.date_added }),
+            );
+            learningGroupTopicEntity.add(
+              new DescriptionFacet({ description: topic.description }),
+            );
+            learningGroupTopicEntity.add(
+              new ParentFacet({ parentId: selectedGroupSchoolSubjectId }),
+            );
             learningGroupTopicEntity.addTag(DataTypes.GROUP_TOPIC);
           }
         });

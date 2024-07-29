@@ -12,5 +12,5 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
     <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
       <App />
     </LeanScopeClientApp>
-  </React.StrictMode>
+  </React.StrictMode>,
 );

@@ -5,7 +5,11 @@ import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { TitleFacet } from "../app/additionalFacets";
 import { SupabaseTables } from "../base/enums";
 
-export const addNote = async (lsc: ILeanScopeClient, noteEntity: Entity, userId: string) => {
+export const addNote = async (
+  lsc: ILeanScopeClient,
+  noteEntity: Entity,
+  userId: string,
+) => {
   lsc.engine.addEntity(noteEntity);
 
   const { error } = await supabaseClient.from(SupabaseTables.NOTES).insert([

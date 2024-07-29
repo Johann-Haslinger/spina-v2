@@ -31,7 +31,8 @@ const fetchPodcastAudio = async (podcastId: string) => {
 };
 
 const LoadPodcastAudioSystem = () => {
-  const { selectedPodcastEntity, selectedPodcastId, selectedPodcastSource } = useSelectedPodcast();
+  const { selectedPodcastEntity, selectedPodcastId, selectedPodcastSource } =
+    useSelectedPodcast();
   const { mockupData, shouldFetchFromSupabase } = useMockupData();
 
   useEffect(() => {
@@ -43,7 +44,8 @@ const LoadPodcastAudioSystem = () => {
             ? await fetchPodcastAudio(selectedPodcastId || "")
             : null;
 
-        const audioBlob = audioData && base64toBlob(audioData?.audio, "audio/mpeg");
+        const audioBlob =
+          audioData && base64toBlob(audioData?.audio, "audio/mpeg");
         const audioUrl = audioBlob && URL.createObjectURL(audioBlob);
 
         selectedPodcastEntity?.add(new SourceFacet({ source: audioUrl || "" }));

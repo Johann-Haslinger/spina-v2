@@ -8,13 +8,17 @@ import tw from "twin.macro";
 import { AdditionalTags } from "../../../../base/enums";
 import { useCurrentBlockeditor } from "../../hooks/useCurrentBlockeditor";
 
-const StyledBlockWrapper = styled.div<{ isPressed: boolean; paddingY: boolean }>`
+const StyledBlockWrapper = styled.div<{
+  isPressed: boolean;
+  paddingY: boolean;
+}>`
   ${tw` px-2 mb-0.5 rounded-md w-full  flex h-fit `}
   ${({ isPressed }) =>
     isPressed
       ? tw`bg-primaryColor  bg-opacity-10 dark:bg-opacity-100 dark:bg-seconderyDark   z-40  select-none `
       : tw`border-white`};
-  ${({ paddingY }) => (!paddingY ? tw`py-0.5 min-h-[36px]` : tw`py-2 min-h-[40px]`)};
+  ${({ paddingY }) =>
+    !paddingY ? tw`py-0.5 min-h-[36px]` : tw`py-2 min-h-[40px]`};
 `;
 
 const StyledContentWrapper = styled.div`
@@ -46,7 +50,10 @@ const BlockOutline = (props: BlockOutlineProps & PropsWithChildren) => {
   const isEditing = blockeditorState === "edit";
   const [isPressed] = useEntityHasTags(blockEntity, Tags.SELECTED);
   const blockId = blockEntity.get(IdentifierFacet)?.props.guid;
-  const [isContentEditable] = useEntityHasTags(blockEntity, AdditionalTags.CONTENT_EDITABLE);
+  const [isContentEditable] = useEntityHasTags(
+    blockEntity,
+    AdditionalTags.CONTENT_EDITABLE,
+  );
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const textBlockRef = useRef<HTMLDivElement | null>(null);
   const [startX, setStartX] = useState<number | null>(null);
@@ -69,7 +76,10 @@ const BlockOutline = (props: BlockOutlineProps & PropsWithChildren) => {
   }, [isEditing]);
 
   const handleClickOutside = (event: MouseEvent) => {
-    if (textBlockRef.current && !textBlockRef.current.contains(event.target as Node)) {
+    if (
+      textBlockRef.current &&
+      !textBlockRef.current.contains(event.target as Node)
+    ) {
       setTranslateX(0);
     }
   };
@@ -148,11 +158,20 @@ const BlockOutline = (props: BlockOutlineProps & PropsWithChildren) => {
       <Draggable key={blockId} draggableId={blockId} index={0}>
         {(provided: any) =>
           isGroupBlockeditor ? (
-            <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps} style={{paddingLeft: 8}}>
+            <div
+              ref={provided.innerRef}
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+              style={{ paddingLeft: 8 }}
+            >
               <StyledContentWrapper>{children}</StyledContentWrapper>
             </div>
           ) : (
-            <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+            <div
+              ref={provided.innerRef}
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+            >
               <StyledBlockWrapper
                 isPressed={isPressed}
                 paddingY={paddingY ?? false}
@@ -166,7 +185,9 @@ const BlockOutline = (props: BlockOutlineProps & PropsWithChildren) => {
               >
                 <StyledContentWrapper>{children}</StyledContentWrapper>
                 <StyledSelectionIndicatorWrapper isEdeting={isEditing}>
-                  <StyledSelectionIndicator isVisible={isPressed && isEditing} />
+                  <StyledSelectionIndicator
+                    isVisible={isPressed && isEditing}
+                  />
                 </StyledSelectionIndicatorWrapper>
               </StyledBlockWrapper>
             </div>

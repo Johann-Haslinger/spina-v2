@@ -4,7 +4,11 @@ import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
 import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
 import { dummyFlashcardSets } from "../../../base/dummy";
-import { DataTypes, SupabaseColumns, SupabaseTables } from "../../../base/enums";
+import {
+  DataTypes,
+  SupabaseColumns,
+  SupabaseTables,
+} from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../lib/supabase";
@@ -42,17 +46,25 @@ const LoadFlashcardSetsSystem = () => {
 
         flashcardSets.forEach((flashcardSet) => {
           const isExisting = lsc.engine.entities.some(
-            (e) => e.get(IdentifierFacet)?.props.guid === flashcardSet.id && e.hasTag(DataTypes.FLASHCARD_SET)
+            (e) =>
+              e.get(IdentifierFacet)?.props.guid === flashcardSet.id &&
+              e.hasTag(DataTypes.FLASHCARD_SET),
           );
 
           if (!isExisting) {
             const noteEntity = new Entity();
             lsc.engine.addEntity(noteEntity);
             noteEntity.add(
-              new TitleFacet({ title: flashcardSet.title || displayAlertTexts(selectedLanguage).noTitle })
+              new TitleFacet({
+                title:
+                  flashcardSet.title ||
+                  displayAlertTexts(selectedLanguage).noTitle,
+              }),
             );
             noteEntity.add(new IdentifierFacet({ guid: flashcardSet.id }));
-            noteEntity.add(new DateAddedFacet({ dateAdded: flashcardSet.date_added }));
+            noteEntity.add(
+              new DateAddedFacet({ dateAdded: flashcardSet.date_added }),
+            );
 
             noteEntity.add(new ParentFacet({ parentId: selectedTopicId }));
             noteEntity.addTag(DataTypes.FLASHCARD_SET);

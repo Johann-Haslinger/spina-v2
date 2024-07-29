@@ -4,12 +4,15 @@ export const getCompletion = async (prompt: string): Promise<string> => {
   const session = await supabaseClient.auth.getSession();
 
   if (session) {
-    const { data: completion, error } = await supabaseClient.functions.invoke("get-completion", {
-      headers: {
-        Authorization: `Bearer ${session.data.session?.access_token}`,
+    const { data: completion, error } = await supabaseClient.functions.invoke(
+      "get-completion",
+      {
+        headers: {
+          Authorization: `Bearer ${session.data.session?.access_token}`,
+        },
+        body: { query: prompt },
       },
-      body: { query: prompt },
-    });
+    );
 
     if (error) {
       console.error("error generating completion:", error.message);
@@ -26,12 +29,15 @@ export const getJSONCompletion = async (prompt: string): Promise<string> => {
   const session = await supabaseClient.auth.getSession();
 
   if (session) {
-    const { data: completion, error } = await supabaseClient.functions.invoke("get-json-completion", {
-      headers: {
-        Authorization: `Bearer ${session.data.session?.access_token}`,
+    const { data: completion, error } = await supabaseClient.functions.invoke(
+      "get-json-completion",
+      {
+        headers: {
+          Authorization: `Bearer ${session.data.session?.access_token}`,
+        },
+        body: { query: prompt },
       },
-      body: { query: prompt },
-    });
+    );
 
     if (error) {
       console.error("error generating completion:", error.message);
@@ -44,16 +50,21 @@ export const getJSONCompletion = async (prompt: string): Promise<string> => {
   }
 };
 
-export async function getAudioFromText(text: string): Promise<string | undefined> {
+export async function getAudioFromText(
+  text: string,
+): Promise<string | undefined> {
   const session = await supabaseClient.auth.getSession();
 
   if (session) {
-    const { data: mp3Blob, error } = await supabaseClient.functions.invoke("get-audio-from-text", {
-      headers: {
-        Authorization: `Bearer ${session.data.session?.access_token}`,
+    const { data: mp3Blob, error } = await supabaseClient.functions.invoke(
+      "get-audio-from-text",
+      {
+        headers: {
+          Authorization: `Bearer ${session.data.session?.access_token}`,
+        },
+        body: { query: text },
       },
-      body: { query: text },
-    });
+    );
 
     if (error) {
       console.error("Fehler bei der Anfrage:", error.message);
@@ -66,16 +77,21 @@ export async function getAudioFromText(text: string): Promise<string | undefined
   }
 }
 
-export const getImageFromText = async (text: string): Promise<string | undefined> => {
+export const getImageFromText = async (
+  text: string,
+): Promise<string | undefined> => {
   const session = await supabaseClient.auth.getSession();
 
   if (session) {
-    const { data: image, error } = await supabaseClient.functions.invoke("get-image-from-text", {
-      headers: {
-        Authorization: `Bearer ${session.data.session?.access_token}`,
+    const { data: image, error } = await supabaseClient.functions.invoke(
+      "get-image-from-text",
+      {
+        headers: {
+          Authorization: `Bearer ${session.data.session?.access_token}`,
+        },
+        body: { prompt: text },
       },
-      body: { prompt: text },
-    });
+    );
 
     if (error) {
       console.error("error generating image:", error.message);

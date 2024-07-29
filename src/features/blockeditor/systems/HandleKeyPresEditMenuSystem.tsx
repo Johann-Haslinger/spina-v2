@@ -6,26 +6,34 @@ import { useContext, useEffect } from "react";
 import { DataTypes, Stories } from "../../../base/enums";
 import { addBlock } from "../functions/addBlock";
 import { changeBlockeditorState } from "../functions/changeBlockeditorState";
-import { getNextHigherOrderEntity, findNumberBetween } from "../functions/orderHelper";
+import {
+  getNextHigherOrderEntity,
+  findNumberBetween,
+} from "../functions/orderHelper";
 import { useCurrentBlockeditor } from "../hooks/useCurrentBlockeditor";
 import { v4 } from "uuid";
 import { getStringFromBlockEntities } from "../functions/getStringFromBlockEntities";
 import { useUserData } from "../../../hooks/useUserData";
 
 const copySelectedBlocks = (lsc: ILeanScopeClient) => {
-  const selectedBlockEntities = lsc.engine.entities.filter((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
+  const selectedBlockEntities = lsc.engine.entities.filter(
+    (e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED),
+  );
 
   let stringToCopy = getStringFromBlockEntities(selectedBlockEntities);
   navigator.clipboard.writeText(stringToCopy);
 };
 
 const duplicateSelectedBlocks = (lsc: ILeanScopeClient, userId: string) => {
-  const selectedBlockEntities = lsc.engine.entities.filter((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
+  const selectedBlockEntities = lsc.engine.entities.filter(
+    (e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED),
+  );
 
   selectedBlockEntities.forEach((blockEntity) => {
     const blockEntityOrder = blockEntity.get(FloatOrderFacet)?.props.index || 1;
     const higherOrderBlockEntity = getNextHigherOrderEntity(lsc, blockEntity);
-    const higherOrderBlockEntityOrder = higherOrderBlockEntity?.get(FloatOrderFacet)?.props.index || 0;
+    const higherOrderBlockEntityOrder =
+      higherOrderBlockEntity?.get(FloatOrderFacet)?.props.index || 0;
 
     const newBlockEntity = blockEntity;
     newBlockEntity.add(new IdentifierFacet({ guid: v4() }));
@@ -34,7 +42,7 @@ const duplicateSelectedBlocks = (lsc: ILeanScopeClient, userId: string) => {
         index: higherOrderBlockEntity
           ? findNumberBetween(blockEntityOrder, higherOrderBlockEntityOrder)
           : blockEntityOrder + 1,
-      })
+      }),
     );
 
     addBlock(lsc, newBlockEntity, userId);
@@ -44,7 +52,9 @@ const duplicateSelectedBlocks = (lsc: ILeanScopeClient, userId: string) => {
 const HandleKeyPresEditMenuSystem = () => {
   const lsc = useContext(LeanScopeClientContext);
   const { blockeditorEntity, blockeditorState } = useCurrentBlockeditor();
-  const [pressedBlocks] = useEntities((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
+  const [pressedBlocks] = useEntities(
+    (e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED),
+  );
   const { userId } = useUserData();
 
   useEffect(() => {
@@ -64,7 +74,8 @@ const HandleKeyPresEditMenuSystem = () => {
         duplicateSelectedBlocks(lsc, userId);
       }
     };
-    if (blockeditorState === "edit") document.addEventListener("keydown", handleKeyDown);
+    if (blockeditorState === "edit")
+      document.addEventListener("keydown", handleKeyDown);
     return () => document.removeEventListener("keydown", handleKeyDown);
   }, [pressedBlocks.length, blockeditorState]);
 

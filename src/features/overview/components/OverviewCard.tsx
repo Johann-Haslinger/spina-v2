@@ -12,7 +12,6 @@ const StyledOverviewCellWrapper = styled.div<{
 }>`
   ${tw`w-full h-44 md:h-40  text-white text-opacity-30 rounded-xl flex justify-center items-center  md:hover:scale-105 transition-all  text-[5rem] font-bold p-2 `}
   background-color: ${({ backgroundColor }) => backgroundColor};
-
 `;
 
 const StyledOverviewTitle = styled.p`
@@ -27,7 +26,10 @@ const OverviewCard = (props: { cardData: CardData }) => {
 
   return (
     <StyledOverviewCellContainer>
-      <StyledOverviewCellWrapper color={color} backgroundColor={backgroundColor}>
+      <StyledOverviewCellWrapper
+        color={color}
+        backgroundColor={backgroundColor}
+      >
         {icon}
       </StyledOverviewCellWrapper>
       <StyledOverviewTitle>{title}</StyledOverviewTitle>

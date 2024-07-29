@@ -1,10 +1,17 @@
 import { Entity } from "@leanscope/ecs-engine";
 import { IdentifierFacet } from "@leanscope/ecs-models";
-import { DataTypes, SupabaseColumns, SupabaseTables } from "../../../base/enums";
+import {
+  DataTypes,
+  SupabaseColumns,
+  SupabaseTables,
+} from "../../../base/enums";
 import supabaseClient from "../../../lib/supabase";
 
 const usePendingResourceStatus = () => {
-  const updatePendingResourceStatus = async (pendingEntity: Entity, status: number) => {
+  const updatePendingResourceStatus = async (
+    pendingEntity: Entity,
+    status: number,
+  ) => {
     const homeworkId = pendingEntity.get(IdentifierFacet)?.props.guid;
 
     if (pendingEntity.hasTag(DataTypes.HOMEWORK)) {

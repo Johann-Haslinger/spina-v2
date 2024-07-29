@@ -34,7 +34,9 @@ const StyledButtonWrapper = styled.div`
 const TextWrapper = styled.div`
   ${tw`w-full  h-28`}
 `;
-const FlashcardGroupCell = (props: TitleProps & EntityProps & DateAddedProps) => {
+const FlashcardGroupCell = (
+  props: TitleProps & EntityProps & DateAddedProps,
+) => {
   const lsc = useContext(LeanScopeClientContext);
   const { title, entity, dateAdded } = props;
   const [isHovered, setIsHovered] = useState(false);
@@ -47,7 +49,10 @@ const FlashcardGroupCell = (props: TitleProps & EntityProps & DateAddedProps) =>
   };
 
   return (
-    <StyledFlashcardGroupCellWrapper onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+    <StyledFlashcardGroupCellWrapper
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <StyledButtonWrapper>
         <StyledIconWrapper onClick={openFlashcardQuiz}>
           <IoPlay />
@@ -60,7 +65,9 @@ const FlashcardGroupCell = (props: TitleProps & EntityProps & DateAddedProps) =>
       </StyledButtonWrapper>
       <TextWrapper onClick={openFlashcardGroup}>
         <StyledFlashcardGroupCellTitle>{title}</StyledFlashcardGroupCellTitle>
-        <StyledFlashcardGroupCellSubtitle>{formatTime(dateAdded)}</StyledFlashcardGroupCellSubtitle>
+        <StyledFlashcardGroupCellSubtitle>
+          {formatTime(dateAdded)}
+        </StyledFlashcardGroupCellSubtitle>
       </TextWrapper>
     </StyledFlashcardGroupCellWrapper>
   );

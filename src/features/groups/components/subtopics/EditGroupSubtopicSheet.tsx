@@ -15,22 +15,29 @@ import {
 } from "../../../../components";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../../lib/supabase";
-import { displayButtonTexts, displayLabelTexts } from "../../../../utils/displayText";
+import {
+  displayButtonTexts,
+  displayLabelTexts,
+} from "../../../../utils/displayText";
 import { useSelectedGroupSubtopic } from "../../hooks/useSelectedGroupSubtopic";
 
 const EditGroupSubtopicSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Stories.EDETING_GROUP_SUBTOPIC_STORY);
   const { selectedLanguage } = useSelectedLanguage();
-  const { selectedGroupSubtopicTitle, selectedGroupSubtopicEntity, selectedGroupSubtopicId } =
-    useSelectedGroupSubtopic();
+  const {
+    selectedGroupSubtopicTitle,
+    selectedGroupSubtopicEntity,
+    selectedGroupSubtopicId,
+  } = useSelectedGroupSubtopic();
   const [newTitle, setNewTitle] = useState(selectedGroupSubtopicTitle);
 
   useEffect(() => {
     setNewTitle(selectedGroupSubtopicTitle);
   }, [selectedGroupSubtopicTitle]);
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_GROUP_TOPIC_STORY);
+  const navigateBack = () =>
+    lsc.stories.transitTo(Stories.OBSERVING_GROUP_TOPIC_STORY);
 
   const updateGroupSubtopic = async () => {
     if (newTitle) {
@@ -53,9 +60,13 @@ const EditGroupSubtopicSheet = () => {
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>
       <FlexBox>
-        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).back}</SecondaryButton>
+        <SecondaryButton onClick={navigateBack}>
+          {displayButtonTexts(selectedLanguage).back}
+        </SecondaryButton>
         {newTitle !== selectedGroupSubtopicTitle && (
-          <PrimaryButton onClick={updateGroupSubtopic}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
+          <PrimaryButton onClick={updateGroupSubtopic}>
+            {displayButtonTexts(selectedLanguage).save}
+          </PrimaryButton>
         )}
       </FlexBox>
       <Spacer />

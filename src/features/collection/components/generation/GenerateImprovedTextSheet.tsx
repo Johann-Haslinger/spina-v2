@@ -46,20 +46,28 @@ const GenerateImprovedTextSheet = () => {
     }
   }, [isVisible, visibleText]);
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_NOTE_STORY);
+  const navigateBack = () =>
+    lsc.stories.transitTo(Stories.OBSERVING_NOTE_STORY);
 
   const saveImprovedText = async () => {
     navigateBack();
 
-    setVisibleText(generatedText.replace(`Passt das so für dich?<br/> <br/>`, ""));
+    setVisibleText(
+      generatedText.replace(`Passt das so für dich?<br/> <br/>`, ""),
+    );
   };
 
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>
       <FlexBox>
-        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
+        <SecondaryButton onClick={navigateBack}>
+          {displayButtonTexts(selectedLanguage).cancel}
+        </SecondaryButton>
         {generatedText !== "" && (
-          <PrimaryButton onClick={saveImprovedText}> {displayButtonTexts(selectedLanguage).save}</PrimaryButton>
+          <PrimaryButton onClick={saveImprovedText}>
+            {" "}
+            {displayButtonTexts(selectedLanguage).save}
+          </PrimaryButton>
         )}
       </FlexBox>
       {isGenerating && <GeneratingIndecator />}

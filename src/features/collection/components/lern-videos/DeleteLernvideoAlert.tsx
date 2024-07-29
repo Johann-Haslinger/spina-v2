@@ -1,7 +1,5 @@
-
-
 const DeleteLernvideoAlert = () => {
-  return null
-}
+  return null;
+};
 
-export default DeleteLernvideoAlert
+export default DeleteLernvideoAlert;

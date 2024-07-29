@@ -10,10 +10,19 @@ import {
   ImageSizeFacet,
   TextFacet,
 } from "@leanscope/ecs-models";
-import { BlocktypeFacet, TodoStateFacet, ListStyleFacet, TexttypeFacet } from "../app/additionalFacets";
+import {
+  BlocktypeFacet,
+  TodoStateFacet,
+  ListStyleFacet,
+  TexttypeFacet,
+} from "../app/additionalFacets";
 import { SupabaseTables } from "../base/enums";
 
-export const addBlocks = async (lsc: ILeanScopeClient, blockEntities: Entity[], userId: string) => {
+export const addBlocks = async (
+  lsc: ILeanScopeClient,
+  blockEntities: Entity[],
+  userId: string,
+) => {
   blockEntities.forEach((blockEntity) => {
     lsc.engine.addEntity(blockEntity);
   });
@@ -32,7 +41,7 @@ export const addBlocks = async (lsc: ILeanScopeClient, blockEntities: Entity[], 
       fit: blockEntity.get(ImageFitFacet)?.props.fit,
       size: blockEntity.get(ImageSizeFacet)?.props.size,
       image_url: blockEntity.get(ImageFacet)?.props.imageSrc,
-    }))
+    })),
   );
 
   if (error) {

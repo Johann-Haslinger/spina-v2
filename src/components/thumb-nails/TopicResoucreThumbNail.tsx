@@ -1,9 +1,11 @@
-
 import styled from "@emotion/styled";
 import { IoBook } from "react-icons/io5";
 import tw from "twin.macro";
 import { useSelectedLanguage } from "../../hooks/useSelectedLanguage";
-import { displayAlertTexts, displayDataTypeTexts } from "../../utils/displayText";
+import {
+  displayAlertTexts,
+  displayDataTypeTexts,
+} from "../../utils/displayText";
 
 const StyledTopictCellWrapper = styled.div`
   ${tw`pb-4 min-h-40 w-36`}
@@ -27,9 +29,19 @@ const StyledResourceTypeText = styled.p`
   ${tw`text-sm  text-seconderyText dark:text-seconderyTextDark `}
 `;
 
-const TopicResoucreThumbNail = (props: { color: string; title: string; onClick?: () => void; type?: string }) => {
+const TopicResoucreThumbNail = (props: {
+  color: string;
+  title: string;
+  onClick?: () => void;
+  type?: string;
+}) => {
   const { selectedLanguage } = useSelectedLanguage();
-  const { color, title, onClick, type = displayDataTypeTexts(selectedLanguage).topic } = props;
+  const {
+    color,
+    title,
+    onClick,
+    type = displayDataTypeTexts(selectedLanguage).topic,
+  } = props;
 
   return (
     <StyledTopictCellWrapper onClick={onClick}>
@@ -39,7 +51,9 @@ const TopicResoucreThumbNail = (props: { color: string; title: string; onClick?:
         </StyledTopictCellItem>
       </StyledTopictCellContainer>
 
-      <StyledTopictCellTitle>{title || displayAlertTexts(selectedLanguage).noTitle}</StyledTopictCellTitle>
+      <StyledTopictCellTitle>
+        {title || displayAlertTexts(selectedLanguage).noTitle}
+      </StyledTopictCellTitle>
 
       <StyledResourceTypeText>{type} </StyledResourceTypeText>
     </StyledTopictCellWrapper>

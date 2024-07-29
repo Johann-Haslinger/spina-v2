@@ -9,7 +9,7 @@ import { COLOR_ITEMS } from "../../../base/constants";
 export const useTopicColor = (topicEntity: Entity) => {
   const parentId = topicEntity.get(ParentFacet)?.props.parentId;
   const [schoolSubjectEntity] = useEntity(
-    (e) => e.get(IdentifierFacet)?.props.guid === parentId
+    (e) => e.get(IdentifierFacet)?.props.guid === parentId,
   );
 
   if (schoolSubjectEntity) {

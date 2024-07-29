@@ -1,6 +1,10 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
-import { IdentifierFacet, OrderFacet, ParentFacet } from "@leanscope/ecs-models";
+import {
+  IdentifierFacet,
+  OrderFacet,
+  ParentFacet,
+} from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
 import { TitleFacet } from "../../../app/additionalFacets";
 import { dummyGroupSchoolSubjects } from "../../../base/dummy";
@@ -26,7 +30,7 @@ const fetchSchoolSubjectsForLearningGroup = async (learningGroupId: string) => {
 const LoadLearningGroupSchoolSubjectsSystem = () => {
   const { mockupData, shouldFetchFromSupabase } = useMockupData();
   const lsc = useContext(LeanScopeClientContext);
-  const { selectedLearningGroupId } = useSelectedLearningGroup()
+  const { selectedLearningGroupId } = useSelectedLearningGroup();
 
   useEffect(() => {
     const initializeSchoolSubjectEntities = async () => {
@@ -39,16 +43,24 @@ const LoadLearningGroupSchoolSubjectsSystem = () => {
 
         schoolSubjects.forEach((schoolSubject, idx) => {
           const isExisting = lsc.engine.entities.some(
-            (e) => e.get(IdentifierFacet)?.props.guid === schoolSubject.id && e.hasTag(DataTypes.GROUP_SCHOOL_SUBJECT)
+            (e) =>
+              e.get(IdentifierFacet)?.props.guid === schoolSubject.id &&
+              e.hasTag(DataTypes.GROUP_SCHOOL_SUBJECT),
           );
 
           if (!isExisting) {
             const schoolSubjectEntity = new Entity();
             lsc.engine.addEntity(schoolSubjectEntity);
-            schoolSubjectEntity.add(new TitleFacet({ title: schoolSubject.title }));
-            schoolSubjectEntity.add(new IdentifierFacet({ guid: schoolSubject.id }));
-            schoolSubjectEntity.add(new ParentFacet({ parentId: selectedLearningGroupId }));
-            schoolSubjectEntity.add(new OrderFacet({ orderIndex: idx }))
+            schoolSubjectEntity.add(
+              new TitleFacet({ title: schoolSubject.title }),
+            );
+            schoolSubjectEntity.add(
+              new IdentifierFacet({ guid: schoolSubject.id }),
+            );
+            schoolSubjectEntity.add(
+              new ParentFacet({ parentId: selectedLearningGroupId }),
+            );
+            schoolSubjectEntity.add(new OrderFacet({ orderIndex: idx }));
             schoolSubjectEntity.addTag(DataTypes.GROUP_SCHOOL_SUBJECT);
           }
         });
@@ -58,7 +70,7 @@ const LoadLearningGroupSchoolSubjectsSystem = () => {
     initializeSchoolSubjectEntities();
   }, [selectedLearningGroupId, mockupData, shouldFetchFromSupabase]);
 
-  return null
-}
+  return null;
+};
 
-export default LoadLearningGroupSchoolSubjectsSystem
+export default LoadLearningGroupSchoolSubjectsSystem;

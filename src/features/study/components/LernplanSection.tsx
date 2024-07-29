@@ -4,7 +4,12 @@ import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
 import { useContext } from "react";
 import { IoPlay } from "react-icons/io5";
 import tw from "twin.macro";
-import { DateAddedFacet, DateAddedProps, TitleFacet, TitleProps } from "../../../app/additionalFacets";
+import {
+  DateAddedFacet,
+  DateAddedProps,
+  TitleFacet,
+  TitleProps,
+} from "../../../app/additionalFacets";
 import { AdditionalTags, DataTypes, Stories } from "../../../base/enums";
 import { sortEntitiesByDateAdded } from "../../../utils/sortEntitiesByTime";
 import { useBookmarkedFlashcardGroups } from "../hooks/useBookmarkedFlashcardGroups";
@@ -33,14 +38,19 @@ const LernplanSection = () => {
   const { bookmarkedGroupsExist } = useBookmarkedFlashcardGroups();
 
   const openBookmarkedFlashcardGroupQuiz = () =>
-    lsc.stories.transitTo(Stories.OBSERVING_BOOKMARKED_FLASHCARD_GROUP_QUIZ_STORY);
+    lsc.stories.transitTo(
+      Stories.OBSERVING_BOOKMARKED_FLASHCARD_GROUP_QUIZ_STORY,
+    );
 
   return (
     bookmarkedGroupsExist && (
       <StyledLernplanSectionWrapper>
         <StyledFlashcardGroupWrapper>
           <EntityPropsMapper
-            query={(e) => e.has(DataTypes.FLASHCARD_GROUP) && e.has(AdditionalTags.BOOKMARKED)}
+            query={(e) =>
+              e.has(DataTypes.FLASHCARD_GROUP) &&
+              e.has(AdditionalTags.BOOKMARKED)
+            }
             sort={sortEntitiesByDateAdded}
             get={[[TitleFacet, DateAddedFacet], []]}
             onMatch={LernplanFlashcardGroupCell}
@@ -66,7 +76,9 @@ const StyledFlashcardGroupCellWrapper = styled.div`
   ${tw`w-full min-w-64 md:hover:scale-[0.91] transition-all h-40`}
 `;
 
-const LernplanFlashcardGroupCell = (props: TitleProps & EntityProps & DateAddedProps) => (
+const LernplanFlashcardGroupCell = (
+  props: TitleProps & EntityProps & DateAddedProps,
+) => (
   <StyledFlashcardGroupCellContainer>
     <StyledFlashcardGroupCellWrapper>
       <FlashcardGroupCell {...props} />

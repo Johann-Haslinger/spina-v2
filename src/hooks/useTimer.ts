@@ -30,7 +30,7 @@ export const useTimer = () => {
 
   const resetTimer = () => {
     setElapsedTime(0);
-  }
+  };
 
   return { elapsedTime, startTimer, stopTimer, resetTimer };
 };

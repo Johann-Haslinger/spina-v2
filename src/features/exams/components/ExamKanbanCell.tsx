@@ -27,15 +27,23 @@ const StyledExamCellSubtitle = styled.div`
   ${tw` text-sm mt-0.5 text-opacity-50 font-medium line-clamp-2`}
 `;
 
-const ExamKanbanCell = (pops: { entity: Entity; backgroundColor: string; color: string }) => {
+const ExamKanbanCell = (pops: {
+  entity: Entity;
+  backgroundColor: string;
+  color: string;
+}) => {
   const { entity, backgroundColor, color } = pops;
 
-  const [titleProps, relationShipProps] = useEntityFacets(entity, TitleFacet, RelationshipFacet);
+  const [titleProps, relationShipProps] = useEntityFacets(
+    entity,
+    TitleFacet,
+    RelationshipFacet,
+  );
   const daysUntilDue = useDaysUntilDue(entity);
   const title = titleProps?.title || "No Title";
   const relatedSchoolSubjectId = relationShipProps?.relationship;
   const { schoolSubjectTitle } = useSchoolSubject(relatedSchoolSubjectId);
-    const { isDarkMode } = useSelectedTheme();
+  const { isDarkMode } = useSelectedTheme();
 
   const handleOpenExam = () => entity.add(Tags.SELECTED);
 
@@ -51,7 +59,10 @@ const ExamKanbanCell = (pops: { entity: Entity; backgroundColor: string; color: 
       }}
     >
       <StyledExamCellContainer onClick={handleOpenExam}>
-        <StyledExamCellWrapper backgroundColor={isDarkMode ? backgroundColor + 60 : backgroundColor} color={color}>
+        <StyledExamCellWrapper
+          backgroundColor={isDarkMode ? backgroundColor + 60 : backgroundColor}
+          color={color}
+        >
           <StyledExamCellTitle>{title}</StyledExamCellTitle>
           <StyledExamCellSubtitle>
             {schoolSubjectTitle}, {daysUntilDue}

@@ -12,7 +12,10 @@ const RecentlyAddedResourceRow = (props: TitleProps & EntityProps) => {
   const openResource = () => entity.add(Tags.SELECTED);
 
   return (
-    <SectionRow onClick={openResource} icon={isFlashcardSet ? <IoAlbumsOutline /> : <IoReaderOutline />}>
+    <SectionRow
+      onClick={openResource}
+      icon={isFlashcardSet ? <IoAlbumsOutline /> : <IoReaderOutline />}
+    >
       {title}
     </SectionRow>
   );

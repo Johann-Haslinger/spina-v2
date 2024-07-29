@@ -1,6 +1,10 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { Entity } from "@leanscope/ecs-engine";
-import { DescriptionFacet, IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
+import {
+  DescriptionFacet,
+  IdentifierFacet,
+  ParentFacet,
+} from "@leanscope/ecs-models";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext, useState } from "react";
 import { v4 } from "uuid";
@@ -20,7 +24,10 @@ import {
 import { addTopic } from "../../../../functions/addTopic";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import { useUserData } from "../../../../hooks/useUserData";
-import { displayButtonTexts, displayLabelTexts } from "../../../../utils/displayText";
+import {
+  displayButtonTexts,
+  displayLabelTexts,
+} from "../../../../utils/displayText";
 import { generateImageForTopic } from "../../functions/generateImageForTopic";
 import { useSelectedSchoolSubject } from "../../hooks/useSelectedSchoolSubject";
 
@@ -33,7 +40,8 @@ const AddTopicSheet = () => {
   const { selectedLanguage } = useSelectedLanguage();
   const { userId } = useUserData();
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_SCHOOL_SUBJECT_STORY);
+  const navigateBack = () =>
+    lsc.stories.transitTo(Stories.OBSERVING_SCHOOL_SUBJECT_STORY);
 
   const saveTopic = async () => {
     if (selectedSchoolSubjectId) {
@@ -43,10 +51,16 @@ const AddTopicSheet = () => {
       const newTopicEntity = new Entity();
       lsc.engine.addEntity(newTopicEntity);
       newTopicEntity.add(new IdentifierFacet({ guid: topicId }));
-      newTopicEntity.add(new ParentFacet({ parentId: selectedSchoolSubjectId }));
-      newTopicEntity.add(new DescriptionFacet({ description: topicDescription }));
+      newTopicEntity.add(
+        new ParentFacet({ parentId: selectedSchoolSubjectId }),
+      );
+      newTopicEntity.add(
+        new DescriptionFacet({ description: topicDescription }),
+      );
       newTopicEntity.add(new TitleFacet({ title: title }));
-      newTopicEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
+      newTopicEntity.add(
+        new DateAddedFacet({ dateAdded: new Date().toISOString() }),
+      );
       newTopicEntity.add(DataTypes.TOPIC);
       newTopicEntity.add(AdditionalTags.GENERATING);
       navigateBack();
@@ -60,8 +74,14 @@ const AddTopicSheet = () => {
   return (
     <Sheet navigateBack={navigateBack} visible={isVisible}>
       <FlexBox>
-        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
-        {title !== "" && <PrimaryButton onClick={saveTopic}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>}
+        <SecondaryButton onClick={navigateBack}>
+          {displayButtonTexts(selectedLanguage).cancel}
+        </SecondaryButton>
+        {title !== "" && (
+          <PrimaryButton onClick={saveTopic}>
+            {displayButtonTexts(selectedLanguage).save}
+          </PrimaryButton>
+        )}
       </FlexBox>
       <Spacer />
       <Section>

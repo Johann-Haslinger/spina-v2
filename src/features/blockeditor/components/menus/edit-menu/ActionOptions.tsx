@@ -3,7 +3,11 @@ import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useEntities } from "@leanscope/ecs-engine";
 import { FloatOrderFacet, IdentifierFacet, Tags } from "@leanscope/ecs-models";
 import { useContext } from "react";
-import { IoCopyOutline, IoCutOutline, IoDuplicateOutline } from "react-icons/io5";
+import {
+  IoCopyOutline,
+  IoCutOutline,
+  IoDuplicateOutline,
+} from "react-icons/io5";
 import tw from "twin.macro";
 import { v4 } from "uuid";
 import { BlocktypeFacet } from "../../../../../app/additionalFacets";
@@ -14,7 +18,10 @@ import { displayActionTexts } from "../../../../../utils/displayText";
 import { addBlock } from "../../../functions/addBlock";
 import { deleteBlock } from "../../../functions/deleteBlock";
 import { getStringFromBlockEntities } from "../../../functions/getStringFromBlockEntities";
-import { findNumberBetween, getNextHigherOrder } from "../../../functions/orderHelper";
+import {
+  findNumberBetween,
+  getNextHigherOrder,
+} from "../../../functions/orderHelper";
 
 const StyledMenuWrapper = styled.div`
   ${tw`p-4 pt-0 w-full `}
@@ -35,20 +42,38 @@ interface ActionOptionsProps {
 const ActionOptions = (props: ActionOptionsProps) => {
   const lsc = useContext(LeanScopeClientContext);
   const { backfuction } = props;
-  const [selectedBlockEntities] = useEntities((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
+  const [selectedBlockEntities] = useEntities(
+    (e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED),
+  );
   const { userId } = useUserData();
   const { selectedLanguage } = useSelectedLanguage();
 
   const actionOptions = [
-    { icon: <IoCopyOutline />, label: displayActionTexts(selectedLanguage).copy, action: copyAction },
-    { icon: <IoCutOutline />, label: displayActionTexts(selectedLanguage).cut, action: cutAction },
-    { icon: <IoDuplicateOutline />, label: displayActionTexts(selectedLanguage).duplicate, action: duplicateAction },
+    {
+      icon: <IoCopyOutline />,
+      label: displayActionTexts(selectedLanguage).copy,
+      action: copyAction,
+    },
+    {
+      icon: <IoCutOutline />,
+      label: displayActionTexts(selectedLanguage).cut,
+      action: cutAction,
+    },
+    {
+      icon: <IoDuplicateOutline />,
+      label: displayActionTexts(selectedLanguage).duplicate,
+      action: duplicateAction,
+    },
   ];
 
   function copyAction(): void {
     const copyableBlocks = selectedBlockEntities.filter((e) => {
       const blockType = e.get(BlocktypeFacet)?.props.blocktype;
-      return blockType === Blocktypes.TEXT || blockType === Blocktypes.TODO || blockType === Blocktypes.LIST;
+      return (
+        blockType === Blocktypes.TEXT ||
+        blockType === Blocktypes.TODO ||
+        blockType === Blocktypes.LIST
+      );
     });
     const combinedString = getStringFromBlockEntities(copyableBlocks);
     navigator.clipboard.writeText(combinedString);
@@ -58,7 +83,11 @@ const ActionOptions = (props: ActionOptionsProps) => {
   function cutAction(): void {
     const copyableBlocks = selectedBlockEntities.filter((e) => {
       const blockType = e.get(BlocktypeFacet)?.props.blocktype;
-      return blockType === Blocktypes.TEXT || blockType === Blocktypes.TODO || blockType === Blocktypes.LIST;
+      return (
+        blockType === Blocktypes.TEXT ||
+        blockType === Blocktypes.TODO ||
+        blockType === Blocktypes.LIST
+      );
     });
 
     const combinedString = getStringFromBlockEntities(copyableBlocks);
@@ -76,7 +105,11 @@ const ActionOptions = (props: ActionOptionsProps) => {
 
       const newBlockEntity = blockEntity;
       newBlockEntity.add(new IdentifierFacet({ guid: v4() }));
-      newBlockEntity.add(new FloatOrderFacet({ index: findNumberBetween(blockOrder, nextHigherOrder) }));
+      newBlockEntity.add(
+        new FloatOrderFacet({
+          index: findNumberBetween(blockOrder, nextHigherOrder),
+        }),
+      );
 
       addBlock(lsc, newBlockEntity, userId);
     });

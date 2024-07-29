@@ -2,7 +2,11 @@ import { useEntity } from "@leanscope/ecs-engine";
 import { IdentifierFacet, Tags, TextFacet } from "@leanscope/ecs-models";
 import { useEffect } from "react";
 import { dummyText } from "../../../base/dummy";
-import { DataTypes, SupabaseColumns, SupabaseTables } from "../../../base/enums";
+import {
+  DataTypes,
+  SupabaseColumns,
+  SupabaseTables,
+} from "../../../base/enums";
 import { useMockupData } from "../../../hooks/useMockupData";
 import { useUserData } from "../../../hooks/useUserData";
 import supabaseClient from "../../../lib/supabase";
@@ -59,18 +63,23 @@ const fetchNoteVersion = async (homeworkId: string) => {
 const LoadHomeworkTextSystem = () => {
   const { mockupData, shouldFetchFromSupabase } = useMockupData();
   const { userId } = useUserData();
-  const [selectedHomework] = useEntity((e) => e.hasTag(DataTypes.HOMEWORK) && e.hasTag(Tags.SELECTED));
+  const [selectedHomework] = useEntity(
+    (e) => e.hasTag(DataTypes.HOMEWORK) && e.hasTag(Tags.SELECTED),
+  );
   const selectedHomeworkId = selectedHomework?.get(IdentifierFacet)?.props.guid;
 
   useEffect(() => {
     const loadHomeworkText = async () => {
       if (selectedHomeworkId) {
-        const isOldNoteVersion = shouldFetchFromSupabase && (await fetchNoteVersion(selectedHomeworkId));
+        const isOldNoteVersion =
+          shouldFetchFromSupabase &&
+          (await fetchNoteVersion(selectedHomeworkId));
 
         if (isOldNoteVersion) {
           const homeworkText = mockupData
             ? dummyText
-            : shouldFetchFromSupabase && (await fetchHomeworkText(selectedHomeworkId, userId));
+            : shouldFetchFromSupabase &&
+              (await fetchHomeworkText(selectedHomeworkId, userId));
 
           if (homeworkText) {
             selectedHomework?.add(new TextFacet({ text: homeworkText }));

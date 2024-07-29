@@ -2,13 +2,22 @@ import styled from "@emotion/styled/macro";
 import { EntityProps } from "@leanscope/ecs-engine";
 import { Tags } from "@leanscope/ecs-models";
 import { Fragment, useState } from "react";
-import { IoBookmarkOutline, IoEllipsisHorizontal, IoHeadset, IoTrashOutline } from "react-icons/io5";
+import {
+  IoBookmarkOutline,
+  IoEllipsisHorizontal,
+  IoHeadset,
+  IoTrashOutline,
+} from "react-icons/io5";
 import tw from "twin.macro";
 import { DateAddedProps, TitleProps } from "../../../../app/additionalFacets";
 import { AdditionalTags } from "../../../../base/enums";
 import { ActionRow, ActionSheet, FlexBox } from "../../../../components";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import { displayActionTexts, displayAlertTexts, displayDataTypeTexts } from "../../../../utils/displayText";
+import {
+  displayActionTexts,
+  displayAlertTexts,
+  displayDataTypeTexts,
+} from "../../../../utils/displayText";
 import { useSelectedSchoolSubjectColor } from "../../hooks/useSelectedSchoolSubjectColor";
 import DeletePodcastAlert from "./DeletePodcastAlert";
 import { COLOR_ITEMS } from "../../../../base/constants";
@@ -54,14 +63,18 @@ const PodcastRow = (props: TitleProps & DateAddedProps & EntityProps) => {
       <StyledPodcastRowWrapper>
         <FlexBox>
           <StyledLeftSideWrapper onClick={openPodcast}>
-            <StyledPodcastIconContainer >
-              <StyledPodcastIcon color={accentColor || COLOR_ITEMS[1].accentColor}>
+            <StyledPodcastIconContainer>
+              <StyledPodcastIcon
+                color={accentColor || COLOR_ITEMS[1].accentColor}
+              >
                 <IoHeadset />
               </StyledPodcastIcon>
             </StyledPodcastIconContainer>
 
-            <div >
-              <StyledPodcastTitle>{title || displayAlertTexts(selectedLanguage).noTitle}</StyledPodcastTitle>
+            <div>
+              <StyledPodcastTitle>
+                {title || displayAlertTexts(selectedLanguage).noTitle}
+              </StyledPodcastTitle>
               <StyledPodcastSubtitle>
                 {displayDataTypeTexts(selectedLanguage).podcast}
                 {", "}
@@ -73,13 +86,24 @@ const PodcastRow = (props: TitleProps & DateAddedProps & EntityProps) => {
               </StyledPodcastSubtitle>
             </div>
           </StyledLeftSideWrapper>
-          <StyledPodcastActionsWrapper onClick={() => setIsActionMenuOpen(true)}>
+          <StyledPodcastActionsWrapper
+            onClick={() => setIsActionMenuOpen(true)}
+          >
             <IoEllipsisHorizontal />
-            <ActionSheet direction="left" navigateBack={() => setIsActionMenuOpen(false)} visible={isActionMenuOpen}>
+            <ActionSheet
+              direction="left"
+              navigateBack={() => setIsActionMenuOpen(false)}
+              visible={isActionMenuOpen}
+            >
               <ActionRow first icon={<IoBookmarkOutline />}>
                 {displayActionTexts(selectedLanguage).bookmark}
               </ActionRow>
-              <ActionRow onClick={openDeleteAlert} last destructive icon={<IoTrashOutline />}>
+              <ActionRow
+                onClick={openDeleteAlert}
+                last
+                destructive
+                icon={<IoTrashOutline />}
+              >
                 {displayActionTexts(selectedLanguage).delete}
               </ActionRow>
             </ActionSheet>

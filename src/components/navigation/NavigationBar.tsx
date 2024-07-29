@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import  { PropsWithChildren } from "react";
+import { PropsWithChildren } from "react";
 import tw from "twin.macro";
 import { useAppState } from "../../features/collection/hooks/useAppState";
 import { ViSidebar, ViSidebarDark } from "../../assets/icons";
@@ -28,9 +28,8 @@ const StyledLeftSideWrapper = styled.div`
   ${tw`flex xl:pl-14 items-center`}
 `;
 
-
 const NavigationBar = (props: PropsWithChildren) => {
-  const { children, } = props;
+  const { children } = props;
   const { toggleSidebar } = useAppState();
 
   return (
@@ -44,7 +43,6 @@ const NavigationBar = (props: PropsWithChildren) => {
             <ViSidebarDark />
           </StyledSidebarIcon>
         </NavigationIconsWrapper>
-       
       </StyledLeftSideWrapper>
 
       <ToolIconWrapper>{children}</ToolIconWrapper>

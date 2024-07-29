@@ -9,7 +9,10 @@ import GenerateAnswerSystem from "../systems/GenerateAnswerSystem";
 import QuickChatMessage from "./QuickChatMessage";
 import SapientorPromptBox from "./SapientorPromptBox";
 import { useCurrentSapientorConversation } from "../hooks/useCurrentConversation";
-import { MessageRoleFacet, RelatedResourcesFacet } from "../../../app/additionalFacets";
+import {
+  MessageRoleFacet,
+  RelatedResourcesFacet,
+} from "../../../app/additionalFacets";
 import { sortMessageEntitiesByDateAdded } from "../../../utils/sortEntitiesByTime";
 
 const StyledMessagesWrapper = styled.div`
@@ -21,11 +24,12 @@ const StyledPromptBoxWrapper = styled.div`
 `;
 
 const SapientorQuickChat = () => {
-  const { isQuickChatVisible, setChatSheetVisible, setQuickChatVisible } = useCurrentSapientorConversation()
+  const { isQuickChatVisible, setChatSheetVisible, setQuickChatVisible } =
+    useCurrentSapientorConversation();
 
-  const openChatView = () =>{
-    setQuickChatVisible(false)
-    setChatSheetVisible(true)
+  const openChatView = () => {
+    setQuickChatVisible(false);
+    setChatSheetVisible(true);
   };
 
   return (
@@ -38,7 +42,11 @@ const SapientorQuickChat = () => {
           bottom: 0,
         }}
         initial={{ opacity: 0, y: 80, right: 96 }}
-        animate={{ opacity: isQuickChatVisible ? 1 : 0, y: isQuickChatVisible ? 0 : 80, right: 96 }}
+        animate={{
+          opacity: isQuickChatVisible ? 1 : 0,
+          y: isQuickChatVisible ? 0 : 80,
+          right: 96,
+        }}
       >
         <StyledMessagesWrapper onClick={openChatView}>
           <EntityPropsMapper

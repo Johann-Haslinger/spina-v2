@@ -54,7 +54,11 @@ const fetchNoteVersion = async (noteId: string) => {
   const isOldNoteVersion = noteVersionData?.old_note_version;
   const isNewNoteVersion = noteVersionData?.new_note_version;
 
-  return isOldNoteVersion ? "old-version" : isNewNoteVersion ? "new-version" : "blocks-version";
+  return isOldNoteVersion
+    ? "old-version"
+    : isNewNoteVersion
+      ? "new-version"
+      : "blocks-version";
 };
 
 const LoadNoteTextSystem = () => {
@@ -65,12 +69,14 @@ const LoadNoteTextSystem = () => {
   useEffect(() => {
     const loadNoteText = async () => {
       if (selectedNoteId) {
-        const noteVersion = shouldFetchFromSupabase && (await fetchNoteVersion(selectedNoteId));
+        const noteVersion =
+          shouldFetchFromSupabase && (await fetchNoteVersion(selectedNoteId));
 
         if (noteVersion == "old-version") {
           const noteText = mockupData
             ? dummyText
-            : shouldFetchFromSupabase && (await fetchNoteText(selectedNoteId, userId));
+            : shouldFetchFromSupabase &&
+              (await fetchNoteText(selectedNoteId, userId));
           selectedNoteEntity?.add(new TextFacet({ text: noteText }));
         } else if (noteVersion == "blocks-version") {
           const { data: blocks, error } = await supabaseClient

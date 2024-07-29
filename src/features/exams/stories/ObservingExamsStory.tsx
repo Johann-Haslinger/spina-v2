@@ -1,4 +1,7 @@
-import { LeanScopeClientApp, LeanScopeClient } from "@leanscope/api-client/node";
+import {
+  LeanScopeClientApp,
+  LeanScopeClient,
+} from "@leanscope/api-client/node";
 import React from "react";
 import { Stories } from "../../../base/enums";
 import Exams from "../../../pages/Exams";

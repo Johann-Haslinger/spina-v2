@@ -4,7 +4,10 @@ import { SupabaseColumns, SupabaseTables } from "../../../base/enums";
 import supabaseClient from "../../../lib/supabase";
 
 export const useHomeworkStatus = () => {
-  const updateHomeworkStatus = async (homeworkEntity: Entity, status: number) => {
+  const updateHomeworkStatus = async (
+    homeworkEntity: Entity,
+    status: number,
+  ) => {
     const homeworkId = homeworkEntity.get(IdentifierFacet)?.props.guid;
     const { error } = await supabaseClient
       .from(SupabaseTables.HOMEWORKS)

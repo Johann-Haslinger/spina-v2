@@ -3,7 +3,7 @@ import react from "@vitejs/plugin-react";
 
 export default defineConfig({
   optimizeDeps: {
-    exclude: ["@storybook/react"], 
+    exclude: ["@storybook/react"],
   },
   plugins: [
     react({
@@ -18,7 +18,11 @@ export default defineConfig({
               module: "@emotion/react",
             },
           ],
-          ["@babel/plugin-transform-react-jsx", { pragma: "__cssprop" }, "twin.macro"],
+          [
+            "@babel/plugin-transform-react-jsx",
+            { pragma: "__cssprop" },
+            "twin.macro",
+          ],
         ],
       },
     }),

@@ -29,13 +29,16 @@ export const displayHeaderTexts = (selectedLanguage: SupportedLanguages) => {
 };
 export const displayAlertTexts = (selectedLanguage: SupportedLanguages) => {
   return {
-    noContentAddedTitle: ALERT_TEXT_DATA.no_content_added_title[selectedLanguage],
-    noContentAddedSubtitle: ALERT_TEXT_DATA.no_content_added_subtitle[selectedLanguage],
+    noContentAddedTitle:
+      ALERT_TEXT_DATA.no_content_added_title[selectedLanguage],
+    noContentAddedSubtitle:
+      ALERT_TEXT_DATA.no_content_added_subtitle[selectedLanguage],
     noDescription: ALERT_TEXT_DATA.no_description[selectedLanguage],
     noTopics: ALERT_TEXT_DATA.no_topics[selectedLanguage],
     noTitle: ALERT_TEXT_DATA.no_title[selectedLanguage],
     deleteAlertTitle: ALERT_TEXT_DATA.deleting_alert_title[selectedLanguage],
-    deleteAlertSubtitle: ALERT_TEXT_DATA.deleting_alert_subtitle[selectedLanguage],
+    deleteAlertSubtitle:
+      ALERT_TEXT_DATA.deleting_alert_subtitle[selectedLanguage],
     noUserSignedIn: ALERT_TEXT_DATA.no_user_signed_in[selectedLanguage],
     noLearningGroups: ALERT_TEXT_DATA.no_learning_groups[selectedLanguage],
   };
@@ -75,7 +78,8 @@ export const displayActionTexts = (selectedLanguage: SupportedLanguages) => {
     copy: ACTION_TEXT_DATA.copy[selectedLanguage],
     cut: ACTION_TEXT_DATA.cut[selectedLanguage],
     duplicate: ACTION_TEXT_DATA.duplicate[selectedLanguage],
-    addToLearningGroup: ACTION_TEXT_DATA.add_to_learning_group[selectedLanguage],
+    addToLearningGroup:
+      ACTION_TEXT_DATA.add_to_learning_group[selectedLanguage],
     generateFromImage: ACTION_TEXT_DATA.generate_from_image[selectedLanguage],
     startLernSession: ACTION_TEXT_DATA.start_lern_session[selectedLanguage],
     flashcardTest: ACTION_TEXT_DATA.flashcard_test[selectedLanguage],

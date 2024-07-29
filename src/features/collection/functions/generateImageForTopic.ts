@@ -1,11 +1,18 @@
 import { Entity } from "@leanscope/ecs-engine";
-import { DescriptionFacet, IdentifierFacet, ImageFacet } from "@leanscope/ecs-models";
+import {
+  DescriptionFacet,
+  IdentifierFacet,
+  ImageFacet,
+} from "@leanscope/ecs-models";
 import { TitleFacet } from "../../../app/additionalFacets";
 import { AdditionalTags, SupabaseTables } from "../../../base/enums";
 import supabaseClient from "../../../lib/supabase";
 import { getCompletion, getImageFromText } from "../../../utils/getCompletion";
 
-export const generateImageForTopic = async (entity: Entity, regenerate?: boolean) => {
+export const generateImageForTopic = async (
+  entity: Entity,
+  regenerate?: boolean,
+) => {
   const description = entity.get(DescriptionFacet)?.props.description;
   const image = entity?.get(ImageFacet)?.props.imageSrc;
   const title = entity?.get(TitleFacet)?.props.title;
@@ -13,7 +20,9 @@ export const generateImageForTopic = async (entity: Entity, regenerate?: boolean
   let topicDescription = description;
   let topicImage = image;
 
-  const generatingDescriptionPrompt = "Bitte schreibe einen sehr kurzen Beschreibungssatz zu folgendem Thema:" + title;
+  const generatingDescriptionPrompt =
+    "Bitte schreibe einen sehr kurzen Beschreibungssatz zu folgendem Thema:" +
+    title;
   const imageContentPrompt = `Beschreibe kurz und präzise ein passendes Bild zu '${title}', damit es einfach nachgemalt werden kann. Verwende wenige Wörter und wähle ein reales Motiv.`;
   entity.addTag(AdditionalTags.GENERATING);
   if (!description) {

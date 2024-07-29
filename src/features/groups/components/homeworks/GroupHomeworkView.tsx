@@ -16,7 +16,9 @@ import { useSelectedGroupTopic } from "../../hooks/useSelectedGroupTopic";
 import DeleteGroupHomeworkAlert from "./DeleteGroupHomeworkAlert";
 import EditGroupHomeworkSheet from "./EditGroupHomeworkSheet";
 
-const GroupHomeworkView = (props: EntityProps & TitleProps & IdentifierProps) => {
+const GroupHomeworkView = (
+  props: EntityProps & TitleProps & IdentifierProps,
+) => {
   const lsc = useContext(LeanScopeClientContext);
   const { title, guid, entity } = props;
   const isVisible = useIsViewVisible(entity);
@@ -24,8 +26,10 @@ const GroupHomeworkView = (props: EntityProps & TitleProps & IdentifierProps) =>
   const { selectedGroupTopicTitle } = useSelectedGroupTopic();
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
-  const openEditGroupHomeworkSheet = () => lsc.stories.transitTo(Stories.EDETING_GROUP_HOMEWORK_STORY);
-  const openDeleteGroupHomeworkAlert = () => lsc.stories.transitTo(Stories.DELETING_GROUP_HOMEWORK_STORY);
+  const openEditGroupHomeworkSheet = () =>
+    lsc.stories.transitTo(Stories.EDETING_GROUP_HOMEWORK_STORY);
+  const openDeleteGroupHomeworkAlert = () =>
+    lsc.stories.transitTo(Stories.DELETING_GROUP_HOMEWORK_STORY);
 
   return (
     <Fragment>
@@ -39,10 +43,19 @@ const GroupHomeworkView = (props: EntityProps & TitleProps & IdentifierProps) =>
           navigateBack={navigateBack}
           customActionRows={
             <Fragment>
-              <ActionRow first onClick={openEditGroupHomeworkSheet} icon={<IoCreateOutline />}>
+              <ActionRow
+                first
+                onClick={openEditGroupHomeworkSheet}
+                icon={<IoCreateOutline />}
+              >
                 {displayActionTexts(selectedLanguage).edit}
               </ActionRow>
-              <ActionRow onClick={openDeleteGroupHomeworkAlert} icon={<IoTrashOutline />} destructive last>
+              <ActionRow
+                onClick={openDeleteGroupHomeworkAlert}
+                icon={<IoTrashOutline />}
+                destructive
+                last
+              >
                 {displayActionTexts(selectedLanguage).delete}
               </ActionRow>
             </Fragment>

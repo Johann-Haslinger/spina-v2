@@ -1,4 +1,7 @@
-import { LeanScopeClientApp, LeanScopeClient } from "@leanscope/api-client/node";
+import {
+  LeanScopeClientApp,
+  LeanScopeClient,
+} from "@leanscope/api-client/node";
 import React from "react";
 import Collection from "../../../pages/Collection";
 import InitializeSchoolSubjectsSystem from "../../../systems/InitializeSchoolSubjectsSystem";
@@ -14,7 +17,9 @@ const ObservingBookmarkCollection = () => {
     <React.StrictMode>
       <BrowserRouter>
         <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
-          <InitializeStoriesSystem initialStory={Stories.OBSERVING_BOOKMARK_COLLECTION_STORY} />
+          <InitializeStoriesSystem
+            initialStory={Stories.OBSERVING_BOOKMARK_COLLECTION_STORY}
+          />
           <InitializeAppSystem mockupData />
           <ViewManagerSystem />
           <InitializeSchoolSubjectsSystem />

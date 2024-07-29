@@ -1,25 +1,29 @@
-import styled from '@emotion/styled/macro';
-import React, { useState, useEffect } from 'react';
-import tw from 'twin.macro';
+import styled from "@emotion/styled/macro";
+import React, { useState, useEffect } from "react";
+import tw from "twin.macro";
 
 const StyledMessageWrapper = styled.div`
   ${tw`outline-none`}
-`
+`;
 
 interface TypingAnimationProps {
   text: string;
-  playAnimation: boolean; 
+  playAnimation: boolean;
   onWritingAnimationPlayed?: () => void;
 }
 
-const TypingAnimationInnerHTML: React.FC<TypingAnimationProps> = ({ text, playAnimation, onWritingAnimationPlayed }) => {
-  const [displayedHTML, setDisplayedHTML] = useState(playAnimation ? '' : text);
+const TypingAnimationInnerHTML: React.FC<TypingAnimationProps> = ({
+  text,
+  playAnimation,
+  onWritingAnimationPlayed,
+}) => {
+  const [displayedHTML, setDisplayedHTML] = useState(playAnimation ? "" : text);
 
   useEffect(() => {
     let currentIndex = 0;
 
     const typingInterval = setInterval(() => {
-      if (!playAnimation) return; 
+      if (!playAnimation) return;
 
       const currentSubstring = text.substring(0, currentIndex + 1);
       setDisplayedHTML(currentSubstring);
@@ -29,21 +33,24 @@ const TypingAnimationInnerHTML: React.FC<TypingAnimationProps> = ({ text, playAn
       if (currentIndex === text.length) {
         clearInterval(typingInterval);
       }
-    }, 5); 
+    }, 5);
 
     return () => clearInterval(typingInterval);
   }, [text, playAnimation]);
 
   useEffect(() => {
-  
     if (displayedHTML === text && onWritingAnimationPlayed) {
-     
       onWritingAnimationPlayed();
     }
-
   }, [displayedHTML]);
 
-  return <StyledMessageWrapper contentEditable className='  outline-none' dangerouslySetInnerHTML={{ __html: displayedHTML }} />;
+  return (
+    <StyledMessageWrapper
+      contentEditable
+      className="  outline-none"
+      dangerouslySetInnerHTML={{ __html: displayedHTML }}
+    />
+  );
 };
 
 export default TypingAnimationInnerHTML;

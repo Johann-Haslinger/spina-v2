@@ -25,14 +25,17 @@ export { default as NavBarButton } from "./buttons/NavBarButton";
 export { default as BackButton } from "./buttons/BackButton";
 export { default as AlertButton } from "./buttons/AlertButton";
 export { default as SecondaryButton } from "./buttons/SecondaryButton";
-export { default as PrimaryButton } from "./buttons/PrimaryButton"
+export { default as PrimaryButton } from "./buttons/PrimaryButton";
 export { default as CloseButton } from "./buttons/CloseButton";
 
 export { default as TextInput } from "./inputs/TextInput";
 export { default as DateInput } from "./inputs/DateInput";
 export { default as SelectInput } from "./inputs/SelectInput";
 export { default as TextAreaInput } from "./inputs/TextAreaInput";
-export { SegmentedControl, SegmentedControlCell } from "./inputs/SegmentedControl";
+export {
+  SegmentedControl,
+  SegmentedControlCell,
+} from "./inputs/SegmentedControl";
 
 export { default as NoteThumbNail } from "./thumb-nails/NoteThumbNail";
 export { default as FlashcardSetThumbNail } from "./thumb-nails/FlashcardSetThumbNail";

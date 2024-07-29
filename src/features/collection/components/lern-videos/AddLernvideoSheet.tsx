@@ -1,9 +1,5 @@
-
-
 const AddLernvideoSheet = () => {
-  return (
-    <div>AddLernvideoSheet</div>
-  )
-}
+  return <div>AddLernvideoSheet</div>;
+};
 
-export default AddLernvideoSheet
+export default AddLernvideoSheet;

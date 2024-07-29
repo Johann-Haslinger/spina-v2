@@ -34,7 +34,13 @@ const ActionRow = (props: PropsWithChildren & ActionRowProps) => {
   const { children, onClick, icon, destructive, last, first, hasSpace } = props;
 
   return (
-    <StyledActionRowWrapper hasSpace={hasSpace} onClick={onClick} destructive={destructive} first={first} last={last}>
+    <StyledActionRowWrapper
+      hasSpace={hasSpace}
+      onClick={onClick}
+      destructive={destructive}
+      first={first}
+      last={last}
+    >
       <StyledActionRowText>{children}</StyledActionRowText>
       <StyledActionRowIcon>{icon}</StyledActionRowIcon>
     </StyledActionRowWrapper>

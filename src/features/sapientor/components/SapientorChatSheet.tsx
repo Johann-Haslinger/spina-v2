@@ -6,7 +6,10 @@ import tw from "twin.macro";
 
 import { useEffect, useState } from "react";
 import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntityComponents";
-import { MessageRoleFacet, RelatedResourcesFacet } from "../../../app/additionalFacets";
+import {
+  MessageRoleFacet,
+  RelatedResourcesFacet,
+} from "../../../app/additionalFacets";
 import { COLOR_ITEMS } from "../../../base/constants";
 import { AdditionalTags, SupportedModels } from "../../../base/enums";
 import { Sheet, Spacer, ScrollableBox } from "../../../components";
@@ -17,8 +20,13 @@ import ChatMessage from "./ChatMessage";
 import SapientorPromptBox from "./SapientorPromptBox";
 
 const useDisplayLoadingAnimation = () => {
-  const [promptEntity] = useEntities((e) => e.has(AdditionalTags.PROMPT) && e.has(AdditionalTags.PROCESSING))[0];
-  const [isProcessingCurrentPrompt] = useEntityHasTags(promptEntity, AdditionalTags.PROCESSING);
+  const [promptEntity] = useEntities(
+    (e) => e.has(AdditionalTags.PROMPT) && e.has(AdditionalTags.PROCESSING),
+  )[0];
+  const [isProcessingCurrentPrompt] = useEntityHasTags(
+    promptEntity,
+    AdditionalTags.PROCESSING,
+  );
   const [displayLoadingAnimation, setDisplayLoadingAnimation] = useState(false);
 
   useEffect(() => {
@@ -50,7 +58,8 @@ const StyledSegmentedControlWrapper = styled.div`
 
 const StyledSegmentedControlCell = styled.div<{ active: boolean }>`
   ${tw`w-1/2 text-xl items-center flex justify-center h-full`}
-  ${({ active }) => (active ? tw` bg-white rounded-full dark:bg-opacity-5` : tw`opacity-20  `)}
+  ${({ active }) =>
+    active ? tw` bg-white rounded-full dark:bg-opacity-5` : tw`opacity-20  `}
 `;
 
 const StyledFlexBox = styled.div`
@@ -63,8 +72,12 @@ const StyledPlaceholderIcon = styled.div`
 `;
 
 const SapientorChatSheet = () => {
-  const { isChatSheetVisible, setChatSheetVisible, useSapientorAssistentModel, changeModel } =
-    useCurrentSapientorConversation();
+  const {
+    isChatSheetVisible,
+    setChatSheetVisible,
+    useSapientorAssistentModel,
+    changeModel,
+  } = useCurrentSapientorConversation();
   const [chatMessageEntities] = useEntities((e) => e.has(MessageRoleFacet));
   const displayLoadingAnimation = useDisplayLoadingAnimation();
 

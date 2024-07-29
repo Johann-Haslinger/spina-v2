@@ -5,7 +5,7 @@ import BlockTexteditor from "./BlockTexteditor";
 
 const TextBlock = (props: EntityProps & FloatOrderProps) => {
   const { entity, index } = props;
-  
+
   return (
     <BlockOutline index={index || 0} blockEntity={entity}>
       <BlockTexteditor {...props} />

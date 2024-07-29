@@ -6,7 +6,10 @@ const StyledTextEditorWrapper = styled.div`
   ${tw`w-full dark:text-primaryTextDark transition-all outline-none pb-20 h-full`}
 `;
 
-const TextEditor = (props: { onBlur?: (newValue: string) => void; value?: string }) => {
+const TextEditor = (props: {
+  onBlur?: (newValue: string) => void;
+  value?: string;
+}) => {
   const { onBlur, value } = props;
   const textEditorRef = useRef<HTMLDivElement>(null);
 
@@ -28,7 +31,11 @@ const TextEditor = (props: { onBlur?: (newValue: string) => void; value?: string
     <StyledTextEditorWrapper
       ref={textEditorRef}
       contentEditable
-      onBlur={() => onBlur && textEditorRef.current && onBlur(textEditorRef.current.innerHTML)}
+      onBlur={() =>
+        onBlur &&
+        textEditorRef.current &&
+        onBlur(textEditorRef.current.innerHTML)
+      }
       dangerouslySetInnerHTML={{ __html: value || "" }}
     />
   );

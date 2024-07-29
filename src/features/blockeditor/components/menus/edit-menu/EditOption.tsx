@@ -46,9 +46,15 @@ const StyledOptionTextWrapper = styled.p`
   ${tw`text-xs mt-1 opacity-60 w-full text-center font-semibold`}
 `;
 
-const EditOption: React.FC<EditOptionProps> = ({ option, isVisible, canShow }) => {
+const EditOption: React.FC<EditOptionProps> = ({
+  option,
+  isVisible,
+  canShow,
+}) => {
   const { name, icon, color, customFunc, content } = option;
-  const [selectedBlockEntities] = useEntities((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
+  const [selectedBlockEntities] = useEntities(
+    (e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED),
+  );
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);
   const [show, setShow] = useState(false);
 
@@ -90,7 +96,14 @@ const EditOption: React.FC<EditOptionProps> = ({ option, isVisible, canShow }) =
         style={{ zIndex: 40 }}
         transition={{ type: "Tween" }}
         animate={{ y: isOptionsVisible && isVisible && content ? 0 : 300 }}
-        initial={{ y: 200, position: "fixed", left: 0, right: 0, width: "100%", bottom: 4 }}
+        initial={{
+          y: 200,
+          position: "fixed",
+          left: 0,
+          right: 0,
+          width: "100%",
+          bottom: 4,
+        }}
         drag="y"
         dragConstraints={{ top: 0, bottom: 200 }}
         onDragEnd={handleDragEnd}

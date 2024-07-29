@@ -2,10 +2,19 @@ import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { EntityProps } from "@leanscope/ecs-engine";
 import { IdentifierProps, TextFacet, TextProps } from "@leanscope/ecs-models";
 import { useContext } from "react";
-import { IoCreateOutline, IoEllipsisHorizontalCircleOutline, IoTrashOutline } from "react-icons/io5";
+import {
+  IoCreateOutline,
+  IoEllipsisHorizontalCircleOutline,
+  IoTrashOutline,
+} from "react-icons/io5";
 import { Fragment } from "react/jsx-runtime";
 import { TitleProps } from "../../../app/additionalFacets";
-import { AdditionalTags, Stories, SupabaseColumns, SupabaseTables } from "../../../base/enums";
+import {
+  AdditionalTags,
+  Stories,
+  SupabaseColumns,
+  SupabaseTables,
+} from "../../../base/enums";
 import {
   ActionRow,
   BackButton,
@@ -19,20 +28,28 @@ import {
 import { useIsViewVisible } from "../../../hooks/useIsViewVisible";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../lib/supabase";
-import { displayActionTexts, displayButtonTexts, displayHeaderTexts } from "../../../utils/displayText";
+import {
+  displayActionTexts,
+  displayButtonTexts,
+  displayHeaderTexts,
+} from "../../../utils/displayText";
 import LoadExamTextSystem from "../systems/LoadExamTextSystem";
 import DeleteExamAlert from "./DeleteExamAlert";
 import EditExamSheet from "./EditExamSheet";
 
-const ExamView = (props: TitleProps & TextProps & IdentifierProps & EntityProps) => {
+const ExamView = (
+  props: TitleProps & TextProps & IdentifierProps & EntityProps,
+) => {
   const lsc = useContext(LeanScopeClientContext);
   const { title, text, guid, entity } = props;
   const isVisible = useIsViewVisible(entity);
   const { selectedLanguage } = useSelectedLanguage();
 
   const navigateBack = () => entity.add(AdditionalTags.NAVIGATE_BACK);
-  const openEditExamSheet = () => lsc.stories.transitTo(Stories.EDITING_EXAM_STORY);
-  const openDeleteExamAlert = () => lsc.stories.transitTo(Stories.DELETING_EXAM_STORY);
+  const openEditExamSheet = () =>
+    lsc.stories.transitTo(Stories.EDITING_EXAM_STORY);
+  const openDeleteExamAlert = () =>
+    lsc.stories.transitTo(Stories.DELETING_EXAM_STORY);
 
   const handleTextBlur = async (value: string) => {
     entity.add(new TextFacet({ text: value }));
@@ -55,10 +72,19 @@ const ExamView = (props: TitleProps & TextProps & IdentifierProps & EntityProps)
           <NavBarButton
             content={
               <Fragment>
-                <ActionRow onClick={openEditExamSheet} icon={<IoCreateOutline />} first>
+                <ActionRow
+                  onClick={openEditExamSheet}
+                  icon={<IoCreateOutline />}
+                  first
+                >
                   {displayActionTexts(selectedLanguage).edit}
                 </ActionRow>
-                <ActionRow onClick={openDeleteExamAlert} icon={<IoTrashOutline />} last destructive>
+                <ActionRow
+                  onClick={openDeleteExamAlert}
+                  icon={<IoTrashOutline />}
+                  last
+                  destructive
+                >
                   {displayActionTexts(selectedLanguage).delete}
                 </ActionRow>
               </Fragment>
@@ -68,7 +94,8 @@ const ExamView = (props: TitleProps & TextProps & IdentifierProps & EntityProps)
           </NavBarButton>
         </NavigationBar>
         <BackButton navigateBack={navigateBack}>
-          {displayHeaderTexts(selectedLanguage).exams || displayButtonTexts(selectedLanguage).back}
+          {displayHeaderTexts(selectedLanguage).exams ||
+            displayButtonTexts(selectedLanguage).back}
         </BackButton>
         <Title>{title}</Title>
         <Spacer />

@@ -10,7 +10,13 @@ const FlashcardSetCell = (props: TitleProps & EntityProps) => {
 
   const openFlashcardSet = () => entity.addTag(Tags.SELECTED);
 
-  return <FlashcardSetThumbNail onClick={openFlashcardSet} title={title} color={accentColor} />;
+  return (
+    <FlashcardSetThumbNail
+      onClick={openFlashcardSet}
+      title={title}
+      color={accentColor}
+    />
+  );
 };
 
 export default FlashcardSetCell;

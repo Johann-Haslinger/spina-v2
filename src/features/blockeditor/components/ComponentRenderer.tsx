@@ -1,6 +1,11 @@
 import styled from "@emotion/styled";
 import { EntityPropsMapper } from "@leanscope/ecs-engine";
-import { FloatOrderFacet, IdentifierFacet, ParentFacet, TextFacet } from "@leanscope/ecs-models";
+import {
+  FloatOrderFacet,
+  IdentifierFacet,
+  ParentFacet,
+  TextFacet,
+} from "@leanscope/ecs-models";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import tw from "twin.macro";
 import { BlocktypeFacet } from "../../../app/additionalFacets";
@@ -26,9 +31,22 @@ const ComponentRenderer = () => {
                 <EntityPropsMapper
                   query={(e) =>
                     e.get(ParentFacet)?.props.parentId == blockeditorId &&
-                    e.has(isGroupBlockeditor ? DataTypes.GROUP_BLOCK : DataTypes.BLOCK)
+                    e.has(
+                      isGroupBlockeditor
+                        ? DataTypes.GROUP_BLOCK
+                        : DataTypes.BLOCK,
+                    )
                   }
-                  get={[[IdentifierFacet, ParentFacet, BlocktypeFacet, TextFacet, FloatOrderFacet], []]}
+                  get={[
+                    [
+                      IdentifierFacet,
+                      ParentFacet,
+                      BlocktypeFacet,
+                      TextFacet,
+                      FloatOrderFacet,
+                    ],
+                    [],
+                  ]}
                   sort={sortEntitiesByFloatOrder}
                   onMatch={BlockRenderer}
                 />

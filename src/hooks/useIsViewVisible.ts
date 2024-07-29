@@ -9,5 +9,3 @@ export const useIsViewVisible = (entity: Entity): boolean => {
 
   return isVisible && !navigateBack;
 };
-
-

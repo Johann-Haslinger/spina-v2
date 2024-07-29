@@ -27,7 +27,9 @@ const StyledLearningGroupDescription = styled.p`
   ${tw` text-seconderyText line-clamp-2 mt-1`}
 `;
 
-const LearningGroupCell = (props: TitleProps & ColorProps & DescriptionProps & EntityProps) => {
+const LearningGroupCell = (
+  props: TitleProps & ColorProps & DescriptionProps & EntityProps,
+) => {
   const { colorName, title, entity, description } = props;
   const { selectedLanguage } = useSelectedLanguage();
 
@@ -35,11 +37,16 @@ const LearningGroupCell = (props: TitleProps & ColorProps & DescriptionProps & E
 
   return (
     <StyledLearningGroupCellContainer onClick={openLearningGroup}>
-      <StyledLearningGroupCellWrapper color={colorName} backgroundColor={colorName + "90"}>
+      <StyledLearningGroupCellWrapper
+        color={colorName}
+        backgroundColor={colorName + "90"}
+      >
         <IoPeople />
       </StyledLearningGroupCellWrapper>
 
-      <StyledLearningGroupTitle>{title || displayAlertTexts(selectedLanguage).noTitle}</StyledLearningGroupTitle>
+      <StyledLearningGroupTitle>
+        {title || displayAlertTexts(selectedLanguage).noTitle}
+      </StyledLearningGroupTitle>
       <StyledLearningGroupDescription>
         {description || displayAlertTexts(selectedLanguage).noDescription}
       </StyledLearningGroupDescription>

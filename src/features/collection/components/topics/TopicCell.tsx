@@ -60,7 +60,7 @@ const GeneratingIndecator = (props: { color: string }) => {
 };
 
 const StyledTopicCellContainer = styled.div`
-  ${tw` w-full cursor-pointer pb-4 h-fit`}
+  ${tw`  rounded-xl overflow-hidden w-full cursor-pointer pb-4 h-fit`}
 `;
 
 const StyledTopicCellWrapper = styled.div<{
@@ -86,12 +86,12 @@ const StyledTopicDescription = styled.p`
 `;
 
 const StyledImageBackground = styled.div<{ image: string }>`
-  ${tw`w-1/2 bg-cover flex flex-col items-end bg-center transition-all h-full text-white `}
+  ${tw`w-1/2 bg-cover  flex flex-col items-end bg-center transition-all h-full text-white `}
   background-image: ${({ image }) => `url(${image})`};
 `;
 
 const StyledLeftSideImageBackground = styled.div<{ image: string }>`
-  ${tw`w-3/5 hover:w-10/12  transition-all bg-contain h-full text-white flex`}
+  ${tw`w-3/5 hover:w-10/12 overflow-hidden  rounded-xl   transition-all bg-contain h-full text-white flex`}
   background-image: ${({ image }) => `url(${image})`};
 `;
 
@@ -105,12 +105,17 @@ const StyledRegenerateButton = styled.div<{ color: string }>`
   background-color: ${({ color }) => color};
 `;
 
-const TopicCell = (props: TitleProps & EntityProps & DescriptionProps & ImageProps) => {
+const TopicCell = (
+  props: TitleProps & EntityProps & DescriptionProps & ImageProps,
+) => {
   const { title, entity, description, imageSrc } = props;
   const { accentColor } = useTopicColor(entity);
   const { isSidebarVisible } = useAppState();
   const { selectedLanguage } = useSelectedLanguage();
-  const [isGeneratingImage] = useEntityHasTags(entity, AdditionalTags.GENERATING);
+  const [isGeneratingImage] = useEntityHasTags(
+    entity,
+    AdditionalTags.GENERATING,
+  );
 
   const handleOpenTopic = () => {
     if (!isSidebarVisible && !isGeneratingImage) {
@@ -127,7 +132,10 @@ const TopicCell = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
         color={accentColor}
         backgroundColor={accentColor + "90"}
       >
-        <StyledLeftSideImageBackground onClick={handleOpenTopic} image={imageSrc || ""}>
+        <StyledLeftSideImageBackground
+          onClick={handleOpenTopic}
+          image={imageSrc || ""}
+        >
           <StyledTopicInfoWrapper color={!imageSrc ? accentColor : ""}>
             <StyledTopicTitle>{title}</StyledTopicTitle>
             <StyledTopicDescription>
@@ -138,7 +146,10 @@ const TopicCell = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
 
         <StyledImageBackground image={imageSrc || ""}>
           {!imageSrc && !isGeneratingImage && (
-            <StyledRegenerateButton onClick={handleGenerateImage} color={accentColor}>
+            <StyledRegenerateButton
+              onClick={handleGenerateImage}
+              color={accentColor}
+            >
               <IoColorWand />
             </StyledRegenerateButton>
           )}

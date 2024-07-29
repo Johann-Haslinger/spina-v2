@@ -40,17 +40,24 @@ import SubtopicView from "../subtopics/SubtopicView";
 
 const BookmarkCollectionView = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.OBSERVING_BOOKMARK_COLLECTION_STORY);
+  const isVisible = useIsStoryCurrent(
+    Stories.OBSERVING_BOOKMARK_COLLECTION_STORY,
+  );
   const { selectedLanguage } = useSelectedLanguage();
-  const [bookmarkedEntities] = useEntities((e) => e.has(AdditionalTags.BOOKMARKED));
+  const [bookmarkedEntities] = useEntities((e) =>
+    e.has(AdditionalTags.BOOKMARKED),
+  );
   const [bookmarkedPodcasts] = useEntities(
-    (e) => e.has(AdditionalTags.BOOKMARKED) && dataTypeQuery(e, DataTypes.PODCAST)
+    (e) =>
+      e.has(AdditionalTags.BOOKMARKED) && dataTypeQuery(e, DataTypes.PODCAST),
   );
   const [bookmarkedFlashcards] = useEntities(
-    (e) => e.has(AdditionalTags.BOOKMARKED) && dataTypeQuery(e, DataTypes.FLASHCARD)
+    (e) =>
+      e.has(AdditionalTags.BOOKMARKED) && dataTypeQuery(e, DataTypes.FLASHCARD),
   );
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_COLLECTION_STORY);
+  const navigateBack = () =>
+    lsc.stories.transitTo(Stories.OBSERVING_COLLECTION_STORY);
 
   return (
     <Fragment>
@@ -58,14 +65,19 @@ const BookmarkCollectionView = () => {
 
       <View visible={isVisible}>
         <NavigationBar />
-        <BackButton navigateBack={navigateBack}>{displayHeaderTexts(selectedLanguage).collection}</BackButton>
+        <BackButton navigateBack={navigateBack}>
+          {displayHeaderTexts(selectedLanguage).collection}
+        </BackButton>
         <Title>{displayHeaderTexts(selectedLanguage).bookmarkCollection}</Title>
         <Spacer />
         {bookmarkedEntities.length == 0 && <NoContentAddedHint />}
 
         <CollectionGrid>
           <EntityPropsMapper
-            query={(e) => dataTypeQuery(e, DataTypes.SUBTOPIC) && e.has(AdditionalTags.BOOKMARKED)}
+            query={(e) =>
+              dataTypeQuery(e, DataTypes.SUBTOPIC) &&
+              e.has(AdditionalTags.BOOKMARKED)
+            }
             sort={(a, b) => sortEntitiesByDateAdded(a, b)}
             get={[[TitleFacet], []]}
             onMatch={SubtopicCell}
@@ -74,7 +86,10 @@ const BookmarkCollectionView = () => {
 
         <CollectionGrid>
           <EntityPropsMapper
-            query={(e) => dataTypeQuery(e, DataTypes.NOTE) && e.has(AdditionalTags.BOOKMARKED)}
+            query={(e) =>
+              dataTypeQuery(e, DataTypes.NOTE) &&
+              e.has(AdditionalTags.BOOKMARKED)
+            }
             sort={(a, b) => sortEntitiesByDateAdded(a, b)}
             get={[[TitleFacet], []]}
             onMatch={NoteCell}
@@ -83,7 +98,10 @@ const BookmarkCollectionView = () => {
 
         <CollectionGrid>
           <EntityPropsMapper
-            query={(e) => dataTypeQuery(e, DataTypes.FLASHCARD_SET) && e.has(AdditionalTags.BOOKMARKED)}
+            query={(e) =>
+              dataTypeQuery(e, DataTypes.FLASHCARD_SET) &&
+              e.has(AdditionalTags.BOOKMARKED)
+            }
             get={[[TitleFacet, IdentifierFacet], []]}
             sort={(a, b) => sortEntitiesByDateAdded(a, b)}
             onMatch={FlashcardSetCell}
@@ -92,7 +110,10 @@ const BookmarkCollectionView = () => {
 
         <CollectionGrid>
           <EntityPropsMapper
-            query={(e) => dataTypeQuery(e, DataTypes.HOMEWORK) && e.has(AdditionalTags.BOOKMARKED)}
+            query={(e) =>
+              dataTypeQuery(e, DataTypes.HOMEWORK) &&
+              e.has(AdditionalTags.BOOKMARKED)
+            }
             get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
             sort={(a, b) => sortEntitiesByDateAdded(a, b)}
             onMatch={HomeworkCell}
@@ -101,20 +122,35 @@ const BookmarkCollectionView = () => {
 
         <Spacer size={8} />
         {bookmarkedFlashcards.length > 0 && (
-          <Title size="small">{displayHeaderTexts(selectedLanguage).flashcards}</Title>
+          <Title size="small">
+            {displayHeaderTexts(selectedLanguage).flashcards}
+          </Title>
         )}
         <Spacer />
         <CollectionGrid columnSize="large">
           <EntityPropsMapper
-            query={(e) => dataTypeQuery(e, DataTypes.FLASHCARD) && e.has(AdditionalTags.BOOKMARKED)}
-            get={[[AnswerFacet, QuestionFacet, MasteryLevelFacet, IdentifierFacet], []]}
+            query={(e) =>
+              dataTypeQuery(e, DataTypes.FLASHCARD) &&
+              e.has(AdditionalTags.BOOKMARKED)
+            }
+            get={[
+              [AnswerFacet, QuestionFacet, MasteryLevelFacet, IdentifierFacet],
+              [],
+            ]}
             onMatch={FlashcardCell}
           />
         </CollectionGrid>
         <Spacer size={8} />
-        {bookmarkedPodcasts.length > 0 && <Title size="small">{displayHeaderTexts(selectedLanguage).podcasts}</Title>}
+        {bookmarkedPodcasts.length > 0 && (
+          <Title size="small">
+            {displayHeaderTexts(selectedLanguage).podcasts}
+          </Title>
+        )}
         <EntityPropsMapper
-          query={(e) => dataTypeQuery(e, DataTypes.PODCAST) && e.has(AdditionalTags.BOOKMARKED)}
+          query={(e) =>
+            dataTypeQuery(e, DataTypes.PODCAST) &&
+            e.has(AdditionalTags.BOOKMARKED)
+          }
           get={[[TitleFacet, DateAddedFacet], []]}
           onMatch={PodcastRow}
         />
@@ -123,28 +159,41 @@ const BookmarkCollectionView = () => {
       {isVisible && (
         <Fragment>
           <EntityPropsMapper
-            query={(e) => dataTypeQuery(e, DataTypes.NOTE) && e.has(Tags.SELECTED)}
+            query={(e) =>
+              dataTypeQuery(e, DataTypes.NOTE) && e.has(Tags.SELECTED)
+            }
             get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
             onMatch={NoteView}
           />
           <EntityPropsMapper
-            query={(e) => dataTypeQuery(e, DataTypes.FLASHCARD_SET) && e.has(Tags.SELECTED)}
+            query={(e) =>
+              dataTypeQuery(e, DataTypes.FLASHCARD_SET) && e.has(Tags.SELECTED)
+            }
             get={[[TitleFacet, IdentifierFacet], []]}
             onMatch={FlashcardSetView}
           />
           <EntityPropsMapper
-            query={(e) => dataTypeQuery(e, DataTypes.HOMEWORK) && e.has(Tags.SELECTED)}
+            query={(e) =>
+              dataTypeQuery(e, DataTypes.HOMEWORK) && e.has(Tags.SELECTED)
+            }
             get={[[TitleFacet, IdentifierFacet, TextFacet], []]}
             onMatch={HomeworkView}
           />
           <EntityPropsMapper
-            query={(e) => dataTypeQuery(e, DataTypes.SUBTOPIC) && e.has(Tags.SELECTED)}
+            query={(e) =>
+              dataTypeQuery(e, DataTypes.SUBTOPIC) && e.has(Tags.SELECTED)
+            }
             get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
             onMatch={SubtopicView}
           />
           <EntityPropsMapper
-            query={(e) => dataTypeQuery(e, DataTypes.FLASHCARD) && e.has(Tags.SELECTED)}
-            get={[[AnswerFacet, QuestionFacet, MasteryLevelFacet, IdentifierFacet], []]}
+            query={(e) =>
+              dataTypeQuery(e, DataTypes.FLASHCARD) && e.has(Tags.SELECTED)
+            }
+            get={[
+              [AnswerFacet, QuestionFacet, MasteryLevelFacet, IdentifierFacet],
+              [],
+            ]}
             onMatch={EditFlashcardSetSheet}
           />
         </Fragment>

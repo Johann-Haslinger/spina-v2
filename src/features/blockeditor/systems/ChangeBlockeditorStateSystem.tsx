@@ -6,7 +6,9 @@ import { useCurrentBlockeditor } from "../hooks/useCurrentBlockeditor";
 import { changeBlockeditorState } from "../functions/changeBlockeditorState";
 
 const ChangeBlockeditorStateSystem = () => {
-  const [selectedBlockEntities] = useEntities((e) => e.has(Tags.SELECTED) && e.has(DataTypes.BLOCK));
+  const [selectedBlockEntities] = useEntities(
+    (e) => e.has(Tags.SELECTED) && e.has(DataTypes.BLOCK),
+  );
   const { blockeditorEntity } = useCurrentBlockeditor();
 
   useEffect(() => {

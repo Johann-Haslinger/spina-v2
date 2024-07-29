@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import "../../../index.css"
+import "../../../index.css";
 import ObservingLerningGroupSchoolSubjectStory from "./ObservingLerningGroupSchoolSubjectStory";
 
 const meta = {
@@ -16,4 +16,3 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   args: {},
 };
-

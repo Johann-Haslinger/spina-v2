@@ -1,4 +1,7 @@
-import { LeanScopeClient, LeanScopeClientApp } from "@leanscope/api-client/node";
+import {
+  LeanScopeClient,
+  LeanScopeClientApp,
+} from "@leanscope/api-client/node";
 import { EntityCreator } from "@leanscope/ecs-engine";
 import { IdentifierFacet, Tags } from "@leanscope/ecs-models";
 import React from "react";

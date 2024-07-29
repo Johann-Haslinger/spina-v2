@@ -23,7 +23,10 @@ const StyledLoadingIndicatorWrapper = styled.div`
 
 const StyledRoleIcon = styled.div<{ role: "gpt" | "user" }>`
   ${tw`w-4 h-4 rounded-full`}
-  background-color: ${(props) => (props.role === "gpt" ? COLOR_ITEMS[0].accentColor : COLOR_ITEMS[1].accentColor)};
+  background-color: ${(props) =>
+    props.role === "gpt"
+      ? COLOR_ITEMS[0].accentColor
+      : COLOR_ITEMS[1].accentColor};
 `;
 
 const StyledRoleTitle = styled.p`
@@ -55,7 +58,9 @@ const SapientorConversationMessage = (props: {
       <Spacer size={6} />
       <StyledMessageHeader>
         <StyledRoleIcon role={message.role} />
-        <StyledRoleTitle>{message.role === "user" ? "Du" : "Sapientor"}</StyledRoleTitle>
+        <StyledRoleTitle>
+          {message.role === "user" ? "Du" : "Sapientor"}
+        </StyledRoleTitle>
       </StyledMessageHeader>
 
       <StyledMessageWrapper>

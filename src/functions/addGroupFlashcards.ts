@@ -9,22 +9,24 @@ export const addGroupFlashcards = async (
   lsc: ILeanScopeClient,
   flashcardEntities: Entity[],
   userId: string,
-  learningGroupId: string
+  learningGroupId: string,
 ) => {
   flashcardEntities.forEach((flashcardEntity) => {
     lsc.engine.addEntity(flashcardEntity);
   });
 
-  const { error } = await supabaseClient.from(SupabaseTables.GROUP_FLASHCARDS).insert(
-    flashcardEntities.map((flashcardEntity) => ({
-      question: flashcardEntity.get(QuestionFacet)?.props.question,
-      answer: flashcardEntity.get(AnswerFacet)?.props.answer,
-      parent_id: flashcardEntity.get(ParentFacet)?.props.parentId,
-      id: flashcardEntity.get(IdentifierFacet)?.props.guid,
-      creator_id: userId,
-      group_id: learningGroupId,
-    }))
-  );
+  const { error } = await supabaseClient
+    .from(SupabaseTables.GROUP_FLASHCARDS)
+    .insert(
+      flashcardEntities.map((flashcardEntity) => ({
+        question: flashcardEntity.get(QuestionFacet)?.props.question,
+        answer: flashcardEntity.get(AnswerFacet)?.props.answer,
+        parent_id: flashcardEntity.get(ParentFacet)?.props.parentId,
+        id: flashcardEntity.get(IdentifierFacet)?.props.guid,
+        creator_id: userId,
+        group_id: learningGroupId,
+      })),
+    );
 
   if (error) {
     console.error("Error inserting flashcard", error);

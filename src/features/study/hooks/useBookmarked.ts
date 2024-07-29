@@ -1,10 +1,18 @@
 import { Entity } from "@leanscope/ecs-engine";
 import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntityComponents";
 import { IdentifierFacet } from "@leanscope/ecs-models";
-import { AdditionalTags, DataTypes, SupabaseColumns, SupabaseTables } from "../../../base/enums";
+import {
+  AdditionalTags,
+  DataTypes,
+  SupabaseColumns,
+  SupabaseTables,
+} from "../../../base/enums";
 import supabaseClient from "../../../lib/supabase";
 
-const changeFlashcardSetBookmarkedStatus = async (status: boolean, id: string) => {
+const changeFlashcardSetBookmarkedStatus = async (
+  status: boolean,
+  id: string,
+) => {
   const { error } = await supabaseClient
     .from(SupabaseTables.FLASHCARD_SETS)
     .update({ bookmarked: status })

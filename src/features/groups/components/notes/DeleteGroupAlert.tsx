@@ -1,7 +1,11 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
 import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext } from "react";
-import { AdditionalTags, Stories, SupabaseColumns } from "../../../../base/enums";
+import {
+  AdditionalTags,
+  Stories,
+  SupabaseColumns,
+} from "../../../../base/enums";
 import { Alert, AlertButton } from "../../../../components";
 import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../../lib/supabase";
@@ -12,9 +16,11 @@ const DeleteGroupNoteAlert = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Stories.DELETING_GROUP_NOTE_STORY);
   const { selectedLanguage } = useSelectedLanguage();
-  const { selectedGroupNoteId, selectedGroupNoteEntity } = useSelectedGroupNote();
+  const { selectedGroupNoteId, selectedGroupNoteEntity } =
+    useSelectedGroupNote();
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_TOPIC_STORY);
+  const navigateBack = () =>
+    lsc.stories.transitTo(Stories.OBSERVING_TOPIC_STORY);
 
   const deleteGroupNote = async () => {
     navigateBack();
@@ -23,7 +29,10 @@ const DeleteGroupNoteAlert = () => {
       if (selectedGroupNoteEntity) {
         lsc.engine.removeEntity(selectedGroupNoteEntity);
 
-        const { error } = await supabaseClient.from("group_notes").delete().eq(SupabaseColumns.ID, selectedGroupNoteId);
+        const { error } = await supabaseClient
+          .from("group_notes")
+          .delete()
+          .eq(SupabaseColumns.ID, selectedGroupNoteId);
 
         if (error) {
           console.error("Error deleting group note", error);

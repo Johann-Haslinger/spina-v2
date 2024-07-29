@@ -9,11 +9,20 @@ import {
   ParentFacet,
   TextFacet,
 } from "@leanscope/ecs-models";
-import { BlocktypeFacet, ListStyleFacet, TexttypeFacet, TodoStateFacet } from "../../../app/additionalFacets";
+import {
+  BlocktypeFacet,
+  ListStyleFacet,
+  TexttypeFacet,
+  TodoStateFacet,
+} from "../../../app/additionalFacets";
 import supabaseClient from "../../../lib/supabase";
 import { SupabaseTables } from "../../../base/enums";
 
-export const addBlock = async (lsc: ILeanScopeClient, newBlockEntity: Entity, userId: string) => {
+export const addBlock = async (
+  lsc: ILeanScopeClient,
+  newBlockEntity: Entity,
+  userId: string,
+) => {
   lsc.engine.addEntity(newBlockEntity);
 
   const user_id = userId;

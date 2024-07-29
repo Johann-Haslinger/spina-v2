@@ -6,10 +6,21 @@ import { Sidebar } from "./components";
 import { AuthUI } from "./features/auth-ui";
 import { Profile, Settings } from "./features/settings";
 import { useSession } from "./hooks/useSession";
-import { Collection, Exams, Groups, Homeworks, Overview, Study } from "./pages/Index";
+import {
+  Collection,
+  Exams,
+  Groups,
+  Homeworks,
+  Overview,
+  Study,
+} from "./pages/Index";
 import { formatNavLinkAsPath } from "./utils/formatNavLinkAsPath";
 import { EntityPropsMapper } from "@leanscope/ecs-engine";
-import { TitleFacet, DateAddedFacet, SourceFacet } from "./app/additionalFacets";
+import {
+  TitleFacet,
+  DateAddedFacet,
+  SourceFacet,
+} from "./app/additionalFacets";
 import PodcastSheet from "./features/collection/components/podcasts/PodcastSheet";
 import { dataTypeQuery } from "./utils/queries";
 import { Tags } from "@leanscope/ecs-models";
@@ -34,7 +45,9 @@ function App() {
   ) : (
     <StyledContentWrapper>
       <InitializeUserSystem />
-      <InitializeStoriesSystem initialStory={Stories.OBSERVING_COLLECTION_STORY} />
+      <InitializeStoriesSystem
+        initialStory={Stories.OBSERVING_COLLECTION_STORY}
+      />
       <InitializeAppSystem />
       <ViewManagerSystem />
       <InitializeSchoolSubjectsSystem />
@@ -43,12 +56,30 @@ function App() {
         <Sidebar />
         <Routes>
           <Route path="/" element={<Overview />} />
-          <Route path={formatNavLinkAsPath(NavigationLinks.OVERVIEW)} element={<Overview />} />
-          <Route path={formatNavLinkAsPath(NavigationLinks.STUDY)} element={<Study />} />
-          <Route path={formatNavLinkAsPath(NavigationLinks.HOMEWORKS)} element={<Homeworks />} />
-          <Route path={formatNavLinkAsPath(NavigationLinks.EXAMS)} element={<Exams />} />
-          <Route path={formatNavLinkAsPath(NavigationLinks.COLLECTION)} element={<Collection />} />
-          <Route path={formatNavLinkAsPath(NavigationLinks.GROUPS)} element={<Groups />} />
+          <Route
+            path={formatNavLinkAsPath(NavigationLinks.OVERVIEW)}
+            element={<Overview />}
+          />
+          <Route
+            path={formatNavLinkAsPath(NavigationLinks.STUDY)}
+            element={<Study />}
+          />
+          <Route
+            path={formatNavLinkAsPath(NavigationLinks.HOMEWORKS)}
+            element={<Homeworks />}
+          />
+          <Route
+            path={formatNavLinkAsPath(NavigationLinks.EXAMS)}
+            element={<Exams />}
+          />
+          <Route
+            path={formatNavLinkAsPath(NavigationLinks.COLLECTION)}
+            element={<Collection />}
+          />
+          <Route
+            path={formatNavLinkAsPath(NavigationLinks.GROUPS)}
+            element={<Groups />}
+          />
         </Routes>
 
         <Settings />
@@ -56,7 +87,9 @@ function App() {
       </BrowserRouter>
 
       <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataTypes.PODCAST) && e.has(Tags.SELECTED)}
+        query={(e) =>
+          dataTypeQuery(e, DataTypes.PODCAST) && e.has(Tags.SELECTED)
+        }
         get={[[TitleFacet, DateAddedFacet, SourceFacet], []]}
         onMatch={PodcastSheet}
       />

@@ -17,7 +17,10 @@ import {
 } from "../../../components";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../lib/supabase";
-import { displayButtonTexts, displayLabelTexts } from "../../../utils/displayText";
+import {
+  displayButtonTexts,
+  displayLabelTexts,
+} from "../../../utils/displayText";
 import { useSelectedLearningGroup } from "../hooks/useSelectedLearningGroup";
 
 const EditLearningGroupSheet = () => {
@@ -31,20 +34,25 @@ const EditLearningGroupSheet = () => {
     selectedLearningGroupDescription,
   } = useSelectedLearningGroup();
   const [newTitle, setNewTitle] = useState(selectedLearningGroupTitle);
-  const [newDescription, setNewDescritption] = useState(selectedLearningGroupDescription);
+  const [newDescription, setNewDescritption] = useState(
+    selectedLearningGroupDescription,
+  );
 
   useEffect(() => {
     setNewTitle(selectedLearningGroupTitle);
     setNewDescritption(selectedLearningGroupDescription);
   }, [selectedLearningGroupTitle, selectedLearningGroupDescription]);
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_LERNING_GROUP_STORY);
+  const navigateBack = () =>
+    lsc.stories.transitTo(Stories.OBSERVING_LERNING_GROUP_STORY);
 
   const updateLearningGroup = async () => {
     if (newTitle) {
       navigateBack();
       selectedLearningGroupEntity?.add(new TitleFacet({ title: newTitle }));
-      selectedLearningGroupEntity?.add(new DescriptionFacet({ description: newDescription }));
+      selectedLearningGroupEntity?.add(
+        new DescriptionFacet({ description: newDescription }),
+      );
 
       const { error } = await supabaseClient
         .from("learning_groups")
@@ -62,9 +70,14 @@ const EditLearningGroupSheet = () => {
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>
       <FlexBox>
-        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).back}</SecondaryButton>
-        {(newTitle !== selectedLearningGroupTitle || newDescription !== selectedLearningGroupDescription) && (
-          <PrimaryButton onClick={updateLearningGroup}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
+        <SecondaryButton onClick={navigateBack}>
+          {displayButtonTexts(selectedLanguage).back}
+        </SecondaryButton>
+        {(newTitle !== selectedLearningGroupTitle ||
+          newDescription !== selectedLearningGroupDescription) && (
+          <PrimaryButton onClick={updateLearningGroup}>
+            {displayButtonTexts(selectedLanguage).save}
+          </PrimaryButton>
         )}
       </FlexBox>
       <Spacer />

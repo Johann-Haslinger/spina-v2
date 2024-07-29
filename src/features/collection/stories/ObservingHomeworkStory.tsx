@@ -1,6 +1,15 @@
-import { LeanScopeClient, LeanScopeClientApp } from "@leanscope/api-client/node";
+import {
+  LeanScopeClient,
+  LeanScopeClientApp,
+} from "@leanscope/api-client/node";
 import { EntityCreator } from "@leanscope/ecs-engine";
-import { DescriptionFacet, IdentifierFacet, OrderFacet, ParentFacet, Tags } from "@leanscope/ecs-models";
+import {
+  DescriptionFacet,
+  IdentifierFacet,
+  OrderFacet,
+  ParentFacet,
+  Tags,
+} from "@leanscope/ecs-models";
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import { DueDateFacet, TitleFacet } from "../../../app/additionalFacets";
@@ -45,7 +54,9 @@ const ObservingHomeworkStory = () => {
             tags={[DataTypes.TOPIC, Tags.SELECTED]}
           />
 
-          <InitializeStoriesSystem initialStory={Stories.OBSERVING_SCHOOL_SUBJECT_STORY} />
+          <InitializeStoriesSystem
+            initialStory={Stories.OBSERVING_SCHOOL_SUBJECT_STORY}
+          />
           <InitializeAppSystem mockupData />
 
           <ViewManagerSystem />

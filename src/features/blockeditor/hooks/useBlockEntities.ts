@@ -6,7 +6,9 @@ export const useBlockEntities = (blockeditorEntity?: Entity) => {
   const blockeditorId = blockeditorEntity?.get(IdentifierFacet)?.props.guid;
   const [blockEntities] = useEntities((e) => e.has(DataTypes.BLOCK));
 
-  const filterdBlockEntities = blockEntities.filter((e) => e.get(ParentFacet)?.props.parentId === blockeditorId);
+  const filterdBlockEntities = blockEntities.filter(
+    (e) => e.get(ParentFacet)?.props.parentId === blockeditorId,
+  );
 
   return { blockEntities: filterdBlockEntities };
 };

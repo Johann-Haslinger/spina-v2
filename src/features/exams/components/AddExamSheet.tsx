@@ -5,7 +5,12 @@ import { useIsStoryCurrent } from "@leanscope/storyboarding";
 import { useContext, useEffect, useRef, useState } from "react";
 import { IoAdd, IoCheckmarkCircle, IoEllipseOutline } from "react-icons/io5";
 import { v4 } from "uuid";
-import { DueDateFacet, RelationshipFacet, StatusFacet, TitleFacet } from "../../../app/additionalFacets";
+import {
+  DueDateFacet,
+  RelationshipFacet,
+  StatusFacet,
+  TitleFacet,
+} from "../../../app/additionalFacets";
 import { DataTypes, Stories } from "../../../base/enums";
 import {
   DateInput,
@@ -25,15 +30,22 @@ import { useSchoolSubjectEntities } from "../../../hooks/useSchoolSubjects";
 import { useSchoolSubjectTopics } from "../../../hooks/useSchoolSubjectTopics";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import { useUserData } from "../../../hooks/useUserData";
-import { displayActionTexts, displayButtonTexts, displayLabelTexts } from "../../../utils/displayText";
+import {
+  displayActionTexts,
+  displayButtonTexts,
+  displayLabelTexts,
+} from "../../../utils/displayText";
 
 const AddExamSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Stories.ADDING_EXAM_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const schooolSubjectEntities = useSchoolSubjectEntities();
-  const [selectedSchoolSubjectId, setSelectedSchoolSubjectId] = useState<string>("");
-  const { schoolSubjectTopics } = useSchoolSubjectTopics(selectedSchoolSubjectId);
+  const [selectedSchoolSubjectId, setSelectedSchoolSubjectId] =
+    useState<string>("");
+  const { schoolSubjectTopics } = useSchoolSubjectTopics(
+    selectedSchoolSubjectId,
+  );
   const { userId } = useUserData();
   const [newExam, setNewExam] = useState({
     id: v4(),
@@ -56,7 +68,8 @@ const AddExamSheet = () => {
     }
   }, [isVisible]);
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_EXAMS_STORY);
+  const navigateBack = () =>
+    lsc.stories.transitTo(Stories.OBSERVING_EXAMS_STORY);
 
   const saveExam = async () => {
     const { title, dueDate, parent, id } = newExam;
@@ -66,7 +79,7 @@ const AddExamSheet = () => {
     newExamEntity.add(
       new ParentFacet({
         parentId: parent,
-      })
+      }),
     );
     newExamEntity.add(new TitleFacet({ title: title }));
     newExamEntity.add(new DueDateFacet({ dueDate: dueDate }));
@@ -74,7 +87,7 @@ const AddExamSheet = () => {
     newExamEntity.add(
       new RelationshipFacet({
         relationship: selectedSchoolSubjectId,
-      })
+      }),
     );
     newExamEntity.add(new StatusFacet({ status: 1 }));
     newExamEntity.add(DataTypes.EXAM);
@@ -85,7 +98,9 @@ const AddExamSheet = () => {
       lsc.engine.addEntity(newTopicEntity);
       newTopicEntity.add(new IdentifierFacet({ guid: newTopicId }));
       newTopicEntity.add(new TitleFacet({ title: newTopicTitle }));
-      newTopicEntity.add(new ParentFacet({ parentId: selectedSchoolSubjectId }));
+      newTopicEntity.add(
+        new ParentFacet({ parentId: selectedSchoolSubjectId }),
+      );
       newTopicEntity.add(DataTypes.TOPIC);
 
       addTopic(lsc, newTopicEntity, userId);
@@ -101,9 +116,13 @@ const AddExamSheet = () => {
   return (
     <Sheet navigateBack={navigateBack} visible={isVisible}>
       <FlexBox>
-        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
+        <SecondaryButton onClick={navigateBack}>
+          {displayButtonTexts(selectedLanguage).cancel}
+        </SecondaryButton>
         {newExam.title && newExam.parent && (
-          <PrimaryButton onClick={saveExam}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
+          <PrimaryButton onClick={saveExam}>
+            {displayButtonTexts(selectedLanguage).save}
+          </PrimaryButton>
         )}
       </FlexBox>
       <Spacer />
@@ -121,7 +140,9 @@ const AddExamSheet = () => {
             <p>{displayLabelTexts(selectedLanguage).dueDate} </p>
             <DateInput
               value={newExam.dueDate}
-              onChange={(e) => setNewExam({ ...newExam, dueDate: e.target.value })}
+              onChange={(e) =>
+                setNewExam({ ...newExam, dueDate: e.target.value })
+              }
               type="date"
             />
           </FlexBox>
@@ -129,8 +150,13 @@ const AddExamSheet = () => {
         <SectionRow last>
           <FlexBox>
             <p>{displayLabelTexts(selectedLanguage).schoolSubject}</p>
-            <SelectInput value={selectedSchoolSubjectId} onChange={(e) => setSelectedSchoolSubjectId(e.target.value)}>
-              <option value="">{displayLabelTexts(selectedLanguage).select}</option>
+            <SelectInput
+              value={selectedSchoolSubjectId}
+              onChange={(e) => setSelectedSchoolSubjectId(e.target.value)}
+            >
+              <option value="">
+                {displayLabelTexts(selectedLanguage).select}
+              </option>
               {schooolSubjectEntities.map((entity, idx) => {
                 const schoolSubjectId = entity.get(IdentifierFacet)?.props.guid;
                 const schoolSubjectTitle = entity.get(TitleFacet)?.props.title;
@@ -151,7 +177,13 @@ const AddExamSheet = () => {
             <SectionRow
               key={idx}
               onClick={() => setNewExam({ ...newExam, parent: topic.id })}
-              icon={newExam.parent === topic.id ? <IoCheckmarkCircle /> : <IoEllipseOutline />}
+              icon={
+                newExam.parent === topic.id ? (
+                  <IoCheckmarkCircle />
+                ) : (
+                  <IoEllipseOutline />
+                )
+              }
             >
               {topic.title}
             </SectionRow>
@@ -176,7 +208,11 @@ const AddExamSheet = () => {
                   newExam.parent === "newTopic" ? (
                     <IoCheckmarkCircle />
                   ) : (
-                    <IoEllipseOutline onClick={() => setNewExam({ ...newExam, parent: "newTopic" })} />
+                    <IoEllipseOutline
+                      onClick={() =>
+                        setNewExam({ ...newExam, parent: "newTopic" })
+                      }
+                    />
                   )
                 ) : (
                   <IoEllipseOutline style={{ color: "#86858A" }} />

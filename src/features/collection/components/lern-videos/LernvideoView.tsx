@@ -14,7 +14,12 @@ interface Media {
   image: string;
 }
 
-const createBase64Video = (photoUrl: string, audioUrl: string, width: number, height: number): Promise<string> => {
+const createBase64Video = (
+  photoUrl: string,
+  audioUrl: string,
+  width: number,
+  height: number,
+): Promise<string> => {
   return new Promise((resolve, reject) => {
     const canvas = document.createElement("canvas");
     canvas.width = width;
@@ -46,7 +51,9 @@ const createBase64Video = (photoUrl: string, audioUrl: string, width: number, he
 
           stream.addTrack(audioStream.getAudioTracks()[0]);
 
-          const recorder = new MediaRecorder(stream, { mimeType: "video/webm" });
+          const recorder = new MediaRecorder(stream, {
+            mimeType: "video/webm",
+          });
           const chunks: BlobPart[] = [];
 
           recorder.ondataavailable = (event) => chunks.push(event.data);
@@ -68,7 +75,9 @@ const createBase64Video = (photoUrl: string, audioUrl: string, width: number, he
   });
 };
 
-const LernvideoView = (props: TitleProps & DateAddedProps & EntityProps & IdentifierProps) => {
+const LernvideoView = (
+  props: TitleProps & DateAddedProps & EntityProps & IdentifierProps,
+) => {
   const { entity } = props;
   const isVisible = useIsViewVisible(entity);
 
