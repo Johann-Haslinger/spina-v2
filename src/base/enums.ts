@@ -117,6 +117,7 @@ export enum NavigationLinks {
   EXAMS = "exams",
   COLLECTION = "collection",
   GROUPS = "groups",
+  FLASHCARDS = "flashcards",
 }
 
 export enum DataTypes {
@@ -226,4 +227,10 @@ export enum SupabaseColumns {
   DESCRIPTION = "description",
   PARENT_ID = "parent_id",
   DUE_DATE = "due_date",
+}
+
+export enum FlashcardsNavigationStates {
+  OVERVIEW = "overview",
+  FLASHCARDS = "flashcards",
+  STATS = "stats",
 }

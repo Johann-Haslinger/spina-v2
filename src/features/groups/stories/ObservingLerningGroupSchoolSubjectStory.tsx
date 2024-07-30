@@ -2,18 +2,7 @@ import {
   LeanScopeClient,
   LeanScopeClientApp,
 } from "@leanscope/api-client/node";
-import React from "react";
-import { DataTypes, Stories } from "../../../base/enums";
-import { Groups } from "../../../pages/Index";
-import InitializeAppSystem from "../../../systems/InitializeAppSystem";
-import InitializeSchoolSubjectsSystem from "../../../systems/InitializeSchoolSubjectsSystem";
-import InitializeStoriesSystem from "../../../systems/InitializeStoriesSystem";
-import ViewManagerSystem from "../../../systems/ViewManagerSystem";
-import { Sidebar } from "../../../components";
-import { Settings } from "../../settings";
-import { BrowserRouter } from "react-router-dom";
 import { EntityCreator } from "@leanscope/ecs-engine";
-import { TitleFacet } from "../../../app/additionalFacets";
 import {
   ColorFacet,
   DescriptionFacet,
@@ -22,7 +11,19 @@ import {
   ParentFacet,
   Tags,
 } from "@leanscope/ecs-models";
+import React from "react";
+import { BrowserRouter } from "react-router-dom";
+import { TitleFacet } from "../../../app/additionalFacets";
 import { COLOR_ITEMS } from "../../../base/constants";
+import { DataTypes, Stories } from "../../../base/enums";
+import { Sidebar } from "../../../components";
+
+import InitializeAppSystem from "../../../systems/InitializeAppSystem";
+import InitializeSchoolSubjectsSystem from "../../../systems/InitializeSchoolSubjectsSystem";
+import InitializeStoriesSystem from "../../../systems/InitializeStoriesSystem";
+import ViewManagerSystem from "../../../systems/ViewManagerSystem";
+import { Settings } from "../../settings";
+import { Groups } from "../../../pages/Index";
 
 const ObservingLerningGroupSchoolSubjectStory = () => {
   return (

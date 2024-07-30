@@ -3,15 +3,15 @@ import {
   LeanScopeClientApp,
 } from "@leanscope/api-client/node";
 import React from "react";
+import { BrowserRouter } from "react-router-dom";
 import { Stories } from "../../../base/enums";
+import { Sidebar } from "../../../components";
 import { Groups } from "../../../pages/Index";
 import InitializeAppSystem from "../../../systems/InitializeAppSystem";
 import InitializeSchoolSubjectsSystem from "../../../systems/InitializeSchoolSubjectsSystem";
 import InitializeStoriesSystem from "../../../systems/InitializeStoriesSystem";
 import ViewManagerSystem from "../../../systems/ViewManagerSystem";
-import { Sidebar } from "../../../components";
 import { Settings } from "../../settings";
-import { BrowserRouter } from "react-router-dom";
 
 const ObservingLerningGroupsStory = () => {
   return (

@@ -1,37 +1,38 @@
 import styled from "@emotion/styled";
+import { EntityPropsMapper } from "@leanscope/ecs-engine";
+import { Tags } from "@leanscope/ecs-models";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import tw from "twin.macro";
+import {
+  DateAddedFacet,
+  SourceFacet,
+  TitleFacet,
+} from "./app/additionalFacets";
 import { DataTypes, NavigationLinks, Stories } from "./base/enums";
 import { Sidebar } from "./components";
 import { AuthUI } from "./features/auth-ui";
+import PodcastSheet from "./features/collection/components/podcasts/PodcastSheet";
+import { SapientorIcon } from "./features/sapientor";
 import { Profile, Settings } from "./features/settings";
 import { useSession } from "./hooks/useSession";
 import {
   Collection,
   Exams,
+  Flashcards,
   Groups,
   Homeworks,
   Overview,
   Study,
 } from "./pages/Index";
-import { formatNavLinkAsPath } from "./utils/formatNavLinkAsPath";
-import { EntityPropsMapper } from "@leanscope/ecs-engine";
 import {
-  TitleFacet,
-  DateAddedFacet,
-  SourceFacet,
-} from "./app/additionalFacets";
-import PodcastSheet from "./features/collection/components/podcasts/PodcastSheet";
-import { dataTypeQuery } from "./utils/queries";
-import { Tags } from "@leanscope/ecs-models";
-import { SapientorIcon } from "./features/sapientor";
-import {
-  InitializeUserSystem,
-  InitializeStoriesSystem,
   InitializeAppSystem,
-  ViewManagerSystem,
   InitializeSchoolSubjectsSystem,
+  InitializeStoriesSystem,
+  InitializeUserSystem,
+  ViewManagerSystem,
 } from "./systems";
+import { formatNavLinkAsPath } from "./utils/formatNavLinkAsPath";
+import { dataTypeQuery } from "./utils/queries";
 
 const StyledContentWrapper = styled.div`
   ${tw`w-screen h-screen bg-primary dark:bg-primaryDark`}
@@ -79,6 +80,10 @@ function App() {
           <Route
             path={formatNavLinkAsPath(NavigationLinks.GROUPS)}
             element={<Groups />}
+          />
+          <Route
+            path={formatNavLinkAsPath(NavigationLinks.FLASHCARDS)}
+            element={<Flashcards />}
           />
         </Routes>
 

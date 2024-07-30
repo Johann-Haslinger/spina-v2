@@ -44,11 +44,11 @@ export const HEADER_TEXT_DATA = {
     en: "Podcasts",
   },
   flashcards: {
-    de: "Karteikarten",
+    de: "Lernkarten",
     en: "Flashcards",
   },
   flashcard_test: {
-    de: "Karteikarten Test",
+    de: "Lernkarten Test",
     en: "Flashcard test",
   },
   blurting: {
