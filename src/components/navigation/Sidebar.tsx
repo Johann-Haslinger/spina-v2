@@ -299,6 +299,8 @@ const selectNavLinkText = (
       return displayHeaderTexts(selectedLanguage).study;
     case NavigationLinks.HOMEWORKS:
       return displayHeaderTexts(selectedLanguage).homeworks;
+    case NavigationLinks.FLASHCARDS:
+      return displayHeaderTexts(selectedLanguage).flashcards;
     case NavigationLinks.EXAMS:
       return displayHeaderTexts(selectedLanguage).exams;
     case NavigationLinks.OVERVIEW:

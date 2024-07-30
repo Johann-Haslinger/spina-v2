@@ -23,7 +23,7 @@ const Flashcards = () => {
           <Title>{displayHeaderTexts(selectedLanguage).flashcards}</Title>
           {segmentedControl}
         </FlexBox>
-        <Spacer />
+        <Spacer size={6} />
         {currentNavigationState === FlashcardsNavigationStates.OVERVIEW ? (
           <FlashcardsOverview />
         ) : currentNavigationState === FlashcardsNavigationStates.FLASHCARDS ? (

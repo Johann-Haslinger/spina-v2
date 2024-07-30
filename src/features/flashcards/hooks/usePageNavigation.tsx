@@ -24,13 +24,13 @@ const NAVIGATION_STATES_TEXT_DATA = {
 };
 
 const StyledSegmentedControlWrapper = styled.div`
-  ${tw`flex space-x-6 `}
+  ${tw`flex space-x-6 mr-2`}
 `;
 
 const StyledSegmentedControlButton = styled.button<{ isActive: boolean }>`
   ${tw`transition-all hover:opacity-50 `}
   ${({ isActive }) =>
-    isActive ? tw`text-primaryColor underline` : tw`text-[#676767]`}
+    isActive ? tw`text-[#668FE7] underline` : tw`text-black text-opacity-40`}
 `;
 
 const usePageNavigation = () => {

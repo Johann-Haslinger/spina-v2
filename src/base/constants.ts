@@ -6,17 +6,17 @@ export const SELECTED_LANGUAGE = SupportedLanguages.DE;
 
 export const MEDIUM_DEVICE_WIDTH = 768;
 
-export const LARGE_DEVICE_WIDTH = 1200;
+export const LARGE_DEVICE_WIDTH = 1400;
 
 export const NAV_LINKS = [
   {
     title: NavigationLinks.OVERVIEW,
     path: formatNavLinkAsPath(NavigationLinks.OVERVIEW),
   },
-  // {
-  //   title: NavigationLinks.STUDY,
-  //   path: formatNavLinkAsPath(NavigationLinks.STUDY),
-  // },
+  {
+    title: NavigationLinks.FLASHCARDS,
+    path: formatNavLinkAsPath(NavigationLinks.FLASHCARDS),
+  },
   {
     title: NavigationLinks.HOMEWORKS,
     path: formatNavLinkAsPath(NavigationLinks.HOMEWORKS),

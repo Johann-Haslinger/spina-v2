@@ -1,9 +1,27 @@
-import Subtitle from "./Subtitle";
+import styled from "@emotion/styled";
+import tw from "twin.macro";
+import StreakCard from "./overview/StreakCard";
+import WeekInfoCard from "./overview/WeekInfoCard";
+import WeekStatsCard from "./overview/WeekStatsCard";
+
+const StyledCardsWrapper = styled.div`
+  ${tw`md:flex space-x-3`}
+`;
+
+const StyledLeftCardsWrapper = styled.div`
+  ${tw`md:w-1/3 h-96 space-y-3`}
+`;
 
 const FlashcardsOverview = () => {
   return (
     <div>
-      <Subtitle>Wöchentliche Übersicht</Subtitle>
+      <StyledCardsWrapper>
+        <WeekStatsCard />
+        <StyledLeftCardsWrapper>
+          <StreakCard />
+          <WeekInfoCard />
+        </StyledLeftCardsWrapper>
+      </StyledCardsWrapper>
     </div>
   );
 };
