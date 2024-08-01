@@ -361,7 +361,10 @@ const useSchoolSubjectTopics = (
   selectedSchoolSubjectId?: string,
 ) => {
   const [topics, setTopics] = useState<{ title: string; id: string }[]>([]);
-  const { shouldFetchFromSupabase, mockupData } = useMockupData();
+  const {
+    isUsingSupabaseData: shouldFetchFromSupabase,
+    isUsingMockupData: mockupData,
+  } = useMockupData();
 
   useEffect(() => {
     const fetchTopics = async () => {

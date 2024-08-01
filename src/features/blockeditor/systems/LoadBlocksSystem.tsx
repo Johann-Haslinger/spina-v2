@@ -56,7 +56,10 @@ const fetchGroupBlocks = async (blockeditorId: string) => {
 
 const LoadBlocksSystem = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const { mockupData, shouldFetchFromSupabase } = useMockupData();
+  const {
+    isUsingMockupData: mockupData,
+    isUsingSupabaseData: shouldFetchFromSupabase,
+  } = useMockupData();
   const { blockeditorId, blockeditorEntity } = useCurrentBlockeditor();
   const { selectedHomeworkText } = useSelectedHomework();
   const { selectedNoteText } = useSelectedNote();

@@ -34,7 +34,10 @@ const fetchTopicsForSchoolSubject = async (subjectId: string) => {
 };
 
 const LoadTopicsSystem = () => {
-  const { mockupData, shouldFetchFromSupabase } = useMockupData();
+  const {
+    isUsingMockupData: mockupData,
+    isUsingSupabaseData: shouldFetchFromSupabase,
+  } = useMockupData();
   const lsc = useContext(LeanScopeClientContext);
   const { selectedSchoolSubjectEntity, selectedSchoolSubjectId } =
     useSelectedSchoolSubject();

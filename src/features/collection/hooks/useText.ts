@@ -35,7 +35,10 @@ export const useText = (entity: Entity) => {
   const parentId = entity.get(IdentifierFacet)?.props.guid;
   const { userId } = useUserData();
   const text = entity.get(TextFacet)?.props.text || "";
-  const { shouldFetchFromSupabase, mockupData } = useMockupData();
+  const {
+    isUsingSupabaseData: shouldFetchFromSupabase,
+    isUsingMockupData: mockupData,
+  } = useMockupData();
 
   useEffect(() => {
     const loadText = async () => {

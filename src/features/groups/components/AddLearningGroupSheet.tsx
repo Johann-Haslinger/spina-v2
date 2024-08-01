@@ -70,7 +70,7 @@ const AddLearningGroupSheet = () => {
   const { newLearningGroup, setNewLearningGroup } = useNewLearningGroup();
   const { selectedLanguage } = useSelectedLanguage();
   const { userId } = useUserData();
-  const { shouldFetchFromSupabase } = useMockupData();
+  const { isUsingSupabaseData: shouldFetchFromSupabase } = useMockupData();
   const schoolSubjectEntities = useSchoolSubjectEntities();
 
   const navigateBack = () =>

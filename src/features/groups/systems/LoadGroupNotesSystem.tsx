@@ -28,7 +28,10 @@ const fetchGroupNotesForTopic = async (topicId: string) => {
 };
 
 const LoadGroupGroupNotesSystem = () => {
-  const { mockupData, shouldFetchFromSupabase } = useMockupData();
+  const {
+    isUsingMockupData: mockupData,
+    isUsingSupabaseData: shouldFetchFromSupabase,
+  } = useMockupData();
   const lsc = useContext(LeanScopeClientContext);
   const { selectedGroupTopicId } = useSelectedGroupTopic();
 

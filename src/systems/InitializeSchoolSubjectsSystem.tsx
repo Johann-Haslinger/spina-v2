@@ -23,7 +23,10 @@ const fetchSchoolSubjects = async () => {
 };
 
 const InitializeSchoolSubjectsSystem = () => {
-  const { mockupData, shouldFetchFromSupabase } = useMockupData();
+  const {
+    isUsingMockupData: mockupData,
+    isUsingSupabaseData: shouldFetchFromSupabase,
+  } = useMockupData();
   const lsc = useContext(LeanScopeClientContext);
 
   useEffect(() => {

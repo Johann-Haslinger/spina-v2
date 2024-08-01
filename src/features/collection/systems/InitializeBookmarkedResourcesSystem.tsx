@@ -101,7 +101,10 @@ const InitializeBookmarkedResourcesSystem = () => {
   const isBookmarkCollectionVisible = useIsStoryCurrent(
     Stories.OBSERVING_BOOKMARK_COLLECTION_STORY,
   );
-  const { mockupData, shouldFetchFromSupabase } = useMockupData();
+  const {
+    isUsingMockupData: mockupData,
+    isUsingSupabaseData: shouldFetchFromSupabase,
+  } = useMockupData();
 
   useEffect(() => {
     const initializeBookmarkedFlashcards = async () => {

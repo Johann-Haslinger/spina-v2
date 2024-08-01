@@ -7,6 +7,7 @@ import {
   FlashcardsStats,
   usePageNavigation,
 } from "../features/flashcards";
+import LoadFlashcardSessionsSystem from "../features/flashcards/systems/LoadFlashcardSessionsSystem";
 import { useSelectedLanguage } from "../hooks/useSelectedLanguage";
 import { displayHeaderTexts } from "../utils/displayText";
 
@@ -16,6 +17,8 @@ const Flashcards = () => {
 
   return (
     <Fragment>
+      <LoadFlashcardSessionsSystem />
+
       <View viewType="baseView">
         <NavigationBar />
         <Spacer size={8} />
@@ -31,7 +34,6 @@ const Flashcards = () => {
         ) : (
           <FlashcardsStats />
         )}
-        ͘͘
       </View>
     </Fragment>
   );

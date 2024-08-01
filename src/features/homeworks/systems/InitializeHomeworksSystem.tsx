@@ -16,14 +16,14 @@ import supabaseClient from "../../../lib/supabase";
 import { dataTypeQuery } from "../../../utils/queries";
 
 const fetchHomeworks = async () => {
-  const fourteenDaysAgo = new Date(
+  const sevenDaysAgo = new Date(
     new Date().getTime() - 7 * 24 * 60 * 60 * 1000,
   ).toISOString();
 
   const { data: homeworks, error } = await supabaseClient
     .from(SupabaseTables.HOMEWORKS)
     .select("title, id, due_date, status, parent_id, related_subject")
-    .gte("due_date", fourteenDaysAgo);
+    .gte("due_date", sevenDaysAgo);
 
   if (error) {
     console.error("Error fetching homeworks:", error);
@@ -34,7 +34,10 @@ const fetchHomeworks = async () => {
 };
 
 const InitializeHomeworksSystem = () => {
-  const { mockupData, shouldFetchFromSupabase } = useMockupData();
+  const {
+    isUsingMockupData: mockupData,
+    isUsingSupabaseData: shouldFetchFromSupabase,
+  } = useMockupData();
   const lsc = useContext(LeanScopeClientContext);
 
   useEffect(() => {

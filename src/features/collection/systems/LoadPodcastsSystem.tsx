@@ -46,7 +46,10 @@ const LoadPodcastsSystem = () => {
   const isPodcastCollectionVisible = useIsStoryCurrent(
     Stories.OBSERVING_PODCASTS_COLLECTION,
   );
-  const { mockupData, shouldFetchFromSupabase } = useMockupData();
+  const {
+    isUsingMockupData: mockupData,
+    isUsingSupabaseData: shouldFetchFromSupabase,
+  } = useMockupData();
   const { selectedTopicId } = useSelectedTopic();
 
   useEffect(() => {

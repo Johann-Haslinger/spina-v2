@@ -30,7 +30,10 @@ const fetchPodcastsForNote = async (noteId: string) => {
 const LoadNotePodcastsSystem = () => {
   const lsc = useContext(LeanScopeClientContext);
   const { selectedNoteId } = useSelectedNote();
-  const { mockupData, shouldFetchFromSupabase } = useMockupData();
+  const {
+    isUsingMockupData: mockupData,
+    isUsingSupabaseData: shouldFetchFromSupabase,
+  } = useMockupData();
 
   useEffect(() => {
     const initializeNotePodcast = async () => {

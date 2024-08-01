@@ -62,7 +62,10 @@ const fetchNoteVersion = async (noteId: string) => {
 };
 
 const LoadNoteTextSystem = () => {
-  const { mockupData, shouldFetchFromSupabase } = useMockupData();
+  const {
+    isUsingMockupData: mockupData,
+    isUsingSupabaseData: shouldFetchFromSupabase,
+  } = useMockupData();
   const { selectedNoteEntity, selectedNoteId } = useSelectedNote();
   const { userId } = useUserData();
 

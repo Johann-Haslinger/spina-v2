@@ -30,7 +30,10 @@ const fetchPodcastForFlashcardSet = async (flashcardSetId: string) => {
 const LoadFlashcardSetPodcastsSystem = () => {
   const lsc = useContext(LeanScopeClientContext);
   const { selectedFlashcardSetId } = useSelectedFlashcardSet();
-  const { mockupData, shouldFetchFromSupabase } = useMockupData();
+  const {
+    isUsingMockupData: mockupData,
+    isUsingSupabaseData: shouldFetchFromSupabase,
+  } = useMockupData();
 
   useEffect(() => {
     const initializeFlashcardSetPodcast = async () => {

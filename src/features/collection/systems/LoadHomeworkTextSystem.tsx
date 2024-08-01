@@ -61,7 +61,10 @@ const fetchNoteVersion = async (homeworkId: string) => {
 };
 
 const LoadHomeworkTextSystem = () => {
-  const { mockupData, shouldFetchFromSupabase } = useMockupData();
+  const {
+    isUsingMockupData: mockupData,
+    isUsingSupabaseData: shouldFetchFromSupabase,
+  } = useMockupData();
   const { userId } = useUserData();
   const [selectedHomework] = useEntity(
     (e) => e.hasTag(DataTypes.HOMEWORK) && e.hasTag(Tags.SELECTED),

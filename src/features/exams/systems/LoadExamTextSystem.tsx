@@ -7,7 +7,10 @@ import supabaseClient from "../../../lib/supabase";
 import { useSelectedExam } from "../hooks/useSelectedExam";
 
 const LoadExamTextSystem = () => {
-  const { mockupData, shouldFetchFromSupabase } = useMockupData();
+  const {
+    isUsingMockupData: mockupData,
+    isUsingSupabaseData: shouldFetchFromSupabase,
+  } = useMockupData();
   const { selectedExamEntity, selectedExamId } = useSelectedExam();
 
   useEffect(() => {

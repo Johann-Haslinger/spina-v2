@@ -24,7 +24,10 @@ const fetchGroupFlashcardsForGroupFlashcardGroup = async (parentId: string) => {
 };
 
 const LoadGroupFlashcardsSystem = () => {
-  const { mockupData, shouldFetchFromSupabase } = useMockupData();
+  const {
+    isUsingMockupData: mockupData,
+    isUsingSupabaseData: shouldFetchFromSupabase,
+  } = useMockupData();
   const lsc = useContext(LeanScopeClientContext);
   const { selectedGroupFlashcardSetId } = useSelectedGroupFlashcardSet();
 

@@ -71,7 +71,10 @@ const fetchPodcastForSubtopic = async (parentId: string) => {
 };
 
 const LoadSubtopicResourcesSystem = () => {
-  const { mockupData, shouldFetchFromSupabase } = useMockupData();
+  const {
+    isUsingMockupData: mockupData,
+    isUsingSupabaseData: shouldFetchFromSupabase,
+  } = useMockupData();
   const lsc = useContext(LeanScopeClientContext);
   const { selectedSubtopicId, selectedSubtopicEntity } = useSelectedSubtopic();
   const { userId } = useUserData();

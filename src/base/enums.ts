@@ -144,6 +144,7 @@ export enum DataTypes {
   GROUP_BLOCK = "groupBlock",
   EXERCISE = "exercise",
   EXERCISE_PART = "exercisePart",
+  FLASHCARD_SESSION = "flashcardSession",
 }
 
 export enum SupportedLanguages {
@@ -218,6 +219,7 @@ export enum SupabaseTables {
   EXERCISES = "exercises",
   EXERCISE_PARTS = "exercise_parts",
   PROFILES = "profiles",
+  FLASHCARD_SESSIONS = "flashcard_sessions",
 }
 
 export enum SupabaseColumns {

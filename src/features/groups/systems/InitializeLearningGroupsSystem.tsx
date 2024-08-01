@@ -1,17 +1,17 @@
 import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { useContext, useEffect } from "react";
-import { useMockupData } from "../../../hooks/useMockupData";
-import supabaseClient from "../../../lib/supabase";
-import { dummyLearningGroups } from "../../../base/dummy";
+import { Entity } from "@leanscope/ecs-engine";
 import {
   ColorFacet,
   DescriptionFacet,
   IdentifierFacet,
   OrderFacet,
 } from "@leanscope/ecs-models";
-import { Entity } from "@leanscope/ecs-engine";
+import { useContext, useEffect } from "react";
 import { TitleFacet } from "../../../app/additionalFacets";
+import { dummyLearningGroups } from "../../../base/dummy";
 import { DataTypes } from "../../../base/enums";
+import { useMockupData } from "../../../hooks/useMockupData";
+import supabaseClient from "../../../lib/supabase";
 import { dataTypeQuery } from "../../../utils/queries";
 
 const fetchLearningGroups = async () => {
@@ -28,7 +28,10 @@ const fetchLearningGroups = async () => {
 };
 
 const InitializeLearningGroupsSystem = () => {
-  const { mockupData, shouldFetchFromSupabase } = useMockupData();
+  const {
+    isUsingMockupData: mockupData,
+    isUsingSupabaseData: shouldFetchFromSupabase,
+  } = useMockupData();
   const lsc = useContext(LeanScopeClientContext);
 
   useEffect(() => {

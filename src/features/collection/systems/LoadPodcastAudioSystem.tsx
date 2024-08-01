@@ -33,7 +33,10 @@ const fetchPodcastAudio = async (podcastId: string) => {
 const LoadPodcastAudioSystem = () => {
   const { selectedPodcastEntity, selectedPodcastId, selectedPodcastSource } =
     useSelectedPodcast();
-  const { mockupData, shouldFetchFromSupabase } = useMockupData();
+  const {
+    isUsingMockupData: mockupData,
+    isUsingSupabaseData: shouldFetchFromSupabase,
+  } = useMockupData();
 
   useEffect(() => {
     const loadPodcastAudio = async () => {

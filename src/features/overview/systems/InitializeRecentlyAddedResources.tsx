@@ -63,7 +63,7 @@ const fetchRecentlyAddedFlashcardSets = async () => {
 
 const InitializeRecentlyAddedResources = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const { shouldFetchFromSupabase } = useMockupData();
+  const { isUsingSupabaseData: shouldFetchFromSupabase } = useMockupData();
 
   useEffect(() => {
     const initializeRecentlyAddedSubtopics = async () => {

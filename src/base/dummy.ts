@@ -543,3 +543,37 @@ export const dummyExerciseParts = [
     order: 2,
   },
 ];
+
+export const dummyFlashcardSessions = [
+  {
+    id: "1",
+    date_added: new Date().toISOString(),
+    flashcard_count: 10,
+  },
+  {
+    id: "2",
+    date_added: new Date(
+      new Date().setDate(new Date().getDate() - 1),
+    ).toISOString(),
+    flashcard_count: 8,
+  },
+  {
+    id: "3",
+    date_added: new Date().toISOString(),
+    flashcard_count: 5,
+  },
+  {
+    id: "4",
+    date_added: new Date(
+      new Date().setDate(new Date().getDate() - 3),
+    ).toISOString(),
+    flashcard_count: 4,
+  },
+  {
+    id: "5",
+    date_added: new Date(
+      new Date().setDate(new Date().getDate() - 2),
+    ).toISOString(),
+    flashcard_count: 10,
+  },
+];

@@ -208,3 +208,13 @@ export class RelatedResourcesFacet extends Facet<RelatedResourcesProps> {
     super(props);
   }
 }
+
+export interface FlashcardCountProps {
+  flashcardCount: number;
+}
+
+export class FlashcardCountFacet extends Facet<{ flashcardCount: number }> {
+  constructor(props: FlashcardCountProps) {
+    super(props);
+  }
+}

@@ -27,7 +27,10 @@ const fetchGroupSubtopicsForSchoolSubject = async (subjectId: string) => {
 };
 
 const LoadGroupGroupSubtopicsSystem = () => {
-  const { mockupData, shouldFetchFromSupabase } = useMockupData();
+  const {
+    isUsingMockupData: mockupData,
+    isUsingSupabaseData: shouldFetchFromSupabase,
+  } = useMockupData();
   const lsc = useContext(LeanScopeClientContext);
   const { selectedGroupTopicId } = useSelectedGroupTopic();
 

@@ -342,7 +342,10 @@ const useLearningGroups = (isVisible: boolean) => {
   const [learningGroups, setLearningGroups] = useState<
     { title: string; id: string }[]
   >([]);
-  const { shouldFetchFromSupabase, mockupData } = useMockupData();
+  const {
+    isUsingSupabaseData: shouldFetchFromSupabase,
+    isUsingMockupData: mockupData,
+  } = useMockupData();
 
   useEffect(() => {
     const loadGroupSchoolSubjects = async () => {
@@ -369,7 +372,10 @@ const useLearningGroupSchoolSubjects = (
   const [schoolSubjects, setSchoolSubjects] = useState<
     { title: string; id: string }[]
   >([]);
-  const { shouldFetchFromSupabase, mockupData } = useMockupData();
+  const {
+    isUsingSupabaseData: shouldFetchFromSupabase,
+    isUsingMockupData: mockupData,
+  } = useMockupData();
 
   useEffect(() => {
     const loadGroupSchoolSubjects = async () => {
@@ -394,7 +400,10 @@ const useSchoolSubjectTopics = (
   isSelected: boolean,
 ) => {
   const [topics, setTopics] = useState<{ title: string; id: string }[]>([]);
-  const { shouldFetchFromSupabase, mockupData } = useMockupData();
+  const {
+    isUsingSupabaseData: shouldFetchFromSupabase,
+    isUsingMockupData: mockupData,
+  } = useMockupData();
 
   useEffect(() => {
     const fetchTopics = async () => {

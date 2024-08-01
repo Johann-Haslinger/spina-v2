@@ -28,7 +28,10 @@ const fetchFlashcardsForGroupSubtopic = async (parentId: string) => {
 };
 
 const LoadGroupSubtopicResourcesSystem = () => {
-  const { mockupData, shouldFetchFromSupabase } = useMockupData();
+  const {
+    isUsingMockupData: mockupData,
+    isUsingSupabaseData: shouldFetchFromSupabase,
+  } = useMockupData();
   const lsc = useContext(LeanScopeClientContext);
   const { selectedGroupSubtopicId } = useSelectedGroupSubtopic();
 
