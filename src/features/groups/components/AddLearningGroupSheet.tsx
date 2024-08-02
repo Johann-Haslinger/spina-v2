@@ -26,7 +26,7 @@ import {
   TextAreaInput,
   TextInput,
 } from "../../../components";
-import { useMockupData } from "../../../hooks/useMockupData";
+import { useCurrentDataSource } from "../../../hooks/useCurrentDataSource";
 import { useSchoolSubjectEntities } from "../../../hooks/useSchoolSubjects";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import { useUserData } from "../../../hooks/useUserData";
@@ -70,7 +70,8 @@ const AddLearningGroupSheet = () => {
   const { newLearningGroup, setNewLearningGroup } = useNewLearningGroup();
   const { selectedLanguage } = useSelectedLanguage();
   const { userId } = useUserData();
-  const { isUsingSupabaseData: shouldFetchFromSupabase } = useMockupData();
+  const { isUsingSupabaseData: shouldFetchFromSupabase } =
+    useCurrentDataSource();
   const schoolSubjectEntities = useSchoolSubjectEntities();
 
   const navigateBack = () =>

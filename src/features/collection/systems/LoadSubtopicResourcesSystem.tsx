@@ -15,7 +15,7 @@ import {
   SupabaseColumns,
   SupabaseTables,
 } from "../../../base/enums";
-import { useMockupData } from "../../../hooks/useMockupData";
+import { useCurrentDataSource } from "../../../hooks/useCurrentDataSource";
 import { useUserData } from "../../../hooks/useUserData";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedSubtopic } from "../hooks/useSelectedSubtopic";
@@ -74,7 +74,7 @@ const LoadSubtopicResourcesSystem = () => {
   const {
     isUsingMockupData: mockupData,
     isUsingSupabaseData: shouldFetchFromSupabase,
-  } = useMockupData();
+  } = useCurrentDataSource();
   const lsc = useContext(LeanScopeClientContext);
   const { selectedSubtopicId, selectedSubtopicEntity } = useSelectedSubtopic();
   const { userId } = useUserData();

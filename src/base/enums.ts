@@ -220,6 +220,7 @@ export enum SupabaseTables {
   EXERCISE_PARTS = "exercise_parts",
   PROFILES = "profiles",
   FLASHCARD_SESSIONS = "flashcard_sessions",
+  STREAKS = "streaks",
 }
 
 export enum SupabaseColumns {

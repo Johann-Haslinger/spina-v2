@@ -13,7 +13,7 @@ import {
   SupabaseColumns,
   SupabaseTables,
 } from "../../../base/enums";
-import { useMockupData } from "../../../hooks/useMockupData";
+import { useCurrentDataSource } from "../../../hooks/useCurrentDataSource";
 import supabaseClient from "../../../lib/supabase";
 import { dataTypeQuery } from "../../../utils/queries";
 
@@ -35,7 +35,7 @@ const LoadFlashcardsSystem = () => {
   const {
     isUsingMockupData: mockupData,
     isUsingSupabaseData: shouldFetchFromSupabase,
-  } = useMockupData();
+  } = useCurrentDataSource();
   const lsc = useContext(LeanScopeClientContext);
   const [selectedFlashcardGroupEntity] = useEntity(
     (e) =>

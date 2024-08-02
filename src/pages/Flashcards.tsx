@@ -10,21 +10,23 @@ import {
 import LoadFlashcardSessionsSystem from "../features/flashcards/systems/LoadFlashcardSessionsSystem";
 import { useSelectedLanguage } from "../hooks/useSelectedLanguage";
 import { displayHeaderTexts } from "../utils/displayText";
+import LoadCurrentStreakSystem from "../features/flashcards/systems/LoadCurrentStrekSystem";
 
 const Flashcards = () => {
   const { selectedLanguage } = useSelectedLanguage();
-  const { currentNavigationState, segmentedControl } = usePageNavigation();
+  const { currentNavigationState } = usePageNavigation();
 
   return (
     <Fragment>
       <LoadFlashcardSessionsSystem />
+      <LoadCurrentStreakSystem />
 
       <View viewType="baseView">
         <NavigationBar />
         <Spacer size={8} />
         <FlexBox>
           <Title>{displayHeaderTexts(selectedLanguage).flashcards}</Title>
-          {segmentedControl}
+          {/* {segmentedControl} */}
         </FlexBox>
         <Spacer size={6} />
         {currentNavigationState === FlashcardsNavigationStates.OVERVIEW ? (

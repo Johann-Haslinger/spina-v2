@@ -36,7 +36,7 @@ import {
 import { addGroupFlashcards } from "../../../functions/addGroupFlashcards";
 import { addGroupNote } from "../../../functions/addGroupNote";
 import { addGroupSubtopic } from "../../../functions/addGroupSubtopic";
-import { useMockupData } from "../../../hooks/useMockupData";
+import { useCurrentDataSource } from "../../../hooks/useCurrentDataSource";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import { useUserData } from "../../../hooks/useUserData";
 import supabaseClient from "../../../lib/supabase";
@@ -345,7 +345,7 @@ const useLearningGroups = (isVisible: boolean) => {
   const {
     isUsingSupabaseData: shouldFetchFromSupabase,
     isUsingMockupData: mockupData,
-  } = useMockupData();
+  } = useCurrentDataSource();
 
   useEffect(() => {
     const loadGroupSchoolSubjects = async () => {
@@ -375,7 +375,7 @@ const useLearningGroupSchoolSubjects = (
   const {
     isUsingSupabaseData: shouldFetchFromSupabase,
     isUsingMockupData: mockupData,
-  } = useMockupData();
+  } = useCurrentDataSource();
 
   useEffect(() => {
     const loadGroupSchoolSubjects = async () => {
@@ -403,7 +403,7 @@ const useSchoolSubjectTopics = (
   const {
     isUsingSupabaseData: shouldFetchFromSupabase,
     isUsingMockupData: mockupData,
-  } = useMockupData();
+  } = useCurrentDataSource();
 
   useEffect(() => {
     const fetchTopics = async () => {

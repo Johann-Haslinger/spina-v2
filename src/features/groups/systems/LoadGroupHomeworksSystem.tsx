@@ -9,7 +9,7 @@ import {
 } from "../../../app/additionalFacets";
 import { dummyHomeworks } from "../../../base/dummy";
 import { DataTypes, SupabaseColumns } from "../../../base/enums";
-import { useMockupData } from "../../../hooks/useMockupData";
+import { useCurrentDataSource } from "../../../hooks/useCurrentDataSource";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedGroupTopic } from "../hooks/useSelectedGroupTopic";
 
@@ -31,7 +31,7 @@ const LoadGroupHomeworksSystem = () => {
   const {
     isUsingMockupData: mockupData,
     isUsingSupabaseData: shouldFetchFromSupabase,
-  } = useMockupData();
+  } = useCurrentDataSource();
   const lsc = useContext(LeanScopeClientContext);
   const { selectedGroupTopicId } = useSelectedGroupTopic();
 

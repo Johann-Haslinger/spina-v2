@@ -9,7 +9,7 @@ import {
   SupabaseColumns,
   SupabaseTables,
 } from "../../../base/enums";
-import { useMockupData } from "../../../hooks/useMockupData";
+import { useCurrentDataSource } from "../../../hooks/useCurrentDataSource";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedFlashcardSet } from "../hooks/useSelectedFlashcardSet";
 
@@ -33,7 +33,7 @@ const LoadFlashcardSetPodcastsSystem = () => {
   const {
     isUsingMockupData: mockupData,
     isUsingSupabaseData: shouldFetchFromSupabase,
-  } = useMockupData();
+  } = useCurrentDataSource();
 
   useEffect(() => {
     const initializeFlashcardSetPodcast = async () => {

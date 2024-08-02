@@ -23,7 +23,7 @@ import {
   Stories,
   SupabaseTables,
 } from "../../../base/enums";
-import { useMockupData } from "../../../hooks/useMockupData";
+import { useCurrentDataSource } from "../../../hooks/useCurrentDataSource";
 import supabaseClient from "../../../lib/supabase";
 
 const fetchBookmarkedFlashcardSets = async () => {
@@ -104,7 +104,7 @@ const InitializeBookmarkedResourcesSystem = () => {
   const {
     isUsingMockupData: mockupData,
     isUsingSupabaseData: shouldFetchFromSupabase,
-  } = useMockupData();
+  } = useCurrentDataSource();
 
   useEffect(() => {
     const initializeBookmarkedFlashcards = async () => {

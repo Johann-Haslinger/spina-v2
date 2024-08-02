@@ -2,7 +2,7 @@ import { Entity } from "@leanscope/ecs-engine";
 import { IdentifierFacet, TextFacet } from "@leanscope/ecs-models";
 import { useEffect } from "react";
 import { SupabaseColumns, SupabaseTables } from "../../../base/enums";
-import { useMockupData } from "../../../hooks/useMockupData";
+import { useCurrentDataSource } from "../../../hooks/useCurrentDataSource";
 import { useUserData } from "../../../hooks/useUserData";
 import supabaseClient from "../../../lib/supabase";
 
@@ -38,7 +38,7 @@ export const useText = (entity: Entity) => {
   const {
     isUsingSupabaseData: shouldFetchFromSupabase,
     isUsingMockupData: mockupData,
-  } = useMockupData();
+  } = useCurrentDataSource();
 
   useEffect(() => {
     const loadText = async () => {

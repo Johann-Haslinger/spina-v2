@@ -14,7 +14,7 @@ import {
   SupabaseColumns,
   SupabaseTables,
 } from "../../../base/enums";
-import { useMockupData } from "../../../hooks/useMockupData";
+import { useCurrentDataSource } from "../../../hooks/useCurrentDataSource";
 import supabaseClient from "../../../lib/supabase";
 import { useSchoolSubjectTopicEntities } from "../hooks/useSchoolSubjectTopicEntities";
 import { useSelectedSchoolSubject } from "../hooks/useSelectedSchoolSubject";
@@ -37,7 +37,7 @@ const LoadTopicsSystem = () => {
   const {
     isUsingMockupData: mockupData,
     isUsingSupabaseData: shouldFetchFromSupabase,
-  } = useMockupData();
+  } = useCurrentDataSource();
   const lsc = useContext(LeanScopeClientContext);
   const { selectedSchoolSubjectEntity, selectedSchoolSubjectId } =
     useSelectedSchoolSubject();

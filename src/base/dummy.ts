@@ -577,3 +577,12 @@ export const dummyFlashcardSessions = [
     flashcard_count: 10,
   },
 ];
+
+export const dummyStreak = {
+  id: "1",
+  date_added: new Date(
+    new Date().setDate(new Date().getDate() - 5),
+  ).toISOString(),
+  streak: 5,
+  date_updated: new Date().toISOString(),
+};

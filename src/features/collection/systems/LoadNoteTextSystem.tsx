@@ -2,7 +2,7 @@ import { TextFacet } from "@leanscope/ecs-models";
 import { useEffect } from "react";
 import { dummyText } from "../../../base/dummy";
 import { SupabaseColumns, SupabaseTables } from "../../../base/enums";
-import { useMockupData } from "../../../hooks/useMockupData";
+import { useCurrentDataSource } from "../../../hooks/useCurrentDataSource";
 import { useUserData } from "../../../hooks/useUserData";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedNote } from "../hooks/useSelectedNote";
@@ -65,7 +65,7 @@ const LoadNoteTextSystem = () => {
   const {
     isUsingMockupData: mockupData,
     isUsingSupabaseData: shouldFetchFromSupabase,
-  } = useMockupData();
+  } = useCurrentDataSource();
   const { selectedNoteEntity, selectedNoteId } = useSelectedNote();
   const { userId } = useUserData();
 

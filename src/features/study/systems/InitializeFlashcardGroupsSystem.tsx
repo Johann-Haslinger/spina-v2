@@ -5,7 +5,7 @@ import { useContext, useEffect } from "react";
 import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
 import { dummyFlashcardSets, dummySubtopics } from "../../../base/dummy";
 import { AdditionalTags, DataTypes, SupabaseTables } from "../../../base/enums";
-import { useMockupData } from "../../../hooks/useMockupData";
+import { useCurrentDataSource } from "../../../hooks/useCurrentDataSource";
 import supabaseClient from "../../../lib/supabase";
 import { dataTypeQuery } from "../../../utils/queries";
 
@@ -43,7 +43,7 @@ const InitializeFlashcardGroupsSystem = () => {
   const {
     isUsingMockupData: mockupData,
     isUsingSupabaseData: shouldFetchFromSupabase,
-  } = useMockupData();
+  } = useCurrentDataSource();
   const lsc = useContext(LeanScopeClientContext);
 
   useEffect(() => {

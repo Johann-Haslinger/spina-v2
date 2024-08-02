@@ -5,7 +5,7 @@ import { useContext, useEffect } from "react";
 import { AnswerFacet, QuestionFacet } from "../../../app/additionalFacets";
 import { dummyFlashcards } from "../../../base/dummy";
 import { DataTypes, SupabaseColumns } from "../../../base/enums";
-import { useMockupData } from "../../../hooks/useMockupData";
+import { useCurrentDataSource } from "../../../hooks/useCurrentDataSource";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedGroupFlashcardSet } from "../hooks/useSelectedGroupFlashcardSet";
 
@@ -27,7 +27,7 @@ const LoadGroupFlashcardsSystem = () => {
   const {
     isUsingMockupData: mockupData,
     isUsingSupabaseData: shouldFetchFromSupabase,
-  } = useMockupData();
+  } = useCurrentDataSource();
   const lsc = useContext(LeanScopeClientContext);
   const { selectedGroupFlashcardSetId } = useSelectedGroupFlashcardSet();
 

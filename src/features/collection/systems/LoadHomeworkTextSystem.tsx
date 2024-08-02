@@ -7,7 +7,7 @@ import {
   SupabaseColumns,
   SupabaseTables,
 } from "../../../base/enums";
-import { useMockupData } from "../../../hooks/useMockupData";
+import { useCurrentDataSource } from "../../../hooks/useCurrentDataSource";
 import { useUserData } from "../../../hooks/useUserData";
 import supabaseClient from "../../../lib/supabase";
 
@@ -64,7 +64,7 @@ const LoadHomeworkTextSystem = () => {
   const {
     isUsingMockupData: mockupData,
     isUsingSupabaseData: shouldFetchFromSupabase,
-  } = useMockupData();
+  } = useCurrentDataSource();
   const { userId } = useUserData();
   const [selectedHomework] = useEntity(
     (e) => e.hasTag(DataTypes.HOMEWORK) && e.hasTag(Tags.SELECTED),

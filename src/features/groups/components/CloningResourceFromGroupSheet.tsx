@@ -40,7 +40,7 @@ import { addFlashcardSet } from "../../../functions/addFlashcardSet";
 import { addFlashcards } from "../../../functions/addFlashcards";
 import { addNote } from "../../../functions/addNote";
 import { addSubtopic } from "../../../functions/addSubtopic";
-import { useMockupData } from "../../../hooks/useMockupData";
+import { useCurrentDataSource } from "../../../hooks/useCurrentDataSource";
 import { useSchoolSubjectEntities } from "../../../hooks/useSchoolSubjects";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import { useUserData } from "../../../hooks/useUserData";
@@ -364,7 +364,7 @@ const useSchoolSubjectTopics = (
   const {
     isUsingSupabaseData: shouldFetchFromSupabase,
     isUsingMockupData: mockupData,
-  } = useMockupData();
+  } = useCurrentDataSource();
 
   useEffect(() => {
     const fetchTopics = async () => {

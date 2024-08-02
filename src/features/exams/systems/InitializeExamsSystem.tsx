@@ -12,7 +12,7 @@ import {
 
 import { dummyExams } from "../../../base/dummy";
 import { DataTypes, SupabaseTables } from "../../../base/enums";
-import { useMockupData } from "../../../hooks/useMockupData";
+import { useCurrentDataSource } from "../../../hooks/useCurrentDataSource";
 import supabaseClient from "../../../lib/supabase";
 import { dataTypeQuery } from "../../../utils/queries";
 
@@ -38,7 +38,7 @@ const InitializeExamsSystem = () => {
   const {
     isUsingMockupData: mockupData,
     isUsingSupabaseData: shouldFetchFromSupabase,
-  } = useMockupData();
+  } = useCurrentDataSource();
   const lsc = useContext(LeanScopeClientContext);
 
   useEffect(() => {

@@ -19,7 +19,7 @@ import {
   SupabaseColumns,
   SupabaseTables,
 } from "../../../base/enums";
-import { useMockupData } from "../../../hooks/useMockupData";
+import { useCurrentDataSource } from "../../../hooks/useCurrentDataSource";
 import { useUserData } from "../../../hooks/useUserData";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedHomework } from "../../collection/hooks/useSelectedHomework";
@@ -59,7 +59,7 @@ const LoadBlocksSystem = () => {
   const {
     isUsingMockupData: mockupData,
     isUsingSupabaseData: shouldFetchFromSupabase,
-  } = useMockupData();
+  } = useCurrentDataSource();
   const { blockeditorId, blockeditorEntity } = useCurrentBlockeditor();
   const { selectedHomeworkText } = useSelectedHomework();
   const { selectedNoteText } = useSelectedNote();

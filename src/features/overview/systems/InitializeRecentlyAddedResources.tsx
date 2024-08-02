@@ -4,7 +4,7 @@ import { IdentifierFacet } from "@leanscope/ecs-models";
 import { useContext, useEffect } from "react";
 import { TitleFacet } from "../../../app/additionalFacets";
 import { AdditionalTags, DataTypes, SupabaseTables } from "../../../base/enums";
-import { useMockupData } from "../../../hooks/useMockupData";
+import { useCurrentDataSource } from "../../../hooks/useCurrentDataSource";
 import supabaseClient from "../../../lib/supabase";
 
 const fetchRecentlyAddedSubtopics = async () => {
@@ -63,7 +63,8 @@ const fetchRecentlyAddedFlashcardSets = async () => {
 
 const InitializeRecentlyAddedResources = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const { isUsingSupabaseData: shouldFetchFromSupabase } = useMockupData();
+  const { isUsingSupabaseData: shouldFetchFromSupabase } =
+    useCurrentDataSource();
 
   useEffect(() => {
     const initializeRecentlyAddedSubtopics = async () => {

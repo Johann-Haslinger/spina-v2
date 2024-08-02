@@ -218,3 +218,13 @@ export class FlashcardCountFacet extends Facet<{ flashcardCount: number }> {
     super(props);
   }
 }
+
+export interface StreakProps {
+  streak: number;
+}
+
+export class StreakFacet extends Facet<StreakProps> {
+  constructor(props: StreakProps) {
+    super(props);
+  }
+}

@@ -10,7 +10,7 @@ import { useContext, useEffect } from "react";
 import { TitleFacet } from "../../../app/additionalFacets";
 import { dummyLearningGroups } from "../../../base/dummy";
 import { DataTypes } from "../../../base/enums";
-import { useMockupData } from "../../../hooks/useMockupData";
+import { useCurrentDataSource } from "../../../hooks/useCurrentDataSource";
 import supabaseClient from "../../../lib/supabase";
 import { dataTypeQuery } from "../../../utils/queries";
 
@@ -31,7 +31,7 @@ const InitializeLearningGroupsSystem = () => {
   const {
     isUsingMockupData: mockupData,
     isUsingSupabaseData: shouldFetchFromSupabase,
-  } = useMockupData();
+  } = useCurrentDataSource();
   const lsc = useContext(LeanScopeClientContext);
 
   useEffect(() => {

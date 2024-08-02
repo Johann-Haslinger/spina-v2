@@ -2,7 +2,10 @@ import styled from "@emotion/styled";
 import { useEntities } from "@leanscope/ecs-engine";
 import { useEffect, useState } from "react";
 import tw from "twin.macro";
-import { DateAddedFacet, FlashcardCountFacet } from "../../../../app/additionalFacets";
+import {
+  DateAddedFacet,
+  FlashcardCountFacet,
+} from "../../../../app/additionalFacets";
 import { DataTypes } from "../../../../base/enums";
 import { dataTypeQuery } from "../../../../utils/queries";
 
@@ -20,7 +23,7 @@ const StyledColumnWrapper = styled.div`
 `;
 
 const StyledBar = styled.div`
-  ${tw`bg-[#668FE7] hover:opacity-80 transition-all mt-auto w-1/2 mx-auto rounded-t-lg bg-opacity-90 `}
+  ${tw`bg-[#668FE7] hover:opacity-80 transition-all mt-auto w-1/2 mx-auto rounded-full bg-opacity-90 `}
 `;
 
 const StyledColumnLabel = styled.div`
@@ -28,7 +31,7 @@ const StyledColumnLabel = styled.div`
 `;
 
 const StyledAverageMarker = styled.div`
-  ${tw`border-[#668FE7] opacity-80 relative border-t border-dashed w-full`}
+  ${tw`border-[#668FE7] opacity-80 relative border-t w-full`}
 `;
 
 const StyledColumnsWrapper = styled.div`
@@ -60,7 +63,8 @@ const StyledAverageMarkerWrapper = styled.div`
 `;
 
 const WeekStatsCard = () => {
-  const { weekDays, maxFlashcards, averageFlashcards, dayLabels } = useWeekStats();
+  const { weekDays, maxFlashcards, averageFlashcards, dayLabels } =
+    useWeekStats();
 
   return (
     <StyledCardWrapper>
@@ -73,7 +77,9 @@ const WeekStatsCard = () => {
           />
           <StyledAverageLabel>
             <StyledCardCountText>{averageFlashcards}</StyledCardCountText>
-            <StyledCardInfo>{averageFlashcards === 1 ? "Karte" : "Karten"}</StyledCardInfo>
+            <StyledCardInfo>
+              {averageFlashcards === 1 ? "Karte" : "Karten"}
+            </StyledCardInfo>
           </StyledAverageLabel>
         </StyledAverageLabelWrapper>
         {weekDays.map((count, idx) => (
@@ -85,7 +91,9 @@ const WeekStatsCard = () => {
                 }}
               />
             </StyledColumnWrapper>
-            <StyledColumnLabel>{idx === 6 ? "Heute" : dayLabels[idx]}</StyledColumnLabel>
+            <StyledColumnLabel>
+              {idx === 6 ? "Heute" : dayLabels[idx]}
+            </StyledColumnLabel>
           </div>
         ))}
         <StyledYLabelsWrapper>
@@ -114,7 +122,8 @@ const useWeekStats = () => {
   const [flashcardSessionEntities] = useEntities(
     (e) =>
       dataTypeQuery(e, DataTypes.FLASHCARD_SESSION) &&
-      (e.get(DateAddedFacet)?.props.dateAdded || "") > sevenDaysAgo.toISOString()
+      (e.get(DateAddedFacet)?.props.dateAdded || "") >
+        sevenDaysAgo.toISOString(),
   );
 
   const [weekDays, setWeekDays] = useState<number[]>(new Array(7).fill(0));
@@ -133,9 +142,12 @@ const useWeekStats = () => {
 
     flashcardSessionEntities.forEach((entity) => {
       const date = new Date(entity.get(DateAddedFacet)?.props.dateAdded || "");
-      const flashcardCount = entity.get(FlashcardCountFacet)?.props.flashcardCount || 0;
+      const flashcardCount =
+        entity.get(FlashcardCountFacet)?.props.flashcardCount || 0;
 
-      const dayDifference = Math.floor((today.getTime() - date.getTime()) / (24 * 60 * 60 * 1000));
+      const dayDifference = Math.floor(
+        (today.getTime() - date.getTime()) / (24 * 60 * 60 * 1000),
+      );
       if (dayDifference <= 6) {
         newWeekDays[6 - dayDifference] += flashcardCount;
       }
@@ -147,7 +159,9 @@ const useWeekStats = () => {
     const evenMaxDay = maxDay % 2 === 0 ? maxDay : maxDay + 1;
     setMaxFlashcards(evenMaxDay);
 
-    const average = Math.round(newWeekDays.reduce((acc, curr) => acc + curr, 0) / 7);
+    const average = Math.round(
+      newWeekDays.reduce((acc, curr) => acc + curr, 0) / 7,
+    );
     setAverageFlashcards(average);
     setDayLabels(days);
   }, [flashcardSessionEntities, today]);

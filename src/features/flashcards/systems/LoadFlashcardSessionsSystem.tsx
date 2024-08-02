@@ -8,7 +8,7 @@ import {
 } from "../../../app/additionalFacets";
 import { dummyFlashcardSessions } from "../../../base/dummy";
 import { DataTypes, SupabaseTables } from "../../../base/enums";
-import { useMockupData } from "../../../hooks/useMockupData";
+import { useCurrentDataSource } from "../../../hooks/useCurrentDataSource";
 import supabaseClient from "../../../lib/supabase";
 
 const fetchFlashcardSessions = async () => {
@@ -30,7 +30,7 @@ const fetchFlashcardSessions = async () => {
 
 const LoadFlashcardSessionsSystem = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const { isUsingMockupData, isUsingSupabaseData } = useMockupData();
+  const { isUsingMockupData, isUsingSupabaseData } = useCurrentDataSource();
 
   useEffect(() => {
     const initializeFlashcardSessionEntities = async () => {

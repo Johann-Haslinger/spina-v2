@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { SourceFacet } from "../../../app/additionalFacets";
 import { dummyBase64Audio } from "../../../base/dummyBase64Audio";
 import { SupabaseColumns, SupabaseTables } from "../../../base/enums";
-import { useMockupData } from "../../../hooks/useMockupData";
+import { useCurrentDataSource } from "../../../hooks/useCurrentDataSource";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedPodcast } from "../hooks/useSelectedPodcast";
 
@@ -36,7 +36,7 @@ const LoadPodcastAudioSystem = () => {
   const {
     isUsingMockupData: mockupData,
     isUsingSupabaseData: shouldFetchFromSupabase,
-  } = useMockupData();
+  } = useCurrentDataSource();
 
   useEffect(() => {
     const loadPodcastAudio = async () => {

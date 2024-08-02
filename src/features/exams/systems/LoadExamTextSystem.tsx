@@ -2,7 +2,7 @@ import { TextFacet } from "@leanscope/ecs-models";
 import { useEffect } from "react";
 import { dummyText } from "../../../base/dummy";
 import { SupabaseColumns, SupabaseTables } from "../../../base/enums";
-import { useMockupData } from "../../../hooks/useMockupData";
+import { useCurrentDataSource } from "../../../hooks/useCurrentDataSource";
 import supabaseClient from "../../../lib/supabase";
 import { useSelectedExam } from "../hooks/useSelectedExam";
 
@@ -10,7 +10,7 @@ const LoadExamTextSystem = () => {
   const {
     isUsingMockupData: mockupData,
     isUsingSupabaseData: shouldFetchFromSupabase,
-  } = useMockupData();
+  } = useCurrentDataSource();
   const { selectedExamEntity, selectedExamId } = useSelectedExam();
 
   useEffect(() => {

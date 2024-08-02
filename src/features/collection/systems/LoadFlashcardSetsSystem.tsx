@@ -9,7 +9,7 @@ import {
   SupabaseColumns,
   SupabaseTables,
 } from "../../../base/enums";
-import { useMockupData } from "../../../hooks/useMockupData";
+import { useCurrentDataSource } from "../../../hooks/useCurrentDataSource";
 import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
 import supabaseClient from "../../../lib/supabase";
 import { displayAlertTexts } from "../../../utils/displayText";
@@ -33,7 +33,7 @@ const LoadFlashcardSetsSystem = () => {
   const {
     isUsingMockupData: mockupData,
     isUsingSupabaseData: shouldFetchFromSupabase,
-  } = useMockupData();
+  } = useCurrentDataSource();
   const lsc = useContext(LeanScopeClientContext);
   const { selectedTopicId } = useSelectedTopic();
   const { selectedLanguage } = useSelectedLanguage();
