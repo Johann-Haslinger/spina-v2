@@ -584,5 +584,5 @@ export const dummyStreak = {
     new Date().setDate(new Date().getDate() - 5),
   ).toISOString(),
   streak: 5,
-  date_updated: new Date().toISOString(),
+  date_updated: new Date().setDate(new Date().getDate() - 1),
 };

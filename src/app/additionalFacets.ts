@@ -228,3 +228,13 @@ export class StreakFacet extends Facet<StreakProps> {
     super(props);
   }
 }
+
+export interface DateUpdatedProps {
+  dateUpdated: string;
+}
+
+export class DateUpdatedFacet extends Facet<DateUpdatedProps> {
+  constructor(props: DateUpdatedProps) {
+    super(props);
+  }
+}

@@ -23,7 +23,7 @@ const StyledColumnWrapper = styled.div`
 `;
 
 const StyledBar = styled.div`
-  ${tw`bg-[#668FE7] hover:opacity-80 transition-all mt-auto w-1/2 mx-auto rounded-full bg-opacity-90 `}
+  ${tw`bg-[#668FE7] hover:opacity-80 transition-all mt-auto w-1/2 mx-auto rounded-t-lg bg-opacity-90 `}
 `;
 
 const StyledColumnLabel = styled.div`
@@ -157,7 +157,12 @@ const useWeekStats = () => {
 
     const maxDay = Math.max(...newWeekDays);
     const evenMaxDay = maxDay % 2 === 0 ? maxDay : maxDay + 1;
-    setMaxFlashcards(evenMaxDay);
+
+    if (evenMaxDay === 0) {
+      setMaxFlashcards(8);
+    } else {
+      setMaxFlashcards(evenMaxDay);
+    }
 
     const average = Math.round(
       newWeekDays.reduce((acc, curr) => acc + curr, 0) / 7,
