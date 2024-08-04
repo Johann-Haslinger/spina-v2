@@ -1,10 +1,4 @@
-import {
-  Blocktypes,
-  ListStyles,
-  MessageRoles,
-  SupportedLanguages,
-  Texttypes,
-} from "../base/enums";
+import { Blocktypes, ListStyles, MessageRoles, SupportedLanguages, Texttypes } from "../base/enums";
 import { Facet } from "../base/facet";
 import { BlockeditorState, Resource } from "../base/types";
 
@@ -235,6 +229,32 @@ export interface DateUpdatedProps {
 
 export class DateUpdatedFacet extends Facet<DateUpdatedProps> {
   constructor(props: DateUpdatedProps) {
+    super(props);
+  }
+}
+
+export interface DurationProps {
+  duration: number;
+}
+
+export class DurationFacet extends Facet<DurationProps> {
+  constructor(props: DurationProps) {
+    super(props);
+  }
+}
+
+export interface FlashcardPerformanceProps {
+  flashcardPerformance: {
+    skip: number;
+    forgot: number;
+    partiallyRemembered: number;
+    rememberedWithEffort: number;
+    easilyRemembered: number;
+  };
+}
+
+export class FlashcardPerformanceFacet extends Facet<FlashcardPerformanceProps> {
+  constructor(props: FlashcardPerformanceProps) {
     super(props);
   }
 }

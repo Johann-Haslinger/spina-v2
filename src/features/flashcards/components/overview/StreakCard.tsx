@@ -13,7 +13,7 @@ const StyledCardWrapper = styled.div`
 `;
 
 const StyledText = styled.div`
-  ${tw` text-[#A3CB63] `}
+  ${tw` text-[#A3CB63] relative text-sm top-0.5 `}
 `;
 
 const StyledStreakLabel = styled.div<{ currentStrak: boolean }>`

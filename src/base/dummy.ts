@@ -241,8 +241,7 @@ export const dummySubtopics = [
   },
 ];
 
-export const dummyAudio =
-  "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
+export const dummyAudio = "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3";
 
 export const dummyPodcasts = [
   {
@@ -548,41 +547,63 @@ export const dummyFlashcardSessions = [
   {
     id: "1",
     date_added: new Date().toISOString(),
+    duration: 10,
     flashcard_count: 10,
+    skip: 0,
+    forgot: 1,
+    partially_remembered: 0,
+    rememberd_with_effort: 4,
+    easily_remembered: 5,
   },
   {
     id: "2",
-    date_added: new Date(
-      new Date().setDate(new Date().getDate() - 1),
-    ).toISOString(),
+    date_added: new Date(new Date().setDate(new Date().getDate() - 1)).toISOString(),
     flashcard_count: 8,
+    duration: 6,
+    skip: 2,
+    forgot: 1,
+    partially_remembered: 0,
+    rememberd_with_effort: 1,
+    easily_remembered: 0,
   },
   {
     id: "3",
     date_added: new Date().toISOString(),
     flashcard_count: 5,
+    duration: 5,
+    skip: 2,
+    forgot: 1,
+    partially_remembered: 2,
+    rememberd_with_effort: 0,
+    easily_remembered: 0,
   },
   {
     id: "4",
-    date_added: new Date(
-      new Date().setDate(new Date().getDate() - 3),
-    ).toISOString(),
+    date_added: new Date(new Date().setDate(new Date().getDate() - 3)).toISOString(),
     flashcard_count: 4,
+    duration: 20,
+    skip: 2,
+    forgot: 0,
+    partially_remembered: 2,
+    rememberd_with_effort: 0,
+    easily_remembered: 0,
   },
   {
     id: "5",
-    date_added: new Date(
-      new Date().setDate(new Date().getDate() - 2),
-    ).toISOString(),
+    date_added: new Date(new Date().setDate(new Date().getDate() - 2)).toISOString(),
     flashcard_count: 10,
+    duration: 5,
+    skip: 2,
+    forgot: 1,
+    partially_remembered: 3,
+    rememberd_with_effort: 4,
+    easily_remembered: 0,
   },
 ];
 
 export const dummyStreak = {
   id: "1",
-  date_added: new Date(
-    new Date().setDate(new Date().getDate() - 5),
-  ).toISOString(),
+  date_added: new Date(new Date().setDate(new Date().getDate() - 5)).toISOString(),
   streak: 5,
   date_updated: new Date().setDate(new Date().getDate() - 1),
 };
