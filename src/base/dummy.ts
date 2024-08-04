@@ -557,6 +557,17 @@ export const dummyFlashcardSessions = [
   },
   {
     id: "2",
+    date_added: new Date(new Date().setDate(new Date().getDate() - 6)).toISOString(),
+    flashcard_count: 8,
+    duration: 6,
+    skip: 2,
+    forgot: 1,
+    partially_remembered: 0,
+    rememberd_with_effort: 1,
+    easily_remembered: 0,
+  },
+  {
+    id: "22",
     date_added: new Date(new Date().setDate(new Date().getDate() - 1)).toISOString(),
     flashcard_count: 8,
     duration: 6,

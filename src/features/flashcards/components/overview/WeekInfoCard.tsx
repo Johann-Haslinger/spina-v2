@@ -45,7 +45,7 @@ const StyledText2 = styled.div`
 `;
 
 const StyledBar = styled.div`
-  ${tw`bg-[#F0A151] hover:opacity-80 transition-all mr-auto rounded-r h-4 ml-4  bg-opacity-90 `}
+  ${tw`bg-[#F0A151] hover:opacity-100 transition-all mr-auto rounded-r h-4 ml-4  opacity-90 `}
 `;
 
 const WeekInfoCard = () => {
