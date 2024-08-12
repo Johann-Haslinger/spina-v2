@@ -5,24 +5,12 @@ import { Fragment, useContext } from "react";
 import { IoAdd } from "react-icons/io5";
 import { DateAddedFacet, TitleFacet } from "../app/additionalFacets";
 import { DataTypes, Stories } from "../base/enums";
-import {
-  CollectionGrid,
-  NavBarButton,
-  NavigationBar,
-  NoContentAddedHint,
-  Spacer,
-  Title,
-  View,
-} from "../components";
+import { CollectionGrid, NavBarButton, NavigationBar, NoContentAddedHint, Spacer, Title, View } from "../components";
 import { FlashcardSetView } from "../features/collection";
 import AddFlashcardSetSheet from "../features/collection/components/flashcard-sets/AddFlashcardSetSheet";
 import SubtopicView from "../features/collection/components/subtopics/SubtopicView";
 import LoadSubtopicResourcesSystem from "../features/collection/systems/LoadSubtopicResourcesSystem";
-import {
-  FlashcardGroupCell,
-  InitializeFlashcardGroupsSystem,
-  LoadFlashcardsSystem,
-} from "../features/study";
+import { FlashcardGroupCell, InitializeFlashcardGroupsSystem, LoadFlashcardsSystem } from "../features/study";
 import FlashcardQuizView from "../features/study/components/FlashcardQuizView";
 import LernplanSection from "../features/study/components/LernplanSection";
 import { useFlashcardGroups } from "../features/study/hooks/useFlashcardGroups";
@@ -36,8 +24,7 @@ const Study = () => {
   const { selectedLanguage } = useSelectedLanguage();
   const { existFlashcardGroups } = useFlashcardGroups();
 
-  const openAddFlashcardGroupSheet = () =>
-    lsc.stories.transitTo(Stories.ADDING_FLASHCARD_SET_STORY);
+  const openAddFlashcardGroupSheet = () => lsc.stories.transitTo(Stories.ADDING_FLASHCARD_SET_STORY);
 
   return (
     <Fragment>
@@ -68,20 +55,12 @@ const Study = () => {
         </CollectionGrid>
       </View>
       <EntityPropsMapper
-        query={(e) =>
-          e.has(DataTypes.FLASHCARD_GROUP) &&
-          e.has(DataTypes.FLASHCARD_SET) &&
-          e.has(Tags.SELECTED)
-        }
+        query={(e) => e.has(DataTypes.FLASHCARD_GROUP) && e.has(DataTypes.FLASHCARD_SET) && e.has(Tags.SELECTED)}
         get={[[TitleFacet, IdentifierFacet], []]}
         onMatch={FlashcardSetView}
       />
       <EntityPropsMapper
-        query={(e) =>
-          e.has(DataTypes.FLASHCARD_GROUP) &&
-          e.has(DataTypes.SUBTOPIC) &&
-          e.has(Tags.SELECTED)
-        }
+        query={(e) => e.has(DataTypes.FLASHCARD_GROUP) && e.has(DataTypes.SUBTOPIC) && e.has(Tags.SELECTED)}
         get={[[TitleFacet, IdentifierFacet, TextFacet], []]}
         onMatch={SubtopicView}
       />

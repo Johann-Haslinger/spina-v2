@@ -1,16 +1,12 @@
 import { Fragment } from "react/jsx-runtime";
 import { FlashcardsNavigationStates } from "../base/enums";
 import { FlexBox, NavigationBar, Spacer, Title, View } from "../components";
-import {
-  FlashcardsBook,
-  FlashcardsOverview,
-  FlashcardsStats,
-  usePageNavigation,
-} from "../features/flashcards";
+import { FlashcardsBook, FlashcardsOverview, FlashcardsStats, usePageNavigation } from "../features/flashcards";
+import LoadCurrentStreakSystem from "../features/flashcards/systems/LoadCurrentStrekSystem";
+import LoadFlashcardGroupsSystem from "../features/flashcards/systems/LoadFlashcardGroupsSystem";
 import LoadFlashcardSessionsSystem from "../features/flashcards/systems/LoadFlashcardSessionsSystem";
 import { useSelectedLanguage } from "../hooks/useSelectedLanguage";
 import { displayHeaderTexts } from "../utils/displayText";
-import LoadCurrentStreakSystem from "../features/flashcards/systems/LoadCurrentStrekSystem";
 
 const Flashcards = () => {
   const { selectedLanguage } = useSelectedLanguage();
@@ -18,6 +14,7 @@ const Flashcards = () => {
 
   return (
     <Fragment>
+      <LoadFlashcardGroupsSystem />
       <LoadFlashcardSessionsSystem />
       <LoadCurrentStreakSystem />
 

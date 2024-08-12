@@ -129,25 +129,28 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod 
 
 export const dummyFlashcardSets = [
   {
-    id: "1",
+    id: v4(),
     title: "Addition",
     date_added: new Date().toISOString(),
     bookmarked: false,
     parent_id: "1",
+    priority: 2,
   },
   {
-    id: "2",
+    id: v4(),
     title: "Subtraction",
     date_added: new Date().toISOString(),
     bookmarked: false,
     parent_id: "1",
+    priority: 0,
   },
   {
-    id: "3",
+    id: v4(),
     title: "Multiplication",
     date_added: new Date().toISOString(),
     bookmarked: true,
     parent_id: "1",
+    priority: 2,
   },
 ];
 
@@ -190,13 +193,13 @@ export const dummyFlashcards = [
 
 export const dummyNotes = [
   {
-    id: "1",
+    id: v4(),
     title: "Lorem ipsum ",
     date_added: new Date().toISOString(),
     parent_id: "1",
   },
   {
-    id: "2",
+    id: v4(),
     title: "Lorem ipsum ",
 
     date_added: new Date().toISOString(),
@@ -220,24 +223,27 @@ export const dummyNotes = [
 export const dummySubtopics = [
   {
     title: "Addition",
-    id: "1",
+    id: v4(),
     date_added: new Date().toISOString(),
     parent_id: "1",
     bookmarked: false,
+    priority: 1,
   },
   {
     title: "Subtraction",
-    id: "2",
+    id: v4(),
     date_added: new Date().toISOString(),
     parent_id: "1",
     bookmarked: true,
+    priority: 0,
   },
   {
     title: "Multiplication",
-    id: "3",
+    id: v4(),
     date_added: new Date().toISOString(),
     parent_id: "1",
     bookmarked: false,
+    priority: 0,
   },
 ];
 

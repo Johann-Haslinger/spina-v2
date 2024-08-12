@@ -258,3 +258,13 @@ export class FlashcardPerformanceFacet extends Facet<FlashcardPerformanceProps> 
     super(props);
   }
 }
+
+export interface PriorityProps {
+  priority: number;
+}
+
+export class PriorityFacet extends Facet<PriorityProps> {
+  constructor(props: PriorityProps) {
+    super(props);
+  }
+}

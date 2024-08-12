@@ -6,8 +6,7 @@ import tw from "twin.macro";
 const StyledViewContainer = styled.div<{ backgroundColor?: string }>`
   ${tw`  w-screen transition-all h-screen  backdrop-blur-2xl `}
   background-color: ${({ backgroundColor }) => backgroundColor};
-  ${({ backgroundColor }) =>
-    !backgroundColor && tw` bg-primary dark:bg-primaryDark `}
+  ${({ backgroundColor }) => !backgroundColor && tw` bg-primary dark:bg-primaryDark `}
 `;
 
 const StyledViewWrapper = styled.div`
@@ -19,9 +18,8 @@ const StyledViewContent = styled.div<{
   isOverlayView: boolean;
   hidePadding: boolean;
 }>`
-  ${tw` mx-auto h-full text-primatyText dark:text-primaryTextDark pb-40 md:pt-28 xl:pt-36 pt-20    w-full  px-4`}
-  ${({ reducePaddingX: ignorePaddingX }) =>
-    ignorePaddingX ? tw`md:w-[52rem]` : tw` md:w-[48rem] xl:w-[51rem] `} 
+  ${tw` mx-auto h-fit text-primatyText dark:text-primaryTextDark pb-60 md:pt-28 xl:pt-36 pt-20    w-full  px-4`}
+  ${({ reducePaddingX: ignorePaddingX }) => (ignorePaddingX ? tw`md:w-[52rem]` : tw` md:w-[48rem] xl:w-[51rem] `)} 
   ${({ hidePadding }) => hidePadding && tw`!w-full !pt-0 px-0 !pb-0 `}
 `;
 
