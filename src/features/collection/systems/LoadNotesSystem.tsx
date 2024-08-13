@@ -1,28 +1,24 @@
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { Entity } from "@leanscope/ecs-engine";
-import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
-import { useContext, useEffect } from "react";
-import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
-import { dummyNotes } from "../../../base/dummy";
-import {
-  DataTypes,
-  SupabaseColumns,
-  SupabaseTables,
-} from "../../../base/enums";
-import { useCurrentDataSource } from "../../../hooks/useCurrentDataSource";
-import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
-import supabaseClient from "../../../lib/supabase";
-import { displayAlertTexts } from "../../../utils/displayText";
-import { useSelectedTopic } from "../hooks/useSelectedTopic";
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { Entity } from '@leanscope/ecs-engine';
+import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
+import { useContext, useEffect } from 'react';
+import { DateAddedFacet, TitleFacet } from '../../../app/additionalFacets';
+import { dummyNotes } from '../../../base/dummy';
+import { DataTypes, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
+import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
+import supabaseClient from '../../../lib/supabase';
+import { displayAlertTexts } from '../../../utils/displayText';
+import { useSelectedTopic } from '../hooks/useSelectedTopic';
 
 const fetchNotesForTopic = async (topicId: string) => {
   const { data: notes, error } = await supabaseClient
     .from(SupabaseTables.NOTES)
-    .select("title, id, date_added")
+    .select('title, id, date_added')
     .eq(SupabaseColumns.PARENT_ID, topicId);
 
   if (error) {
-    console.error("Error fetching notes:", error);
+    console.error('Error fetching notes:', error);
     return [];
   }
 
@@ -30,10 +26,7 @@ const fetchNotesForTopic = async (topicId: string) => {
 };
 
 const LoadNotesSystem = () => {
-  const {
-    isUsingMockupData: mockupData,
-    isUsingSupabaseData: shouldFetchFromSupabase,
-  } = useCurrentDataSource();
+  const { isUsingMockupData: mockupData, isUsingSupabaseData: shouldFetchFromSupabase } = useCurrentDataSource();
   const lsc = useContext(LeanScopeClientContext);
   const { selectedTopicId } = useSelectedTopic();
   const { selectedLanguage } = useSelectedLanguage();
@@ -49,9 +42,7 @@ const LoadNotesSystem = () => {
 
         notes.forEach((note) => {
           const isExisting = lsc.engine.entities.some(
-            (e) =>
-              e.get(IdentifierFacet)?.props.guid === note.id &&
-              e.hasTag(DataTypes.NOTE),
+            (e) => e.get(IdentifierFacet)?.props.guid === note.id && e.hasTag(DataTypes.NOTE),
           );
 
           if (!isExisting) {
@@ -59,8 +50,7 @@ const LoadNotesSystem = () => {
             lsc.engine.addEntity(noteEntity);
             noteEntity.add(
               new TitleFacet({
-                title:
-                  note.title || displayAlertTexts(selectedLanguage).noTitle,
+                title: note.title || displayAlertTexts(selectedLanguage).noTitle,
               }),
             );
             noteEntity.add(new IdentifierFacet({ guid: note.id }));

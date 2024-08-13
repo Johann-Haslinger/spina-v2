@@ -1,22 +1,18 @@
-import styled from "@emotion/styled";
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { EntityProps } from "@leanscope/ecs-engine";
-import { IdentifierProps } from "@leanscope/ecs-models";
-import { useContext, useState } from "react";
-import { IoBookmark, IoBookmarkOutline, IoTrashOutline } from "react-icons/io5";
-import tw from "twin.macro";
+import styled from '@emotion/styled';
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { EntityProps } from '@leanscope/ecs-engine';
+import { IdentifierProps } from '@leanscope/ecs-models';
+import { useContext, useState } from 'react';
+import { IoBookmark, IoBookmarkOutline, IoTrashOutline } from 'react-icons/io5';
+import tw from 'twin.macro';
 import {
   AnswerFacet,
   AnswerProps,
   MasteryLevelProps,
   QuestionFacet,
   QuestionProps,
-} from "../../../../app/additionalFacets";
-import {
-  AdditionalTags,
-  SupabaseColumns,
-  SupabaseTables,
-} from "../../../../base/enums";
+} from '../../../../app/additionalFacets';
+import { AdditionalTags, SupabaseColumns, SupabaseTables } from '../../../../base/enums';
 import {
   FlexBox,
   PrimaryButton,
@@ -27,27 +23,18 @@ import {
   Sheet,
   Spacer,
   TextAreaInput,
-} from "../../../../components";
-import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
-import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import supabaseClient from "../../../../lib/supabase";
-import {
-  displayActionTexts,
-  displayButtonTexts,
-} from "../../../../utils/displayText";
-import { useBookmarked } from "../../../study/hooks/useBookmarked";
+} from '../../../../components';
+import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
+import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
+import supabaseClient from '../../../../lib/supabase';
+import { displayActionTexts, displayButtonTexts } from '../../../../utils/displayText';
+import { useBookmarked } from '../../../study/hooks/useBookmarked';
 
 const StyledMasteryLevelText = styled.div`
   ${tw`lg:pl-10 px-4 dark:text-primaryTextDark`}
 `;
 
-const EditFlashcardSheet = (
-  props: QuestionProps &
-    AnswerProps &
-    MasteryLevelProps &
-    EntityProps &
-    IdentifierProps,
-) => {
+const EditFlashcardSheet = (props: QuestionProps & AnswerProps & MasteryLevelProps & EntityProps & IdentifierProps) => {
   const lsc = useContext(LeanScopeClientContext);
   const { question, answer, masteryLevel, entity, guid } = props;
   const isVisible = useIsViewVisible(entity);
@@ -73,7 +60,7 @@ const EditFlashcardSheet = (
       .eq(SupabaseColumns.ID, guid);
 
     if (error) {
-      console.error("Error updating flashcard: ", error);
+      console.error('Error updating flashcard: ', error);
     }
   };
 
@@ -83,13 +70,10 @@ const EditFlashcardSheet = (
     setTimeout(async () => {
       lsc.engine.removeEntity(entity);
 
-      const { error } = await supabaseClient
-        .from(SupabaseTables.FLASHCARDS)
-        .delete()
-        .eq(SupabaseColumns.ID, guid);
+      const { error } = await supabaseClient.from(SupabaseTables.FLASHCARDS).delete().eq(SupabaseColumns.ID, guid);
 
       if (error) {
-        console.error("Error deleting flashcard: ", error);
+        console.error('Error deleting flashcard: ', error);
       }
     }, 300);
   };
@@ -97,28 +81,18 @@ const EditFlashcardSheet = (
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>
       <FlexBox>
-        <SecondaryButton onClick={navigateBack}>
-          {displayButtonTexts(selectedLanguage).cancel}
-        </SecondaryButton>
+        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
         {(questionValue !== question || answerValue !== answer) && (
-          <PrimaryButton onClick={updateFlashcard}>
-            {displayButtonTexts(selectedLanguage).save}
-          </PrimaryButton>
+          <PrimaryButton onClick={updateFlashcard}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
         )}
       </FlexBox>
       <Spacer />
       <Section>
         <SectionRow>
-          <TextAreaInput
-            value={questionValue}
-            onChange={(e) => setQuestionValue(e.target.value)}
-          />
+          <TextAreaInput value={questionValue} onChange={(e) => setQuestionValue(e.target.value)} />
         </SectionRow>
         <SectionRow last>
-          <TextAreaInput
-            value={answerValue}
-            onChange={(e) => setAnswerValue(e.target.value)}
-          />
+          <TextAreaInput value={answerValue} onChange={(e) => setAnswerValue(e.target.value)} />
         </SectionRow>
       </Section>
       <Spacer size={2} />
@@ -126,9 +100,7 @@ const EditFlashcardSheet = (
         <SectionRow last>
           <FlexBox>
             <ProgressBar width={(masteryLevel / 5) * 100 + 2} />
-            <StyledMasteryLevelText>
-              {(masteryLevel / 5) * 100}%
-            </StyledMasteryLevelText>
+            <StyledMasteryLevelText>{(masteryLevel / 5) * 100}%</StyledMasteryLevelText>
           </FlexBox>
         </SectionRow>
       </Section>
@@ -148,12 +120,7 @@ const EditFlashcardSheet = (
       <Spacer size={2} />
 
       <Section>
-        <SectionRow
-          role="destructive"
-          last
-          icon={<IoTrashOutline />}
-          onClick={deleteFlashcard}
-        >
+        <SectionRow role="destructive" last icon={<IoTrashOutline />} onClick={deleteFlashcard}>
           {displayButtonTexts(selectedLanguage).delete}
         </SectionRow>
       </Section>

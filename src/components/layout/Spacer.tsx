@@ -1,5 +1,5 @@
-import styled from "@emotion/styled";
-import tw from "twin.macro";
+import styled from '@emotion/styled';
+import tw from 'twin.macro';
 
 type SpacerSize = 1 | 2 | 4 | 6 | 8 | 14 | 20;
 

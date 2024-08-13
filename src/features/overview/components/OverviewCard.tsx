@@ -1,6 +1,6 @@
-import styled from "@emotion/styled";
-import tw from "twin.macro";
-import { CardData } from "../../../base/types";
+import styled from '@emotion/styled';
+import tw from 'twin.macro';
+import { CardData } from '../../../base/types';
 
 const StyledOverviewCellContainer = styled.div`
   ${tw` w-full cursor-pointer pb-6 h-fit`}
@@ -26,10 +26,7 @@ const OverviewCard = (props: { cardData: CardData }) => {
 
   return (
     <StyledOverviewCellContainer>
-      <StyledOverviewCellWrapper
-        color={color}
-        backgroundColor={backgroundColor}
-      >
+      <StyledOverviewCellWrapper color={color} backgroundColor={backgroundColor}>
         {icon}
       </StyledOverviewCellWrapper>
       <StyledOverviewTitle>{title}</StyledOverviewTitle>

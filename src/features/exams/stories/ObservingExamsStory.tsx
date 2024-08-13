@@ -1,14 +1,11 @@
-import {
-  LeanScopeClientApp,
-  LeanScopeClient,
-} from "@leanscope/api-client/node";
-import React from "react";
-import { Stories } from "../../../base/enums";
-import Exams from "../../../pages/Exams";
-import InitializeAppSystem from "../../../systems/InitializeAppSystem";
-import InitializeSchoolSubjectsSystem from "../../../systems/InitializeSchoolSubjectsSystem";
-import InitializeStoriesSystem from "../../../systems/InitializeStoriesSystem";
-import ViewManagerSystem from "../../../systems/ViewManagerSystem";
+import { LeanScopeClientApp, LeanScopeClient } from '@leanscope/api-client/node';
+import React from 'react';
+import { Stories } from '../../../base/enums';
+import Exams from '../../../pages/Exams';
+import InitializeAppSystem from '../../../systems/InitializeAppSystem';
+import InitializeSchoolSubjectsSystem from '../../../systems/InitializeSchoolSubjectsSystem';
+import InitializeStoriesSystem from '../../../systems/InitializeStoriesSystem';
+import ViewManagerSystem from '../../../systems/ViewManagerSystem';
 
 const ObservingExamsStory = () => {
   return (

@@ -1,15 +1,11 @@
-import { ILeanScopeClient } from "@leanscope/api-client/interfaces";
-import { Entity } from "@leanscope/ecs-engine";
-import supabaseClient from "../lib/supabase";
-import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
-import { TitleFacet } from "../app/additionalFacets";
-import { SupabaseTables } from "../base/enums";
+import { ILeanScopeClient } from '@leanscope/api-client/interfaces';
+import { Entity } from '@leanscope/ecs-engine';
+import supabaseClient from '../lib/supabase';
+import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
+import { TitleFacet } from '../app/additionalFacets';
+import { SupabaseTables } from '../base/enums';
 
-export const addNote = async (
-  lsc: ILeanScopeClient,
-  noteEntity: Entity,
-  userId: string,
-) => {
+export const addNote = async (lsc: ILeanScopeClient, noteEntity: Entity, userId: string) => {
   lsc.engine.addEntity(noteEntity);
 
   const { error } = await supabaseClient.from(SupabaseTables.NOTES).insert([
@@ -22,6 +18,6 @@ export const addNote = async (
   ]);
 
   if (error) {
-    console.error("Error inserting note", error);
+    console.error('Error inserting note', error);
   }
 };

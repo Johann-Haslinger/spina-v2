@@ -1,1 +1,1 @@
-export { default as AuthUI } from "./components/AuthUI";
+export { default as AuthUI } from './components/AuthUI';

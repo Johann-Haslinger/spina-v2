@@ -1,6 +1,6 @@
-import styled from "@emotion/styled";
-import { PropsWithChildren } from "react";
-import tw from "twin.macro";
+import styled from '@emotion/styled';
+import { PropsWithChildren } from 'react';
+import tw from 'twin.macro';
 
 const StyledActionRowWrapper = styled.div<{
   destructive?: boolean;
@@ -34,13 +34,7 @@ const ActionRow = (props: PropsWithChildren & ActionRowProps) => {
   const { children, onClick, icon, destructive, last, first, hasSpace } = props;
 
   return (
-    <StyledActionRowWrapper
-      hasSpace={hasSpace}
-      onClick={onClick}
-      destructive={destructive}
-      first={first}
-      last={last}
-    >
+    <StyledActionRowWrapper hasSpace={hasSpace} onClick={onClick} destructive={destructive} first={first} last={last}>
       <StyledActionRowText>{children}</StyledActionRowText>
       <StyledActionRowIcon>{icon}</StyledActionRowIcon>
     </StyledActionRowWrapper>

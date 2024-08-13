@@ -1,14 +1,14 @@
-import styled from "@emotion/styled/macro";
-import { motion } from "framer-motion";
-import { ReactNode, useEffect, useState } from "react";
-import tw from "twin.macro";
-import { COLOR_ITEMS } from "../../base/constants";
-import Spacer from "../layout/Spacer";
-import TypingAnimationInnerHTML from "./TypingAnimationInnerHTML";
-import { useSelectedTheme } from "../../features/collection/hooks/useSelectedTheme";
+import styled from '@emotion/styled/macro';
+import { motion } from 'framer-motion';
+import { ReactNode, useEffect, useState } from 'react';
+import tw from 'twin.macro';
+import { COLOR_ITEMS } from '../../base/constants';
+import Spacer from '../layout/Spacer';
+import TypingAnimationInnerHTML from './TypingAnimationInnerHTML';
+import { useSelectedTheme } from '../../features/collection/hooks/useSelectedTheme';
 
 type SapientorMessage = {
-  role: "gpt" | "user";
+  role: 'gpt' | 'user';
   message: string;
   specialContent?: ReactNode;
 };
@@ -21,12 +21,9 @@ const StyledLoadingIndicatorWrapper = styled.div`
   ${tw`flex items-center mt-4  `}
 `;
 
-const StyledRoleIcon = styled.div<{ role: "gpt" | "user" }>`
+const StyledRoleIcon = styled.div<{ role: 'gpt' | 'user' }>`
   ${tw`w-4 h-4 rounded-full`}
-  background-color: ${(props) =>
-    props.role === "gpt"
-      ? COLOR_ITEMS[0].accentColor
-      : COLOR_ITEMS[1].accentColor};
+  background-color: ${(props) => (props.role === 'gpt' ? COLOR_ITEMS[0].accentColor : COLOR_ITEMS[1].accentColor)};
 `;
 
 const StyledRoleTitle = styled.p`
@@ -58,48 +55,46 @@ const SapientorConversationMessage = (props: {
       <Spacer size={6} />
       <StyledMessageHeader>
         <StyledRoleIcon role={message.role} />
-        <StyledRoleTitle>
-          {message.role === "user" ? "Du" : "Sapientor"}
-        </StyledRoleTitle>
+        <StyledRoleTitle>{message.role === 'user' ? 'Du' : 'Sapientor'}</StyledRoleTitle>
       </StyledMessageHeader>
 
       <StyledMessageWrapper>
-        {message.role === "user" ? (
+        {message.role === 'user' ? (
           message.message
         ) : isLoading ? (
           <StyledLoadingIndicatorWrapper>
             <motion.div
               style={{
-                backgroundColor: isDarkMode ? "white" : "black",
-                width: "16px",
-                height: "16px",
-                borderRadius: "50%",
-                marginLeft: "4px",
-                marginRight: "4px",
+                backgroundColor: isDarkMode ? 'white' : 'black',
+                width: '16px',
+                height: '16px',
+                borderRadius: '50%',
+                marginLeft: '4px',
+                marginRight: '4px',
               }}
               animate={{ y: [-8, 8, -8] }}
               transition={{ duration: 0.6, repeat: Infinity }}
             />
             <motion.div
               style={{
-                backgroundColor: isDarkMode ? "white" : "black",
-                width: "16px",
-                height: "16px",
-                borderRadius: "50%",
-                marginLeft: "4px",
-                marginRight: "4px",
+                backgroundColor: isDarkMode ? 'white' : 'black',
+                width: '16px',
+                height: '16px',
+                borderRadius: '50%',
+                marginLeft: '4px',
+                marginRight: '4px',
               }}
               animate={{ y: [8, -8, 8] }}
               transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }}
             />
             <motion.div
               style={{
-                backgroundColor: isDarkMode ? "white" : "black",
-                width: "16px",
-                height: "16px",
-                borderRadius: "50%",
-                marginLeft: "4px",
-                marginRight: "4px",
+                backgroundColor: isDarkMode ? 'white' : 'black',
+                width: '16px',
+                height: '16px',
+                borderRadius: '50%',
+                marginLeft: '4px',
+                marginRight: '4px',
               }}
               animate={{ y: [-8, 8, -8] }}
               transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }}

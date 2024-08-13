@@ -1,6 +1,6 @@
-import styled from "@emotion/styled";
-import { PropsWithChildren } from "react";
-import tw from "twin.macro";
+import styled from '@emotion/styled';
+import { PropsWithChildren } from 'react';
+import tw from 'twin.macro';
 
 const StyledSubtitle = styled.div`
   ${tw`text-xl text-black text-opacity-60`}

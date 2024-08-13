@@ -1,14 +1,8 @@
-import {
-  PrimaryButton,
-  Section,
-  SectionRow,
-  Sheet,
-  Spacer,
-} from "../../../components";
-import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
-import { useUserData } from "../../../hooks/useUserData";
-import { displayButtonTexts } from "../../../utils/displayText";
-import { useAppState } from "../../collection/hooks/useAppState";
+import { PrimaryButton, Section, SectionRow, Sheet, Spacer } from '../../../components';
+import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
+import { useUserData } from '../../../hooks/useUserData';
+import { displayButtonTexts } from '../../../utils/displayText';
+import { useAppState } from '../../collection/hooks/useAppState';
 
 const Profile = () => {
   const { isProfileVisible, toggleProfile } = useAppState();
@@ -17,9 +11,7 @@ const Profile = () => {
 
   return (
     <Sheet visible={isProfileVisible} navigateBack={toggleProfile}>
-      <PrimaryButton onClick={toggleProfile}>
-        {displayButtonTexts(selectedLanguage).done}
-      </PrimaryButton>
+      <PrimaryButton onClick={toggleProfile}>{displayButtonTexts(selectedLanguage).done}</PrimaryButton>
       <Spacer />
       <Section>
         <SectionRow>

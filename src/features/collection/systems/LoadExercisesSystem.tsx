@@ -1,28 +1,24 @@
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { Entity } from "@leanscope/ecs-engine";
-import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
-import { useContext, useEffect } from "react";
-import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
-import { dummyExercises } from "../../../base/dummy";
-import {
-  DataTypes,
-  SupabaseColumns,
-  SupabaseTables,
-} from "../../../base/enums";
-import { useCurrentDataSource } from "../../../hooks/useCurrentDataSource";
-import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
-import supabaseClient from "../../../lib/supabase";
-import { displayAlertTexts } from "../../../utils/displayText";
-import { useSelectedTopic } from "../hooks/useSelectedTopic";
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { Entity } from '@leanscope/ecs-engine';
+import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
+import { useContext, useEffect } from 'react';
+import { DateAddedFacet, TitleFacet } from '../../../app/additionalFacets';
+import { dummyExercises } from '../../../base/dummy';
+import { DataTypes, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
+import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
+import supabaseClient from '../../../lib/supabase';
+import { displayAlertTexts } from '../../../utils/displayText';
+import { useSelectedTopic } from '../hooks/useSelectedTopic';
 
 const fetchExercisesForTopic = async (topicId: string) => {
   const { data: exercises, error } = await supabaseClient
     .from(SupabaseTables.EXERCISES)
-    .select("title, id, date_added")
+    .select('title, id, date_added')
     .eq(SupabaseColumns.PARENT_ID, topicId);
 
   if (error) {
-    console.error("Error fetching exercises:", error);
+    console.error('Error fetching exercises:', error);
     return [];
   }
 
@@ -30,10 +26,7 @@ const fetchExercisesForTopic = async (topicId: string) => {
 };
 
 const LoadExercisesSystem = () => {
-  const {
-    isUsingMockupData: mockupData,
-    isUsingSupabaseData: shouldFetchFromSupabase,
-  } = useCurrentDataSource();
+  const { isUsingMockupData: mockupData, isUsingSupabaseData: shouldFetchFromSupabase } = useCurrentDataSource();
   const lsc = useContext(LeanScopeClientContext);
   const { selectedTopicId } = useSelectedTopic();
   const { selectedLanguage } = useSelectedLanguage();
@@ -49,9 +42,7 @@ const LoadExercisesSystem = () => {
 
         exercises.forEach((exercise) => {
           const isExisting = lsc.engine.entities.some(
-            (e) =>
-              e.get(IdentifierFacet)?.props.guid === exercise.id &&
-              e.hasTag(DataTypes.EXERCISE),
+            (e) => e.get(IdentifierFacet)?.props.guid === exercise.id && e.hasTag(DataTypes.EXERCISE),
           );
 
           if (!isExisting) {
@@ -59,14 +50,11 @@ const LoadExercisesSystem = () => {
             lsc.engine.addEntity(exerciseEntity);
             exerciseEntity.add(
               new TitleFacet({
-                title:
-                  exercise.title || displayAlertTexts(selectedLanguage).noTitle,
+                title: exercise.title || displayAlertTexts(selectedLanguage).noTitle,
               }),
             );
             exerciseEntity.add(new IdentifierFacet({ guid: exercise.id }));
-            exerciseEntity.add(
-              new DateAddedFacet({ dateAdded: exercise.date_added }),
-            );
+            exerciseEntity.add(new DateAddedFacet({ dateAdded: exercise.date_added }));
             exerciseEntity.add(new ParentFacet({ parentId: selectedTopicId }));
             exerciseEntity.addTag(DataTypes.EXERCISE);
           }

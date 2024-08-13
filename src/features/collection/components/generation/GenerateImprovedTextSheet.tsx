@@ -1,7 +1,7 @@
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { useIsStoryCurrent } from "@leanscope/storyboarding";
-import { useContext, useEffect, useState } from "react";
-import { Stories } from "../../../../base/enums";
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { useIsStoryCurrent } from '@leanscope/storyboarding';
+import { useContext, useEffect, useState } from 'react';
+import { Stories } from '../../../../base/enums';
 import {
   FlexBox,
   GeneratingIndecator,
@@ -9,26 +9,26 @@ import {
   ScrollableBox,
   SecondaryButton,
   Sheet,
-} from "../../../../components";
-import SapientorConversationMessage from "../../../../components/content/SapientorConversationMessage";
-import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import { displayButtonTexts } from "../../../../utils/displayText";
-import { generateImprovedText } from "../../../../utils/generateResources";
-import { useVisibleText } from "../../hooks/useVisibleText";
+} from '../../../../components';
+import SapientorConversationMessage from '../../../../components/content/SapientorConversationMessage';
+import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
+import { displayButtonTexts } from '../../../../utils/displayText';
+import { generateImprovedText } from '../../../../utils/generateResources';
+import { useVisibleText } from '../../hooks/useVisibleText';
 
 const GenerateImprovedTextSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Stories.GENERATING_IMPROVED_TEXT_STORY);
   const { selectedLanguage } = useSelectedLanguage();
-  const [generatedText, setGeneratedText] = useState<string>("");
+  const [generatedText, setGeneratedText] = useState<string>('');
   const [isGenerating, setIsGenerating] = useState(false);
   const { visibleText, setVisibleText } = useVisibleText();
 
   useEffect(() => {
     const handleGenerateImprovedText = async () => {
       setIsGenerating(true);
-      if (visibleText === "") {
-        setGeneratedText("Bitte füge erst Text hinzu, um ihn zu verbessern.");
+      if (visibleText === '') {
+        setGeneratedText('Bitte füge erst Text hinzu, um ihn zu verbessern.');
         setIsGenerating(false);
       }
       const improvedText = await generateImprovedText(visibleText);
@@ -39,35 +39,27 @@ const GenerateImprovedTextSheet = () => {
       setIsGenerating(false);
     };
 
-    if (isVisible && generatedText === "") {
+    if (isVisible && generatedText === '') {
       handleGenerateImprovedText();
     } else if (!isVisible) {
-      setGeneratedText("");
+      setGeneratedText('');
     }
   }, [isVisible, visibleText]);
 
-  const navigateBack = () =>
-    lsc.stories.transitTo(Stories.OBSERVING_NOTE_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_NOTE_STORY);
 
   const saveImprovedText = async () => {
     navigateBack();
 
-    setVisibleText(
-      generatedText.replace(`Passt das so für dich?<br/> <br/>`, ""),
-    );
+    setVisibleText(generatedText.replace(`Passt das so für dich?<br/> <br/>`, ''));
   };
 
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>
       <FlexBox>
-        <SecondaryButton onClick={navigateBack}>
-          {displayButtonTexts(selectedLanguage).cancel}
-        </SecondaryButton>
-        {generatedText !== "" && (
-          <PrimaryButton onClick={saveImprovedText}>
-            {" "}
-            {displayButtonTexts(selectedLanguage).save}
-          </PrimaryButton>
+        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
+        {generatedText !== '' && (
+          <PrimaryButton onClick={saveImprovedText}> {displayButtonTexts(selectedLanguage).save}</PrimaryButton>
         )}
       </FlexBox>
       {isGenerating && <GeneratingIndecator />}
@@ -75,7 +67,7 @@ const GenerateImprovedTextSheet = () => {
         {!isGenerating && (
           <SapientorConversationMessage
             message={{
-              role: "gpt",
+              role: 'gpt',
               message: generatedText,
             }}
           />

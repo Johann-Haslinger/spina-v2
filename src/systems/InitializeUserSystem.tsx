@@ -1,10 +1,10 @@
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { Entity } from "@leanscope/ecs-engine";
-import { IdentifierFacet, ImageFacet, NameFacet } from "@leanscope/ecs-models";
-import { useContext, useEffect } from "react";
-import { EmailFacet } from "../app/additionalFacets";
-import supabaseClient from "../lib/supabase";
-import { SupabaseTables } from "../base/enums";
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { Entity } from '@leanscope/ecs-engine';
+import { IdentifierFacet, ImageFacet, NameFacet } from '@leanscope/ecs-models';
+import { useContext, useEffect } from 'react';
+import { EmailFacet } from '../app/additionalFacets';
+import supabaseClient from '../lib/supabase';
+import { SupabaseTables } from '../base/enums';
 
 const InitializeUserSystem = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -12,7 +12,7 @@ const InitializeUserSystem = () => {
   useEffect(() => {
     const userEntity = new Entity();
     lsc.engine.addEntity(userEntity);
-    userEntity.add(new IdentifierFacet({ guid: "user" }));
+    userEntity.add(new IdentifierFacet({ guid: 'user' }));
 
     const fetchUserData = async () => {
       const user = await supabaseClient.auth.getUser();
@@ -21,12 +21,12 @@ const InitializeUserSystem = () => {
 
       const { data, error } = await supabaseClient
         .from(SupabaseTables.PROFILES)
-        .select("user_name, profile_picture")
-        .eq("user_id", userId)
+        .select('user_name, profile_picture')
+        .eq('user_id', userId)
         .single();
       console.log(data);
       if (error) {
-        console.error("Error fetching user data", error);
+        console.error('Error fetching user data', error);
       }
 
       if (data) {
@@ -35,10 +35,8 @@ const InitializeUserSystem = () => {
         userEntity.add(new ImageFacet({ imageSrc: profile_picture }));
       }
 
-      userEntity.add(
-        new IdentifierFacet({ guid: "user", displayName: userId || "" }),
-      );
-      userEntity.add(new EmailFacet({ email: userEmail || "" }));
+      userEntity.add(new IdentifierFacet({ guid: 'user', displayName: userId || '' }));
+      userEntity.add(new EmailFacet({ email: userEmail || '' }));
     };
 
     fetchUserData();

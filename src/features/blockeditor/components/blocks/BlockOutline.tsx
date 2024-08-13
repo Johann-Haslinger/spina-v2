@@ -1,12 +1,12 @@
-import styled from "@emotion/styled";
-import { Entity } from "@leanscope/ecs-engine";
-import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntityComponents";
-import { IdentifierFacet, Tags } from "@leanscope/ecs-models";
-import React, { PropsWithChildren, useEffect, useRef, useState } from "react";
-import { Draggable } from "react-beautiful-dnd";
-import tw from "twin.macro";
-import { AdditionalTags } from "../../../../base/enums";
-import { useCurrentBlockeditor } from "../../hooks/useCurrentBlockeditor";
+import styled from '@emotion/styled';
+import { Entity } from '@leanscope/ecs-engine';
+import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntityComponents';
+import { IdentifierFacet, Tags } from '@leanscope/ecs-models';
+import React, { PropsWithChildren, useEffect, useRef, useState } from 'react';
+import { Draggable, DraggableProvided } from 'react-beautiful-dnd';
+import tw from 'twin.macro';
+import { AdditionalTags } from '../../../../base/enums';
+import { useCurrentBlockeditor } from '../../hooks/useCurrentBlockeditor';
 
 const StyledBlockWrapper = styled.div<{
   isPressed: boolean;
@@ -17,8 +17,7 @@ const StyledBlockWrapper = styled.div<{
     isPressed
       ? tw`bg-primaryColor  bg-opacity-10 dark:bg-opacity-100 dark:bg-seconderyDark   z-40  select-none `
       : tw`border-white`};
-  ${({ paddingY }) =>
-    !paddingY ? tw`py-0.5 min-h-[36px]` : tw`py-2 min-h-[40px]`};
+  ${({ paddingY }) => (!paddingY ? tw`py-0.5 min-h-[36px]` : tw`py-2 min-h-[40px]`)};
 `;
 
 const StyledContentWrapper = styled.div`
@@ -47,13 +46,10 @@ interface BlockOutlineProps {
 const BlockOutline = (props: BlockOutlineProps & PropsWithChildren) => {
   const { blockEntity, paddingY, children } = props;
   const { blockeditorState, isGroupBlockeditor } = useCurrentBlockeditor();
-  const isEditing = blockeditorState === "edit";
+  const isEditing = blockeditorState === 'edit';
   const [isPressed] = useEntityHasTags(blockEntity, Tags.SELECTED);
   const blockId = blockEntity.get(IdentifierFacet)?.props.guid;
-  const [isContentEditable] = useEntityHasTags(
-    blockEntity,
-    AdditionalTags.CONTENT_EDITABLE,
-  );
+  const [isContentEditable] = useEntityHasTags(blockEntity, AdditionalTags.CONTENT_EDITABLE);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const textBlockRef = useRef<HTMLDivElement | null>(null);
   const [startX, setStartX] = useState<number | null>(null);
@@ -63,9 +59,9 @@ const BlockOutline = (props: BlockOutlineProps & PropsWithChildren) => {
   // TODO: Custom hook to handle click outside block editor
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [blockeditorState]);
 
@@ -76,16 +72,13 @@ const BlockOutline = (props: BlockOutlineProps & PropsWithChildren) => {
   }, [isEditing]);
 
   const handleClickOutside = (event: MouseEvent) => {
-    if (
-      textBlockRef.current &&
-      !textBlockRef.current.contains(event.target as Node)
-    ) {
+    if (textBlockRef.current && !textBlockRef.current.contains(event.target as Node)) {
       setTranslateX(0);
     }
   };
 
   const toggleIsBlockPressed = () => {
-    if (blockeditorState !== "write") {
+    if (blockeditorState !== 'write') {
       if (!isPressed) {
         blockEntity.removeTag(AdditionalTags.CONTENT_EDITABLE);
         blockEntity.add(Tags.SELECTED);
@@ -118,7 +111,7 @@ const BlockOutline = (props: BlockOutlineProps & PropsWithChildren) => {
       if (!isContentEditable) {
         toggleIsBlockPressed();
       }
-      if ("vibrate" in navigator) {
+      if ('vibrate' in navigator) {
         navigator.vibrate(50);
       }
     }, 500);
@@ -149,14 +142,14 @@ const BlockOutline = (props: BlockOutlineProps & PropsWithChildren) => {
   };
 
   const transitionStyle: React.CSSProperties = {
-    transition: "transform 0.1s ease-out",
+    transition: 'transform 0.1s ease-out',
     transform: `translateX(${translateX}px)`,
   };
 
   return (
     blockId && (
       <Draggable key={blockId} draggableId={blockId} index={0}>
-        {(provided: any) =>
+        {(provided: DraggableProvided) =>
           isGroupBlockeditor ? (
             <div
               ref={provided.innerRef}
@@ -167,11 +160,7 @@ const BlockOutline = (props: BlockOutlineProps & PropsWithChildren) => {
               <StyledContentWrapper>{children}</StyledContentWrapper>
             </div>
           ) : (
-            <div
-              ref={provided.innerRef}
-              {...provided.draggableProps}
-              {...provided.dragHandleProps}
-            >
+            <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
               <StyledBlockWrapper
                 isPressed={isPressed}
                 paddingY={paddingY ?? false}
@@ -180,14 +169,12 @@ const BlockOutline = (props: BlockOutlineProps & PropsWithChildren) => {
                 onTouchStart={handleTouchStart}
                 onTouchMove={handleTouchMove}
                 onTouchEnd={handleTouchEnd}
-                style={blockeditorState !== "write" ? transitionStyle : {}}
+                style={blockeditorState !== 'write' ? transitionStyle : {}}
                 ref={textBlockRef}
               >
                 <StyledContentWrapper>{children}</StyledContentWrapper>
                 <StyledSelectionIndicatorWrapper isEdeting={isEditing}>
-                  <StyledSelectionIndicator
-                    isVisible={isPressed && isEditing}
-                  />
+                  <StyledSelectionIndicator isVisible={isPressed && isEditing} />
                 </StyledSelectionIndicatorWrapper>
               </StyledBlockWrapper>
             </div>

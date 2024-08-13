@@ -1,15 +1,8 @@
-import styled from "@emotion/styled";
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { Entity, EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
-import {
-  DescriptionProps,
-  IdentifierFacet,
-  ImageProps,
-  ParentFacet,
-  Tags,
-  TextFacet,
-} from "@leanscope/ecs-models";
-import { Fragment, useContext, useState } from "react";
+import styled from '@emotion/styled';
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { Entity, EntityProps, EntityPropsMapper } from '@leanscope/ecs-engine';
+import { DescriptionProps, IdentifierFacet, ImageProps, ParentFacet, Tags, TextFacet } from '@leanscope/ecs-models';
+import { Fragment, useContext, useState } from 'react';
 import {
   IoAdd,
   IoArrowBack,
@@ -17,16 +10,11 @@ import {
   IoCreateOutline,
   IoEllipsisHorizontalCircleOutline,
   IoTrashOutline,
-} from "react-icons/io5";
-import tw from "twin.macro";
-import { v4 } from "uuid";
-import {
-  DateAddedFacet,
-  SourceFacet,
-  TitleFacet,
-  TitleProps,
-} from "../../../../app/additionalFacets";
-import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
+} from 'react-icons/io5';
+import tw from 'twin.macro';
+import { v4 } from 'uuid';
+import { DateAddedFacet, SourceFacet, TitleFacet, TitleProps } from '../../../../app/additionalFacets';
+import { AdditionalTags, DataTypes, Stories } from '../../../../base/enums';
 import {
   ActionRow,
   CollectionGrid,
@@ -34,42 +22,40 @@ import {
   NavigationBar,
   NoContentAddedHint,
   View,
-} from "../../../../components";
-import { addNote } from "../../../../functions/addNote";
-import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
-import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import { useUserData } from "../../../../hooks/useUserData";
-import { useWindowDimensions } from "../../../../hooks/useWindowDimensions";
-import {
-  displayActionTexts,
-  displayDataTypeTexts,
-} from "../../../../utils/displayText";
-import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
-import { sortEntitiesByDateAdded } from "../../../../utils/sortEntitiesByTime";
-import AddResourceToLearningGroupSheet from "../../../groups/components/AddResourceToLearningGroupSheet";
-import { useEntityHasChildren } from "../../hooks/useEntityHasChildren";
-import { useSelectedSchoolSubjectColor } from "../../hooks/useSelectedSchoolSubjectColor";
-import { useSelectedTopic } from "../../hooks/useSelectedTopic";
-import LoadExercisesSystem from "../../systems/LoadExercisesSystem";
-import LoadFlashcardSetsSystem from "../../systems/LoadFlashcardSetsSystem";
-import LoadHomeworksSystem from "../../systems/LoadHomeworksSystem";
-import LoadNotesSystem from "../../systems/LoadNotesSystem";
-import LoadSubtopicsSystem from "../../systems/LoadSubtopicsSystem";
-import ExerciseCell from "../exercises/ExerciseCell";
-import ExerciseView from "../exercises/ExerciseView";
-import AddFlashcardSetSheet from "../flashcard-sets/AddFlashcardSetSheet";
-import FlashcardSetCell from "../flashcard-sets/FlashcardSetCell";
-import FlashcardSetView from "../flashcard-sets/FlashcardSetView";
-import GenerateResourcesFromImageSheet from "../generation/GenerateResourcesFromImageSheet";
-import AddHomeworkSheet from "../homeworks/AddHomeworkSheet";
-import HomeworkCell from "../homeworks/HomeworkCell";
-import HomeworkView from "../homeworks/HomeworkView";
-import NoteCell from "../notes/NoteCell";
-import NoteView from "../notes/NoteView";
-import SubtopicCell from "../subtopics/SubtopicCell";
-import SubtopicView from "../subtopics/SubtopicView";
-import DeleteTopicAlert from "./DeleteTopicAlert";
-import EditTopicSheet from "./EditTopicSheet";
+} from '../../../../components';
+import { addNote } from '../../../../functions/addNote';
+import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
+import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
+import { useUserData } from '../../../../hooks/useUserData';
+import { useWindowDimensions } from '../../../../hooks/useWindowDimensions';
+import { displayActionTexts, displayDataTypeTexts } from '../../../../utils/displayText';
+import { dataTypeQuery, isChildOfQuery } from '../../../../utils/queries';
+import { sortEntitiesByDateAdded } from '../../../../utils/sortEntitiesByTime';
+import AddResourceToLearningGroupSheet from '../../../groups/components/AddResourceToLearningGroupSheet';
+import { useEntityHasChildren } from '../../hooks/useEntityHasChildren';
+import { useSelectedSchoolSubjectGrid } from '../../hooks/useSchoolSubjectGrid';
+import { useSelectedSchoolSubjectColor } from '../../hooks/useSelectedSchoolSubjectColor';
+import { useSelectedTopic } from '../../hooks/useSelectedTopic';
+import LoadExercisesSystem from '../../systems/LoadExercisesSystem';
+import LoadFlashcardSetsSystem from '../../systems/LoadFlashcardSetsSystem';
+import LoadHomeworksSystem from '../../systems/LoadHomeworksSystem';
+import LoadNotesSystem from '../../systems/LoadNotesSystem';
+import LoadSubtopicsSystem from '../../systems/LoadSubtopicsSystem';
+import ExerciseCell from '../exercises/ExerciseCell';
+import ExerciseView from '../exercises/ExerciseView';
+import AddFlashcardSetSheet from '../flashcard-sets/AddFlashcardSetSheet';
+import FlashcardSetCell from '../flashcard-sets/FlashcardSetCell';
+import FlashcardSetView from '../flashcard-sets/FlashcardSetView';
+import GenerateResourcesFromImageSheet from '../generation/GenerateResourcesFromImageSheet';
+import AddHomeworkSheet from '../homeworks/AddHomeworkSheet';
+import HomeworkCell from '../homeworks/HomeworkCell';
+import HomeworkView from '../homeworks/HomeworkView';
+import NoteCell from '../notes/NoteCell';
+import NoteView from '../notes/NoteView';
+import SubtopicCell from '../subtopics/SubtopicCell';
+import SubtopicView from '../subtopics/SubtopicView';
+import DeleteTopicAlert from './DeleteTopicAlert';
+import EditTopicSheet from './EditTopicSheet';
 
 const useImageSelector = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -93,10 +79,10 @@ const useImageSelector = () => {
   };
 
   const openImageSelector = () => {
-    const fileInput = document.createElement("input");
-    fileInput.type = "file";
-    fileInput.accept = "image/*";
-    fileInput.addEventListener("change", handleImageUpload);
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*';
+    fileInput.addEventListener('change', handleImageUpload);
     fileInput.click();
   };
 
@@ -106,12 +92,12 @@ const useImageSelector = () => {
 };
 
 const StyledTopAreaWrapper = styled.div<{ backgroundColor: string }>`
-  ${tw`w-full top-0 z-0 mt-16 xl:mt-0 h-96 2xl:h-[28rem] flex`}
+  ${tw`w-full  top-0 z-0 mt-16 xl:mt-0 h-96 2xl:h-[28rem] flex`}
   background-color: ${({ backgroundColor }) => backgroundColor};
 `;
 
 const StyledBackgroundImageWrapper = styled.div<{ image: string }>`
-  ${tw` h-full bg-repeat-x w-full transition-all bg-contain bg-center`}
+  ${tw` bg-fixed h-full w-full transition-all `}
 
   background-image: ${({ image }) => `url(${image})`};
 `;
@@ -127,7 +113,7 @@ const StyledTopicTitle = styled.div`
 `;
 
 const StyledTopicResourcesWrapper = styled.div<{ largeShadow: boolean }>`
-  ${tw` px-4  md:px-20 h-fit min-h-screen relative  z-20  pt-10 pb-40  dark:bg-primaryDark transition-all   bg-primary  lg:px-32 xl:px-60 2xl:px-96 w-full`}
+  ${tw` px-4  md:px-20 h-fit min-h-screen     pt-10 pb-40  dark:bg-primaryDark transition-all   bg-primary  lg:px-32 xl:px-60 2xl:px-96 w-full`}
   ${({ largeShadow }) =>
     largeShadow
       ? tw`shadow-[0px_0px_60px_0px_rgba(0, 0, 0, 0.6)] xl:shadow-[0px_0px_60px_0px_rgba(0, 0, 0, 0.5)] `
@@ -152,14 +138,12 @@ const StyledSpacer = styled.div`
 `;
 
 const StyledTopicViewContainer = styled.div`
-  ${tw`w-screen overflow-y-scroll absolute h-screen `}
+  ${tw`w-full h-full`}
 `;
 
 // ″
 
-const TopicView = (
-  props: TitleProps & EntityProps & DescriptionProps & ImageProps,
-) => {
+const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImageProps) => {
   const lsc = useContext(LeanScopeClientContext);
   const { title, entity, imageSrc } = props;
   const isVisible = useIsViewVisible(entity);
@@ -171,16 +155,13 @@ const TopicView = (
   const [scrollY, setScrollY] = useState(0);
   const { width } = useWindowDimensions();
   const { backgroundColor } = useSelectedSchoolSubjectColor();
+  const grid = useSelectedSchoolSubjectGrid();
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
-  const openEditTopicSheet = () =>
-    lsc.stories.transitTo(Stories.EDITING_TOPIC_STORY);
-  const openDeleteTopicAlert = () =>
-    lsc.stories.transitTo(Stories.DELETING_TOPIC_STORY);
-  const openAddFlashcardsSheet = () =>
-    lsc.stories.transitTo(Stories.ADDING_FLASHCARD_SET_STORY);
-  const openAddHomeworkSheet = () =>
-    lsc.stories.transitTo(Stories.ADDING_HOMEWORK_STORY);
+  const openEditTopicSheet = () => lsc.stories.transitTo(Stories.EDITING_TOPIC_STORY);
+  const openDeleteTopicAlert = () => lsc.stories.transitTo(Stories.DELETING_TOPIC_STORY);
+  const openAddFlashcardsSheet = () => lsc.stories.transitTo(Stories.ADDING_FLASHCARD_SET_STORY);
+  const openAddHomeworkSheet = () => lsc.stories.transitTo(Stories.ADDING_HOMEWORK_STORY);
 
   const saveNote = async () => {
     if (selectedTopicId) {
@@ -189,9 +170,7 @@ const TopicView = (
       const newNoteEntity = new Entity();
       newNoteEntity.add(new IdentifierFacet({ guid: noteId }));
       newNoteEntity.add(new ParentFacet({ parentId: selectedTopicId }));
-      newNoteEntity.add(
-        new DateAddedFacet({ dateAdded: new Date().toISOString() }),
-      );
+      newNoteEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
       newNoteEntity.add(DataTypes.NOTE);
       newNoteEntity.add(Tags.SELECTED);
 
@@ -215,7 +194,7 @@ const TopicView = (
           }}
         >
           <StyledNavbarBackground />
-          <NavigationBar>
+          <NavigationBar tw="bg-black">
             <NavBarButton
               content={
                 <Fragment>
@@ -225,54 +204,35 @@ const TopicView = (
                   <ActionRow icon={<IoAdd />} onClick={openAddFlashcardsSheet}>
                     {displayDataTypeTexts(selectedLanguage).flashcardSet}
                   </ActionRow>
-                  <ActionRow
-                    icon={<IoAdd />}
-                    hasSpace
-                    onClick={openAddHomeworkSheet}
-                  >
+                  <ActionRow icon={<IoAdd />} hasSpace onClick={openAddHomeworkSheet}>
                     {displayDataTypeTexts(selectedLanguage).homework}
                   </ActionRow>
-                  <ActionRow
-                    icon={<IoCameraOutline />}
-                    onClick={openImageSelector}
-                    last
-                  >
+                  <ActionRow icon={<IoCameraOutline />} onClick={openImageSelector} last>
                     {displayActionTexts(selectedLanguage).generateFromImage}
                   </ActionRow>
                 </Fragment>
               }
             >
-              <IoAdd color={scrollY < 360 && width > 1280 ? "white" : ""} />
+              <IoAdd color={scrollY < 360 && width > 1280 ? 'white' : ''} />
             </NavBarButton>
 
             <NavBarButton
               content={
                 <Fragment>
-                  <ActionRow
-                    first
-                    onClick={openEditTopicSheet}
-                    icon={<IoCreateOutline />}
-                  >
+                  <ActionRow first onClick={openEditTopicSheet} icon={<IoCreateOutline />}>
                     {displayActionTexts(selectedLanguage).edit}
                   </ActionRow>
-                  <ActionRow
-                    onClick={openDeleteTopicAlert}
-                    icon={<IoTrashOutline />}
-                    destructive
-                    last
-                  >
+                  <ActionRow onClick={openDeleteTopicAlert} icon={<IoTrashOutline />} destructive last>
                     {displayActionTexts(selectedLanguage).delete}
                   </ActionRow>
                 </Fragment>
               }
             >
-              <IoEllipsisHorizontalCircleOutline
-                color={scrollY < 360 && width > 1280 ? "white" : ""}
-              />
+              <IoEllipsisHorizontalCircleOutline color={scrollY < 360 && width > 1280 ? 'white' : ''} />
             </NavBarButton>
           </NavigationBar>
           <StyledTopAreaWrapper backgroundColor={backgroundColor}>
-            <StyledBackgroundImageWrapper image={imageSrc || ""}>
+            <StyledBackgroundImageWrapper image={imageSrc || grid}>
               <StyledImageOverlay overlay={imageSrc}>
                 <StyledSpacer />
                 <StyledBackButton onClick={navigateBack}>
@@ -298,10 +258,7 @@ const TopicView = (
 
             <CollectionGrid columnSize="small">
               <EntityPropsMapper
-                query={(e) =>
-                  dataTypeQuery(e, DataTypes.SUBTOPIC) &&
-                  isChildOfQuery(e, entity)
-                }
+                query={(e) => dataTypeQuery(e, DataTypes.SUBTOPIC) && isChildOfQuery(e, entity)}
                 sort={(a, b) => sortEntitiesByDateAdded(a, b)}
                 get={[[TitleFacet], []]}
                 onMatch={SubtopicCell}
@@ -310,9 +267,7 @@ const TopicView = (
 
             <CollectionGrid columnSize="small">
               <EntityPropsMapper
-                query={(e) =>
-                  dataTypeQuery(e, DataTypes.NOTE) && isChildOfQuery(e, entity)
-                }
+                query={(e) => dataTypeQuery(e, DataTypes.NOTE) && isChildOfQuery(e, entity)}
                 sort={(a, b) => sortEntitiesByDateAdded(a, b)}
                 get={[[TitleFacet], []]}
                 onMatch={NoteCell}
@@ -321,10 +276,7 @@ const TopicView = (
 
             <CollectionGrid columnSize="small">
               <EntityPropsMapper
-                query={(e) =>
-                  dataTypeQuery(e, DataTypes.EXERCISE) &&
-                  isChildOfQuery(e, entity)
-                }
+                query={(e) => dataTypeQuery(e, DataTypes.EXERCISE) && isChildOfQuery(e, entity)}
                 sort={(a, b) => sortEntitiesByDateAdded(a, b)}
                 get={[[TitleFacet], []]}
                 onMatch={ExerciseCell}
@@ -333,10 +285,7 @@ const TopicView = (
 
             <CollectionGrid columnSize="small">
               <EntityPropsMapper
-                query={(e) =>
-                  dataTypeQuery(e, DataTypes.FLASHCARD_SET) &&
-                  isChildOfQuery(e, entity)
-                }
+                query={(e) => dataTypeQuery(e, DataTypes.FLASHCARD_SET) && isChildOfQuery(e, entity)}
                 get={[[TitleFacet, IdentifierFacet], []]}
                 sort={(a, b) => sortEntitiesByDateAdded(a, b)}
                 onMatch={FlashcardSetCell}
@@ -345,10 +294,7 @@ const TopicView = (
 
             <CollectionGrid columnSize="small">
               <EntityPropsMapper
-                query={(e) =>
-                  dataTypeQuery(e, DataTypes.HOMEWORK) &&
-                  isChildOfQuery(e, entity)
-                }
+                query={(e) => dataTypeQuery(e, DataTypes.HOMEWORK) && isChildOfQuery(e, entity)}
                 get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
                 sort={(a, b) => sortEntitiesByDateAdded(a, b)}
                 onMatch={HomeworkCell}
@@ -364,30 +310,22 @@ const TopicView = (
         onMatch={NoteView}
       />
       <EntityPropsMapper
-        query={(e) =>
-          dataTypeQuery(e, DataTypes.FLASHCARD_SET) && e.has(Tags.SELECTED)
-        }
+        query={(e) => dataTypeQuery(e, DataTypes.FLASHCARD_SET) && e.has(Tags.SELECTED)}
         get={[[TitleFacet, IdentifierFacet], []]}
         onMatch={FlashcardSetView}
       />
       <EntityPropsMapper
-        query={(e) =>
-          dataTypeQuery(e, DataTypes.HOMEWORK) && e.has(Tags.SELECTED)
-        }
+        query={(e) => dataTypeQuery(e, DataTypes.HOMEWORK) && e.has(Tags.SELECTED)}
         get={[[TitleFacet, IdentifierFacet, TextFacet], []]}
         onMatch={HomeworkView}
       />
       <EntityPropsMapper
-        query={(e) =>
-          dataTypeQuery(e, DataTypes.SUBTOPIC) && e.has(Tags.SELECTED)
-        }
+        query={(e) => dataTypeQuery(e, DataTypes.SUBTOPIC) && e.has(Tags.SELECTED)}
         get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
         onMatch={SubtopicView}
       />
       <EntityPropsMapper
-        query={(e) =>
-          dataTypeQuery(e, DataTypes.EXERCISE) && e.has(Tags.SELECTED)
-        }
+        query={(e) => dataTypeQuery(e, DataTypes.EXERCISE) && e.has(Tags.SELECTED)}
         get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
         onMatch={ExerciseView}
       />

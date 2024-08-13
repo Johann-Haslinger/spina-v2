@@ -1,10 +1,7 @@
-import styled from "@emotion/styled";
-import tw from "twin.macro";
-import { useSelectedLanguage } from "../../hooks/useSelectedLanguage";
-import {
-  displayAlertTexts,
-  displayDataTypeTexts,
-} from "../../utils/displayText";
+import styled from '@emotion/styled';
+import tw from 'twin.macro';
+import { useSelectedLanguage } from '../../hooks/useSelectedLanguage';
+import { displayAlertTexts, displayDataTypeTexts } from '../../utils/displayText';
 
 const CardContainer = tw.div`
     w-full h-fit min-h-48 pb-4
@@ -31,11 +28,7 @@ const StyledResourceTypeText = styled.p`
   ${tw`text-sm  text-seconderyText dark:text-seconderyTextDark `}
 `;
 
-const FlashcardSetThumbNail = (props: {
-  color: string;
-  title: string;
-  onClick?: () => void;
-}) => {
+const FlashcardSetThumbNail = (props: { color: string; title: string; onClick?: () => void }) => {
   const { color, title, onClick } = props;
   const { selectedLanguage } = useSelectedLanguage();
 
@@ -44,9 +37,7 @@ const FlashcardSetThumbNail = (props: {
       <CardWrapper>
         {Array.from({ length: 4 }, (_, index) => index + 1).map((_, idx) => (
           <CardItem key={idx}>
-            <StyledCardContent
-              color={idx == 1 || idx == 2 ? color : color + "99"}
-            >
+            <StyledCardContent color={idx == 1 || idx == 2 ? color : color + '99'}>
               {/* {[1, 2, 3, 4].map((_, idx) => (
                 <CardDot key={idx} style={{ backgroundColor: color }} />
               ))} */}
@@ -54,14 +45,9 @@ const FlashcardSetThumbNail = (props: {
           </CardItem>
         ))}
       </CardWrapper>
-      <StyledCellTitle>
-        {" "}
-        {title || displayAlertTexts(selectedLanguage).noTitle}
-      </StyledCellTitle>
+      <StyledCellTitle> {title || displayAlertTexts(selectedLanguage).noTitle}</StyledCellTitle>
 
-      <StyledResourceTypeText>
-        {displayDataTypeTexts(selectedLanguage).flashcardSet}
-      </StyledResourceTypeText>
+      <StyledResourceTypeText>{displayDataTypeTexts(selectedLanguage).flashcardSet}</StyledResourceTypeText>
     </CardContainer>
   );
 };

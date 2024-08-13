@@ -1,28 +1,20 @@
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { useIsStoryCurrent } from "@leanscope/storyboarding";
-import { useContext } from "react";
-import {
-  AdditionalTags,
-  Stories,
-  SupabaseColumns,
-} from "../../../../base/enums";
-import { Alert, AlertButton } from "../../../../components";
-import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import supabaseClient from "../../../../lib/supabase";
-import { displayActionTexts } from "../../../../utils/displayText";
-import { useSelectedGroupFlashcardSet } from "../../hooks/useSelectedGroupFlashcardSet";
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { useIsStoryCurrent } from '@leanscope/storyboarding';
+import { useContext } from 'react';
+import { AdditionalTags, Stories, SupabaseColumns } from '../../../../base/enums';
+import { Alert, AlertButton } from '../../../../components';
+import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
+import supabaseClient from '../../../../lib/supabase';
+import { displayActionTexts } from '../../../../utils/displayText';
+import { useSelectedGroupFlashcardSet } from '../../hooks/useSelectedGroupFlashcardSet';
 
 const DeleteGroupFlashcardSetAlert = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(
-    Stories.DELETING_GROUP_FLASHCARD_SET_STORY,
-  );
+  const isVisible = useIsStoryCurrent(Stories.DELETING_GROUP_FLASHCARD_SET_STORY);
   const { selectedLanguage } = useSelectedLanguage();
-  const { selectedGroupFlashcardSetId, selectedGroupFlashcardSetEntity } =
-    useSelectedGroupFlashcardSet();
+  const { selectedGroupFlashcardSetId, selectedGroupFlashcardSetEntity } = useSelectedGroupFlashcardSet();
 
-  const navigateBack = () =>
-    lsc.stories.transitTo(Stories.OBSERVING_TOPIC_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_TOPIC_STORY);
 
   const deleteGroupFlashcardSet = async () => {
     navigateBack();
@@ -32,21 +24,21 @@ const DeleteGroupFlashcardSetAlert = () => {
         lsc.engine.removeEntity(selectedGroupFlashcardSetEntity);
 
         const { error } = await supabaseClient
-          .from("group_flashcard_sets")
+          .from('group_flashcard_sets')
           .delete()
           .eq(SupabaseColumns.ID, selectedGroupFlashcardSetId);
 
         if (error) {
-          console.error("Error deleting flashcard set", error);
+          console.error('Error deleting flashcard set', error);
         }
 
         const { error: flashcardsError } = await supabaseClient
-          .from("group_flashcards")
+          .from('group_flashcards')
           .delete()
           .eq(SupabaseColumns.PARENT_ID, selectedGroupFlashcardSetId);
 
         if (flashcardsError) {
-          console.error("Error deleting flashcards", flashcardsError);
+          console.error('Error deleting flashcards', flashcardsError);
         }
       }
     }, 300);

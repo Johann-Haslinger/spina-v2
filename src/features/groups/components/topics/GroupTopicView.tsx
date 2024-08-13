@@ -1,19 +1,10 @@
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
-import {
-  DescriptionProps,
-  IdentifierFacet,
-  Tags,
-  TextFacet,
-} from "@leanscope/ecs-models";
-import { Fragment, useContext } from "react";
-import {
-  IoCreateOutline,
-  IoEllipsisHorizontalCircleOutline,
-  IoTrashOutline,
-} from "react-icons/io5";
-import { TitleFacet, TitleProps } from "../../../../app/additionalFacets";
-import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { EntityProps, EntityPropsMapper } from '@leanscope/ecs-engine';
+import { DescriptionProps, IdentifierFacet, Tags, TextFacet } from '@leanscope/ecs-models';
+import { Fragment, useContext } from 'react';
+import { IoCreateOutline, IoEllipsisHorizontalCircleOutline, IoTrashOutline } from 'react-icons/io5';
+import { TitleFacet, TitleProps } from '../../../../app/additionalFacets';
+import { AdditionalTags, DataTypes, Stories } from '../../../../base/enums';
 import {
   ActionRow,
   BackButton,
@@ -25,28 +16,25 @@ import {
   Spacer,
   Title,
   View,
-} from "../../../../components";
-import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
-import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import {
-  displayActionTexts,
-  displayAlertTexts,
-} from "../../../../utils/displayText";
-import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
-import { sortEntitiesByDateAdded } from "../../../../utils/sortEntitiesByTime";
-import FlashcardSetCell from "../../../collection/components/flashcard-sets/FlashcardSetCell";
-import NoteCell from "../../../collection/components/notes/NoteCell";
-import SubtopicCell from "../../../collection/components/subtopics/SubtopicCell";
-import { useEntityHasChildren } from "../../../collection/hooks/useEntityHasChildren";
-import { useSelectedGroupSchoolSubject } from "../../hooks/useSelectedGroupSchoolSubject";
-import LoadGroupGroupNotesSystem from "../../systems/LoadGroupNotesSystem";
-import LoadGroupGroupSubtopicsSystem from "../../systems/LoadGroupSubtopicsSystem";
-import CloningResourceFromGroupSheet from "../CloningResourceFromGroupSheet";
-import GroupFlashcardSetView from "../flashcard-sets/GroupFlashcardSetView";
-import GroupNoteView from "../notes/GroupNoteView";
-import GroupSubtopicView from "../subtopics/GroupSubtopicView";
-import DeleteGroupTopicAlert from "./DeleteGroupTopicAlert";
-import EditGroupGroupTopicSheet from "./EditGroupTopicSheet";
+} from '../../../../components';
+import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
+import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
+import { displayActionTexts, displayAlertTexts } from '../../../../utils/displayText';
+import { dataTypeQuery, isChildOfQuery } from '../../../../utils/queries';
+import { sortEntitiesByDateAdded } from '../../../../utils/sortEntitiesByTime';
+import FlashcardSetCell from '../../../collection/components/flashcard-sets/FlashcardSetCell';
+import NoteCell from '../../../collection/components/notes/NoteCell';
+import SubtopicCell from '../../../collection/components/subtopics/SubtopicCell';
+import { useEntityHasChildren } from '../../../collection/hooks/useEntityHasChildren';
+import { useSelectedGroupSchoolSubject } from '../../hooks/useSelectedGroupSchoolSubject';
+import LoadGroupGroupNotesSystem from '../../systems/LoadGroupNotesSystem';
+import LoadGroupGroupSubtopicsSystem from '../../systems/LoadGroupSubtopicsSystem';
+import CloningResourceFromGroupSheet from '../CloningResourceFromGroupSheet';
+import GroupFlashcardSetView from '../flashcard-sets/GroupFlashcardSetView';
+import GroupNoteView from '../notes/GroupNoteView';
+import GroupSubtopicView from '../subtopics/GroupSubtopicView';
+import DeleteGroupTopicAlert from './DeleteGroupTopicAlert';
+import EditGroupGroupTopicSheet from './EditGroupTopicSheet';
 
 const GroupTopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -57,10 +45,8 @@ const GroupTopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
   const { hasChildren } = useEntityHasChildren(entity);
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
-  const openEditTopicSheet = () =>
-    lsc.stories.transitTo(Stories.EDETING_GROUP_TOPIC_STORY);
-  const openDeleteTopicAlert = () =>
-    lsc.stories.transitTo(Stories.DELETING_GROUP_TOPIC_STORY);
+  const openEditTopicSheet = () => lsc.stories.transitTo(Stories.EDETING_GROUP_TOPIC_STORY);
+  const openDeleteTopicAlert = () => lsc.stories.transitTo(Stories.DELETING_GROUP_TOPIC_STORY);
 
   return (
     <Fragment>
@@ -77,19 +63,10 @@ const GroupTopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
           <NavBarButton
             content={
               <Fragment>
-                <ActionRow
-                  first
-                  onClick={openEditTopicSheet}
-                  icon={<IoCreateOutline />}
-                >
+                <ActionRow first onClick={openEditTopicSheet} icon={<IoCreateOutline />}>
                   {displayActionTexts(selectedLanguage).edit}
                 </ActionRow>
-                <ActionRow
-                  onClick={openDeleteTopicAlert}
-                  icon={<IoTrashOutline />}
-                  destructive
-                  last
-                >
+                <ActionRow onClick={openDeleteTopicAlert} icon={<IoTrashOutline />} destructive last>
                   {displayActionTexts(selectedLanguage).delete}
                 </ActionRow>
               </Fragment>
@@ -98,15 +75,10 @@ const GroupTopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
             <IoEllipsisHorizontalCircleOutline />
           </NavBarButton>
         </NavigationBar>
-        <BackButton navigateBack={navigateBack}>
-          {selectedGroupSchoolSubjectTitle}
-        </BackButton>
+        <BackButton navigateBack={navigateBack}>{selectedGroupSchoolSubjectTitle}</BackButton>
         <Title>{title}</Title>
         <Spacer size={4} />
-        <SecondaryText>
-          {props.description ||
-            displayAlertTexts(selectedLanguage).noDescription}
-        </SecondaryText>
+        <SecondaryText>{props.description || displayAlertTexts(selectedLanguage).noDescription}</SecondaryText>
         <Spacer size={2} />
 
         <Spacer />
@@ -114,10 +86,7 @@ const GroupTopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
 
         <CollectionGrid>
           <EntityPropsMapper
-            query={(e) =>
-              dataTypeQuery(e, DataTypes.GROUP_SUBTOPIC) &&
-              isChildOfQuery(e, entity)
-            }
+            query={(e) => dataTypeQuery(e, DataTypes.GROUP_SUBTOPIC) && isChildOfQuery(e, entity)}
             sort={(a, b) => sortEntitiesByDateAdded(a, b)}
             get={[[TitleFacet], []]}
             onMatch={SubtopicCell}
@@ -126,10 +95,7 @@ const GroupTopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
 
         <CollectionGrid>
           <EntityPropsMapper
-            query={(e) =>
-              dataTypeQuery(e, DataTypes.GROUP_NOTE) &&
-              isChildOfQuery(e, entity)
-            }
+            query={(e) => dataTypeQuery(e, DataTypes.GROUP_NOTE) && isChildOfQuery(e, entity)}
             sort={(a, b) => sortEntitiesByDateAdded(a, b)}
             get={[[TitleFacet], []]}
             onMatch={NoteCell}
@@ -138,10 +104,7 @@ const GroupTopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
 
         <CollectionGrid>
           <EntityPropsMapper
-            query={(e) =>
-              dataTypeQuery(e, DataTypes.GROUP_FLASHCARD_SET) &&
-              isChildOfQuery(e, entity)
-            }
+            query={(e) => dataTypeQuery(e, DataTypes.GROUP_FLASHCARD_SET) && isChildOfQuery(e, entity)}
             get={[[TitleFacet, IdentifierFacet], []]}
             sort={(a, b) => sortEntitiesByDateAdded(a, b)}
             onMatch={FlashcardSetCell}
@@ -150,30 +113,20 @@ const GroupTopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
       </View>
 
       <EntityPropsMapper
-        query={(e) =>
-          dataTypeQuery(e, DataTypes.GROUP_SUBTOPIC) &&
-          e.has(Tags.SELECTED) &&
-          isChildOfQuery(e, entity)
-        }
+        query={(e) => dataTypeQuery(e, DataTypes.GROUP_SUBTOPIC) && e.has(Tags.SELECTED) && isChildOfQuery(e, entity)}
         get={[[TitleFacet, IdentifierFacet, TextFacet], []]}
         onMatch={GroupSubtopicView}
       />
 
       <EntityPropsMapper
-        query={(e) =>
-          dataTypeQuery(e, DataTypes.GROUP_NOTE) &&
-          isChildOfQuery(e, entity) &&
-          e.has(Tags.SELECTED)
-        }
+        query={(e) => dataTypeQuery(e, DataTypes.GROUP_NOTE) && isChildOfQuery(e, entity) && e.has(Tags.SELECTED)}
         get={[[TitleFacet, IdentifierFacet], []]}
         onMatch={GroupNoteView}
       />
 
       <EntityPropsMapper
         query={(e) =>
-          dataTypeQuery(e, DataTypes.GROUP_FLASHCARD_SET) &&
-          isChildOfQuery(e, entity) &&
-          e.has(Tags.SELECTED)
+          dataTypeQuery(e, DataTypes.GROUP_FLASHCARD_SET) && isChildOfQuery(e, entity) && e.has(Tags.SELECTED)
         }
         get={[[TitleFacet, IdentifierFacet], []]}
         onMatch={GroupFlashcardSetView}

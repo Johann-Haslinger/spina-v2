@@ -1,6 +1,7 @@
-import { Blocktypes, ListStyles, MessageRoles, SupportedLanguages, Texttypes } from "../base/enums";
-import { Facet } from "../base/facet";
-import { BlockeditorState, Resource } from "../base/types";
+import { Facet } from '@leanscope/ecs-engine';
+import { Blocktypes, ListStyles, MessageRoles, SupportedLanguages, Texttypes } from '../base/enums';
+
+import { BlockeditorState, Resource } from '../base/types';
 
 export interface TitleProps {
   title: string;
@@ -110,7 +111,7 @@ export class EmailFacet extends Facet<EmailProps> {
 }
 
 export interface UserSessionProps {
-  session: any;
+  session: unknown;
 }
 
 export class UserSessionFacet extends Facet<UserSessionProps> {

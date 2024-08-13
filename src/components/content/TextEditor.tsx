@@ -1,15 +1,12 @@
-import styled from "@emotion/styled";
-import { useEffect, useRef } from "react";
-import tw from "twin.macro";
+import styled from '@emotion/styled';
+import { useEffect, useRef } from 'react';
+import tw from 'twin.macro';
 
 const StyledTextEditorWrapper = styled.div`
   ${tw`w-full dark:text-primaryTextDark transition-all outline-none pb-20 h-full`}
 `;
 
-const TextEditor = (props: {
-  onBlur?: (newValue: string) => void;
-  value?: string;
-}) => {
+const TextEditor = (props: { onBlur?: (newValue: string) => void; value?: string }) => {
   const { onBlur, value } = props;
   const textEditorRef = useRef<HTMLDivElement>(null);
 
@@ -20,10 +17,10 @@ const TextEditor = (props: {
       }
     };
 
-    window.addEventListener("beforeunload", handleUnload);
+    window.addEventListener('beforeunload', handleUnload);
 
     return () => {
-      window.removeEventListener("beforeunload", handleUnload);
+      window.removeEventListener('beforeunload', handleUnload);
     };
   }, [textEditorRef.current?.innerHTML, onBlur]);
 
@@ -31,12 +28,8 @@ const TextEditor = (props: {
     <StyledTextEditorWrapper
       ref={textEditorRef}
       contentEditable
-      onBlur={() =>
-        onBlur &&
-        textEditorRef.current &&
-        onBlur(textEditorRef.current.innerHTML)
-      }
-      dangerouslySetInnerHTML={{ __html: value || "" }}
+      onBlur={() => onBlur && textEditorRef.current && onBlur(textEditorRef.current.innerHTML)}
+      dangerouslySetInnerHTML={{ __html: value || '' }}
     />
   );
 };

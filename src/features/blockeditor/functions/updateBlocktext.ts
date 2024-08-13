@@ -1,7 +1,7 @@
-import { Entity } from "@leanscope/ecs-engine";
-import { IdentifierFacet, TextFacet } from "@leanscope/ecs-models";
-import { SupabaseColumns, SupabaseTables } from "../../../base/enums";
-import supabaseClient from "../../../lib/supabase";
+import { Entity } from '@leanscope/ecs-engine';
+import { IdentifierFacet, TextFacet } from '@leanscope/ecs-models';
+import { SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import supabaseClient from '../../../lib/supabase';
 
 export const updateBlocktext = async (entity: Entity, text: string) => {
   entity.add(new TextFacet({ text: text }));
@@ -14,6 +14,6 @@ export const updateBlocktext = async (entity: Entity, text: string) => {
     .eq(SupabaseColumns.ID, id);
 
   if (error) {
-    console.error("Error updating block text", error);
+    console.error('Error updating block text', error);
   }
 };

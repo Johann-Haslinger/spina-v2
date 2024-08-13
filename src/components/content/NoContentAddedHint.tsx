@@ -1,7 +1,7 @@
-import styled from "@emotion/styled";
-import tw from "twin.macro";
-import { displayAlertTexts } from "../../utils/displayText";
-import { useSelectedLanguage } from "../../hooks/useSelectedLanguage";
+import styled from '@emotion/styled';
+import tw from 'twin.macro';
+import { displayAlertTexts } from '../../utils/displayText';
+import { useSelectedLanguage } from '../../hooks/useSelectedLanguage';
 
 const StyledNoConttentAddedWrapper = styled.div`
   ${tw`mx-auto  mt-32 text-center`}
@@ -20,12 +20,8 @@ const NoContentAddedHint = () => {
 
   return (
     <StyledNoConttentAddedWrapper>
-      <StyledNoContentTitle>
-        {displayAlertTexts(selectedLanguage).noContentAddedTitle}
-      </StyledNoContentTitle>
-      <StyledNoContentSubTitle>
-        {displayAlertTexts(selectedLanguage).noContentAddedSubtitle}
-      </StyledNoContentSubTitle>
+      <StyledNoContentTitle>{displayAlertTexts(selectedLanguage).noContentAddedTitle}</StyledNoContentTitle>
+      <StyledNoContentSubTitle>{displayAlertTexts(selectedLanguage).noContentAddedSubtitle}</StyledNoContentSubTitle>
     </StyledNoConttentAddedWrapper>
   );
 };

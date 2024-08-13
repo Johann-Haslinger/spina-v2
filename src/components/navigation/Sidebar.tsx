@@ -1,8 +1,8 @@
-import styled from "@emotion/styled";
-import { useEntities } from "@leanscope/ecs-engine";
-import { Tags } from "@leanscope/ecs-models";
-import { motion } from "framer-motion";
-import { Fragment, useEffect, useRef, useState } from "react";
+import styled from '@emotion/styled';
+import { useEntities } from '@leanscope/ecs-engine';
+import { Tags } from '@leanscope/ecs-models';
+import { motion } from 'framer-motion';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import {
   IoClose,
   IoEllipsisHorizontal,
@@ -13,33 +13,20 @@ import {
   IoPersonCircleOutline,
   IoPlay,
   IoSettingsOutline,
-} from "react-icons/io5";
-import { NavLink, useLocation } from "react-router-dom";
-import tw from "twin.macro";
-import { ViSpina } from "../../assets/icons";
-import {
-  COLOR_ITEMS,
-  LARGE_DEVICE_WIDTH,
-  MEDIUM_DEVICE_WIDTH,
-  NAV_LINKS,
-} from "../../base/constants";
-import {
-  NavigationLinks,
-  SupportedLanguages,
-  SupportedThemes,
-} from "../../base/enums";
-import { useAppState } from "../../features/collection/hooks/useAppState";
-import { usePlayingPodcast } from "../../features/collection/hooks/usePlayingPodcast";
-import { useSelectedTheme } from "../../features/collection/hooks/useSelectedTheme";
-import { useSelectedLanguage } from "../../hooks/useSelectedLanguage";
-import { useUserData } from "../../hooks/useUserData";
-import { useWindowDimensions } from "../../hooks/useWindowDimensions";
-import {
-  displayAlertTexts,
-  displayButtonTexts,
-  displayHeaderTexts,
-} from "../../utils/displayText";
-import NavigationLinkIcon from "./NavigationLinkIcon";
+} from 'react-icons/io5';
+import { NavLink, useLocation } from 'react-router-dom';
+import tw from 'twin.macro';
+import { ViSpina } from '../../assets/icons';
+import { COLOR_ITEMS, MEDIUM_DEVICE_WIDTH, NAV_LINKS } from '../../base/constants';
+import { NavigationLinks, SupportedLanguages, SupportedThemes } from '../../base/enums';
+import { useAppState } from '../../features/collection/hooks/useAppState';
+import { usePlayingPodcast } from '../../features/collection/hooks/usePlayingPodcast';
+import { useSelectedTheme } from '../../features/collection/hooks/useSelectedTheme';
+import { useSelectedLanguage } from '../../hooks/useSelectedLanguage';
+import { useUserData } from '../../hooks/useUserData';
+import { useWindowDimensions } from '../../hooks/useWindowDimensions';
+import { displayAlertTexts, displayButtonTexts, displayHeaderTexts } from '../../utils/displayText';
+import NavigationLinkIcon from './NavigationLinkIcon';
 
 const StyledSelectedPodcasrCellWrapper = styled.div<{ visible: boolean }>`
   ${tw`flex mx-1 w-[226px] cursor-pointer  md:hover:bg-primary dark:hover:bg-tertiaryDark   absolute bottom-14 my-2 dark:text-white  overflow-hidden py-1 transition-all  rounded-xl space-x-4 items-center`}
@@ -58,20 +45,15 @@ const StyledPodcastSubtitile = styled.div`
 
 const SelectedPodcastCell = (props: { isFullWidth: boolean }) => {
   const { isFullWidth } = props;
-  const { playingPodcastEntity, playingPodcastTitle, isPlaying, setIsPaused } =
-    usePlayingPodcast();
+  const { playingPodcastEntity, playingPodcastTitle, isPlaying, setIsPaused } = usePlayingPodcast();
   const { selectedLanguage } = useSelectedLanguage();
 
   const openPodcastSheet = () => playingPodcastEntity?.add(Tags.SELECTED);
 
   return (
     <Fragment>
-      <StyledSelectedPodcasrCellWrapper
-        visible={playingPodcastEntity ? true : false}
-      >
-        <StyledSelectedPodcastIcon
-          onClick={() => (isPlaying ? setIsPaused(true) : setIsPaused(false))}
-        >
+      <StyledSelectedPodcasrCellWrapper visible={playingPodcastEntity ? true : false}>
+        <StyledSelectedPodcastIcon onClick={() => (isPlaying ? setIsPaused(true) : setIsPaused(false))}>
           {isPlaying ? <IoPause /> : <IoPlay />}
         </StyledSelectedPodcastIcon>
         <motion.div
@@ -79,9 +61,7 @@ const SelectedPodcastCell = (props: { isFullWidth: boolean }) => {
           animate={{ x: isFullWidth ? 0 : -10, opacity: isFullWidth ? 1 : 0 }}
           onClick={openPodcastSheet}
         >
-          <StyledPodcastTitle>
-            {playingPodcastTitle || displayAlertTexts(selectedLanguage).noTitle}
-          </StyledPodcastTitle>
+          <StyledPodcastTitle>{playingPodcastTitle || displayAlertTexts(selectedLanguage).noTitle}</StyledPodcastTitle>
           <StyledPodcastSubtitile>Podcast</StyledPodcastSubtitile>
         </motion.div>
       </StyledSelectedPodcasrCellWrapper>
@@ -115,8 +95,7 @@ const StyledSettingsDivider = styled.div`
 `;
 const StyledSettingsWrapper = styled.div<{ isHoverd: boolean }>`
   ${tw`flex w-full ml-3  md:mb-3 md:w-[226px] pr-4 justify-between cursor-pointer  md:hover:bg-primary dark:hover:bg-tertiaryDark  mx-1  my-2 dark:text-white  overflow-hidden py-1 transition-all  rounded-xl space-x-4 items-center`}
-  ${({ isHoverd }) =>
-    isHoverd && tw`bg-black bg-opacity-[3%] dark:bg-tertiaryDark`}
+  ${({ isHoverd }) => isHoverd && tw`bg-black bg-opacity-[3%] dark:bg-tertiaryDark`}
 `;
 
 const StyledLinkSpacer = styled.div`
@@ -152,18 +131,16 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
   const { color, accentColor: backgroundColor } = COLOR_ITEMS[3];
   const { toggleSettings, toggleProfile } = useAppState();
   const { selectedLanguage } = useSelectedLanguage();
-  const { userEmail, signedIn, signOut, userName, profilePicture } =
-    useUserData();
-  const [isSettingsQuickMenuVisible, setIsSettingsQuickMenuVisible] =
-    useState(false);
+  const { userEmail, signedIn, signOut, userName, profilePicture } = useUserData();
+  const [isSettingsQuickMenuVisible, setIsSettingsQuickMenuVisible] = useState(false);
   const settingsQuickMenuRef = useRef<HTMLDivElement>(null);
   const { width } = useWindowDimensions();
   const isMobile = width < MEDIUM_DEVICE_WIDTH;
 
   useEffect(() => {
-    document.addEventListener("click", handleClickOutside, true);
+    document.addEventListener('click', handleClickOutside, true);
     return () => {
-      document.removeEventListener("click", handleClickOutside, true);
+      document.removeEventListener('click', handleClickOutside, true);
     };
   }, [isSettingsQuickMenuVisible]);
 
@@ -188,9 +165,9 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
       <motion.div
         ref={settingsQuickMenuRef}
         style={{
-          position: "absolute",
+          position: 'absolute',
           left: 14,
-          right: isMobile ? 14 : "auto",
+          right: isMobile ? 14 : 'auto',
         }}
         transition={{
           duration: 0.1,
@@ -228,31 +205,22 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
           </StyledSettingsText>
           <StyledSettingsDivider />
           <StyledAccountStatusText onClick={() => signedIn && signOut()}>
-            <StyledSettingsMenuIcon>
-              {signedIn ? <IoLogOutOutline /> : <IoLogInOutline />}
-            </StyledSettingsMenuIcon>
-            {signedIn
-              ? displayButtonTexts(selectedLanguage).logOut
-              : displayButtonTexts(selectedLanguage).logIn}
+            <StyledSettingsMenuIcon>{signedIn ? <IoLogOutOutline /> : <IoLogInOutline />}</StyledSettingsMenuIcon>
+            {signedIn ? displayButtonTexts(selectedLanguage).logOut : displayButtonTexts(selectedLanguage).logIn}
           </StyledAccountStatusText>
         </StyledSettingsMenuWrapper>
       </motion.div>
 
       <StyledLinkSpacer>
         <StyledSettingsWrapper
-          onClick={() =>
-            setIsSettingsQuickMenuVisible(!isSettingsQuickMenuVisible)
-          }
+          onClick={() => setIsSettingsQuickMenuVisible(!isSettingsQuickMenuVisible)}
           isHoverd={isSettingsQuickMenuVisible}
         >
           <StyledLeftSideWrapper>
             {profilePicture ? (
               <StyledProfilePicture src={profilePicture} />
             ) : (
-              <StyledProfileIcon
-                color={color}
-                backgroundColor={backgroundColor}
-              >
+              <StyledProfileIcon color={color} backgroundColor={backgroundColor}>
                 S
               </StyledProfileIcon>
             )}
@@ -263,9 +231,7 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
                 opacity: isFullWidth ? 1 : 0,
               }}
             >
-              <StyledProfileText>
-                {userName ? userName : "Account"}
-              </StyledProfileText>
+              <StyledProfileText>{userName ? userName : 'Account'}</StyledProfileText>
             </motion.div>
           </StyledLeftSideWrapper>
 
@@ -280,18 +246,14 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
 
 const StyledSidebarLinkWrapper = styled.div<{ isCurrent: boolean }>`
   ${tw`flex my-1.5 dark:text-white md:hover:bg-secondery dark:hover:bg-tertiaryDark overflow-hidden py-3 transition-all px-2 rounded-lg space-x-4 items-center`}
-  ${({ isCurrent }) =>
-    isCurrent && tw`bg-black bg-opacity-[3%] dark:bg-tertiaryDark`}
+  ${({ isCurrent }) => isCurrent && tw`bg-black bg-opacity-[3%] dark:bg-tertiaryDark`}
 `;
 const StyledNavLinkIcon = styled.div<{ color: string }>`
   ${tw`text-2xl opacity-80 dark:text-white  dark:opacity-100 transition-all  px-2 rounded-lg  `}
   color: ${({ color }) => color};
 `;
 
-const selectNavLinkText = (
-  navLink: NavigationLinks,
-  selectedLanguage: SupportedLanguages,
-) => {
+const selectNavLinkText = (navLink: NavigationLinks, selectedLanguage: SupportedLanguages) => {
   switch (navLink) {
     case NavigationLinks.COLLECTION:
       return displayHeaderTexts(selectedLanguage).collection;
@@ -308,16 +270,11 @@ const selectNavLinkText = (
     case NavigationLinks.GROUPS:
       return displayHeaderTexts(selectedLanguage).groups;
     default:
-      return "";
+      return '';
   }
 };
 
-const SidebarLink = (props: {
-  title: NavigationLinks;
-  path: string;
-  idx: number;
-  isFullWidth: boolean;
-}) => {
+const SidebarLink = (props: { title: NavigationLinks; path: string; idx: number; isFullWidth: boolean }) => {
   const { title, path, idx, isFullWidth: isHoverd } = props;
   const { selectedLanguage } = useSelectedLanguage();
   const { pathname } = useLocation();
@@ -335,18 +292,12 @@ const SidebarLink = (props: {
 
   return (
     <NavLink to={path}>
-      <StyledSidebarLinkWrapper
-        onClick={handleClick}
-        isCurrent={path == pathname && isHoverd}
-      >
+      <StyledSidebarLinkWrapper onClick={handleClick} isCurrent={path == pathname && isHoverd}>
         <StyledNavLinkIcon color={COLOR_ITEMS[idx].accentColor}>
           <NavigationLinkIcon navLink={title} />
         </StyledNavLinkIcon>
 
-        <motion.div
-          initial={{ x: -10, opacity: 0 }}
-          animate={{ x: isHoverd ? 0 : -10, opacity: isHoverd ? 1 : 0 }}
-        >
+        <motion.div initial={{ x: -10, opacity: 0 }} animate={{ x: isHoverd ? 0 : -10, opacity: isHoverd ? 1 : 0 }}>
           {selectNavLinkText(title, selectedLanguage)}
         </motion.div>
       </StyledSidebarLinkWrapper>
@@ -368,23 +319,19 @@ const Sidebar = () => {
   const [isHoverd, setIsHoverd] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);
   const isMobile = width < MEDIUM_DEVICE_WIDTH;
-  const isMediumDevice = width < LARGE_DEVICE_WIDTH;
+  const isMediumDevice = true;
   const isVisible = isMediumDevice ? isSidebarVisible : true;
   const isFullWidth = isMediumDevice ? true : isHoverd;
 
   useEffect(() => {
-    document.addEventListener("click", handleClickOutside, true);
+    document.addEventListener('click', handleClickOutside, true);
     return () => {
-      document.removeEventListener("click", handleClickOutside, true);
+      document.removeEventListener('click', handleClickOutside, true);
     };
   }, [isSidebarVisible]);
 
   const handleClickOutside = (e: MouseEvent) => {
-    if (
-      isSidebarVisible &&
-      sidebarRef.current &&
-      !sidebarRef.current.contains(e.target as Node)
-    ) {
+    if (isSidebarVisible && sidebarRef.current && !sidebarRef.current.contains(e.target as Node)) {
       toggleSidebar();
     }
   };
@@ -396,47 +343,36 @@ const Sidebar = () => {
         onHoverStart={() => setIsHoverd(true)}
         onHoverEnd={() => setIsHoverd(false)}
         style={{
-          position: "fixed",
-          height: isMobile ? "100%" : "96%",
-          top: isMobile ? "0" : "2%",
-          left: isMobile ? "0" : "1%",
+          position: 'fixed',
+          height: isMobile ? '100%' : '96%',
+          top: isMobile ? '0' : '2%',
+          left: isMobile ? '0' : '1%',
           zIndex: 20,
         }}
         initial={{
           width: 72,
-          x: isMediumDevice ? "-110%" : -100,
+          x: isMediumDevice ? '-110%' : -100,
         }}
         transition={{
           duration: isMobile ? 0.2 : 0.6,
-          type: isMobile ? "tween" : "spring",
+          type: isMobile ? 'tween' : 'spring',
         }}
         animate={{
-          width: isMobile ? "100%" : isFullWidth ? 250 : 72,
-          x: isVisible ? 0 : isMediumDevice ? "-110%" : -300,
+          width: isMobile ? '100%' : isFullWidth ? 250 : 72,
+          x: isVisible ? 0 : isMediumDevice ? '-110%' : -300,
         }}
       >
         <StyledSidebarWrapper isFullWidth={isFullWidth}>
           <StyledSpinaIcon
             onClick={
-              isMobile
-                ? toggleSidebar
-                : () =>
-                    changeTheme(
-                      isDarkMode ? SupportedThemes.LIGHT : SupportedThemes.DARK,
-                    )
+              isMobile ? toggleSidebar : () => changeTheme(isDarkMode ? SupportedThemes.LIGHT : SupportedThemes.DARK)
             }
           >
             {isMobile ? <IoClose /> : isDarkMode ? <IoMoon /> : <ViSpina />}
           </StyledSpinaIcon>
 
           {NAV_LINKS.map((navLink, idx) => (
-            <SidebarLink
-              isFullWidth={isFullWidth}
-              key={idx}
-              idx={idx}
-              title={navLink.title}
-              path={navLink.path}
-            />
+            <SidebarLink isFullWidth={isFullWidth} key={idx} idx={idx} title={navLink.title} path={navLink.path} />
           ))}
           <SelectedPodcastCell isFullWidth={isFullWidth} />
           <SettingsLink isFullWidth={isFullWidth} />

@@ -1,7 +1,7 @@
-import styled from "@emotion/styled";
-import { PropsWithChildren, ReactNode, useState } from "react";
-import tw from "twin.macro";
-import ActionSheet from "../presentation/ActionSheet";
+import styled from '@emotion/styled';
+import { PropsWithChildren, ReactNode, useState } from 'react';
+import tw from 'twin.macro';
+import ActionSheet from '../presentation/ActionSheet';
 
 const StyledNavBarButton = styled.div<{ isPressed: boolean }>`
   ${tw`text-2xl text-primaryColor cursor-pointer transition-all dark:text-primaryTextDark md:hover:opacity-50`}
@@ -29,10 +29,7 @@ const NavBarButton = (props: PropsWithChildren & NavBarButtonProps) => {
       <StyledNavBarButton isPressed={isSheetVisible} onClick={handleClick}>
         {children}
       </StyledNavBarButton>
-      <ActionSheet
-        visible={isSheetVisible}
-        navigateBack={() => setIsSheetVisible(false)}
-      >
+      <ActionSheet visible={isSheetVisible} navigateBack={() => setIsSheetVisible(false)}>
         {content}
       </ActionSheet>
     </div>

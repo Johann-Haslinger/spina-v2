@@ -1,17 +1,12 @@
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { useIsStoryCurrent } from "@leanscope/storyboarding";
-import { useContext } from "react";
-import {
-  AdditionalTags,
-  Stories,
-  SupabaseColumns,
-  SupabaseTables,
-} from "../../../../base/enums";
-import { Alert, AlertButton } from "../../../../components";
-import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import supabaseClient from "../../../../lib/supabase";
-import { displayActionTexts } from "../../../../utils/displayText";
-import { useSelectedNote } from "../../hooks/useSelectedNote";
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { useIsStoryCurrent } from '@leanscope/storyboarding';
+import { useContext } from 'react';
+import { AdditionalTags, Stories, SupabaseColumns, SupabaseTables } from '../../../../base/enums';
+import { Alert, AlertButton } from '../../../../components';
+import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
+import supabaseClient from '../../../../lib/supabase';
+import { displayActionTexts } from '../../../../utils/displayText';
+import { useSelectedNote } from '../../hooks/useSelectedNote';
 
 const DeleteNoteAlert = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -19,8 +14,7 @@ const DeleteNoteAlert = () => {
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedNoteId, selectedNoteEntity } = useSelectedNote();
 
-  const navigateBack = () =>
-    lsc.stories.transitTo(Stories.OBSERVING_TOPIC_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_TOPIC_STORY);
 
   const deleteNote = async () => {
     navigateBack();
@@ -35,7 +29,7 @@ const DeleteNoteAlert = () => {
           .eq(SupabaseColumns.ID, selectedNoteId);
 
         if (error) {
-          console.error("Error deleting note", error);
+          console.error('Error deleting note', error);
         }
 
         const { error: error2 } = await supabaseClient
@@ -44,7 +38,7 @@ const DeleteNoteAlert = () => {
           .eq(SupabaseColumns.PARENT_ID, selectedNoteId);
 
         if (error2) {
-          console.error("Error deleting blocks", error2);
+          console.error('Error deleting blocks', error2);
         }
 
         const { error: error3 } = await supabaseClient
@@ -53,7 +47,7 @@ const DeleteNoteAlert = () => {
           .eq(SupabaseColumns.PARENT_ID, selectedNoteId);
 
         if (error3) {
-          console.error("Error deleting podcasts", error3);
+          console.error('Error deleting podcasts', error3);
         }
       }
     }, 300);

@@ -21,11 +21,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": [
-    "src",
-    "client",
-    "src/stories/MainMenuButton.tsx",
-    "src/stories/DropTargetArea.stories.ts"
-  ],
+  "include": ["src", "client", "src/stories/MainMenuButton.tsx", "src/stories/DropTargetArea.stories.ts"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

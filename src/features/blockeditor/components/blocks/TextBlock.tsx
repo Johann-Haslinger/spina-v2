@@ -1,7 +1,7 @@
-import { EntityProps } from "@leanscope/ecs-engine";
-import { FloatOrderProps } from "@leanscope/ecs-models";
-import BlockOutline from "./BlockOutline";
-import BlockTexteditor from "./BlockTexteditor";
+import { EntityProps } from '@leanscope/ecs-engine';
+import { FloatOrderProps } from '@leanscope/ecs-models';
+import BlockOutline from './BlockOutline';
+import BlockTexteditor from './BlockTexteditor';
 
 const TextBlock = (props: EntityProps & FloatOrderProps) => {
   const { entity, index } = props;

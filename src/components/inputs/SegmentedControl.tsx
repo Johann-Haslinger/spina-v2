@@ -1,5 +1,5 @@
-import styled from "@emotion/styled/macro";
-import tw from "twin.macro";
+import styled from '@emotion/styled/macro';
+import tw from 'twin.macro';
 
 export const SegmentedControlCell = styled.div<{
   active: boolean;
@@ -7,10 +7,8 @@ export const SegmentedControlCell = styled.div<{
   leftNeighbourActive?: boolean;
 }>`
   ${tw`w-1/2 border-primaryBorder dark:border-primaryBorderDark my-0.5 py-0.5 text-center cursor-pointer`}
-  ${({ active }) =>
-    active && tw`bg-white dark:bg-tertiaryDark shadow rounded-lg`}
-  ${({ first, active, leftNeighbourActive }) =>
-    !leftNeighbourActive && !first && !active && tw`border-l`}
+  ${({ active }) => active && tw`bg-white dark:bg-tertiaryDark shadow rounded-lg`}
+  ${({ first, active, leftNeighbourActive }) => !leftNeighbourActive && !first && !active && tw`border-l`}
 `;
 
 export const SegmentedControl = styled.div`

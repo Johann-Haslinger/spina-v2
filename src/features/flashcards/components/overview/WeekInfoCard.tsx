@@ -1,16 +1,18 @@
-import styled from "@emotion/styled";
-import { useEntities } from "@leanscope/ecs-engine";
-import { useEffect, useState } from "react";
-import tw from "twin.macro";
+import styled from '@emotion/styled';
+import { useEntities } from '@leanscope/ecs-engine';
+import { useEffect, useState } from 'react';
+import { IoInformationCircleOutline } from 'react-icons/io5';
+import tw from 'twin.macro';
 import {
   DateAddedFacet,
   DurationFacet,
   FlashcardCountFacet,
   FlashcardPerformanceFacet,
-} from "../../../../app/additionalFacets";
-import { DataTypes } from "../../../../base/enums";
-import { FlexBox } from "../../../../components";
-import { dataTypeQuery } from "../../../../utils/queries";
+} from '../../../../app/additionalFacets';
+import { COLOR_ITEMS } from '../../../../base/constants';
+import { DataTypes } from '../../../../base/enums';
+import { FlexBox } from '../../../../components';
+import { dataTypeQuery } from '../../../../utils/queries';
 
 type FlashcardPerformance = {
   skip: number;
@@ -21,11 +23,13 @@ type FlashcardPerformance = {
 };
 
 const StyledCardWrapper = styled.div`
-  ${tw`w-full h-3/5 py-4 px-5 rounded-2xl bg-[#F0A151] text-[#F0A151] bg-opacity-40`}
+  ${tw`w-full h-3/5 py-4 px-5 rounded-2xl   bg-opacity-40`}
+  background-color: ${COLOR_ITEMS[0].accentColor + 70};
+  color: ${COLOR_ITEMS[0].accentColor};
 `;
 
 const StyledFlexBox = styled.div`
-  ${tw`flex mb-3 justify-between`}
+  ${tw`flex mb-3  justify-between`}
 `;
 
 const StyledLeftSideWrapper = styled.div`
@@ -36,27 +40,32 @@ const StyledRightSideWrapper = styled.div`
   ${tw`w-1/2 flex flex-col items-end`}
 `;
 
-const StyledText = styled.div`
-  ${tw`text-[#F0A151] text-sm leading-4`}
+const StyledText3 = styled.div`
+  ${tw`flex mt-1 w-full justify-end  items-center text-sm`}
 `;
-
+const StyledText = styled.div`
+  ${tw`relative top-0.5 text-sm`}
+`;
 const StyledText2 = styled.div`
-  ${tw`text-[#F0A151] text-xl font-bold`}
+  ${tw`text-xl font-semibold`}
 `;
 
 const StyledBar = styled.div`
-  ${tw`bg-[#F0A151] hover:opacity-100 transition-all mr-auto rounded-r h-4 ml-4  opacity-90 `}
+  ${tw` hover:opacity-100 transition-all mr-auto rounded-r h-4 ml-4  opacity-90 `}
+  background-color: ${COLOR_ITEMS[0].accentColor};
 `;
 
 const WeekInfoCard = () => {
   const { totalCardCount, totalTimeSpent, flashcardPerformance } = useWeekInfoData();
+  const [hoverdBar, setHoverdBar] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
   const timeRange = useFormattedTimeRange();
 
   return (
-    <StyledCardWrapper>
+    <StyledCardWrapper onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
       <StyledFlexBox>
         <StyledLeftSideWrapper>
-          <StyledText>Abgefragt</StyledText>
+          <StyledText>Abfragedauer</StyledText>
           <StyledText2>{totalCardCount} Karten</StyledText2>
         </StyledLeftSideWrapper>
         <StyledRightSideWrapper>
@@ -67,29 +76,34 @@ const WeekInfoCard = () => {
         </StyledRightSideWrapper>
       </StyledFlexBox>
       <div>
-        {" "}
-        <FlexBox>
+        {' '}
+        <FlexBox onMouseEnter={() => setHoverdBar(1)} onMouseLeave={() => setHoverdBar(0)}>
           <div>⏩</div> <StyledBar style={{ width: `${flashcardPerformance?.skip}%` }} />
-          {flashcardPerformance?.skip}%
+          {hoverdBar === 1 && <div> {flashcardPerformance?.skip}%</div>}
         </FlexBox>
-        <FlexBox>
-          <div>❌</div> <StyledBar style={{ width: `${flashcardPerformance?.forgot}%` }} />{" "}
-          {flashcardPerformance?.forgot}%
+        <FlexBox onMouseEnter={() => setHoverdBar(2)} onMouseLeave={() => setHoverdBar(0)}>
+          <div>❌</div> <StyledBar style={{ width: `${flashcardPerformance?.forgot}%` }} />{' '}
+          {hoverdBar === 2 && <div> {flashcardPerformance?.forgot}%</div>}
         </FlexBox>
-        <FlexBox>
-          <div>🤔</div> <StyledBar style={{ width: `${flashcardPerformance?.partiallyRemembered}%` }} />{" "}
-          {flashcardPerformance?.partiallyRemembered}%
+        <FlexBox onMouseEnter={() => setHoverdBar(3)} onMouseLeave={() => setHoverdBar(0)}>
+          <div>🤔</div> <StyledBar style={{ width: `${flashcardPerformance?.partiallyRemembered}%` }} />{' '}
+          {hoverdBar === 3 && <div> {flashcardPerformance?.partiallyRemembered}%</div>}
         </FlexBox>
-        <FlexBox>
+        <FlexBox onMouseEnter={() => setHoverdBar(4)} onMouseLeave={() => setHoverdBar(0)}>
           <div>😀</div> <StyledBar style={{ width: `${flashcardPerformance?.rememberedWithEffort}%` }} />
-          {flashcardPerformance?.rememberedWithEffort}%
+          {hoverdBar === 4 && <div> {flashcardPerformance?.rememberedWithEffort}%</div>}
         </FlexBox>
-        <FlexBox>
+        <FlexBox onMouseEnter={() => setHoverdBar(5)} onMouseLeave={() => setHoverdBar(0)}>
           <div>👑</div> <StyledBar style={{ width: `${flashcardPerformance?.easilyRemembered}%` }} />
-          {flashcardPerformance?.easilyRemembered}%
+          {hoverdBar === 5 && <div> {flashcardPerformance?.easilyRemembered}%</div>}
         </FlexBox>
       </div>
-      {timeRange}
+      {isHovered && (
+        <StyledText3>
+          <IoInformationCircleOutline tw="text-lg mr-2" />
+          {timeRange}
+        </StyledText3>
+      )}
     </StyledCardWrapper>
   );
 };
@@ -102,7 +116,7 @@ const useWeekInfoData = () => {
   const [flashcardSessionEntities] = useEntities(
     (e) =>
       dataTypeQuery(e, DataTypes.FLASHCARD_SESSION) &&
-      (e.get(DateAddedFacet)?.props.dateAdded || "") > sevenDaysAgo.toISOString()
+      (e.get(DateAddedFacet)?.props.dateAdded || '') > sevenDaysAgo.toISOString(),
   );
 
   const [totalCardCount, setTotalCardCount] = useState(0);
@@ -162,7 +176,7 @@ const useWeekInfoData = () => {
 
 const useFormattedTimeRange = () => {
   const formatDate = (date: Date) => {
-    return date.toLocaleDateString("de-DE", { day: "numeric", month: "long" });
+    return date.toLocaleDateString('de-DE', { day: 'numeric', month: 'long' });
   };
 
   const currentDate = new Date();

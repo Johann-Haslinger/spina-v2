@@ -1,13 +1,5 @@
-import {
-  IoAlbums,
-  IoBook,
-  IoGrid,
-  IoHome,
-  IoJournal,
-  IoPeople,
-  IoTrophy,
-} from "react-icons/io5";
-import { NavigationLinks } from "../../base/enums";
+import { IoAlbums, IoBook, IoGrid, IoHome, IoJournal, IoPeople, IoTrophy } from 'react-icons/io5';
+import { NavigationLinks } from '../../base/enums';
 
 const NavigationLinkIcon = (props: { navLink: NavigationLinks }) => {
   switch (props.navLink) {

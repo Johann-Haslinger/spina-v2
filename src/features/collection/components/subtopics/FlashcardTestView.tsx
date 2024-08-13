@@ -1,32 +1,18 @@
-import styled from "@emotion/styled";
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { useEntities } from "@leanscope/ecs-engine";
-import { ParentFacet } from "@leanscope/ecs-models";
-import { useIsStoryCurrent } from "@leanscope/storyboarding";
-import {
-  PropsWithChildren,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
-import { IoEye } from "react-icons/io5";
-import tw from "twin.macro";
-import { AnswerFacet, QuestionFacet } from "../../../../app/additionalFacets";
-import { DataTypes, Stories } from "../../../../base/enums";
-import {
-  BackButton,
-  Divider,
-  NavigationBar,
-  SecondaryText,
-  Spacer,
-  Title,
-  View,
-} from "../../../../components";
-import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import { displayHeaderTexts } from "../../../../utils/displayText";
-import { dataTypeQuery } from "../../../../utils/queries";
-import { useSelectedSubtopic } from "../../hooks/useSelectedSubtopic";
+import styled from '@emotion/styled';
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { Entity, useEntities } from '@leanscope/ecs-engine';
+import { ParentFacet } from '@leanscope/ecs-models';
+import { useIsStoryCurrent } from '@leanscope/storyboarding';
+import { PropsWithChildren, ReactNode, useContext, useEffect, useState } from 'react';
+import { IoEye } from 'react-icons/io5';
+import tw from 'twin.macro';
+import { AnswerFacet, QuestionFacet } from '../../../../app/additionalFacets';
+import { DataTypes, Stories } from '../../../../base/enums';
+import { BackButton, Divider, NavigationBar, SecondaryText, Spacer, Title, View } from '../../../../components';
+import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
+import { displayHeaderTexts } from '../../../../utils/displayText';
+import { dataTypeQuery } from '../../../../utils/queries';
+import { useSelectedSubtopic } from '../../hooks/useSelectedSubtopic';
 
 // TODO: add button to components folder
 
@@ -38,9 +24,7 @@ const StyledButtonIcon = styled.div`
   ${tw`mr-2 text-lg`}
 `;
 
-const Button = (
-  props: { onClick: () => void; icon: ReactNode } & PropsWithChildren,
-) => {
+const Button = (props: { onClick: () => void; icon: ReactNode } & PropsWithChildren) => {
   const { icon, onClick, children } = props;
   return (
     <StyledButtonWrapper onClick={onClick}>
@@ -55,7 +39,7 @@ interface Flashcard {
   answer: string;
 }
 
-function getRandomElements(array: any[]): any[] {
+function getRandomElements(array: Entity[]): Entity[] {
   if (array.length < 10) {
     return array;
   }
@@ -106,9 +90,7 @@ const TestRow = (props: { flashCard: Flashcard; isAnswerVisible: boolean }) => {
 };
 
 const useFlashcardsForTest = () => {
-  const [flashcardEntities] = useEntities((e) =>
-    dataTypeQuery(e, DataTypes.FLASHCARD),
-  );
+  const [flashcardEntities] = useEntities((e) => dataTypeQuery(e, DataTypes.FLASHCARD));
   const { selectedSubtopicId } = useSelectedSubtopic();
   const [flashCardsForTest, setFlashCardsForTest] = useState<Flashcard[]>();
   const isVisible = useIsStoryCurrent(Stories.OBSERVING_FLASHCARD_TEST_STORY);
@@ -120,8 +102,8 @@ const useFlashcardsForTest = () => {
     const randomFlashcardEntities = getRandomElements(filterdFlashcardEntities);
     setFlashCardsForTest(
       randomFlashcardEntities?.map((e) => ({
-        question: e.get(QuestionFacet)?.props.question || "",
-        answer: e.get(AnswerFacet)?.props.answer || "",
+        question: e.get(QuestionFacet)?.props.question || '',
+        answer: e.get(AnswerFacet)?.props.answer || '',
       })),
     );
   }, [flashcardEntities, selectedSubtopicId, isVisible]);
@@ -137,21 +119,18 @@ const FlashcardTestView = () => {
   const flashcardsFortest = useFlashcardsForTest();
   const [isAnswerVisible, setAnswerVisible] = useState(false);
 
-  const navigateBack = () =>
-    lsc.stories.transitTo(Stories.OBSERVING_SUBTOPIC_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_SUBTOPIC_STORY);
 
   return (
     <View visible={isVisible}>
       <NavigationBar />
-      <BackButton navigateBack={navigateBack}>
-        {selectedSubtopicTitle}
-      </BackButton>
+      <BackButton navigateBack={navigateBack}>{selectedSubtopicTitle}</BackButton>
       <Title>{displayHeaderTexts(selectedLanguage).flashcardTest}</Title>
       <Spacer />
       <SecondaryText>
         {flashcardsFortest.length == 0
-          ? "Keine Karteikarten vorhanden"
-          : " Fülle den {selectedSubtopicTitle} Test aus, indem du zu jeder Frage die passende Antwort schreibst – konzentriere dich dabei auf klare und prägnante Informationen."}
+          ? 'Keine Karteikarten vorhanden'
+          : ' Fülle den {selectedSubtopicTitle} Test aus, indem du zu jeder Frage die passende Antwort schreibst – konzentriere dich dabei auf klare und prägnante Informationen.'}
       </SecondaryText>
       <Spacer size={8} />
       <Divider />
@@ -159,10 +138,7 @@ const FlashcardTestView = () => {
         <TestRow isAnswerVisible={isAnswerVisible} flashCard={card} />
       ))}
       <Spacer size={8} />
-      <Button
-        onClick={() => setAnswerVisible(!isAnswerVisible)}
-        icon={<IoEye />}
-      >
+      <Button onClick={() => setAnswerVisible(!isAnswerVisible)} icon={<IoEye />}>
         Vergeichen
       </Button>
       <Spacer size={20} />

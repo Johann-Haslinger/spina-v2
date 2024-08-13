@@ -1,20 +1,20 @@
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { Entity } from "@leanscope/ecs-engine";
-import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
-import { useContext, useEffect } from "react";
-import { PriorityFacet, TitleFacet } from "../../../app/additionalFacets";
-import { dummyFlashcardSets, dummySubtopics } from "../../../base/dummy";
-import { DataTypes, SupabaseTables } from "../../../base/enums";
-import { useCurrentDataSource } from "../../../hooks/useCurrentDataSource";
-import supabaseClient from "../../../lib/supabase";
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { Entity } from '@leanscope/ecs-engine';
+import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
+import { useContext, useEffect } from 'react';
+import { PriorityFacet, TitleFacet } from '../../../app/additionalFacets';
+import { dummyFlashcardSets, dummySubtopics } from '../../../base/dummy';
+import { DataTypes, SupabaseTables } from '../../../base/enums';
+import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
+import supabaseClient from '../../../lib/supabase';
 
 const fetchFlashcardSets = async () => {
   const { data: flashcardSets, error } = await supabaseClient
     .from(SupabaseTables.FLASHCARD_SETS)
-    .select("id, title, priority, parent_id");
+    .select('id, title, priority, parent_id');
 
   if (error) {
-    console.error("Error fetching flashcard sets", error);
+    console.error('Error fetching flashcard sets', error);
   }
 
   return flashcardSets || [];
@@ -23,10 +23,10 @@ const fetchFlashcardSets = async () => {
 const fetchSubtopics = async () => {
   const { data: subtopics, error } = await supabaseClient
     .from(SupabaseTables.SUBTOPICS)
-    .select("id, title, priority, parent_id");
+    .select('id, title, priority, parent_id');
 
   if (error) {
-    console.error("Error fetching subtopics", error);
+    console.error('Error fetching subtopics', error);
   }
 
   return subtopics || [];

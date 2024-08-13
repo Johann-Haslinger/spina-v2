@@ -1,13 +1,9 @@
-import styled from "@emotion/styled";
-import { EntityProps } from "@leanscope/ecs-engine";
-import { Tags } from "@leanscope/ecs-models";
-import tw from "twin.macro";
-import {
-  AnswerProps,
-  MasteryLevelProps,
-  QuestionProps,
-} from "../../../../app/additionalFacets";
-import { useSelectedSchoolSubjectColor } from "../../hooks/useSelectedSchoolSubjectColor";
+import styled from '@emotion/styled';
+import { EntityProps } from '@leanscope/ecs-engine';
+import { Tags } from '@leanscope/ecs-models';
+import tw from 'twin.macro';
+import { AnswerProps, MasteryLevelProps, QuestionProps } from '../../../../app/additionalFacets';
+import { useSelectedSchoolSubjectColor } from '../../hooks/useSelectedSchoolSubjectColor';
 
 const StyledFlashcardCellWrapper = styled.div<{
   backgroundColor: string;
@@ -39,28 +35,23 @@ const StyledProgressBar = styled.div<{
   width: ${(props) => props.width};
 `;
 
-const FlashcardCell = (
-  props: QuestionProps & AnswerProps & EntityProps & MasteryLevelProps,
-) => {
+const FlashcardCell = (props: QuestionProps & AnswerProps & EntityProps & MasteryLevelProps) => {
   const { question, answer, entity, masteryLevel = 0 } = props;
   const { accentColor } = useSelectedSchoolSubjectColor();
 
   const openFlashcard = () => entity.add(Tags.SELECTED);
 
   return (
-    <StyledFlashcardCellWrapper
-      onClick={openFlashcard}
-      backgroundColor={accentColor}
-    >
+    <StyledFlashcardCellWrapper onClick={openFlashcard} backgroundColor={accentColor}>
       <StyledTextWrapper>
-        {" "}
+        {' '}
         <StyledQuestionText>{question}</StyledQuestionText>
         <StyledAnswerText>{answer}</StyledAnswerText>
       </StyledTextWrapper>
       <StyledProgressBarWrapper>
         <StyledProgressBar
           backgroundColor={accentColor}
-          width={((masteryLevel ? masteryLevel : 0) / 5) * 100 + 2 + "%"}
+          width={((masteryLevel ? masteryLevel : 0) / 5) * 100 + 2 + '%'}
         />
       </StyledProgressBarWrapper>
     </StyledFlashcardCellWrapper>

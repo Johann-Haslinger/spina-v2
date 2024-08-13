@@ -1,29 +1,9 @@
 const ViSpina = () => {
   return (
-    <svg
-      width="35"
-      height="35"
-      viewBox="0 0 35 35"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg width="35" height="35" viewBox="0 0 35 35" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="17.5548" cy="16.5904" r="4.33486" fill="#EF9D4A" />
-      <rect
-        x="16.3774"
-        y="0.00012207"
-        width="3.5"
-        height="9.63303"
-        rx="1.75"
-        fill="#EF9D4A"
-      />
-      <rect
-        x="16.3774"
-        y="24.725"
-        width="3.5"
-        height="9.63303"
-        rx="1.75"
-        fill="#EF9D4A"
-      />
+      <rect x="16.3774" y="0.00012207" width="3.5" height="9.63303" rx="1.75" fill="#EF9D4A" />
+      <rect x="16.3774" y="24.725" width="3.5" height="9.63303" rx="1.75" fill="#EF9D4A" />
       <rect
         x="25.3682"
         y="17.3396"

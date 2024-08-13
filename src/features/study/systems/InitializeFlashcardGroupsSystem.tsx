@@ -1,23 +1,23 @@
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { Entity } from "@leanscope/ecs-engine";
-import { IdentifierFacet } from "@leanscope/ecs-models";
-import { useContext, useEffect } from "react";
-import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
-import { dummyFlashcardSets, dummySubtopics } from "../../../base/dummy";
-import { AdditionalTags, DataTypes, SupabaseTables } from "../../../base/enums";
-import { useCurrentDataSource } from "../../../hooks/useCurrentDataSource";
-import supabaseClient from "../../../lib/supabase";
-import { dataTypeQuery } from "../../../utils/queries";
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { Entity } from '@leanscope/ecs-engine';
+import { IdentifierFacet } from '@leanscope/ecs-models';
+import { useContext, useEffect } from 'react';
+import { DateAddedFacet, TitleFacet } from '../../../app/additionalFacets';
+import { dummyFlashcardSets, dummySubtopics } from '../../../base/dummy';
+import { AdditionalTags, DataTypes, SupabaseTables } from '../../../base/enums';
+import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
+import supabaseClient from '../../../lib/supabase';
+import { dataTypeQuery } from '../../../utils/queries';
 
 const fetchFlashcardSets = async () => {
   const { data: flashcardSets, error } = await supabaseClient
-    .from("flashcardSets")
-    .select("title, id, date_added, bookmarked")
-    .order("date_added", { ascending: false })
+    .from('flashcardSets')
+    .select('title, id, date_added, bookmarked')
+    .order('date_added', { ascending: false })
     .limit(10);
 
   if (error) {
-    console.error("Error fetching flashcardSets:", error);
+    console.error('Error fetching flashcardSets:', error);
     return [];
   }
 
@@ -27,12 +27,12 @@ const fetchFlashcardSets = async () => {
 const fetchSubtopics = async () => {
   const { data: subtopics, error } = await supabaseClient
     .from(SupabaseTables.SUBTOPICS)
-    .select("title, id, date_added, bookmarked")
-    .order("date_added", { ascending: false })
+    .select('title, id, date_added, bookmarked')
+    .order('date_added', { ascending: false })
     .limit(10);
 
   if (error) {
-    console.error("Error fetching subtopics:", error);
+    console.error('Error fetching subtopics:', error);
     return [];
   }
 
@@ -40,25 +40,16 @@ const fetchSubtopics = async () => {
 };
 
 const InitializeFlashcardGroupsSystem = () => {
-  const {
-    isUsingMockupData: mockupData,
-    isUsingSupabaseData: shouldFetchFromSupabase,
-  } = useCurrentDataSource();
+  const { isUsingMockupData: mockupData, isUsingSupabaseData: shouldFetchFromSupabase } = useCurrentDataSource();
   const lsc = useContext(LeanScopeClientContext);
 
   useEffect(() => {
     const initializeFlashcardSetEntities = async () => {
-      const flashcardSets = mockupData
-        ? dummyFlashcardSets
-        : shouldFetchFromSupabase
-          ? await fetchFlashcardSets()
-          : [];
+      const flashcardSets = mockupData ? dummyFlashcardSets : shouldFetchFromSupabase ? await fetchFlashcardSets() : [];
 
       flashcardSets.forEach((flashcardSet) => {
         const isExisting = lsc.engine.entities.some(
-          (e) =>
-            e.get(IdentifierFacet)?.props.guid === flashcardSet.id &&
-            dataTypeQuery(e, DataTypes.FLASHCARD_SET),
+          (e) => e.get(IdentifierFacet)?.props.guid === flashcardSet.id && dataTypeQuery(e, DataTypes.FLASHCARD_SET),
         );
 
         if (!isExisting) {
@@ -69,12 +60,8 @@ const InitializeFlashcardGroupsSystem = () => {
               dateAdded: flashcardSet.date_added || new Date().toISOString(),
             }),
           );
-          flashcardGroupEntity.add(
-            new TitleFacet({ title: flashcardSet.title }),
-          );
-          flashcardGroupEntity.add(
-            new IdentifierFacet({ guid: flashcardSet.id }),
-          );
+          flashcardGroupEntity.add(new TitleFacet({ title: flashcardSet.title }));
+          flashcardGroupEntity.add(new IdentifierFacet({ guid: flashcardSet.id }));
           flashcardGroupEntity.addTag(DataTypes.FLASHCARD_SET);
           flashcardGroupEntity.addTag(DataTypes.FLASHCARD_GROUP);
 
@@ -90,9 +77,7 @@ const InitializeFlashcardGroupsSystem = () => {
 
       subtopics.forEach((subtopic) => {
         const isExisting = lsc.engine.entities.some(
-          (e) =>
-            e.get(IdentifierFacet)?.props.guid === subtopic.id &&
-            dataTypeQuery(e, DataTypes.SUBTOPIC),
+          (e) => e.get(IdentifierFacet)?.props.guid === subtopic.id && dataTypeQuery(e, DataTypes.SUBTOPIC),
         );
 
         if (!isExisting) {

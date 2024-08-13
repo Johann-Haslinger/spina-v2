@@ -1,6 +1,6 @@
-import styled from "@emotion/styled/macro";
-import React, { useState, useEffect } from "react";
-import tw from "twin.macro";
+import styled from '@emotion/styled/macro';
+import React, { useState, useEffect } from 'react';
+import tw from 'twin.macro';
 
 const StyledMessageWrapper = styled.div`
   ${tw`outline-none`}
@@ -17,7 +17,7 @@ const TypingAnimationInnerHTML: React.FC<TypingAnimationProps> = ({
   playAnimation,
   onWritingAnimationPlayed,
 }) => {
-  const [displayedHTML, setDisplayedHTML] = useState(playAnimation ? "" : text);
+  const [displayedHTML, setDisplayedHTML] = useState(playAnimation ? '' : text);
 
   useEffect(() => {
     let currentIndex = 0;

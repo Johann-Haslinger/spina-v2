@@ -1,31 +1,24 @@
-import styled from "@emotion/styled";
-import { EntityPropsMapper, useEntities } from "@leanscope/ecs-engine";
-import { IoCheckmarkCircleOutline } from "react-icons/io5";
-import { Fragment } from "react/jsx-runtime";
-import tw from "twin.macro";
-import { DueDateFacet, StatusFacet, TitleFacet } from "../app/additionalFacets";
-import { AdditionalTags, DataTypes } from "../base/enums";
-import {
-  Kanban,
-  NavigationBar,
-  SectionRow,
-  Spacer,
-  Title,
-  View,
-} from "../components";
-import InitializeExamsSystem from "../features/exams/systems/InitializeExamsSystem";
-import InitializeHomeworksSystem from "../features/homeworks/systems/InitializeHomeworksSystem";
+import styled from '@emotion/styled';
+import { EntityPropsMapper, useEntities } from '@leanscope/ecs-engine';
+import { IoCheckmarkCircleOutline } from 'react-icons/io5';
+import { Fragment } from 'react/jsx-runtime';
+import tw from 'twin.macro';
+import { DueDateFacet, StatusFacet, TitleFacet } from '../app/additionalFacets';
+import { AdditionalTags, DataTypes } from '../base/enums';
+import { Kanban, NavigationBar, SectionRow, Spacer, Title, View } from '../components';
+import InitializeExamsSystem from '../features/exams/systems/InitializeExamsSystem';
+import InitializeHomeworksSystem from '../features/homeworks/systems/InitializeHomeworksSystem';
 import {
   InitializeRecentlyAddedResources,
   PendingResourceKanbanCell,
   PendingResourceRow,
   RecentlyAddedResourceRow,
   usePendingResourceStatus,
-} from "../features/overview";
-import { useSelectedLanguage } from "../hooks/useSelectedLanguage";
-import { displayHeaderTexts, displayLabelTexts } from "../utils/displayText";
-import { dataTypeQuery } from "../utils/queries";
-import { sortEntitiesByDueDate } from "../utils/sortEntitiesByTime";
+} from '../features/overview';
+import { useSelectedLanguage } from '../hooks/useSelectedLanguage';
+import { displayHeaderTexts, displayLabelTexts } from '../utils/displayText';
+import { dataTypeQuery } from '../utils/queries';
+import { sortEntitiesByDueDate } from '../utils/sortEntitiesByTime';
 
 const useTwoWeeksFromNow = () => {
   const currentDate = new Date();
@@ -46,12 +39,10 @@ const Overview = () => {
   const [pendingResourceEntities] = useEntities(
     (e) =>
       (e.has(DataTypes.HOMEWORK) || e.has(DataTypes.EXAM)) &&
-      new Date(e.get(DueDateFacet)?.props.dueDate || "") <= twoWeeksFromNow &&
+      new Date(e.get(DueDateFacet)?.props.dueDate || '') <= twoWeeksFromNow &&
       [1, 2, 3].includes(e.get(StatusFacet)?.props.status || 0),
   );
-  const [recentlyAddedResourceEntities] = useEntities((e) =>
-    e.has(AdditionalTags.RECENTLY_ADDED),
-  );
+  const [recentlyAddedResourceEntities] = useEntities((e) => e.has(AdditionalTags.RECENTLY_ADDED));
 
   return (
     <Fragment>
@@ -65,16 +56,13 @@ const Overview = () => {
         <Title>{displayHeaderTexts(selectedLanguage).overview}</Title>
 
         <Spacer size={8} />
-        <StyledSubtitle>
-          {displayLabelTexts(selectedLanguage).pendingResources}
-        </StyledSubtitle>
+        <StyledSubtitle>{displayLabelTexts(selectedLanguage).pendingResources}</StyledSubtitle>
 
         <Spacer size={2} />
         <EntityPropsMapper
           query={(e) =>
             (e.has(DataTypes.HOMEWORK) || e.has(DataTypes.EXAM)) &&
-            new Date(e.get(DueDateFacet)?.props.dueDate || "") <=
-              twoWeeksFromNow &&
+            new Date(e.get(DueDateFacet)?.props.dueDate || '') <= twoWeeksFromNow &&
             [1, 2, 3].includes(e.get(StatusFacet)?.props.status || 0)
           }
           get={[[DueDateFacet, TitleFacet, StatusFacet], []]}
@@ -88,9 +76,7 @@ const Overview = () => {
         )}
 
         <Spacer size={14} />
-        <StyledSubtitle>
-          {displayLabelTexts(selectedLanguage).recentlyAdded}
-        </StyledSubtitle>
+        <StyledSubtitle>{displayLabelTexts(selectedLanguage).recentlyAdded}</StyledSubtitle>
         <Spacer />
         <EntityPropsMapper
           query={(e) => e.has(AdditionalTags.RECENTLY_ADDED)}
@@ -105,19 +91,14 @@ const Overview = () => {
         )}
 
         <Spacer size={14} />
-        <StyledSubtitle>
-          {displayLabelTexts(selectedLanguage).kanban}
-        </StyledSubtitle>
+        <StyledSubtitle>{displayLabelTexts(selectedLanguage).kanban}</StyledSubtitle>
         <Spacer />
 
         <Kanban
           updateEntityStatus={updatePendingResourceStatus}
           sortingRule={sortEntitiesByDueDate}
-          query={(e) =>
-            dataTypeQuery(e, DataTypes.HOMEWORK) ||
-            dataTypeQuery(e, DataTypes.EXAM)
-          }
-          kanbanCell={PendingResourceKanbanCell}
+          query={(e) => dataTypeQuery(e, DataTypes.HOMEWORK) || dataTypeQuery(e, DataTypes.EXAM)}
+          kanbanCell={PendingResourceKanbanCell as ()=> JSX.Element}
         />
 
         <Spacer size={20} />

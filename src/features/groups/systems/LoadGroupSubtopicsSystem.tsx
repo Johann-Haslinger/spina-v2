@@ -1,36 +1,29 @@
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { Entity } from "@leanscope/ecs-engine";
-import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
-import { useContext, useEffect } from "react";
-import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
-import { dummySubtopics } from "../../../base/dummy";
-import {
-  DataTypes,
-  SupabaseColumns,
-  SupabaseTables,
-} from "../../../base/enums";
-import { useCurrentDataSource } from "../../../hooks/useCurrentDataSource";
-import supabaseClient from "../../../lib/supabase";
-import { useSelectedGroupTopic } from "../hooks/useSelectedGroupTopic";
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { Entity } from '@leanscope/ecs-engine';
+import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
+import { useContext, useEffect } from 'react';
+import { DateAddedFacet, TitleFacet } from '../../../app/additionalFacets';
+import { dummySubtopics } from '../../../base/dummy';
+import { DataTypes, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
+import supabaseClient from '../../../lib/supabase';
+import { useSelectedGroupTopic } from '../hooks/useSelectedGroupTopic';
 
 const fetchGroupSubtopicsForSchoolSubject = async (subjectId: string) => {
   const { data: groupSubtopics, error } = await supabaseClient
     .from(SupabaseTables.GROUP_SUBTOPICS)
-    .select("title, id, date_added")
+    .select('title, id, date_added')
     .eq(SupabaseColumns.PARENT_ID, subjectId);
 
   if (error) {
-    console.error("Error fetching group subtopics:", error);
+    console.error('Error fetching group subtopics:', error);
     return [];
   }
   return groupSubtopics || [];
 };
 
 const LoadGroupGroupSubtopicsSystem = () => {
-  const {
-    isUsingMockupData: mockupData,
-    isUsingSupabaseData: shouldFetchFromSupabase,
-  } = useCurrentDataSource();
+  const { isUsingMockupData: mockupData, isUsingSupabaseData: shouldFetchFromSupabase } = useCurrentDataSource();
   const lsc = useContext(LeanScopeClientContext);
   const { selectedGroupTopicId } = useSelectedGroupTopic();
 
@@ -45,9 +38,7 @@ const LoadGroupGroupSubtopicsSystem = () => {
 
         groupSubtopics.forEach((topic) => {
           const isExisting = lsc.engine.entities.some(
-            (e) =>
-              e.get(IdentifierFacet)?.props.guid === topic.id &&
-              e.hasTag(DataTypes.GROUP_SUBTOPIC),
+            (e) => e.get(IdentifierFacet)?.props.guid === topic.id && e.hasTag(DataTypes.GROUP_SUBTOPIC),
           );
 
           if (!isExisting) {
@@ -55,13 +46,9 @@ const LoadGroupGroupSubtopicsSystem = () => {
             lsc.engine.addEntity(topicEntity);
             topicEntity.add(new TitleFacet({ title: topic.title }));
             topicEntity.add(new IdentifierFacet({ guid: topic.id }));
-            topicEntity.add(
-              new DateAddedFacet({ dateAdded: topic.date_added }),
-            );
+            topicEntity.add(new DateAddedFacet({ dateAdded: topic.date_added }));
 
-            topicEntity.add(
-              new ParentFacet({ parentId: selectedGroupTopicId }),
-            );
+            topicEntity.add(new ParentFacet({ parentId: selectedGroupTopicId }));
             topicEntity.addTag(DataTypes.GROUP_SUBTOPIC);
           }
         });

@@ -1,17 +1,12 @@
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { useIsStoryCurrent } from "@leanscope/storyboarding";
-import { useContext } from "react";
-import {
-  AdditionalTags,
-  Stories,
-  SupabaseColumns,
-  SupabaseTables,
-} from "../../../base/enums";
-import { Alert, AlertButton } from "../../../components";
-import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
-import supabaseClient from "../../../lib/supabase";
-import { displayActionTexts } from "../../../utils/displayText";
-import { useSelectedExam } from "../hooks/useSelectedExam";
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { useIsStoryCurrent } from '@leanscope/storyboarding';
+import { useContext } from 'react';
+import { AdditionalTags, Stories, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { Alert, AlertButton } from '../../../components';
+import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
+import supabaseClient from '../../../lib/supabase';
+import { displayActionTexts } from '../../../utils/displayText';
+import { useSelectedExam } from '../hooks/useSelectedExam';
 
 const DeleteExamAlert = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -19,8 +14,7 @@ const DeleteExamAlert = () => {
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedExamId, selectedExamEntity } = useSelectedExam();
 
-  const navigateBack = () =>
-    lsc.stories.transitTo(Stories.OBSERVING_EXAMS_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_EXAMS_STORY);
 
   const deleteExam = async () => {
     navigateBack();
@@ -35,7 +29,7 @@ const DeleteExamAlert = () => {
           .eq(SupabaseColumns.ID, selectedExamId);
 
         if (error) {
-          console.error("Error deleting exam", error);
+          console.error('Error deleting exam', error);
         }
       }
     }, 300);

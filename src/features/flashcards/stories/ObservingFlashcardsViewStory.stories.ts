@@ -1,12 +1,12 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import "../../../index.css";
-import ObservingFlashcardsViewStory from "./ObservingFlashcardsViewStory";
+import type { Meta, StoryObj } from '@storybook/react';
+import '../../../index.css';
+import ObservingFlashcardsViewStory from './ObservingFlashcardsViewStory';
 
 const meta = {
-  title: "Stories/Flashcards/ObservingFlashcardsViewStory",
+  title: 'Stories/Flashcards/ObservingFlashcardsViewStory',
   component: ObservingFlashcardsViewStory,
   parameters: {
-    layout: "centered",
+    layout: 'centered',
   },
 } satisfies Meta<typeof ObservingFlashcardsViewStory>;
 

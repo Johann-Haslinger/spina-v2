@@ -1,9 +1,9 @@
-import styled from "@emotion/styled";
-import tw from "twin.macro";
-import StreakCard from "./overview/StreakCard";
-import WeekInfoCard from "./overview/WeekInfoCard";
-import WeekStatsCard from "./overview/WeekStatsCard";
-import FlashcardGroupTable from "./overview/FlashcardGroupTable";
+import styled from '@emotion/styled';
+import tw from 'twin.macro';
+import StreakCard from './overview/StreakCard';
+import WeekInfoCard from './overview/WeekInfoCard';
+import WeekStatsCard from './overview/WeekStatsCard';
+import FlashcardGroupTable from './overview/FlashcardGroupTable';
 
 const StyledCardsWrapper = styled.div`
   ${tw`md:flex space-x-3`}
@@ -25,7 +25,6 @@ const FlashcardsOverview = () => {
       </StyledCardsWrapper>
 
       <FlashcardGroupTable />
-      
     </div>
   );
 };

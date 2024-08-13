@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
-import { SupabaseColumns, SupabaseTables } from "../base/enums";
-import supabaseClient from "../lib/supabase";
+import { useEffect, useState } from 'react';
+import { SupabaseColumns, SupabaseTables } from '../base/enums';
+import supabaseClient from '../lib/supabase';
 
 interface Topic {
   title: string;
@@ -14,15 +14,15 @@ export const useSchoolSubjectTopics = (schoolSubjectId: string) => {
     const fetchSchoolSubjectTopics = async () => {
       const { data: topics, error } = await supabaseClient
         .from(SupabaseTables.TOPICS)
-        .select("title, id")
+        .select('title, id')
         .eq(SupabaseColumns.PARENT_ID, schoolSubjectId);
 
       if (error) {
-        console.error("Error fetching topics:", error);
+        console.error('Error fetching topics:', error);
       }
       if (topics) {
         setSchoolSubjectTopics(
-          topics.map((topic: any) => ({
+          topics.map((topic: {id: string; title: string}) => ({
             title: topic.title,
             id: topic.id,
           })) as Topic[],

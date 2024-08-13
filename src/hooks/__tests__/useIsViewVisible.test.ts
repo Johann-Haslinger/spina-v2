@@ -1,9 +1,9 @@
-import { Entity } from "@leanscope/ecs-engine";
-import { Tags } from "@leanscope/ecs-models";
-import { useIsViewVisible } from "../useIsViewVisible";
-import { AdditionalTags } from "../../base/enums";
+import { Entity } from '@leanscope/ecs-engine';
+import { Tags } from '@leanscope/ecs-models';
+import { useIsViewVisible } from '../useIsViewVisible';
+import { AdditionalTags } from '../../base/enums';
 
-test("testing useIsViewVisible hook", () => {
+test('testing useIsViewVisible hook', () => {
   const newEntity = new Entity();
   newEntity.addTag(Tags.SELECTED);
 

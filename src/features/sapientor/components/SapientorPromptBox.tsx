@@ -1,14 +1,14 @@
-import styled from "@emotion/styled";
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { Entity } from "@leanscope/ecs-engine";
-import { TextFacet } from "@leanscope/ecs-models";
-import { Fragment, useContext, useEffect, useRef, useState } from "react";
-import { IoArrowUp, IoClose } from "react-icons/io5";
-import tw from "twin.macro";
+import styled from '@emotion/styled';
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { Entity } from '@leanscope/ecs-engine';
+import { TextFacet } from '@leanscope/ecs-models';
+import { ChangeEvent, Fragment, useContext, useEffect, useRef, useState } from 'react';
+import { IoArrowUp, IoClose } from 'react-icons/io5';
+import tw from 'twin.macro';
 
-import { AdditionalTags } from "../../../base/enums";
-import { FlexBox } from "../../../components";
-import { useCurrentSapientorConversation } from "../hooks/useCurrentConversation";
+import { AdditionalTags } from '../../../base/enums';
+import { FlexBox } from '../../../components';
+import { useCurrentSapientorConversation } from '../hooks/useCurrentConversation';
 
 const StyledPromptBoxContainer = styled.div`
   ${tw`w-full space-x-2 mb-8 mt-4  flex h-fit items-end`}
@@ -16,8 +16,7 @@ const StyledPromptBoxContainer = styled.div`
 
 const StyledPromptBoxWrapper = styled.div<{ isChatSheetVisible: boolean }>`
   ${tw`h-fit pl-4   bg-tertiary dark:bg-tertiaryDark  rounded-3xl `}
-  ${({ isChatSheetVisible }) =>
-    isChatSheetVisible ? tw` w-[90%]  pr-1.5 py-1` : tw`w-full pr-1`}
+  ${({ isChatSheetVisible }) => (isChatSheetVisible ? tw` w-[90%]  pr-1.5 py-1` : tw`w-full pr-1`)}
 `;
 
 const StyledPromptInput = styled.input`
@@ -63,7 +62,7 @@ const SapientorPromptBox = (props: { isVisible: boolean }) => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = props.isVisible;
   const { promptInputRef } = usePromptBoxRef(isVisible);
-  const [prompt, setPrompt] = useState("");
+  const [prompt, setPrompt] = useState('');
   const { isChatSheetVisible } = useCurrentSapientorConversation();
   const [isSelectingImageSrc, setIsSelectingImageSrc] = useState(false);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -77,8 +76,8 @@ const SapientorPromptBox = (props: { isVisible: boolean }) => {
     }
   }, [isSelectingImageSrc]);
 
-  const handleImageSelect = (event: any) => {
-    const selectedFile = event.target.files[0];
+  const handleImageSelect = (event: ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = event.target.files && event.target.files[0];
     const reader = new FileReader();
 
     reader.onloadend = () => {
@@ -86,8 +85,8 @@ const SapientorPromptBox = (props: { isVisible: boolean }) => {
       image.src = reader.result as string;
 
       image.onload = () => {
-        const canvas = document.createElement("canvas");
-        const context = canvas.getContext("2d");
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d');
 
         const maxWidth = 1080;
         const maxHeight = 180;
@@ -112,15 +111,17 @@ const SapientorPromptBox = (props: { isVisible: boolean }) => {
 
         context?.drawImage(image, 0, 0, width, height);
 
-        const resizedImage = canvas.toDataURL("image/jpeg");
+        const resizedImage = canvas.toDataURL('image/jpeg');
 
         setSelectedImageSrc(resizedImage);
       };
     };
 
-    reader.readAsDataURL(selectedFile);
+    if (selectedFile) {
+      reader.readAsDataURL(selectedFile);
+    }
     setIsSelectingImageSrc(false);
-    return "";
+    return '';
   };
 
   // TODO: Implement file picker for image upload
@@ -133,13 +134,13 @@ const SapientorPromptBox = (props: { isVisible: boolean }) => {
   // };
 
   const submitPrompt = () => {
-    if (prompt === "") return;
+    if (prompt === '') return;
     const newPromptEntity = new Entity();
     lsc.engine.addEntity(newPromptEntity);
     newPromptEntity.add(new TextFacet({ text: prompt }));
     newPromptEntity.addTag(AdditionalTags.PROMPT);
 
-    setPrompt("");
+    setPrompt('');
   };
 
   return (
@@ -155,7 +156,7 @@ const SapientorPromptBox = (props: { isVisible: boolean }) => {
             </StyledImageContainer>
           )}
           <FlexBox>
-            {" "}
+            {' '}
             {/* {isChatSheetVisible && (
               <StyledAddResourceButton onClick={openFilePicker}>
                 <IoAttachOutline />
@@ -167,12 +168,12 @@ const SapientorPromptBox = (props: { isVisible: boolean }) => {
               ref={promptInputRef}
               placeholder="Type a message"
               onKeyDown={(e) => {
-                if (e.key === "Enter") {
+                if (e.key === 'Enter') {
                   submitPrompt();
                 }
               }}
             />
-            <StyledSubmitButton onClick={submitPrompt} active={prompt !== ""}>
+            <StyledSubmitButton onClick={submitPrompt} active={prompt !== ''}>
               <IoArrowUp />
             </StyledSubmitButton>
           </FlexBox>
@@ -184,7 +185,7 @@ const SapientorPromptBox = (props: { isVisible: boolean }) => {
           accept="image/*"
           ref={fileInputRef}
           onChange={handleImageSelect}
-          style={{ display: "none" }}
+          style={{ display: 'none' }}
         />
       )}
     </Fragment>

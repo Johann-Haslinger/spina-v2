@@ -1,24 +1,16 @@
-import { Entity } from "@leanscope/ecs-engine";
-import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntityComponents";
-import { IdentifierFacet } from "@leanscope/ecs-models";
-import {
-  AdditionalTags,
-  DataTypes,
-  SupabaseColumns,
-  SupabaseTables,
-} from "../../../base/enums";
-import supabaseClient from "../../../lib/supabase";
+import { Entity } from '@leanscope/ecs-engine';
+import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntityComponents';
+import { IdentifierFacet } from '@leanscope/ecs-models';
+import { AdditionalTags, DataTypes, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import supabaseClient from '../../../lib/supabase';
 
-const changeFlashcardSetBookmarkedStatus = async (
-  status: boolean,
-  id: string,
-) => {
+const changeFlashcardSetBookmarkedStatus = async (status: boolean, id: string) => {
   const { error } = await supabaseClient
     .from(SupabaseTables.FLASHCARD_SETS)
     .update({ bookmarked: status })
     .eq(SupabaseColumns.ID, id);
   if (error) {
-    console.error("Error updating flashcardSets:", error);
+    console.error('Error updating flashcardSets:', error);
   }
 };
 
@@ -28,7 +20,7 @@ const changeSubtopicBookmarkedStatus = async (status: boolean, id: string) => {
     .update({ bookmarked: status })
     .eq(SupabaseColumns.ID, id);
   if (error) {
-    console.error("Error updating subtopics:", error);
+    console.error('Error updating subtopics:', error);
   }
 };
 
@@ -38,7 +30,7 @@ const changeFlashcardBookmarkedStatus = async (status: boolean, id: string) => {
     .update({ bookmarked: status })
     .eq(SupabaseColumns.ID, id);
   if (error) {
-    console.error("Error updating flashcards:", error);
+    console.error('Error updating flashcards:', error);
   }
 };
 
@@ -48,7 +40,7 @@ const changeNoteBookmarkedStatus = async (status: boolean, id: string) => {
     .update({ bookmarked: status })
     .eq(SupabaseColumns.ID, id);
   if (error) {
-    console.error("Error updating notes:", error);
+    console.error('Error updating notes:', error);
   }
 };
 

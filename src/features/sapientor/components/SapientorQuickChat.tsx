@@ -1,19 +1,16 @@
-import styled from "@emotion/styled";
-import { EntityPropsMapper } from "@leanscope/ecs-engine";
-import { TextFacet } from "@leanscope/ecs-models";
-import { motion } from "framer-motion";
-import { Fragment } from "react/jsx-runtime";
-import tw from "twin.macro";
+import styled from '@emotion/styled';
+import { EntityPropsMapper } from '@leanscope/ecs-engine';
+import { TextFacet } from '@leanscope/ecs-models';
+import { motion } from 'framer-motion';
+import { Fragment } from 'react/jsx-runtime';
+import tw from 'twin.macro';
 
-import GenerateAnswerSystem from "../systems/GenerateAnswerSystem";
-import QuickChatMessage from "./QuickChatMessage";
-import SapientorPromptBox from "./SapientorPromptBox";
-import { useCurrentSapientorConversation } from "../hooks/useCurrentConversation";
-import {
-  MessageRoleFacet,
-  RelatedResourcesFacet,
-} from "../../../app/additionalFacets";
-import { sortMessageEntitiesByDateAdded } from "../../../utils/sortEntitiesByTime";
+import GenerateAnswerSystem from '../systems/GenerateAnswerSystem';
+import QuickChatMessage from './QuickChatMessage';
+import SapientorPromptBox from './SapientorPromptBox';
+import { useCurrentSapientorConversation } from '../hooks/useCurrentConversation';
+import { MessageRoleFacet, RelatedResourcesFacet } from '../../../app/additionalFacets';
+import { sortMessageEntitiesByDateAdded } from '../../../utils/sortEntitiesByTime';
 
 const StyledMessagesWrapper = styled.div`
   ${tw`w-80 mr-8`}
@@ -24,8 +21,7 @@ const StyledPromptBoxWrapper = styled.div`
 `;
 
 const SapientorQuickChat = () => {
-  const { isQuickChatVisible, setChatSheetVisible, setQuickChatVisible } =
-    useCurrentSapientorConversation();
+  const { isQuickChatVisible, setChatSheetVisible, setQuickChatVisible } = useCurrentSapientorConversation();
 
   const openChatView = () => {
     setQuickChatVisible(false);
@@ -38,7 +34,7 @@ const SapientorQuickChat = () => {
 
       <motion.div
         style={{
-          position: "fixed",
+          position: 'fixed',
           bottom: 0,
         }}
         initial={{ opacity: 0, y: 80, right: 96 }}

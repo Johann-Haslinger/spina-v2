@@ -1,7 +1,7 @@
-import styled from "@emotion/styled/macro";
-import { motion } from "framer-motion";
-import { Fragment, PropsWithChildren, useEffect, useState } from "react";
-import tw from "twin.macro";
+import styled from '@emotion/styled/macro';
+import { motion } from 'framer-motion';
+import { Fragment, PropsWithChildren, useEffect, useState } from 'react';
+import tw from 'twin.macro';
 
 const StyledViewContainer = styled.div<{ backgroundColor?: string }>`
   ${tw`  w-screen transition-all h-screen  backdrop-blur-2xl `}
@@ -24,18 +24,18 @@ const StyledViewContent = styled.div<{
 `;
 
 interface ViewProps {
-  viewType?: "baseView" | "overlayView";
+  viewType?: 'baseView' | 'overlayView';
   visible?: boolean;
   reducePaddingX?: boolean;
   overlaySidebar?: boolean;
   backgroundColor?: string;
   hidePadding?: boolean;
-  onScroll?: (e: any) => void;
+  onScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
 }
 const View = (props: ViewProps & PropsWithChildren) => {
   const [isDisplayed, setIsDisplayed] = useState(false);
   const {
-    viewType = "overlayView",
+    viewType = 'overlayView',
     visible = true,
     children,
     reducePaddingX,
@@ -66,14 +66,14 @@ const View = (props: ViewProps & PropsWithChildren) => {
       <Fragment>
         <motion.div
           initial={{
-            position: "fixed",
-            zIndex: overlaySidebar ? 100 : "auto",
+            position: 'fixed',
+            zIndex: overlaySidebar ? 100 : 'auto',
             top: 0,
             left: 0,
             opacity: 0,
-            backgroundColor: "black",
-            width: "100%",
-            height: "100%",
+            backgroundColor: 'black',
+            width: '100%',
+            height: '100%',
           }}
           animate={{
             opacity: visible ? 0.2 : 0,
@@ -81,25 +81,25 @@ const View = (props: ViewProps & PropsWithChildren) => {
         />
         <motion.div
           initial={{
-            position: "fixed",
+            position: 'fixed',
             top: 0,
             left: 0,
-            zIndex: overlaySidebar ? 100 : "auto",
-            x: viewType == "overlayView" ? "100%" : 0,
-            backgroundColor: backgroundColor && "white",
+            zIndex: overlaySidebar ? 100 : 'auto',
+            x: viewType == 'overlayView' ? '100%' : 0,
+            backgroundColor: backgroundColor && 'white',
           }}
           transition={{
-            type: "tween",
+            type: 'tween',
           }}
           animate={{
-            x: visible ? 0 : "100%",
+            x: visible ? 0 : '100%',
           }}
         >
           <StyledViewContainer backgroundColor={backgroundColor}>
             <StyledViewWrapper onScroll={onScroll}>
               <StyledViewContent
                 hidePadding={hidePadding}
-                isOverlayView={viewType == "overlayView"}
+                isOverlayView={viewType == 'overlayView'}
                 reducePaddingX={reducePaddingX}
               >
                 {children}

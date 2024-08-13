@@ -1,20 +1,16 @@
-import styled from "@emotion/styled/macro";
-import { Entity, EntityProps } from "@leanscope/ecs-engine";
-import { useEntityFacets } from "@leanscope/ecs-engine/react-api/hooks/useEntityFacets";
-import { FloatOrderProps, IdentifierFacet } from "@leanscope/ecs-models";
-import { useEffect, useRef } from "react";
-import {
-  IoCheckmarkCircle,
-  IoCloseCircle,
-  IoEllipseOutline,
-} from "react-icons/io5";
-import tw from "twin.macro";
-import { TodoStateFacet } from "../../../../app/additionalFacets";
-import { SupabaseColumns, SupabaseTables } from "../../../../base/enums";
-import supabaseClient from "../../../../lib/supabase";
-import { useCurrentBlockeditor } from "../../hooks/useCurrentBlockeditor";
-import BlockOutline from "./BlockOutline";
-import BlockTexteditor from "./BlockTexteditor";
+import styled from '@emotion/styled/macro';
+import { Entity, EntityProps } from '@leanscope/ecs-engine';
+import { useEntityFacets } from '@leanscope/ecs-engine/react-api/hooks/useEntityFacets';
+import { FloatOrderProps, IdentifierFacet } from '@leanscope/ecs-models';
+import { useEffect, useRef } from 'react';
+import { IoCheckmarkCircle, IoCloseCircle, IoEllipseOutline } from 'react-icons/io5';
+import tw from 'twin.macro';
+import { TodoStateFacet } from '../../../../app/additionalFacets';
+import { SupabaseColumns, SupabaseTables } from '../../../../base/enums';
+import supabaseClient from '../../../../lib/supabase';
+import { useCurrentBlockeditor } from '../../hooks/useCurrentBlockeditor';
+import BlockOutline from './BlockOutline';
+import BlockTexteditor from './BlockTexteditor';
 
 const useTodoClickHandler = (entity: Entity) => {
   const clickTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -22,7 +18,7 @@ const useTodoClickHandler = (entity: Entity) => {
   const { blockeditorState } = useCurrentBlockeditor();
 
   const updateTodoState = async (newTodoState: number) => {
-    if (blockeditorState == "view" || blockeditorState == "write") {
+    if (blockeditorState == 'view' || blockeditorState == 'write') {
       entity.add(new TodoStateFacet({ todoState: newTodoState }));
 
       const id = entity.get(IdentifierFacet)?.props.guid;
@@ -33,13 +29,12 @@ const useTodoClickHandler = (entity: Entity) => {
         .eq(SupabaseColumns.ID, id);
 
       if (error) {
-        console.error("Error updating block in supabase:", error);
+        console.error('Error updating block in supabase:', error);
       }
     }
   };
 
-  const handleClick = async () =>
-    updateTodoState(todoState === 2 || todoState === 1 ? 0 : 2);
+  const handleClick = async () => updateTodoState(todoState === 2 || todoState === 1 ? 0 : 2);
 
   useEffect(() => {
     return () => {
@@ -53,9 +48,9 @@ const useTodoClickHandler = (entity: Entity) => {
 const StyledTodoIconWrapper = styled.div<{ todoState: number }>`
   ${tw`text-xl`}
   ${({ todoState }) => `
-    ${todoState == 1 ? tw`text-primaryColor dark:text-seconderyTextDark` : ""}
-    ${todoState == 2 ? tw`text-primaryColor dark:text-primaryTextDark` : ""}
-    ${todoState == 0 ? tw` text-primaryColor dark:text-primaryTextDark` : ""} 
+    ${todoState == 1 ? tw`text-primaryColor dark:text-seconderyTextDark` : ''}
+    ${todoState == 2 ? tw`text-primaryColor dark:text-primaryTextDark` : ''}
+    ${todoState == 0 ? tw` text-primaryColor dark:text-primaryTextDark` : ''} 
   `}
 `;
 

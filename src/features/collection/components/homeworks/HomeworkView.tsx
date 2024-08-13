@@ -1,14 +1,10 @@
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { EntityProps } from "@leanscope/ecs-engine";
-import { IdentifierProps, TextProps } from "@leanscope/ecs-models";
-import { Fragment, useContext } from "react";
-import {
-  IoCreateOutline,
-  IoEllipsisHorizontalCircleOutline,
-  IoTrashOutline,
-} from "react-icons/io5";
-import { TitleProps } from "../../../../app/additionalFacets";
-import { AdditionalTags, Stories } from "../../../../base/enums";
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { EntityProps } from '@leanscope/ecs-engine';
+import { IdentifierProps, TextProps } from '@leanscope/ecs-models';
+import { Fragment, useContext } from 'react';
+import { IoCreateOutline, IoEllipsisHorizontalCircleOutline, IoTrashOutline } from 'react-icons/io5';
+import { TitleProps } from '../../../../app/additionalFacets';
+import { AdditionalTags, Stories } from '../../../../base/enums';
 import {
   ActionRow,
   BackButton,
@@ -18,22 +14,17 @@ import {
   TextEditor,
   Title,
   View,
-} from "../../../../components";
-import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
-import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import {
-  displayActionTexts,
-  displayButtonTexts,
-} from "../../../../utils/displayText";
-import { useSelectedTopic } from "../../hooks/useSelectedTopic";
-import { useText } from "../../hooks/useText";
-import LoadHomeworkTextSystem from "../../systems/LoadHomeworkTextSystem";
-import DeleteHomeworkAlert from "./DeleteHomeworkAlert";
-import EditHomeworkSheet from "./EditHomeworkSheet";
+} from '../../../../components';
+import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
+import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
+import { displayActionTexts, displayButtonTexts } from '../../../../utils/displayText';
+import { useSelectedTopic } from '../../hooks/useSelectedTopic';
+import { useText } from '../../hooks/useText';
+import LoadHomeworkTextSystem from '../../systems/LoadHomeworkTextSystem';
+import DeleteHomeworkAlert from './DeleteHomeworkAlert';
+import EditHomeworkSheet from './EditHomeworkSheet';
 
-const HomeworkView = (
-  props: EntityProps & TitleProps & TextProps & IdentifierProps,
-) => {
+const HomeworkView = (props: EntityProps & TitleProps & TextProps & IdentifierProps) => {
   const lsc = useContext(LeanScopeClientContext);
   const { title, entity } = props;
   const isVisible = useIsViewVisible(entity);
@@ -42,10 +33,8 @@ const HomeworkView = (
   const { text, updateText } = useText(entity);
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
-  const openEditHomeworkSheet = () =>
-    lsc.stories.transitTo(Stories.EDITING_HOMEWORK_STORY);
-  const openDeleteHomeworkAlert = () =>
-    lsc.stories.transitTo(Stories.DELETING_HOMEWORK_STORY);
+  const openEditHomeworkSheet = () => lsc.stories.transitTo(Stories.EDITING_HOMEWORK_STORY);
+  const openDeleteHomeworkAlert = () => lsc.stories.transitTo(Stories.DELETING_HOMEWORK_STORY);
 
   return (
     <Fragment>
@@ -56,19 +45,10 @@ const HomeworkView = (
           <NavBarButton
             content={
               <Fragment>
-                <ActionRow
-                  first
-                  onClick={openEditHomeworkSheet}
-                  icon={<IoCreateOutline />}
-                >
+                <ActionRow first onClick={openEditHomeworkSheet} icon={<IoCreateOutline />}>
                   {displayActionTexts(selectedLanguage).edit}
                 </ActionRow>
-                <ActionRow
-                  onClick={openDeleteHomeworkAlert}
-                  icon={<IoTrashOutline />}
-                  destructive
-                  last
-                >
+                <ActionRow onClick={openDeleteHomeworkAlert} icon={<IoTrashOutline />} destructive last>
                   {displayActionTexts(selectedLanguage).delete}
                 </ActionRow>
               </Fragment>

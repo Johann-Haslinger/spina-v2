@@ -1,10 +1,10 @@
-import styled from "@emotion/styled/macro";
-import { motion } from "framer-motion";
-import { PropsWithChildren, useEffect, useRef, useState } from "react";
-import tw from "twin.macro";
-import { useSelectedTheme } from "../../features/collection/hooks/useSelectedTheme";
-import { displayAlertTexts } from "../../utils/displayText";
-import { useSelectedLanguage } from "../../hooks/useSelectedLanguage";
+import styled from '@emotion/styled/macro';
+import { motion } from 'framer-motion';
+import { PropsWithChildren, useEffect, useRef, useState } from 'react';
+import tw from 'twin.macro';
+import { useSelectedTheme } from '../../features/collection/hooks/useSelectedTheme';
+import { displayAlertTexts } from '../../utils/displayText';
+import { useSelectedLanguage } from '../../hooks/useSelectedLanguage';
 
 const StyledAlertWrapper = styled.div`
   ${tw`bg-white dark:bg-seconderyDark overflow-hidden  text-primatyText dark:text-primaryTextDark w-10/12 md:w-64 mx-auto mt-72  backdrop-blur-lg bg-opacity-90 rounded-lg `}
@@ -35,9 +35,9 @@ const Alert = (props: AlertProps & PropsWithChildren) => {
   const { selectedLanguage } = useSelectedLanguage();
 
   useEffect(() => {
-    document.addEventListener("click", handleClickOutside, true);
+    document.addEventListener('click', handleClickOutside, true);
     return () => {
-      document.removeEventListener("click", handleClickOutside, true);
+      document.removeEventListener('click', handleClickOutside, true);
     };
   }, []);
 
@@ -61,20 +61,16 @@ const Alert = (props: AlertProps & PropsWithChildren) => {
     isAlertDisplayed && (
       <motion.div
         initial={{
-          backgroundColor: "#0000010",
-          width: "100%",
-          height: "100%",
+          backgroundColor: '#0000010',
+          width: '100%',
+          height: '100%',
           top: 0,
           left: 0,
           zIndex: 100,
-          position: "fixed",
+          position: 'fixed',
         }}
         animate={{
-          backgroundColor: visible
-            ? isDarkMode
-              ? "#00000080"
-              : "#00000020"
-            : "#0000000",
+          backgroundColor: visible ? (isDarkMode ? '#00000080' : '#00000020') : '#0000000',
         }}
       >
         <motion.div
@@ -83,13 +79,8 @@ const Alert = (props: AlertProps & PropsWithChildren) => {
           transition={{ duration: 0.2 }}
         >
           <StyledAlertWrapper ref={alertRef}>
-            <StyledAlertTitle>
-              {displayAlertTexts(selectedLanguage).deleteAlertTitle}
-            </StyledAlertTitle>
-            <StyledAlertSubTitle>
-              {" "}
-              {displayAlertTexts(selectedLanguage).deleteAlertSubtitle}
-            </StyledAlertSubTitle>
+            <StyledAlertTitle>{displayAlertTexts(selectedLanguage).deleteAlertTitle}</StyledAlertTitle>
+            <StyledAlertSubTitle> {displayAlertTexts(selectedLanguage).deleteAlertSubtitle}</StyledAlertSubTitle>
             <StyledButtonWrapper>{children}</StyledButtonWrapper>
           </StyledAlertWrapper>
         </motion.div>

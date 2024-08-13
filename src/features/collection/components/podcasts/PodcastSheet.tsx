@@ -1,19 +1,15 @@
-import styled from "@emotion/styled";
-import { EntityProps } from "@leanscope/ecs-engine";
-import React, { useEffect, useRef, useState } from "react";
-import { IoHeadset, IoPlay, IoPlayBack, IoPlayForward } from "react-icons/io5";
-import tw from "twin.macro";
-import {
-  DateAddedProps,
-  SourceProps,
-  TitleProps,
-} from "../../../../app/additionalFacets";
-import { AdditionalTags } from "../../../../base/enums";
-import { FlexBox, Sheet } from "../../../../components";
-import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
-import { formatCounterTime } from "../../../../utils/formatTime";
-import { useSelectedSchoolSubjectColor } from "../../hooks/useSelectedSchoolSubjectColor";
-import LoadPodcastAudioSystem from "../../systems/LoadPodcastAudioSystem";
+import styled from '@emotion/styled';
+import { EntityProps } from '@leanscope/ecs-engine';
+import React, { useEffect, useRef, useState } from 'react';
+import { IoHeadset, IoPlay, IoPlayBack, IoPlayForward } from 'react-icons/io5';
+import tw from 'twin.macro';
+import { DateAddedProps, SourceProps, TitleProps } from '../../../../app/additionalFacets';
+import { AdditionalTags } from '../../../../base/enums';
+import { FlexBox, Sheet } from '../../../../components';
+import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
+import { formatCounterTime } from '../../../../utils/formatTime';
+import { useSelectedSchoolSubjectColor } from '../../hooks/useSelectedSchoolSubjectColor';
+import LoadPodcastAudioSystem from '../../systems/LoadPodcastAudioSystem';
 
 const StyledPodcastPlayerWrapper = styled.div`
   ${tw`h-full   text-primatyText dark:text-primaryTextDark px-4 lg:px-12 w-full`}
@@ -63,14 +59,10 @@ const StyledPauseButtonWrapper = styled.div`
 `;
 
 const StyledPauseButtonStroke = styled.div<{ color: string }>`
-  ${tw`h-9 w-3 bg-white bg-opacity-80 dark:bg-white rounded`}/* background-color: ${(
-    props,
-  ) => props.color}; */
+  ${tw`h-9 w-3 bg-white bg-opacity-80 dark:bg-white rounded`}/* background-color: ${(props) => props.color}; */
 `;
 
-const PodcastSheet = (
-  props: TitleProps & SourceProps & EntityProps & DateAddedProps,
-) => {
+const PodcastSheet = (props: TitleProps & SourceProps & EntityProps & DateAddedProps) => {
   const { title, source, entity, dateAdded } = props;
   const isVisible = useIsViewVisible(entity);
   const [currentTime, setCurrentTime] = useState<number>(0);
@@ -78,7 +70,7 @@ const PodcastSheet = (
   const audioRef = useRef<HTMLAudioElement>(null);
   const { accentColor, backgroundColor } = useSelectedSchoolSubjectColor();
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
-  const [audioUrl, setAudioUrl] = useState<string>("");
+  const [audioUrl, setAudioUrl] = useState<string>('');
 
   // TODO: managing playing podcast trough tag
   // useEffect(() => {
@@ -107,7 +99,7 @@ const PodcastSheet = (
     if (audio && source) {
       setIsPlaying(true);
 
-      audio.addEventListener("loadedmetadata", () => {
+      audio.addEventListener('loadedmetadata', () => {
         setDuration(audio.duration);
       });
     }
@@ -141,18 +133,10 @@ const PodcastSheet = (
       <LoadPodcastAudioSystem />
       <audio src={audioUrl} ref={audioRef} onTimeUpdate={handleTimeUpdate} />
 
-      <Sheet
-        backgroundColor={accentColor}
-        navigateBack={navigateBack}
-        visible={isVisible}
-      >
+      <Sheet backgroundColor={accentColor} navigateBack={navigateBack} visible={isVisible}>
         <StyledPodcastPlayerWrapper>
           <StyledPodcastIconContainer>
-            <StyledPodcastIconWrapper
-              color={accentColor}
-              backgroundColor={backgroundColor}
-              isPlaying={isPlaying}
-            >
+            <StyledPodcastIconWrapper color={accentColor} backgroundColor={backgroundColor} isPlaying={isPlaying}>
               <IoHeadset />
             </StyledPodcastIconWrapper>
           </StyledPodcastIconContainer>
@@ -160,10 +144,10 @@ const PodcastSheet = (
           <StyleldPodcastInfoWrapper>
             <StyledPodcastTitle>{title}</StyledPodcastTitle>
             <StyledPodcastSubTitle>
-              {new Date(dateAdded).toLocaleDateString("de", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
+              {new Date(dateAdded).toLocaleDateString('de', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric',
               })}
             </StyledPodcastSubTitle>
           </StyleldPodcastInfoWrapper>
@@ -178,12 +162,8 @@ const PodcastSheet = (
             onMouseUp={() => setIsPlaying(true)}
           />
           <FlexBox>
-            <StyledTimeBarText>
-              {formatCounterTime(currentTime)}
-            </StyledTimeBarText>
-            <StyledTimeBarText>
-              {formatCounterTime(duration - currentTime)}
-            </StyledTimeBarText>
+            <StyledTimeBarText>{formatCounterTime(currentTime)}</StyledTimeBarText>
+            <StyledTimeBarText>{formatCounterTime(duration - currentTime)}</StyledTimeBarText>
           </FlexBox>
 
           <StyledButtonWrapper color={accentColor}>

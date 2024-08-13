@@ -1,27 +1,20 @@
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { useIsStoryCurrent } from "@leanscope/storyboarding";
-import { useContext } from "react";
-import {
-  AdditionalTags,
-  Stories,
-  SupabaseColumns,
-  SupabaseTables,
-} from "../../../base/enums";
-import { Alert, AlertButton } from "../../../components";
-import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
-import supabaseClient from "../../../lib/supabase";
-import { displayActionTexts } from "../../../utils/displayText";
-import { useSelectedLearningGroup } from "../hooks/useSelectedLearningGroup";
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { useIsStoryCurrent } from '@leanscope/storyboarding';
+import { useContext } from 'react';
+import { AdditionalTags, Stories, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { Alert, AlertButton } from '../../../components';
+import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
+import supabaseClient from '../../../lib/supabase';
+import { displayActionTexts } from '../../../utils/displayText';
+import { useSelectedLearningGroup } from '../hooks/useSelectedLearningGroup';
 
 const DeleteLearningGroupAlert = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Stories.DELETING_LERNING_GROUP_STORY);
   const { selectedLanguage } = useSelectedLanguage();
-  const { selectedLearningGroupId, selectedLearningGroupEntity } =
-    useSelectedLearningGroup();
+  const { selectedLearningGroupId, selectedLearningGroupEntity } = useSelectedLearningGroup();
 
-  const navigateBack = () =>
-    lsc.stories.transitTo(Stories.OBSERVING_TOPIC_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_TOPIC_STORY);
 
   const deleteLearningGroup = async () => {
     navigateBack();
@@ -36,7 +29,7 @@ const DeleteLearningGroupAlert = () => {
           .eq(SupabaseColumns.ID, selectedLearningGroupId);
 
         if (error) {
-          console.error("Error deleting learning group", error);
+          console.error('Error deleting learning group', error);
         }
       }
     }, 300);

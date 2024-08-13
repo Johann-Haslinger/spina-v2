@@ -1,14 +1,8 @@
-import styled from "@emotion/styled";
-import { motion } from "framer-motion";
-import {
-  Fragment,
-  PropsWithChildren,
-  useEffect,
-  useRef,
-  useState,
-} from "react";
-import tw from "twin.macro";
-import { useSelectedTheme } from "../../features/collection/hooks/useSelectedTheme";
+import styled from '@emotion/styled';
+import { motion } from 'framer-motion';
+import { Fragment, PropsWithChildren, useEffect, useRef, useState } from 'react';
+import tw from 'twin.macro';
+import { useSelectedTheme } from '../../features/collection/hooks/useSelectedTheme';
 
 interface SheetProps {
   navigateBack: () => void;
@@ -28,9 +22,9 @@ const Sheet = (props: PropsWithChildren & SheetProps) => {
   const { isDarkMode } = useSelectedTheme();
 
   useEffect(() => {
-    document.addEventListener("click", handleClickOutside, true);
+    document.addEventListener('click', handleClickOutside, true);
     return () => {
-      document.removeEventListener("click", handleClickOutside, true);
+      document.removeEventListener('click', handleClickOutside, true);
     };
   }, [navigateBack, sheetRef.current]);
 
@@ -55,34 +49,30 @@ const Sheet = (props: PropsWithChildren & SheetProps) => {
       <Fragment>
         <motion.div
           initial={{
-            backgroundColor: "#0000010",
+            backgroundColor: '#0000010',
           }}
           animate={{
-            backgroundColor: visible
-              ? isDarkMode
-                ? "#00000080"
-                : "#00000020"
-              : "#0000000",
+            backgroundColor: visible ? (isDarkMode ? '#00000080' : '#00000020') : '#0000000',
             zIndex: 100,
           }}
           style={{
-            position: "absolute",
-            width: "100%",
-            height: "100%",
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
             top: 0,
             left: 0,
           }}
         />
         <motion.div
-          transition={{ type: "Tween" }}
+          transition={{ type: 'Tween' }}
           initial={{ y: 1000 }}
           animate={{
             y: visible ? 0 : 1000,
           }}
           style={{
-            position: "fixed",
-            width: "100%",
-            height: "100%",
+            position: 'fixed',
+            width: '100%',
+            height: '100%',
 
             left: 0,
             bottom: 0,

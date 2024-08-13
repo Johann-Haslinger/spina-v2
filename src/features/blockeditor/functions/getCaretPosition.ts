@@ -1,4 +1,4 @@
-import { RefObject } from "react";
+import { RefObject } from 'react';
 
 export const getCaretPosition = (texteditorRef: RefObject<HTMLDivElement>) => {
   if (texteditorRef.current) {

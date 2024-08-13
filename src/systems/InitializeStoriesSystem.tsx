@@ -1,6 +1,6 @@
-import { Stories } from "../base/enums";
-import { EntityCreator } from "@leanscope/ecs-engine";
-import { IdentifierFacet, StoryFacet, Tags } from "@leanscope/ecs-models";
+import { Stories } from '../base/enums';
+import { EntityCreator } from '@leanscope/ecs-engine';
+import { IdentifierFacet, StoryFacet, Tags } from '@leanscope/ecs-models';
 
 const InitializeStoriesSystem = (props: { initialStory?: Stories }) => {
   const { initialStory = Stories.OBSERVING_COLLECTION_STORY } = props;
