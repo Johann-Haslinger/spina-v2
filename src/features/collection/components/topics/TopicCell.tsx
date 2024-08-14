@@ -16,14 +16,14 @@ const StyledTopicCellWrapper = styled.div<{
   backgroundColor: string;
   image: string;
 }>`
-  ${tw`w-full rounded-xl bg-fixed h-40 overflow-hidden flex  items-center transition-all  text-7xl font-bold`}
+  ${tw`w-full rounded-xl  bg-cover h-40 overflow-hidden flex  bg-center  items-center transition-all  text-7xl font-bold`}
   background-color: ${({ backgroundColor }) => backgroundColor};
   color: ${({ color }) => color};
   background-image: ${({ image }) => `url(${image})`};
 `;
 
 const StyledTopicTitle = styled.p`
-  ${tw`mt-5 text-black font-semibold text-xl line-clamp-2 `}
+  ${tw`mt-4 text-black font-semibold text-xl line-clamp-2 `}
 `;
 const StyledTopicDescription = styled.p`
   ${tw` text-seconderyText text-base w-5/6 font-normal line-clamp-2 mt-1`}

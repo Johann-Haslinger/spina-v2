@@ -79,7 +79,6 @@ const AnswerSugesstion = (props: { sugesstion: string; onClick: () => void }) =>
   return <StyledSugesstionWrapper onClick={onClick}>{sugesstion}</StyledSugesstionWrapper>;
 };
 
-
 const GenerateResourcesFromImageSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
   const [generationState, setGenerationState] = useState<GenerationState | undefined>(undefined);

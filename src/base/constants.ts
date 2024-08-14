@@ -4,7 +4,7 @@ import { NavigationLinks, SupportedLanguages } from './enums';
 
 export const SELECTED_LANGUAGE = SupportedLanguages.DE;
 
-export const MEDIUM_DEVICE_WIDTH = 1400;
+export const MEDIUM_DEVICE_WIDTH = 700;
 
 export const LARGE_DEVICE_WIDTH = 1400;
 
@@ -100,22 +100,22 @@ export const COLOR_ITEMS: {
     backgroundColor: '#97B79D',
   },
 
-  // {
-  //   color: "#E76542",
-  //   accentColor: "#FFCC00",
-  //   name: "yellow",
-  //   backgroundColor: "#FAE07A",
-  // },
-  // {
-  //   color: "#FFCC00",
-  //   accentColor: "#039FC4",
-  //   name: "blue",
-  //   backgroundColor: "#7CCADC",
-  // },
-  // {
-  //   color: "#6EBED9",
-  //   accentColor: "#364893",
-  //   name: "navy",
-  //   backgroundColor: "#959EC4",
-  // },
+  {
+    color: '#E76542',
+    accentColor: '#FFCC00',
+    name: 'yellow',
+    backgroundColor: '#FAE07A',
+  },
+  {
+    color: '#FFCC00',
+    accentColor: '#039FC4',
+    name: 'blue',
+    backgroundColor: '#7CCADC',
+  },
+  {
+    color: '#6EBED9',
+    accentColor: '#364893',
+    name: 'navy',
+    backgroundColor: '#959EC4',
+  },
 ];

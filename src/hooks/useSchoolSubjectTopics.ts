@@ -22,7 +22,7 @@ export const useSchoolSubjectTopics = (schoolSubjectId: string) => {
       }
       if (topics) {
         setSchoolSubjectTopics(
-          topics.map((topic: {id: string; title: string}) => ({
+          topics.map((topic: { id: string; title: string }) => ({
             title: topic.title,
             id: topic.id,
           })) as Topic[],

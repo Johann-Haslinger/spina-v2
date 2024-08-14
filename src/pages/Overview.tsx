@@ -98,7 +98,7 @@ const Overview = () => {
           updateEntityStatus={updatePendingResourceStatus}
           sortingRule={sortEntitiesByDueDate}
           query={(e) => dataTypeQuery(e, DataTypes.HOMEWORK) || dataTypeQuery(e, DataTypes.EXAM)}
-          kanbanCell={PendingResourceKanbanCell as ()=> JSX.Element}
+          kanbanCell={PendingResourceKanbanCell as () => JSX.Element}
         />
 
         <Spacer size={20} />
