@@ -3,8 +3,8 @@ import { motion } from 'framer-motion';
 import { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import tw from 'twin.macro';
 import { useSelectedTheme } from '../../features/collection/hooks/useSelectedTheme';
-import { displayAlertTexts } from '../../utils/displayText';
 import { useSelectedLanguage } from '../../hooks/useSelectedLanguage';
+import { displayAlertTexts } from '../../utils/displayText';
 
 const StyledAlertWrapper = styled.div`
   ${tw`bg-white dark:bg-seconderyDark overflow-hidden  text-primatyText dark:text-primaryTextDark w-10/12 md:w-64 mx-auto mt-72  backdrop-blur-lg bg-opacity-90 rounded-lg `}
@@ -31,7 +31,7 @@ const Alert = (props: AlertProps & PropsWithChildren) => {
   const { visible = true, navigateBack, children } = props;
   const [isAlertDisplayed, setIsAlertDisplayed] = useState(false);
   const alertRef = useRef<HTMLDivElement>(null);
-  const { isDarkMode } = useSelectedTheme();
+  const { isDarkModeAktiv: isDarkMode } = useSelectedTheme();
   const { selectedLanguage } = useSelectedLanguage();
 
   useEffect(() => {

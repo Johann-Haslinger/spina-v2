@@ -1,13 +1,13 @@
-import { useAppState } from '../../collection/hooks/useAppState';
-import { FlexBox, PrimaryButton, Section, SectionRow, SelectInput, Sheet, Spacer } from '../../../components';
-import { useSelectedTheme } from '../../collection/hooks/useSelectedTheme';
 import { SupportedLanguages, SupportedThemes } from '../../../base/enums';
+import { FlexBox, PrimaryButton, Section, SectionRow, SelectInput, Sheet, Spacer } from '../../../components';
 import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
 import { displayButtonTexts, displayLabelTexts } from '../../../utils/displayText';
+import { useAppState } from '../../collection/hooks/useAppState';
+import { useSelectedTheme } from '../../collection/hooks/useSelectedTheme';
 
 const Settings = () => {
   const { isSettingVisible, toggleSettings } = useAppState();
-  const { changeTheme: changeMode, isDarkMode } = useSelectedTheme();
+  const { changeTheme: changeMode, isDarkModeAktiv: isDarkMode } = useSelectedTheme();
   const { selectedLanguage, changeLanguage } = useSelectedLanguage();
   const theme = isDarkMode ? SupportedThemes.DARK : SupportedThemes.LIGHT;
 

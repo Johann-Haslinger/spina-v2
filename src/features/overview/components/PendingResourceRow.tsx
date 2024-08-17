@@ -1,12 +1,12 @@
+import styled from '@emotion/styled';
 import { EntityProps } from '@leanscope/ecs-engine';
 import { Tags } from '@leanscope/ecs-models';
 import { IoHomeOutline, IoTrophyOutline } from 'react-icons/io5';
+import tw from 'twin.macro';
 import { StatusFacet, StatusProps, TitleProps } from '../../../app/additionalFacets';
+import { COLOR_ITEMS } from '../../../base/constants';
 import { DataTypes } from '../../../base/enums';
 import { FlexBox, SectionRow } from '../../../components';
-import tw from 'twin.macro';
-import styled from '@emotion/styled';
-import { COLOR_ITEMS } from '../../../base/constants';
 import { useSelectedTheme } from '../../collection/hooks/useSelectedTheme';
 
 const StyledSelect = styled.select`
@@ -37,7 +37,7 @@ const StyledSelectWrapper = styled.div<{ status: number; dark: boolean }>`
 const PendingResourceRow = (props: TitleProps & StatusProps & EntityProps) => {
   const { title, entity, status } = props;
   const isHomework = entity.hasTag(DataTypes.HOMEWORK);
-  const { isDarkMode } = useSelectedTheme();
+  const { isDarkModeAktiv: isDarkMode } = useSelectedTheme();
 
   const openResource = () => entity.add(Tags.SELECTED);
   const updateStatus = (status: number) => entity.add(new StatusFacet({ status }));

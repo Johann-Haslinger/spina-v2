@@ -314,7 +314,7 @@ const StyledSidebarWrapper = styled.div<{ isFullWidth: boolean }>`
 
 const Sidebar = () => {
   const { isSidebarVisible, toggleSidebar } = useAppState();
-  const { isDarkMode, changeTheme } = useSelectedTheme();
+  const { isDarkModeAktiv: isDarkMode, changeTheme } = useSelectedTheme();
   const { width } = useWindowDimensions();
   const [isHoverd, setIsHoverd] = useState(false);
   const sidebarRef = useRef<HTMLDivElement>(null);

@@ -3,7 +3,7 @@ import { COLORS } from './constants';
 
 export const dummySchoolSubjects = [
   {
-    id: '1',
+    id: v4(),
     title: 'Mathematik',
   },
   {
@@ -51,7 +51,7 @@ export const dummySchoolSubjects = [
 export const dummyTopics = [
   {
     title: 'Addition',
-    id: '1',
+    id: v4(),
     date_added: new Date().toISOString(),
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
     parent_id: '0',
@@ -77,30 +77,30 @@ export const dummyTopics = [
 
 export const dummyHomeworks = [
   {
-    id: '1',
+    id: v4(),
     title: 'Book p. 12 ex. 2',
     due_date: new Date().toISOString(),
     date_added: new Date().toISOString(),
     status: 1,
-    parent_id: '1',
+    parent_id: v4(),
     related_subject: '1',
   },
   {
-    id: '2',
+    id: v4(),
     title: 'Book p. 12 ex. 3',
     due_date: new Date().toISOString(),
     date_added: new Date().toISOString(),
     status: 1,
-    parent_id: '1',
+    parent_id: v4(),
     related_subject: '1',
   },
   {
-    id: '3',
+    id: v4(),
     title: 'Book p. 12 ex. 4',
     due_date: new Date().toISOString(),
     date_added: new Date().toISOString(),
     status: 1,
-    parent_id: '1',
+    parent_id: v4(),
     related_subject: '1',
   },
   {
@@ -109,7 +109,7 @@ export const dummyHomeworks = [
     due_date: new Date().toISOString(),
     date_added: new Date().toISOString(),
     status: 2,
-    parent_id: '1',
+    parent_id: v4(),
     related_subject: '1',
   },
   {
@@ -118,7 +118,7 @@ export const dummyHomeworks = [
     due_date: new Date().toISOString(),
     date_added: new Date().toISOString(),
     status: 2,
-    parent_id: '1',
+    parent_id: v4(),
     related_subject: '1',
   },
 ];
@@ -132,7 +132,7 @@ export const dummyFlashcardSets = [
     title: 'Addition',
     date_added: new Date().toISOString(),
     bookmarked: false,
-    parent_id: '1',
+    parent_id: v4(),
     priority: 2,
   },
   {
@@ -140,7 +140,7 @@ export const dummyFlashcardSets = [
     title: 'Subtraction',
     date_added: new Date().toISOString(),
     bookmarked: false,
-    parent_id: '1',
+    parent_id: v4(),
     priority: 0,
   },
   {
@@ -148,7 +148,7 @@ export const dummyFlashcardSets = [
     title: 'Multiplication',
     date_added: new Date().toISOString(),
     bookmarked: true,
-    parent_id: '1',
+    parent_id: v4(),
     priority: 2,
   },
 ];
@@ -156,7 +156,7 @@ export const dummyFlashcardSets = [
 export const dummyFlashcards = [
   {
     id: v4(),
-    parent_id: '1',
+    parent_id: v4(),
     question: 'Lorem ipsum dolor sit amet?',
     answer:
       'Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.',
@@ -164,16 +164,7 @@ export const dummyFlashcards = [
   },
   {
     id: v4(),
-    parent_id: '1',
-    question: 'Lorem ipsum dolor sit amet?',
-    answer:
-      'Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.',
-    mastery_level: 1,
-  },
-
-  {
-    id: v4(),
-    parent_id: '1',
+    parent_id: v4(),
     question: 'Lorem ipsum dolor sit amet?',
     answer:
       'Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.',
@@ -182,7 +173,16 @@ export const dummyFlashcards = [
 
   {
     id: v4(),
-    parent_id: '1',
+    parent_id: v4(),
+    question: 'Lorem ipsum dolor sit amet?',
+    answer:
+      'Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.',
+    mastery_level: 1,
+  },
+
+  {
+    id: v4(),
+    parent_id: v4(),
     question: 'Lorem ipsum dolor sit amet?',
     answer:
       'Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.',
@@ -195,27 +195,27 @@ export const dummyNotes = [
     id: v4(),
     title: 'Lorem ipsum ',
     date_added: new Date().toISOString(),
-    parent_id: '1',
+    parent_id: v4(),
   },
   {
     id: v4(),
     title: 'Lorem ipsum ',
 
     date_added: new Date().toISOString(),
-    parent_id: '1',
+    parent_id: v4(),
   },
   {
     id: '3',
     title: 'Lorem ipsum ',
     date_added: new Date().toISOString(),
-    parent_id: '1',
+    parent_id: v4(),
   },
   {
     id: '4',
     title: 'Lorem ipsum ',
 
     date_added: new Date().toISOString(),
-    parent_id: '1',
+    parent_id: v4(),
   },
 ];
 
@@ -224,7 +224,7 @@ export const dummySubtopics = [
     title: 'Addition',
     id: v4(),
     date_added: new Date().toISOString(),
-    parent_id: '1',
+    parent_id: v4(),
     bookmarked: false,
     priority: 1,
   },
@@ -232,7 +232,7 @@ export const dummySubtopics = [
     title: 'Subtraction',
     id: v4(),
     date_added: new Date().toISOString(),
-    parent_id: '1',
+    parent_id: v4(),
     bookmarked: true,
     priority: 0,
   },
@@ -240,7 +240,7 @@ export const dummySubtopics = [
     title: 'Multiplication',
     id: v4(),
     date_added: new Date().toISOString(),
-    parent_id: '1',
+    parent_id: v4(),
     bookmarked: false,
     priority: 0,
   },
@@ -251,74 +251,74 @@ export const dummyAudio = 'https://www.soundhelix.com/examples/mp3/SoundHelix-So
 export const dummyPodcasts = [
   {
     title: 'Podcast 1',
-    id: '1',
+    id: v4(),
     date_added: new Date().toISOString(),
-    parent_id: '1',
+    parent_id: v4(),
   },
   {
     title: 'Podcast 2',
     id: '2',
     date_added: new Date().toISOString(),
-    parent_id: '1',
+    parent_id: v4(),
   },
   {
     title: 'Podcast 3',
     id: '3',
     date_added: new Date().toISOString(),
-    parent_id: '1',
+    parent_id: v4(),
   },
   {
     title: 'Podcast 4',
     id: '4',
     date_added: new Date().toISOString(),
-    parent_id: '1',
+    parent_id: v4(),
   },
   {
     title: 'Podcast 5',
     id: '5',
     date_added: new Date().toISOString(),
-    parent_id: '1',
+    parent_id: v4(),
   },
   {
     title: 'Podcast 6',
     id: '6',
     date_added: new Date().toISOString(),
-    parent_id: '1',
+    parent_id: v4(),
   },
   {
     title: 'Podcast 7',
     id: '7',
     date_added: new Date().toISOString(),
-    parent_id: '1',
+    parent_id: v4(),
   },
   {
     title: 'Podcast 8',
     id: '8',
     date_added: new Date().toISOString(),
-    parent_id: '1',
+    parent_id: v4(),
   },
   {
     title: 'Podcast 9',
     id: '9',
     date_added: new Date().toISOString(),
-    parent_id: '1',
+    parent_id: v4(),
   },
   {
     title: 'Podcast 10',
     id: '10',
     date_added: new Date().toISOString(),
-    parent_id: '1',
+    parent_id: v4(),
   },
 ];
 
 export const dummyExams = [
   {
-    id: '1',
+    id: v4(),
     title: 'Exam 1',
     due_date: new Date().toISOString(),
     status: 1,
     related_subject: '1',
-    parent_id: '1',
+    parent_id: v4(),
   },
   {
     id: '2',
@@ -326,7 +326,7 @@ export const dummyExams = [
     due_date: new Date().toISOString(),
     status: 2,
     related_subject: '1',
-    parent_id: '1',
+    parent_id: v4(),
   },
   {
     id: '3',
@@ -334,7 +334,7 @@ export const dummyExams = [
     due_date: new Date().toISOString(),
     status: 2,
     related_subject: '1',
-    parent_id: '1',
+    parent_id: v4(),
   },
   {
     id: '4',
@@ -342,7 +342,7 @@ export const dummyExams = [
     due_date: new Date().toISOString(),
     status: 2,
     related_subject: '1',
-    parent_id: '1',
+    parent_id: v4(),
   },
   {
     id: '5',
@@ -350,18 +350,18 @@ export const dummyExams = [
     due_date: new Date().toISOString(),
     status: 2,
     related_subject: '1',
-    parent_id: '1',
+    parent_id: v4(),
   },
 ];
 
 export const dummyLernVideos = [
   {
-    id: '1',
+    id: v4(),
     title: 'Lernvideo 1',
     date_added: new Date().toISOString(),
     scenes: [
       {
-        id: '1',
+        id: v4(),
         title: 'Scene 1',
         audio: dummyAudio,
         text: dummyText,
@@ -396,7 +396,7 @@ export const dummyBlocks: {
   image_url?: string;
 }[] = [
   {
-    id: '1',
+    id: v4(),
     type: 'text',
     order: 1,
     text_type: 'heading',
@@ -422,9 +422,9 @@ export const dummyBlocks: {
 
 export const dummyLearningGroups = [
   {
-    id: '1',
+    id: v4(),
     title: 'Gruppe 1',
-    owner_id: '1',
+    owner_id: v4(),
     user_ids: ['1', '2'],
     color: COLORS[0],
     description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.',
@@ -432,7 +432,7 @@ export const dummyLearningGroups = [
   {
     id: '2',
     title: 'Gruppe 2',
-    owner_id: '1',
+    owner_id: v4(),
     user_ids: ['1', '2'],
     color: COLORS[1],
     description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.',
@@ -440,7 +440,7 @@ export const dummyLearningGroups = [
   {
     id: '3',
     title: 'Gruppe 3',
-    owner_id: '1',
+    owner_id: v4(),
     user_ids: ['1', '2'],
     color: COLORS[2],
     description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr.',
@@ -449,7 +449,7 @@ export const dummyLearningGroups = [
 
 export const dummyGroupSchoolSubjects = [
   {
-    id: '1',
+    id: v4(),
     title: 'Mathematik',
   },
   {
@@ -497,7 +497,7 @@ export const dummyGroupSchoolSubjects = [
 export const dummyGroupTopics = [
   {
     title: 'Addition',
-    id: '1',
+    id: v4(),
     date_added: new Date().toISOString(),
     description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
     parent_id: '0',
@@ -521,36 +521,36 @@ export const dummyGroupTopics = [
 export const dummyExercises = [
   {
     title: 'Exercise 1',
-    id: '1',
+    id: v4(),
     date_added: new Date().toISOString(),
-    parent_id: '1',
+    parent_id: v4(),
   },
   {
     title: 'Exercise 2',
     id: '2',
     date_added: new Date().toISOString(),
-    parent_id: '1',
+    parent_id: v4(),
   },
 ];
 
 export const dummyExerciseParts = [
   {
     title: 'Exercise Part 1',
-    id: '1',
-    parent_id: '1',
+    id: v4(),
+    parent_id: v4(),
     order: 1,
   },
   {
     title: 'Exercise Part 2',
     id: '2',
-    parent_id: '1',
+    parent_id: v4(),
     order: 2,
   },
 ];
 
 export const dummyFlashcardSessions = [
   {
-    id: '1',
+    id: v4(),
     date_added: new Date().toISOString(),
     duration: 10,
     flashcard_count: 10,
@@ -618,7 +618,7 @@ export const dummyFlashcardSessions = [
 ];
 
 export const dummyStreak = {
-  id: '1',
+  id: v4(),
   date_added: new Date(new Date().setDate(new Date().getDate() - 5)).toISOString(),
   streak: 5,
   date_updated: new Date().setDate(new Date().getDate() - 1),

@@ -19,18 +19,18 @@ const StyledQuestionText = styled.div`
   ${tw`text-lg font-bold line-clamp-2`}
 `;
 const StyledAnswerText = styled.div`
-  ${tw` line-clamp-2 mb-3 h-12`}
+  ${tw` line-clamp-2 text-seconderyText dark:text-seconderyTextDark mb-3 h-12`}
 `;
 
 const StyledProgressBarWrapper = styled.div`
-  ${tw`flex items-center  rounded-full bg-primaryColor bg-opacity-10 dark:bg-primaryDark mt-3 `}
+  ${tw`flex items-center  rounded-full bg-black bg-opacity-5 dark:bg-primaryDark mt-3 `}
 `;
 
 const StyledProgressBar = styled.div<{
   width: string;
   backgroundColor: string;
 }>`
-  ${tw` h-0.5   dark:bg-white bg-primaryColor rounded-full`}
+  ${tw` h-0.5 dark:bg-white bg-black bg-opacity-20 rounded-full`}
 
   width: ${(props) => props.width};
 `;

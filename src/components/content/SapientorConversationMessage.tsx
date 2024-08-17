@@ -3,9 +3,9 @@ import { motion } from 'framer-motion';
 import { ReactNode, useEffect, useState } from 'react';
 import tw from 'twin.macro';
 import { COLOR_ITEMS } from '../../base/constants';
+import { useSelectedTheme } from '../../features/collection/hooks/useSelectedTheme';
 import Spacer from '../layout/Spacer';
 import TypingAnimationInnerHTML from './TypingAnimationInnerHTML';
-import { useSelectedTheme } from '../../features/collection/hooks/useSelectedTheme';
 
 type SapientorMessage = {
   role: 'gpt' | 'user';
@@ -42,7 +42,7 @@ const SapientorConversationMessage = (props: {
 }) => {
   const { message, onWritingAnimationPlayed, isLoading } = props;
   const [additionalContent, setAdditionalContent] = useState<ReactNode>(null);
-  const { isDarkMode } = useSelectedTheme();
+  const { isDarkModeAktiv: isDarkMode } = useSelectedTheme();
 
   useEffect(() => {
     setTimeout(() => {

@@ -2,28 +2,29 @@ import styled from '@emotion/styled';
 import { EntityProps } from '@leanscope/ecs-engine';
 import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntityComponents';
 import { DescriptionProps, ImageProps, Tags } from '@leanscope/ecs-models';
+import { IoBook } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { TitleProps } from '../../../../app/additionalFacets';
 import { AdditionalTags } from '../../../../base/enums';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import { displayAlertTexts } from '../../../../utils/displayText';
 import { useAppState } from '../../hooks/useAppState';
-import { useSelectedSchoolSubjectGrid } from '../../hooks/useSchoolSubjectGrid';
 import { useTopicColor } from '../../hooks/useTopicColor';
+import { useSelectedTheme } from '../../hooks/useSelectedTheme';
 
 const StyledTopicCellWrapper = styled.div<{
   color: string;
   backgroundColor: string;
   image: string;
 }>`
-  ${tw`w-full rounded-xl  bg-cover h-40 overflow-hidden flex  bg-center  items-center transition-all  text-7xl font-bold`}
+  ${tw`w-full hover:scale-105   rounded-xl justify-center  bg-cover h-40 overflow-hidden flex  bg-center  items-center transition-all  text-7xl font-bold`}
   background-color: ${({ backgroundColor }) => backgroundColor};
   color: ${({ color }) => color};
   background-image: ${({ image }) => `url(${image})`};
 `;
 
 const StyledTopicTitle = styled.p`
-  ${tw`mt-4 text-black font-semibold text-xl line-clamp-2 `}
+  ${tw`mt-4 dark:text-white text-black font-semibold text-xl line-clamp-2 `}
 `;
 const StyledTopicDescription = styled.p`
   ${tw` text-seconderyText text-base w-5/6 font-normal line-clamp-2 mt-1`}
@@ -35,7 +36,7 @@ const TopicCell = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
   const { isSidebarVisible } = useAppState();
   const { selectedLanguage } = useSelectedLanguage();
   const [isGeneratingImage] = useEntityHasTags(entity, AdditionalTags.GENERATING);
-  const grid = useSelectedSchoolSubjectGrid();
+  const { isDarkModeAktiv } = useSelectedTheme();
 
   const handleOpenTopic = () => {
     if (!isSidebarVisible && !isGeneratingImage) {
@@ -47,10 +48,12 @@ const TopicCell = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
     <div>
       <StyledTopicCellWrapper
         onClick={handleOpenTopic}
-        image={imageSrc || grid}
+        image={imageSrc || ''}
         color={accentColor}
-        backgroundColor={accentColor + '90'}
-      ></StyledTopicCellWrapper>
+        backgroundColor={isDarkModeAktiv ? accentColor + '90' : accentColor + '90'}
+      >
+        {!imageSrc && <IoBook tw="dark:opacity-70" />}
+      </StyledTopicCellWrapper>
 
       <StyledTopicTitle>{title}</StyledTopicTitle>
       <StyledTopicDescription>

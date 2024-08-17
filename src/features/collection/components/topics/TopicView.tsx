@@ -101,13 +101,6 @@ const StyledBackgroundImageWrapper = styled.div<{ image: string }>`
 
   background-image: ${({ image }) => `url(${image})`};
 `;
-
-// const StyledBackgroundImageWrapper2 = styled.div<{ image: string }>`
-//   ${tw` h-full w-1/3 transition-all relative right-1  bg-cover bg-center`}
-
-//   background-image: ${({ image }) => `url(${image})`};
-// `;
-
 const StyledTopicTitle = styled.div`
   ${tw`text-5xl w-[40rem] pl-4 md:pl-20 lg:pl-32 xl:pl-60 2xl:pl-96 text-white font-extrabold`}
 `;
@@ -130,7 +123,7 @@ const StyledImageOverlay = styled.div<{ overlay?: string }>`
 `;
 
 const StyledBackButton = styled.div`
-  ${tw` size-9 mb-4  transition-all md:hover:scale-105 text-2xl ml-4 md:ml-20 lg:ml-32 xl:ml-60 2xl:ml-96 bg-white bg-opacity-25 backdrop-blur-lg text-white rounded-full flex justify-center items-center`}
+  ${tw` size-9 mb-4  transition-all md:hover:scale-105 text-xl ml-4 md:ml-20 lg:ml-32 xl:ml-60 2xl:ml-96 bg-white bg-opacity-25 backdrop-blur-lg text-white rounded-full flex justify-center items-center`}
 `;
 
 const StyledSpacer = styled.div`
@@ -140,8 +133,6 @@ const StyledSpacer = styled.div`
 const StyledTopicViewContainer = styled.div`
   ${tw`w-full h-full`}
 `;
-
-// ″
 
 const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImageProps) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -241,16 +232,6 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
                 <StyledTopicTitle>{title}</StyledTopicTitle>
               </StyledImageOverlay>
             </StyledBackgroundImageWrapper>
-            {/* <StyledFlippedImage image={imageSrc || ""}>
-              <StyledImageOverlay  overlay={imageSrc} />
-            </StyledFlippedImage> */}
-            {/* <StyledBackgroundImageWrapper2 image={imageSrc || ""}>
-              <StyledBlurOverlay backgroundColor={!imageSrc ? accentColor : ""}>
-                <StyledTopicDescription>
-                 
-                </StyledTopicDescription>
-              </StyledBlurOverlay>
-            </StyledBackgroundImageWrapper2> */}
           </StyledTopAreaWrapper>
 
           <StyledTopicResourcesWrapper largeShadow={imageSrc ? true : false}>

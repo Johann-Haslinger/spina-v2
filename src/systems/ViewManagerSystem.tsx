@@ -3,16 +3,16 @@ import { Tags } from '@leanscope/ecs-models';
 import { Fragment, useEffect, useState } from 'react';
 import { AdditionalTags, DataTypes, Stories } from '../base/enums';
 
-import { useSelectedTheme } from '../features/collection/hooks/useSelectedTheme';
-import { useIsAnyStoryCurrent } from '../hooks/useIsAnyStoryCurrent';
-import { SucessSheet } from '../components';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
-import { useSelectedSchoolSubjectColor } from '../features/collection/hooks/useSelectedSchoolSubjectColor';
-import { useAppState } from '../features/collection/hooks/useAppState';
-import { useWindowDimensions } from '../hooks/useWindowDimensions';
 import { MEDIUM_DEVICE_WIDTH } from '../base/constants';
-import { useCurrentSapientorConversation } from '../features/sapientor/hooks/useCurrentConversation';
+import { SucessSheet } from '../components';
+import { useAppState } from '../features/collection/hooks/useAppState';
 import { useSelectedPodcast } from '../features/collection/hooks/useSelectedPodcast';
+import { useSelectedSchoolSubjectColor } from '../features/collection/hooks/useSelectedSchoolSubjectColor';
+import { useSelectedTheme } from '../features/collection/hooks/useSelectedTheme';
+import { useCurrentSapientorConversation } from '../features/sapientor/hooks/useCurrentConversation';
+import { useIsAnyStoryCurrent } from '../hooks/useIsAnyStoryCurrent';
+import { useWindowDimensions } from '../hooks/useWindowDimensions';
 import { dataTypeQuery } from '../utils/queries';
 
 const ViewManagerSystem = () => {
@@ -68,7 +68,7 @@ const ViewManagerSystem = () => {
     Stories.SUCCESS_STORY,
   ]);
   const isQuizViewVisible = useIsStoryCurrent(Stories.OBSERVING_FLASHCARD_QUIZ_STORY);
-  const { isDarkMode } = useSelectedTheme();
+  const { isDarkModeAktiv: isDarkMode } = useSelectedTheme();
   const [closingVews] = useEntities((e) => e.hasTag(Tags.SELECTED) && e.hasTag(AdditionalTags.NAVIGATE_BACK));
   const [themeColor, setThemeColor] = useState('#F5F5F5');
   const { backgroundColor } = useSelectedSchoolSubjectColor();
