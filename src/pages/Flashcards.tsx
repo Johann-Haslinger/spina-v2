@@ -22,7 +22,7 @@ const Flashcards = () => {
         <NavigationBar />
         <Spacer size={8} />
         <FlexBox>
-          <Title size="large">{displayHeaderTexts(selectedLanguage).flashcards}</Title>
+          <Title>{displayHeaderTexts(selectedLanguage).flashcards}</Title>
         </FlexBox>
         <Spacer size={6} />
         {currentNavigationState === FlashcardsNavigationStates.OVERVIEW ? (

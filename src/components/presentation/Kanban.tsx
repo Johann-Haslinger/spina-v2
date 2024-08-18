@@ -26,7 +26,6 @@ const selectColorItemForColoumn = (statusId: string) => {
 
 const statusStates = {
   1: 'Nicht begonnen',
-  2: 'In Gefahr',
   3: 'In Arbeit',
   4: 'Abgeschlossen',
   5: 'Abseits der Spur',

@@ -91,7 +91,7 @@ const useImageSelector = () => {
 };
 
 const StyledTopAreaWrapper = styled.div<{ image: string }>`
-  ${tw`w-full  top-0 z-0 mt-14 xl:mt-0 h-72 md:h-96 2xl:h-[28rem] bg-contain md:bg-auto  flex md:bg-fixed`}
+  ${tw`w-full  top-0 z-0 mt-14 xl:mt-0 h-64 md:h-[21rem] xl:h-96 2xl:h-[28rem] bg-contain md:bg-auto  flex md:bg-fixed`}
   background-image: ${({ image }) => `url(${image})`};
 `;
 

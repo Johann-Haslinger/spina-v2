@@ -53,7 +53,7 @@ const Overview = () => {
       <View viewType="baseView">
         <NavigationBar></NavigationBar>
         <Spacer size={8} />
-        <Title size="large">{displayHeaderTexts(selectedLanguage).overview}</Title>
+        <Title>{displayHeaderTexts(selectedLanguage).overview}</Title>
 
         <Spacer size={8} />
         <StyledSubtitle>{displayLabelTexts(selectedLanguage).pendingResources}</StyledSubtitle>

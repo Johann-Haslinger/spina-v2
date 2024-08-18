@@ -44,7 +44,7 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
         <Spacer size={6} />
         {!hasTopics && <NoContentAddedHint />}
 
-        <CollectionGrid columnSize="large">
+        <CollectionGrid gapSize="large" columnSize="large">
           <EntityPropsMapper
             query={(e) => dataTypeQuery(e, DataTypes.TOPIC) && isChildOfQuery(e, entity)}
             sort={(a, b) => sortEntitiesByDateAdded(a, b)}
