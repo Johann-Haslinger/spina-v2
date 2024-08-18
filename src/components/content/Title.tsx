@@ -6,10 +6,10 @@ import tw from 'twin.macro';
 type size = 'small' | 'medium' | 'large';
 
 const StyledTitle = styled.div<{ size: size; placeholderStyle: boolean }>`
-  ${tw` line-clamp-2 dark:text-white min-h-10 outline-none transition-all text-primatyText font-extrabold`}
+  ${tw` line-clamp-2 dark:text-white min-h-10 outline-none transition-all text-primatyText font-bold`}
   ${({ size }) => size === 'small' && tw`text-2xl`}
   ${({ size }) => size === 'medium' && tw`text-3xl`}
-  ${({ size }) => size === 'large' && tw`text-4xl`}
+  ${({ size }) => size === 'large' && tw`md:text-4xl text-3xl`}
   ${({ placeholderStyle }) =>
     placeholderStyle && tw`text-placeholderText text-opacity-70 dark:text-placeholderTextDark `}
 `;

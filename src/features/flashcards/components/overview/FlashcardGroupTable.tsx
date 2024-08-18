@@ -19,7 +19,7 @@ const StyledTabBar = styled.div`
 `;
 
 const StyledTabLabel = styled.div<{ isActive: boolean }>`
-  ${tw`text-seconderyText dark:text-seconderyTextDark  cursor-pointer`}
+  ${tw`text-seconderyText hover:text-white dark:text-seconderyTextDark  cursor-pointer`}
   ${({ isActive }) =>
     isActive && tw`border-b text-primary dark:text-primaryTextDark border-primary dark:border-primaryTextDark`};
 `;
@@ -99,12 +99,14 @@ const FlashcardGroupRow = (props: TitleProps & PriorityProps & EntityProps) => {
   const openFlashcardGroup = () => entity.add(Tags.SELECTED);
 
   return (
-    <div tw="flex px-4 justify-between">
-      <div onClick={openFlashcardGroup}>{title}</div>
-      <div tw="flex">
+    <div tw="flex px-2  justify-between">
+      <div tw=" hover:underline " onClick={openFlashcardGroup}>
+        {title}
+      </div>
+      <div tw="flex space-x-4">
         <div>{priority}</div>
         <div>
-          <div tw="">Üben</div>
+          <div tw=" text-seconderyText dark:text-seconderyTextDark ">Üben</div>
         </div>
       </div>
     </div>

@@ -6,7 +6,7 @@ import WeekInfoCard from './overview/WeekInfoCard';
 import WeekStatsCard from './overview/WeekStatsCard';
 
 const StyledCardsWrapper = styled.div`
-  ${tw`md:flex space-x-3`}
+  ${tw`md:flex md:space-x-3 space-y-3 md:space-y-0`}
 `;
 
 const StyledLeftCardsWrapper = styled.div`

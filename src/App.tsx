@@ -6,6 +6,7 @@ import tw from 'twin.macro';
 import { DateAddedFacet, SourceFacet, TitleFacet } from './app/additionalFacets';
 import { DataTypes, NavigationLinks, Stories } from './base/enums';
 import { Sidebar } from './components';
+import TabBar from './components/navigation/TabBar';
 import { AuthUI } from './features/auth-ui';
 import PodcastSheet from './features/collection/components/podcasts/PodcastSheet';
 import { SapientorIcon } from './features/sapientor';
@@ -54,6 +55,7 @@ function App() {
 
         <Settings />
         <Profile />
+        <TabBar />
       </BrowserRouter>
 
       <EntityPropsMapper

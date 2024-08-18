@@ -98,7 +98,7 @@ const SapientorIcon = () => {
   };
 
   return (
-    <div ref={quickChatRef}>
+    <div tw="hidden md:flex" ref={quickChatRef}>
       <motion.div
         style={{
           position: 'fixed',

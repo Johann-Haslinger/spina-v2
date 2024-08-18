@@ -12,6 +12,10 @@ import { useAppState } from '../../hooks/useAppState';
 import { useTopicColor } from '../../hooks/useTopicColor';
 import { useSelectedTheme } from '../../hooks/useSelectedTheme';
 
+const StyledTopicCellContainer = styled.div`
+  ${tw`w-full h-fit pb-6`}
+`;
+
 const StyledTopicCellWrapper = styled.div<{
   color: string;
   backgroundColor: string;
@@ -45,7 +49,7 @@ const TopicCell = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
   };
 
   return (
-    <div>
+    <StyledTopicCellContainer>
       <StyledTopicCellWrapper
         onClick={handleOpenTopic}
         image={imageSrc || ''}
@@ -59,7 +63,7 @@ const TopicCell = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
       <StyledTopicDescription>
         {description || displayAlertTexts(selectedLanguage).noDescription}
       </StyledTopicDescription>
-    </div>
+    </StyledTopicCellContainer>
   );
 };
 

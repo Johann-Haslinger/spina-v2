@@ -3,6 +3,7 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { Stories } from '../../../base/enums';
 import { Sidebar } from '../../../components';
+import TabBar from '../../../components/navigation/TabBar';
 import Flashcards from '../../../pages/Flashcards';
 import InitializeAppSystem from '../../../systems/InitializeAppSystem';
 import InitializeSchoolSubjectsSystem from '../../../systems/InitializeSchoolSubjectsSystem';
@@ -22,6 +23,7 @@ const ObservingFlashcardsViewStory = () => {
           <Flashcards />
 
           <Sidebar />
+          <TabBar />
         </LeanScopeClientApp>
       </BrowserRouter>
     </React.StrictMode>

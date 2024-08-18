@@ -6,7 +6,7 @@ import tw from 'twin.macro';
 import { DateUpdatedFacet, StreakFacet } from '../../../../app/additionalFacets';
 
 const StyledCardWrapper = styled.div`
-  ${tw`w-full h-2/5 flex flex-col justify-between py-4 px-5 rounded-2xl bg-[#A3CB63] bg-opacity-40`}
+  ${tw`w-full h-2/5 flex flex-col justify-between py-4 px-5 rounded-2xl bg-[#A3CB63] bg-opacity-30`}
 `;
 
 const StyledText = styled.div`
@@ -14,7 +14,7 @@ const StyledText = styled.div`
 `;
 
 const StyledStreakLabel = styled.div<{ currentStrak: boolean }>`
-  ${tw`text-[#A3CB63] font-bold`}
+  ${tw`text-[#A3CB63] font-semibold`}
   ${({ currentStrak }) => (currentStrak ? tw`text-4xl` : tw`text-2xl mt-2 leading-7`)}
 `;
 

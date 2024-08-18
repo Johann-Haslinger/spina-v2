@@ -1,13 +1,14 @@
-import { LeanScopeClientApp, LeanScopeClient } from '@leanscope/api-client/node';
+import { LeanScopeClient, LeanScopeClientApp } from '@leanscope/api-client/node';
 import React from 'react';
-import Collection from '../../../pages/Collection';
-import InitializeSchoolSubjectsSystem from '../../../systems/InitializeSchoolSubjectsSystem';
-import ViewManagerSystem from '../../../systems/ViewManagerSystem';
-import { Stories } from '../../../base/enums';
-import InitializeStoriesSystem from '../../../systems/InitializeStoriesSystem';
-import InitializeAppSystem from '../../../systems/InitializeAppSystem';
-import { Sidebar } from '../../../components';
 import { BrowserRouter } from 'react-router-dom';
+import { Stories } from '../../../base/enums';
+import { Sidebar } from '../../../components';
+import TabBar from '../../../components/navigation/TabBar';
+import Collection from '../../../pages/Collection';
+import InitializeAppSystem from '../../../systems/InitializeAppSystem';
+import InitializeSchoolSubjectsSystem from '../../../systems/InitializeSchoolSubjectsSystem';
+import InitializeStoriesSystem from '../../../systems/InitializeStoriesSystem';
+import ViewManagerSystem from '../../../systems/ViewManagerSystem';
 import { Settings } from '../../settings';
 
 const ObservingCollectionStory = () => {
@@ -22,6 +23,7 @@ const ObservingCollectionStory = () => {
           <Collection />
           <Sidebar />
           <Settings />
+          <TabBar />
         </LeanScopeClientApp>
       </BrowserRouter>
     </React.StrictMode>

@@ -24,7 +24,7 @@ type FlashcardPerformance = {
 
 const StyledCardWrapper = styled.div`
   ${tw`w-full h-3/5 py-4 px-5 rounded-2xl   bg-opacity-40`}
-  background-color: ${COLOR_ITEMS[0].accentColor + 70};
+  background-color: ${COLOR_ITEMS[0].accentColor + 50};
   color: ${COLOR_ITEMS[0].accentColor};
 `;
 
@@ -51,7 +51,7 @@ const StyledText2 = styled.div`
 `;
 
 const StyledBar = styled.div`
-  ${tw` hover:opacity-100 transition-all mr-auto rounded-r h-4 ml-4  opacity-90 `}
+  ${tw` hover:opacity-100 transition-all mr-auto rounded-r h-3 ml-4  opacity-90 `}
   background-color: ${COLOR_ITEMS[0].accentColor};
 `;
 

@@ -10,8 +10,8 @@ import { dataTypeQuery } from '../../../../utils/queries';
 const WEEK_DAYS = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'];
 
 const StyledCardWrapper = styled.div`
-  ${tw`md:w-2/3 text-white bg-fixed pl-6 pr-8 bg-cover pt-14 pb-4 h-[396px] rounded-2xl bg-opacity-40 `}
-  background-color: ${COLOR_ITEMS[2].accentColor + 90};
+  ${tw`md:w-2/3  bg-fixed px-4 md:pl-6 bg-[rgb(234,242,252)]  md:pr-8 bg-cover pt-14 pb-4 h-[396px] rounded-2xl `}
+  background-color: ${COLOR_ITEMS[2].accentColor + 60};
   color: ${COLOR_ITEMS[2].accentColor};
 `;
 
@@ -20,17 +20,17 @@ const StyledColumnContainer = styled.div`
 `;
 
 const StyledBar = styled.div<{ isHoverd?: boolean }>`
-  ${tw` bg-opacity-50 backdrop-blur-lg  h-full transition-all w-1/2 mx-auto rounded-t-lg `}
+  ${tw`bg-[rgb(56,121,246)] bg-opacity-80 backdrop-blur-lg  h-full transition-all w-2/5 mx-auto rounded-t-md `}
   ${({ isHoverd }) => isHoverd && tw`bg-opacity-100`}
   background-color: ${COLOR_ITEMS[2].accentColor};
 `;
 
 const StyledColumnLabel = styled.div`
-  ${tw` pt-2.5 text-center text-sm`}
+  ${tw` pt-2.5 md:w-full flex justify-center w-4 text-center text-sm`}
 `;
 
 const StyledAverageMarker = styled.div`
-  ${tw` transition-all opacity-80 relative border-t w-full`}
+  ${tw` opacity-50 transition-all  relative border-t-2 w-full`}
   border-color: ${COLOR_ITEMS[2].accentColor};
 `;
 
@@ -43,7 +43,7 @@ const StyledYLabelsWrapper = styled.div`
 `;
 
 const StyledAverageLabelWrapper = styled.div`
-  ${tw`w-28 h-[292px]`}
+  ${tw` md:w-28 opacity-0 md:opacity-100 w-0 h-[292px]`}
 `;
 
 const StyledAverageLabel = styled.div`
@@ -55,11 +55,11 @@ const StyledCardCountText = styled.div`
 `;
 
 const StyledCardInfo = styled.div`
-  ${tw`text-xs relative bottom-0.5`}
+  ${tw`text-xs  text-opacity-80  relative bottom-0.5`}
 `;
 
 const StyledAverageMarkerWrapper = styled.div`
-  ${tw` pr-6 pl-20 h-10 w-full`}
+  ${tw` pr-6 md:pl-20 h-10 w-full`}
 `;
 
 const StyledColumnWrapper = styled.div<{ height: number }>`

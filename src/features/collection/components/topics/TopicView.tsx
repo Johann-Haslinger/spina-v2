@@ -34,7 +34,6 @@ import { sortEntitiesByDateAdded } from '../../../../utils/sortEntitiesByTime';
 import AddResourceToLearningGroupSheet from '../../../groups/components/AddResourceToLearningGroupSheet';
 import { useEntityHasChildren } from '../../hooks/useEntityHasChildren';
 import { useSelectedSchoolSubjectGrid } from '../../hooks/useSchoolSubjectGrid';
-import { useSelectedSchoolSubjectColor } from '../../hooks/useSelectedSchoolSubjectColor';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
 import LoadExercisesSystem from '../../systems/LoadExercisesSystem';
 import LoadFlashcardSetsSystem from '../../systems/LoadFlashcardSetsSystem';
@@ -91,18 +90,13 @@ const useImageSelector = () => {
   };
 };
 
-const StyledTopAreaWrapper = styled.div<{ backgroundColor: string }>`
-  ${tw`w-full  top-0 z-0 mt-16 xl:mt-0 h-96 2xl:h-[28rem] flex`}
-  background-color: ${({ backgroundColor }) => backgroundColor};
-`;
-
-const StyledBackgroundImageWrapper = styled.div<{ image: string }>`
-  ${tw` bg-fixed h-full w-full transition-all `}
-
+const StyledTopAreaWrapper = styled.div<{ image: string }>`
+  ${tw`w-full  top-0 z-0 mt-14 xl:mt-0 h-72 md:h-96 2xl:h-[28rem] bg-contain md:bg-auto  flex md:bg-fixed`}
   background-image: ${({ image }) => `url(${image})`};
 `;
+
 const StyledTopicTitle = styled.div`
-  ${tw`text-5xl w-[40rem] pl-4 md:pl-20 lg:pl-32 xl:pl-60 2xl:pl-96 text-white font-extrabold`}
+  ${tw` text-4xl w-[40rem] pl-4 md:pl-20 lg:pl-32 xl:pl-60 2xl:pl-96 text-white font-bold`}
 `;
 
 const StyledTopicResourcesWrapper = styled.div<{ largeShadow: boolean }>`
@@ -114,11 +108,11 @@ const StyledTopicResourcesWrapper = styled.div<{ largeShadow: boolean }>`
 `;
 
 const StyledNavbarBackground = styled.div`
-  ${tw`w-full xl:h-0 h-16 bg-primary  absolute top-0 left-0 dark:bg-primaryDark`}
+  ${tw`w-full xl:h-0 h-14 bg-primary  absolute top-0 left-0 dark:bg-primaryDark`}
 `;
 
 const StyledImageOverlay = styled.div<{ overlay?: string }>`
-  ${tw`w-full h-full overflow-visible`}
+  ${tw`w-full pb-4 md:pb-8 flex flex-col justify-end h-full overflow-visible`}
   ${({ overlay }) => overlay && tw`bg-black  bg-opacity-20  `}
 `;
 
@@ -126,12 +120,8 @@ const StyledBackButton = styled.div`
   ${tw` size-9 mb-4  transition-all md:hover:scale-105 text-xl ml-4 md:ml-20 lg:ml-32 xl:ml-60 2xl:ml-96 bg-white bg-opacity-25 backdrop-blur-lg text-white rounded-full flex justify-center items-center`}
 `;
 
-const StyledSpacer = styled.div`
-  ${tw`h-60 2xl:h-72`}
-`;
-
 const StyledTopicViewContainer = styled.div`
-  ${tw`w-full h-full`}
+  ${tw`w-full overflow-x-hidden h-full`}
 `;
 
 const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImageProps) => {
@@ -145,7 +135,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
   const { selectedTopicId } = useSelectedTopic();
   const [scrollY, setScrollY] = useState(0);
   const { width } = useWindowDimensions();
-  const { backgroundColor } = useSelectedSchoolSubjectColor();
+
   const grid = useSelectedSchoolSubjectGrid();
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
@@ -222,16 +212,15 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
               <IoEllipsisHorizontalCircleOutline color={scrollY < 360 && width > 1280 ? 'white' : ''} />
             </NavBarButton>
           </NavigationBar>
-          <StyledTopAreaWrapper backgroundColor={backgroundColor}>
-            <StyledBackgroundImageWrapper image={imageSrc || grid}>
-              <StyledImageOverlay overlay={imageSrc}>
-                <StyledSpacer />
+          <StyledTopAreaWrapper image={imageSrc || grid}>
+            <StyledImageOverlay overlay={imageSrc}>
+              <div tw="h-fit w-full">
                 <StyledBackButton onClick={navigateBack}>
                   <IoArrowBack />
                 </StyledBackButton>
                 <StyledTopicTitle>{title}</StyledTopicTitle>
-              </StyledImageOverlay>
-            </StyledBackgroundImageWrapper>
+              </div>
+            </StyledImageOverlay>
           </StyledTopAreaWrapper>
 
           <StyledTopicResourcesWrapper largeShadow={imageSrc ? true : false}>

@@ -8,7 +8,7 @@ import { useSelectedSchoolSubjectColor } from '../../hooks/useSelectedSchoolSubj
 const StyledFlashcardCellWrapper = styled.div<{
   backgroundColor: string;
 }>`
-  ${tw`w-full cursor-pointer bg-black bg-opacity-5 h-40 dark:bg-tertiaryDark dark:text-white  rounded-lg p-3 transition-all md:hover:scale-105`}
+  ${tw`w-full cursor-pointer bg-tertiary h-40 dark:bg-tertiaryDark dark:text-white  rounded-lg p-3 transition-all md:hover:scale-105`}
 `;
 
 const StyledTextWrapper = styled.div`
@@ -16,21 +16,21 @@ const StyledTextWrapper = styled.div`
 `;
 
 const StyledQuestionText = styled.div`
-  ${tw`text-lg font-bold line-clamp-2`}
+  ${tw`text-lg font-semibold line-clamp-2`}
 `;
 const StyledAnswerText = styled.div`
   ${tw` line-clamp-2 text-seconderyText dark:text-seconderyTextDark mb-3 h-12`}
 `;
 
 const StyledProgressBarWrapper = styled.div`
-  ${tw`flex items-center  rounded-full bg-black bg-opacity-5 dark:bg-primaryDark mt-3 `}
+  ${tw`flex items-center  rounded-full bg-white dark:bg-primaryDark mt-3 `}
 `;
 
 const StyledProgressBar = styled.div<{
   width: string;
   backgroundColor: string;
 }>`
-  ${tw` h-0.5 dark:bg-white bg-black bg-opacity-20 rounded-full`}
+  ${tw` h-0.5 dark:bg-white bg-opacity-90 bg-primaryColor rounded-full`}
 
   width: ${(props) => props.width};
 `;
