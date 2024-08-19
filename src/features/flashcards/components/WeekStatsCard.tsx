@@ -11,8 +11,8 @@ import { dataTypeQuery } from '../../../utils/queries';
 const WEEK_DAYS = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'];
 
 const StyledCardWrapper = styled.div`
-  ${tw`h-[428px] p-6 bg-[rgb(234,242,252)]  rounded-2xl `}
-  background-color: ${COLOR_ITEMS[2].accentColor + 30};
+  ${tw`h-[428px]  p-4 md:p-6 bg-[rgb(234,242,252)]  rounded-2xl `}
+  background-color: ${COLOR_ITEMS[2].accentColor + 20};
   color: ${COLOR_ITEMS[2].accentColor};
 `;
 
@@ -75,13 +75,13 @@ const WeekStatsCard = () => {
   return (
     <StyledCardWrapper>
       <div tw="h-24 mb-3">
-        <div tw="flex space-x-2 items-center">
+        <div tw="flex space-x-2 md:opacity-70 items-center">
           <div tw="">
             <IoBarChart />
           </div>
           <div tw="font-bold text-sm">Abgefragte Karten</div>
         </div>
-        <div tw="leading-5  mt-2 text-black font-medium">
+        <div tw="md:leading-6 md:text-lg  mt-2  text-black dark:text-white md:text-[#6EBED9] font-medium md:font-semibold">
           Du hast dich in den letzten 7 Tagen im Durchschnitt {averageFlashcards} Karten pro Tag abgefragt.
         </div>
       </div>

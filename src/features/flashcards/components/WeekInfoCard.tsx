@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { useEntities } from '@leanscope/ecs-engine';
 import { useEffect, useState } from 'react';
-import { IoInformationCircleOutline } from 'react-icons/io5';
+import { IoInformationCircleOutline, IoStatsChart } from 'react-icons/io5';
 import tw from 'twin.macro';
 import {
   DateAddedFacet,
@@ -23,13 +23,13 @@ type FlashcardPerformance = {
 };
 
 const StyledCardWrapper = styled.div`
-  ${tw`w-full h-[13rem] py-4 px-5 rounded-2xl   bg-opacity-40`}
-  background-color: ${COLOR_ITEMS[0].accentColor + 50};
+  ${tw`w-full h-fit md:h-[15rem] p-4 pb-6 md:p-5 rounded-2xl   bg-opacity-40`}
+  background-color: ${COLOR_ITEMS[0].accentColor + 20};
   color: ${COLOR_ITEMS[0].accentColor};
 `;
 
 const StyledFlexBox = styled.div`
-  ${tw`flex mb-3  justify-between`}
+  ${tw` mb-4 mt-1  md:flex hidden  justify-between`}
 `;
 
 const StyledLeftSideWrapper = styled.div`
@@ -41,18 +41,17 @@ const StyledRightSideWrapper = styled.div`
 `;
 
 const StyledText3 = styled.div`
-  ${tw`flex mt-1 w-full justify-end  items-center text-sm`}
+  ${tw`md:flex mt-1 w-full justify-end  hidden items-center text-sm`}
 `;
-const StyledText = styled.div`
-  ${tw`relative top-0.5 text-sm`}
-`;
+
 const StyledText2 = styled.div`
   ${tw`text-xl font-semibold`}
 `;
 
-const StyledBar = styled.div`
-  ${tw` hover:opacity-100 transition-all mr-auto rounded-r h-3 ml-4  opacity-90 `}
+const StyledBar = styled.div<{ isHoverd: boolean }>`
+  ${tw` transition-all mr-auto rounded-r h-3 ml-4  opacity-60 `}
   background-color: ${COLOR_ITEMS[0].accentColor};
+  ${({ isHoverd }) => isHoverd && tw`opacity-100`}
 `;
 
 const WeekInfoCard = () => {
@@ -63,38 +62,51 @@ const WeekInfoCard = () => {
 
   return (
     <StyledCardWrapper onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+      <div tw="flex space-x-2  md:opacity-80 items-center">
+        <div tw="rotate-90">
+          <IoStatsChart />
+        </div>
+        <div tw="font-bold text-sm">Abgefragte Karten</div>
+      </div>
+
+      <div tw="md:leading-6 mt-1 mb-3 dark:text-white md:hidden text-black font-medium ">
+        Du hast dich in den letzten 7 Tagen {totalCardCount}, in {Math.floor(totalTimeSpent / 60)}h und{' '}
+        {totalTimeSpent % 60} min abgefragt.
+      </div>
+
       <StyledFlexBox>
         <StyledLeftSideWrapper>
-          <StyledText>Abfragedauer</StyledText>
           <StyledText2>{totalCardCount} Karten</StyledText2>
         </StyledLeftSideWrapper>
         <StyledRightSideWrapper>
-          <StyledText>Abfragedauer</StyledText>
           <StyledText2>
             {Math.floor(totalTimeSpent / 60)}h {totalTimeSpent % 60} min
           </StyledText2>
         </StyledRightSideWrapper>
       </StyledFlexBox>
-      <div>
+      <div tw="space-y-1 md:space-y-0">
         {' '}
         <FlexBox onMouseEnter={() => setHoverdBar(1)} onMouseLeave={() => setHoverdBar(0)}>
-          <div>⏩</div> <StyledBar style={{ width: `${flashcardPerformance?.skip}%` }} />
+          <div>⏩</div> <StyledBar isHoverd={hoverdBar == 1} style={{ width: `${flashcardPerformance?.skip}%` }} />
           {hoverdBar === 1 && <div> {flashcardPerformance?.skip}%</div>}
         </FlexBox>
         <FlexBox onMouseEnter={() => setHoverdBar(2)} onMouseLeave={() => setHoverdBar(0)}>
-          <div>❌</div> <StyledBar style={{ width: `${flashcardPerformance?.forgot}%` }} />{' '}
+          <div>❌</div> <StyledBar isHoverd={hoverdBar == 2} style={{ width: `${flashcardPerformance?.forgot}%` }} />{' '}
           {hoverdBar === 2 && <div> {flashcardPerformance?.forgot}%</div>}
         </FlexBox>
         <FlexBox onMouseEnter={() => setHoverdBar(3)} onMouseLeave={() => setHoverdBar(0)}>
-          <div>🤔</div> <StyledBar style={{ width: `${flashcardPerformance?.partiallyRemembered}%` }} />{' '}
+          <div>🤔</div>{' '}
+          <StyledBar isHoverd={hoverdBar == 3} style={{ width: `${flashcardPerformance?.partiallyRemembered}%` }} />{' '}
           {hoverdBar === 3 && <div> {flashcardPerformance?.partiallyRemembered}%</div>}
         </FlexBox>
         <FlexBox onMouseEnter={() => setHoverdBar(4)} onMouseLeave={() => setHoverdBar(0)}>
-          <div>😀</div> <StyledBar style={{ width: `${flashcardPerformance?.rememberedWithEffort}%` }} />
+          <div>😀</div>{' '}
+          <StyledBar isHoverd={hoverdBar == 4} style={{ width: `${flashcardPerformance?.rememberedWithEffort}%` }} />
           {hoverdBar === 4 && <div> {flashcardPerformance?.rememberedWithEffort}%</div>}
         </FlexBox>
         <FlexBox onMouseEnter={() => setHoverdBar(5)} onMouseLeave={() => setHoverdBar(0)}>
-          <div>👑</div> <StyledBar style={{ width: `${flashcardPerformance?.easilyRemembered}%` }} />
+          <div>👑</div>{' '}
+          <StyledBar isHoverd={hoverdBar == 5} style={{ width: `${flashcardPerformance?.easilyRemembered}%` }} />
           {hoverdBar === 5 && <div> {flashcardPerformance?.easilyRemembered}%</div>}
         </FlexBox>
       </div>
