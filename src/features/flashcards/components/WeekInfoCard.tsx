@@ -8,11 +8,11 @@ import {
   DurationFacet,
   FlashcardCountFacet,
   FlashcardPerformanceFacet,
-} from '../../../../app/additionalFacets';
-import { COLOR_ITEMS } from '../../../../base/constants';
-import { DataTypes } from '../../../../base/enums';
-import { FlexBox } from '../../../../components';
-import { dataTypeQuery } from '../../../../utils/queries';
+} from '../../../app/additionalFacets';
+import { COLOR_ITEMS } from '../../../base/constants';
+import { DataTypes } from '../../../base/enums';
+import { FlexBox } from '../../../components';
+import { dataTypeQuery } from '../../../utils/queries';
 
 type FlashcardPerformance = {
   skip: number;
@@ -23,7 +23,7 @@ type FlashcardPerformance = {
 };
 
 const StyledCardWrapper = styled.div`
-  ${tw`w-full h-3/5 py-4 px-5 rounded-2xl   bg-opacity-40`}
+  ${tw`w-full h-[13rem] py-4 px-5 rounded-2xl   bg-opacity-40`}
   background-color: ${COLOR_ITEMS[0].accentColor + 50};
   color: ${COLOR_ITEMS[0].accentColor};
 `;

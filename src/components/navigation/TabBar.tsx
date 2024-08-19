@@ -26,7 +26,7 @@ const TABS = [
   },
 ];
 
-const StyledTabBarContainer = tw.div`md:hidden fixed left-0  pt-4   bg-secondery bg-opacity-80 dark:bg-opacity-60 dark:bg-primaryDark  backdrop-blur-2xl  bottom-0 flex justify-between w-screen `;
+const StyledTabBarContainer = tw.div`md:hidden fixed left-0  pt-4   bg-secondery bg-opacity-70 dark:bg-opacity-60 dark:bg-primaryDark  backdrop-blur-2xl  bottom-0 flex justify-between w-screen `;
 
 const StyledTabWrapper = styled(NavLink)<{ isActive: boolean }>`
   ${tw`w-full  pb-7  `}

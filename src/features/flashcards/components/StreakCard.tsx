@@ -1,22 +1,22 @@
 import styled from '@emotion/styled';
 import { useEntity } from '@leanscope/ecs-engine';
 import { useEffect, useState } from 'react';
-import { IoCheckmark } from 'react-icons/io5';
+import { IoCheckmark, IoFlame } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { DateUpdatedFacet, StreakFacet } from '../../../../app/additionalFacets';
+import { DateUpdatedFacet, StreakFacet } from '../../../app/additionalFacets';
 
 const StyledCardWrapper = styled.div`
-  ${tw`w-full h-2/5 flex flex-col justify-between py-4 px-5 rounded-2xl bg-[#A3CB63] bg-opacity-30`}
+  ${tw`w-full h-[13rem] flex flex-col justify-between p-4 rounded-2xl text-[#A3CB63] bg-[#A3CB63] bg-opacity-20`}
 `;
 
-const StyledText = styled.div`
-  ${tw` text-[#A3CB63] text-sm `}
-`;
+// const StyledText = styled.div`
+//   ${tw` text-[#A3CB63] text-sm `}
+// `;
 
-const StyledStreakLabel = styled.div<{ currentStrak: boolean }>`
-  ${tw`text-[#A3CB63] font-semibold`}
-  ${({ currentStrak }) => (currentStrak ? tw`text-4xl` : tw`text-2xl mt-2 leading-7`)}
-`;
+// const StyledStreakLabel = styled.div<{ currentStrak: boolean }>`
+//   ${tw`text-[#A3CB63] font-semibold`}
+//   ${({ currentStrak }) => (currentStrak ? tw`text-4xl` : tw`text-2xl mt-2 leading-7`)}
+// `;
 
 const StyledCheckbox = styled.div<{ isChecked: boolean }>`
   ${tw`flex items-center justify-center size-6 rounded-md text-lg text-white bg-[#A3CB63]`}
@@ -32,12 +32,24 @@ const StreakCard = () => {
 
   return (
     <StyledCardWrapper>
-      <div>
+      <div tw="h-24 mb-3">
+        <div tw="flex space-x-2 items-center">
+          <div tw="">
+            <IoFlame />
+          </div>
+          <div tw="font-bold text-sm">Streak</div>
+        </div>
+        <div tw=" mt-2 text-black font-medium">
+          {isCurrentStreakEntityExisting ? `${streak} Tage` : 'Bereit für eine neue Streak?'}
+        </div>
+      </div>
+
+      {/* <div>
         <StyledText>{isCurrentStreakEntityExisting ? 'Aktuelle Streak' : ''}</StyledText>
         <StyledStreakLabel currentStrak={isCurrentStreakEntityExisting}>
           {isCurrentStreakEntityExisting ? `${streak} Tage` : 'Bereit für eine neue Streak?'}
         </StyledStreakLabel>
-      </div>
+      </div> */}
       <StyledCheckmarksContainer>
         {Array.from({ length: 7 }).map((_, index) => {
           const isChecked = index >= streakStartIndex && index <= streakEndIndex && streak > 1;

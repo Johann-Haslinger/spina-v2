@@ -3,9 +3,9 @@ import { EntityProps, EntityPropsMapper } from '@leanscope/ecs-engine';
 import { Tags } from '@leanscope/ecs-models';
 import { useState } from 'react';
 import tw from 'twin.macro';
-import { PriorityFacet, PriorityProps, TitleFacet, TitleProps } from '../../../../app/additionalFacets';
-import { DataTypes } from '../../../../base/enums';
-import { dataTypeQuery } from '../../../../utils/queries';
+import { PriorityFacet, PriorityProps, TitleFacet, TitleProps } from '../../../app/additionalFacets';
+import { DataTypes } from '../../../base/enums';
+import { dataTypeQuery } from '../../../utils/queries';
 
 enum FlashcardGroupFilter {
   ALL = -1,
@@ -38,7 +38,7 @@ const FlashcardGroupTable = () => {
   const [currentFilter, setCurrentFilter] = useState(FlashcardGroupFilter.ALL);
 
   return (
-    <div>
+    <div tw="w-full overflow-hidden">
       <StyledTabBar>
         <StyledTabLabel
           isActive={currentFilter === FlashcardGroupFilter.ALL}

@@ -1,49 +1,50 @@
 import styled from '@emotion/styled';
 import { useEntities } from '@leanscope/ecs-engine';
 import { useEffect, useState } from 'react';
+import { IoBarChart } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { DateAddedFacet, FlashcardCountFacet } from '../../../../app/additionalFacets';
-import { COLOR_ITEMS } from '../../../../base/constants';
-import { DataTypes } from '../../../../base/enums';
-import { dataTypeQuery } from '../../../../utils/queries';
+import { DateAddedFacet, FlashcardCountFacet } from '../../../app/additionalFacets';
+import { COLOR_ITEMS } from '../../../base/constants';
+import { DataTypes } from '../../../base/enums';
+import { dataTypeQuery } from '../../../utils/queries';
 
 const WEEK_DAYS = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'];
 
 const StyledCardWrapper = styled.div`
-  ${tw`md:w-2/3  bg-fixed px-4 md:pl-6 bg-[rgb(234,242,252)]  md:pr-8 bg-cover pt-14 pb-4 h-[396px] rounded-2xl `}
-  background-color: ${COLOR_ITEMS[2].accentColor + 60};
+  ${tw`h-[428px] p-6 bg-[rgb(234,242,252)]  rounded-2xl `}
+  background-color: ${COLOR_ITEMS[2].accentColor + 30};
   color: ${COLOR_ITEMS[2].accentColor};
 `;
 
 const StyledColumnContainer = styled.div`
-  ${tw`flex items-end flex-col border-white border-opacity-20 h-[292px]`}
+  ${tw`flex items-end h-full flex-col border-white border-opacity-20 `}
 `;
 
 const StyledBar = styled.div<{ isHoverd?: boolean }>`
-  ${tw`bg-[rgb(56,121,246)] bg-opacity-80 backdrop-blur-lg  h-full transition-all w-2/5 mx-auto rounded-t-md `}
-  ${({ isHoverd }) => isHoverd && tw`bg-opacity-100`}
+  ${tw`bg-[rgb(56,121,246)] opacity-60 backdrop-blur-lg  h-full transition-all w-1/2 mx-auto rounded-t-md `}
+  ${({ isHoverd }) => isHoverd && tw`opacity-100`}
   background-color: ${COLOR_ITEMS[2].accentColor};
 `;
 
 const StyledColumnLabel = styled.div`
-  ${tw` pt-2.5 md:w-full flex justify-center w-4 text-center text-sm`}
+  ${tw` pt-2 font-semibold text-seconderyText opacity-100 mx-auto flex justify-center w-2 text-center text-xs`}
 `;
 
 const StyledAverageMarker = styled.div`
-  ${tw` opacity-50 transition-all  relative border-t-2 w-full`}
+  ${tw` opacity-100 transition-all  relative border-t-4 rounded w-full`}
   border-color: ${COLOR_ITEMS[2].accentColor};
 `;
 
 const StyledColumnsWrapper = styled.div`
-  ${tw`flex w-full  `}
+  ${tw`flex w-full h-64 mt-1 `}
 `;
 
 const StyledYLabelsWrapper = styled.div`
-  ${tw`flex flex-col pl-2 text-sm pb-3 relative bottom-2 text-center justify-between`}
+  ${tw`flex flex-col font-semibold text-seconderyText text-xs pl-1 relative left-1 pb-3 bottom-2 text-center justify-between`}
 `;
 
 const StyledAverageLabelWrapper = styled.div`
-  ${tw` md:w-28 opacity-0 md:opacity-100 w-0 h-[292px]`}
+  ${tw` w-36 h-64`}
 `;
 
 const StyledAverageLabel = styled.div`
@@ -51,45 +52,66 @@ const StyledAverageLabel = styled.div`
 `;
 
 const StyledCardCountText = styled.div`
-  ${tw` font-bold text-sm `}
+  ${tw`mt-1 `}
 `;
 
 const StyledCardInfo = styled.div`
-  ${tw`text-xs  text-opacity-80  relative bottom-0.5`}
+  ${tw`text-xs text-seconderyText font-semibold text-opacity-100 relative bottom-1`}
 `;
 
 const StyledAverageMarkerWrapper = styled.div`
-  ${tw` pr-6 md:pl-20 h-10 w-full`}
+  ${tw` h-10 w-full`}
 `;
 
 const StyledColumnWrapper = styled.div<{ height: number }>`
   ${tw`mt-auto w-full`}
   height: ${({ height }) => (height > 0 ? height + 3 : 0)}%;
 `;
+
 const WeekStatsCard = () => {
   const { weekDays, maxFlashcards, averageFlashcards, dayLabels } = useWeekStats();
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
 
   return (
     <StyledCardWrapper>
+      <div tw="h-24 mb-3">
+        <div tw="flex space-x-2 items-center">
+          <div tw="">
+            <IoBarChart />
+          </div>
+          <div tw="font-bold text-sm">Abgefragte Karten</div>
+        </div>
+        <div tw="leading-5  mt-2 text-black font-medium">
+          Du hast dich in den letzten 7 Tagen im Durchschnitt {averageFlashcards} Karten pro Tag abgefragt.
+        </div>
+      </div>
+
       <StyledColumnsWrapper>
-        <StyledAverageLabelWrapper>
-          <div
-            tw="transition-all"
-            style={{
-              height: `${100 - ((selectedDay !== null ? weekDays[selectedDay] : averageFlashcards) / maxFlashcards) * 100}%`,
-            }}
-          />
-          <StyledAverageLabel>
-            <StyledCardCountText>
-              {selectedDay !== null ? weekDays[selectedDay] : averageFlashcards}{' '}
-              <span tw="font-medium"> {averageFlashcards === 1 ? 'Karte' : 'Karten'}</span>
-            </StyledCardCountText>
-            <StyledCardInfo>{selectedDay !== null ? WEEK_DAYS[selectedDay] : 'Durchschnitt'}</StyledCardInfo>
-          </StyledAverageLabel>
-        </StyledAverageLabelWrapper>
+        {averageFlashcards > 0 && (
+          <StyledAverageLabelWrapper>
+            <div
+              tw="transition-all"
+              style={{
+                height: `${100 - ((selectedDay !== null ? weekDays[selectedDay] : averageFlashcards) / maxFlashcards) * 100}%`,
+              }}
+            />
+            <StyledAverageLabel>
+              <StyledCardInfo>{selectedDay !== null ? WEEK_DAYS[selectedDay] : 'Durchschnitt'}</StyledCardInfo>
+              <StyledCardCountText>
+                <span style={{ color: COLOR_ITEMS[2].accentColor }} tw=" font-bold text-xl ">
+                  {' '}
+                  {selectedDay !== null ? weekDays[selectedDay] : averageFlashcards}{' '}
+                </span>
+                <span tw="text-xs font-semibold  text-seconderyText opacity-90">
+                  {' '}
+                  {averageFlashcards === 1 ? 'Karte' : 'Karten'}
+                </span>
+              </StyledCardCountText>
+            </StyledAverageLabel>
+          </StyledAverageLabelWrapper>
+        )}
         {weekDays.map((count, idx) => (
-          <div style={{ width: `${100 / weekDays.length}%` }} key={idx}>
+          <div style={{ width: `${100 / weekDays.length}%`, height: '100%' }} key={idx}>
             <StyledColumnContainer>
               <StyledColumnWrapper
                 height={(count / maxFlashcards) * 100}
@@ -99,7 +121,7 @@ const WeekStatsCard = () => {
                 <StyledBar isHoverd={selectedDay == idx} />
               </StyledColumnWrapper>
             </StyledColumnContainer>
-            <StyledColumnLabel>{idx === 6 ? 'Heute' : dayLabels[idx]}</StyledColumnLabel>
+            <StyledColumnLabel>{dayLabels[idx]}</StyledColumnLabel>
           </div>
         ))}
         <StyledYLabelsWrapper>
@@ -109,13 +131,15 @@ const WeekStatsCard = () => {
         </StyledYLabelsWrapper>
       </StyledColumnsWrapper>
 
-      <StyledAverageMarkerWrapper>
-        <StyledAverageMarker
-          style={{
-            bottom: `${292 / (maxFlashcards / (selectedDay !== null ? weekDays[selectedDay] : averageFlashcards)) + 30}px`,
-          }}
-        />
-      </StyledAverageMarkerWrapper>
+      {averageFlashcards > 0 && (
+        <StyledAverageMarkerWrapper>
+          <StyledAverageMarker
+            style={{
+              bottom: `${256 / (maxFlashcards / (selectedDay !== null ? weekDays[selectedDay] : averageFlashcards))}px`,
+            }}
+          />
+        </StyledAverageMarkerWrapper>
+      )}
     </StyledCardWrapper>
   );
 };
@@ -142,7 +166,7 @@ const useWeekStats = () => {
 
     for (let i = 6; i >= 0; i--) {
       const date = new Date(today.getTime() - i * 24 * 60 * 60 * 1000);
-      days.push(date.toLocaleString('de-DE', { weekday: 'short' }));
+      days.push(date.toLocaleString('de-DE', { weekday: 'short' })[0]);
     }
 
     flashcardSessionEntities.forEach((entity) => {
