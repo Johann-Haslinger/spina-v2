@@ -106,9 +106,9 @@ const StyledProfileIcon = styled.div<{
   color: string;
   backgroundColor: string;
 }>`
-  ${tw`text-2xl  md:hover:opacity-80 transition-all font-black mx-1 size-10 rounded-lg flex items-center justify-center`}
+  ${tw`text-2xl  transition-all font-black mx-1 size-10 rounded-lg flex items-center justify-center`}
   color: ${({ color }) => color};
-  background-color: ${({ backgroundColor }) => backgroundColor};
+  background-color: ${({ backgroundColor }) => backgroundColor + 50};
 `;
 const StyledProfileText = styled.div`
   ${tw`text-lg md:text-base ml-3 font-medium `}
@@ -128,7 +128,7 @@ const StyledProfilePicture = styled.img`
 
 const SettingsLink = (props: { isFullWidth: boolean }) => {
   const { isFullWidth } = props;
-  const { color, accentColor: backgroundColor } = COLOR_ITEMS[3];
+  const { color } = COLOR_ITEMS[3];
   const { toggleSettings, toggleProfile } = useAppState();
   const { selectedLanguage } = useSelectedLanguage();
   const { userEmail, signedIn, signOut, userName, profilePicture } = useUserData();
@@ -220,7 +220,7 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
             {profilePicture ? (
               <StyledProfilePicture src={profilePicture} />
             ) : (
-              <StyledProfileIcon color={color} backgroundColor={backgroundColor}>
+              <StyledProfileIcon color={color} backgroundColor={color}>
                 S
               </StyledProfileIcon>
             )}

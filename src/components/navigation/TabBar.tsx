@@ -28,9 +28,9 @@ const TABS = [
 
 const StyledTabBarContainer = tw.div`md:hidden fixed left-0  pt-4   bg-secondery bg-opacity-70 dark:bg-opacity-60 dark:bg-primaryDark  backdrop-blur-2xl  bottom-0 flex justify-between w-screen `;
 
-const StyledTabWrapper = styled(NavLink)<{ isActive: boolean }>`
+const StyledTabWrapper = styled(NavLink)<{ active: string }>`
   ${tw`w-full  pb-7  `}
-  ${({ isActive }) => (isActive ? tw`text-primaryColor` : tw`text-[#A2A2A2] dark:text-opacity-70`)}
+  ${({ active }) => (active == 'true' ? tw`text-primaryColor` : tw`text-[#A2A2A2] dark:text-opacity-70`)}
 `;
 
 const TabBar = () => {
@@ -40,7 +40,7 @@ const TabBar = () => {
     <StyledTabBarContainer>
       {TABS.map((tab, idx) => {
         return (
-          <StyledTabWrapper isActive={location.pathname === tab.link} key={idx} to={tab.link}>
+          <StyledTabWrapper active={location.pathname === tab.link ? 'true' : 'false'} key={idx} to={tab.link}>
             <div tw="pb-0.5 flex justify-center text-[1.6rem]"> {tab.icon}</div>
             <p tw=" text-[0.6rem] text-center">{tab.title}</p>
           </StyledTabWrapper>

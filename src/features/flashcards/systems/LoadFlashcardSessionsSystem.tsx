@@ -19,9 +19,9 @@ const fetchFlashcardSessions = async () => {
   const { data: flashcardSessions, error } = await supabaseClient
     .from(SupabaseTables.FLASHCARD_SESSIONS)
     .select(
-      'id, flashcard_count, date_added, duration, skip, forgot, partially_remembered, rememberd_with_effort, easily_remembered',
+      'id, flashcard_count, session_date, duration, skip, forgot, partially_remembered, remembered_with_effort, easily_remembered',
     )
-    .gte('date_added', sevenDaysAgo);
+    .gte('session_date^', sevenDaysAgo);
 
   if (error) {
     console.error('Error fetching flashcard sessions:', error);
@@ -51,7 +51,7 @@ const LoadFlashcardSessionsSystem = () => {
           const flashcardSessionEntity = new Entity();
           lsc.engine.addEntity(flashcardSessionEntity);
           flashcardSessionEntity.add(new IdentifierFacet({ guid: flashcardSession.id }));
-          flashcardSessionEntity.add(new DateAddedFacet({ dateAdded: flashcardSession.date_added }));
+          flashcardSessionEntity.add(new DateAddedFacet({ dateAdded: flashcardSession.session_date }));
           flashcardSessionEntity.add(
             new FlashcardCountFacet({
               flashcardCount: flashcardSession.flashcard_count,
@@ -64,7 +64,7 @@ const LoadFlashcardSessionsSystem = () => {
                 skip: flashcardSession.skip,
                 forgot: flashcardSession.forgot,
                 partiallyRemembered: flashcardSession.partially_remembered,
-                rememberedWithEffort: flashcardSession.rememberd_with_effort,
+                rememberedWithEffort: flashcardSession.remembered_with_effort,
                 easilyRemembered: flashcardSession.easily_remembered,
               },
             }),

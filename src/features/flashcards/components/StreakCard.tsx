@@ -9,7 +9,6 @@ const StyledCardWrapper = styled.div`
   ${tw`w-full h-[11rem] flex flex-col justify-between p-4 rounded-2xl text-[#A3CB63] bg-[#A3CB63] bg-opacity-15`}
 `;
 
-
 const StyledStreakLabel = styled.div<{ currentStrak: boolean }>`
   ${tw`text-[#A3CB63] mt-1 font-semibold`}
   ${({ currentStrak }) => (currentStrak ? tw`text-4xl` : tw`text-2xl mt-2 leading-7`)}
@@ -43,7 +42,7 @@ const StreakCard = () => {
 
       <StyledCheckmarksContainer>
         {Array.from({ length: 7 }).map((_, index) => {
-          const isChecked = index >= streakStartIndex && index <= streakEndIndex && streak > 1;
+          const isChecked = index >= streakStartIndex && index <= streakEndIndex && streak >= 1;
           return (
             <StyledCheckbox key={index} isChecked={isChecked}>
               {isChecked && <IoCheckmark />}
@@ -59,7 +58,8 @@ export default StreakCard;
 
 const useCurrentStreak = () => {
   const [currentStreakEntity] = useEntity((e) => e.has(StreakFacet));
-  const isCurrentStreakEntityExisting = currentStreakEntity !== undefined;
+  const isCurrentStreakEntityExisting =
+    currentStreakEntity !== undefined && currentStreakEntity.get(StreakFacet)?.props.streak !== 0;
   const streak = currentStreakEntity?.get(StreakFacet)?.props.streak || 0;
   const dateUpdated = currentStreakEntity?.get(DateUpdatedFacet)?.props.dateUpdated || 0;
   const [streakEndIndex, setStreakEndIndex] = useState(0);
@@ -72,7 +72,7 @@ const useCurrentStreak = () => {
       const timeDifference = today.getTime() - lastUpdated.getTime();
       const daysSinceLastUpdate = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
 
-      const endIndex = Math.min(6, 6 - daysSinceLastUpdate);
+      const endIndex = 6 - daysSinceLastUpdate;
       setStreakEndIndex(endIndex);
 
       const startIndex = Math.max(0, endIndex - streak + 1);

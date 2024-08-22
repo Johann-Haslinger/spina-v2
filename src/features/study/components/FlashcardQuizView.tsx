@@ -5,16 +5,19 @@ import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { motion } from 'framer-motion';
 import { Fragment, useContext, useEffect, useState } from 'react';
-import {
-  IoCheckmarkCircle,
-  IoCheckmarkCircleOutline,
-  IoChevronBack,
-  IoCloseCircle,
-  IoFileTray,
-  IoHeadset,
-} from 'react-icons/io5';
+import { IoCheckmarkCircleOutline, IoChevronBack, IoFileTray, IoHeadset } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { AnswerFacet, LastReviewedFacet, MasteryLevelFacet, QuestionFacet } from '../../../app/additionalFacets';
+import { v4 } from 'uuid';
+import {
+  AnswerFacet,
+  DateAddedFacet,
+  DateUpdatedFacet,
+  DurationFacet,
+  FlashcardCountFacet,
+  FlashcardPerformanceFacet,
+  QuestionFacet,
+  StreakFacet,
+} from '../../../app/additionalFacets';
 import { AdditionalTags, DataTypes, Stories, SupabaseColumns, SupabaseTables } from '../../../base/enums';
 import { FlexBox, View } from '../../../components';
 import { useIsAnyStoryCurrent } from '../../../hooks/useIsAnyStoryCurrent';
@@ -28,10 +31,51 @@ import { useSeletedFlashcardGroup } from '../../collection/hooks/useSelectedFlas
 import { useSelectedSchoolSubjectColor } from '../../collection/hooks/useSelectedSchoolSubjectColor';
 import { useSelectedSubtopic } from '../../collection/hooks/useSelectedSubtopic';
 import { useBookmarkedFlashcardGroups } from '../hooks/useBookmarkedFlashcardGroups';
+const fetchFlashcardsByDue = async () => {
+  // const { data: flashcards, error } = await supabaseClient
+  //   .from(SupabaseTables.FLASHCARDS)
+  //   .select('answer, question, id')
+  //   .lt('dueDate', new Date());
+
+  // if (error) {
+  //   console.error('Error fetching flashcards:', error);
+  //   return [];
+  // }
+
+  const flashcards = [
+    {
+      id: '1',
+      question: 'Was ist die Hauptstadt von Deutschland?',
+      answer: 'Berlin',
+    },
+    {
+      id: '2',
+      question: 'Was ist die Hauptstadt von Frankreich?',
+      answer: 'Paris',
+    },
+    {
+      id: '3',
+      question: 'Was ist die Hauptstadt von Italien?',
+      answer: 'Rom',
+    },
+  ];
+
+  const flashcardsEntities = flashcards?.map((flashcard) => {
+    const entity = new Entity();
+    entity.add(new IdentifierFacet({ guid: flashcard.id }));
+    entity.add(new QuestionFacet({ question: flashcard.question }));
+    entity.add(new AnswerFacet({ answer: flashcard.answer }));
+    entity.add(DataTypes.FLASHCARD);
+    return entity;
+  });
+
+  return flashcardsEntities || [];
+};
 
 const useFlashcardQuizEntities = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isBookmarkedQuiz = useIsStoryCurrent(Stories.OBSERVING_BOOKMARKED_FLASHCARD_GROUP_QUIZ_STORY);
+  const isSpacedRepetitionQuizVisible = useIsStoryCurrent(Stories.OBSERVING_SPACED_REPETITION_QUIZ);
   const { bookmarkedFlashcardGroupEntities } = useBookmarkedFlashcardGroups();
   const [allFlashcardEntities] = useEntities((e) => dataTypeQuery(e, DataTypes.FLASHCARD));
   const { selectedFlashcardGroupId } = useSeletedFlashcardGroup();
@@ -39,56 +83,65 @@ const useFlashcardQuizEntities = () => {
   const [selectedFlashcardEntities, setSelectedFlashcardEntities] = useState<readonly Entity[]>([]);
 
   useEffect(() => {
-    if (isBookmarkedQuiz) {
-      const flashcardEntities: Entity[] = [];
-      bookmarkedFlashcardGroupEntities.forEach(async (bookmarkedFlashcardGroup) => {
-        const id = bookmarkedFlashcardGroup.get(IdentifierFacet)?.props.guid;
+    const selectFlashcardsForSession = async () => {
+      if (isBookmarkedQuiz) {
+        const flashcardEntities: Entity[] = [];
+        bookmarkedFlashcardGroupEntities.forEach(async (bookmarkedFlashcardGroup) => {
+          const id = bookmarkedFlashcardGroup.get(IdentifierFacet)?.props.guid;
 
-        if (id) {
-          const { data: flashcards, error } = await supabaseClient
-            .from(SupabaseTables.FLASHCARDS)
-            .select('answer, question, id')
-            .eq(SupabaseColumns.PARENT_ID, id);
-          if (error) {
-            console.error('Error fetching flashcards:', error);
+          if (id) {
+            const { data: flashcards, error } = await supabaseClient
+              .from(SupabaseTables.FLASHCARDS)
+              .select('answer, question, id')
+              .eq(SupabaseColumns.PARENT_ID, id);
+            if (error) {
+              console.error('Error fetching flashcards:', error);
+            }
+
+            flashcards?.forEach((flashcard) => {
+              const entity = new Entity();
+              lsc.engine.addEntity(entity);
+              flashcardEntities.push(entity);
+              entity.add(new IdentifierFacet({ guid: flashcard.id }));
+              entity.add(new QuestionFacet({ question: flashcard.question }));
+              entity.add(new AnswerFacet({ answer: flashcard.answer }));
+              entity.add(new ParentFacet({ parentId: id }));
+              entity.add(DataTypes.FLASHCARD);
+            });
           }
+        });
+        setSelectedFlashcardEntities(flashcardEntities);
+      } else if (isSpacedRepetitionQuizVisible) {
+        const sessionFlashcards = await fetchFlashcardsByDue();
 
-          flashcards?.forEach((flashcard) => {
-            const entity = new Entity();
-            lsc.engine.addEntity(entity);
-            flashcardEntities.push(entity);
-            entity.add(new IdentifierFacet({ guid: flashcard.id }));
-            entity.add(new QuestionFacet({ question: flashcard.question }));
-            entity.add(new AnswerFacet({ answer: flashcard.answer }));
-            entity.add(new ParentFacet({ parentId: id }));
-            entity.add(DataTypes.FLASHCARD);
-          });
-        }
-      });
-      setSelectedFlashcardEntities(flashcardEntities);
-    } else {
-      if (selectedSubtopicId) {
-        setSelectedFlashcardEntities(
-          allFlashcardEntities.filter(
-            (flashcardEntity) => flashcardEntity.get(ParentFacet)?.props.parentId === selectedSubtopicId,
-          ),
-        );
-      } else if (selectedFlashcardGroupId) {
-        setSelectedFlashcardEntities(
-          allFlashcardEntities.filter(
-            (flashcardEntity) => flashcardEntity.get(ParentFacet)?.props.parentId === selectedFlashcardGroupId,
-          ),
-        );
+        setSelectedFlashcardEntities(sessionFlashcards);
       } else {
-        setSelectedFlashcardEntities(allFlashcardEntities);
+        if (selectedSubtopicId) {
+          setSelectedFlashcardEntities(
+            allFlashcardEntities.filter(
+              (flashcardEntity) => flashcardEntity.get(ParentFacet)?.props.parentId === selectedSubtopicId,
+            ),
+          );
+        } else if (selectedFlashcardGroupId) {
+          setSelectedFlashcardEntities(
+            allFlashcardEntities.filter(
+              (flashcardEntity) => flashcardEntity.get(ParentFacet)?.props.parentId === selectedFlashcardGroupId,
+            ),
+          );
+        } else {
+          setSelectedFlashcardEntities(allFlashcardEntities);
+        }
       }
-    }
+    };
+
+    selectFlashcardsForSession();
   }, [
     selectedFlashcardGroupId,
     selectedSubtopicId,
     bookmarkedFlashcardGroupEntities,
     isBookmarkedQuiz,
     allFlashcardEntities.length,
+    isSpacedRepetitionQuizVisible,
   ]);
 
   return selectedFlashcardEntities;
@@ -150,6 +203,7 @@ const FlashcardQuizView = () => {
   const isVisible = useIsAnyStoryCurrent([
     Stories.OBSERVING_FLASHCARD_QUIZ_STORY,
     Stories.OBSERVING_BOOKMARKED_FLASHCARD_GROUP_QUIZ_STORY,
+    Stories.OBSERVING_SPACED_REPETITION_QUIZ,
   ]);
   const flashcardEntities = useFlashcardQuizEntities();
   const [currentFlashcardIndex, setCurrentFlashcardIndex] = useState(0);
@@ -173,34 +227,34 @@ const FlashcardQuizView = () => {
 
   const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_SET_STORY);
 
-  const updateFlashcardsMasteryLavel = async () => {
+  const updateFlashcardsDueDate = async () => {
     const updatedFlashcards: {
       id: string;
       user_id: string;
-      mastery_level: number;
-      last_reviewed: Date;
+      due_date: string;
     }[] = [];
 
     flashcardEntities.map((flashcardEntity) => {
-      const currentMasteryLevel = flashcardEntity.get(MasteryLevelFacet)?.props.masteryLevel;
-      const answerdRight = flashcardEntity.has(AdditionalTags.ANSWERD_RIGHT);
-      let newMasterLevel = 0;
+      const id = flashcardEntity.get(IdentifierFacet)?.props.guid;
 
-      if (answerdRight) {
-        newMasterLevel = (currentMasteryLevel || 0) + 1;
+      if (!id) return;
+
+      if (flashcardEntity.has(AdditionalTags.REMEMBERED_EASILY)) {
+        const dueDate = new Date(new Date().setDate(new Date().getDate() + 4)).toISOString();
+        updatedFlashcards.push({ id, user_id: userId, due_date: dueDate });
+      } else if (flashcardEntity.has(AdditionalTags.REMEMBERED_WITH_EFFORT)) {
+        const dueDate = new Date(new Date().setDate(new Date().getDate() + 1)).toISOString();
+        updatedFlashcards.push({ id, user_id: userId, due_date: dueDate });
+      } else if (flashcardEntity.has(AdditionalTags.PARTIALLY_REMEMBERED)) {
+        const dueDate = new Date(new Date().setHours(new Date().getHours() + 12)).toISOString();
+        updatedFlashcards.push({ id, user_id: userId, due_date: dueDate });
+      } else if (flashcardEntity.has(AdditionalTags.ANSWERD_WRONG)) {
+        const dueDate = new Date(new Date().setMinutes(new Date().getMinutes() + 1)).toISOString();
+        updatedFlashcards.push({ id, user_id: userId, due_date: dueDate });
+      } else if (flashcardEntity.has(AdditionalTags.SKIP)) {
+        const dueDate = new Date(new Date().setHours(new Date().getHours() + 1)).toISOString();
+        updatedFlashcards.push({ id, user_id: userId, due_date: dueDate });
       }
-
-      flashcardEntity.removeTag(AdditionalTags.ANSWERD_RIGHT);
-      flashcardEntity.removeTag(AdditionalTags.ANSWERD_WRONG);
-      flashcardEntity.add(new MasteryLevelFacet({ masteryLevel: newMasterLevel }));
-      flashcardEntity.add(new LastReviewedFacet({ lastReviewed: new Date().toISOString() }));
-
-      updatedFlashcards.push({
-        id: flashcardEntity.get(IdentifierFacet)?.props.guid || '',
-        user_id: userId,
-        mastery_level: newMasterLevel,
-        last_reviewed: new Date(),
-      });
     });
 
     const { error } = await supabaseClient
@@ -212,9 +266,73 @@ const FlashcardQuizView = () => {
     }
   };
 
+  const updateCurrentStreak = async () => {
+    const streakEntity = lsc.engine.entities.find((e) => e.has(StreakFacet));
+    const currentStreak = streakEntity?.get(StreakFacet)?.props.streak || 0;
+    const currentDate = new Date();
+
+    if (streakEntity) {
+      const { error: updateError } = await supabaseClient
+        .from(SupabaseTables.STREAKS)
+        .update({
+          streak: currentStreak + 1,
+          date_updated: currentDate.toISOString(),
+        })
+        .eq(SupabaseColumns.ID, streakEntity.get(IdentifierFacet)?.props.guid);
+
+      if (updateError) {
+        console.error('Error updating current streak:', updateError);
+      }
+
+      streakEntity?.add(new StreakFacet({ streak: currentStreak + 1 }));
+      streakEntity?.add(new DateUpdatedFacet({ dateUpdated: currentDate.toISOString() }));
+    }
+  };
+
+  const addFlashcardSession = async () => {
+    const newFlashcardSession = {
+      id: v4(),
+      user_id: userId,
+      session_date: new Date().toISOString(),
+      duration: elapsedTime,
+      flashcard_count: flashcardEntities.length,
+      skip: flashcardEntities.filter((e) => e.has(AdditionalTags.SKIP)).length,
+      forgot: flashcardEntities.filter((e) => e.has(AdditionalTags.FORGOT)).length,
+      partially_remembered: flashcardEntities.filter((e) => e.has(AdditionalTags.PARTIALLY_REMEMBERED)).length,
+      remembered_with_effort: flashcardEntities.filter((e) => e.has(AdditionalTags.REMEMBERED_WITH_EFFORT)).length,
+      easily_remembered: flashcardEntities.filter((e) => e.has(AdditionalTags.REMEMBERED_EASILY)).length,
+    };
+    const { error } = await supabaseClient.from(SupabaseTables.FLASHCARD_SESSIONS).insert([newFlashcardSession]);
+
+    if (error) {
+      console.error('Error adding flashcard session:', error);
+    }
+
+    const newSessionEntity = new Entity();
+    lsc.engine.addEntity(newSessionEntity);
+    newSessionEntity.add(new IdentifierFacet({ guid: newFlashcardSession.id }));
+    newSessionEntity.add(new DateAddedFacet({ dateAdded: newFlashcardSession.session_date }));
+    newSessionEntity.add(new FlashcardCountFacet({ flashcardCount: newFlashcardSession.flashcard_count }));
+    newSessionEntity.add(new DurationFacet({ duration: newFlashcardSession.duration }));
+    newSessionEntity.add(
+      new FlashcardPerformanceFacet({
+        flashcardPerformance: {
+          partiallyRemembered: newFlashcardSession.partially_remembered,
+          rememberedWithEffort: newFlashcardSession.remembered_with_effort,
+          easilyRemembered: newFlashcardSession.easily_remembered,
+          forgot: newFlashcardSession.forgot,
+          skip: newFlashcardSession.skip,
+        },
+      }),
+    );
+    newSessionEntity.addTag(DataTypes.FLASHCARD_SESSION);
+  };
+
   const handleBackButtonClick = () => {
     navigateBack();
-    updateFlashcardsMasteryLavel();
+    addFlashcardSession();
+    updateCurrentStreak();
+    updateFlashcardsDueDate();
   };
 
   return (
@@ -282,7 +400,7 @@ const StyledDoneIcon = styled.div<{ color: string }>`
 
 const FlashcardQuizEndCard = (props: { elapsedTime: number }) => {
   const { elapsedTime } = props;
-  const { backgroundColor } = useSelectedSchoolSubjectColor();
+  const { accentColor } = useSelectedSchoolSubjectColor();
   const [isFlipped, setIsFlipped] = useState(false);
   const [rightAnswerdFlashcards] = useEntities((e) => e.has(AdditionalTags.ANSWERD_RIGHT));
   const [wrongAnswerdFlashcards] = useEntities((e) => e.has(AdditionalTags.ANSWERD_WRONG));
@@ -312,11 +430,11 @@ const FlashcardQuizEndCard = (props: { elapsedTime: number }) => {
         >
           <StyledFlashcardWrapper>
             {!isFlipped ? (
-              <StyledDoneIcon color={backgroundColor}>
+              <StyledDoneIcon color={accentColor}>
                 <IoCheckmarkCircleOutline />
               </StyledDoneIcon>
             ) : (
-              <StyledAnswerText color={backgroundColor}>
+              <StyledAnswerText color={accentColor}>
                 <p>
                   Abgefragte Karten: {sessionFlashCardsCount} {sessionFlashCardsCount == 1 ? 'Karte' : 'Karten'}
                 </p>
@@ -356,14 +474,11 @@ const StyledAnswerText = styled.div<{ color: string }>`
 `;
 
 const StyledNavButtonAreaWrapper = styled.div`
-  ${tw`flex text-white lg:px-20 px-6 justify-between absolute left-0 lg:bottom-8 bottom-4 w-full`}
+  ${tw`flex w-[90%] space-x-1 md:space-x-1.5 md:w-2/5 text-xl md:text-2xl md:right-[30%] right-[5%] md:left-[30%] left-[5%] justify-between bg-white bg-opacity-20 p-1 md:p-1.5 rounded-xl md:rounded-2xl absolute bottom-8  `}
 `;
 
 const StyledNavButton = styled.div`
-  ${tw`flex text-lg cursor-pointer md:hover:opacity-50 transition-all items-center`}
-`;
-const StyledNavButtonText = styled.div`
-  ${tw`px-4 text-base`}
+  ${tw`w-1/5 space-y-0.5 h-16 flex justify-center flex-col items-center rounded-lg md:rounded-xl hover:opacity-50 transition-all bg-white bg-opacity-60`}
 `;
 
 const FlashcardCell = (props: {
@@ -373,7 +488,6 @@ const FlashcardCell = (props: {
   navigateToNextFlashcard: () => void;
 }) => {
   const { flashcardEntity, currentFlashcardIndex, flashcardIndex, navigateToNextFlashcard } = props;
-  const { selectedLanguage } = useSelectedLanguage();
   const [isDisplayed, setIsDisplayed] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
   const isCurrent = currentFlashcardIndex === flashcardIndex;
@@ -391,12 +505,28 @@ const FlashcardCell = (props: {
     }
   }, [isCurrent]);
 
-  const handleRightAnswerClick = () => {
-    flashcardEntity.add(AdditionalTags.ANSWERD_RIGHT);
+  const handleSkipClick = () => {
+    flashcardEntity.add(AdditionalTags.SKIP);
     navigateToNextFlashcard();
   };
-  const handleWrongAnswerClick = () => {
-    flashcardEntity.add(AdditionalTags.ANSWERD_WRONG);
+
+  const handleForgotClick = () => {
+    flashcardEntity.add(AdditionalTags.FORGOT);
+    navigateToNextFlashcard();
+  };
+
+  const handlePartiallyRememberedClick = () => {
+    flashcardEntity.add(AdditionalTags.PARTIALLY_REMEMBERED);
+    navigateToNextFlashcard();
+  };
+
+  const handleRememberedWithEffortClick = () => {
+    flashcardEntity.add(AdditionalTags.REMEMBERED_WITH_EFFORT);
+    navigateToNextFlashcard();
+  };
+
+  const handleRememberedEasilyClick = () => {
+    flashcardEntity.add(AdditionalTags.REMEMBERED_EASILY);
     navigateToNextFlashcard();
   };
 
@@ -440,13 +570,21 @@ const FlashcardCell = (props: {
         </StyledFlashcardCellContainer>
 
         <StyledNavButtonAreaWrapper>
-          <StyledNavButton onClick={handleRightAnswerClick}>
-            <IoCheckmarkCircle />
-            <StyledNavButtonText>{displayButtonTexts(selectedLanguage).true}</StyledNavButtonText>
+          <StyledNavButton onClick={handleSkipClick}>
+            <div>⏩</div>
+            <div tw="text-xs text-seconderyText line-clamp-1">1 h</div>
           </StyledNavButton>
-          <StyledNavButton onClick={handleWrongAnswerClick}>
-            <StyledNavButtonText>{displayButtonTexts(selectedLanguage).false}</StyledNavButtonText>
-            <IoCloseCircle />
+          <StyledNavButton onClick={handleForgotClick}>
+            <div>❌</div> <div tw="text-xs text-seconderyText line-clamp-1">1 min</div>
+          </StyledNavButton>
+          <StyledNavButton onClick={handlePartiallyRememberedClick}>
+            <div>🤔</div> <div tw="text-xs text-seconderyText line-clamp-1">12 h</div>
+          </StyledNavButton>
+          <StyledNavButton onClick={handleRememberedWithEffortClick}>
+            <div>😀</div> <div tw="text-xs text-seconderyText line-clamp-1">24 h</div>
+          </StyledNavButton>
+          <StyledNavButton onClick={handleRememberedEasilyClick}>
+            <div>👑</div> <div tw="text-xs text-seconderyText line-clamp-1">4 Tage</div>
           </StyledNavButton>
         </StyledNavButtonAreaWrapper>
       </Fragment>

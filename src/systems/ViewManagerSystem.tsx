@@ -3,7 +3,6 @@ import { Tags } from '@leanscope/ecs-models';
 import { Fragment, useEffect, useState } from 'react';
 import { AdditionalTags, DataTypes, Stories } from '../base/enums';
 
-import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { MEDIUM_DEVICE_WIDTH } from '../base/constants';
 import { SucessSheet } from '../components';
 import { useAppState } from '../features/collection/hooks/useAppState';
@@ -67,7 +66,10 @@ const ViewManagerSystem = () => {
     Stories.CLONING_RESOURCE_FROM_GROUP_STORY,
     Stories.SUCCESS_STORY,
   ]);
-  const isQuizViewVisible = useIsStoryCurrent(Stories.OBSERVING_FLASHCARD_QUIZ_STORY);
+  const isQuizViewVisible = useIsAnyStoryCurrent([
+    Stories.OBSERVING_FLASHCARD_QUIZ_STORY,
+    Stories.OBSERVING_SPACED_REPETITION_QUIZ,
+  ]);
   const { isDarkModeAktiv: isDarkMode } = useSelectedTheme();
   const [closingVews] = useEntities((e) => e.hasTag(Tags.SELECTED) && e.hasTag(AdditionalTags.NAVIGATE_BACK));
   const [themeColor, setThemeColor] = useState('#F5F5F5');
@@ -120,11 +122,7 @@ const ViewManagerSystem = () => {
 
   useEffect(() => {
     if (isQuizViewVisible) {
-      if (isDarkMode) {
-        setThemeColor('#000000');
-      } else {
-        setThemeColor(backgroundColor);
-      }
+      setThemeColor(backgroundColor);
     } else {
       if (isDarkMode) {
         setThemeColor('#000000');

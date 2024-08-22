@@ -100,12 +100,12 @@ export const COLOR_ITEMS: {
     backgroundColor: '#97B79D',
   },
 
-  {
-    color: '#E76542',
-    accentColor: '#FFCC00',
-    name: 'yellow',
-    backgroundColor: '#FAE07A',
-  },
+  // {
+  //   color: '#E76542',
+  //   accentColor: '#FFCC00',
+  //   name: 'yellow',
+  //   backgroundColor: '#FAE07A',
+  // },
   {
     color: '#FFCC00',
     accentColor: '#039FC4',

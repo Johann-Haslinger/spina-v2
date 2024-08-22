@@ -20,6 +20,7 @@ export enum Stories {
   OBSERVING_GROUP_TOPIC_STORY = 'observingGroupTopicStory',
   OBSERVING_BLURTING_STORY = 'observingBlurtingStory',
   OBSERVING_FLASHCARD_TEST_STORY = 'observingFlashcardTestStory',
+  OBSERVING_SPACED_REPETITION_QUIZ = 'observingSpacedRepetitionQuiz',
 
   ADDING_FLASHCARD_SET_STORY = 'addFlashcardSetStory',
   ADDING_TOPIC_STORY = 'addTopicStory',
@@ -108,6 +109,11 @@ export enum AdditionalTags {
   RECENTLY_ADDED,
   PROFILE_VISIBLE,
   GENERATING,
+  SKIP,
+  FORGOT,
+  PARTIALLY_REMEMBERED,
+  REMEMBERED_WITH_EFFORT,
+  REMEMBERED_EASILY,
 }
 
 export enum NavigationLinks {

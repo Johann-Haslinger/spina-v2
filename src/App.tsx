@@ -9,7 +9,6 @@ import { Sidebar } from './components';
 import TabBar from './components/navigation/TabBar';
 import { AuthUI } from './features/auth-ui';
 import PodcastSheet from './features/collection/components/podcasts/PodcastSheet';
-import { SapientorIcon } from './features/sapientor';
 import { Profile, Settings } from './features/settings';
 import { useSession } from './hooks/useSession';
 import { Collection, Exams, Flashcards, Groups, Homeworks, Overview, Study } from './pages/Index';
@@ -64,7 +63,7 @@ function App() {
         onMatch={PodcastSheet}
       />
 
-      <SapientorIcon />
+      {/* <SapientorIcon /> */}
     </StyledContentWrapper>
   );
 }

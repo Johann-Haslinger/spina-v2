@@ -6,12 +6,13 @@ import tw from 'twin.macro';
 import { DateAddedFacet, FlashcardCountFacet } from '../../../app/additionalFacets';
 import { COLOR_ITEMS } from '../../../base/constants';
 import { DataTypes } from '../../../base/enums';
+import { useWindowDimensions } from '../../../hooks/useWindowDimensions';
 import { dataTypeQuery } from '../../../utils/queries';
 
 const WEEK_DAYS = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'];
 
 const StyledCardWrapper = styled.div`
-  ${tw`h-[428px]  p-4 md:p-6 bg-[rgb(234,242,252)]  rounded-2xl `}
+  ${tw`md:h-[428px] h-96  p-4 md:p-6 bg-[rgb(234,242,252)]  rounded-2xl `}
   background-color: ${COLOR_ITEMS[2].accentColor + 20};
   color: ${COLOR_ITEMS[2].accentColor};
 `;
@@ -36,15 +37,15 @@ const StyledAverageMarker = styled.div`
 `;
 
 const StyledColumnsWrapper = styled.div`
-  ${tw`flex w-full h-64 mt-1 `}
+  ${tw`flex w-full md:h-60 h-56 mt-1 `}
 `;
 
 const StyledYLabelsWrapper = styled.div`
-  ${tw`flex flex-col font-semibold text-seconderyText text-xs pl-1 relative left-1 pb-3 bottom-2 text-center justify-between`}
+  ${tw`flex flex-col font-semibold text-seconderyText text-xs pl-1 bottom-2 relative left-1  text-center justify-between`}
 `;
 
 const StyledAverageLabelWrapper = styled.div`
-  ${tw` w-36 h-64`}
+  ${tw` w-36 md:h-60 h-56`}
 `;
 
 const StyledAverageLabel = styled.div`
@@ -56,7 +57,7 @@ const StyledCardCountText = styled.div`
 `;
 
 const StyledCardInfo = styled.div`
-  ${tw`text-xs text-seconderyText font-semibold text-opacity-100 relative bottom-1`}
+  ${tw`text-xs text-seconderyText font-semibold text-opacity-100 relative bottom-1.5`}
 `;
 
 const StyledAverageMarkerWrapper = styled.div`
@@ -71,10 +72,11 @@ const StyledColumnWrapper = styled.div<{ height: number }>`
 const WeekStatsCard = () => {
   const { weekDays, maxFlashcards, averageFlashcards, dayLabels } = useWeekStats();
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
+  const { width } = useWindowDimensions();
 
   return (
     <StyledCardWrapper>
-      <div tw="h-24 mb-3">
+      <div tw="h-24 md:mb-6 mb-3">
         <div tw="flex space-x-2 md:opacity-70 items-center">
           <div tw="">
             <IoBarChart />
@@ -98,11 +100,11 @@ const WeekStatsCard = () => {
             <StyledAverageLabel>
               <StyledCardInfo>{selectedDay !== null ? WEEK_DAYS[selectedDay] : 'Durchschnitt'}</StyledCardInfo>
               <StyledCardCountText>
-                <span style={{ color: COLOR_ITEMS[2].accentColor }} tw=" font-bold text-xl ">
+                <span style={{ color: COLOR_ITEMS[2].accentColor }} tw=" font-bold text-lg ">
                   {' '}
                   {selectedDay !== null ? weekDays[selectedDay] : averageFlashcards}{' '}
                 </span>
-                <span tw="text-xs font-semibold  text-seconderyText opacity-90">
+                <span tw="text-xs font-semibold  text-seconderyText ">
                   {' '}
                   {averageFlashcards === 1 ? 'Karte' : 'Karten'}
                 </span>
@@ -114,7 +116,7 @@ const WeekStatsCard = () => {
           <div style={{ width: `${100 / weekDays.length}%`, height: '100%' }} key={idx}>
             <StyledColumnContainer>
               <StyledColumnWrapper
-                height={(count / maxFlashcards) * 100}
+                height={(count / maxFlashcards) * 100 || 0}
                 onMouseEnter={() => setSelectedDay(idx)}
                 onMouseLeave={() => setSelectedDay(null)}
               >
@@ -127,7 +129,7 @@ const WeekStatsCard = () => {
         <StyledYLabelsWrapper>
           <div>{maxFlashcards}</div>
           <div>{maxFlashcards / 2}</div>
-          <div>0</div>
+          <div tw="relative top-2">0</div>
         </StyledYLabelsWrapper>
       </StyledColumnsWrapper>
 
@@ -135,7 +137,7 @@ const WeekStatsCard = () => {
         <StyledAverageMarkerWrapper>
           <StyledAverageMarker
             style={{
-              bottom: `${256 / (maxFlashcards / (selectedDay !== null ? weekDays[selectedDay] : averageFlashcards))}px`,
+              bottom: `${(width > 800 ? 240 : 224) / (maxFlashcards / (selectedDay !== null ? weekDays[selectedDay] : averageFlashcards))}px`,
             }}
           />
         </StyledAverageMarkerWrapper>
@@ -190,7 +192,7 @@ const useWeekStats = () => {
       setMaxFlashcards(evenMaxDay);
     }
 
-    const average = Math.round(newWeekDays.reduce((acc, curr) => acc + curr, 0) / 7);
+    const average = Math.ceil(newWeekDays.reduce((acc, curr) => acc + curr, 0) / 7);
     setAverageFlashcards(average);
     setDayLabels(days);
   }, [flashcardSessionEntities.length]);

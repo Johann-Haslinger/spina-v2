@@ -19,7 +19,7 @@ const StyledTabBar = styled.div`
 `;
 
 const StyledTabLabel = styled.div<{ isActive: boolean }>`
-  ${tw`text-seconderyText hover:text-white dark:text-seconderyTextDark  cursor-pointer`}
+  ${tw`text-seconderyText hover:text-black dark:hover:text-white dark:text-seconderyTextDark  cursor-pointer`}
   ${({ isActive }) =>
     isActive && tw`border-b text-primary dark:text-primaryTextDark border-primary dark:border-primaryTextDark`};
 `;

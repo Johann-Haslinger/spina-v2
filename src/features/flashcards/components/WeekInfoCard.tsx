@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { useEntities } from '@leanscope/ecs-engine';
 import { useEffect, useState } from 'react';
-import { IoInformationCircleOutline, IoStatsChart } from 'react-icons/io5';
+import { IoStatsChart } from 'react-icons/io5';
 import tw from 'twin.macro';
 import {
   DateAddedFacet,
@@ -40,10 +40,6 @@ const StyledRightSideWrapper = styled.div`
   ${tw`w-1/2 flex flex-col items-end`}
 `;
 
-const StyledText3 = styled.div`
-  ${tw`md:flex mt-1 w-full justify-end  hidden items-center text-sm`}
-`;
-
 const StyledText2 = styled.div`
   ${tw`text-xl font-semibold`}
 `;
@@ -57,16 +53,14 @@ const StyledBar = styled.div<{ isHoverd: boolean }>`
 const WeekInfoCard = () => {
   const { totalCardCount, totalTimeSpent, flashcardPerformance } = useWeekInfoData();
   const [hoverdBar, setHoverdBar] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
-  const timeRange = useFormattedTimeRange();
 
   return (
-    <StyledCardWrapper onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+    <StyledCardWrapper>
       <div tw="flex space-x-2  md:opacity-80 items-center">
         <div tw="rotate-90">
           <IoStatsChart />
         </div>
-        <div tw="font-bold text-sm">Abgefragte Karten</div>
+        <div tw="font-bold text-sm">Letzte 7 Tage</div>
       </div>
 
       <div tw="md:leading-6 mt-1 mb-3 dark:text-white md:hidden text-black font-medium ">
@@ -110,12 +104,6 @@ const WeekInfoCard = () => {
           {hoverdBar === 5 && <div> {flashcardPerformance?.easilyRemembered}%</div>}
         </FlexBox>
       </div>
-      {isHovered && (
-        <StyledText3>
-          <IoInformationCircleOutline tw="text-lg mr-2" />
-          {timeRange}
-        </StyledText3>
-      )}
     </StyledCardWrapper>
   );
 };
@@ -175,26 +163,13 @@ const useWeekInfoData = () => {
     const easilyRememberedPercentage = Math.round((performance.easilyRemembered / cardCount) * 100);
 
     setFlashcardPerformance({
-      skip: skipPercentage,
-      forgot: forgotPercentage,
-      partiallyRemembered: partiallyRememberedPercentage,
-      rememberedWithEffort: rememberedWithEffortPercentage,
-      easilyRemembered: easilyRememberedPercentage,
+      skip: skipPercentage || 0,
+      forgot: forgotPercentage || 0,
+      partiallyRemembered: partiallyRememberedPercentage || 0,
+      rememberedWithEffort: rememberedWithEffortPercentage || 0,
+      easilyRemembered: easilyRememberedPercentage || 0,
     });
   }, [flashcardSessionEntities.length]);
 
   return { totalCardCount, totalTimeSpent, flashcardPerformance };
-};
-
-const useFormattedTimeRange = () => {
-  const formatDate = (date: Date) => {
-    return date.toLocaleDateString('de-DE', { day: 'numeric', month: 'long' });
-  };
-
-  const currentDate = new Date();
-  const pastDate = new Date();
-  pastDate.setDate(currentDate.getDate() - 7);
-  const formattedPastDate = formatDate(pastDate);
-
-  return <div tw="text-sm mt-1.5">{formattedPastDate} - Heute</div>;
 };
