@@ -8,7 +8,7 @@ import { IoCheckmarkCircle } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { v4 } from 'uuid';
 import { AnswerFacet, DateAddedFacet, QuestionFacet, SourceFacet, TitleFacet } from '../../../../app/additionalFacets';
-import { DataTypes, Stories } from '../../../../base/enums';
+import { DataType, Story } from '../../../../base/enums';
 import { CloseButton, FlexBox, GeneratingIndecator, Sheet } from '../../../../components';
 import SapientorConversationMessage from '../../../../components/content/SapientorConversationMessage';
 import { addPodcast } from '../../../../functions/addPodcast';
@@ -38,16 +38,16 @@ const StyledDoneIconWrapper = styled.div`
 const GeneratePodcastSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsAnyStoryCurrent([
-    Stories.GENERATING_PODCAST_STORY,
-    Stories.GENERATING_PODCAST_FROM_FLASHCARDS_STORY,
+    Story.GENERATING_PODCAST_STORY,
+    Story.GENERATING_PODCAST_FROM_FLASHCARDS_STORY,
   ]);
-  const generatePodcastFromFlashcards = useIsStoryCurrent(Stories.GENERATING_PODCAST_FROM_FLASHCARDS_STORY);
+  const generatePodcastFromFlashcards = useIsStoryCurrent(Story.GENERATING_PODCAST_FROM_FLASHCARDS_STORY);
   const { selectedSubtopicId, selectedSubtopicTitle } = useSelectedSubtopic();
   const { selectedNoteId, selectedNoteTitle } = useSelectedNote();
   const { selectedFlashcardSetEntity, selectedFlashcardSetId, selectedFlashcardSetTitle } = useSelectedFlashcardSet();
   const [isGenerating, setIsGenerating] = useState(false);
   const { userId } = useUserData();
-  const [flashcardEntities] = useEntities((e) => dataTypeQuery(e, DataTypes.FLASHCARD));
+  const [flashcardEntities] = useEntities((e) => dataTypeQuery(e, DataType.FLASHCARD));
   const { visibleText } = useVisibleText();
 
   useEffect(() => {
@@ -89,7 +89,7 @@ const GeneratePodcastSheet = () => {
           newPodcastEntity.add(new SourceFacet({ source: audioUrl }));
           newPodcastEntity.add(new ParentFacet({ parentId: parentId }));
           newPodcastEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
-          newPodcastEntity.add(DataTypes.PODCAST);
+          newPodcastEntity.add(DataType.PODCAST);
 
           addPodcast(lsc, newPodcastEntity, userId, audioBase64);
         }
@@ -103,7 +103,7 @@ const GeneratePodcastSheet = () => {
     }
   }, [isVisible]);
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_SUBTOPIC_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_SUBTOPIC_STORY);
 
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>

@@ -1,13 +1,12 @@
 import { ILeanScopeClient } from '@leanscope/api-client/interfaces';
 import { Entity } from '@leanscope/ecs-engine';
 import { FloatOrderFacet, ParentFacet } from '@leanscope/ecs-models';
-import { DataTypes } from '../../../base/enums';
+import { DataType } from '../../../base/enums';
 
 export const getNextHigherOrder = (lsc: ILeanScopeClient, blockEntity: Entity) => {
   const blockEntityOrder = blockEntity.get(FloatOrderFacet)?.props.index || 0;
   const blockEntities = lsc.engine.entities.filter(
-    (e) =>
-      e.has(DataTypes.BLOCK) && e.get(ParentFacet)?.props.parentId === blockEntity.get(ParentFacet)?.props.parentId,
+    (e) => e.has(DataType.BLOCK) && e.get(ParentFacet)?.props.parentId === blockEntity.get(ParentFacet)?.props.parentId,
   );
 
   const sortedEntities = blockEntities.slice().sort((a, b) => {
@@ -51,8 +50,7 @@ export const getNextLowerOrder = (order: number, blockEntities: readonly Entity[
 export const getNextLowerOrderEntity = (lsc: ILeanScopeClient, blockEntity: Entity) => {
   const blockEntityOrder = blockEntity.get(FloatOrderFacet)?.props.index;
   const blockEntities = lsc.engine.entities.filter(
-    (e) =>
-      e.has(DataTypes.BLOCK) && e.get(ParentFacet)?.props.parentId === blockEntity.get(ParentFacet)?.props.parentId,
+    (e) => e.has(DataType.BLOCK) && e.get(ParentFacet)?.props.parentId === blockEntity.get(ParentFacet)?.props.parentId,
   );
   const sortedEntities = blockEntities.slice().sort((a, b) => {
     const orderA = a.get(FloatOrderFacet)?.props.index || 0;
@@ -74,8 +72,7 @@ export const getNextLowerOrderEntity = (lsc: ILeanScopeClient, blockEntity: Enti
 export const getNextHigherOrderEntity = (lsc: ILeanScopeClient, blockEntity: Entity) => {
   const blockEntityOrder = blockEntity.get(FloatOrderFacet)?.props.index;
   const blockEntities = lsc.engine.entities.filter(
-    (e) =>
-      e.has(DataTypes.BLOCK) && e.get(ParentFacet)?.props.parentId === blockEntity.get(ParentFacet)?.props.parentId,
+    (e) => e.has(DataType.BLOCK) && e.get(ParentFacet)?.props.parentId === blockEntity.get(ParentFacet)?.props.parentId,
   );
 
   const sortedEntities = blockEntities.slice().sort((a, b) => {
@@ -99,7 +96,7 @@ export const findNumberBetween = (num1: number, num2: number): number => (num1 +
 
 export const getHighestOrder = (lsc: ILeanScopeClient, parentId: string) => {
   const blockEntities = lsc.engine.entities.filter(
-    (e) => e.has(DataTypes.BLOCK) && e.get(ParentFacet)?.props.parentId === parentId,
+    (e) => e.has(DataType.BLOCK) && e.get(ParentFacet)?.props.parentId === parentId,
   );
   if (blockEntities.length === 0) {
     return 0;

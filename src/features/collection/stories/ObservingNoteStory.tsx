@@ -4,7 +4,7 @@ import { DescriptionFacet, IdentifierFacet, OrderFacet, ParentFacet, Tags } from
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { TitleFacet } from '../../../app/additionalFacets';
-import { DataTypes, Stories } from '../../../base/enums';
+import { DataType, Story } from '../../../base/enums';
 import { Sidebar } from '../../../components';
 import Collection from '../../../pages/Collection';
 import InitializeAppSystem from '../../../systems/InitializeAppSystem';
@@ -26,7 +26,7 @@ const ObservingNoteStory = () => {
               new OrderFacet({ orderIndex: 1 }),
               new ParentFacet({ parentId: '10' }),
             ]}
-            tags={[DataTypes.NOTE, Tags.SELECTED]}
+            tags={[DataType.NOTE, Tags.SELECTED]}
           />
           <EntityCreator
             facets={[
@@ -36,7 +36,7 @@ const ObservingNoteStory = () => {
               new OrderFacet({ orderIndex: 1 }),
               new ParentFacet({ parentId: '1' }),
             ]}
-            tags={[DataTypes.TOPIC, Tags.SELECTED]}
+            tags={[DataType.TOPIC, Tags.SELECTED]}
           />
           <EntityCreator
             facets={[
@@ -44,9 +44,9 @@ const ObservingNoteStory = () => {
               new IdentifierFacet({ guid: '1' }),
               new OrderFacet({ orderIndex: 1 }),
             ]}
-            tags={[DataTypes.SCHOOL_SUBJECT, Tags.SELECTED]}
+            tags={[DataType.SCHOOL_SUBJECT, Tags.SELECTED]}
           />
-          <InitializeStoriesSystem initialStory={Stories.OBSERVING_SCHOOL_SUBJECT_STORY} />
+          <InitializeStoriesSystem initialStory={Story.OBSERVING_SCHOOL_SUBJECT_STORY} />
           <InitializeAppSystem mockupData />
           <ViewManagerSystem />
 

@@ -6,11 +6,11 @@ import { motion } from 'framer-motion';
 import { useContext, useEffect } from 'react';
 import { Fragment } from 'react/jsx-runtime';
 import tw from 'twin.macro';
-import { TitleProps, TitleFacet, MessageRoleProps, RelatedResourcesProps } from '../../../app/additionalFacets';
+import { MessageRoleProps, RelatedResourcesProps, TitleFacet, TitleProps } from '../../../app/additionalFacets';
 import { COLOR_ITEMS } from '../../../base/constants';
-import { AdditionalTags, DataTypes, MessageRoles } from '../../../base/enums';
+import { AdditionalTags, DataType, MessageRoles } from '../../../base/enums';
 import { Resource } from '../../../base/types';
-import { TopicResoucreThumbNail, NoteThumbNail } from '../../../components';
+import { NoteThumbNail, TopicResoucreThumbNail } from '../../../components';
 import SapientorConversationMessage from '../../../components/content/SapientorConversationMessage';
 import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
 import { displayDataTypeTexts } from '../../../utils/displayText';
@@ -76,7 +76,7 @@ const InitializeRelatedResourcesSystem = (props: { relatedResources: Resource[] 
         lsc.engine.addEntity(newResoucreEntity);
         newResoucreEntity.add(new IdentifierFacet({ guid: r.id }));
         newResoucreEntity.add(new TitleFacet({ title: r.title }));
-        newResoucreEntity.add(r.resourceType as DataTypes);
+        newResoucreEntity.add(r.resourceType as DataType);
         newResoucreEntity.add(AdditionalTags.RELATED_THREAD_RESOURCE);
       }
     });
@@ -104,21 +104,21 @@ const RelatedResourcesInfo = (props: { relatedResources: Resource[] }) => {
         <StyledContainer>
           <EntityPropsMapper
             query={(e) =>
-              e.has(DataTypes.TOPIC) && relatedResources.some((r) => r.id === e.get(IdentifierFacet)?.props.guid)
+              e.has(DataType.TOPIC) && relatedResources.some((r) => r.id === e.get(IdentifierFacet)?.props.guid)
             }
             get={[[TitleFacet], []]}
             onMatch={TopicResourceCell}
           />
           <EntityPropsMapper
             query={(e) =>
-              e.has(DataTypes.NOTE) && relatedResources.some((r) => r.id === e.get(IdentifierFacet)?.props.guid)
+              e.has(DataType.NOTE) && relatedResources.some((r) => r.id === e.get(IdentifierFacet)?.props.guid)
             }
             get={[[TitleFacet], []]}
             onMatch={NoteResouceCell}
           />
           <EntityPropsMapper
             query={(e) =>
-              e.has(DataTypes.HOMEWORK) && relatedResources.some((r) => r.id === e.get(IdentifierFacet)?.props.guid)
+              e.has(DataType.HOMEWORK) && relatedResources.some((r) => r.id === e.get(IdentifierFacet)?.props.guid)
             }
             get={[[TitleFacet], []]}
             onMatch={HomeworkResourceCell}

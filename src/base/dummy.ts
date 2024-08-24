@@ -623,3 +623,27 @@ export const dummyStreak = {
   streak: 5,
   date_updated: new Date().setDate(new Date().getDate() - 1),
 };
+
+export const dummyChapters = [
+  {
+    title: 'Addition',
+    id: v4(),
+    date_added: new Date().toISOString(),
+    order_index: 0,
+    parent_id: v4(),
+  },
+  {
+    title: 'Subtraction',
+    id: '2',
+    date_added: new Date().toISOString(),
+    order_index: 1,
+    parent_id: v4(),
+  },
+  {
+    title: 'Multiplication',
+    id: '3',
+    date_added: new Date().toISOString(),
+    order_index: 2,
+    parent_id: v4(),
+  },
+];

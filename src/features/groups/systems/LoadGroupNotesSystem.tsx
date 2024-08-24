@@ -4,7 +4,7 @@ import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { DateAddedFacet, TitleFacet } from '../../../app/additionalFacets';
 import { dummyNotes } from '../../../base/dummy';
-import { DataTypes, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { DataType, SupabaseColumns, SupabaseTables } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 import { useSelectedGroupTopic } from '../hooks/useSelectedGroupTopic';
@@ -39,7 +39,7 @@ const LoadGroupGroupNotesSystem = () => {
 
         groupNotes.forEach((note) => {
           const isExisting = lsc.engine.entities.some(
-            (e) => e.get(IdentifierFacet)?.props.guid === note.id && e.hasTag(DataTypes.GROUP_NOTE),
+            (e) => e.get(IdentifierFacet)?.props.guid === note.id && e.hasTag(DataType.GROUP_NOTE),
           );
 
           if (!isExisting) {
@@ -49,7 +49,7 @@ const LoadGroupGroupNotesSystem = () => {
             groupNoteEntity.add(new IdentifierFacet({ guid: note.id }));
             groupNoteEntity.add(new DateAddedFacet({ dateAdded: note.date_added }));
             groupNoteEntity.add(new ParentFacet({ parentId: selectedGroupTopicId }));
-            groupNoteEntity.addTag(DataTypes.GROUP_NOTE);
+            groupNoteEntity.addTag(DataType.GROUP_NOTE);
           }
         });
       }

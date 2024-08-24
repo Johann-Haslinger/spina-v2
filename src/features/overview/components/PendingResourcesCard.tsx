@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Entity, EntityProps, EntityPropsMapper, useEntities } from '@leanscope/ecs-engine';
+import { Entity, EntityProps, EntityPropsMapper } from '@leanscope/ecs-engine';
 import { IdentifierFacet, Tags } from '@leanscope/ecs-models';
 import { IoTime } from 'react-icons/io5';
 import tw from 'twin.macro';
@@ -11,7 +11,7 @@ import {
   TitleFacet,
   TitleProps,
 } from '../../../app/additionalFacets';
-import { AdditionalTags, DataTypes } from '../../../base/enums';
+import { DataType } from '../../../base/enums';
 import { useDaysUntilDue } from '../../../hooks/useDaysUntilDue';
 import supabaseClient from '../../../lib/supabase';
 import { dataTypeQuery } from '../../../utils/queries';
@@ -39,7 +39,7 @@ const StyledText = styled.div`
 `;
 
 const PendingResourcesCard = () => {
-  const { hasPendingResources } = usePendingResources();
+  // const { hasPendingResources } = usePendingResources();
   const currentDate = new Date();
   const twoWeeksFromNow = new Date(currentDate);
   twoWeeksFromNow.setDate(currentDate.getDate() + 14);
@@ -73,7 +73,7 @@ export default PendingResourcesCard;
 
 const updateStatus = async (entity: Entity, status: number) => {
   const id = entity.get(IdentifierFacet)?.props.guid;
-  const dataType = dataTypeQuery(entity, DataTypes.HOMEWORK) ? DataTypes.HOMEWORK : DataTypes.EXAM;
+  const dataType = dataTypeQuery(entity, DataType.HOMEWORK) ? DataType.HOMEWORK : DataType.EXAM;
   entity.add(new StatusFacet({ status }));
 
   const { error } = await supabaseClient.from(dataType).update({ status }).eq('id', id);
@@ -107,10 +107,10 @@ const StyledSelectWrapper = styled.div<{ status: ResoruceStatus; dark: boolean }
 `;
 
 const PandingResourceRow = (props: TitleProps & StatusProps & DueDateProps & EntityProps) => {
-  const { title, status, dueDate, entity } = props;
+  const { title, status, entity } = props;
   const daysUntilDue = useDaysUntilDue(entity);
   const { isDarkModeAktive } = useSelectedTheme();
-  const isDisplayed = [1, 2, 3].includes(entity.get(StatusFacet)?.props.status || 0);
+  // const isDisplayed = [1, 2, 3].includes(entity.get(StatusFacet)?.props.status || 0);
 
   const openResource = () => entity.add(Tags.SELECTED);
 
@@ -142,10 +142,10 @@ const PandingResourceRow = (props: TitleProps & StatusProps & DueDateProps & Ent
   );
 };
 
-const usePendingResources = () => {
-  const [pendingResourceEntities] = useEntities((e) => e.has(AdditionalTags.PENDING_RESOURCE));
+// const usePendingResources = () => {
+//   const [pendingResourceEntities] = useEntities((e) => e.has(AdditionalTags.PENDING_RESOURCE));
 
-  const hasPendingResources = pendingResourceEntities.length > 0;
+//   const hasPendingResources = pendingResourceEntities.length > 0;
 
-  return { pendingResourceEntities, hasPendingResources };
-};
+//   return { pendingResourceEntities, hasPendingResources };
+// };

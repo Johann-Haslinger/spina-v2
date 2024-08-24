@@ -3,7 +3,7 @@ import { DescriptionFacet } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
 import { TitleFacet } from '../../../app/additionalFacets';
-import { Stories, SupabaseColumns } from '../../../base/enums';
+import { Story, SupabaseColumns } from '../../../base/enums';
 import {
   FlexBox,
   PrimaryButton,
@@ -22,7 +22,7 @@ import { useSelectedLearningGroup } from '../hooks/useSelectedLearningGroup';
 
 const EditLearningGroupSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.EDITING_LEARNING_GROUP_STORY);
+  const isVisible = useIsStoryCurrent(Story.EDITING_LEARNING_GROUP_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const {
     selectedLearningGroupTitle,
@@ -38,7 +38,7 @@ const EditLearningGroupSheet = () => {
     setNewDescritption(selectedLearningGroupDescription);
   }, [selectedLearningGroupTitle, selectedLearningGroupDescription]);
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_LERNING_GROUP_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_LERNING_GROUP_STORY);
 
   const updateLearningGroup = async () => {
     if (newTitle) {

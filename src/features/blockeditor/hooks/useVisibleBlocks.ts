@@ -1,12 +1,12 @@
 import { ParentFacet } from '@leanscope/ecs-models';
 
-import { useCurrentBlockeditor } from './useCurrentBlockeditor';
-import { getStringFromBlockEntities } from '../functions/getStringFromBlockEntities';
 import { useEntities } from '@leanscope/ecs-engine';
-import { DataTypes } from '../../../base/enums';
+import { DataType } from '../../../base/enums';
+import { getStringFromBlockEntities } from '../functions/getStringFromBlockEntities';
+import { useCurrentBlockeditor } from './useCurrentBlockeditor';
 
 export const useVisibleBlocks = () => {
-  const [blockEntities] = useEntities((e) => e.has(DataTypes.BLOCK));
+  const [blockEntities] = useEntities((e) => e.has(DataType.BLOCK));
   const { blockeditorId } = useCurrentBlockeditor();
 
   const visibleBlockEntities = blockEntities.filter(

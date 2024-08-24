@@ -4,7 +4,7 @@ import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { TitleFacet } from '../../../app/additionalFacets';
 import { dummyExerciseParts } from '../../../base/dummy';
-import { DataTypes, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { DataType, SupabaseColumns, SupabaseTables } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../lib/supabase';
@@ -42,7 +42,7 @@ const LoadExercisePartsSystem = () => {
 
         exerciseParts.forEach((exercisePart) => {
           const isExisting = lsc.engine.entities.some(
-            (e) => e.get(IdentifierFacet)?.props.guid === exercisePart.id && e.hasTag(DataTypes.EXERCISE_PART),
+            (e) => e.get(IdentifierFacet)?.props.guid === exercisePart.id && e.hasTag(DataType.EXERCISE_PART),
           );
 
           if (!isExisting) {
@@ -56,7 +56,7 @@ const LoadExercisePartsSystem = () => {
             exercisePartEntity.add(new IdentifierFacet({ guid: exercisePart.id }));
 
             exercisePartEntity.add(new ParentFacet({ parentId: selectedTopicId }));
-            exercisePartEntity.addTag(DataTypes.EXERCISE_PART);
+            exercisePartEntity.addTag(DataType.EXERCISE_PART);
           }
         });
       }

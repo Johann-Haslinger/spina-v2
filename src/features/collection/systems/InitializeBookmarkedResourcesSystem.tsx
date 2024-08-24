@@ -11,7 +11,7 @@ import {
   TitleFacet,
 } from '../../../app/additionalFacets';
 import { dummyFlashcards, dummyFlashcardSets, dummyNotes, dummyPodcasts, dummySubtopics } from '../../../base/dummy';
-import { AdditionalTags, DataTypes, Stories, SupabaseTables } from '../../../base/enums';
+import { AdditionalTags, DataType, Story, SupabaseTables } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 
@@ -87,7 +87,7 @@ const fetchBookmarkedNotes = async () => {
 
 const InitializeBookmarkedResourcesSystem = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isBookmarkCollectionVisible = useIsStoryCurrent(Stories.OBSERVING_BOOKMARK_COLLECTION_STORY);
+  const isBookmarkCollectionVisible = useIsStoryCurrent(Story.OBSERVING_BOOKMARK_COLLECTION_STORY);
   const { isUsingMockupData: mockupData, isUsingSupabaseData: shouldFetchFromSupabase } = useCurrentDataSource();
 
   useEffect(() => {
@@ -99,7 +99,7 @@ const InitializeBookmarkedResourcesSystem = () => {
           : [];
       flashcards.forEach((flashcard) => {
         const isExisting = lsc.engine.entities.some(
-          (e) => e.get(IdentifierFacet)?.props.guid === flashcard.id && e.hasTag(DataTypes.FLASHCARD),
+          (e) => e.get(IdentifierFacet)?.props.guid === flashcard.id && e.hasTag(DataType.FLASHCARD),
         );
 
         if (!isExisting) {
@@ -110,7 +110,7 @@ const InitializeBookmarkedResourcesSystem = () => {
           flashcardEntity.add(new QuestionFacet({ question: flashcard.question }));
           flashcardEntity.add(new AnswerFacet({ answer: flashcard.answer }));
           flashcardEntity.add(AdditionalTags.BOOKMARKED);
-          flashcardEntity.addTag(DataTypes.FLASHCARD);
+          flashcardEntity.addTag(DataType.FLASHCARD);
         }
       });
     };
@@ -118,7 +118,7 @@ const InitializeBookmarkedResourcesSystem = () => {
       const podcasts = mockupData ? dummyPodcasts : shouldFetchFromSupabase ? await fetchBookmarkedPodcasts() : [];
       podcasts.forEach((podcast) => {
         const isExisting = lsc.engine.entities.some(
-          (e) => e.get(IdentifierFacet)?.props.guid === podcast.id && e.hasTag(DataTypes.PODCAST),
+          (e) => e.get(IdentifierFacet)?.props.guid === podcast.id && e.hasTag(DataType.PODCAST),
         );
 
         if (!isExisting) {
@@ -129,7 +129,7 @@ const InitializeBookmarkedResourcesSystem = () => {
           podcastEntity.add(new DateAddedFacet({ dateAdded: podcast.date_added }));
           podcastEntity.add(new ParentFacet({ parentId: podcast.parent_id }));
           podcastEntity.add(AdditionalTags.BOOKMARKED);
-          podcastEntity.addTag(DataTypes.PODCAST);
+          podcastEntity.addTag(DataType.PODCAST);
         }
       });
     };
@@ -141,7 +141,7 @@ const InitializeBookmarkedResourcesSystem = () => {
           : [];
       flashcardSets.forEach((flashcardSet) => {
         const isExisting = lsc.engine.entities.some(
-          (e) => e.get(IdentifierFacet)?.props.guid === flashcardSet.id && e.hasTag(DataTypes.FLASHCARD_SET),
+          (e) => e.get(IdentifierFacet)?.props.guid === flashcardSet.id && e.hasTag(DataType.FLASHCARD_SET),
         );
 
         if (!isExisting) {
@@ -152,7 +152,7 @@ const InitializeBookmarkedResourcesSystem = () => {
           flashcardSetEntity.add(new DateAddedFacet({ dateAdded: flashcardSet.date_added }));
           flashcardSetEntity.add(new ParentFacet({ parentId: flashcardSet.parent_id }));
           flashcardSetEntity.add(AdditionalTags.BOOKMARKED);
-          flashcardSetEntity.addTag(DataTypes.FLASHCARD_SET);
+          flashcardSetEntity.addTag(DataType.FLASHCARD_SET);
         }
       });
     };
@@ -160,7 +160,7 @@ const InitializeBookmarkedResourcesSystem = () => {
       const subtopics = mockupData ? dummySubtopics : shouldFetchFromSupabase ? await fetchBookmarkedSubtopics() : [];
       subtopics.forEach((subtopic) => {
         const isExisting = lsc.engine.entities.some(
-          (e) => e.get(IdentifierFacet)?.props.guid === subtopic.id && e.hasTag(DataTypes.SUBTOPIC),
+          (e) => e.get(IdentifierFacet)?.props.guid === subtopic.id && e.hasTag(DataType.SUBTOPIC),
         );
 
         if (!isExisting) {
@@ -171,7 +171,7 @@ const InitializeBookmarkedResourcesSystem = () => {
           subtopicEntity.add(new DateAddedFacet({ dateAdded: subtopic.date_added }));
           subtopicEntity.add(new ParentFacet({ parentId: subtopic.parent_id }));
           subtopicEntity.add(AdditionalTags.BOOKMARKED);
-          subtopicEntity.addTag(DataTypes.SUBTOPIC);
+          subtopicEntity.addTag(DataType.SUBTOPIC);
         }
       });
     };
@@ -179,7 +179,7 @@ const InitializeBookmarkedResourcesSystem = () => {
       const notes = mockupData ? dummyNotes : shouldFetchFromSupabase ? await fetchBookmarkedNotes() : [];
       notes.forEach((note) => {
         const isExisting = lsc.engine.entities.some(
-          (e) => e.get(IdentifierFacet)?.props.guid === note.id && e.hasTag(DataTypes.NOTE),
+          (e) => e.get(IdentifierFacet)?.props.guid === note.id && e.hasTag(DataType.NOTE),
         );
 
         if (!isExisting) {
@@ -190,7 +190,7 @@ const InitializeBookmarkedResourcesSystem = () => {
           noteEntity.add(new DateAddedFacet({ dateAdded: note.date_added }));
           noteEntity.add(new ParentFacet({ parentId: note.parent_id }));
           noteEntity.add(AdditionalTags.BOOKMARKED);
-          noteEntity.addTag(DataTypes.NOTE);
+          noteEntity.addTag(DataType.NOTE);
         }
       });
     };

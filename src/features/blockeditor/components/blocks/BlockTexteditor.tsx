@@ -10,12 +10,12 @@ import { v4 } from 'uuid';
 import { BlocktypeFacet, ListStyleFacet, TexttypeFacet, TodoStateFacet } from '../../../../app/additionalFacets';
 import {
   AdditionalTags,
-  Blocktypes,
-  DataTypes,
+  Blocktype,
+  DataType,
   ListStyles,
   SupabaseColumns,
   SupabaseTables,
-  Texttypes,
+  Texttype,
 } from '../../../../base/enums';
 import { useUserData } from '../../../../hooks/useUserData';
 import supabaseClient from '../../../../lib/supabase';
@@ -38,7 +38,7 @@ import { useTexteditorRef } from '../../hooks/useOutsideTexteditorClickHandler';
 import HandleTexteditorKeyPressSystem from '../../systems/HandleTexteditorKeyPressSystem';
 
 const updateTextBlockToListBlock = async (blockEntity: Entity) => {
-  blockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.LIST }));
+  blockEntity.add(new BlocktypeFacet({ blocktype: Blocktype.LIST }));
   blockEntity.add(new ListStyleFacet({ listStyle: ListStyles.UNORDERED }));
 
   const id = blockEntity.get(IdentifierFacet)?.props.guid;
@@ -54,7 +54,7 @@ const updateTextBlockToListBlock = async (blockEntity: Entity) => {
 };
 
 const udateTextBlockToTodoBlock = async (blockEntity: Entity) => {
-  blockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.TODO }));
+  blockEntity.add(new BlocktypeFacet({ blocktype: Blocktype.TODO }));
   blockEntity.add(new TodoStateFacet({ todoState: 0 }));
 
   const id = blockEntity.get(IdentifierFacet)?.props.guid;
@@ -78,8 +78,8 @@ const addDividerBlock = (lsc: ILeanScopeClient, blockEntity: Entity, userId: str
   newDividerBlockEntity.add(new IdentifierFacet({ guid: v4() }));
   newDividerBlockEntity.add(new FloatOrderFacet({ index: blockOrderIndex }));
   newDividerBlockEntity.add(new ParentFacet({ parentId: parentId || '' }));
-  newDividerBlockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.DIVIDER }));
-  newDividerBlockEntity.add(DataTypes.BLOCK);
+  newDividerBlockEntity.add(new BlocktypeFacet({ blocktype: Blocktype.DIVIDER }));
+  newDividerBlockEntity.add(DataType.BLOCK);
 
   addBlock(lsc, newDividerBlockEntity, userId);
 
@@ -87,9 +87,9 @@ const addDividerBlock = (lsc: ILeanScopeClient, blockEntity: Entity, userId: str
   const nextHigherBlockType = nextHigherBlockEntity?.get(BlocktypeFacet)?.props.blocktype;
   const nextHigherBlockText = nextHigherBlockEntity?.get(TextFacet)?.props.text;
   if (
-    (nextHigherBlockType === Blocktypes.TEXT ||
-      nextHigherBlockType === Blocktypes.LIST ||
-      nextHigherBlockType === Blocktypes.TODO) &&
+    (nextHigherBlockType === Blocktype.TEXT ||
+      nextHigherBlockType === Blocktype.LIST ||
+      nextHigherBlockType === Blocktype.TODO) &&
     nextHigherBlockText == ''
   ) {
     nextHigherBlockEntity?.add(AdditionalTags.FOCUSED);
@@ -98,8 +98,8 @@ const addDividerBlock = (lsc: ILeanScopeClient, blockEntity: Entity, userId: str
     newBlock.add(new IdentifierFacet({ guid: v4() }));
     newBlock.add(new FloatOrderFacet({ index: (blockOrderIndex || 0) + 1 }));
     newBlock.add(new ParentFacet({ parentId: parentId || '' }));
-    newBlock.add(new BlocktypeFacet({ blocktype: Blocktypes.TEXT }));
-    newBlock.add(DataTypes.BLOCK);
+    newBlock.add(new BlocktypeFacet({ blocktype: Blocktype.TEXT }));
+    newBlock.add(DataType.BLOCK);
 
     addBlock(lsc, newBlock, userId);
   }
@@ -114,12 +114,12 @@ const handleEnterPress = async (
   const cursorPosition = getCaretPosition(texteditorRef);
   const blockText = blockEntity?.get(TextFacet)?.props.text || '';
   const blockOrder = blockEntity?.get(FloatOrderFacet)?.props.index || 1;
-  const blockType = blockEntity?.get(BlocktypeFacet)?.props.blocktype || Blocktypes.TEXT;
+  const blockType = blockEntity?.get(BlocktypeFacet)?.props.blocktype || Blocktype.TEXT;
   const textEditor = texteditorRef.current;
   const newtext = blockText?.substring(0, cursorPosition);
   const cuttedtext = blockText?.substring(cursorPosition);
 
-  if (blockType == Blocktypes.TEXT || textEditor?.innerHTML !== '') {
+  if (blockType == Blocktype.TEXT || textEditor?.innerHTML !== '') {
     blockEntity.removeTag(AdditionalTags.FOCUSED);
     blockEntity.add(new TextFacet({ text: newtext }));
 
@@ -140,7 +140,7 @@ const handleEnterPress = async (
     );
     newBlockEntity.add(new TextFacet({ text: cuttedtext }));
     newBlockEntity.add(new BlocktypeFacet({ blocktype: blockType }));
-    newBlockEntity.add(DataTypes.BLOCK);
+    newBlockEntity.add(DataType.BLOCK);
     newBlockEntity.add(AdditionalTags.FOCUSED);
 
     addBlock(lsc, newBlockEntity, userId);
@@ -158,13 +158,13 @@ const handleEnterPress = async (
       textEditor.innerHTML = newtext;
     }
   } else {
-    blockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.TEXT }));
+    blockEntity.add(new BlocktypeFacet({ blocktype: Blocktype.TEXT }));
 
     const blockId = blockEntity.get(IdentifierFacet)?.props.guid;
 
     const { error } = await supabaseClient
       .from(SupabaseTables.BLOCKS)
-      .update({ type: Blocktypes.TEXT })
+      .update({ type: Blocktype.TEXT })
       .eq(SupabaseColumns.ID, blockId);
 
     if (error) {
@@ -174,9 +174,9 @@ const handleEnterPress = async (
 };
 
 const handleBackspacePressWithoutText = async (lsc: ILeanScopeClient, blockEntity: Entity) => {
-  const blockType = blockEntity?.get(BlocktypeFacet)?.props.blocktype || Blocktypes.TEXT;
+  const blockType = blockEntity?.get(BlocktypeFacet)?.props.blocktype || Blocktype.TEXT;
 
-  if (blockType === Blocktypes.TEXT) {
+  if (blockType === Blocktype.TEXT) {
     const lowerBlockEntity = getNextLowerOrderEntity(lsc, blockEntity);
     const lowerBlockType = lowerBlockEntity?.get(BlocktypeFacet)?.props.blocktype;
     deleteBlock(lsc, blockEntity);
@@ -185,18 +185,18 @@ const handleBackspacePressWithoutText = async (lsc: ILeanScopeClient, blockEntit
 
     if (
       lowerBlockEntity &&
-      (lowerBlockType === Blocktypes.TEXT || lowerBlockType === Blocktypes.LIST || lowerBlockType === Blocktypes.TODO)
+      (lowerBlockType === Blocktype.TEXT || lowerBlockType === Blocktype.LIST || lowerBlockType === Blocktype.TODO)
     ) {
       lowerBlockEntity.add(AdditionalTags.FOCUSED);
     }
   } else {
-    blockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.TEXT }));
+    blockEntity.add(new BlocktypeFacet({ blocktype: Blocktype.TEXT }));
 
     const blockId = blockEntity.get(IdentifierFacet)?.props.guid;
 
     const { error } = await supabaseClient
       .from(SupabaseTables.BLOCKS)
-      .update({ type: Blocktypes.TEXT })
+      .update({ type: Blocktype.TEXT })
       .eq(SupabaseColumns.ID, blockId);
 
     if (error) {
@@ -216,11 +216,7 @@ const handleBackSpacePressWithText = (
   const higherBlockType = higherBlock?.get(BlocktypeFacet)?.props.blocktype;
   const higherBlockText = higherBlock?.get(TextFacet)?.props.text || '';
 
-  if (
-    higherBlockType === Blocktypes.TEXT ||
-    higherBlockType === Blocktypes.TODO ||
-    higherBlockType === Blocktypes.LIST
-  ) {
+  if (higherBlockType === Blocktype.TEXT || higherBlockType === Blocktype.TODO || higherBlockType === Blocktype.LIST) {
     texteditorRef.current?.blur();
     higherBlock?.add(new TextFacet({ text: higherBlockText + blockText }));
     higherBlock?.add(AdditionalTags.FOCUSED);
@@ -234,9 +230,9 @@ const handleArrowUpPress = (lsc: ILeanScopeClient, blockEntity: Entity) => {
   const nextLowerBlockType = nextLowerBlockEntity?.get(BlocktypeFacet)?.props.blocktype;
 
   if (
-    nextLowerBlockType === Blocktypes.TEXT ||
-    nextLowerBlockType === Blocktypes.LIST ||
-    nextLowerBlockType === Blocktypes.TODO
+    nextLowerBlockType === Blocktype.TEXT ||
+    nextLowerBlockType === Blocktype.LIST ||
+    nextLowerBlockType === Blocktype.TODO
   ) {
     blockEntity.removeTag(AdditionalTags.FOCUSED);
     nextLowerBlockEntity?.add(AdditionalTags.FOCUSED);
@@ -247,16 +243,16 @@ const handleArrowDownPress = (lsc: ILeanScopeClient, blockEntity: Entity) => {
   const nextLowerBlockType = nextLowerBlockEntity?.get(BlocktypeFacet)?.props.blocktype;
 
   if (
-    nextLowerBlockType === Blocktypes.TEXT ||
-    nextLowerBlockType === Blocktypes.LIST ||
-    nextLowerBlockType === Blocktypes.TODO
+    nextLowerBlockType === Blocktype.TEXT ||
+    nextLowerBlockType === Blocktype.LIST ||
+    nextLowerBlockType === Blocktype.TODO
   ) {
     blockEntity.removeTag(AdditionalTags.FOCUSED);
     nextLowerBlockEntity?.add(AdditionalTags.FOCUSED);
   }
 };
 
-const changeBlockTextStyles = async (entity: Entity, textType: Texttypes) => {
+const changeBlockTextStyles = async (entity: Entity, textType: Texttype) => {
   entity.add(new TexttypeFacet({ texttype: textType }));
 
   const id = entity.get(IdentifierFacet)?.props.guid;
@@ -278,7 +274,7 @@ const BlockTexteditor = (props: EntityProps) => {
   const text = entity.get(TextFacet)?.props.text || '';
   const parentId = entity.get(ParentFacet)?.props.parentId || '';
   const [texttypeProps] = useEntityFacets(entity, TexttypeFacet);
-  const texttype = texttypeProps?.texttype || Texttypes.NORMAL;
+  const texttype = texttypeProps?.texttype || Texttype.NORMAL;
   const { blockeditorState, blockeditorEntity, isGroupBlockeditor } = useCurrentBlockeditor();
   const { userId } = useUserData();
   const [initinalBlocktext] = useState<string>(text);
@@ -313,13 +309,13 @@ const BlockTexteditor = (props: EntityProps) => {
 
     switch (key) {
       case '-':
-        if (text === '' && texttype === Texttypes.NORMAL) {
+        if (text === '' && texttype === Texttype.NORMAL) {
           e.preventDefault();
           updateTextBlockToListBlock(entity);
         }
         break;
       case 'x':
-        if (text === '' && texttype === Texttypes.NORMAL) {
+        if (text === '' && texttype === Texttype.NORMAL) {
           e.preventDefault();
           udateTextBlockToTodoBlock(entity);
         }
@@ -355,13 +351,13 @@ const BlockTexteditor = (props: EntityProps) => {
       case ' ':
         if (text === '##') {
           e.preventDefault();
-          changeBlockTextStyles(entity, Texttypes.SUBTITLE);
+          changeBlockTextStyles(entity, Texttype.SUBTITLE);
         } else if (text === '#') {
           e.preventDefault();
-          changeBlockTextStyles(entity, Texttypes.TITLE);
+          changeBlockTextStyles(entity, Texttype.TITLE);
         } else if (text === '###') {
           e.preventDefault();
-          changeBlockTextStyles(entity, Texttypes.HEADING);
+          changeBlockTextStyles(entity, Texttype.HEADING);
         }
         break;
       default:

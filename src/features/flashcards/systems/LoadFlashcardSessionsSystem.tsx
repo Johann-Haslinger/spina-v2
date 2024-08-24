@@ -9,7 +9,7 @@ import {
   FlashcardPerformanceFacet,
 } from '../../../app/additionalFacets';
 import { dummyFlashcardSessions } from '../../../base/dummy';
-import { DataTypes, SupabaseTables } from '../../../base/enums';
+import { DataType, SupabaseTables } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 
@@ -44,7 +44,7 @@ const LoadFlashcardSessionsSystem = () => {
 
       flashcardSessions.forEach((flashcardSession) => {
         const isAlreadyExisting = lsc.engine.entities.some(
-          (e) => e.get(IdentifierFacet)?.props.guid === flashcardSession.id && e.hasTag(DataTypes.FLASHCARD_SESSION),
+          (e) => e.get(IdentifierFacet)?.props.guid === flashcardSession.id && e.hasTag(DataType.FLASHCARD_SESSION),
         );
 
         if (!isAlreadyExisting) {
@@ -69,7 +69,7 @@ const LoadFlashcardSessionsSystem = () => {
               },
             }),
           );
-          flashcardSessionEntity.addTag(DataTypes.FLASHCARD_SESSION);
+          flashcardSessionEntity.addTag(DataType.FLASHCARD_SESSION);
         }
       });
     };

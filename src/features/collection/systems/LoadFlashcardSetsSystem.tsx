@@ -4,7 +4,7 @@ import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { DateAddedFacet, TitleFacet } from '../../../app/additionalFacets';
 import { dummyFlashcardSets } from '../../../base/dummy';
-import { DataTypes, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { DataType, SupabaseColumns, SupabaseTables } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../lib/supabase';
@@ -42,7 +42,7 @@ const LoadFlashcardSetsSystem = () => {
 
         flashcardSets.forEach((flashcardSet) => {
           const isExisting = lsc.engine.entities.some(
-            (e) => e.get(IdentifierFacet)?.props.guid === flashcardSet.id && e.hasTag(DataTypes.FLASHCARD_SET),
+            (e) => e.get(IdentifierFacet)?.props.guid === flashcardSet.id && e.hasTag(DataType.FLASHCARD_SET),
           );
 
           if (!isExisting) {
@@ -57,7 +57,7 @@ const LoadFlashcardSetsSystem = () => {
             noteEntity.add(new DateAddedFacet({ dateAdded: flashcardSet.date_added }));
 
             noteEntity.add(new ParentFacet({ parentId: selectedTopicId }));
-            noteEntity.addTag(DataTypes.FLASHCARD_SET);
+            noteEntity.addTag(DataType.FLASHCARD_SET);
           }
         });
       }

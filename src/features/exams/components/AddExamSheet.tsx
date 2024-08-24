@@ -6,7 +6,7 @@ import { useContext, useEffect, useRef, useState } from 'react';
 import { IoAdd, IoCheckmarkCircle, IoEllipseOutline } from 'react-icons/io5';
 import { v4 } from 'uuid';
 import { DueDateFacet, RelationshipFacet, StatusFacet, TitleFacet } from '../../../app/additionalFacets';
-import { DataTypes, Stories } from '../../../base/enums';
+import { DataType, Story } from '../../../base/enums';
 import {
   DateInput,
   FlexBox,
@@ -29,7 +29,7 @@ import { displayActionTexts, displayButtonTexts, displayLabelTexts } from '../..
 
 const AddExamSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.ADDING_EXAM_STORY);
+  const isVisible = useIsStoryCurrent(Story.ADDING_EXAM_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const schooolSubjectEntities = useSchoolSubjectEntities();
   const [selectedSchoolSubjectId, setSelectedSchoolSubjectId] = useState<string>('');
@@ -56,7 +56,7 @@ const AddExamSheet = () => {
     }
   }, [isVisible]);
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_EXAMS_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_EXAMS_STORY);
 
   const saveExam = async () => {
     const { title, dueDate, parent, id } = newExam;
@@ -77,7 +77,7 @@ const AddExamSheet = () => {
       }),
     );
     newExamEntity.add(new StatusFacet({ status: 1 }));
-    newExamEntity.add(DataTypes.EXAM);
+    newExamEntity.add(DataType.EXAM);
 
     if (newTopicTitle !== '') {
       const newTopicId = v4();
@@ -86,7 +86,7 @@ const AddExamSheet = () => {
       newTopicEntity.add(new IdentifierFacet({ guid: newTopicId }));
       newTopicEntity.add(new TitleFacet({ title: newTopicTitle }));
       newTopicEntity.add(new ParentFacet({ parentId: selectedSchoolSubjectId }));
-      newTopicEntity.add(DataTypes.TOPIC);
+      newTopicEntity.add(DataType.TOPIC);
 
       addTopic(lsc, newTopicEntity, userId);
 

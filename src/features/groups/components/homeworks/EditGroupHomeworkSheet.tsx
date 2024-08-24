@@ -2,7 +2,7 @@ import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
 import { DueDateFacet, TitleFacet } from '../../../../app/additionalFacets';
-import { Stories, SupabaseColumns } from '../../../../base/enums';
+import { Story, SupabaseColumns } from '../../../../base/enums';
 import {
   DateInput,
   FlexBox,
@@ -21,7 +21,7 @@ import { useSelectedGroupHomework } from '../../hooks/useSelectedGroupHomework';
 
 const EditGroupHomeworkSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.EDETING_GROUP_HOMEWORK_STORY);
+  const isVisible = useIsStoryCurrent(Story.EDETING_GROUP_HOMEWORK_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const {
     selectedGroupHomeworkTitle,
@@ -37,7 +37,7 @@ const EditGroupHomeworkSheet = () => {
     setNewDueDate(selectedGroupHomeworkDueDate);
   }, [selectedGroupHomeworkTitle, selectedGroupHomeworkDueDate]);
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_GROUP_TOPIC_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_GROUP_TOPIC_STORY);
 
   const updateGroupHomework = async () => {
     if (newTitle && newDueDate) {

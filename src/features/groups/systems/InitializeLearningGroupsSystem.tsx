@@ -4,7 +4,7 @@ import { ColorFacet, DescriptionFacet, IdentifierFacet, OrderFacet } from '@lean
 import { useContext, useEffect } from 'react';
 import { TitleFacet } from '../../../app/additionalFacets';
 import { dummyLearningGroups } from '../../../base/dummy';
-import { DataTypes } from '../../../base/enums';
+import { DataType } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 import { dataTypeQuery } from '../../../utils/queries';
@@ -36,7 +36,7 @@ const InitializeLearningGroupsSystem = () => {
 
       LearningGroups.forEach((learningGroup, idx) => {
         const isExisting = lsc.engine.entities.some(
-          (e) => e.get(IdentifierFacet)?.props.guid === learningGroup.id && dataTypeQuery(e, DataTypes.LEARNING_GROUP),
+          (e) => e.get(IdentifierFacet)?.props.guid === learningGroup.id && dataTypeQuery(e, DataType.LEARNING_GROUP),
         );
 
         if (!isExisting) {
@@ -47,7 +47,7 @@ const InitializeLearningGroupsSystem = () => {
           learningGroupEntity.add(new OrderFacet({ orderIndex: idx }));
           learningGroupEntity.add(new ColorFacet({ colorName: learningGroup.color }));
           learningGroupEntity.add(new DescriptionFacet({ description: learningGroup.description }));
-          learningGroupEntity.addTag(DataTypes.LEARNING_GROUP);
+          learningGroupEntity.addTag(DataType.LEARNING_GROUP);
         }
       });
     };

@@ -2,7 +2,7 @@ import { useEntity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, Tags, TextFacet } from '@leanscope/ecs-models';
 import { useEffect } from 'react';
 import { dummyText } from '../../../base/dummy';
-import { DataTypes, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { DataType, SupabaseColumns, SupabaseTables } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import { useUserData } from '../../../hooks/useUserData';
 import supabaseClient from '../../../lib/supabase';
@@ -59,7 +59,7 @@ const fetchNoteVersion = async (homeworkId: string) => {
 const LoadHomeworkTextSystem = () => {
   const { isUsingMockupData: mockupData, isUsingSupabaseData: shouldFetchFromSupabase } = useCurrentDataSource();
   const { userId } = useUserData();
-  const [selectedHomework] = useEntity((e) => e.hasTag(DataTypes.HOMEWORK) && e.hasTag(Tags.SELECTED));
+  const [selectedHomework] = useEntity((e) => e.hasTag(DataType.HOMEWORK) && e.hasTag(Tags.SELECTED));
   const selectedHomeworkId = selectedHomework?.get(IdentifierFacet)?.props.guid;
 
   useEffect(() => {

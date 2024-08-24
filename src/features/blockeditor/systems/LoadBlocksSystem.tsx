@@ -13,7 +13,7 @@ import {
 import { useContext, useEffect } from 'react';
 import { BlocktypeFacet, TexttypeFacet } from '../../../app/additionalFacets';
 import { dummyBlocks } from '../../../base/dummy';
-import { AdditionalTags, DataTypes, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { AdditionalTags, DataType, SupabaseColumns, SupabaseTables } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import { useUserData } from '../../../hooks/useUserData';
 import supabaseClient from '../../../lib/supabase';
@@ -82,7 +82,7 @@ const LoadBlocksSystem = () => {
           const isExisting = lsc.engine.entities.some(
             (e) =>
               e.get(IdentifierFacet)?.props.guid === block.id &&
-              e.hasTag(isGroupBlockeditor ? DataTypes.GROUP_BLOCK : DataTypes.BLOCK),
+              e.hasTag(isGroupBlockeditor ? DataType.GROUP_BLOCK : DataType.BLOCK),
           );
 
           if (!isExisting) {
@@ -97,7 +97,7 @@ const LoadBlocksSystem = () => {
             newBlockEntity.add(new ImageFacet({ imageSrc: block.image_url || '' }));
             newBlockEntity.add(new ImageSizeFacet({ size: block.size || '' }));
             newBlockEntity.add(new ImageFitFacet({ fit: block.fit || '' }));
-            newBlockEntity.add(isGroupBlockeditor ? DataTypes.GROUP_BLOCK : DataTypes.BLOCK);
+            newBlockEntity.add(isGroupBlockeditor ? DataType.GROUP_BLOCK : DataType.BLOCK);
           }
         });
       }

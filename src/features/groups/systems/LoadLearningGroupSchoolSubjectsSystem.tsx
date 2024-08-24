@@ -4,7 +4,7 @@ import { IdentifierFacet, OrderFacet, ParentFacet } from '@leanscope/ecs-models'
 import { useContext, useEffect } from 'react';
 import { TitleFacet } from '../../../app/additionalFacets';
 import { dummyGroupSchoolSubjects } from '../../../base/dummy';
-import { DataTypes, SupabaseTables } from '../../../base/enums';
+import { DataType, SupabaseTables } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 import { useSelectedLearningGroup } from '../hooks/useSelectedLearningGroup';
@@ -39,7 +39,7 @@ const LoadLearningGroupSchoolSubjectsSystem = () => {
 
         schoolSubjects.forEach((schoolSubject, idx) => {
           const isExisting = lsc.engine.entities.some(
-            (e) => e.get(IdentifierFacet)?.props.guid === schoolSubject.id && e.hasTag(DataTypes.GROUP_SCHOOL_SUBJECT),
+            (e) => e.get(IdentifierFacet)?.props.guid === schoolSubject.id && e.hasTag(DataType.GROUP_SCHOOL_SUBJECT),
           );
 
           if (!isExisting) {
@@ -49,7 +49,7 @@ const LoadLearningGroupSchoolSubjectsSystem = () => {
             schoolSubjectEntity.add(new IdentifierFacet({ guid: schoolSubject.id }));
             schoolSubjectEntity.add(new ParentFacet({ parentId: selectedLearningGroupId }));
             schoolSubjectEntity.add(new OrderFacet({ orderIndex: idx }));
-            schoolSubjectEntity.addTag(DataTypes.GROUP_SCHOOL_SUBJECT);
+            schoolSubjectEntity.addTag(DataType.GROUP_SCHOOL_SUBJECT);
           }
         });
       }

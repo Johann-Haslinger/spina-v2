@@ -1,5 +1,5 @@
 import { Facet } from '@leanscope/ecs-engine';
-import { Blocktypes, ListStyles, MessageRoles, SupportedLanguages, Texttypes } from '../base/enums';
+import { Blocktype, ListStyles, MessageRoles, SupportedLanguage, Texttype } from '../base/enums';
 
 import { BlockeditorState, Resource } from '../base/types';
 
@@ -13,7 +13,7 @@ export class TitleFacet extends Facet<TitleProps> {
   }
 }
 export interface SelectedLanguageProps {
-  selectedLanguage: SupportedLanguages;
+  selectedLanguage: SupportedLanguage;
 }
 
 export class SelectedLanguageFacet extends Facet<SelectedLanguageProps> {
@@ -145,7 +145,7 @@ export class BlockeditorStateFacet extends Facet<BlockeditorStateProps> {
 }
 
 export interface BlocktypeProps {
-  blocktype: Blocktypes;
+  blocktype: Blocktype;
 }
 
 export class BlocktypeFacet extends Facet<BlocktypeProps> {
@@ -155,7 +155,7 @@ export class BlocktypeFacet extends Facet<BlocktypeProps> {
 }
 
 export interface TexttypeProps {
-  texttype: Texttypes;
+  texttype: Texttype;
 }
 
 export class TexttypeFacet extends Facet<TexttypeProps> {

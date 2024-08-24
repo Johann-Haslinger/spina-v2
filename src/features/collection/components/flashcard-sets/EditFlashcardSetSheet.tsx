@@ -2,7 +2,7 @@ import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
 import { TitleFacet } from '../../../../app/additionalFacets';
-import { Stories, SupabaseColumns, SupabaseTables } from '../../../../base/enums';
+import { Story, SupabaseColumns, SupabaseTables } from '../../../../base/enums';
 import {
   FlexBox,
   PrimaryButton,
@@ -20,7 +20,7 @@ import { useSelectedFlashcardSet } from '../../hooks/useSelectedFlashcardSet';
 
 const EditFlashcardSetSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.EDITING_FLASHCARD_SET_STORY);
+  const isVisible = useIsStoryCurrent(Story.EDITING_FLASHCARD_SET_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedFlashcardSetTitle, selectedFlashcardSetEntity, selectedFlashcardSetId } = useSelectedFlashcardSet();
   const [newTitle, setNewTitle] = useState(selectedFlashcardSetTitle);
@@ -29,7 +29,7 @@ const EditFlashcardSetSheet = () => {
     setNewTitle(selectedFlashcardSetTitle);
   }, [selectedFlashcardSetTitle]);
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_SET_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_FLASHCARD_SET_STORY);
 
   const updateFlashcardSet = async () => {
     if (newTitle) {

@@ -3,7 +3,7 @@ import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { DateAddedFacet, TitleFacet } from '../../../app/additionalFacets';
-import { dummySubtopics } from '../../../base/dummy';
+import { dummyChapters } from '../../../base/dummy';
 import { DataType, SupabaseColumns, SupabaseTables } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
@@ -11,61 +11,61 @@ import supabaseClient from '../../../lib/supabase';
 import { displayAlertTexts } from '../../../utils/displayText';
 import { useSelectedTopic } from '../hooks/useSelectedTopic';
 
-const fetchSubtopicsForSchoolSubject = async (subjectId: string) => {
-  const { data: subtopics, error } = await supabaseClient
-    .from(SupabaseTables.SUBTOPICS)
-    .select('title, id, date_added')
-    .eq(SupabaseColumns.PARENT_ID, subjectId);
+const fetchChaptersForTopic = async (topicId: string) => {
+  const { data: Chapters, error } = await supabaseClient
+    .from(SupabaseTables.CHAPTERS)
+    .select('title, id, date_added, order_index')
+    .eq(SupabaseColumns.PARENT_ID, topicId);
 
   if (error) {
-    console.error('Error fetching Subtopics:', error);
+    console.error('Error fetching chapters:', error);
     return [];
   }
-  return subtopics || [];
+
+  return Chapters || [];
 };
 
-const LoadSubtopicsSystem = () => {
+const LoadChaptersSystem = () => {
   const { isUsingMockupData: mockupData, isUsingSupabaseData: shouldFetchFromSupabase } = useCurrentDataSource();
   const lsc = useContext(LeanScopeClientContext);
   const { selectedTopicId } = useSelectedTopic();
   const { selectedLanguage } = useSelectedLanguage();
 
   useEffect(() => {
-    const initializeSubtopicEntities = async () => {
+    const initializeChapterEntities = async () => {
       if (selectedTopicId) {
-        const Subtopics = mockupData
-          ? dummySubtopics
+        const chapters = mockupData
+          ? dummyChapters
           : shouldFetchFromSupabase
-            ? await fetchSubtopicsForSchoolSubject(selectedTopicId)
+            ? await fetchChaptersForTopic(selectedTopicId)
             : [];
 
-        Subtopics.forEach((topic) => {
+        chapters.forEach((chapter) => {
           const isExisting = lsc.engine.entities.some(
-            (e) => e.get(IdentifierFacet)?.props.guid === topic.id && e.hasTag(DataType.SUBTOPIC),
+            (e) => e.get(IdentifierFacet)?.props.guid === chapter.id && e.hasTag(DataType.CHAPTER),
           );
 
           if (!isExisting) {
-            const topicEntity = new Entity();
-            lsc.engine.addEntity(topicEntity);
-            topicEntity.add(
+            const chapterEntity = new Entity();
+            lsc.engine.addEntity(chapterEntity);
+            chapterEntity.add(
               new TitleFacet({
-                title: topic.title || displayAlertTexts(selectedLanguage).noTitle,
+                title: chapter.title || displayAlertTexts(selectedLanguage).noTitle,
               }),
             );
-            topicEntity.add(new IdentifierFacet({ guid: topic.id }));
-            topicEntity.add(new DateAddedFacet({ dateAdded: topic.date_added }));
-
-            topicEntity.add(new ParentFacet({ parentId: selectedTopicId }));
-            topicEntity.addTag(DataType.SUBTOPIC);
+            chapterEntity.add(new IdentifierFacet({ guid: chapter.id }));
+            chapterEntity.add(new DateAddedFacet({ dateAdded: chapter.date_added }));
+            chapterEntity.add(new ParentFacet({ parentId: selectedTopicId }));
+            chapterEntity.addTag(DataType.CHAPTER);
           }
         });
       }
     };
 
-    initializeSubtopicEntities();
+    initializeChapterEntities();
   }, [selectedTopicId, mockupData, shouldFetchFromSupabase]);
 
   return null;
 };
 
-export default LoadSubtopicsSystem;
+export default LoadChaptersSystem;

@@ -4,7 +4,7 @@ import { IdentifierFacet, ParentFacet, Tags } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { AnswerFacet, MasteryLevelFacet, QuestionFacet } from '../../../app/additionalFacets';
 import { dummyFlashcards } from '../../../base/dummy';
-import { DataTypes, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { DataType, SupabaseColumns, SupabaseTables } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 import { dataTypeQuery } from '../../../utils/queries';
@@ -28,7 +28,7 @@ const LoadFlashcardsSystem = () => {
   const lsc = useContext(LeanScopeClientContext);
   const [selectedFlashcardGroupEntity] = useEntity(
     (e) =>
-      (dataTypeQuery(e, DataTypes.FLASHCARD_GROUP) || dataTypeQuery(e, DataTypes.FLASHCARD_SET)) &&
+      (dataTypeQuery(e, DataType.FLASHCARD_GROUP) || dataTypeQuery(e, DataType.FLASHCARD_SET)) &&
       e.hasTag(Tags.SELECTED),
   );
   const selectedFlashcardGroupId = selectedFlashcardGroupEntity?.get(IdentifierFacet)?.props.guid;
@@ -44,7 +44,7 @@ const LoadFlashcardsSystem = () => {
 
         flashcards.forEach((flashcard) => {
           const isExisting = lsc.engine.entities.some(
-            (e) => e.get(IdentifierFacet)?.props.guid === flashcard.id && e.hasTag(DataTypes.FLASHCARD),
+            (e) => e.get(IdentifierFacet)?.props.guid === flashcard.id && e.hasTag(DataType.FLASHCARD),
           );
 
           if (!isExisting) {
@@ -56,7 +56,7 @@ const LoadFlashcardsSystem = () => {
             flashcardEntity.add(new AnswerFacet({ answer: flashcard.answer }));
             flashcardEntity.add(new ParentFacet({ parentId: selectedFlashcardGroupId }));
 
-            flashcardEntity.addTag(DataTypes.FLASHCARD);
+            flashcardEntity.addTag(DataType.FLASHCARD);
           }
         });
       }

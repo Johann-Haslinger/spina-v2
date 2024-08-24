@@ -4,7 +4,7 @@ import { Tags } from '@leanscope/ecs-models';
 import { useState } from 'react';
 import tw from 'twin.macro';
 import { PriorityFacet, PriorityProps, TitleFacet, TitleProps } from '../../../app/additionalFacets';
-import { DataTypes } from '../../../base/enums';
+import { DataType } from '../../../base/enums';
 import { dataTypeQuery } from '../../../utils/queries';
 
 enum FlashcardGroupFilter {
@@ -81,7 +81,7 @@ const FlashcardGroupTable = () => {
 
       <div tw="min-h-96 space-y-2">
         <EntityPropsMapper
-          query={(e) => dataTypeQuery(e, DataTypes.FLASHCARD_SET) || dataTypeQuery(e, DataTypes.SUBTOPIC)}
+          query={(e) => dataTypeQuery(e, DataType.FLASHCARD_SET) || dataTypeQuery(e, DataType.SUBTOPIC)}
           filter={(e) => (currentFilter !== FlashcardGroupFilter.ALL ? currentFilter === e.priority : true)}
           get={[[TitleFacet, PriorityFacet], []]}
           onMatch={FlashcardGroupRow}

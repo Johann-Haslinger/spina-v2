@@ -3,7 +3,7 @@ import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { TitleFacet } from '../../../app/additionalFacets';
-import { AdditionalTags, DataTypes, SupabaseTables } from '../../../base/enums';
+import { AdditionalTags, DataType, SupabaseTables } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 
@@ -65,7 +65,7 @@ const InitializeRecentlyAddedResources = () => {
 
       subtopics.forEach((subtopic) => {
         lsc.engine.entities
-          .filter((e) => e.has(DataTypes.SUBTOPIC) && e.get(IdentifierFacet)?.props.guid === subtopic.id)
+          .filter((e) => e.has(DataType.SUBTOPIC) && e.get(IdentifierFacet)?.props.guid === subtopic.id)
           .forEach((e) => {
             lsc.engine.removeEntity(e);
           });
@@ -74,7 +74,7 @@ const InitializeRecentlyAddedResources = () => {
         lsc.engine.addEntity(newSubtopicEntity);
         newSubtopicEntity.add(new IdentifierFacet({ guid: subtopic.id }));
         newSubtopicEntity.add(new TitleFacet({ title: subtopic.title || 'Kein Titel' }));
-        newSubtopicEntity.add(DataTypes.SUBTOPIC);
+        newSubtopicEntity.add(DataType.SUBTOPIC);
         newSubtopicEntity.add(AdditionalTags.RECENTLY_ADDED);
       });
     };
@@ -84,7 +84,7 @@ const InitializeRecentlyAddedResources = () => {
 
       notes.forEach((note) => {
         lsc.engine.entities
-          .filter((e) => e.has(DataTypes.NOTE) && e.get(IdentifierFacet)?.props.guid === note.id)
+          .filter((e) => e.has(DataType.NOTE) && e.get(IdentifierFacet)?.props.guid === note.id)
           .forEach((e) => {
             lsc.engine.removeEntity(e);
           });
@@ -93,7 +93,7 @@ const InitializeRecentlyAddedResources = () => {
         lsc.engine.addEntity(newNoteEntity);
         newNoteEntity.add(new IdentifierFacet({ guid: note.id }));
         newNoteEntity.add(new TitleFacet({ title: note.title || 'Kein Titel' }));
-        newNoteEntity.add(DataTypes.NOTE);
+        newNoteEntity.add(DataType.NOTE);
         newNoteEntity.add(AdditionalTags.RECENTLY_ADDED);
       });
     };
@@ -103,7 +103,7 @@ const InitializeRecentlyAddedResources = () => {
 
       flashcardSets.forEach((flashcardSet) => {
         lsc.engine.entities
-          .filter((e) => e.has(DataTypes.FLASHCARD_SET) && e.get(IdentifierFacet)?.props.guid === flashcardSet.id)
+          .filter((e) => e.has(DataType.FLASHCARD_SET) && e.get(IdentifierFacet)?.props.guid === flashcardSet.id)
           .forEach((e) => {
             lsc.engine.removeEntity(e);
           });
@@ -112,7 +112,7 @@ const InitializeRecentlyAddedResources = () => {
         lsc.engine.addEntity(newFlashcardSetEntity);
         newFlashcardSetEntity.add(new IdentifierFacet({ guid: flashcardSet.id }));
         newFlashcardSetEntity.add(new TitleFacet({ title: flashcardSet.title || 'Kein Titel' }));
-        newFlashcardSetEntity.add(DataTypes.FLASHCARD_SET);
+        newFlashcardSetEntity.add(DataType.FLASHCARD_SET);
         newFlashcardSetEntity.add(AdditionalTags.RECENTLY_ADDED);
       });
     };

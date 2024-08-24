@@ -5,7 +5,7 @@ import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useState } from 'react';
 import { v4 } from 'uuid';
 import { DateAddedFacet, TitleFacet } from '../../../../app/additionalFacets';
-import { AdditionalTags, DataTypes, Stories } from '../../../../base/enums';
+import { AdditionalTags, DataType, Story } from '../../../../base/enums';
 import {
   FlexBox,
   PrimaryButton,
@@ -26,14 +26,14 @@ import { useSelectedSchoolSubject } from '../../hooks/useSelectedSchoolSubject';
 
 const AddTopicSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.ADDING_TOPIC_STORY);
+  const isVisible = useIsStoryCurrent(Story.ADDING_TOPIC_STORY);
   const { selectedSchoolSubjectId } = useSelectedSchoolSubject();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
   const { selectedLanguage } = useSelectedLanguage();
   const { userId } = useUserData();
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_SCHOOL_SUBJECT_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_SCHOOL_SUBJECT_STORY);
 
   const saveTopic = async () => {
     if (selectedSchoolSubjectId) {
@@ -47,7 +47,7 @@ const AddTopicSheet = () => {
       newTopicEntity.add(new DescriptionFacet({ description: topicDescription }));
       newTopicEntity.add(new TitleFacet({ title: title }));
       newTopicEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
-      newTopicEntity.add(DataTypes.TOPIC);
+      newTopicEntity.add(DataType.TOPIC);
       newTopicEntity.add(AdditionalTags.GENERATING);
       navigateBack();
 

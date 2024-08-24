@@ -9,7 +9,7 @@ import tw from 'twin.macro';
 import { v4 } from 'uuid';
 import { AnswerFacet, BlocktypeFacet, QuestionFacet, TitleFacet } from '../../../app/additionalFacets';
 import { dummyTopics } from '../../../base/dummy';
-import { Blocktypes, DataTypes, Stories, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { Blocktype, DataType, Story, SupabaseColumns, SupabaseTables } from '../../../base/enums';
 import { FlexBox, SecondaryButton, Section, SectionRow, Sheet, Spacer } from '../../../components';
 import { addBlocks } from '../../../functions/addBlocks';
 import { addFlashcardSet } from '../../../functions/addFlashcardSet';
@@ -46,7 +46,7 @@ const fetchTopicsForSchoolSubject = async (subjectId: string) => {
 
 const CloningResourceFromGroupSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisble = useIsStoryCurrent(Stories.CLONING_RESOURCE_FROM_GROUP_STORY);
+  const isVisble = useIsStoryCurrent(Story.CLONING_RESOURCE_FROM_GROUP_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedGroupFlashcardSetEntity, selectedGroupFlashcardSetId, selectedGroupFlashcardSetTitle } =
     useSelectedGroupFlashcardSet();
@@ -56,7 +56,7 @@ const CloningResourceFromGroupSheet = () => {
   const schoolSubjectEntities = useSchoolSubjectEntities();
   const { userId } = useUserData();
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_GROUP_TOPIC_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_GROUP_TOPIC_STORY);
 
   const cloneResource = async (topicId: string) => {
     navigateBack();
@@ -68,12 +68,12 @@ const CloningResourceFromGroupSheet = () => {
       newFlashcardSetEntity.add(new IdentifierFacet({ guid: newResourceId }));
       newFlashcardSetEntity.add(new ParentFacet({ parentId: topicId }));
       newFlashcardSetEntity.add(new TitleFacet({ title: selectedGroupFlashcardSetTitle || '' }));
-      newFlashcardSetEntity.add(DataTypes.FLASHCARD_SET);
+      newFlashcardSetEntity.add(DataType.FLASHCARD_SET);
 
       addFlashcardSet(lsc, newFlashcardSetEntity, userId);
 
       const groupFlashcardEntities = lsc.engine.entities.filter(
-        (e) => e.has(DataTypes.GROUP_FLASHCARD) && e.get(ParentFacet)?.props.parentId === selectedGroupFlashcardSetId,
+        (e) => e.has(DataType.GROUP_FLASHCARD) && e.get(ParentFacet)?.props.parentId === selectedGroupFlashcardSetId,
       );
 
       const newFlashcardEntities = groupFlashcardEntities.map((groupFlashcardEntity) => {
@@ -90,7 +90,7 @@ const CloningResourceFromGroupSheet = () => {
             answer: groupFlashcardEntity.get(AnswerFacet)?.props.answer || '',
           }),
         );
-        newFlashcardEntity.add(DataTypes.FLASHCARD);
+        newFlashcardEntity.add(DataType.FLASHCARD);
 
         return newFlashcardEntity;
       });
@@ -101,13 +101,13 @@ const CloningResourceFromGroupSheet = () => {
       newNoteEntity.add(new IdentifierFacet({ guid: newResourceId }));
       newNoteEntity.add(new TitleFacet({ title: selectedGroupNoteTitle || '' }));
       newNoteEntity.add(new ParentFacet({ parentId: topicId }));
-      newNoteEntity.add(DataTypes.GROUP_NOTE);
+      newNoteEntity.add(DataType.GROUP_NOTE);
 
       addNote(lsc, newNoteEntity, userId);
 
       const blockEntities = lsc.engine.entities.filter(
         (e) =>
-          e.has(DataTypes.GROUP_BLOCK) &&
+          e.has(DataType.GROUP_BLOCK) &&
           e.get(ParentFacet)?.props.parentId === selectedGroupNoteEntity.get(IdentifierFacet)?.props.guid,
       );
 
@@ -118,7 +118,7 @@ const CloningResourceFromGroupSheet = () => {
         newBlockEntity.add(new TextFacet({ text: blockEntity.get(TextFacet)?.props.text || '' }));
         newBlockEntity.add(
           new BlocktypeFacet({
-            blocktype: blockEntity.get(BlocktypeFacet)?.props.blocktype || Blocktypes.TEXT,
+            blocktype: blockEntity.get(BlocktypeFacet)?.props.blocktype || Blocktype.TEXT,
           }),
         );
         newBlockEntity.add(
@@ -131,7 +131,7 @@ const CloningResourceFromGroupSheet = () => {
             index: blockEntity.get(FloatOrderFacet)?.props.index || 0,
           }),
         );
-        newBlockEntity.add(DataTypes.BLOCK);
+        newBlockEntity.add(DataType.BLOCK);
 
         return newBlockEntity;
       });
@@ -142,13 +142,13 @@ const CloningResourceFromGroupSheet = () => {
       newSubtopicEntity.add(new IdentifierFacet({ guid: newResourceId }));
       newSubtopicEntity.add(new ParentFacet({ parentId: topicId }));
       newSubtopicEntity.add(new TitleFacet({ title: selectedGroupSubtopicTitle || '' }));
-      newSubtopicEntity.add(DataTypes.GROUP_SUBTOPIC);
+      newSubtopicEntity.add(DataType.GROUP_SUBTOPIC);
 
       addSubtopic(lsc, newSubtopicEntity, userId);
 
       const blockEntities = lsc.engine.entities.filter(
         (e) =>
-          e.has(DataTypes.GROUP_BLOCK) &&
+          e.has(DataType.GROUP_BLOCK) &&
           e.get(ParentFacet)?.props.parentId === selectedGroupSubtopicEntity.get(IdentifierFacet)?.props.guid,
       );
 
@@ -160,7 +160,7 @@ const CloningResourceFromGroupSheet = () => {
         newBlockEntity.add(new TextFacet({ text: blockEntity.get(TextFacet)?.props.text || '' }));
         newBlockEntity.add(
           new BlocktypeFacet({
-            blocktype: blockEntity.get(BlocktypeFacet)?.props.blocktype || Blocktypes.TEXT,
+            blocktype: blockEntity.get(BlocktypeFacet)?.props.blocktype || Blocktype.TEXT,
           }),
         );
         newBlockEntity.add(
@@ -173,7 +173,7 @@ const CloningResourceFromGroupSheet = () => {
             index: blockEntity.get(FloatOrderFacet)?.props.index || 0,
           }),
         );
-        newBlockEntity.add(DataTypes.BLOCK);
+        newBlockEntity.add(DataType.BLOCK);
 
         return newBlockEntity;
       });
@@ -182,7 +182,7 @@ const CloningResourceFromGroupSheet = () => {
 
       const flashcardEntities = lsc.engine.entities.filter(
         (e) =>
-          e.has(DataTypes.GROUP_FLASHCARD) &&
+          e.has(DataType.GROUP_FLASHCARD) &&
           e.get(ParentFacet)?.props.parentId === selectedGroupSubtopicEntity.get(IdentifierFacet)?.props.guid,
       );
 
@@ -201,7 +201,7 @@ const CloningResourceFromGroupSheet = () => {
             answer: flashcardEntity.get(AnswerFacet)?.props.answer || '',
           }),
         );
-        newFlashcardEntity.add(DataTypes.GROUP_FLASHCARD);
+        newFlashcardEntity.add(DataType.GROUP_FLASHCARD);
 
         return newFlashcardEntity;
       });
@@ -209,7 +209,7 @@ const CloningResourceFromGroupSheet = () => {
       addFlashcards(lsc, newFlashcardEntities, userId);
     }
 
-    lsc.stories.transitTo(Stories.SUCCESS_STORY);
+    lsc.stories.transitTo(Story.SUCCESS_STORY);
   };
 
   return (

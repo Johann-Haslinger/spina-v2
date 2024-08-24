@@ -1,4 +1,4 @@
-import { SupportedLanguages } from '../base/enums';
+import { SupportedLanguage } from '../base/enums';
 import {
   ACTION_TEXT_DATA,
   ALERT_TEXT_DATA,
@@ -8,7 +8,7 @@ import {
   LABEL_TEXT_DATA,
 } from '../base/textData';
 
-export const displayHeaderTexts = (selectedLanguage: SupportedLanguages) => {
+export const displayHeaderTexts = (selectedLanguage: SupportedLanguage) => {
   return {
     collection: HEADER_TEXT_DATA.collection[selectedLanguage],
     homeworks: HEADER_TEXT_DATA.homeworks[selectedLanguage],
@@ -27,7 +27,7 @@ export const displayHeaderTexts = (selectedLanguage: SupportedLanguages) => {
     profile: HEADER_TEXT_DATA.profile[selectedLanguage],
   };
 };
-export const displayAlertTexts = (selectedLanguage: SupportedLanguages) => {
+export const displayAlertTexts = (selectedLanguage: SupportedLanguage) => {
   return {
     noContentAddedTitle: ALERT_TEXT_DATA.no_content_added_title[selectedLanguage],
     noContentAddedSubtitle: ALERT_TEXT_DATA.no_content_added_subtitle[selectedLanguage],
@@ -41,7 +41,7 @@ export const displayAlertTexts = (selectedLanguage: SupportedLanguages) => {
   };
 };
 
-export const displayButtonTexts = (selectedLanguage: SupportedLanguages) => {
+export const displayButtonTexts = (selectedLanguage: SupportedLanguage) => {
   return {
     back: BUTTON_TEXT_DATA.back[selectedLanguage],
     save: BUTTON_TEXT_DATA.save[selectedLanguage],
@@ -56,7 +56,7 @@ export const displayButtonTexts = (selectedLanguage: SupportedLanguages) => {
   };
 };
 
-export const displayActionTexts = (selectedLanguage: SupportedLanguages) => {
+export const displayActionTexts = (selectedLanguage: SupportedLanguage) => {
   return {
     delete: ACTION_TEXT_DATA.delete[selectedLanguage],
     edit: ACTION_TEXT_DATA.edit[selectedLanguage],
@@ -86,7 +86,7 @@ export const displayActionTexts = (selectedLanguage: SupportedLanguages) => {
   };
 };
 
-export const displayLabelTexts = (selectedLanguage: SupportedLanguages) => {
+export const displayLabelTexts = (selectedLanguage: SupportedLanguage) => {
   return {
     title: LABEL_TEXT_DATA.title[selectedLanguage],
     description: LABEL_TEXT_DATA.description[selectedLanguage],
@@ -113,7 +113,7 @@ export const displayLabelTexts = (selectedLanguage: SupportedLanguages) => {
   };
 };
 
-export const displayDataTypeTexts = (selectedLanguage: SupportedLanguages) => {
+export const displayDataTypeTexts = (selectedLanguage: SupportedLanguage) => {
   return {
     note: DATA_TYPE_TEXT_DATA.note[selectedLanguage],
     homework: DATA_TYPE_TEXT_DATA.homework[selectedLanguage],

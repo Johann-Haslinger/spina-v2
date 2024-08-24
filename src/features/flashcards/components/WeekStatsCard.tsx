@@ -5,7 +5,7 @@ import { IoBarChart } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { DateAddedFacet, FlashcardCountFacet } from '../../../app/additionalFacets';
 import { COLOR_ITEMS } from '../../../base/constants';
-import { DataTypes } from '../../../base/enums';
+import { DataType } from '../../../base/enums';
 import { useWindowDimensions } from '../../../hooks/useWindowDimensions';
 import { dataTypeQuery } from '../../../utils/queries';
 
@@ -153,7 +153,7 @@ const useWeekStats = () => {
   const sevenDaysAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
   const [flashcardSessionEntities] = useEntities(
     (e) =>
-      dataTypeQuery(e, DataTypes.FLASHCARD_SESSION) &&
+      dataTypeQuery(e, DataType.FLASHCARD_SESSION) &&
       (e.get(DateAddedFacet)?.props.dateAdded || '') > sevenDaysAgo.toISOString(),
   );
 

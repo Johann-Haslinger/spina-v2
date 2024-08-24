@@ -4,7 +4,7 @@ import { IdentifierFacet, OrderFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { TitleFacet } from '../app/additionalFacets';
 import { dummySchoolSubjects } from '../base/dummy';
-import { DataTypes, SupabaseTables } from '../base/enums';
+import { DataType, SupabaseTables } from '../base/enums';
 import { useCurrentDataSource } from '../hooks/useCurrentDataSource';
 import supabaseClient from '../lib/supabase';
 import { dataTypeQuery } from '../utils/queries';
@@ -34,7 +34,7 @@ const InitializeSchoolSubjectsSystem = () => {
 
       schoolSubjects.forEach((schoolSubject, idx) => {
         const isExisting = lsc.engine.entities.some(
-          (e) => e.get(IdentifierFacet)?.props.guid === schoolSubject.id && dataTypeQuery(e, DataTypes.SCHOOL_SUBJECT),
+          (e) => e.get(IdentifierFacet)?.props.guid === schoolSubject.id && dataTypeQuery(e, DataType.SCHOOL_SUBJECT),
         );
 
         if (!isExisting) {
@@ -43,7 +43,7 @@ const InitializeSchoolSubjectsSystem = () => {
           schoolSubjectEntity.add(new TitleFacet({ title: schoolSubject.title }));
           schoolSubjectEntity.add(new IdentifierFacet({ guid: schoolSubject.id }));
           schoolSubjectEntity.add(new OrderFacet({ orderIndex: idx }));
-          schoolSubjectEntity.addTag(DataTypes.SCHOOL_SUBJECT);
+          schoolSubjectEntity.addTag(DataType.SCHOOL_SUBJECT);
         }
       });
     };

@@ -4,7 +4,7 @@ import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { DateAddedFacet, TitleFacet } from '../../../app/additionalFacets';
 import { dummyNotes } from '../../../base/dummy';
-import { DataTypes, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { DataType, SupabaseColumns, SupabaseTables } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../lib/supabase';
@@ -42,7 +42,7 @@ const LoadNotesSystem = () => {
 
         notes.forEach((note) => {
           const isExisting = lsc.engine.entities.some(
-            (e) => e.get(IdentifierFacet)?.props.guid === note.id && e.hasTag(DataTypes.NOTE),
+            (e) => e.get(IdentifierFacet)?.props.guid === note.id && e.hasTag(DataType.NOTE),
           );
 
           if (!isExisting) {
@@ -56,7 +56,7 @@ const LoadNotesSystem = () => {
             noteEntity.add(new IdentifierFacet({ guid: note.id }));
             noteEntity.add(new DateAddedFacet({ dateAdded: note.date_added }));
             noteEntity.add(new ParentFacet({ parentId: selectedTopicId }));
-            noteEntity.addTag(DataTypes.NOTE);
+            noteEntity.addTag(DataType.NOTE);
           }
         });
       }

@@ -2,7 +2,7 @@ import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
 import { TitleFacet } from '../../../../app/additionalFacets';
-import { Stories, SupabaseColumns } from '../../../../base/enums';
+import { Story, SupabaseColumns } from '../../../../base/enums';
 import {
   FlexBox,
   PrimaryButton,
@@ -20,7 +20,7 @@ import { useSelectedGroupSubtopic } from '../../hooks/useSelectedGroupSubtopic';
 
 const EditGroupSubtopicSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.EDETING_GROUP_SUBTOPIC_STORY);
+  const isVisible = useIsStoryCurrent(Story.EDETING_GROUP_SUBTOPIC_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedGroupSubtopicTitle, selectedGroupSubtopicEntity, selectedGroupSubtopicId } =
     useSelectedGroupSubtopic();
@@ -30,7 +30,7 @@ const EditGroupSubtopicSheet = () => {
     setNewTitle(selectedGroupSubtopicTitle);
   }, [selectedGroupSubtopicTitle]);
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_GROUP_TOPIC_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_GROUP_TOPIC_STORY);
 
   const updateGroupSubtopic = async () => {
     if (newTitle) {

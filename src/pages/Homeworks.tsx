@@ -4,7 +4,7 @@ import { IdentifierFacet, ParentFacet, Tags, TextFacet } from '@leanscope/ecs-mo
 import { Fragment, useContext } from 'react';
 import { IoAdd } from 'react-icons/io5';
 import { DueDateFacet, TitleFacet } from '../app/additionalFacets';
-import { DataTypes, Stories } from '../base/enums';
+import { DataType, Story } from '../base/enums';
 import { Kanban, NavBarButton, NavigationBar, Spacer, Title, View } from '../components';
 import { AddHomeworkSheet, HomeworkView } from '../features/collection';
 import { HomeworkKanbanCell } from '../features/homeworks';
@@ -20,7 +20,7 @@ const Homeworks = () => {
   const { selectedLanguage } = useSelectedLanguage();
   const { updateHomeworkStatus } = useHomeworkStatus();
 
-  const openAddHomeworkSheet = () => lsc.stories.transitTo(Stories.ADDING_HOMEWORK_STORY);
+  const openAddHomeworkSheet = () => lsc.stories.transitTo(Story.ADDING_HOMEWORK_STORY);
 
   return (
     <Fragment>
@@ -39,12 +39,12 @@ const Homeworks = () => {
           updateEntityStatus={updateHomeworkStatus}
           sortingRule={sortEntitiesByDueDate}
           kanbanCell={HomeworkKanbanCell as () => JSX.Element}
-          query={(e) => dataTypeQuery(e, DataTypes.HOMEWORK)}
+          query={(e) => dataTypeQuery(e, DataType.HOMEWORK)}
         />
       </View>
 
       <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataTypes.HOMEWORK) && e.has(Tags.SELECTED)}
+        query={(e) => dataTypeQuery(e, DataType.HOMEWORK) && e.has(Tags.SELECTED)}
         get={[[TitleFacet, DueDateFacet, ParentFacet, TextFacet, IdentifierFacet], []]}
         onMatch={HomeworkView}
       />

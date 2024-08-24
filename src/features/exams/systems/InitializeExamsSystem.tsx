@@ -11,7 +11,7 @@ import {
 } from '../../../app/additionalFacets';
 
 import { dummyExams } from '../../../base/dummy';
-import { DataTypes, SupabaseTables } from '../../../base/enums';
+import { DataType, SupabaseTables } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 import { dataTypeQuery } from '../../../utils/queries';
@@ -42,7 +42,7 @@ const InitializeExamsSystem = () => {
       console.log('exams', exams);
       exams.forEach((exam) => {
         const isExisting = lsc.engine.entities.some(
-          (e) => e.get(IdentifierFacet)?.props.guid === exam.id && dataTypeQuery(e, DataTypes.EXAM),
+          (e) => e.get(IdentifierFacet)?.props.guid === exam.id && dataTypeQuery(e, DataType.EXAM),
         );
 
         if (!isExisting) {
@@ -55,7 +55,7 @@ const InitializeExamsSystem = () => {
           examEntity.add(new StatusFacet({ status: exam.status }));
           examEntity.add(new ParentFacet({ parentId: exam.parent_id }));
           examEntity.add(new RelationshipFacet({ relationship: exam.related_subject }));
-          examEntity.addTag(DataTypes.EXAM);
+          examEntity.addTag(DataType.EXAM);
         }
       });
     };

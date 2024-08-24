@@ -1,7 +1,7 @@
 import { Entity } from '@leanscope/ecs-engine';
 import { TextFacet } from '@leanscope/ecs-models';
 import { BlocktypeFacet, TexttypeFacet, TodoStateFacet } from '../../../app/additionalFacets';
-import { Texttypes } from '../../../base/enums';
+import { Texttype } from '../../../base/enums';
 
 export const getStringFromBlockEntities = (blockEntities: readonly Entity[]) => {
   const markdownString = blockEntities
@@ -13,19 +13,19 @@ export const getStringFromBlockEntities = (blockEntities: readonly Entity[]) => 
 
       if (blockType === 'text') {
         let textContent = text;
-        if (textType === Texttypes.BOLD) {
+        if (textType === Texttype.BOLD) {
           textContent = `**${textContent}**`;
         }
         return textContent;
       } else if (blockType === 'list') {
         let listContent = `- ${text}`;
-        if (textType === Texttypes.BOLD) {
+        if (textType === Texttype.BOLD) {
           listContent = `**${listContent}**`;
         }
         return listContent;
       } else if (blockType === 'todo') {
         let todoContent = `- [${todoState == 2 ? 'x' : ' '}] ${text}`;
-        if (textType === Texttypes.BOLD) {
+        if (textType === Texttype.BOLD) {
           todoContent = `**${todoContent}**`;
         }
         return todoContent;

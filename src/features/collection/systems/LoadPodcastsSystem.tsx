@@ -5,7 +5,7 @@ import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect } from 'react';
 import { DateAddedFacet, TitleFacet } from '../../../app/additionalFacets';
 import { dummyPodcasts } from '../../../base/dummy';
-import { DataTypes, Stories, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { DataType, Story, SupabaseColumns, SupabaseTables } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 import { useSelectedTopic } from '../hooks/useSelectedTopic';
@@ -38,7 +38,7 @@ const fetchPodcastsForTopic = async (parentId: string) => {
 
 const LoadPodcastsSystem = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isPodcastCollectionVisible = useIsStoryCurrent(Stories.OBSERVING_PODCASTS_COLLECTION);
+  const isPodcastCollectionVisible = useIsStoryCurrent(Story.OBSERVING_PODCASTS_COLLECTION);
   const { isUsingMockupData: mockupData, isUsingSupabaseData: shouldFetchFromSupabase } = useCurrentDataSource();
   const { selectedTopicId } = useSelectedTopic();
 
@@ -55,7 +55,7 @@ const LoadPodcastsSystem = () => {
 
         podcasts.forEach((podcast) => {
           const isExisting = lsc.engine.entities.some(
-            (e) => e.get(IdentifierFacet)?.props.guid === podcast.id && e.hasTag(DataTypes.PODCAST),
+            (e) => e.get(IdentifierFacet)?.props.guid === podcast.id && e.hasTag(DataType.PODCAST),
           );
 
           if (!isExisting) {
@@ -64,7 +64,7 @@ const LoadPodcastsSystem = () => {
             newPodcastEntity.add(new IdentifierFacet({ guid: podcast.id }));
             newPodcastEntity.add(new DateAddedFacet({ dateAdded: podcast.date_added }));
             newPodcastEntity.add(new TitleFacet({ title: podcast.title || '' }));
-            newPodcastEntity.addTag(DataTypes.PODCAST);
+            newPodcastEntity.addTag(DataType.PODCAST);
 
             if (selectedTopicId) {
               newPodcastEntity.add(new ParentFacet({ parentId: selectedTopicId }));

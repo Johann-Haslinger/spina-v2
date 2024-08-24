@@ -1,7 +1,7 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
-import { Stories } from '../../../../base/enums';
+import { Story } from '../../../../base/enums';
 import {
   FlexBox,
   GeneratingIndecator,
@@ -18,7 +18,7 @@ import { useVisibleText } from '../../hooks/useVisibleText';
 
 const GenerateImprovedTextSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.GENERATING_IMPROVED_TEXT_STORY);
+  const isVisible = useIsStoryCurrent(Story.GENERATING_IMPROVED_TEXT_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const [generatedText, setGeneratedText] = useState<string>('');
   const [isGenerating, setIsGenerating] = useState(false);
@@ -46,7 +46,7 @@ const GenerateImprovedTextSheet = () => {
     }
   }, [isVisible, visibleText]);
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_NOTE_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_NOTE_STORY);
 
   const saveImprovedText = async () => {
     navigateBack();

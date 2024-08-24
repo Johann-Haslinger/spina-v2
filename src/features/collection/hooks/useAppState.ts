@@ -1,8 +1,8 @@
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { useEntity } from '@leanscope/ecs-engine';
-import { AdditionalTags, Stories } from '../../../base/enums';
 import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntityComponents';
 import { useContext } from 'react';
-import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { AdditionalTags, Story } from '../../../base/enums';
 
 export const useAppState = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -14,9 +14,9 @@ export const useAppState = () => {
   const toggleSettings = () => {
     if (isSettingVisible) {
       appStateEntity?.remove(AdditionalTags.SETTING_VISIBLE);
-      lsc.stories.transitTo(Stories.OBSERVING_COLLECTION_STORY);
+      lsc.stories.transitTo(Story.OBSERVING_COLLECTION_STORY);
     } else {
-      lsc.stories.transitTo(Stories.OBSERVING_SETTINGS_STORY);
+      lsc.stories.transitTo(Story.OBSERVING_SETTINGS_STORY);
       appStateEntity?.add(AdditionalTags.SETTING_VISIBLE);
     }
   };

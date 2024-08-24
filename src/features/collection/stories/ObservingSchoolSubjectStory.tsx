@@ -4,7 +4,7 @@ import { IdentifierFacet, OrderFacet, Tags } from '@leanscope/ecs-models';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { TitleFacet } from '../../../app/additionalFacets';
-import { DataTypes, Stories } from '../../../base/enums';
+import { DataType, Story } from '../../../base/enums';
 import Collection from '../../../pages/Collection';
 import InitializeAppSystem from '../../../systems/InitializeAppSystem';
 import InitializeSchoolSubjectsSystem from '../../../systems/InitializeSchoolSubjectsSystem';
@@ -23,9 +23,9 @@ const ObservingSchoolSubjectStory = () => {
               new IdentifierFacet({ guid: '0' }),
               new OrderFacet({ orderIndex: 1 }),
             ]}
-            tags={[DataTypes.SCHOOL_SUBJECT, Tags.SELECTED]}
+            tags={[DataType.SCHOOL_SUBJECT, Tags.SELECTED]}
           />
-          <InitializeStoriesSystem initialStory={Stories.OBSERVING_SCHOOL_SUBJECT_STORY} />
+          <InitializeStoriesSystem initialStory={Story.OBSERVING_SCHOOL_SUBJECT_STORY} />
           <ViewManagerSystem />
           <InitializeAppSystem mockupData />
 

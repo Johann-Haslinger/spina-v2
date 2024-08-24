@@ -4,7 +4,7 @@ import { FloatOrderFacet, IdentifierFacet, ParentFacet, TextFacet } from '@leans
 import { DragDropContext, Droppable, DroppableProvided } from 'react-beautiful-dnd';
 import tw from 'twin.macro';
 import { BlocktypeFacet } from '../../../app/additionalFacets';
-import { DataTypes } from '../../../base/enums';
+import { DataType } from '../../../base/enums';
 import { sortEntitiesByFloatOrder } from '../../../utils/sortEntitiesByFloatOrder';
 import { useCurrentBlockeditor } from '../hooks/useCurrentBlockeditor';
 import BlockRenderer from './Blockrenderer';
@@ -26,7 +26,7 @@ const ComponentRenderer = () => {
                 <EntityPropsMapper
                   query={(e) =>
                     e.get(ParentFacet)?.props.parentId == blockeditorId &&
-                    e.has(isGroupBlockeditor ? DataTypes.GROUP_BLOCK : DataTypes.BLOCK)
+                    e.has(isGroupBlockeditor ? DataType.GROUP_BLOCK : DataType.BLOCK)
                   }
                   get={[[IdentifierFacet, ParentFacet, BlocktypeFacet, TextFacet, FloatOrderFacet], []]}
                   sort={sortEntitiesByFloatOrder}

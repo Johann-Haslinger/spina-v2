@@ -18,7 +18,7 @@ import {
   QuestionFacet,
   StreakFacet,
 } from '../../../app/additionalFacets';
-import { AdditionalTags, DataTypes, Stories, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { AdditionalTags, DataType, Story, SupabaseColumns, SupabaseTables } from '../../../base/enums';
 import { FlexBox, View } from '../../../components';
 import { useIsAnyStoryCurrent } from '../../../hooks/useIsAnyStoryCurrent';
 import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
@@ -65,7 +65,7 @@ const fetchFlashcardsByDue = async () => {
     entity.add(new IdentifierFacet({ guid: flashcard.id }));
     entity.add(new QuestionFacet({ question: flashcard.question }));
     entity.add(new AnswerFacet({ answer: flashcard.answer }));
-    entity.add(DataTypes.FLASHCARD);
+    entity.add(DataType.FLASHCARD);
     return entity;
   });
 
@@ -74,10 +74,10 @@ const fetchFlashcardsByDue = async () => {
 
 const useFlashcardQuizEntities = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isBookmarkedQuiz = useIsStoryCurrent(Stories.OBSERVING_BOOKMARKED_FLASHCARD_GROUP_QUIZ_STORY);
-  const isSpacedRepetitionQuizVisible = useIsStoryCurrent(Stories.OBSERVING_SPACED_REPETITION_QUIZ);
+  const isBookmarkedQuiz = useIsStoryCurrent(Story.OBSERVING_BOOKMARKED_FLASHCARD_GROUP_QUIZ_STORY);
+  const isSpacedRepetitionQuizVisible = useIsStoryCurrent(Story.OBSERVING_SPACED_REPETITION_QUIZ);
   const { bookmarkedFlashcardGroupEntities } = useBookmarkedFlashcardGroups();
-  const [allFlashcardEntities] = useEntities((e) => dataTypeQuery(e, DataTypes.FLASHCARD));
+  const [allFlashcardEntities] = useEntities((e) => dataTypeQuery(e, DataType.FLASHCARD));
   const { selectedFlashcardGroupId } = useSeletedFlashcardGroup();
   const { selectedSubtopicId } = useSelectedSubtopic();
   const [selectedFlashcardEntities, setSelectedFlashcardEntities] = useState<readonly Entity[]>([]);
@@ -106,7 +106,7 @@ const useFlashcardQuizEntities = () => {
               entity.add(new QuestionFacet({ question: flashcard.question }));
               entity.add(new AnswerFacet({ answer: flashcard.answer }));
               entity.add(new ParentFacet({ parentId: id }));
-              entity.add(DataTypes.FLASHCARD);
+              entity.add(DataType.FLASHCARD);
             });
           }
         });
@@ -201,9 +201,9 @@ const FlashcardQuizView = () => {
   const lsc = useContext(LeanScopeClientContext);
   const { backgroundColor, accentColor } = useSelectedSchoolSubjectColor();
   const isVisible = useIsAnyStoryCurrent([
-    Stories.OBSERVING_FLASHCARD_QUIZ_STORY,
-    Stories.OBSERVING_BOOKMARKED_FLASHCARD_GROUP_QUIZ_STORY,
-    Stories.OBSERVING_SPACED_REPETITION_QUIZ,
+    Story.OBSERVING_FLASHCARD_QUIZ_STORY,
+    Story.OBSERVING_BOOKMARKED_FLASHCARD_GROUP_QUIZ_STORY,
+    Story.OBSERVING_SPACED_REPETITION_QUIZ,
   ]);
   const flashcardEntities = useFlashcardQuizEntities();
   const [currentFlashcardIndex, setCurrentFlashcardIndex] = useState(0);
@@ -225,7 +225,7 @@ const FlashcardQuizView = () => {
     }
   }, [currentFlashcardIndex]);
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_SET_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_FLASHCARD_SET_STORY);
 
   const updateFlashcardsDueDate = async () => {
     const updatedFlashcards: {
@@ -325,7 +325,7 @@ const FlashcardQuizView = () => {
         },
       }),
     );
-    newSessionEntity.addTag(DataTypes.FLASHCARD_SESSION);
+    newSessionEntity.addTag(DataType.FLASHCARD_SESSION);
   };
 
   const handleBackButtonClick = () => {

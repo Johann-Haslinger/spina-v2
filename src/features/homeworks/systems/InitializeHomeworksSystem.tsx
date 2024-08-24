@@ -10,7 +10,7 @@ import {
   TitleFacet,
 } from '../../../app/additionalFacets';
 import { dummyHomeworks } from '../../../base/dummy';
-import { DataTypes, SupabaseTables } from '../../../base/enums';
+import { DataType, SupabaseTables } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 import { dataTypeQuery } from '../../../utils/queries';
@@ -41,7 +41,7 @@ const InitializeHomeworksSystem = () => {
 
       homeworks.forEach((homework) => {
         const isExisting = lsc.engine.entities.some(
-          (e) => e.get(IdentifierFacet)?.props.guid === homework.id && dataTypeQuery(e, DataTypes.HOMEWORK),
+          (e) => e.get(IdentifierFacet)?.props.guid === homework.id && dataTypeQuery(e, DataType.HOMEWORK),
         );
 
         if (!isExisting) {
@@ -54,7 +54,7 @@ const InitializeHomeworksSystem = () => {
           homeworkEntity.add(new StatusFacet({ status: homework.status }));
           homeworkEntity.add(new ParentFacet({ parentId: homework.parent_id }));
           homeworkEntity.add(new RelationshipFacet({ relationship: homework.related_subject }));
-          homeworkEntity.addTag(DataTypes.HOMEWORK);
+          homeworkEntity.addTag(DataType.HOMEWORK);
         }
       });
     };

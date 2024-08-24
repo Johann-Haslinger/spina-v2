@@ -1,8 +1,8 @@
 import { Entity } from '@leanscope/ecs-engine';
-import { Blocktypes, DataTypes, Texttypes } from '../../../base/enums';
-import { IdentifierFacet, TextFacet, FloatOrderFacet, ParentFacet } from '@leanscope/ecs-models';
-import { TexttypeFacet, BlocktypeFacet } from '../../../app/additionalFacets';
+import { FloatOrderFacet, IdentifierFacet, ParentFacet, TextFacet } from '@leanscope/ecs-models';
 import { v4 } from 'uuid';
+import { BlocktypeFacet, TexttypeFacet } from '../../../app/additionalFacets';
+import { Blocktype, DataType, Texttype } from '../../../base/enums';
 
 export const getBlockEntitiesFromText = (text: string, parentId: string): Entity[] => {
   const sanitizedText = text.replace(/style="([\s\S]*?)"/gi, '');
@@ -21,7 +21,7 @@ export const getBlockEntitiesFromText = (text: string, parentId: string): Entity
     const isList = /^<li(\s|>)/.test(trimmedContent);
     const isBold = /^(<b(\s|>).*<\/b(\s|>)|<strong(\s|>).*<\/strong(\s|>))/i.test(trimmedContent);
 
-    const textType = isBold ? Texttypes.BOLD : Texttypes.NORMAL;
+    const textType = isBold ? Texttype.BOLD : Texttype.NORMAL;
 
     const newBlockEntity = new Entity();
     newBlockEntity.add(new IdentifierFacet({ guid: v4() }));
@@ -31,10 +31,10 @@ export const getBlockEntitiesFromText = (text: string, parentId: string): Entity
     newBlockEntity.add(new ParentFacet({ parentId: parentId }));
     newBlockEntity.add(
       new BlocktypeFacet({
-        blocktype: isList ? Blocktypes.LIST : Blocktypes.TEXT,
+        blocktype: isList ? Blocktype.LIST : Blocktype.TEXT,
       }),
     );
-    newBlockEntity.add(DataTypes.BLOCK);
+    newBlockEntity.add(DataType.BLOCK);
 
     return newBlockEntity;
   });

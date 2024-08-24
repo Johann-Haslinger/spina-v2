@@ -1,7 +1,7 @@
 import { LeanScopeClient, LeanScopeClientApp } from '@leanscope/api-client/node';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { Stories } from '../../../base/enums';
+import { Story } from '../../../base/enums';
 import { Sidebar } from '../../../components';
 import TabBar from '../../../components/navigation/TabBar';
 import Flashcards from '../../../pages/Flashcards';
@@ -16,7 +16,7 @@ const ObservingFlashcardsViewStory = () => {
       <BrowserRouter>
         <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
           <ViewManagerSystem />
-          <InitializeStoriesSystem initialStory={Stories.OBSERVING_COLLECTION_STORY} />
+          <InitializeStoriesSystem initialStory={Story.OBSERVING_COLLECTION_STORY} />
           <InitializeSchoolSubjectsSystem />
           <InitializeAppSystem mockupData />
 

@@ -4,7 +4,7 @@ import { DescriptionFacet, ImageFacet, Tags } from '@leanscope/ecs-models';
 import { Fragment, useContext } from 'react';
 import { IoAdd } from 'react-icons/io5';
 import { TitleFacet, TitleProps } from '../../../../app/additionalFacets';
-import { AdditionalTags, DataTypes, Stories } from '../../../../base/enums';
+import { AdditionalTags, DataType, Story } from '../../../../base/enums';
 import { BackButton, CollectionGrid, NavBarButton, NavigationBar, Spacer, Title, View } from '../../../../components';
 import NoContentAddedHint from '../../../../components/content/NoContentAddedHint';
 import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
@@ -26,7 +26,7 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
   const { selectedLanguage } = useSelectedLanguage();
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
-  const openAddTopicSheet = () => lsc.stories.transitTo(Stories.ADDING_TOPIC_STORY);
+  const openAddTopicSheet = () => lsc.stories.transitTo(Story.ADDING_TOPIC_STORY);
 
   return (
     <Fragment>
@@ -46,7 +46,7 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
 
         <CollectionGrid gapSize="large" columnSize="large">
           <EntityPropsMapper
-            query={(e) => dataTypeQuery(e, DataTypes.TOPIC) && isChildOfQuery(e, entity)}
+            query={(e) => dataTypeQuery(e, DataType.TOPIC) && isChildOfQuery(e, entity)}
             sort={(a, b) => sortEntitiesByDateAdded(a, b)}
             get={[[TitleFacet, DescriptionFacet, ImageFacet], []]}
             onMatch={TopicCell}
@@ -56,7 +56,7 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
       </View>
 
       <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataTypes.TOPIC) && e.hasTag(Tags.SELECTED)}
+        query={(e) => dataTypeQuery(e, DataType.TOPIC) && e.hasTag(Tags.SELECTED)}
         get={[[TitleFacet, DescriptionFacet, ImageFacet], []]}
         onMatch={TopicView}
       />

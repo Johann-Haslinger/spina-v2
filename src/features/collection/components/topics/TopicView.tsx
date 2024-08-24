@@ -1,7 +1,15 @@
 import styled from '@emotion/styled';
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { Entity, EntityProps, EntityPropsMapper } from '@leanscope/ecs-engine';
-import { DescriptionProps, IdentifierFacet, ImageProps, ParentFacet, Tags, TextFacet } from '@leanscope/ecs-models';
+import {
+  DescriptionProps,
+  IdentifierFacet,
+  ImageProps,
+  OrderFacet,
+  ParentFacet,
+  Tags,
+  TextFacet,
+} from '@leanscope/ecs-models';
 import { Fragment, useContext, useState } from 'react';
 import {
   IoAdd,
@@ -14,7 +22,7 @@ import {
 import tw from 'twin.macro';
 import { v4 } from 'uuid';
 import { DateAddedFacet, SourceFacet, TitleFacet, TitleProps } from '../../../../app/additionalFacets';
-import { AdditionalTags, DataTypes, Stories } from '../../../../base/enums';
+import { AdditionalTags, DataType, Story } from '../../../../base/enums';
 import {
   ActionRow,
   CollectionGrid,
@@ -40,6 +48,7 @@ import LoadFlashcardSetsSystem from '../../systems/LoadFlashcardSetsSystem';
 import LoadHomeworksSystem from '../../systems/LoadHomeworksSystem';
 import LoadNotesSystem from '../../systems/LoadNotesSystem';
 import LoadSubtopicsSystem from '../../systems/LoadSubtopicsSystem';
+import ChapterRow from '../chapter/ChapterRow';
 import ExerciseCell from '../exercises/ExerciseCell';
 import ExerciseView from '../exercises/ExerciseView';
 import AddFlashcardSetSheet from '../flashcard-sets/AddFlashcardSetSheet';
@@ -55,6 +64,7 @@ import SubtopicCell from '../subtopics/SubtopicCell';
 import SubtopicView from '../subtopics/SubtopicView';
 import DeleteTopicAlert from './DeleteTopicAlert';
 import EditTopicSheet from './EditTopicSheet';
+import AddChapterButton from '../chapter/AddChapterButton';
 
 const useImageSelector = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -71,7 +81,7 @@ const useImageSelector = () => {
         newImagePromptEntity.add(new SourceFacet({ source: base64 }));
         newImagePromptEntity.add(AdditionalTags.GENERATE_FROM_IMAGE_PROMPT);
 
-        lsc.stories.transitTo(Stories.GENERATING_RESOURCES_FROM_IMAGE);
+        lsc.stories.transitTo(Story.GENERATING_RESOURCES_FROM_IMAGE);
       };
       reader.readAsDataURL(file);
     }
@@ -135,15 +145,13 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
   const { selectedTopicId } = useSelectedTopic();
   const [scrollY, setScrollY] = useState(0);
   const { width } = useWindowDimensions();
-  // const { accentColor } = useSelectedSchoolSubjectColor();
-
   const grid = useSelectedSchoolSubjectGrid();
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
-  const openEditTopicSheet = () => lsc.stories.transitTo(Stories.EDITING_TOPIC_STORY);
-  const openDeleteTopicAlert = () => lsc.stories.transitTo(Stories.DELETING_TOPIC_STORY);
-  const openAddFlashcardsSheet = () => lsc.stories.transitTo(Stories.ADDING_FLASHCARD_SET_STORY);
-  const openAddHomeworkSheet = () => lsc.stories.transitTo(Stories.ADDING_HOMEWORK_STORY);
+  const openEditTopicSheet = () => lsc.stories.transitTo(Story.EDITING_TOPIC_STORY);
+  const openDeleteTopicAlert = () => lsc.stories.transitTo(Story.DELETING_TOPIC_STORY);
+  const openAddFlashcardsSheet = () => lsc.stories.transitTo(Story.ADDING_FLASHCARD_SET_STORY);
+  const openAddHomeworkSheet = () => lsc.stories.transitTo(Story.ADDING_HOMEWORK_STORY);
 
   const saveNote = async () => {
     if (selectedTopicId) {
@@ -153,7 +161,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
       newNoteEntity.add(new IdentifierFacet({ guid: noteId }));
       newNoteEntity.add(new ParentFacet({ parentId: selectedTopicId }));
       newNoteEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
-      newNoteEntity.add(DataTypes.NOTE);
+      newNoteEntity.add(DataType.NOTE);
       newNoteEntity.add(Tags.SELECTED);
 
       addNote(lsc, newNoteEntity, userId);
@@ -167,6 +175,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
       <LoadHomeworksSystem />
       <LoadSubtopicsSystem />
       <LoadExercisesSystem />
+      {/* <LoadChaptersSystem /> */}
 
       <View hidePadding visible={isVisible}>
         <StyledTopicViewContainer
@@ -227,27 +236,19 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
           <StyledTopicResourcesWrapper largeShadow={imageSrc ? true : false}>
             {!hasChildren && <NoContentAddedHint />}
 
-            {/* <div tw="divide-y transition-all hover:scale-105 bg-tertiary px-4 py-2 rounded-xl bg-opacity-50 divide-primaryBorder  mb-10">
-              {['Übersicht', 'Exogene Kräfte', 'Endogene Kräfte'].map((chapter, idx) => (
-                <div tw="py-3 items-center pl-4 flex justify-between">
-                  <div tw="flex space-x-4 items-center">
-                    <div tw="text-xl" style={{ color: accentColor }}>
-                      <IoBook />
-                    </div>
-                    <p>
-                      <span tw="font-semibold">Kapitel {idx + 1} -</span> {chapter}
-                    </p>
-                  </div>
-                  <div tw="text-lg text-opacity-80 text-seconderyText">
-                    <IoChevronForward />
-                  </div>
-                </div>
-              ))}
-            </div> */}
+            <div tw="divide-y transition-all  bg-tertiary px-4 py-2 rounded-xl bg-opacity-50 divide-primaryBorder  mb-10">
+              <EntityPropsMapper
+                query={(e) => dataTypeQuery(e, DataType.CHAPTER) && isChildOfQuery(e, entity)}
+                sort={(a, b) => (a.get(OrderFacet)?.props.orderIndex || 0) - (b.get(OrderFacet)?.props.orderIndex || 0)}
+                get={[[TitleFacet, OrderFacet], []]}
+                onMatch={ChapterRow}
+              />
+              <AddChapterButton />
+            </div>
 
             <CollectionGrid columnSize="small">
               <EntityPropsMapper
-                query={(e) => dataTypeQuery(e, DataTypes.SUBTOPIC) && isChildOfQuery(e, entity)}
+                query={(e) => dataTypeQuery(e, DataType.SUBTOPIC) && isChildOfQuery(e, entity)}
                 sort={(a, b) => sortEntitiesByDateAdded(a, b)}
                 get={[[TitleFacet], []]}
                 onMatch={SubtopicCell}
@@ -256,7 +257,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
 
             <CollectionGrid columnSize="small">
               <EntityPropsMapper
-                query={(e) => dataTypeQuery(e, DataTypes.NOTE) && isChildOfQuery(e, entity)}
+                query={(e) => dataTypeQuery(e, DataType.NOTE) && isChildOfQuery(e, entity)}
                 sort={(a, b) => sortEntitiesByDateAdded(a, b)}
                 get={[[TitleFacet], []]}
                 onMatch={NoteCell}
@@ -265,7 +266,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
 
             <CollectionGrid columnSize="small">
               <EntityPropsMapper
-                query={(e) => dataTypeQuery(e, DataTypes.EXERCISE) && isChildOfQuery(e, entity)}
+                query={(e) => dataTypeQuery(e, DataType.EXERCISE) && isChildOfQuery(e, entity)}
                 sort={(a, b) => sortEntitiesByDateAdded(a, b)}
                 get={[[TitleFacet], []]}
                 onMatch={ExerciseCell}
@@ -274,7 +275,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
 
             <CollectionGrid columnSize="small">
               <EntityPropsMapper
-                query={(e) => dataTypeQuery(e, DataTypes.FLASHCARD_SET) && isChildOfQuery(e, entity)}
+                query={(e) => dataTypeQuery(e, DataType.FLASHCARD_SET) && isChildOfQuery(e, entity)}
                 get={[[TitleFacet, IdentifierFacet], []]}
                 sort={(a, b) => sortEntitiesByDateAdded(a, b)}
                 onMatch={FlashcardSetCell}
@@ -283,7 +284,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
 
             <CollectionGrid columnSize="small">
               <EntityPropsMapper
-                query={(e) => dataTypeQuery(e, DataTypes.HOMEWORK) && isChildOfQuery(e, entity)}
+                query={(e) => dataTypeQuery(e, DataType.HOMEWORK) && isChildOfQuery(e, entity)}
                 get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
                 sort={(a, b) => sortEntitiesByDateAdded(a, b)}
                 onMatch={HomeworkCell}
@@ -294,27 +295,27 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
       </View>
 
       <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataTypes.NOTE) && e.has(Tags.SELECTED)}
+        query={(e) => dataTypeQuery(e, DataType.NOTE) && e.has(Tags.SELECTED)}
         get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
         onMatch={NoteView}
       />
       <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataTypes.FLASHCARD_SET) && e.has(Tags.SELECTED)}
+        query={(e) => dataTypeQuery(e, DataType.FLASHCARD_SET) && e.has(Tags.SELECTED)}
         get={[[TitleFacet, IdentifierFacet], []]}
         onMatch={FlashcardSetView}
       />
       <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataTypes.HOMEWORK) && e.has(Tags.SELECTED)}
+        query={(e) => dataTypeQuery(e, DataType.HOMEWORK) && e.has(Tags.SELECTED)}
         get={[[TitleFacet, IdentifierFacet, TextFacet], []]}
         onMatch={HomeworkView}
       />
       <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataTypes.SUBTOPIC) && e.has(Tags.SELECTED)}
+        query={(e) => dataTypeQuery(e, DataType.SUBTOPIC) && e.has(Tags.SELECTED)}
         get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
         onMatch={SubtopicView}
       />
       <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataTypes.EXERCISE) && e.has(Tags.SELECTED)}
+        query={(e) => dataTypeQuery(e, DataType.EXERCISE) && e.has(Tags.SELECTED)}
         get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
         onMatch={ExerciseView}
       />

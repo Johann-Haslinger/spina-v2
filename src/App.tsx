@@ -4,7 +4,7 @@ import { Tags } from '@leanscope/ecs-models';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import tw from 'twin.macro';
 import { DateAddedFacet, SourceFacet, TitleFacet } from './app/additionalFacets';
-import { DataTypes, NavigationLinks, Stories } from './base/enums';
+import { DataType, NavigationLinks, Story } from './base/enums';
 import { Sidebar } from './components';
 import TabBar from './components/navigation/TabBar';
 import { AuthUI } from './features/auth-ui';
@@ -34,7 +34,7 @@ function App() {
   ) : (
     <StyledContentWrapper>
       <InitializeUserSystem />
-      <InitializeStoriesSystem initialStory={Stories.OBSERVING_COLLECTION_STORY} />
+      <InitializeStoriesSystem initialStory={Story.OBSERVING_COLLECTION_STORY} />
       <InitializeAppSystem />
       <ViewManagerSystem />
       <InitializeSchoolSubjectsSystem />
@@ -58,7 +58,7 @@ function App() {
       </BrowserRouter>
 
       <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataTypes.PODCAST) && e.has(Tags.SELECTED)}
+        query={(e) => dataTypeQuery(e, DataType.PODCAST) && e.has(Tags.SELECTED)}
         get={[[TitleFacet, DateAddedFacet, SourceFacet], []]}
         onMatch={PodcastSheet}
       />

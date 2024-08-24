@@ -18,7 +18,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import tw from 'twin.macro';
 import { ViSpina } from '../../assets/icons';
 import { COLOR_ITEMS, MEDIUM_DEVICE_WIDTH, NAV_LINKS } from '../../base/constants';
-import { NavigationLinks, SupportedLanguages, SupportedThemes } from '../../base/enums';
+import { NavigationLinks, SupportedLanguage, SupportedTheme } from '../../base/enums';
 import { useAppState } from '../../features/collection/hooks/useAppState';
 import { usePlayingPodcast } from '../../features/collection/hooks/usePlayingPodcast';
 import { useSelectedTheme } from '../../features/collection/hooks/useSelectedTheme';
@@ -253,7 +253,7 @@ const StyledNavLinkIcon = styled.div<{ color: string }>`
   color: ${({ color }) => color};
 `;
 
-const selectNavLinkText = (navLink: NavigationLinks, selectedLanguage: SupportedLanguages) => {
+const selectNavLinkText = (navLink: NavigationLinks, selectedLanguage: SupportedLanguage) => {
   switch (navLink) {
     case NavigationLinks.COLLECTION:
       return displayHeaderTexts(selectedLanguage).collection;
@@ -365,7 +365,7 @@ const Sidebar = () => {
         <StyledSidebarWrapper isFullWidth={isFullWidth}>
           <StyledSpinaIcon
             onClick={
-              isMobile ? toggleSidebar : () => changeTheme(isDarkMode ? SupportedThemes.LIGHT : SupportedThemes.DARK)
+              isMobile ? toggleSidebar : () => changeTheme(isDarkMode ? SupportedTheme.LIGHT : SupportedTheme.DARK)
             }
           >
             {isMobile ? <IoClose /> : isDarkMode ? <IoMoon /> : <ViSpina />}

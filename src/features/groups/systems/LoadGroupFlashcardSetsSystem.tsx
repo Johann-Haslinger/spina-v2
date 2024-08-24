@@ -4,7 +4,7 @@ import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { DateAddedFacet, TitleFacet } from '../../../app/additionalFacets';
 import { dummyFlashcardSets } from '../../../base/dummy';
-import { DataTypes, SupabaseColumns } from '../../../base/enums';
+import { DataType, SupabaseColumns } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 import { useSelectedGroupTopic } from '../hooks/useSelectedGroupTopic';
@@ -40,7 +40,7 @@ const LoadGroupFlashcardSetsSystem = () => {
         groupFlashcardSets.forEach((groupFlashcardSet) => {
           const isExisting = lsc.engine.entities.some(
             (e) =>
-              e.get(IdentifierFacet)?.props.guid === groupFlashcardSet.id && e.hasTag(DataTypes.GROUP_FLASHCARD_SET),
+              e.get(IdentifierFacet)?.props.guid === groupFlashcardSet.id && e.hasTag(DataType.GROUP_FLASHCARD_SET),
           );
 
           if (!isExisting) {
@@ -50,7 +50,7 @@ const LoadGroupFlashcardSetsSystem = () => {
             noteEntity.add(new IdentifierFacet({ guid: groupFlashcardSet.id }));
             noteEntity.add(new DateAddedFacet({ dateAdded: groupFlashcardSet.date_added }));
             noteEntity.add(new ParentFacet({ parentId: selectedGroupTopicId }));
-            noteEntity.addTag(DataTypes.GROUP_FLASHCARD_SET);
+            noteEntity.addTag(DataType.GROUP_FLASHCARD_SET);
           }
         });
       }

@@ -4,7 +4,8 @@ import { DescriptionFacet, IdentifierFacet, ImageFacet, OrderFacet, ParentFacet,
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { TitleFacet } from '../../../app/additionalFacets';
-import { DataTypes, Stories } from '../../../base/enums';
+import { dummyTopicImage } from '../../../base/dummyTopicImage';
+import { DataType, Story } from '../../../base/enums';
 import { Sidebar } from '../../../components';
 import Collection from '../../../pages/Collection';
 import InitializeAppSystem from '../../../systems/InitializeAppSystem';
@@ -13,7 +14,6 @@ import InitializeStoriesSystem from '../../../systems/InitializeStoriesSystem';
 import ViewManagerSystem from '../../../systems/ViewManagerSystem';
 import { Settings } from '../../settings';
 import LoadTopicsSystem from '../systems/LoadTopicsSystem';
-import { dummyTopicImage } from '../../../base/dummyTopicImage';
 
 const ObservingTopicStory = () => {
   return (
@@ -29,7 +29,7 @@ const ObservingTopicStory = () => {
               new ParentFacet({ parentId: '1' }),
               new ImageFacet({ imageSrc: dummyTopicImage }),
             ]}
-            tags={[DataTypes.TOPIC, Tags.SELECTED]}
+            tags={[DataType.TOPIC, Tags.SELECTED]}
           />
           <EntityCreator
             facets={[
@@ -37,9 +37,9 @@ const ObservingTopicStory = () => {
               new IdentifierFacet({ guid: '1' }),
               new OrderFacet({ orderIndex: 1 }),
             ]}
-            tags={[DataTypes.SCHOOL_SUBJECT, Tags.SELECTED]}
+            tags={[DataType.SCHOOL_SUBJECT, Tags.SELECTED]}
           />
-          <InitializeStoriesSystem initialStory={Stories.OBSERVING_SCHOOL_SUBJECT_STORY} />
+          <InitializeStoriesSystem initialStory={Story.OBSERVING_SCHOOL_SUBJECT_STORY} />
           <InitializeAppSystem mockupData />
           <ViewManagerSystem />
           <InitializeSchoolSubjectsSystem />

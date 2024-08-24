@@ -1,12 +1,12 @@
 import { useEntity } from '@leanscope/ecs-engine';
-import { Tags, IdentifierFacet, TextFacet } from '@leanscope/ecs-models';
-import { TitleFacet, DueDateFacet } from '../../../app/additionalFacets';
-import { DataTypes } from '../../../base/enums';
+import { IdentifierFacet, Tags, TextFacet } from '@leanscope/ecs-models';
+import { DueDateFacet, TitleFacet } from '../../../app/additionalFacets';
+import { DataType } from '../../../base/enums';
 import { dataTypeQuery } from '../../../utils/queries';
 
 export const useSelectedGroupHomework = () => {
   const [selectedGroupHomeworkEntity] = useEntity(
-    (e) => dataTypeQuery(e, DataTypes.GROUP_HOMEWORK) && e.hasTag(Tags.SELECTED),
+    (e) => dataTypeQuery(e, DataType.GROUP_HOMEWORK) && e.hasTag(Tags.SELECTED),
   );
 
   const selectedGroupHomeworkTitle = selectedGroupHomeworkEntity?.get(TitleFacet)?.props.title;

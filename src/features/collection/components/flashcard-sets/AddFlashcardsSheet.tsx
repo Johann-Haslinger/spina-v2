@@ -6,7 +6,7 @@ import { Fragment, useContext, useEffect, useState } from 'react';
 import { IoAdd, IoColorWandOutline } from 'react-icons/io5';
 import { v4 } from 'uuid';
 import { AnswerFacet, MasteryLevelFacet, QuestionFacet } from '../../../../app/additionalFacets';
-import { DataTypes, Stories } from '../../../../base/enums';
+import { DataType, Story } from '../../../../base/enums';
 import {
   FlexBox,
   PrimaryButton,
@@ -41,7 +41,7 @@ enum AddFlashcardsMethods {
 
 const AddFlashcardsSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.ADDING_FLASHCARDS_STORY);
+  const isVisible = useIsStoryCurrent(Story.ADDING_FLASHCARDS_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const [flashcards, setFlashcards] = useState<Flashcard[]>([]);
   const { selectedFlashcardGroupId } = useSeletedFlashcardGroup();
@@ -62,7 +62,7 @@ const AddFlashcardsSheet = () => {
     setFlashcards([]);
   }, [isVisible]);
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_SET_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_FLASHCARD_SET_STORY);
 
   const saveFlashcards = async () => {
     navigateBack();
@@ -80,7 +80,7 @@ const AddFlashcardsSheet = () => {
           newFlashcardEntity.add(new QuestionFacet({ question: flashcard.question }));
           newFlashcardEntity.add(new AnswerFacet({ answer: flashcard.answer }));
           newFlashcardEntity.add(new MasteryLevelFacet({ masteryLevel: 0 }));
-          newFlashcardEntity.add(DataTypes.FLASHCARD);
+          newFlashcardEntity.add(DataType.FLASHCARD);
 
           return newFlashcardEntity;
         });

@@ -6,10 +6,10 @@ import { useContext, useState } from 'react';
 import { IoBookmark, IoBookmarkOutline, IoPlay } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { DateAddedProps, TitleProps } from '../../../app/additionalFacets';
-import { Stories } from '../../../base/enums';
+import { COLOR_ITEMS } from '../../../base/constants';
+import { Story } from '../../../base/enums';
 import { formatTime } from '../../../utils/formatTime';
 import { useBookmarked } from '../hooks/useBookmarked';
-import { COLOR_ITEMS } from '../../../base/constants';
 
 const StyledFlashcardGroupCellWrapper = styled.div`
   ${tw`w-full h-40 p-3 rounded-lg text-white transition-all md:hover:scale-105`}
@@ -43,7 +43,7 @@ const FlashcardGroupCell = (props: TitleProps & EntityProps & DateAddedProps) =>
   const openFlashcardGroup = () => entity.add(Tags.SELECTED);
   const openFlashcardQuiz = () => {
     entity.addTag(Tags.SELECTED);
-    lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_QUIZ_STORY);
+    lsc.stories.transitTo(Story.OBSERVING_FLASHCARD_QUIZ_STORY);
   };
 
   return (

@@ -3,7 +3,7 @@ import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntit
 import { Tags } from '@leanscope/ecs-models';
 import { useEffect } from 'react';
 import { TexttypeFacet } from '../../../app/additionalFacets';
-import { Texttypes } from '../../../base/enums';
+import { Texttype } from '../../../base/enums';
 import { useCurrentBlockeditor } from '../hooks/useCurrentBlockeditor';
 
 const HandleTexteditorKeyPressSystem = (props: EntityProps) => {
@@ -20,21 +20,21 @@ const HandleTexteditorKeyPressSystem = (props: EntityProps) => {
           case 'b':
             entity.add(
               new TexttypeFacet({
-                texttype: textType === Texttypes.BOLD ? Texttypes.NORMAL : Texttypes.BOLD,
+                texttype: textType === Texttype.BOLD ? Texttype.NORMAL : Texttype.BOLD,
               }),
             );
             break;
           case 'u':
             entity.add(
               new TexttypeFacet({
-                texttype: textType === Texttypes.UNDERLINE ? Texttypes.NORMAL : Texttypes.UNDERLINE,
+                texttype: textType === Texttype.UNDERLINE ? Texttype.NORMAL : Texttype.UNDERLINE,
               }),
             );
             break;
           case 'i':
             entity.add(
               new TexttypeFacet({
-                texttype: textType === Texttypes.ITALIC ? Texttypes.NORMAL : Texttypes.ITALIC,
+                texttype: textType === Texttype.ITALIC ? Texttype.NORMAL : Texttype.ITALIC,
               }),
             );
             break;

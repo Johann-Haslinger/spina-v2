@@ -7,7 +7,7 @@ import { PropsWithChildren, ReactNode, useContext, useEffect, useState } from 'r
 import { IoEye } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { AnswerFacet, QuestionFacet } from '../../../../app/additionalFacets';
-import { DataTypes, Stories } from '../../../../base/enums';
+import { DataType, Story } from '../../../../base/enums';
 import { BackButton, Divider, NavigationBar, SecondaryText, Spacer, Title, View } from '../../../../components';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import { displayHeaderTexts } from '../../../../utils/displayText';
@@ -90,10 +90,10 @@ const TestRow = (props: { flashCard: Flashcard; isAnswerVisible: boolean }) => {
 };
 
 const useFlashcardsForTest = () => {
-  const [flashcardEntities] = useEntities((e) => dataTypeQuery(e, DataTypes.FLASHCARD));
+  const [flashcardEntities] = useEntities((e) => dataTypeQuery(e, DataType.FLASHCARD));
   const { selectedSubtopicId } = useSelectedSubtopic();
   const [flashCardsForTest, setFlashCardsForTest] = useState<Flashcard[]>();
-  const isVisible = useIsStoryCurrent(Stories.OBSERVING_FLASHCARD_TEST_STORY);
+  const isVisible = useIsStoryCurrent(Story.OBSERVING_FLASHCARD_TEST_STORY);
 
   useEffect(() => {
     const filterdFlashcardEntities = flashcardEntities.filter(
@@ -113,13 +113,13 @@ const useFlashcardsForTest = () => {
 
 const FlashcardTestView = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.OBSERVING_FLASHCARD_TEST_STORY);
+  const isVisible = useIsStoryCurrent(Story.OBSERVING_FLASHCARD_TEST_STORY);
   const { selectedSubtopicTitle } = useSelectedSubtopic();
   const { selectedLanguage } = useSelectedLanguage();
   const flashcardsFortest = useFlashcardsForTest();
   const [isAnswerVisible, setAnswerVisible] = useState(false);
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_SUBTOPIC_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_SUBTOPIC_STORY);
 
   return (
     <View visible={isVisible}>

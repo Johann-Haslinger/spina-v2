@@ -28,7 +28,7 @@ import {
   TitleFacet,
   TitleProps,
 } from '../../../../app/additionalFacets';
-import { AdditionalTags, DataTypes, Stories } from '../../../../base/enums';
+import { AdditionalTags, DataType, Story } from '../../../../base/enums';
 import {
   ActionRow,
   BackButton,
@@ -51,6 +51,7 @@ import { useBookmarked } from '../../../study/hooks/useBookmarked';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
 import { useText } from '../../hooks/useText';
 import LoadSubtopicResourcesSystem from '../../systems/LoadSubtopicResourcesSystem';
+import GenerateExerciseSheet from '../exercises/GenerateExerciseSheet';
 import AddFlashcardsSheet from '../flashcard-sets/AddFlashcardsSheet';
 import EditFlashcardSheet from '../flashcard-sets/EditFlashcardSheet';
 import FlashcardCell from '../flashcard-sets/FlashcardCell';
@@ -63,7 +64,6 @@ import BlurtingView from './BlurtingView';
 import DeleteSubtopicAlert from './DeleteSubtopicAlert';
 import EditSubtopicSheet from './EditSubtopicSheet';
 import FlashcardTestView from './FlashcardTestView';
-import GenerateExerciseSheet from '../exercises/GenerateExerciseSheet';
 
 enum SubtopicViewStates {
   NOTE,
@@ -81,17 +81,16 @@ const SubtopicView = (props: TitleProps & EntityProps & IdentifierProps) => {
   const { text, updateText } = useText(entity);
 
   const navigateBack = () => entity.add(AdditionalTags.NAVIGATE_BACK);
-  const openDeleteAlert = () => lsc.stories.transitTo(Stories.DELETING_SUBTOPIC_STORY);
-  const openEditSheet = () => lsc.stories.transitTo(Stories.EDITING_SUBTOPIC_STORY);
-  const openAddFlashcardsSheet = () => lsc.stories.transitTo(Stories.ADDING_FLASHCARDS_STORY);
-  const openFlashcardQuizView = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_QUIZ_STORY);
-  const openGeneratePodcastSheet = () => lsc.stories.transitTo(Stories.GENERATING_PODCAST_STORY);
-  const openAddResourceToLerningGroupSheet = () =>
-    lsc.stories.transitTo(Stories.ADDING_RESOURCE_TO_LEARNING_GROUP_STORY);
-  const openFlashcardTestView = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_TEST_STORY);
-  const openBlurtingView = () => lsc.stories.transitTo(Stories.OBSERVING_BLURTING_STORY);
-  const openImproveTextSheet = () => lsc.stories.transitTo(Stories.GENERATING_IMPROVED_TEXT_STORY);
-  const openGenerateExerciseSheet = () => lsc.stories.transitTo(Stories.GENERATING_EXERCISE_STORY);
+  const openDeleteAlert = () => lsc.stories.transitTo(Story.DELETING_SUBTOPIC_STORY);
+  const openEditSheet = () => lsc.stories.transitTo(Story.EDITING_SUBTOPIC_STORY);
+  const openAddFlashcardsSheet = () => lsc.stories.transitTo(Story.ADDING_FLASHCARDS_STORY);
+  const openFlashcardQuizView = () => lsc.stories.transitTo(Story.OBSERVING_FLASHCARD_QUIZ_STORY);
+  const openGeneratePodcastSheet = () => lsc.stories.transitTo(Story.GENERATING_PODCAST_STORY);
+  const openAddResourceToLerningGroupSheet = () => lsc.stories.transitTo(Story.ADDING_RESOURCE_TO_LEARNING_GROUP_STORY);
+  const openFlashcardTestView = () => lsc.stories.transitTo(Story.OBSERVING_FLASHCARD_TEST_STORY);
+  const openBlurtingView = () => lsc.stories.transitTo(Story.OBSERVING_BLURTING_STORY);
+  const openImproveTextSheet = () => lsc.stories.transitTo(Story.GENERATING_IMPROVED_TEXT_STORY);
+  const openGenerateExerciseSheet = () => lsc.stories.transitTo(Story.GENERATING_EXERCISE_STORY);
 
   return (
     <Fragment>
@@ -185,12 +184,12 @@ const SubtopicView = (props: TitleProps & EntityProps & IdentifierProps) => {
 
         <Spacer />
         <EntityPropsMapper
-          query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.PODCAST)}
+          query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataType.PODCAST)}
           get={[[TitleFacet, DateAddedFacet], []]}
           onMatch={PodcastRow}
         />
         <EntityPropsMapper
-          query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.LERNVIDEO)}
+          query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataType.LERNVIDEO)}
           get={[[TitleFacet, DateAddedFacet], []]}
           onMatch={LernvideoRow}
         />
@@ -200,7 +199,7 @@ const SubtopicView = (props: TitleProps & EntityProps & IdentifierProps) => {
         ) : (
           <CollectionGrid columnSize="large">
             <EntityPropsMapper
-              query={(e) => dataTypeQuery(e, DataTypes.FLASHCARD) && isChildOfQuery(e, entity)}
+              query={(e) => dataTypeQuery(e, DataType.FLASHCARD) && isChildOfQuery(e, entity)}
               get={[[QuestionFacet, AnswerFacet, MasteryLevelFacet], []]}
               onMatch={FlashcardCell}
             />
@@ -209,12 +208,12 @@ const SubtopicView = (props: TitleProps & EntityProps & IdentifierProps) => {
       </View>
 
       <EntityPropsMapper
-        query={(e) => e.hasTag(Tags.SELECTED) && dataTypeQuery(e, DataTypes.FLASHCARD)}
+        query={(e) => e.hasTag(Tags.SELECTED) && dataTypeQuery(e, DataType.FLASHCARD)}
         get={[[AnswerFacet, QuestionFacet, IdentifierFacet, MasteryLevelFacet], []]}
         onMatch={EditFlashcardSheet}
       />
       <EntityPropsMapper
-        query={(e) => e.hasTag(Tags.SELECTED) && dataTypeQuery(e, DataTypes.LERNVIDEO)}
+        query={(e) => e.hasTag(Tags.SELECTED) && dataTypeQuery(e, DataType.LERNVIDEO)}
         get={[[TitleFacet, DateAddedFacet, IdentifierFacet], []]}
         onMatch={LernvideoView}
       />

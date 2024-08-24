@@ -4,7 +4,7 @@ import { DescriptionFacet, IdentifierFacet, OrderFacet, ParentFacet, Tags } from
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { AnswerFacet, QuestionFacet, TitleFacet } from '../../../app/additionalFacets';
-import { DataTypes, Stories } from '../../../base/enums';
+import { DataType, Story } from '../../../base/enums';
 import { Sidebar } from '../../../components';
 import Collection from '../../../pages/Collection';
 import InitializeAppSystem from '../../../systems/InitializeAppSystem';
@@ -29,7 +29,7 @@ const ObservingExerciseStory = () => {
               new OrderFacet({ orderIndex: 0 }),
               new ParentFacet({ parentId: '100' }),
             ]}
-            tags={[DataTypes.EXERCISE_PART]}
+            tags={[DataType.EXERCISE_PART]}
           />
           <EntityCreator
             facets={[
@@ -41,7 +41,7 @@ const ObservingExerciseStory = () => {
               new OrderFacet({ orderIndex: 1 }),
               new ParentFacet({ parentId: '100' }),
             ]}
-            tags={[DataTypes.EXERCISE_PART]}
+            tags={[DataType.EXERCISE_PART]}
           />
           <EntityCreator
             facets={[
@@ -50,7 +50,7 @@ const ObservingExerciseStory = () => {
               new OrderFacet({ orderIndex: 1 }),
               new ParentFacet({ parentId: '10' }),
             ]}
-            tags={[DataTypes.EXERCISE, Tags.SELECTED]}
+            tags={[DataType.EXERCISE, Tags.SELECTED]}
           />
           <EntityCreator
             facets={[
@@ -60,7 +60,7 @@ const ObservingExerciseStory = () => {
               new OrderFacet({ orderIndex: 1 }),
               new ParentFacet({ parentId: '1' }),
             ]}
-            tags={[DataTypes.TOPIC, Tags.SELECTED]}
+            tags={[DataType.TOPIC, Tags.SELECTED]}
           />
           <EntityCreator
             facets={[
@@ -68,9 +68,9 @@ const ObservingExerciseStory = () => {
               new IdentifierFacet({ guid: '1' }),
               new OrderFacet({ orderIndex: 1 }),
             ]}
-            tags={[DataTypes.SCHOOL_SUBJECT, Tags.SELECTED]}
+            tags={[DataType.SCHOOL_SUBJECT, Tags.SELECTED]}
           />
-          <InitializeStoriesSystem initialStory={Stories.OBSERVING_SCHOOL_SUBJECT_STORY} />
+          <InitializeStoriesSystem initialStory={Story.OBSERVING_SCHOOL_SUBJECT_STORY} />
           <InitializeAppSystem mockupData />
           <ViewManagerSystem />
 

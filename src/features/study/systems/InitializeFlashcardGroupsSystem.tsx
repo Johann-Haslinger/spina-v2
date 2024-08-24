@@ -4,7 +4,7 @@ import { IdentifierFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { DateAddedFacet, TitleFacet } from '../../../app/additionalFacets';
 import { dummyFlashcardSets, dummySubtopics } from '../../../base/dummy';
-import { AdditionalTags, DataTypes, SupabaseTables } from '../../../base/enums';
+import { AdditionalTags, DataType, SupabaseTables } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 import { dataTypeQuery } from '../../../utils/queries';
@@ -49,7 +49,7 @@ const InitializeFlashcardGroupsSystem = () => {
 
       flashcardSets.forEach((flashcardSet) => {
         const isExisting = lsc.engine.entities.some(
-          (e) => e.get(IdentifierFacet)?.props.guid === flashcardSet.id && dataTypeQuery(e, DataTypes.FLASHCARD_SET),
+          (e) => e.get(IdentifierFacet)?.props.guid === flashcardSet.id && dataTypeQuery(e, DataType.FLASHCARD_SET),
         );
 
         if (!isExisting) {
@@ -62,8 +62,8 @@ const InitializeFlashcardGroupsSystem = () => {
           );
           flashcardGroupEntity.add(new TitleFacet({ title: flashcardSet.title }));
           flashcardGroupEntity.add(new IdentifierFacet({ guid: flashcardSet.id }));
-          flashcardGroupEntity.addTag(DataTypes.FLASHCARD_SET);
-          flashcardGroupEntity.addTag(DataTypes.FLASHCARD_GROUP);
+          flashcardGroupEntity.addTag(DataType.FLASHCARD_SET);
+          flashcardGroupEntity.addTag(DataType.FLASHCARD_GROUP);
 
           if (flashcardSet.bookmarked) {
             flashcardGroupEntity.addTag(AdditionalTags.BOOKMARKED);
@@ -77,7 +77,7 @@ const InitializeFlashcardGroupsSystem = () => {
 
       subtopics.forEach((subtopic) => {
         const isExisting = lsc.engine.entities.some(
-          (e) => e.get(IdentifierFacet)?.props.guid === subtopic.id && dataTypeQuery(e, DataTypes.SUBTOPIC),
+          (e) => e.get(IdentifierFacet)?.props.guid === subtopic.id && dataTypeQuery(e, DataType.SUBTOPIC),
         );
 
         if (!isExisting) {
@@ -90,8 +90,8 @@ const InitializeFlashcardGroupsSystem = () => {
           );
           subtopicEntity.add(new TitleFacet({ title: subtopic.title }));
           subtopicEntity.add(new IdentifierFacet({ guid: subtopic.id }));
-          subtopicEntity.addTag(DataTypes.SUBTOPIC);
-          subtopicEntity.addTag(DataTypes.FLASHCARD_GROUP);
+          subtopicEntity.addTag(DataType.SUBTOPIC);
+          subtopicEntity.addTag(DataType.FLASHCARD_GROUP);
 
           if (subtopic.bookmarked) {
             subtopicEntity.addTag(AdditionalTags.BOOKMARKED);

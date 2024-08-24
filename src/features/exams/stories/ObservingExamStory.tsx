@@ -3,7 +3,7 @@ import { EntityCreator } from '@leanscope/ecs-engine';
 import { IdentifierFacet, Tags } from '@leanscope/ecs-models';
 import React from 'react';
 import { DueDateFacet, TitleFacet } from '../../../app/additionalFacets';
-import { DataTypes, Stories } from '../../../base/enums';
+import { DataType, Story } from '../../../base/enums';
 import Exams from '../../../pages/Exams';
 import InitializeAppSystem from '../../../systems/InitializeAppSystem';
 import InitializeSchoolSubjectsSystem from '../../../systems/InitializeSchoolSubjectsSystem';
@@ -20,10 +20,10 @@ const ObservingExamStory = () => {
             new IdentifierFacet({ guid: '10' }),
             new DueDateFacet({ dueDate: new Date().toISOString() }),
           ]}
-          tags={[DataTypes.EXAM, Tags.SELECTED]}
+          tags={[DataType.EXAM, Tags.SELECTED]}
         />
         <ViewManagerSystem />
-        <InitializeStoriesSystem initialStory={Stories.OBSERVING_EXAMS_STORY} />
+        <InitializeStoriesSystem initialStory={Story.OBSERVING_EXAMS_STORY} />
         <InitializeSchoolSubjectsSystem />
         <InitializeAppSystem mockupData />
 

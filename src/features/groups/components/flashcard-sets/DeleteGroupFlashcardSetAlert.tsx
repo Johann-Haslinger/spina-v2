@@ -1,7 +1,7 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext } from 'react';
-import { AdditionalTags, Stories, SupabaseColumns } from '../../../../base/enums';
+import { AdditionalTags, Story, SupabaseColumns } from '../../../../base/enums';
 import { Alert, AlertButton } from '../../../../components';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../../lib/supabase';
@@ -10,11 +10,11 @@ import { useSelectedGroupFlashcardSet } from '../../hooks/useSelectedGroupFlashc
 
 const DeleteGroupFlashcardSetAlert = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.DELETING_GROUP_FLASHCARD_SET_STORY);
+  const isVisible = useIsStoryCurrent(Story.DELETING_GROUP_FLASHCARD_SET_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedGroupFlashcardSetId, selectedGroupFlashcardSetEntity } = useSelectedGroupFlashcardSet();
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_TOPIC_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_TOPIC_STORY);
 
   const deleteGroupFlashcardSet = async () => {
     navigateBack();

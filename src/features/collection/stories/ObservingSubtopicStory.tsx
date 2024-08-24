@@ -4,17 +4,17 @@ import { DescriptionFacet, IdentifierFacet, OrderFacet, ParentFacet, Tags } from
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { DateAddedFacet, SourceFacet, TitleFacet } from '../../../app/additionalFacets';
-import { DataTypes, Stories } from '../../../base/enums';
+import { DataType, Story } from '../../../base/enums';
 import { Sidebar } from '../../../components';
 import Collection from '../../../pages/Collection';
 import InitializeAppSystem from '../../../systems/InitializeAppSystem';
 import InitializeSchoolSubjectsSystem from '../../../systems/InitializeSchoolSubjectsSystem';
 import InitializeStoriesSystem from '../../../systems/InitializeStoriesSystem';
 import ViewManagerSystem from '../../../systems/ViewManagerSystem';
-import { Settings } from '../../settings';
-import LoadTopicsSystem from '../systems/LoadTopicsSystem';
 import { dataTypeQuery } from '../../../utils/queries';
+import { Settings } from '../../settings';
 import PodcastSheet from '../components/podcasts/PodcastSheet';
+import LoadTopicsSystem from '../systems/LoadTopicsSystem';
 
 const ObservingSubtopicStory = () => {
   return (
@@ -29,7 +29,7 @@ const ObservingSubtopicStory = () => {
               new OrderFacet({ orderIndex: 1 }),
               new ParentFacet({ parentId: '100' }),
             ]}
-            tags={[DataTypes.PODCAST]}
+            tags={[DataType.PODCAST]}
           />
           <EntityCreator
             facets={[
@@ -38,7 +38,7 @@ const ObservingSubtopicStory = () => {
               new OrderFacet({ orderIndex: 1 }),
               new ParentFacet({ parentId: '10' }),
             ]}
-            tags={[DataTypes.SUBTOPIC, Tags.SELECTED]}
+            tags={[DataType.SUBTOPIC, Tags.SELECTED]}
           />
           <EntityCreator
             facets={[
@@ -48,7 +48,7 @@ const ObservingSubtopicStory = () => {
               new OrderFacet({ orderIndex: 1 }),
               new ParentFacet({ parentId: '1' }),
             ]}
-            tags={[DataTypes.TOPIC, Tags.SELECTED]}
+            tags={[DataType.TOPIC, Tags.SELECTED]}
           />
           <EntityCreator
             facets={[
@@ -56,9 +56,9 @@ const ObservingSubtopicStory = () => {
               new IdentifierFacet({ guid: '1' }),
               new OrderFacet({ orderIndex: 1 }),
             ]}
-            tags={[DataTypes.SCHOOL_SUBJECT, Tags.SELECTED]}
+            tags={[DataType.SCHOOL_SUBJECT, Tags.SELECTED]}
           />
-          <InitializeStoriesSystem initialStory={Stories.OBSERVING_SCHOOL_SUBJECT_STORY} />
+          <InitializeStoriesSystem initialStory={Story.OBSERVING_SCHOOL_SUBJECT_STORY} />
           <InitializeAppSystem mockupData />
           <ViewManagerSystem />
 
@@ -70,7 +70,7 @@ const ObservingSubtopicStory = () => {
           <Settings />
 
           <EntityPropsMapper
-            query={(e) => dataTypeQuery(e, DataTypes.PODCAST) && e.has(Tags.SELECTED)}
+            query={(e) => dataTypeQuery(e, DataType.PODCAST) && e.has(Tags.SELECTED)}
             get={[[TitleFacet, DateAddedFacet, SourceFacet], []]}
             onMatch={PodcastSheet}
           />

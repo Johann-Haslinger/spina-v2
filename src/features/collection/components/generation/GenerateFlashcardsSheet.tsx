@@ -7,7 +7,7 @@ import { useContext, useEffect, useState } from 'react';
 import tw from 'twin.macro';
 import { v4 } from 'uuid';
 import { AnswerFacet, MasteryLevelFacet, QuestionFacet, TitleFacet } from '../../../../app/additionalFacets';
-import { AdditionalTags, DataTypes, Stories, SupabaseColumns, SupabaseTables } from '../../../../base/enums';
+import { AdditionalTags, DataType, Story, SupabaseColumns, SupabaseTables } from '../../../../base/enums';
 import {
   FlexBox,
   GeneratingIndecator,
@@ -40,7 +40,7 @@ const StyledPreviewCardsWrapper = styled.div`
 
 const GenerateFlashcardsSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.GENERATING_FLASHCARDS_STORY);
+  const isVisible = useIsStoryCurrent(Story.GENERATING_FLASHCARDS_STORY);
   const [generatedFlashcards, setGeneratedFlashcards] = useState<Flashcard[]>([]);
   const { selectedNoteTitle, selectedNoteText, selectedNoteId, selectedNoteParentId, selectedNoteEntity } =
     useSelectedNote();
@@ -74,7 +74,7 @@ const GenerateFlashcardsSheet = () => {
     }
   }, [isVisible, visibleText]);
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_SET_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_FLASHCARD_SET_STORY);
 
   const saveFlashcards = async () => {
     navigateBack();
@@ -93,7 +93,7 @@ const GenerateFlashcardsSheet = () => {
           newFlashcardEntity.add(new QuestionFacet({ question: flashcard.question }));
           newFlashcardEntity.add(new AnswerFacet({ answer: flashcard.answer }));
           newFlashcardEntity.add(new MasteryLevelFacet({ masteryLevel: 0 }));
-          newFlashcardEntity.add(DataTypes.FLASHCARD);
+          newFlashcardEntity.add(DataType.FLASHCARD);
 
           return newFlashcardEntity;
         });
@@ -115,7 +115,7 @@ const GenerateFlashcardsSheet = () => {
         subtopicEntity.add(new ParentFacet({ parentId: selectedNoteParentId || '' }));
         subtopicEntity.add(new TitleFacet({ title: selectedNoteTitle || '' }));
         subtopicEntity.add(new TextFacet({ text: selectedNoteText || '' }));
-        subtopicEntity.add(DataTypes.SUBTOPIC);
+        subtopicEntity.add(DataType.SUBTOPIC);
         subtopicEntity.add(Tags.SELECTED);
 
         addSubtopic(lsc, subtopicEntity, userId);

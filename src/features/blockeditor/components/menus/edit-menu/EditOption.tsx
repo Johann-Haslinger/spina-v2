@@ -4,7 +4,7 @@ import { Tags } from '@leanscope/ecs-models';
 import { motion } from 'framer-motion';
 import { Fragment, useEffect, useState } from 'react';
 import tw from 'twin.macro';
-import { DataTypes } from '../../../../../base/enums';
+import { DataType } from '../../../../../base/enums';
 
 type Option = {
   name: string;
@@ -48,7 +48,7 @@ const StyledOptionTextWrapper = styled.p`
 
 const EditOption: React.FC<EditOptionProps> = ({ option, isVisible, canShow }) => {
   const { name, icon, color, customFunc, content } = option;
-  const [selectedBlockEntities] = useEntities((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
+  const [selectedBlockEntities] = useEntities((e) => e.has(DataType.BLOCK) && e.has(Tags.SELECTED));
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);
   const [show, setShow] = useState(false);
 

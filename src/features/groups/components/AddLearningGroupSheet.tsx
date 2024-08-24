@@ -8,7 +8,7 @@ import tw from 'twin.macro';
 import { v4 } from 'uuid';
 import { TitleFacet } from '../../../app/additionalFacets';
 import { COLOR_ITEMS } from '../../../base/constants';
-import { DataTypes, Stories, SupabaseTables } from '../../../base/enums';
+import { DataType, Story, SupabaseTables } from '../../../base/enums';
 import {
   FlexBox,
   PrimaryButton,
@@ -33,7 +33,7 @@ const StyledColorSelect = styled.select<{ color: string }>`
 `;
 
 const useNewLearningGroup = () => {
-  const isVisible = useIsStoryCurrent(Stories.ADDING_LERNING_GROUP_STORY);
+  const isVisible = useIsStoryCurrent(Story.ADDING_LERNING_GROUP_STORY);
   const [newLearningGroup, setNewLearningGroup] = useState({
     title: '',
     color: COLOR_ITEMS[2].accentColor,
@@ -56,14 +56,14 @@ const useNewLearningGroup = () => {
 
 const AddLearningGroupSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.ADDING_LERNING_GROUP_STORY);
+  const isVisible = useIsStoryCurrent(Story.ADDING_LERNING_GROUP_STORY);
   const { newLearningGroup, setNewLearningGroup } = useNewLearningGroup();
   const { selectedLanguage } = useSelectedLanguage();
   const { userId } = useUserData();
   const { isUsingSupabaseData: shouldFetchFromSupabase } = useCurrentDataSource();
   const schoolSubjectEntities = useSchoolSubjectEntities();
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_LERNING_GROUPS_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_LERNING_GROUPS_STORY);
 
   const saveLearningGroup = async () => {
     navigateBack();
@@ -76,7 +76,7 @@ const AddLearningGroupSheet = () => {
     newLearningGroupEntity.add(new TitleFacet({ title: newLearningGroup.title }));
     newLearningGroupEntity.add(new ColorFacet({ colorName: newLearningGroup.color }));
     newLearningGroupEntity.add(new DescriptionFacet({ description: newLearningGroup.description }));
-    newLearningGroupEntity.add(DataTypes.LEARNING_GROUP);
+    newLearningGroupEntity.add(DataType.LEARNING_GROUP);
 
     if (shouldFetchFromSupabase) {
       const { error } = await supabaseClient.from(SupabaseTables.LEARNING_GROUPS).insert([
@@ -105,7 +105,7 @@ const AddLearningGroupSheet = () => {
         newLearningGroupSchoolSubjectEntity.add(new TitleFacet({ title: newLearningGroupSchoolSubjectTitle }));
         newLearningGroupSchoolSubjectEntity.add(new ParentFacet({ parentId: newLearningGroupId }));
         newLearningGroupSchoolSubjectEntity.add(new OrderFacet({ orderIndex: idx }));
-        newLearningGroupSchoolSubjectEntity.add(DataTypes.GROUP_SCHOOL_SUBJECT);
+        newLearningGroupSchoolSubjectEntity.add(DataType.GROUP_SCHOOL_SUBJECT);
 
         const { error } = await supabaseClient.from(SupabaseTables.GROUP_SCHOOL_SUBJECTS).insert([
           {

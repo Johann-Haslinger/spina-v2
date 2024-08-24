@@ -18,7 +18,7 @@ import {
   TitleFacet,
   TitleProps,
 } from '../../../../app/additionalFacets';
-import { AdditionalTags, DataTypes, Stories } from '../../../../base/enums';
+import { AdditionalTags, DataType, Story } from '../../../../base/enums';
 import {
   ActionRow,
   BackButton,
@@ -63,9 +63,9 @@ const GroupSubtopicView = (props: TitleProps & EntityProps & IdentifierProps & T
   const [groupSubtopicViewState, setGroupSubtopicViewState] = useState(GroupSubtopicViewStates.NOTE);
 
   const navigateBack = () => entity.add(AdditionalTags.NAVIGATE_BACK);
-  const openDeleteAlert = () => lsc.stories.transitTo(Stories.DELETING_GROUP_SUBTOPIC_STORY);
-  const openEditSheet = () => lsc.stories.transitTo(Stories.EDETING_GROUP_SUBTOPIC_STORY);
-  const openCloneResourceSheet = () => lsc.stories.transitTo(Stories.CLONING_RESOURCE_FROM_GROUP_STORY);
+  const openDeleteAlert = () => lsc.stories.transitTo(Story.DELETING_GROUP_SUBTOPIC_STORY);
+  const openEditSheet = () => lsc.stories.transitTo(Story.EDETING_GROUP_SUBTOPIC_STORY);
+  const openCloneResourceSheet = () => lsc.stories.transitTo(Story.CLONING_RESOURCE_FROM_GROUP_STORY);
 
   return (
     <Fragment>
@@ -117,12 +117,12 @@ const GroupSubtopicView = (props: TitleProps & EntityProps & IdentifierProps & T
 
           <Spacer />
           <EntityPropsMapper
-            query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.PODCAST)}
+            query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataType.PODCAST)}
             get={[[TitleFacet, DateAddedFacet], []]}
             onMatch={PodcastRow}
           />
           <EntityPropsMapper
-            query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.LERNVIDEO)}
+            query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataType.LERNVIDEO)}
             get={[[TitleFacet, DateAddedFacet], []]}
             onMatch={LernvideoRow}
           />
@@ -134,7 +134,7 @@ const GroupSubtopicView = (props: TitleProps & EntityProps & IdentifierProps & T
             <StyledCardsWrapper>
               <CollectionGrid columnSize="large">
                 <EntityPropsMapper
-                  query={(e) => dataTypeQuery(e, DataTypes.GROUP_FLASHCARD) && isChildOfQuery(e, entity)}
+                  query={(e) => dataTypeQuery(e, DataType.GROUP_FLASHCARD) && isChildOfQuery(e, entity)}
                   get={[[QuestionFacet, AnswerFacet], []]}
                   onMatch={GroupFlashcardCell}
                 />
@@ -147,7 +147,7 @@ const GroupSubtopicView = (props: TitleProps & EntityProps & IdentifierProps & T
       </View>
 
       <EntityPropsMapper
-        query={(e) => e.hasTag(Tags.SELECTED) && dataTypeQuery(e, DataTypes.FLASHCARD)}
+        query={(e) => e.hasTag(Tags.SELECTED) && dataTypeQuery(e, DataType.FLASHCARD)}
         get={[[AnswerFacet, QuestionFacet, IdentifierFacet, MasteryLevelFacet], []]}
         onMatch={EditFlashcardSheet}
       />

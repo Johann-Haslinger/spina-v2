@@ -7,7 +7,7 @@ import { FitTypes, IdentifierFacet, ImageFitFacet, ImageSizeFacet, SizeTypes, Ta
 import React, { useContext } from 'react';
 import { IoCropOutline, IoMoveOutline, IoScanOutline, IoSquareOutline } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { DataTypes, SupabaseColumns, SupabaseTables } from '../../../../../base/enums';
+import { DataType, SupabaseColumns, SupabaseTables } from '../../../../../base/enums';
 import { IMAGE_FIT_TEXT_DATA, IMAGE_SIZE_TEXT_DATA } from '../../../../../base/textData';
 import { useSelectedLanguage } from '../../../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../../../lib/supabase';
@@ -46,7 +46,7 @@ const StyledOptionButtonsWrapper = styled.div`
 `;
 
 const changeSize = (lsc: ILeanScopeClient, size: SizeTypes) => {
-  const selectedBlockEntities = lsc.engine.entities.filter((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
+  const selectedBlockEntities = lsc.engine.entities.filter((e) => e.has(DataType.BLOCK) && e.has(Tags.SELECTED));
 
   selectedBlockEntities.forEach(async (blockEntity) => {
     blockEntity.add(new ImageSizeFacet({ size: size }));
@@ -65,7 +65,7 @@ const changeSize = (lsc: ILeanScopeClient, size: SizeTypes) => {
 };
 
 const changeFit = (lsc: ILeanScopeClient, fit: FitTypes) => {
-  const selectedBlockEntities = lsc.engine.entities.filter((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
+  const selectedBlockEntities = lsc.engine.entities.filter((e) => e.has(DataType.BLOCK) && e.has(Tags.SELECTED));
 
   selectedBlockEntities.forEach(async (blockEntity) => {
     blockEntity.add(new ImageFitFacet({ fit: fit }));
@@ -102,7 +102,7 @@ const LayoutOptionButton = ({
 
 const LayoutOptions = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const [selectedBlockEntities] = useEntities((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
+  const [selectedBlockEntities] = useEntities((e) => e.has(DataType.BLOCK) && e.has(Tags.SELECTED));
   const { selectedLanguage } = useSelectedLanguage();
 
   const firstSelectedBlockEntity = selectedBlockEntities[0];

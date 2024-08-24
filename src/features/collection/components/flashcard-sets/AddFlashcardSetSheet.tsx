@@ -6,7 +6,7 @@ import { Fragment, useContext, useState } from 'react';
 import { IoCheckmarkCircle, IoEllipseOutline } from 'react-icons/io5';
 import { v4 } from 'uuid';
 import { DateAddedFacet, TitleFacet } from '../../../../app/additionalFacets';
-import { DataTypes, Stories } from '../../../../base/enums';
+import { DataType, Story } from '../../../../base/enums';
 import {
   FlexBox,
   PrimaryButton,
@@ -28,7 +28,7 @@ import { useSelectedTopic } from '../../hooks/useSelectedTopic';
 
 const AddFlashcardSetSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.ADDING_FLASHCARD_SET_STORY);
+  const isVisible = useIsStoryCurrent(Story.ADDING_FLASHCARD_SET_STORY);
   const [selectedSchoolSubjectId, setSelectedSchoolSubjectId] = useState<string>('');
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedTopicId } = useSelectedTopic();
@@ -51,13 +51,13 @@ const AddFlashcardSetSheet = () => {
     newFlashcardSetEntity.add(new TitleFacet({ title: newFlashcardSet.title }));
     newFlashcardSetEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
     newFlashcardSetEntity.add(new ParentFacet({ parentId: parentId }));
-    newFlashcardSetEntity.addTag(DataTypes.FLASHCARD_SET);
-    newFlashcardSetEntity.addTag(DataTypes.FLASHCARD_GROUP);
+    newFlashcardSetEntity.addTag(DataType.FLASHCARD_SET);
+    newFlashcardSetEntity.addTag(DataType.FLASHCARD_GROUP);
 
     addFlashcardSet(lsc, newFlashcardSetEntity, userId);
   };
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_TOPIC_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_TOPIC_STORY);
 
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>

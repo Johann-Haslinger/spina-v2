@@ -7,7 +7,7 @@ import { PropsWithChildren, ReactNode, useContext, useEffect, useState } from 'r
 import { IoEye } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { AnswerFacet } from '../../../../app/additionalFacets';
-import { DataTypes, Stories } from '../../../../base/enums';
+import { DataType, Story } from '../../../../base/enums';
 import { BackButton, Divider, NavigationBar, SecondaryText, Spacer, Title, View } from '../../../../components';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import { displayHeaderTexts } from '../../../../utils/displayText';
@@ -35,10 +35,10 @@ const Button = (props: { onClick: () => void; icon: ReactNode } & PropsWithChild
 };
 
 const useBlurtingAnswer = () => {
-  const [flashcardEntities] = useEntities((e) => dataTypeQuery(e, DataTypes.FLASHCARD));
+  const [flashcardEntities] = useEntities((e) => dataTypeQuery(e, DataType.FLASHCARD));
   const { selectedSubtopicId } = useSelectedSubtopic();
   const [blurtingAnswer, setBlurtingAnswer] = useState('');
-  const isVisible = useIsStoryCurrent(Stories.OBSERVING_BLURTING_STORY);
+  const isVisible = useIsStoryCurrent(Story.OBSERVING_BLURTING_STORY);
 
   useEffect(() => {
     const filterdFlashcardEntities = flashcardEntities.filter(
@@ -57,13 +57,13 @@ const StyledTexteditor = styled.div`
 
 const BlurtingView = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.OBSERVING_BLURTING_STORY);
+  const isVisible = useIsStoryCurrent(Story.OBSERVING_BLURTING_STORY);
   const { selectedSubtopicTitle } = useSelectedSubtopic();
   const { selectedLanguage } = useSelectedLanguage();
   const answer = useBlurtingAnswer();
   const [isCardsVisible, setCardsVisible] = useState(false);
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_SUBTOPIC_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_SUBTOPIC_STORY);
 
   return (
     <View visible={isVisible}>

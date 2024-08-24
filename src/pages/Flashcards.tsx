@@ -5,7 +5,7 @@ import { IoPlay } from 'react-icons/io5';
 import { Fragment } from 'react/jsx-runtime';
 import tw from 'twin.macro';
 import { COLOR_ITEMS } from '../base/constants';
-import { Stories } from '../base/enums';
+import { Story } from '../base/enums';
 import { NavigationBar, Spacer, Title, View } from '../components';
 import { FlashcardGroupTable, WeekInfoCard, WeekStatsCard } from '../features/flashcards';
 import StreakCard from '../features/flashcards/components/StreakCard';
@@ -68,7 +68,7 @@ const Flashcards = () => {
   const lsc = useContext(LeanScopeClientContext);
   const { selectedLanguage } = useSelectedLanguage();
 
-  const openFlashcardQuiz = () => lsc.stories.transitTo(Stories.OBSERVING_SPACED_REPETITION_QUIZ);
+  const openFlashcardQuiz = () => lsc.stories.transitTo(Story.OBSERVING_SPACED_REPETITION_QUIZ);
 
   return (
     <Fragment>

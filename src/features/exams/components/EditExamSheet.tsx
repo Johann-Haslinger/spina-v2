@@ -2,7 +2,7 @@ import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
 import { DueDateFacet, TitleFacet } from '../../../app/additionalFacets';
-import { Stories, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { Story, SupabaseColumns, SupabaseTables } from '../../../base/enums';
 import {
   DateInput,
   FlexBox,
@@ -21,7 +21,7 @@ import { useSelectedExam } from '../hooks/useSelectedExam';
 
 const EditExamSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.EDITING_EXAM_STORY);
+  const isVisible = useIsStoryCurrent(Story.EDITING_EXAM_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedExamTitle, selectedExamEntity, selectedExamId, selectedExamDueDate } = useSelectedExam();
   const [newTitle, setNewTitle] = useState(selectedExamTitle);
@@ -32,7 +32,7 @@ const EditExamSheet = () => {
     setNewDueDate(selectedExamDueDate);
   }, [selectedExamTitle, selectedExamDueDate]);
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_EXAMS_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_EXAMS_STORY);
 
   const updateExam = async () => {
     if (newTitle && newDueDate) {

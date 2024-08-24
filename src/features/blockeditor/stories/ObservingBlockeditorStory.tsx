@@ -1,15 +1,15 @@
-import { LeanScopeClientApp, LeanScopeClient } from '@leanscope/api-client/node';
+import { LeanScopeClient, LeanScopeClientApp } from '@leanscope/api-client/node';
 import React from 'react';
+import { Story } from '../../../base/enums';
 import InitializeSchoolSubjectsSystem from '../../../systems/InitializeSchoolSubjectsSystem';
-import ViewManagerSystem from '../../../systems/ViewManagerSystem';
-import { Stories } from '../../../base/enums';
 import InitializeStoriesSystem from '../../../systems/InitializeStoriesSystem';
+import ViewManagerSystem from '../../../systems/ViewManagerSystem';
 
-import InitializeAppSystem from '../../../systems/InitializeAppSystem';
-import Blockeditor from '../components/Blockeditor';
-import { Sidebar, View } from '../../../components';
 import { BrowserRouter } from 'react-router-dom';
+import { Sidebar, View } from '../../../components';
+import InitializeAppSystem from '../../../systems/InitializeAppSystem';
 import { Settings } from '../../settings';
+import Blockeditor from '../components/Blockeditor';
 import InitializeBlockeditorSystem from '../systems/InitializeBlockeditorSystem';
 
 const ObservingBlockeditorStory = () => {
@@ -17,7 +17,7 @@ const ObservingBlockeditorStory = () => {
     <React.StrictMode>
       <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
         <BrowserRouter>
-          <InitializeStoriesSystem initialStory={Stories.OBSERVING_FLASHCARD_QUIZ_STORY} />
+          <InitializeStoriesSystem initialStory={Story.OBSERVING_FLASHCARD_QUIZ_STORY} />
           <InitializeAppSystem mockupData />
           <ViewManagerSystem />
           <InitializeBlockeditorSystem blockeditorId="1" />

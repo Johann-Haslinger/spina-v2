@@ -4,7 +4,7 @@ import { IdentifierFacet, Tags, TextFacet } from '@leanscope/ecs-models';
 import { Fragment, useContext } from 'react';
 import { IoAdd } from 'react-icons/io5';
 import { DateAddedFacet, TitleFacet } from '../app/additionalFacets';
-import { DataTypes, Stories } from '../base/enums';
+import { DataType, Story } from '../base/enums';
 import { CollectionGrid, NavBarButton, NavigationBar, NoContentAddedHint, Spacer, Title, View } from '../components';
 import { FlashcardSetView } from '../features/collection';
 import AddFlashcardSetSheet from '../features/collection/components/flashcard-sets/AddFlashcardSetSheet';
@@ -24,7 +24,7 @@ const Study = () => {
   const { selectedLanguage } = useSelectedLanguage();
   const { existFlashcardGroups } = useFlashcardGroups();
 
-  const openAddFlashcardGroupSheet = () => lsc.stories.transitTo(Stories.ADDING_FLASHCARD_SET_STORY);
+  const openAddFlashcardGroupSheet = () => lsc.stories.transitTo(Story.ADDING_FLASHCARD_SET_STORY);
 
   return (
     <Fragment>
@@ -47,7 +47,7 @@ const Study = () => {
 
         <CollectionGrid>
           <EntityPropsMapper
-            query={(e) => dataTypeQuery(e, DataTypes.FLASHCARD_GROUP)}
+            query={(e) => dataTypeQuery(e, DataType.FLASHCARD_GROUP)}
             get={[[TitleFacet, DateAddedFacet], []]}
             sort={sortEntitiesByDateAdded}
             onMatch={FlashcardGroupCell}
@@ -55,12 +55,12 @@ const Study = () => {
         </CollectionGrid>
       </View>
       <EntityPropsMapper
-        query={(e) => e.has(DataTypes.FLASHCARD_GROUP) && e.has(DataTypes.FLASHCARD_SET) && e.has(Tags.SELECTED)}
+        query={(e) => e.has(DataType.FLASHCARD_GROUP) && e.has(DataType.FLASHCARD_SET) && e.has(Tags.SELECTED)}
         get={[[TitleFacet, IdentifierFacet], []]}
         onMatch={FlashcardSetView}
       />
       <EntityPropsMapper
-        query={(e) => e.has(DataTypes.FLASHCARD_GROUP) && e.has(DataTypes.SUBTOPIC) && e.has(Tags.SELECTED)}
+        query={(e) => e.has(DataType.FLASHCARD_GROUP) && e.has(DataType.SUBTOPIC) && e.has(Tags.SELECTED)}
         get={[[TitleFacet, IdentifierFacet, TextFacet], []]}
         onMatch={SubtopicView}
       />

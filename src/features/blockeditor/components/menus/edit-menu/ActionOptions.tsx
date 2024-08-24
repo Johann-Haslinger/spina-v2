@@ -7,7 +7,7 @@ import { IoCopyOutline, IoCutOutline, IoDuplicateOutline } from 'react-icons/io5
 import tw from 'twin.macro';
 import { v4 } from 'uuid';
 import { BlocktypeFacet } from '../../../../../app/additionalFacets';
-import { Blocktypes, DataTypes } from '../../../../../base/enums';
+import { Blocktype, DataType } from '../../../../../base/enums';
 import { useSelectedLanguage } from '../../../../../hooks/useSelectedLanguage';
 import { useUserData } from '../../../../../hooks/useUserData';
 import { displayActionTexts } from '../../../../../utils/displayText';
@@ -35,7 +35,7 @@ interface ActionOptionsProps {
 const ActionOptions = (props: ActionOptionsProps) => {
   const lsc = useContext(LeanScopeClientContext);
   const { backfuction } = props;
-  const [selectedBlockEntities] = useEntities((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
+  const [selectedBlockEntities] = useEntities((e) => e.has(DataType.BLOCK) && e.has(Tags.SELECTED));
   const { userId } = useUserData();
   const { selectedLanguage } = useSelectedLanguage();
 
@@ -60,7 +60,7 @@ const ActionOptions = (props: ActionOptionsProps) => {
   function copyAction(): void {
     const copyableBlocks = selectedBlockEntities.filter((e) => {
       const blockType = e.get(BlocktypeFacet)?.props.blocktype;
-      return blockType === Blocktypes.TEXT || blockType === Blocktypes.TODO || blockType === Blocktypes.LIST;
+      return blockType === Blocktype.TEXT || blockType === Blocktype.TODO || blockType === Blocktype.LIST;
     });
     const combinedString = getStringFromBlockEntities(copyableBlocks);
     navigator.clipboard.writeText(combinedString);
@@ -70,7 +70,7 @@ const ActionOptions = (props: ActionOptionsProps) => {
   function cutAction(): void {
     const copyableBlocks = selectedBlockEntities.filter((e) => {
       const blockType = e.get(BlocktypeFacet)?.props.blocktype;
-      return blockType === Blocktypes.TEXT || blockType === Blocktypes.TODO || blockType === Blocktypes.LIST;
+      return blockType === Blocktype.TEXT || blockType === Blocktype.TODO || blockType === Blocktype.LIST;
     });
 
     const combinedString = getStringFromBlockEntities(copyableBlocks);

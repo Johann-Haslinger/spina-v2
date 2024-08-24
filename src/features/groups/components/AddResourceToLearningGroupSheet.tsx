@@ -9,7 +9,7 @@ import tw from 'twin.macro';
 import { v4 } from 'uuid';
 import { AnswerFacet, DateAddedFacet, QuestionFacet, TitleFacet } from '../../../app/additionalFacets';
 import { dummyGroupSchoolSubjects, dummyGroupTopics, dummyLearningGroups } from '../../../base/dummy';
-import { DataTypes, Stories, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { DataType, Story, SupabaseColumns, SupabaseTables } from '../../../base/enums';
 import { CloseButton, FlexBox, ScrollableBox, Section, SectionRow, Sheet, Spacer } from '../../../components';
 import { addGroupFlashcards } from '../../../functions/addGroupFlashcards';
 import { addGroupNote } from '../../../functions/addGroupNote';
@@ -68,11 +68,11 @@ const fetchTopicsForGroupSchoolSubject = async (subjectId: string) => {
 
 const AddResourceToLearningGroupSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.ADDING_RESOURCE_TO_LEARNING_GROUP_STORY);
+  const isVisible = useIsStoryCurrent(Story.ADDING_RESOURCE_TO_LEARNING_GROUP_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const learningGroups = useLearningGroups(isVisible);
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_TOPIC_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_TOPIC_STORY);
 
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>
@@ -135,7 +135,7 @@ const SchoolSubjectRow = (props: { schoolSubject: { title: string; id: string };
   const handleClick = () => setIsSelected(!isSelected);
 
   const addResourceToTopic = (topicId: string) => {
-    lsc.stories.transitTo(Stories.OBSERVING_TOPIC_STORY);
+    lsc.stories.transitTo(Story.OBSERVING_TOPIC_STORY);
 
     const newResourceId = v4();
 
@@ -147,12 +147,12 @@ const SchoolSubjectRow = (props: { schoolSubject: { title: string; id: string };
       newGroupFlashcardSetEntity.add(new TitleFacet({ title: selectedFlashcardSetTitle }));
       newGroupFlashcardSetEntity.add(new ParentFacet({ parentId: topicId }));
       newGroupFlashcardSetEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
-      newGroupFlashcardSetEntity.add(DataTypes.GROUP_FLASHCARD_SET);
+      newGroupFlashcardSetEntity.add(DataType.GROUP_FLASHCARD_SET);
 
       // addGroupFlashcardSet(lsc, newGroupFlashcardSetEntity, userId, learningGroupId);
 
       const flashcardEntites = lsc.engine.entities.filter(
-        (e) => e.has(DataTypes.FLASHCARD) && e.get(ParentFacet)?.props.parentId == selectedFlashcardSetId,
+        (e) => e.has(DataType.FLASHCARD) && e.get(ParentFacet)?.props.parentId == selectedFlashcardSetId,
       );
 
       const newGroupFlashcardEntities = flashcardEntites.map((flashcardEntity) => {
@@ -169,7 +169,7 @@ const SchoolSubjectRow = (props: { schoolSubject: { title: string; id: string };
             answer: flashcardEntity.get(AnswerFacet)?.props.answer || '',
           }),
         );
-        newGroupFlashcardEntity.add(DataTypes.GROUP_FLASHCARD);
+        newGroupFlashcardEntity.add(DataType.GROUP_FLASHCARD);
 
         return newGroupFlashcardEntity;
       });
@@ -181,7 +181,7 @@ const SchoolSubjectRow = (props: { schoolSubject: { title: string; id: string };
       newNoteEntity.add(new TitleFacet({ title: selectedNoteTitle }));
       newNoteEntity.add(new ParentFacet({ parentId: topicId }));
       newNoteEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
-      newNoteEntity.add(DataTypes.GROUP_NOTE);
+      newNoteEntity.add(DataType.GROUP_NOTE);
       newNoteEntity.add(new TextFacet({ text: selectedNoteText || '' }));
 
       addGroupNote(lsc, newNoteEntity, userId, learningGroupId);
@@ -191,7 +191,7 @@ const SchoolSubjectRow = (props: { schoolSubject: { title: string; id: string };
       newSubtopicEntity.add(new TitleFacet({ title: selectedSubtopicTitle }));
       newSubtopicEntity.add(new ParentFacet({ parentId: topicId }));
       newSubtopicEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
-      newSubtopicEntity.add(DataTypes.GROUP_SUBTOPIC);
+      newSubtopicEntity.add(DataType.GROUP_SUBTOPIC);
       newSubtopicEntity.add(new TextFacet({ text: selectedSubtopicText || '' }));
 
       console.log('selectedSubtopicText', selectedSubtopicText);
@@ -199,7 +199,7 @@ const SchoolSubjectRow = (props: { schoolSubject: { title: string; id: string };
       addGroupSubtopic(lsc, newSubtopicEntity, userId, learningGroupId);
 
       const flashcardEntites = lsc.engine.entities.filter(
-        (e) => e.has(DataTypes.FLASHCARD) && e.get(ParentFacet)?.props.parentId == selectedSubtopicId,
+        (e) => e.has(DataType.FLASHCARD) && e.get(ParentFacet)?.props.parentId == selectedSubtopicId,
       );
 
       const newGroupFlashcardEntities = flashcardEntites.map((flashcardEntity) => {
@@ -216,7 +216,7 @@ const SchoolSubjectRow = (props: { schoolSubject: { title: string; id: string };
             answer: flashcardEntity.get(AnswerFacet)?.props.answer || '',
           }),
         );
-        newGroupFlashcardEntity.add(DataTypes.GROUP_FLASHCARD);
+        newGroupFlashcardEntity.add(DataType.GROUP_FLASHCARD);
 
         return newGroupFlashcardEntity;
       });
@@ -224,7 +224,7 @@ const SchoolSubjectRow = (props: { schoolSubject: { title: string; id: string };
       addGroupFlashcards(lsc, newGroupFlashcardEntities, userId, learningGroupId);
     }
 
-    lsc.stories.transitTo(Stories.SUCCESS_STORY);
+    lsc.stories.transitTo(Story.SUCCESS_STORY);
   };
 
   return (

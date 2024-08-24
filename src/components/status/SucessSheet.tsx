@@ -4,10 +4,10 @@ import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext } from 'react';
 import { IoCheckmarkCircle } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { Stories } from '../../base/enums';
-import Sheet from '../presentation/Sheet';
-import FlexBox from '../layout/FlexBox';
+import { Story } from '../../base/enums';
 import CloseButton from '../buttons/CloseButton';
+import FlexBox from '../layout/FlexBox';
+import Sheet from '../presentation/Sheet';
 
 const StyledDoneIcon = styled.div`
   ${tw` w-full h-full items-center flex justify-center text-primaryColor lg:text-[11rem] text-9xl pb-20`}
@@ -15,9 +15,9 @@ const StyledDoneIcon = styled.div`
 
 const SucessSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisibile = useIsStoryCurrent(Stories.SUCCESS_STORY);
+  const isVisibile = useIsStoryCurrent(Story.SUCCESS_STORY);
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_COLLECTION_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_COLLECTION_STORY);
 
   return (
     <Sheet visible={isVisibile} navigateBack={navigateBack}>

@@ -4,7 +4,7 @@ import { DescriptionProps, IdentifierFacet, Tags, TextFacet } from '@leanscope/e
 import { Fragment, useContext } from 'react';
 import { IoCreateOutline, IoEllipsisHorizontalCircleOutline, IoTrashOutline } from 'react-icons/io5';
 import { TitleFacet, TitleProps } from '../../../../app/additionalFacets';
-import { AdditionalTags, DataTypes, Stories } from '../../../../base/enums';
+import { AdditionalTags, DataType, Story } from '../../../../base/enums';
 import {
   ActionRow,
   BackButton,
@@ -45,8 +45,8 @@ const GroupTopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
   const { hasChildren } = useEntityHasChildren(entity);
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
-  const openEditTopicSheet = () => lsc.stories.transitTo(Stories.EDETING_GROUP_TOPIC_STORY);
-  const openDeleteTopicAlert = () => lsc.stories.transitTo(Stories.DELETING_GROUP_TOPIC_STORY);
+  const openEditTopicSheet = () => lsc.stories.transitTo(Story.EDETING_GROUP_TOPIC_STORY);
+  const openDeleteTopicAlert = () => lsc.stories.transitTo(Story.DELETING_GROUP_TOPIC_STORY);
 
   return (
     <Fragment>
@@ -86,7 +86,7 @@ const GroupTopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
 
         <CollectionGrid>
           <EntityPropsMapper
-            query={(e) => dataTypeQuery(e, DataTypes.GROUP_SUBTOPIC) && isChildOfQuery(e, entity)}
+            query={(e) => dataTypeQuery(e, DataType.GROUP_SUBTOPIC) && isChildOfQuery(e, entity)}
             sort={(a, b) => sortEntitiesByDateAdded(a, b)}
             get={[[TitleFacet], []]}
             onMatch={SubtopicCell}
@@ -95,7 +95,7 @@ const GroupTopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
 
         <CollectionGrid>
           <EntityPropsMapper
-            query={(e) => dataTypeQuery(e, DataTypes.GROUP_NOTE) && isChildOfQuery(e, entity)}
+            query={(e) => dataTypeQuery(e, DataType.GROUP_NOTE) && isChildOfQuery(e, entity)}
             sort={(a, b) => sortEntitiesByDateAdded(a, b)}
             get={[[TitleFacet], []]}
             onMatch={NoteCell}
@@ -104,7 +104,7 @@ const GroupTopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
 
         <CollectionGrid>
           <EntityPropsMapper
-            query={(e) => dataTypeQuery(e, DataTypes.GROUP_FLASHCARD_SET) && isChildOfQuery(e, entity)}
+            query={(e) => dataTypeQuery(e, DataType.GROUP_FLASHCARD_SET) && isChildOfQuery(e, entity)}
             get={[[TitleFacet, IdentifierFacet], []]}
             sort={(a, b) => sortEntitiesByDateAdded(a, b)}
             onMatch={FlashcardSetCell}
@@ -113,20 +113,20 @@ const GroupTopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
       </View>
 
       <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataTypes.GROUP_SUBTOPIC) && e.has(Tags.SELECTED) && isChildOfQuery(e, entity)}
+        query={(e) => dataTypeQuery(e, DataType.GROUP_SUBTOPIC) && e.has(Tags.SELECTED) && isChildOfQuery(e, entity)}
         get={[[TitleFacet, IdentifierFacet, TextFacet], []]}
         onMatch={GroupSubtopicView}
       />
 
       <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataTypes.GROUP_NOTE) && isChildOfQuery(e, entity) && e.has(Tags.SELECTED)}
+        query={(e) => dataTypeQuery(e, DataType.GROUP_NOTE) && isChildOfQuery(e, entity) && e.has(Tags.SELECTED)}
         get={[[TitleFacet, IdentifierFacet], []]}
         onMatch={GroupNoteView}
       />
 
       <EntityPropsMapper
         query={(e) =>
-          dataTypeQuery(e, DataTypes.GROUP_FLASHCARD_SET) && isChildOfQuery(e, entity) && e.has(Tags.SELECTED)
+          dataTypeQuery(e, DataType.GROUP_FLASHCARD_SET) && isChildOfQuery(e, entity) && e.has(Tags.SELECTED)
         }
         get={[[TitleFacet, IdentifierFacet], []]}
         onMatch={GroupFlashcardSetView}

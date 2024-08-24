@@ -1,7 +1,7 @@
 import { EntityProps, EntityPropsMapper } from '@leanscope/ecs-engine';
 import { IoAdd } from 'react-icons/io5';
 import { AnswerFacet, MasteryLevelFacet, QuestionFacet, TitleProps } from '../../../app/additionalFacets';
-import { AdditionalTags, DataTypes } from '../../../base/enums';
+import { AdditionalTags, DataType } from '../../../base/enums';
 import { BackButton, CollectionGrid, NavBarButton, NavigationBar, Spacer, Title, View } from '../../../components';
 import { useIsViewVisible } from '../../../hooks/useIsViewVisible';
 import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
@@ -28,7 +28,7 @@ const FlashcardGroupView = (props: TitleProps & EntityProps) => {
       <Spacer size={6} />
       <CollectionGrid columnSize="large">
         <EntityPropsMapper
-          query={(e) => dataTypeQuery(e, DataTypes.FLASHCARD) && isChildOfQuery(e, entity)}
+          query={(e) => dataTypeQuery(e, DataType.FLASHCARD) && isChildOfQuery(e, entity)}
           get={[[QuestionFacet, AnswerFacet, MasteryLevelFacet], []]}
           onMatch={FlashcardCell}
         />

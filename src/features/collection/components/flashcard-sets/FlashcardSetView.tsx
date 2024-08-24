@@ -24,7 +24,7 @@ import {
   TitleFacet,
   TitleProps,
 } from '../../../../app/additionalFacets';
-import { AdditionalTags, DataTypes, Stories } from '../../../../base/enums';
+import { AdditionalTags, DataType, Story } from '../../../../base/enums';
 import {
   ActionRow,
   BackButton,
@@ -65,14 +65,13 @@ const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => 
   const { isBookmarked, toggleBookmark } = useBookmarked(entity);
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
-  const openEditFlashcardSetSheet = () => lsc.stories.transitTo(Stories.EDITING_FLASHCARD_SET_STORY);
-  const openDeleteFlashcardSetAlert = () => lsc.stories.transitTo(Stories.DELETING_FLASHCARD_SET_STORY);
-  const openAddFlashcardsSheet = () => lsc.stories.transitTo(Stories.ADDING_FLASHCARDS_STORY);
-  const openFlashcardQuizView = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_QUIZ_STORY);
-  const openGeneratePodcastSheet = () => lsc.stories.transitTo(Stories.GENERATING_PODCAST_STORY);
-  const openGenerateTextSheet = () => lsc.stories.transitTo(Stories.GENERATING_TEXT_FROM_FLASHCARDS_STORY);
-  const openAddResourceToLerningGroupSheet = () =>
-    lsc.stories.transitTo(Stories.ADDING_RESOURCE_TO_LEARNING_GROUP_STORY);
+  const openEditFlashcardSetSheet = () => lsc.stories.transitTo(Story.EDITING_FLASHCARD_SET_STORY);
+  const openDeleteFlashcardSetAlert = () => lsc.stories.transitTo(Story.DELETING_FLASHCARD_SET_STORY);
+  const openAddFlashcardsSheet = () => lsc.stories.transitTo(Story.ADDING_FLASHCARDS_STORY);
+  const openFlashcardQuizView = () => lsc.stories.transitTo(Story.OBSERVING_FLASHCARD_QUIZ_STORY);
+  const openGeneratePodcastSheet = () => lsc.stories.transitTo(Story.GENERATING_PODCAST_STORY);
+  const openGenerateTextSheet = () => lsc.stories.transitTo(Story.GENERATING_TEXT_FROM_FLASHCARDS_STORY);
+  const openAddResourceToLerningGroupSheet = () => lsc.stories.transitTo(Story.ADDING_RESOURCE_TO_LEARNING_GROUP_STORY);
 
   return (
     <Fragment>
@@ -137,7 +136,7 @@ const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => 
         <Title>{title}</Title>
         <Spacer size={2} />
         <EntityPropsMapper
-          query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.PODCAST)}
+          query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataType.PODCAST)}
           get={[[TitleFacet, DateAddedFacet], []]}
           onMatch={PodcastRow}
         />
@@ -145,7 +144,7 @@ const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => 
         {!hasChildren && <NoContentAddedHint />}
         <CollectionGrid columnSize="large">
           <EntityPropsMapper
-            query={(e) => e.hasTag(DataTypes.FLASHCARD) && isChildOfQuery(e, entity)}
+            query={(e) => e.hasTag(DataType.FLASHCARD) && isChildOfQuery(e, entity)}
             get={[[QuestionFacet, AnswerFacet, MasteryLevelFacet], []]}
             onMatch={FlashcardCell}
           />
@@ -153,7 +152,7 @@ const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => 
       </View>
 
       <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataTypes.FLASHCARD) && e.hasTag(Tags.SELECTED)}
+        query={(e) => dataTypeQuery(e, DataType.FLASHCARD) && e.hasTag(Tags.SELECTED)}
         get={[[QuestionFacet, AnswerFacet, MasteryLevelFacet, IdentifierFacet], []]}
         onMatch={EditFlashcardSheet}
       />

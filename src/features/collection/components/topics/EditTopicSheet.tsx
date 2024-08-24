@@ -5,7 +5,7 @@ import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
 import { IoColorWandOutline } from 'react-icons/io5';
 import { TitleFacet } from '../../../../app/additionalFacets';
-import { AdditionalTags, Stories, SupabaseColumns, SupabaseTables } from '../../../../base/enums';
+import { AdditionalTags, Story, SupabaseColumns, SupabaseTables } from '../../../../base/enums';
 import {
   FlexBox,
   PrimaryButton,
@@ -25,7 +25,7 @@ import { useSelectedTopic } from '../../hooks/useSelectedTopic';
 
 const EditTopicSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.EDITING_TOPIC_STORY);
+  const isVisible = useIsStoryCurrent(Story.EDITING_TOPIC_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedTopicTitle, selectedTopicDescription, selectedTopicEntity, selectedTopicId } = useSelectedTopic();
   const [newTitle, setNewTitle] = useState(selectedTopicTitle);
@@ -37,7 +37,7 @@ const EditTopicSheet = () => {
     setNewDescription(selectedTopicDescription);
   }, [selectedTopicTitle, selectedTopicDescription]);
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_TOPIC_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_TOPIC_STORY);
   const handleRegenerateImage = async () =>
     selectedTopicEntity && (await generateImageForTopic(selectedTopicEntity, true));
 

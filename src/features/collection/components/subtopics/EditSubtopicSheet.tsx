@@ -2,7 +2,7 @@ import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
 import { TitleFacet } from '../../../../app/additionalFacets';
-import { Stories, SupabaseColumns, SupabaseTables } from '../../../../base/enums';
+import { Story, SupabaseColumns, SupabaseTables } from '../../../../base/enums';
 import {
   FlexBox,
   PrimaryButton,
@@ -20,7 +20,7 @@ import { useSelectedSubtopic } from '../../hooks/useSelectedSubtopic';
 
 const EditSubtopicSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.EDITING_SUBTOPIC_STORY);
+  const isVisible = useIsStoryCurrent(Story.EDITING_SUBTOPIC_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedSubtopicTitle, selectedSubtopicEntity, selectedSubtopicId } = useSelectedSubtopic();
   const [newTitle, setNewTitle] = useState(selectedSubtopicTitle);
@@ -29,7 +29,7 @@ const EditSubtopicSheet = () => {
     setNewTitle(selectedSubtopicTitle);
   }, [selectedSubtopicTitle]);
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_SET_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_FLASHCARD_SET_STORY);
 
   const updateSubtopic = async () => {
     if (newTitle) {

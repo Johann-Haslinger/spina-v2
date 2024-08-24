@@ -4,7 +4,7 @@ import { DescriptionFacet, IdentifierFacet, ParentFacet } from '@leanscope/ecs-m
 import { useContext, useEffect } from 'react';
 import { DateAddedFacet, TitleFacet } from '../../../app/additionalFacets';
 import { dummyGroupTopics } from '../../../base/dummy';
-import { DataTypes, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { DataType, SupabaseColumns, SupabaseTables } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 import { useSelectedGroupSchoolSubject } from '../hooks/useSelectedGroupSchoolSubject';
@@ -39,7 +39,7 @@ const LoadGroupTopicsSystem = () => {
 
         learningGroupTopics.forEach((topic) => {
           const isExisting = lsc.engine.entities.some(
-            (e) => e.get(IdentifierFacet)?.props.guid === topic.id && e.hasTag(DataTypes.GROUP_TOPIC),
+            (e) => e.get(IdentifierFacet)?.props.guid === topic.id && e.hasTag(DataType.GROUP_TOPIC),
           );
 
           if (!isExisting) {
@@ -50,7 +50,7 @@ const LoadGroupTopicsSystem = () => {
             learningGroupTopicEntity.add(new DateAddedFacet({ dateAdded: topic.date_added }));
             learningGroupTopicEntity.add(new DescriptionFacet({ description: topic.description }));
             learningGroupTopicEntity.add(new ParentFacet({ parentId: selectedGroupSchoolSubjectId }));
-            learningGroupTopicEntity.addTag(DataTypes.GROUP_TOPIC);
+            learningGroupTopicEntity.addTag(DataType.GROUP_TOPIC);
           }
         });
       }

@@ -5,7 +5,7 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { TitleFacet } from '../../../app/additionalFacets';
 import { COLOR_ITEMS } from '../../../base/constants';
-import { DataTypes, Stories } from '../../../base/enums';
+import { DataType, Story } from '../../../base/enums';
 import { Sidebar } from '../../../components';
 import { Groups } from '../../../pages/Index';
 import InitializeAppSystem from '../../../systems/InitializeAppSystem';
@@ -28,7 +28,7 @@ const ObservingLerningGroupTopicStory = () => {
                 description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
               }),
             ]}
-            tags={[Tags.SELECTED, DataTypes.LEARNING_GROUP]}
+            tags={[Tags.SELECTED, DataType.LEARNING_GROUP]}
           />
           <EntityCreator
             facets={[
@@ -38,7 +38,7 @@ const ObservingLerningGroupTopicStory = () => {
               new ParentFacet({ parentId: '0' }),
               new OrderFacet({ orderIndex: 1 }),
             ]}
-            tags={[Tags.SELECTED, DataTypes.GROUP_SCHOOL_SUBJECT]}
+            tags={[Tags.SELECTED, DataType.GROUP_SCHOOL_SUBJECT]}
           />
           <EntityCreator
             facets={[
@@ -50,11 +50,11 @@ const ObservingLerningGroupTopicStory = () => {
               new ParentFacet({ parentId: '01' }),
               new OrderFacet({ orderIndex: 1 }),
             ]}
-            tags={[Tags.SELECTED, DataTypes.GROUP_TOPIC]}
+            tags={[Tags.SELECTED, DataType.GROUP_TOPIC]}
           />
 
           <ViewManagerSystem />
-          <InitializeStoriesSystem initialStory={Stories.OBSERVING_LERNING_GROUP_STORY} />
+          <InitializeStoriesSystem initialStory={Story.OBSERVING_LERNING_GROUP_STORY} />
           <InitializeSchoolSubjectsSystem />
           <InitializeAppSystem mockupData />
 

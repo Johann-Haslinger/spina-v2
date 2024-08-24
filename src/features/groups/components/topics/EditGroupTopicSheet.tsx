@@ -3,7 +3,7 @@ import { DescriptionFacet } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
 import { TitleFacet } from '../../../../app/additionalFacets';
-import { Stories, SupabaseColumns } from '../../../../base/enums';
+import { Story, SupabaseColumns } from '../../../../base/enums';
 import {
   FlexBox,
   PrimaryButton,
@@ -21,7 +21,7 @@ import { displayButtonTexts, displayLabelTexts } from '../../../../utils/display
 import { useSelectedGroupTopic } from '../../hooks/useSelectedGroupTopic';
 const EditGroupGroupTopicSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.EDETING_GROUP_TOPIC_STORY);
+  const isVisible = useIsStoryCurrent(Story.EDETING_GROUP_TOPIC_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedGroupTopicTitle, selectedGroupTopicDescription, selectedGroupTopicEntity, selectedGroupTopicId } =
     useSelectedGroupTopic();
@@ -33,7 +33,7 @@ const EditGroupGroupTopicSheet = () => {
     setNewDescription(selectedGroupTopicDescription);
   }, [selectedGroupTopicTitle, selectedGroupTopicDescription]);
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_GROUP_TOPIC_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_GROUP_TOPIC_STORY);
 
   const updateGroupTopic = async () => {
     if (newTitle && newDescription) {

@@ -1,12 +1,12 @@
 import { Entity, useEntities } from '@leanscope/ecs-engine';
-import { DataTypes } from '../../../base/enums';
-import { dataTypeQuery, isChildOfQuery } from '../../../utils/queries';
 import { ParentFacet } from '@leanscope/ecs-models';
+import { DataType } from '../../../base/enums';
+import { dataTypeQuery, isChildOfQuery } from '../../../utils/queries';
 
 export const useExerciseParts = (exerciseEntity?: Entity, exercisePartEntity?: Entity) => {
   const [exercisePartEntities] = useEntities(
     (e) =>
-      dataTypeQuery(e, DataTypes.EXERCISE_PART) &&
+      dataTypeQuery(e, DataType.EXERCISE_PART) &&
       (isChildOfQuery(e, exerciseEntity) ||
         exercisePartEntity?.get(ParentFacet)?.props.parentId == e.get(ParentFacet)?.props.parentId),
   );

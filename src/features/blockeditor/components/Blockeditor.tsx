@@ -1,9 +1,10 @@
 import styled from '@emotion/styled';
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntityComponents';
 import React, { Fragment, useContext } from 'react';
 import { IoAdd, IoColorWandOutline, IoEllipsisHorizontalCircleOutline, IoSparklesOutline } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { AdditionalTags, Stories } from '../../../base/enums';
+import { AdditionalTags, Story } from '../../../base/enums';
 import { ActionRow, BackButton, NavBarButton, NavigationBar, PrimaryButton, Spacer, Title } from '../../../components';
 import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
 import { displayActionTexts, displayButtonTexts } from '../../../utils/displayText';
@@ -17,7 +18,6 @@ import UpdateBlockStateSystem from '../systems/UpdateBlockStateSystem';
 import ComponentRenderer from './ComponentRenderer';
 import Createmenu from './menus/Createmenu';
 import Editmenu from './menus/edit-menu/Editmenu';
-import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntityComponents';
 
 const StyledTitleWrapper = styled.div`
   ${tw`px-2`}
@@ -61,7 +61,7 @@ const Blockeditor = (props: BlockeditorProps) => {
   const { blocksAreaRef, addBlockAreaRef } = useClickOutsideBlockEditorHandler();
   const [isGroupBlockeditor] = useEntityHasTags(blockeditorEntity, AdditionalTags.GROUP_BLOCKEDITOR);
 
-  const openImproveTextSheet = () => lsc.stories.transitTo(Stories.GENERATING_IMPROVED_TEXT_STORY);
+  const openImproveTextSheet = () => lsc.stories.transitTo(Story.GENERATING_IMPROVED_TEXT_STORY);
 
   return (
     blockeditorEntity && (

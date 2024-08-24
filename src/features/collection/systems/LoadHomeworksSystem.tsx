@@ -4,7 +4,7 @@ import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { DateAddedFacet, DueDateFacet, TitleFacet } from '../../../app/additionalFacets';
 import { dummyHomeworks } from '../../../base/dummy';
-import { DataTypes, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { DataType, SupabaseColumns, SupabaseTables } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 import { useSelectedTopic } from '../hooks/useSelectedTopic';
@@ -39,7 +39,7 @@ const LoadHomeworksSystem = () => {
 
         homeworks.forEach((homework) => {
           const isExisting = lsc.engine.entities.some(
-            (e) => e.get(IdentifierFacet)?.props.guid === homework.id && e.hasTag(DataTypes.HOMEWORK),
+            (e) => e.get(IdentifierFacet)?.props.guid === homework.id && e.hasTag(DataType.HOMEWORK),
           );
 
           if (!isExisting) {
@@ -51,7 +51,7 @@ const LoadHomeworksSystem = () => {
 
             homeworkEntity.add(new ParentFacet({ parentId: selectedTopicId }));
             homeworkEntity.add(new DueDateFacet({ dueDate: homework.due_date }));
-            homeworkEntity.addTag(DataTypes.HOMEWORK);
+            homeworkEntity.addTag(DataType.HOMEWORK);
           }
         });
       }

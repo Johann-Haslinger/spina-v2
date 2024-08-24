@@ -10,7 +10,7 @@ import {
   TitleFacet,
 } from '../../../app/additionalFacets';
 import { dummyFlashcards, dummyPodcasts, dummyText } from '../../../base/dummy';
-import { DataTypes, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { DataType, SupabaseColumns, SupabaseTables } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import { useUserData } from '../../../hooks/useUserData';
 import supabaseClient from '../../../lib/supabase';
@@ -79,7 +79,7 @@ const LoadSubtopicResourcesSystem = () => {
 
         flashcards.forEach((flashcard) => {
           const isExisting = lsc.engine.entities.some(
-            (e) => e.get(IdentifierFacet)?.props.guid === flashcard.id && e.hasTag(DataTypes.FLASHCARD),
+            (e) => e.get(IdentifierFacet)?.props.guid === flashcard.id && e.hasTag(DataType.FLASHCARD),
           );
 
           if (!isExisting) {
@@ -91,7 +91,7 @@ const LoadSubtopicResourcesSystem = () => {
             flashcardEntity.add(new AnswerFacet({ answer: flashcard.answer }));
             flashcardEntity.add(new ParentFacet({ parentId: selectedSubtopicId }));
 
-            flashcardEntity.addTag(DataTypes.FLASHCARD);
+            flashcardEntity.addTag(DataType.FLASHCARD);
           }
         });
       }
@@ -107,7 +107,7 @@ const LoadSubtopicResourcesSystem = () => {
 
         if (podcast) {
           const isExisting = lsc.engine.entities.some(
-            (e) => e.get(IdentifierFacet)?.props.guid === podcast.id && e.hasTag(DataTypes.PODCAST),
+            (e) => e.get(IdentifierFacet)?.props.guid === podcast.id && e.hasTag(DataType.PODCAST),
           );
 
           if (!isExisting) {
@@ -117,7 +117,7 @@ const LoadSubtopicResourcesSystem = () => {
             podcastEntity.add(new ParentFacet({ parentId: selectedSubtopicId }));
             podcastEntity.add(new TitleFacet({ title: podcast.title || '' }));
             podcastEntity.add(new DateAddedFacet({ dateAdded: podcast.date_added }));
-            podcastEntity.addTag(DataTypes.PODCAST);
+            podcastEntity.addTag(DataType.PODCAST);
           }
         }
       }

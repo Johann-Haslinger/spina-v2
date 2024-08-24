@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import { IoCreateOutline, IoEllipsisHorizontalCircleOutline, IoTrashOutline } from 'react-icons/io5';
 import { Fragment } from 'react/jsx-runtime';
 import { TitleFacet, TitleProps } from '../../../app/additionalFacets';
-import { AdditionalTags, DataTypes, Stories } from '../../../base/enums';
+import { AdditionalTags, DataType, Story } from '../../../base/enums';
 import {
   ActionRow,
   BackButton,
@@ -23,8 +23,8 @@ import { displayActionTexts, displayAlertTexts, displayHeaderTexts } from '../..
 import { dataTypeQuery, isChildOfQuery } from '../../../utils/queries';
 import { SchoolSubjectCell } from '../../collection';
 import LoadLearningGroupSchoolSubjectsSystem from '../systems/LoadLearningGroupSchoolSubjectsSystem';
-import EditLearningGroupSheet from './EditLearningGroupSheet';
 import DeleteLearningGroupAlert from './DeleteLearningGroupAlert';
+import EditLearningGroupSheet from './EditLearningGroupSheet';
 import GroupSchoolSubjectView from './school-subjects/GroupSchoolSubjectView';
 
 const LearningGroupView = (props: TitleProps & DescriptionProps & ColorProps & EntityProps) => {
@@ -34,8 +34,8 @@ const LearningGroupView = (props: TitleProps & DescriptionProps & ColorProps & E
   const { selectedLanguage } = useSelectedLanguage();
 
   const navigateBack = () => entity.add(AdditionalTags.NAVIGATE_BACK);
-  const openEditLearningGroupSheet = () => lsc.stories.transitTo(Stories.EDITING_LEARNING_GROUP_STORY);
-  const openDeleteLearningGroupAlert = () => lsc.stories.transitTo(Stories.DELETING_LERNING_GROUP_STORY);
+  const openEditLearningGroupSheet = () => lsc.stories.transitTo(Story.EDITING_LEARNING_GROUP_STORY);
+  const openDeleteLearningGroupAlert = () => lsc.stories.transitTo(Story.DELETING_LERNING_GROUP_STORY);
 
   return (
     <Fragment>
@@ -68,7 +68,7 @@ const LearningGroupView = (props: TitleProps & DescriptionProps & ColorProps & E
 
         <CollectionGrid>
           <EntityPropsMapper
-            query={(e) => dataTypeQuery(e, DataTypes.GROUP_SCHOOL_SUBJECT) && isChildOfQuery(e, entity)}
+            query={(e) => dataTypeQuery(e, DataType.GROUP_SCHOOL_SUBJECT) && isChildOfQuery(e, entity)}
             get={[[OrderFacet, TitleFacet], []]}
             onMatch={SchoolSubjectCell}
           />
@@ -77,7 +77,7 @@ const LearningGroupView = (props: TitleProps & DescriptionProps & ColorProps & E
 
       <EntityPropsMapper
         query={(e) =>
-          dataTypeQuery(e, DataTypes.GROUP_SCHOOL_SUBJECT) && isChildOfQuery(e, entity) && e.has(Tags.SELECTED)
+          dataTypeQuery(e, DataType.GROUP_SCHOOL_SUBJECT) && isChildOfQuery(e, entity) && e.has(Tags.SELECTED)
         }
         get={[[TitleFacet], []]}
         onMatch={GroupSchoolSubjectView}

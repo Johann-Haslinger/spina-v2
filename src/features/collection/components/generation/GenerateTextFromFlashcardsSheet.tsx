@@ -4,7 +4,7 @@ import { IdentifierFacet, ParentFacet, TextFacet } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
 import { AnswerFacet, QuestionFacet, TitleFacet } from '../../../../app/additionalFacets';
-import { AdditionalTags, DataTypes, Stories, SupabaseColumns, SupabaseTables } from '../../../../base/enums';
+import { AdditionalTags, DataType, Story, SupabaseColumns, SupabaseTables } from '../../../../base/enums';
 import {
   FlexBox,
   GeneratingIndecator,
@@ -34,13 +34,13 @@ const GenerateTextFromFlashcardsSheet = () => {
     selectedFlashcardSetTitle,
   } = useSelectedFlashcardSet();
   const { selectedLanguage } = useSelectedLanguage();
-  const isVisible = useIsStoryCurrent(Stories.GENERATING_TEXT_FROM_FLASHCARDS_STORY);
+  const isVisible = useIsStoryCurrent(Story.GENERATING_TEXT_FROM_FLASHCARDS_STORY);
   const [isGenerating, setIsGenerating] = useState(false);
-  const [flashcardEntities] = useEntities((e) => dataTypeQuery(e, DataTypes.FLASHCARD));
+  const [flashcardEntities] = useEntities((e) => dataTypeQuery(e, DataType.FLASHCARD));
   const [generatedText, setGeneratedText] = useState<string>('');
   const { userId } = useUserData();
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_SET_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_FLASHCARD_SET_STORY);
 
   useEffect(() => {
     const generateTextFromFlashcards = async () => {
@@ -80,7 +80,7 @@ const GenerateTextFromFlashcardsSheet = () => {
         subtopicEntity.add(new ParentFacet({ parentId: selectedFlashcardSetParentId || '' }));
         subtopicEntity.add(new TitleFacet({ title: selectedFlashcardSetTitle || '' }));
         subtopicEntity.add(new TextFacet({ text: generatedText || '' }));
-        subtopicEntity.add(DataTypes.SUBTOPIC);
+        subtopicEntity.add(DataType.SUBTOPIC);
 
         addSubtopic(lsc, subtopicEntity, userId);
 

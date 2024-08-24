@@ -1,8 +1,8 @@
 import { formatNavLinkAsPath } from '../utils/formatNavLinkAsPath';
 
-import { NavigationLinks, SupportedLanguages } from './enums';
+import { NavigationLinks, SupportedLanguage } from './enums';
 
-export const SELECTED_LANGUAGE = SupportedLanguages.DE;
+export const SELECTED_LANGUAGE = SupportedLanguage.DE;
 
 export const MEDIUM_DEVICE_WIDTH = 700;
 

@@ -9,7 +9,7 @@ import tw from 'twin.macro';
 import { v4 } from 'uuid';
 import { BlocktypeFacet } from '../../../../app/additionalFacets';
 import { COLOR_ITEMS } from '../../../../base/constants';
-import { Blocktypes, DataTypes } from '../../../../base/enums';
+import { Blocktype, DataType } from '../../../../base/enums';
 import { useUserData } from '../../../../hooks/useUserData';
 import { addBlock } from '../../functions/addBlock';
 import { changeBlockeditorState } from '../../functions/changeBlockeditorState';
@@ -41,10 +41,10 @@ const StyledTextWrapper = styled.p`
 type option = {
   icon: React.ReactNode;
   color: string;
-  blockType: Blocktypes;
+  blockType: Blocktype;
 };
 
-const getStringForBlockType = (blockType: Blocktypes) => {
+const getStringForBlockType = (blockType: Blocktype) => {
   switch (blockType) {
     case 'text':
       return 'Text';
@@ -135,14 +135,14 @@ const CreateOption = (props: { isVisible: boolean; option: option }) => {
     const newImageBlock = new Entity();
     newImageBlock.add(new IdentifierFacet({ guid: v4() }));
     newImageBlock.add(new ImageFacet({ imageSrc: url || '' }));
-    newImageBlock.add(new BlocktypeFacet({ blocktype: Blocktypes.IMAGE }));
+    newImageBlock.add(new BlocktypeFacet({ blocktype: Blocktype.IMAGE }));
     newImageBlock.add(
       new FloatOrderFacet({
         index: getHighestOrder(lsc, blockeditorId || '') + 1,
       }),
     );
     newImageBlock.add(new ParentFacet({ parentId: blockeditorId || '' }));
-    newImageBlock.add(DataTypes.BLOCK);
+    newImageBlock.add(DataType.BLOCK);
 
     addBlock(lsc, newImageBlock, userId);
   };
@@ -150,19 +150,19 @@ const CreateOption = (props: { isVisible: boolean; option: option }) => {
   const addDividerBlock = async () => {
     const newDividerBlock = new Entity();
     newDividerBlock.add(new IdentifierFacet({ guid: v4() }));
-    newDividerBlock.add(new BlocktypeFacet({ blocktype: Blocktypes.DIVIDER }));
+    newDividerBlock.add(new BlocktypeFacet({ blocktype: Blocktype.DIVIDER }));
     newDividerBlock.add(
       new FloatOrderFacet({
         index: getHighestOrder(lsc, blockeditorId || '') + 1,
       }),
     );
     newDividerBlock.add(new ParentFacet({ parentId: blockeditorId || '' }));
-    newDividerBlock.add(DataTypes.BLOCK);
+    newDividerBlock.add(DataType.BLOCK);
 
     addBlock(lsc, newDividerBlock, userId);
   };
 
-  const addBlockByBlockType = async (blockType: Blocktypes) => {
+  const addBlockByBlockType = async (blockType: Blocktype) => {
     switch (blockType) {
       case 'image':
         openFilePicker();
@@ -201,25 +201,25 @@ const Createmenu = () => {
 
   const editOptions: option[] = [
     {
-      blockType: Blocktypes.IMAGE,
+      blockType: Blocktype.IMAGE,
       icon: <IoImage />,
 
       color: COLOR_ITEMS[1].accentColor,
     },
     {
-      blockType: Blocktypes.DIVIDER,
+      blockType: Blocktype.DIVIDER,
       icon: <IoRemove />,
 
       color: COLOR_ITEMS[3].accentColor,
     },
     {
-      blockType: Blocktypes.TABLE,
+      blockType: Blocktype.TABLE,
       icon: <IoGrid />,
 
       color: COLOR_ITEMS[4].accentColor,
     },
     {
-      blockType: Blocktypes.CODE,
+      blockType: Blocktype.CODE,
       icon: <IoCodeSlash />,
 
       color: COLOR_ITEMS[8].accentColor,

@@ -4,7 +4,7 @@ import { DescriptionFacet, IdentifierFacet, OrderFacet, ParentFacet, Tags } from
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { TitleFacet } from '../../../app/additionalFacets';
-import { DataTypes, Stories } from '../../../base/enums';
+import { DataType, Story } from '../../../base/enums';
 import Collection from '../../../pages/Collection';
 import InitializeAppSystem from '../../../systems/InitializeAppSystem';
 import InitializeSchoolSubjectsSystem from '../../../systems/InitializeSchoolSubjectsSystem';
@@ -17,7 +17,7 @@ const ObservingFlashcardSetStory = () => {
     <React.StrictMode>
       <BrowserRouter>
         <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
-          <InitializeStoriesSystem initialStory={Stories.OBSERVING_SCHOOL_SUBJECT_STORY} />
+          <InitializeStoriesSystem initialStory={Story.OBSERVING_SCHOOL_SUBJECT_STORY} />
 
           <EntityCreator
             facets={[
@@ -26,7 +26,7 @@ const ObservingFlashcardSetStory = () => {
               new OrderFacet({ orderIndex: 1 }),
               new ParentFacet({ parentId: '10' }),
             ]}
-            tags={[DataTypes.FLASHCARD_SET, Tags.SELECTED]}
+            tags={[DataType.FLASHCARD_SET, Tags.SELECTED]}
           />
           <EntityCreator
             facets={[
@@ -36,7 +36,7 @@ const ObservingFlashcardSetStory = () => {
               new OrderFacet({ orderIndex: 1 }),
               new ParentFacet({ parentId: '1' }),
             ]}
-            tags={[DataTypes.TOPIC, Tags.SELECTED]}
+            tags={[DataType.TOPIC, Tags.SELECTED]}
           />
           <EntityCreator
             facets={[
@@ -44,7 +44,7 @@ const ObservingFlashcardSetStory = () => {
               new IdentifierFacet({ guid: '1' }),
               new OrderFacet({ orderIndex: 1 }),
             ]}
-            tags={[DataTypes.SCHOOL_SUBJECT, Tags.SELECTED]}
+            tags={[DataType.SCHOOL_SUBJECT, Tags.SELECTED]}
           />
 
           <InitializeAppSystem mockupData />

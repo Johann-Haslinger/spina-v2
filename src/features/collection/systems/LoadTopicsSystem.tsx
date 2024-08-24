@@ -4,7 +4,7 @@ import { DescriptionFacet, IdentifierFacet, ImageFacet, ParentFacet } from '@lea
 import { useContext, useEffect } from 'react';
 import { DateAddedFacet, TitleFacet } from '../../../app/additionalFacets';
 import { dummyTopics } from '../../../base/dummy';
-import { DataTypes, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { DataType, SupabaseColumns, SupabaseTables } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 import { useSchoolSubjectTopicEntities } from '../hooks/useSchoolSubjectTopicEntities';
@@ -41,7 +41,7 @@ const LoadTopicsSystem = () => {
 
         topics.forEach((topic) => {
           const isExisting = lsc.engine.entities.some(
-            (e) => e.get(IdentifierFacet)?.props.guid === topic.id && e.hasTag(DataTypes.TOPIC),
+            (e) => e.get(IdentifierFacet)?.props.guid === topic.id && e.hasTag(DataType.TOPIC),
           );
 
           if (!isExisting) {
@@ -53,7 +53,7 @@ const LoadTopicsSystem = () => {
             topicEntity.add(new ImageFacet({ imageSrc: topic.image_url || '' }));
             topicEntity.add(new DescriptionFacet({ description: topic.description }));
             topicEntity.add(new ParentFacet({ parentId: selectedSchoolSubjectId }));
-            topicEntity.addTag(DataTypes.TOPIC);
+            topicEntity.addTag(DataType.TOPIC);
           }
         });
       }

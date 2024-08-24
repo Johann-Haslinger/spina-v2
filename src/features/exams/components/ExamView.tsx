@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import { IoCreateOutline, IoEllipsisHorizontalCircleOutline, IoTrashOutline } from 'react-icons/io5';
 import { Fragment } from 'react/jsx-runtime';
 import { TitleProps } from '../../../app/additionalFacets';
-import { AdditionalTags, Stories, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { AdditionalTags, Story, SupabaseColumns, SupabaseTables } from '../../../base/enums';
 import {
   ActionRow,
   BackButton,
@@ -31,8 +31,8 @@ const ExamView = (props: TitleProps & TextProps & IdentifierProps & EntityProps)
   const { selectedLanguage } = useSelectedLanguage();
 
   const navigateBack = () => entity.add(AdditionalTags.NAVIGATE_BACK);
-  const openEditExamSheet = () => lsc.stories.transitTo(Stories.EDITING_EXAM_STORY);
-  const openDeleteExamAlert = () => lsc.stories.transitTo(Stories.DELETING_EXAM_STORY);
+  const openEditExamSheet = () => lsc.stories.transitTo(Story.EDITING_EXAM_STORY);
+  const openDeleteExamAlert = () => lsc.stories.transitTo(Story.DELETING_EXAM_STORY);
 
   const handleTextBlur = async (value: string) => {
     entity.add(new TextFacet({ text: value }));

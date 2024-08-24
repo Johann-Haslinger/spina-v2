@@ -5,7 +5,7 @@ import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useState } from 'react';
 import { v4 } from 'uuid';
 import { DateAddedFacet, TitleFacet } from '../../../../app/additionalFacets';
-import { DataTypes, Stories, SupabaseTables } from '../../../../base/enums';
+import { DataType, Story, SupabaseTables } from '../../../../base/enums';
 import {
   FlexBox,
   PrimaryButton,
@@ -27,7 +27,7 @@ import { useSelectedLearningGroup } from '../../hooks/useSelectedLearningGroup';
 
 const AddGroupTopicSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.ADDING_GROUP_TOPIC_STORY);
+  const isVisible = useIsStoryCurrent(Story.ADDING_GROUP_TOPIC_STORY);
   const { selectedGroupSchoolSubjectId } = useSelectedGroupSchoolSubject();
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
@@ -35,7 +35,7 @@ const AddGroupTopicSheet = () => {
   const { userId } = useUserData();
   const { selectedLearningGroupId } = useSelectedLearningGroup();
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_SCHOOL_SUBJECT_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_SCHOOL_SUBJECT_STORY);
 
   const addTopic = async () => {
     if (selectedGroupSchoolSubjectId) {
@@ -49,7 +49,7 @@ const AddGroupTopicSheet = () => {
       newTopicEntity.add(new DescriptionFacet({ description: topicDescription }));
       newTopicEntity.add(new TitleFacet({ title: title }));
       newTopicEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
-      newTopicEntity.add(DataTypes.GROUP_TOPIC);
+      newTopicEntity.add(DataType.GROUP_TOPIC);
 
       navigateBack();
 

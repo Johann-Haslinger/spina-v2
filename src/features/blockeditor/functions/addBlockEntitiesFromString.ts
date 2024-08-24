@@ -3,7 +3,7 @@ import { Entity } from '@leanscope/ecs-engine';
 import { FloatOrderFacet, IdentifierFacet, ParentFacet, TextFacet } from '@leanscope/ecs-models';
 import { v4 } from 'uuid';
 import { BlocktypeFacet, TexttypeFacet } from '../../../app/additionalFacets';
-import { Blocktypes, DataTypes, Texttypes } from '../../../base/enums';
+import { Blocktype, DataType, Texttype } from '../../../base/enums';
 import { addBlock } from './addBlock';
 
 export async function addBlockEntitiesFromString(
@@ -24,7 +24,7 @@ export async function addBlockEntitiesFromString(
 
   contentBlocks.forEach((content, index) => {
     const isExisting = lsc.engine.entities.some(
-      (e) => e.has(DataTypes.BLOCK) && e.get(TextFacet)?.props.text === content.replace(/<[^>]+>/g, '').trim(),
+      (e) => e.has(DataType.BLOCK) && e.get(TextFacet)?.props.text === content.replace(/<[^>]+>/g, '').trim(),
     );
 
     if (!isExisting) {
@@ -33,7 +33,7 @@ export async function addBlockEntitiesFromString(
       const isList = /^<li(\s|>)/.test(trimmedContent);
       const isBold = /^(<b(\s|>).*<\/b(\s|>)|<strong(\s|>).*<\/strong(\s|>))/i.test(trimmedContent);
 
-      const textType = isBold ? Texttypes.BOLD : Texttypes.NORMAL;
+      const textType = isBold ? Texttype.BOLD : Texttype.NORMAL;
 
       // const plainTextContent = trimmedContent.replace(/<[^>]+>/g, "");
 
@@ -45,10 +45,10 @@ export async function addBlockEntitiesFromString(
       newBlockEntity.add(new ParentFacet({ parentId: parentId }));
       newBlockEntity.add(
         new BlocktypeFacet({
-          blocktype: isList ? Blocktypes.LIST : Blocktypes.TEXT,
+          blocktype: isList ? Blocktype.LIST : Blocktype.TEXT,
         }),
       );
-      newBlockEntity.add(DataTypes.BLOCK);
+      newBlockEntity.add(DataType.BLOCK);
       addBlock(lsc, newBlockEntity, userId);
     }
   });

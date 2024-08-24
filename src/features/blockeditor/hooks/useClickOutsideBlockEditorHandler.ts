@@ -4,7 +4,7 @@ import { FloatOrderFacet, IdentifierFacet, ParentFacet } from '@leanscope/ecs-mo
 import { useContext, useEffect, useRef } from 'react';
 import { v4 } from 'uuid';
 import { BlocktypeFacet, TexttypeFacet } from '../../../app/additionalFacets';
-import { AdditionalTags, Blocktypes, DataTypes, Texttypes } from '../../../base/enums';
+import { AdditionalTags, Blocktype, DataType, Texttype } from '../../../base/enums';
 import { useUserData } from '../../../hooks/useUserData';
 import { addBlock } from '../functions/addBlock';
 import { changeBlockeditorState } from '../functions/changeBlockeditorState';
@@ -30,8 +30,8 @@ export const useClickOutsideBlockEditorHandler = () => {
       if (addBlockAreaRef.current && addBlockAreaRef.current.contains(event.target as Node)) {
         const newBlockEntity = new Entity();
         newBlockEntity.add(new IdentifierFacet({ guid: v4() }));
-        newBlockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.TEXT }));
-        newBlockEntity.add(new TexttypeFacet({ texttype: Texttypes.NORMAL }));
+        newBlockEntity.add(new BlocktypeFacet({ blocktype: Blocktype.TEXT }));
+        newBlockEntity.add(new TexttypeFacet({ texttype: Texttype.NORMAL }));
         newBlockEntity.add(new ParentFacet({ parentId: blockeditorId || '' }));
         newBlockEntity.add(
           new FloatOrderFacet({
@@ -39,7 +39,7 @@ export const useClickOutsideBlockEditorHandler = () => {
           }),
         );
         newBlockEntity.add(AdditionalTags.FOCUSED);
-        newBlockEntity.add(DataTypes.BLOCK);
+        newBlockEntity.add(DataType.BLOCK);
 
         addBlock(lsc, newBlockEntity, userId);
       }

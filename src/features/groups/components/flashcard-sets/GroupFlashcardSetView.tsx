@@ -10,7 +10,7 @@ import {
 } from 'react-icons/io5';
 import { Fragment } from 'react/jsx-runtime';
 import { AnswerFacet, QuestionFacet, TitleProps } from '../../../../app/additionalFacets';
-import { AdditionalTags, DataTypes, Stories } from '../../../../base/enums';
+import { AdditionalTags, DataType, Story } from '../../../../base/enums';
 import {
   ActionRow,
   BackButton,
@@ -42,9 +42,9 @@ const GroupFlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps
   const { hasChildren } = useEntityHasChildren(entity);
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
-  const openEditGroupFlashcardSetSheet = () => lsc.stories.transitTo(Stories.EDETING_GROUP_FLASHCARD_SET_STORY);
-  const openDeleteGroupFlashcardSetAlert = () => lsc.stories.transitTo(Stories.DELETING_GROUP_FLASHCARD_SET_STORY);
-  const openCloneResourceSheet = () => lsc.stories.transitTo(Stories.CLONING_RESOURCE_FROM_GROUP_STORY);
+  const openEditGroupFlashcardSetSheet = () => lsc.stories.transitTo(Story.EDETING_GROUP_FLASHCARD_SET_STORY);
+  const openDeleteGroupFlashcardSetAlert = () => lsc.stories.transitTo(Story.DELETING_GROUP_FLASHCARD_SET_STORY);
+  const openCloneResourceSheet = () => lsc.stories.transitTo(Story.CLONING_RESOURCE_FROM_GROUP_STORY);
 
   return (
     <Fragment>
@@ -78,7 +78,7 @@ const GroupFlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps
         {!hasChildren && <NoContentAddedHint />}
         <CollectionGrid columnSize="large">
           <EntityPropsMapper
-            query={(e) => e.hasTag(DataTypes.GROUP_FLASHCARD) && isChildOfQuery(e, entity)}
+            query={(e) => e.hasTag(DataType.GROUP_FLASHCARD) && isChildOfQuery(e, entity)}
             get={[[QuestionFacet, AnswerFacet], []]}
             onMatch={GroupFlashcardCell}
           />

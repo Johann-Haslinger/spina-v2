@@ -7,7 +7,7 @@ import { IoAdd, IoCheckmarkCircle, IoEllipseOutline } from 'react-icons/io5';
 import { useLocation } from 'react-router';
 import { v4 } from 'uuid';
 import { DueDateFacet, RelationshipFacet, StatusFacet, TitleFacet } from '../../../../app/additionalFacets';
-import { DataTypes, Stories } from '../../../../base/enums';
+import { DataType, Story } from '../../../../base/enums';
 import {
   DateInput,
   FlexBox,
@@ -33,7 +33,7 @@ import { useSelectedTopic } from '../../hooks/useSelectedTopic';
 
 const AddHomeworkSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.ADDING_HOMEWORK_STORY);
+  const isVisible = useIsStoryCurrent(Story.ADDING_HOMEWORK_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const schooolSubjectEntities = useSchoolSubjectEntities();
   const { selectedTopicId: openTopicId } = useSelectedTopic();
@@ -74,7 +74,7 @@ const AddHomeworkSheet = () => {
     setNewTopicTitle('');
   }, [isVisible]);
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_HOMEWORKS_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_HOMEWORKS_STORY);
 
   const saveHomework = async () => {
     const newHomeworkId = v4();
@@ -101,7 +101,7 @@ const AddHomeworkSheet = () => {
       }),
     );
     newHomeworkEntity.add(new StatusFacet({ status: 1 }));
-    newHomeworkEntity.add(DataTypes.HOMEWORK);
+    newHomeworkEntity.add(DataType.HOMEWORK);
 
     if (newTopicTitle !== '') {
       const newTopicId = v4();
@@ -110,7 +110,7 @@ const AddHomeworkSheet = () => {
       newTopicEntity.add(new IdentifierFacet({ guid: newTopicId }));
       newTopicEntity.add(new TitleFacet({ title: newTopicTitle }));
       newTopicEntity.add(new ParentFacet({ parentId: selectedSchoolSubjectId }));
-      newTopicEntity.add(DataTypes.TOPIC);
+      newTopicEntity.add(DataType.TOPIC);
 
       addTopic(lsc, newTopicEntity, userId);
 

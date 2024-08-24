@@ -5,11 +5,11 @@ import { useContext } from 'react';
 import { IoPlay } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { DateAddedFacet, DateAddedProps, TitleFacet, TitleProps } from '../../../app/additionalFacets';
-import { AdditionalTags, DataTypes, Stories } from '../../../base/enums';
+import { COLOR_ITEMS } from '../../../base/constants';
+import { AdditionalTags, DataType, Story } from '../../../base/enums';
 import { sortEntitiesByDateAdded } from '../../../utils/sortEntitiesByTime';
 import { useBookmarkedFlashcardGroups } from '../hooks/useBookmarkedFlashcardGroups';
 import FlashcardGroupCell from './FlashcardGroupCell';
-import { COLOR_ITEMS } from '../../../base/constants';
 
 const StyledLernplanSectionWrapper = styled.div`
   ${tw`w-full mb-2  space-y-2 md:space-y-0 md:space-x-2 md:flex    transition-all `}
@@ -33,14 +33,14 @@ const LernplanSection = () => {
   const { bookmarkedGroupsExist } = useBookmarkedFlashcardGroups();
 
   const openBookmarkedFlashcardGroupQuiz = () =>
-    lsc.stories.transitTo(Stories.OBSERVING_BOOKMARKED_FLASHCARD_GROUP_QUIZ_STORY);
+    lsc.stories.transitTo(Story.OBSERVING_BOOKMARKED_FLASHCARD_GROUP_QUIZ_STORY);
 
   return (
     bookmarkedGroupsExist && (
       <StyledLernplanSectionWrapper>
         <StyledFlashcardGroupWrapper>
           <EntityPropsMapper
-            query={(e) => e.has(DataTypes.FLASHCARD_GROUP) && e.has(AdditionalTags.BOOKMARKED)}
+            query={(e) => e.has(DataType.FLASHCARD_GROUP) && e.has(AdditionalTags.BOOKMARKED)}
             sort={sortEntitiesByDateAdded}
             get={[[TitleFacet, DateAddedFacet], []]}
             onMatch={LernplanFlashcardGroupCell}

@@ -4,7 +4,7 @@ import { IdentifierFacet, Tags, TextFacet } from '@leanscope/ecs-models';
 import { Fragment, useContext } from 'react';
 import { IoAdd } from 'react-icons/io5';
 import { TitleFacet } from '../app/additionalFacets';
-import { DataTypes, Stories } from '../base/enums';
+import { DataType, Story } from '../base/enums';
 import { Kanban, NavBarButton, NavigationBar, Spacer, Title, View } from '../components';
 import AddExamSheet from '../features/exams/components/AddExamSheet';
 import ExamKanbanCell from '../features/exams/components/ExamKanbanCell';
@@ -21,7 +21,7 @@ const Exams = () => {
   const { selectedLanguage } = useSelectedLanguage();
   const { updateExamStatus } = useExamStatus();
 
-  const openAddExamSheet = () => lsc.stories.transitTo(Stories.ADDING_EXAM_STORY);
+  const openAddExamSheet = () => lsc.stories.transitTo(Story.ADDING_EXAM_STORY);
 
   return (
     <Fragment>
@@ -41,12 +41,12 @@ const Exams = () => {
           updateEntityStatus={updateExamStatus}
           sortingRule={sortEntitiesByDueDate}
           kanbanCell={ExamKanbanCell as () => JSX.Element}
-          query={(e) => dataTypeQuery(e, DataTypes.EXAM)}
+          query={(e) => dataTypeQuery(e, DataType.EXAM)}
         />
       </View>
 
       <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataTypes.EXAM) && e.has(Tags.SELECTED)}
+        query={(e) => dataTypeQuery(e, DataType.EXAM) && e.has(Tags.SELECTED)}
         get={[[TitleFacet, IdentifierFacet, TextFacet], []]}
         sort={sortEntitiesByDateAdded}
         onMatch={ExamView}

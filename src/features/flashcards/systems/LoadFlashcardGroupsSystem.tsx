@@ -4,7 +4,7 @@ import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { PriorityFacet, TitleFacet } from '../../../app/additionalFacets';
 import { dummyFlashcardSets, dummySubtopics } from '../../../base/dummy';
-import { DataTypes, SupabaseTables } from '../../../base/enums';
+import { DataType, SupabaseTables } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 
@@ -50,7 +50,7 @@ const LoadFlashcardGroupsSystem = () => {
           subtopicEntity.add(new TitleFacet({ title: subtopic.title }));
           subtopicEntity.add(new PriorityFacet({ priority: subtopic.priority }));
           subtopicEntity.add(new ParentFacet({ parentId: subtopic.parent_id }));
-          subtopicEntity.add(DataTypes.SUBTOPIC);
+          subtopicEntity.add(DataType.SUBTOPIC);
         }
       });
     };
@@ -71,7 +71,7 @@ const LoadFlashcardGroupsSystem = () => {
           flashcardSetEntity.add(new TitleFacet({ title: flashcardSet.title }));
           flashcardSetEntity.add(new PriorityFacet({ priority: flashcardSet.priority }));
           flashcardSetEntity.add(new ParentFacet({ parentId: flashcardSet.parent_id }));
-          flashcardSetEntity.add(DataTypes.FLASHCARD_SET);
+          flashcardSetEntity.add(DataType.FLASHCARD_SET);
         }
       });
     };

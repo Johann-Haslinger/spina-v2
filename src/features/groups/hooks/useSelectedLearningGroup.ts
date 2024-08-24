@@ -1,10 +1,10 @@
 import { useEntity } from '@leanscope/ecs-engine';
-import { DataTypes } from '../../../base/enums';
 import { ColorFacet, DescriptionFacet, IdentifierFacet, Tags } from '@leanscope/ecs-models';
 import { TitleFacet } from '../../../app/additionalFacets';
+import { DataType } from '../../../base/enums';
 
 export const useSelectedLearningGroup = () => {
-  const [selectedLearningGroupEntity] = useEntity((e) => e.has(DataTypes.LEARNING_GROUP) && e.has(Tags.SELECTED));
+  const [selectedLearningGroupEntity] = useEntity((e) => e.has(DataType.LEARNING_GROUP) && e.has(Tags.SELECTED));
 
   const selectedLearningGroupTitle = selectedLearningGroupEntity?.get(TitleFacet)?.props.title;
   const selectedLearningGroupColor = selectedLearningGroupEntity?.get(ColorFacet)?.props.colorName;

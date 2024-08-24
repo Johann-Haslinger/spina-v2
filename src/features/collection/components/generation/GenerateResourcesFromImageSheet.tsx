@@ -8,7 +8,7 @@ import tw from 'twin.macro';
 import { v4 } from 'uuid';
 import { AnswerFacet, DateAddedFacet, QuestionFacet, SourceFacet, TitleFacet } from '../../../../app/additionalFacets';
 import { COLOR_ITEMS } from '../../../../base/constants';
-import { AdditionalTags, DataTypes, Stories } from '../../../../base/enums';
+import { AdditionalTags, DataType, Story } from '../../../../base/enums';
 import { CloseButton, FlexBox, ScrollableBox, Sheet } from '../../../../components';
 import SapientorConversationMessage from '../../../../components/content/SapientorConversationMessage';
 import { addBlocks } from '../../../../functions/addBlocks';
@@ -92,7 +92,7 @@ const GenerateResourcesFromImageSheet = () => {
   const [suggestions, setSuggestions] = useState<Suggestion[]>([]);
   const { selectedTopicId } = useSelectedTopic();
   const [isTypingAnimationPlaying, setIsTypingAnimationPlaying] = useState(true);
-  const isVisible = useIsStoryCurrent(Stories.GENERATING_RESOURCES_FROM_IMAGE);
+  const isVisible = useIsStoryCurrent(Story.GENERATING_RESOURCES_FROM_IMAGE);
   const [imagePromptEntity] = useEntity((e) => e.has(AdditionalTags.GENERATE_FROM_IMAGE_PROMPT));
   const imageSrc = imagePromptEntity?.get(SourceFacet)?.props.source;
 
@@ -108,7 +108,7 @@ const GenerateResourcesFromImageSheet = () => {
     setSuggestions([]);
   }, [isVisible]);
 
-  const navigateBack = () => lsc.stories.transitTo(Stories.OBSERVING_COLLECTION_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_COLLECTION_STORY);
 
   useEffect(() => {
     if (!isTypingAnimationPlaying && conversation.length == 1) {
@@ -405,7 +405,7 @@ const GenerateResourcesFromImageSheet = () => {
         newSubtopicEntity.add(new TitleFacet({ title: title }));
         newSubtopicEntity.add(new ParentFacet({ parentId: selectedTopicId || '' }));
         newSubtopicEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
-        newSubtopicEntity.add(DataTypes.SUBTOPIC);
+        newSubtopicEntity.add(DataType.SUBTOPIC);
         newSubtopicEntity.add(new TextFacet({ text: note }));
 
         addSubtopic(lsc, newSubtopicEntity, userId);
@@ -416,7 +416,7 @@ const GenerateResourcesFromImageSheet = () => {
           newFlashcardEntity.add(new ParentFacet({ parentId: subTopicId || '' }));
           newFlashcardEntity.add(new QuestionFacet({ question: flashcard.question }));
           newFlashcardEntity.add(new AnswerFacet({ answer: flashcard.answer }));
-          newFlashcardEntity.add(DataTypes.FLASHCARD);
+          newFlashcardEntity.add(DataType.FLASHCARD);
 
           return newFlashcardEntity;
         });
@@ -439,7 +439,7 @@ const GenerateResourcesFromImageSheet = () => {
         newFlashcardSetEntity.add(new TitleFacet({ title: title }));
         newFlashcardSetEntity.add(new ParentFacet({ parentId: selectedTopicId || '' }));
         newFlashcardSetEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
-        newFlashcardSetEntity.add(DataTypes.FLASHCARD_SET);
+        newFlashcardSetEntity.add(DataType.FLASHCARD_SET);
 
         addFlashcardSet(lsc, newFlashcardSetEntity, userId);
 
@@ -449,7 +449,7 @@ const GenerateResourcesFromImageSheet = () => {
           newFlashcardEntity.add(new ParentFacet({ parentId: flashcardSetId }));
           newFlashcardEntity.add(new QuestionFacet({ question: flashcard.question }));
           newFlashcardEntity.add(new AnswerFacet({ answer: flashcard.answer }));
-          newFlashcardEntity.add(DataTypes.FLASHCARD);
+          newFlashcardEntity.add(DataType.FLASHCARD);
 
           return newFlashcardEntity;
         });
@@ -464,7 +464,7 @@ const GenerateResourcesFromImageSheet = () => {
       newNoteEntity.add(new TitleFacet({ title: title }));
       newNoteEntity.add(new ParentFacet({ parentId: selectedTopicId || '' }));
       newNoteEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
-      newNoteEntity.add(DataTypes.NOTE);
+      newNoteEntity.add(DataType.NOTE);
 
       addNote(lsc, newNoteEntity, userId);
 

@@ -19,12 +19,12 @@ import { BlocktypeFacet, TexttypeFacet, TitleFacet } from '../../../../../app/ad
 import { COLOR_ITEMS } from '../../../../../base/constants';
 import {
   AdditionalTags,
-  Blocktypes,
-  DataTypes,
-  Stories,
+  Blocktype,
+  DataType,
+  Story,
   SupabaseColumns,
   SupabaseTables,
-  Texttypes,
+  Texttype,
 } from '../../../../../base/enums';
 import { useSelectedLanguage } from '../../../../../hooks/useSelectedLanguage';
 import { useUserData } from '../../../../../hooks/useUserData';
@@ -60,7 +60,7 @@ const StyledMenuWrapper = styled.div`
 `;
 
 const groupSelectedBlocks = (lsc: ILeanScopeClient, userId: string) => {
-  const selectedBlockEntities = lsc.engine.entities.filter((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
+  const selectedBlockEntities = lsc.engine.entities.filter((e) => e.has(DataType.BLOCK) && e.has(Tags.SELECTED));
   const firstSelectedBlockEntity = selectedBlockEntities
     .filter((e) => e.has(TextFacet))
     .sort(sortEntitiesByFloatOrder)[0];
@@ -73,11 +73,11 @@ const groupSelectedBlocks = (lsc: ILeanScopeClient, userId: string) => {
 
   const newPageBlockEntity = new Entity();
   newPageBlockEntity.add(new IdentifierFacet({ guid: newPageBlockId }));
-  newPageBlockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.PAGE }));
+  newPageBlockEntity.add(new BlocktypeFacet({ blocktype: Blocktype.PAGE }));
   newPageBlockEntity.add(new FloatOrderFacet({ index: firstBlockOrder }));
   newPageBlockEntity.add(new TitleFacet({ title: firstBlockText }));
   newPageBlockEntity.add(new ParentFacet({ parentId: firstBlockParentId }));
-  newPageBlockEntity.add(DataTypes.BLOCK);
+  newPageBlockEntity.add(DataType.BLOCK);
 
   addBlock(lsc, newPageBlockEntity, userId);
 
@@ -100,27 +100,27 @@ const groupSelectedBlocks = (lsc: ILeanScopeClient, userId: string) => {
 };
 
 const addContentToSelectedBlock = async (lsc: ILeanScopeClient, userId: string) => {
-  const selectedBlockEntities = lsc.engine.entities.filter((e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED));
+  const selectedBlockEntities = lsc.engine.entities.filter((e) => e.has(DataType.BLOCK) && e.has(Tags.SELECTED));
   const firstSelectedBlockEntity = selectedBlockEntities[0];
   const firstSelectedBlockId = firstSelectedBlockEntity.get(IdentifierFacet)?.props.guid || '';
 
-  firstSelectedBlockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.PAGE }));
+  firstSelectedBlockEntity.add(new BlocktypeFacet({ blocktype: Blocktype.PAGE }));
   firstSelectedBlockEntity.add(AdditionalTags.OPEN);
 
   const newBlockEntity = new Entity();
   newBlockEntity.add(new IdentifierFacet({ guid: v4() }));
   newBlockEntity.add(new ParentFacet({ parentId: firstSelectedBlockId }));
-  newBlockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.TEXT }));
-  newBlockEntity.add(new TexttypeFacet({ texttype: Texttypes.NORMAL }));
+  newBlockEntity.add(new BlocktypeFacet({ blocktype: Blocktype.TEXT }));
+  newBlockEntity.add(new TexttypeFacet({ texttype: Texttype.NORMAL }));
   newBlockEntity.add(new FloatOrderFacet({ index: 1 }));
-  newBlockEntity.add(DataTypes.BLOCK);
+  newBlockEntity.add(DataType.BLOCK);
   newBlockEntity.add(AdditionalTags.FOCUSED);
 
   addBlock(lsc, newBlockEntity, userId);
 
   const { error } = await supabaseClient
     .from(SupabaseTables.BLOCKS)
-    .update({ type: Blocktypes.PAGE })
+    .update({ type: Blocktype.PAGE })
     .eq(SupabaseColumns.ID, firstSelectedBlockId);
 
   if (error) {
@@ -133,25 +133,25 @@ const showStyleOptionQuery = (pressedBlocks: readonly Entity[]) => {
     const blocktype = block.get(BlocktypeFacet)?.props.blocktype;
 
     return (
-      blocktype === Blocktypes.TEXT ||
-      blocktype === Blocktypes.TODO ||
-      blocktype === Blocktypes.LIST ||
-      blocktype === Blocktypes.PAGE
+      blocktype === Blocktype.TEXT ||
+      blocktype === Blocktype.TODO ||
+      blocktype === Blocktype.LIST ||
+      blocktype === Blocktype.PAGE
     );
   });
 };
 
 const showImageOptionQuery = (pressedBlocks: readonly Entity[]) => {
-  return pressedBlocks.every((block) => block.get(BlocktypeFacet)?.props.blocktype === Blocktypes.IMAGE);
+  return pressedBlocks.every((block) => block.get(BlocktypeFacet)?.props.blocktype === Blocktype.IMAGE);
 };
 
 const showAddContentOptionQuery = (pressedBlocks: readonly Entity[]) => {
   return (
     pressedBlocks.length === 1 &&
     pressedBlocks[0] &&
-    (pressedBlocks[0].get(BlocktypeFacet)?.props.blocktype === Blocktypes.TEXT ||
-      pressedBlocks[0].get(BlocktypeFacet)?.props.blocktype === Blocktypes.TODO ||
-      pressedBlocks[0].get(BlocktypeFacet)?.props.blocktype === Blocktypes.LIST)
+    (pressedBlocks[0].get(BlocktypeFacet)?.props.blocktype === Blocktype.TEXT ||
+      pressedBlocks[0].get(BlocktypeFacet)?.props.blocktype === Blocktype.TODO ||
+      pressedBlocks[0].get(BlocktypeFacet)?.props.blocktype === Blocktype.LIST)
   );
 };
 
@@ -164,7 +164,7 @@ const Editmenu = () => {
   const { selectedLanguage } = useSelectedLanguage();
   const { userId } = useUserData();
 
-  const openDeleteSheet = () => lsc.stories.transitTo(Stories.DELETING_BLOCKS_STORY);
+  const openDeleteSheet = () => lsc.stories.transitTo(Story.DELETING_BLOCKS_STORY);
 
   const editOptions = [
     {

@@ -1,13 +1,13 @@
-import { LeanScopeClientApp, LeanScopeClient } from '@leanscope/api-client/node';
+import { LeanScopeClient, LeanScopeClientApp } from '@leanscope/api-client/node';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { Stories } from '../../../base/enums';
+import { Story } from '../../../base/enums';
 import { Sidebar } from '../../../components';
+import Homeworks from '../../../pages/Homeworks';
 import InitializeAppSystem from '../../../systems/InitializeAppSystem';
 import InitializeSchoolSubjectsSystem from '../../../systems/InitializeSchoolSubjectsSystem';
 import InitializeStoriesSystem from '../../../systems/InitializeStoriesSystem';
 import ViewManagerSystem from '../../../systems/ViewManagerSystem';
-import Homeworks from '../../../pages/Homeworks';
 import { Settings } from '../../settings';
 
 const ObservingHomeworksStory = () => {
@@ -15,7 +15,7 @@ const ObservingHomeworksStory = () => {
     <React.StrictMode>
       <BrowserRouter>
         <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
-          <InitializeStoriesSystem initialStory={Stories.OBSERVING_COLLECTION_STORY} />
+          <InitializeStoriesSystem initialStory={Story.OBSERVING_COLLECTION_STORY} />
           <ViewManagerSystem />
           <InitializeAppSystem />
 

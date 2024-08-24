@@ -4,7 +4,7 @@ import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { DateAddedFacet, DueDateFacet, TitleFacet } from '../../../app/additionalFacets';
 import { dummyHomeworks } from '../../../base/dummy';
-import { DataTypes, SupabaseColumns } from '../../../base/enums';
+import { DataType, SupabaseColumns } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 import { useSelectedGroupTopic } from '../hooks/useSelectedGroupTopic';
@@ -39,7 +39,7 @@ const LoadGroupHomeworksSystem = () => {
 
         GroupHomeworks.forEach((GroupHomework) => {
           const isExisting = lsc.engine.entities.some(
-            (e) => e.get(IdentifierFacet)?.props.guid === GroupHomework.id && e.hasTag(DataTypes.GROUP_HOMEWORK),
+            (e) => e.get(IdentifierFacet)?.props.guid === GroupHomework.id && e.hasTag(DataType.GROUP_HOMEWORK),
           );
 
           if (!isExisting) {
@@ -51,7 +51,7 @@ const LoadGroupHomeworksSystem = () => {
 
             GroupHomeworkEntity.add(new ParentFacet({ parentId: selectedGroupTopicId }));
             GroupHomeworkEntity.add(new DueDateFacet({ dueDate: GroupHomework.date_added }));
-            GroupHomeworkEntity.addTag(DataTypes.GROUP_HOMEWORK);
+            GroupHomeworkEntity.addTag(DataType.GROUP_HOMEWORK);
           }
         });
       }

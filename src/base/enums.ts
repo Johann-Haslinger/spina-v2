@@ -1,4 +1,4 @@
-export enum Stories {
+export enum Story {
   OBSERVING_SETTINGS_STORY = 'observingSettingsStory',
   OBSERVING_COLLECTION_STORY = 'observingCollectionStory',
   OBSERVING_SCHOOL_SUBJECT_STORY = 'observingSchoolSubjectStory',
@@ -36,6 +36,7 @@ export enum Stories {
   ADDING_GROUP_HOMEWORK_STORY = 'addGroupHomeworkStory',
   ADDING_GROUP_FLASHCARD_SET_STORY = 'addGroupFlashcardSetStory',
   ADDING_RESOURCE_TO_LEARNING_GROUP_STORY = 'addResourceToLearningGroupStory',
+  ADDING_CHAPTER_STORY = 'addChapterStory',
 
   EDITING_FLASHCARD_STORY = 'editFlashcardStory',
   EDITING_FLASHCARD_SET_STORY = 'editFlashcardSetStory',
@@ -127,7 +128,7 @@ export enum NavigationLinks {
   FLASHCARDS = 'flashcards',
 }
 
-export enum DataTypes {
+export enum DataType {
   HOMEWORK = 'homework',
   FLASHCARD_GROUP = 'flashcardGroup',
   EXAM = 'exam',
@@ -152,14 +153,15 @@ export enum DataTypes {
   EXERCISE = 'exercise',
   EXERCISE_PART = 'exercisePart',
   FLASHCARD_SESSION = 'flashcardSession',
+  CHAPTER = 'chapter',
 }
 
-export enum SupportedLanguages {
+export enum SupportedLanguage {
   DE = 'de',
   EN = 'en',
 }
 
-export enum SupportedThemes {
+export enum SupportedTheme {
   LIGHT = 'light',
   DARK = 'dark',
 }
@@ -169,7 +171,7 @@ export enum MessageRoles {
   USER = 'user',
 }
 
-export enum Blocktypes {
+export enum Blocktype {
   TEXT = 'text',
   DIVIDER = 'divider',
   IMAGE = 'image',
@@ -180,7 +182,7 @@ export enum Blocktypes {
   CODE = 'code',
 }
 
-export enum Texttypes {
+export enum Texttype {
   TITLE = 'title',
   SUBTITLE = 'subTitle',
   HEADING = 'heading',
@@ -228,6 +230,7 @@ export enum SupabaseTables {
   PROFILES = 'profiles',
   FLASHCARD_SESSIONS = 'flashcard_sessions',
   STREAKS = 'streaks',
+  CHAPTERS = 'chapters',
 }
 
 export enum SupabaseColumns {

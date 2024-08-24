@@ -4,7 +4,8 @@ import { OrderFacet, Tags } from '@leanscope/ecs-models';
 import { Fragment } from 'react/jsx-runtime';
 import tw from 'twin.macro';
 import { TitleFacet } from '../app/additionalFacets';
-import { DataTypes } from '../base/enums';
+import { MEDIUM_DEVICE_WIDTH } from '../base/constants';
+import { DataType } from '../base/enums';
 import { CollectionGrid, NavigationBar, Spacer, Title, View } from '../components';
 import {
   BookmarkCollectionView,
@@ -16,7 +17,6 @@ import { useSelectedLanguage } from '../hooks/useSelectedLanguage';
 import { useWindowDimensions } from '../hooks/useWindowDimensions';
 import { displayHeaderTexts } from '../utils/displayText';
 import { dataTypeQuery } from '../utils/queries';
-import { MEDIUM_DEVICE_WIDTH } from '../base/constants';
 
 const StyledTitleWrapper = styled.div`
   ${tw`px-2.5 md:px-0 `}
@@ -39,7 +39,7 @@ const Collection = () => {
         <Spacer />
         <CollectionGrid gapSize="small">
           <EntityPropsMapper
-            query={(e) => dataTypeQuery(e, DataTypes.SCHOOL_SUBJECT)}
+            query={(e) => dataTypeQuery(e, DataType.SCHOOL_SUBJECT)}
             get={[[TitleFacet, OrderFacet], []]}
             onMatch={SchoolSubjectCell}
           />
@@ -47,7 +47,7 @@ const Collection = () => {
       </View>
 
       <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataTypes.SCHOOL_SUBJECT) && e.hasTag(Tags.SELECTED)}
+        query={(e) => dataTypeQuery(e, DataType.SCHOOL_SUBJECT) && e.hasTag(Tags.SELECTED)}
         get={[[TitleFacet], []]}
         onMatch={SchoolSubjectView}
       />
