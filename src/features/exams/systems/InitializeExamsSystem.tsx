@@ -39,7 +39,7 @@ const InitializeExamsSystem = () => {
   useEffect(() => {
     const initializeexamEntities = async () => {
       const exams = mockupData ? dummyExams : shouldFetchFromSupabase ? await fetchExams() : [];
-
+      console.log('exams', exams);
       exams.forEach((exam) => {
         const isExisting = lsc.engine.entities.some(
           (e) => e.get(IdentifierFacet)?.props.guid === exam.id && dataTypeQuery(e, DataTypes.EXAM),

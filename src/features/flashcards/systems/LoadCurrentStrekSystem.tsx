@@ -47,9 +47,11 @@ const LoadCurrentStreakSystem = () => {
       } else if (!currentStreak) {
         if (!userId || userId === 'Kein Benutzer angemeldet ') return;
 
+        const newStreakId = v4();
+
         const { error } = await supabaseClient
           .from(SupabaseTables.STREAKS)
-          .insert([{ id: v4(), streak: 0, date_added: new Date(), user_id: userId }]);
+          .insert([{ id: newStreakId, streak: 0, date_added: new Date(), user_id: userId }]);
 
         if (error) {
           console.error('Error inserting new streak:', error);
@@ -57,7 +59,7 @@ const LoadCurrentStreakSystem = () => {
 
         const newStreakEntity = new Entity();
         lsc.engine.addEntity(newStreakEntity);
-        newStreakEntity.add(new IdentifierFacet({ guid: v4() }));
+        newStreakEntity.add(new IdentifierFacet({ guid: newStreakId }));
         newStreakEntity.add(new StreakFacet({ streak: 0 }));
       }
     };

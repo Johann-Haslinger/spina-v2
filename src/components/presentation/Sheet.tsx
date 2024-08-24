@@ -19,7 +19,7 @@ const Sheet = (props: PropsWithChildren & SheetProps) => {
   const { children, visible = true, navigateBack, backgroundColor } = props;
   const sheetRef = useRef<HTMLDivElement>(null);
   const [isSheetDisplayed, setIsSheetDisplayed] = useState(false);
-  const { isDarkModeAktiv: isDarkMode } = useSelectedTheme();
+  const { isDarkModeAktive: isDarkMode } = useSelectedTheme();
 
   useEffect(() => {
     document.addEventListener('click', handleClickOutside, true);

@@ -18,5 +18,5 @@ export const useSelectedTheme = () => {
     }
   };
 
-  return { isDarkModeAktiv, changeTheme };
+  return { isDarkModeAktive: isDarkModeAktiv, changeTheme };
 };

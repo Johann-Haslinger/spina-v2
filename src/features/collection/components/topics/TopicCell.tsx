@@ -9,8 +9,8 @@ import { AdditionalTags } from '../../../../base/enums';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import { displayAlertTexts } from '../../../../utils/displayText';
 import { useAppState } from '../../hooks/useAppState';
-import { useTopicColor } from '../../hooks/useTopicColor';
 import { useSelectedTheme } from '../../hooks/useSelectedTheme';
+import { useTopicColor } from '../../hooks/useTopicColor';
 
 const StyledTopicCellContainer = styled.div`
   ${tw`w-full h-fit pb-6`}
@@ -40,7 +40,7 @@ const TopicCell = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
   const { isSidebarVisible } = useAppState();
   const { selectedLanguage } = useSelectedLanguage();
   const [isGeneratingImage] = useEntityHasTags(entity, AdditionalTags.GENERATING);
-  const { isDarkModeAktiv } = useSelectedTheme();
+  const { isDarkModeAktive: isDarkModeAktiv } = useSelectedTheme();
 
   const handleOpenTopic = () => {
     if (!isSidebarVisible && !isGeneratingImage) {

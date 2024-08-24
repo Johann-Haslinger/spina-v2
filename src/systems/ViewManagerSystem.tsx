@@ -70,7 +70,7 @@ const ViewManagerSystem = () => {
     Stories.OBSERVING_FLASHCARD_QUIZ_STORY,
     Stories.OBSERVING_SPACED_REPETITION_QUIZ,
   ]);
-  const { isDarkModeAktiv: isDarkMode } = useSelectedTheme();
+  const { isDarkModeAktive: isDarkMode } = useSelectedTheme();
   const [closingVews] = useEntities((e) => e.hasTag(Tags.SELECTED) && e.hasTag(AdditionalTags.NAVIGATE_BACK));
   const [themeColor, setThemeColor] = useState('#F5F5F5');
   const { backgroundColor } = useSelectedSchoolSubjectColor();

@@ -104,7 +104,7 @@ export const dummyHomeworks = [
     related_subject: '1',
   },
   {
-    id: '4',
+    id:  v4(),
     title: 'Book p. 12 ex. 5',
     due_date: new Date().toISOString(),
     date_added: new Date().toISOString(),
@@ -113,7 +113,7 @@ export const dummyHomeworks = [
     related_subject: '1',
   },
   {
-    id: '5',
+    id:  v4(),
     title: 'Book p. 12 ex. 6',
     due_date: new Date().toISOString(),
     date_added: new Date().toISOString(),
@@ -321,7 +321,7 @@ export const dummyExams = [
     parent_id: v4(),
   },
   {
-    id: '2',
+    id:  v4(),
     title: 'Exam 2',
     due_date: new Date().toISOString(),
     status: 2,
@@ -329,7 +329,7 @@ export const dummyExams = [
     parent_id: v4(),
   },
   {
-    id: '3',
+    id: v4(),
     title: 'Exam 3',
     due_date: new Date().toISOString(),
     status: 2,
@@ -337,7 +337,7 @@ export const dummyExams = [
     parent_id: v4(),
   },
   {
-    id: '4',
+    id:  v4(),
     title: 'Exam 4',
     due_date: new Date().toISOString(),
     status: 2,
@@ -345,7 +345,7 @@ export const dummyExams = [
     parent_id: v4(),
   },
   {
-    id: '5',
+    id:  v4(),
     title: 'Exam 5',
     due_date: new Date().toISOString(),
     status: 2,

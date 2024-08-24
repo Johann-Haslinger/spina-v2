@@ -42,7 +42,7 @@ const SapientorConversationMessage = (props: {
 }) => {
   const { message, onWritingAnimationPlayed, isLoading } = props;
   const [additionalContent, setAdditionalContent] = useState<ReactNode>(null);
-  const { isDarkModeAktiv: isDarkMode } = useSelectedTheme();
+  const { isDarkModeAktive: isDarkMode } = useSelectedTheme();
 
   useEffect(() => {
     setTimeout(() => {

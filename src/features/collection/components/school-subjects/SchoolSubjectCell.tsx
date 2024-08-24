@@ -24,7 +24,7 @@ const SchoolSubjectCell = (props: TitleProps & OrderProps & EntityProps) => {
   const { title, entity } = props;
   const { isSidebarVisible } = useAppState();
   const { accentColor } = useSchoolSubjectColors(props.entity);
-  const { isDarkModeAktiv } = useSelectedTheme();
+  const { isDarkModeAktive: isDarkModeAktiv } = useSelectedTheme();
 
   const handleOpenSchoolSubject = () => {
     if (!isSidebarVisible) {

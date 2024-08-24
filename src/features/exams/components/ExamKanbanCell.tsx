@@ -35,7 +35,7 @@ const ExamKanbanCell = (pops: { entity: Entity; backgroundColor: string; color: 
   const title = titleProps?.title || 'No Title';
   const relatedSchoolSubjectId = relationShipProps?.relationship;
   const { schoolSubjectTitle } = useSchoolSubject(relatedSchoolSubjectId);
-  const { isDarkModeAktiv: isDarkMode } = useSelectedTheme();
+  const { isDarkModeAktive: isDarkMode } = useSelectedTheme();
 
   const handleOpenExam = () => entity.add(Tags.SELECTED);
 

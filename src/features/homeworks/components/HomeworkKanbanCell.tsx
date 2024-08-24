@@ -36,7 +36,7 @@ const HomeworkKanbanCell = (props: { entity: Entity; backgroundColor: string; co
   const title = titleProps?.title || displayAlertTexts(selectedLanguage).noTitle;
   const relatedSchoolSubjectId = relationShipProps?.relationship;
   const { schoolSubjectTitle } = useSchoolSubject(relatedSchoolSubjectId);
-  const { isDarkModeAktiv: isDarkMode } = useSelectedTheme();
+  const { isDarkModeAktive: isDarkMode } = useSelectedTheme();
 
   const handleOpenHomework = () => entity.add(Tags.SELECTED);
 

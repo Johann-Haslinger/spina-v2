@@ -96,7 +96,7 @@ const StyledTopAreaWrapper = styled.div<{ image: string }>`
 `;
 
 const StyledTopicTitle = styled.div`
-  ${tw` text-4xl w-[40rem] pl-4 md:pl-20 lg:pl-32 xl:pl-60 2xl:pl-96 text-white font-bold`}
+  ${tw` pr-4 text-4xl w-full md:w-[40rem] pl-4 md:pl-20 lg:pl-32 xl:pl-60 2xl:pl-96 text-white font-bold`}
 `;
 
 const StyledTopicResourcesWrapper = styled.div<{ largeShadow: boolean }>`
@@ -113,7 +113,7 @@ const StyledNavbarBackground = styled.div`
 
 const StyledImageOverlay = styled.div<{ overlay?: string }>`
   ${tw`w-full pb-4 md:pb-8 flex flex-col justify-end h-full overflow-visible`}
-  ${({ overlay }) => overlay && tw`bg-black  bg-opacity-20  `}
+  ${({ overlay }) => overlay && tw`bg-black  bg-opacity-30  `}
 `;
 
 const StyledBackButton = styled.div`
@@ -135,6 +135,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
   const { selectedTopicId } = useSelectedTopic();
   const [scrollY, setScrollY] = useState(0);
   const { width } = useWindowDimensions();
+  // const { accentColor } = useSelectedSchoolSubjectColor();
 
   const grid = useSelectedSchoolSubjectGrid();
 
@@ -225,6 +226,24 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
 
           <StyledTopicResourcesWrapper largeShadow={imageSrc ? true : false}>
             {!hasChildren && <NoContentAddedHint />}
+
+            {/* <div tw="divide-y transition-all hover:scale-105 bg-tertiary px-4 py-2 rounded-xl bg-opacity-50 divide-primaryBorder  mb-10">
+              {['Übersicht', 'Exogene Kräfte', 'Endogene Kräfte'].map((chapter, idx) => (
+                <div tw="py-3 items-center pl-4 flex justify-between">
+                  <div tw="flex space-x-4 items-center">
+                    <div tw="text-xl" style={{ color: accentColor }}>
+                      <IoBook />
+                    </div>
+                    <p>
+                      <span tw="font-semibold">Kapitel {idx + 1} -</span> {chapter}
+                    </p>
+                  </div>
+                  <div tw="text-lg text-opacity-80 text-seconderyText">
+                    <IoChevronForward />
+                  </div>
+                </div>
+              ))}
+            </div> */}
 
             <CollectionGrid columnSize="small">
               <EntityPropsMapper

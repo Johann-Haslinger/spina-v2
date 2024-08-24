@@ -31,7 +31,7 @@ const Alert = (props: AlertProps & PropsWithChildren) => {
   const { visible = true, navigateBack, children } = props;
   const [isAlertDisplayed, setIsAlertDisplayed] = useState(false);
   const alertRef = useRef<HTMLDivElement>(null);
-  const { isDarkModeAktiv: isDarkMode } = useSelectedTheme();
+  const { isDarkModeAktive: isDarkMode } = useSelectedTheme();
   const { selectedLanguage } = useSelectedLanguage();
 
   useEffect(() => {

@@ -114,6 +114,7 @@ export enum AdditionalTags {
   PARTIALLY_REMEMBERED,
   REMEMBERED_WITH_EFFORT,
   REMEMBERED_EASILY,
+  PENDING_RESOURCE,
 }
 
 export enum NavigationLinks {
