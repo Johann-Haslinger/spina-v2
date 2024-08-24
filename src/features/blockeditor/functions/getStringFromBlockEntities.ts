@@ -1,15 +1,9 @@
-import { Entity } from "@leanscope/ecs-engine";
-import { TextFacet } from "@leanscope/ecs-models";
-import {
-  BlocktypeFacet,
-  TexttypeFacet,
-  TodoStateFacet,
-} from "../../../app/additionalFacets";
-import { Texttypes } from "../../../base/enums";
+import { Entity } from '@leanscope/ecs-engine';
+import { TextFacet } from '@leanscope/ecs-models';
+import { BlocktypeFacet, TexttypeFacet, TodoStateFacet } from '../../../app/additionalFacets';
+import { Texttype } from '../../../base/enums';
 
-export const getStringFromBlockEntities = (
-  blockEntities: readonly Entity[],
-) => {
+export const getStringFromBlockEntities = (blockEntities: readonly Entity[]) => {
   const markdownString = blockEntities
     .map((bockEntity) => {
       const blockType = bockEntity.get(BlocktypeFacet)?.props.blocktype;
@@ -17,27 +11,27 @@ export const getStringFromBlockEntities = (
       const text = bockEntity.get(TextFacet)?.props.text;
       const todoState = bockEntity.get(TodoStateFacet)?.props.todoState;
 
-      if (blockType === "text") {
+      if (blockType === 'text') {
         let textContent = text;
-        if (textType === Texttypes.BOLD) {
+        if (textType === Texttype.BOLD) {
           textContent = `**${textContent}**`;
         }
         return textContent;
-      } else if (blockType === "list") {
+      } else if (blockType === 'list') {
         let listContent = `- ${text}`;
-        if (textType === Texttypes.BOLD) {
+        if (textType === Texttype.BOLD) {
           listContent = `**${listContent}**`;
         }
         return listContent;
-      } else if (blockType === "todo") {
-        let todoContent = `- [${todoState == 2 ? "x" : " "}] ${text}`;
-        if (textType === Texttypes.BOLD) {
+      } else if (blockType === 'todo') {
+        let todoContent = `- [${todoState == 2 ? 'x' : ' '}] ${text}`;
+        if (textType === Texttype.BOLD) {
           todoContent = `**${todoContent}**`;
         }
         return todoContent;
       }
     })
-    .join("\n");
+    .join('\n');
 
   return markdownString;
 };

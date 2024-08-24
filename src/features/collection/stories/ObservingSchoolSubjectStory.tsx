@@ -1,19 +1,16 @@
-import {
-  LeanScopeClient,
-  LeanScopeClientApp,
-} from "@leanscope/api-client/node";
-import { EntityCreator } from "@leanscope/ecs-engine";
-import { IdentifierFacet, OrderFacet, Tags } from "@leanscope/ecs-models";
-import React from "react";
-import { BrowserRouter } from "react-router-dom";
-import { TitleFacet } from "../../../app/additionalFacets";
-import { DataTypes, Stories } from "../../../base/enums";
-import Collection from "../../../pages/Collection";
-import InitializeAppSystem from "../../../systems/InitializeAppSystem";
-import InitializeSchoolSubjectsSystem from "../../../systems/InitializeSchoolSubjectsSystem";
-import InitializeStoriesSystem from "../../../systems/InitializeStoriesSystem";
-import ViewManagerSystem from "../../../systems/ViewManagerSystem";
-import LoadTopicsSystem from "../systems/LoadTopicsSystem";
+import { LeanScopeClient, LeanScopeClientApp } from '@leanscope/api-client/node';
+import { EntityCreator } from '@leanscope/ecs-engine';
+import { IdentifierFacet, OrderFacet, Tags } from '@leanscope/ecs-models';
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import { TitleFacet } from '../../../app/additionalFacets';
+import { DataType, Story } from '../../../base/enums';
+import Collection from '../../../pages/Collection';
+import InitializeAppSystem from '../../../systems/InitializeAppSystem';
+import InitializeSchoolSubjectsSystem from '../../../systems/InitializeSchoolSubjectsSystem';
+import InitializeStoriesSystem from '../../../systems/InitializeStoriesSystem';
+import ViewManagerSystem from '../../../systems/ViewManagerSystem';
+import LoadTopicsSystem from '../systems/LoadTopicsSystem';
 
 const ObservingSchoolSubjectStory = () => {
   return (
@@ -22,15 +19,13 @@ const ObservingSchoolSubjectStory = () => {
         <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
           <EntityCreator
             facets={[
-              new TitleFacet({ title: "Mathematik" }),
-              new IdentifierFacet({ guid: "0" }),
+              new TitleFacet({ title: 'Mathematik' }),
+              new IdentifierFacet({ guid: '0' }),
               new OrderFacet({ orderIndex: 1 }),
             ]}
-            tags={[DataTypes.SCHOOL_SUBJECT, Tags.SELECTED]}
+            tags={[DataType.SCHOOL_SUBJECT, Tags.SELECTED]}
           />
-          <InitializeStoriesSystem
-            initialStory={Stories.OBSERVING_SCHOOL_SUBJECT_STORY}
-          />
+          <InitializeStoriesSystem initialStory={Story.OBSERVING_SCHOOL_SUBJECT_STORY} />
           <ViewManagerSystem />
           <InitializeAppSystem mockupData />
 

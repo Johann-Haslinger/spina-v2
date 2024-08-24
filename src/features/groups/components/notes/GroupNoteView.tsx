@@ -1,34 +1,24 @@
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
-import { IdentifierProps } from "@leanscope/ecs-models";
-import { useContext } from "react";
-import { IoArrowDownCircleOutline, IoTrashOutline } from "react-icons/io5";
-import { Fragment } from "react/jsx-runtime";
-import {
-  DateAddedFacet,
-  TitleFacet,
-  TitleProps,
-} from "../../../../app/additionalFacets";
-import {
-  AdditionalTags,
-  DataTypes,
-  Stories,
-  SupabaseColumns,
-  SupabaseTables,
-} from "../../../../base/enums";
-import { ActionRow, NavBarButton, View } from "../../../../components";
-import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
-import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import supabaseClient from "../../../../lib/supabase";
-import { displayActionTexts } from "../../../../utils/displayText";
-import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
-import Blockeditor from "../../../blockeditor/components/Blockeditor";
-import InitializeBlockeditorSystem from "../../../blockeditor/systems/InitializeBlockeditorSystem";
-import GenerateFlashcardsSheet from "../../../collection/components/generation/GenerateFlashcardsSheet";
-import GeneratePodcastSheet from "../../../collection/components/generation/GeneratePodcastSheet";
-import PodcastRow from "../../../collection/components/podcasts/PodcastRow";
-import { useSelectedGroupTopic } from "../../hooks/useSelectedGroupTopic";
-import DeleteGroupNoteAlert from "./DeleteGroupAlert";
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { EntityProps, EntityPropsMapper } from '@leanscope/ecs-engine';
+import { IdentifierProps } from '@leanscope/ecs-models';
+import { useContext } from 'react';
+import { IoArrowDownCircleOutline, IoTrashOutline } from 'react-icons/io5';
+import { Fragment } from 'react/jsx-runtime';
+import { DateAddedFacet, TitleFacet, TitleProps } from '../../../../app/additionalFacets';
+import { AdditionalTags, DataType, Story, SupabaseColumns, SupabaseTables } from '../../../../base/enums';
+import { ActionRow, NavBarButton, View } from '../../../../components';
+import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
+import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
+import supabaseClient from '../../../../lib/supabase';
+import { displayActionTexts } from '../../../../utils/displayText';
+import { dataTypeQuery, isChildOfQuery } from '../../../../utils/queries';
+import Blockeditor from '../../../blockeditor/components/Blockeditor';
+import InitializeBlockeditorSystem from '../../../blockeditor/systems/InitializeBlockeditorSystem';
+import GenerateFlashcardsSheet from '../../../collection/components/generation/GenerateFlashcardsSheet';
+import GeneratePodcastSheet from '../../../collection/components/generation/GeneratePodcastSheet';
+import PodcastRow from '../../../collection/components/podcasts/PodcastRow';
+import { useSelectedGroupTopic } from '../../hooks/useSelectedGroupTopic';
+import DeleteGroupNoteAlert from './DeleteGroupAlert';
 
 const GroupNoteView = (props: TitleProps & IdentifierProps & EntityProps) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -38,10 +28,8 @@ const GroupNoteView = (props: TitleProps & IdentifierProps & EntityProps) => {
   const isVisible = useIsViewVisible(entity);
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
-  const openDeleteAlert = () =>
-    lsc.stories.transitTo(Stories.DELETING_GROUP_NOTE_STORY);
-  const openCloneResourceSheet = () =>
-    lsc.stories.transitTo(Stories.CLONING_RESOURCE_FROM_GROUP_STORY);
+  const openDeleteAlert = () => lsc.stories.transitTo(Story.DELETING_GROUP_NOTE_STORY);
+  const openCloneResourceSheet = () => lsc.stories.transitTo(Story.CLONING_RESOURCE_FROM_GROUP_STORY);
 
   const handleTitleBlur = async (value: string) => {
     entity.add(new TitleFacet({ title: value }));
@@ -51,7 +39,7 @@ const GroupNoteView = (props: TitleProps & IdentifierProps & EntityProps) => {
       .eq(SupabaseColumns.ID, guid);
 
     if (error) {
-      console.error("Error updating group note title", error);
+      console.error('Error updating group note title', error);
     }
   };
 
@@ -69,10 +57,7 @@ const GroupNoteView = (props: TitleProps & IdentifierProps & EntityProps) => {
           customHeaderArea={
             <div>
               <EntityPropsMapper
-                query={(e) =>
-                  isChildOfQuery(e, entity) &&
-                  dataTypeQuery(e, DataTypes.PODCAST)
-                }
+                query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataType.PODCAST)}
                 get={[[TitleFacet, DateAddedFacet], []]}
                 onMatch={PodcastRow}
               />
@@ -85,13 +70,7 @@ const GroupNoteView = (props: TitleProps & IdentifierProps & EntityProps) => {
           }
           customActionRows={
             <Fragment>
-              <ActionRow
-                first
-                last
-                destructive
-                onClick={openDeleteAlert}
-                icon={<IoTrashOutline />}
-              >
+              <ActionRow first last destructive onClick={openDeleteAlert} icon={<IoTrashOutline />}>
                 {displayActionTexts(selectedLanguage).delete}
               </ActionRow>
             </Fragment>

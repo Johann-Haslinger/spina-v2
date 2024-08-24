@@ -1,18 +1,10 @@
-import { EntityProps } from "@leanscope/ecs-engine";
-import {
-  FitTypes,
-  FloatOrderProps,
-  ImageFacet,
-  ImageFitFacet,
-  ImageSizeFacet,
-  SizeTypes,
-} from "@leanscope/ecs-models";
-import BlockOutline from "./BlockOutline";
-import { Fragment, useState } from "react";
-import { useCurrentBlockeditor } from "../../hooks/useCurrentBlockeditor";
-import styled from "@emotion/styled";
-import tw from "twin.macro";
-import { useEntityFacets } from "@leanscope/ecs-engine/react-api/hooks/useEntityFacets";
+import styled from '@emotion/styled';
+import { EntityProps } from '@leanscope/ecs-engine';
+import { useEntityFacets } from '@leanscope/ecs-engine/react-api/hooks/useEntityFacets';
+import { FitTypes, FloatOrderProps, ImageFacet, ImageFitFacet, ImageSizeFacet, SizeTypes } from '@leanscope/ecs-models';
+import { Fragment } from 'react';
+import tw from 'twin.macro';
+import BlockOutline from './BlockOutline';
 
 const StyledImageWrapper = styled.div`
   ${tw`w-full rounded-lg bg-tertiary dark:bg-seconderyDark flex justify-center`}
@@ -32,14 +24,8 @@ const StyledImage = styled.img<{ size: SizeTypes; fit: FitTypes }>`
 
 const ImageBlock = (props: EntityProps & FloatOrderProps) => {
   const { entity, index } = props;
-  const { blockeditorState } = useCurrentBlockeditor();
-  const [_, setIsFullViewVisible] = useState(false);
   const imageUrl = entity.get(ImageFacet)?.props.imageSrc;
-  const [imageSizeProps, imageFitProps] = useEntityFacets(
-    entity,
-    ImageSizeFacet,
-    ImageFitFacet,
-  );
+  const [imageSizeProps, imageFitProps] = useEntityFacets(entity, ImageSizeFacet, ImageFitFacet);
   const size = imageSizeProps?.size || SizeTypes.AUTO_SIZE;
   const fit = imageFitProps?.fit || FitTypes.AUTO_FIT;
 
@@ -50,14 +36,7 @@ const ImageBlock = (props: EntityProps & FloatOrderProps) => {
       <BlockOutline paddingY blockEntity={entity} index={index}>
         {imageUrl ? (
           <StyledImageWrapper>
-            <StyledImage
-              onClick={() =>
-                blockeditorState == "view" && setIsFullViewVisible(true)
-              }
-              src={imageUrl}
-              size={size}
-              fit={fit}
-            />
+            <StyledImage src={imageUrl} size={size} fit={fit} />
           </StyledImageWrapper>
         ) : (
           <div>Failed to load image</div>

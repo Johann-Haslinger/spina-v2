@@ -1,19 +1,19 @@
-import styled from "@emotion/styled";
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { useEntities } from "@leanscope/ecs-engine";
-import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntityComponents";
-import { motion } from "framer-motion";
-import { useContext, useEffect, useRef } from "react";
-import tw from "twin.macro";
+import styled from '@emotion/styled';
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { useEntities } from '@leanscope/ecs-engine';
+import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntityComponents';
+import { motion } from 'framer-motion';
+import { useContext, useEffect, useRef } from 'react';
+import tw from 'twin.macro';
 
-import { useCurrentSapientorConversation } from "../hooks/useCurrentConversation";
-import SapientorChatSheet from "./SapientorChatSheet";
-import SapientorEye from "./SapientorEye";
-import SapientorQuickChat from "./SapientorQuickChat";
-import { MessageRoleFacet } from "../../../app/additionalFacets";
-import { COLOR_ITEMS, MEDIUM_DEVICE_WIDTH } from "../../../base/constants";
-import { AdditionalTags } from "../../../base/enums";
-import { useWindowDimensions } from "../../../hooks/useWindowDimensions";
+import { useCurrentSapientorConversation } from '../hooks/useCurrentConversation';
+import SapientorChatSheet from './SapientorChatSheet';
+import SapientorEye from './SapientorEye';
+import SapientorQuickChat from './SapientorQuickChat';
+import { MessageRoleFacet } from '../../../app/additionalFacets';
+import { COLOR_ITEMS, MEDIUM_DEVICE_WIDTH } from '../../../base/constants';
+import { AdditionalTags } from '../../../base/enums';
+import { useWindowDimensions } from '../../../hooks/useWindowDimensions';
 
 const useQuickChat = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -36,18 +36,10 @@ const useQuickChat = () => {
           lsc.engine.removeEntity(entity);
         });
     }
-  }, [
-    isQuickChatVisible,
-    isChatSheetVisible,
-    deleteCurrentConversation,
-    lsc.engine,
-  ]);
+  }, [isQuickChatVisible, isChatSheetVisible, deleteCurrentConversation, lsc.engine]);
 
   const handleClickOutside = (event: MouseEvent) => {
-    if (
-      quickChatRef.current &&
-      !quickChatRef.current.contains(event.target as Node)
-    ) {
+    if (quickChatRef.current && !quickChatRef.current.contains(event.target as Node)) {
       setQuickChatVisible(false);
       setChatSheetVisible(false);
 
@@ -60,14 +52,9 @@ const useQuickChat = () => {
   };
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [
-    messageEntities,
-    promptEntities,
-    setQuickChatVisible,
-    setChatSheetVisible,
-  ]);
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [messageEntities, promptEntities, setQuickChatVisible, setChatSheetVisible]);
 
   return { quickChatRef };
 };
@@ -90,20 +77,11 @@ const StyledThinkingAnimationWrapper = styled.div`
 `;
 
 const SapientorIcon = () => {
-  const [promptEntity] = useEntities(
-    (e) => e.has(AdditionalTags.PROMPT) && e.has(AdditionalTags.PROCESSING),
-  )[0];
-  const [isProcessingCurrentPrompt] = useEntityHasTags(
-    promptEntity,
-    AdditionalTags.PROCESSING,
-  );
+  const [promptEntity] = useEntities((e) => e.has(AdditionalTags.PROMPT) && e.has(AdditionalTags.PROCESSING))[0];
+  const [isProcessingCurrentPrompt] = useEntityHasTags(promptEntity, AdditionalTags.PROCESSING);
   const { quickChatRef } = useQuickChat();
-  const {
-    isQuickChatVisible,
-    setQuickChatVisible,
-    setChatSheetVisible,
-    isChatSheetVisible,
-  } = useCurrentSapientorConversation();
+  const { isQuickChatVisible, setQuickChatVisible, setChatSheetVisible, isChatSheetVisible } =
+    useCurrentSapientorConversation();
   const { width } = useWindowDimensions();
 
   const openPromptBox = () => {
@@ -120,10 +98,10 @@ const SapientorIcon = () => {
   };
 
   return (
-    <div ref={quickChatRef}>
+    <div tw="hidden md:flex" ref={quickChatRef}>
       <motion.div
         style={{
-          position: "fixed",
+          position: 'fixed',
           bottom: 0,
           right: 0,
         }}
@@ -143,7 +121,7 @@ const SapientorIcon = () => {
                   width: 13,
                   height: 13,
                   margin: 3,
-                  borderRadius: "50%",
+                  borderRadius: '50%',
                 }}
                 animate={{ y: [-7, 7, -7] }}
                 transition={{ duration: 0.6, repeat: Infinity }}
@@ -154,7 +132,7 @@ const SapientorIcon = () => {
                   width: 13,
                   height: 13,
                   margin: 3,
-                  borderRadius: "50%",
+                  borderRadius: '50%',
                 }}
                 animate={{ y: [7, -7, 7] }}
                 transition={{ duration: 0.6, repeat: Infinity, delay: 0.2 }}
@@ -165,7 +143,7 @@ const SapientorIcon = () => {
                   width: 13,
                   height: 13,
                   margin: 3,
-                  borderRadius: "50%",
+                  borderRadius: '50%',
                 }}
                 animate={{ y: [-7, 7, -7] }}
                 transition={{ duration: 0.6, repeat: Infinity, delay: 0.4 }}

@@ -1,10 +1,10 @@
-import { Entity } from "@leanscope/ecs-engine";
-import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntityComponents";
-import { useEffect, useRef } from "react";
-import { AdditionalTags } from "../../../base/enums";
-import { useCurrentBlockeditor } from "./useCurrentBlockeditor";
-import { Tags } from "@leanscope/ecs-models";
-import { changeBlockeditorState } from "../functions/changeBlockeditorState";
+import { Entity } from '@leanscope/ecs-engine';
+import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntityComponents';
+import { useEffect, useRef } from 'react';
+import { AdditionalTags } from '../../../base/enums';
+import { useCurrentBlockeditor } from './useCurrentBlockeditor';
+import { Tags } from '@leanscope/ecs-models';
+import { changeBlockeditorState } from '../functions/changeBlockeditorState';
 
 export const useTexteditorRef = (entity: Entity) => {
   const [isFocused] = useEntityHasTags(entity, AdditionalTags.FOCUSED);
@@ -15,24 +15,21 @@ export const useTexteditorRef = (entity: Entity) => {
   useEffect(() => {
     if (isPressed) {
       entity.remove(AdditionalTags.FOCUSED);
-      changeBlockeditorState(blockeditorEntity, "edit");
+      changeBlockeditorState(blockeditorEntity, 'edit');
     }
   }, [isPressed]);
 
   const handleClickOutside = (e: MouseEvent) => {
-    if (
-      texteditorRef.current &&
-      !texteditorRef.current.contains(e.target as Node)
-    ) {
+    if (texteditorRef.current && !texteditorRef.current.contains(e.target as Node)) {
       texteditorRef.current.blur();
       entity.remove(AdditionalTags.FOCUSED);
     }
   };
 
   useEffect(() => {
-    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener('mousedown', handleClickOutside);
     return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 

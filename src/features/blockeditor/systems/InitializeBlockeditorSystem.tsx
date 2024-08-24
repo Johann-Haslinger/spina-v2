@@ -1,9 +1,9 @@
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { Entity, useEntities } from "@leanscope/ecs-engine";
-import { IdentifierFacet, Tags } from "@leanscope/ecs-models";
-import { useContext, useEffect } from "react";
-import { BlockeditorStateFacet } from "../../../app/additionalFacets";
-import { AdditionalTags } from "../../../base/enums";
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { Entity, useEntities } from '@leanscope/ecs-engine';
+import { IdentifierFacet, Tags } from '@leanscope/ecs-models';
+import { useContext, useEffect } from 'react';
+import { BlockeditorStateFacet } from '../../../app/additionalFacets';
+import { AdditionalTags } from '../../../base/enums';
 
 const InitializeBlockeditorSystem = (props: {
   blockeditorId: string;
@@ -12,9 +12,7 @@ const InitializeBlockeditorSystem = (props: {
 }) => {
   const lsc = useContext(LeanScopeClientContext);
   const { blockeditorId, isGroupBlockeditor } = props;
-  const [blockeditorEntities] = useEntities((e) =>
-    e.has(BlockeditorStateFacet),
-  );
+  const [blockeditorEntities] = useEntities((e) => e.has(BlockeditorStateFacet));
 
   useEffect(() => {
     const initializeBlockeditor = async () => {
@@ -25,9 +23,7 @@ const InitializeBlockeditorSystem = (props: {
       const newBlockeditorEntity = new Entity();
       lsc.engine.addEntity(newBlockeditorEntity);
       newBlockeditorEntity.add(new IdentifierFacet({ guid: blockeditorId }));
-      newBlockeditorEntity.add(
-        new BlockeditorStateFacet({ blockeditorState: "view" }),
-      );
+      newBlockeditorEntity.add(new BlockeditorStateFacet({ blockeditorState: 'view' }));
 
       if (isGroupBlockeditor) {
         newBlockeditorEntity.add(AdditionalTags.GROUP_BLOCKEDITOR);

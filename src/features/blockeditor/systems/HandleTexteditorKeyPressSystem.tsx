@@ -1,10 +1,10 @@
-import { EntityProps } from "@leanscope/ecs-engine";
-import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntityComponents";
-import { Tags } from "@leanscope/ecs-models";
-import { useEffect } from "react";
-import { TexttypeFacet } from "../../../app/additionalFacets";
-import { Texttypes } from "../../../base/enums";
-import { useCurrentBlockeditor } from "../hooks/useCurrentBlockeditor";
+import { EntityProps } from '@leanscope/ecs-engine';
+import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntityComponents';
+import { Tags } from '@leanscope/ecs-models';
+import { useEffect } from 'react';
+import { TexttypeFacet } from '../../../app/additionalFacets';
+import { Texttype } from '../../../base/enums';
+import { useCurrentBlockeditor } from '../hooks/useCurrentBlockeditor';
 
 const HandleTexteditorKeyPressSystem = (props: EntityProps) => {
   const { entity } = props;
@@ -14,36 +14,27 @@ const HandleTexteditorKeyPressSystem = (props: EntityProps) => {
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
-      if (blockeditorState === "edit" && isPressed) {
+      if (blockeditorState === 'edit' && isPressed) {
         e.preventDefault();
         switch (e.key) {
-          case "b":
+          case 'b':
             entity.add(
               new TexttypeFacet({
-                texttype:
-                  textType === Texttypes.BOLD
-                    ? Texttypes.NORMAL
-                    : Texttypes.BOLD,
+                texttype: textType === Texttype.BOLD ? Texttype.NORMAL : Texttype.BOLD,
               }),
             );
             break;
-          case "u":
+          case 'u':
             entity.add(
               new TexttypeFacet({
-                texttype:
-                  textType === Texttypes.UNDERLINE
-                    ? Texttypes.NORMAL
-                    : Texttypes.UNDERLINE,
+                texttype: textType === Texttype.UNDERLINE ? Texttype.NORMAL : Texttype.UNDERLINE,
               }),
             );
             break;
-          case "i":
+          case 'i':
             entity.add(
               new TexttypeFacet({
-                texttype:
-                  textType === Texttypes.ITALIC
-                    ? Texttypes.NORMAL
-                    : Texttypes.ITALIC,
+                texttype: textType === Texttype.ITALIC ? Texttype.NORMAL : Texttype.ITALIC,
               }),
             );
             break;
@@ -51,9 +42,9 @@ const HandleTexteditorKeyPressSystem = (props: EntityProps) => {
       }
     };
 
-    window.addEventListener("keypress", handleKeyPress);
+    window.addEventListener('keypress', handleKeyPress);
     return () => {
-      window.removeEventListener("keypress", handleKeyPress);
+      window.removeEventListener('keypress', handleKeyPress);
     };
   }, [isPressed, blockeditorState, entity, textType]);
 

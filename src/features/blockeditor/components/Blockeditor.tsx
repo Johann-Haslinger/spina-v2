@@ -1,39 +1,23 @@
-import styled from "@emotion/styled";
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import React, { Fragment, useContext } from "react";
-import {
-  IoAdd,
-  IoColorWandOutline,
-  IoEllipsisHorizontalCircleOutline,
-  IoSparklesOutline,
-} from "react-icons/io5";
-import tw from "twin.macro";
-import { AdditionalTags, Stories } from "../../../base/enums";
-import {
-  ActionRow,
-  BackButton,
-  NavBarButton,
-  NavigationBar,
-  PrimaryButton,
-  Spacer,
-  Title,
-} from "../../../components";
-import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
-import {
-  displayActionTexts,
-  displayButtonTexts,
-} from "../../../utils/displayText";
-import GenerateImprovedTextSheet from "../../collection/components/generation/GenerateImprovedTextSheet";
-import { changeBlockeditorState } from "../functions/changeBlockeditorState";
-import { useClickOutsideBlockEditorHandler } from "../hooks/useClickOutsideBlockEditorHandler";
-import { useCurrentBlockeditor } from "../hooks/useCurrentBlockeditor";
-import ChangeBlockeditorStateSystem from "../systems/ChangeBlockeditorStateSystem";
-import LoadBlocksSystem from "../systems/LoadBlocksSystem";
-import UpdateBlockStateSystem from "../systems/UpdateBlockStateSystem";
-import ComponentRenderer from "./ComponentRenderer";
-import Createmenu from "./menus/Createmenu";
-import Editmenu from "./menus/edit-menu/Editmenu";
-import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntityComponents";
+import styled from '@emotion/styled';
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntityComponents';
+import React, { Fragment, useContext } from 'react';
+import { IoAdd, IoColorWandOutline, IoEllipsisHorizontalCircleOutline, IoSparklesOutline } from 'react-icons/io5';
+import tw from 'twin.macro';
+import { AdditionalTags, Story } from '../../../base/enums';
+import { ActionRow, BackButton, NavBarButton, NavigationBar, PrimaryButton, Spacer, Title } from '../../../components';
+import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
+import { displayActionTexts, displayButtonTexts } from '../../../utils/displayText';
+import GenerateImprovedTextSheet from '../../collection/components/generation/GenerateImprovedTextSheet';
+import { changeBlockeditorState } from '../functions/changeBlockeditorState';
+import { useClickOutsideBlockEditorHandler } from '../hooks/useClickOutsideBlockEditorHandler';
+import { useCurrentBlockeditor } from '../hooks/useCurrentBlockeditor';
+import ChangeBlockeditorStateSystem from '../systems/ChangeBlockeditorStateSystem';
+import LoadBlocksSystem from '../systems/LoadBlocksSystem';
+import UpdateBlockStateSystem from '../systems/UpdateBlockStateSystem';
+import ComponentRenderer from './ComponentRenderer';
+import Createmenu from './menus/Createmenu';
+import Editmenu from './menus/edit-menu/Editmenu';
 
 const StyledTitleWrapper = styled.div`
   ${tw`px-2`}
@@ -73,17 +57,11 @@ const Blockeditor = (props: BlockeditorProps) => {
     customEditOptions,
   } = props;
   const { selectedLanguage } = useSelectedLanguage();
-  const { blockeditorState, blockeditorEntity, blockeditorId } =
-    useCurrentBlockeditor();
-  const { blocksAreaRef, addBlockAreaRef } =
-    useClickOutsideBlockEditorHandler();
-  const [isGroupBlockeditor] = useEntityHasTags(
-    blockeditorEntity,
-    AdditionalTags.GROUP_BLOCKEDITOR,
-  );
+  const { blockeditorState, blockeditorEntity, blockeditorId } = useCurrentBlockeditor();
+  const { blocksAreaRef, addBlockAreaRef } = useClickOutsideBlockEditorHandler();
+  const [isGroupBlockeditor] = useEntityHasTags(blockeditorEntity, AdditionalTags.GROUP_BLOCKEDITOR);
 
-  const openImproveTextSheet = () =>
-    lsc.stories.transitTo(Stories.GENERATING_IMPROVED_TEXT_STORY);
+  const openImproveTextSheet = () => lsc.stories.transitTo(Story.GENERATING_IMPROVED_TEXT_STORY);
 
   return (
     blockeditorEntity && (
@@ -92,7 +70,7 @@ const Blockeditor = (props: BlockeditorProps) => {
         <UpdateBlockStateSystem />
         <ChangeBlockeditorStateSystem />
         <NavigationBar>
-          {blockeditorState === "view" ? (
+          {blockeditorState === 'view' ? (
             <Fragment>
               {!customContent && !isGroupBlockeditor && (
                 <NavBarButton
@@ -102,9 +80,7 @@ const Blockeditor = (props: BlockeditorProps) => {
                         icon={<IoSparklesOutline />}
                         first
                         onClick={openImproveTextSheet}
-                        last={
-                          customGenerateActionRows !== undefined ? false : true
-                        }
+                        last={customGenerateActionRows !== undefined ? false : true}
                       >
                         {displayActionTexts(selectedLanguage).improveText}
                       </ActionRow>
@@ -118,11 +94,7 @@ const Blockeditor = (props: BlockeditorProps) => {
               {customEditOptions}
               {!customContent && !isGroupBlockeditor && (
                 <NavBarButton>
-                  <IoAdd
-                    onClick={() =>
-                      changeBlockeditorState(blockeditorEntity, "create")
-                    }
-                  />
+                  <IoAdd onClick={() => changeBlockeditorState(blockeditorEntity, 'create')} />
                 </NavBarButton>
               )}
 
@@ -131,23 +103,14 @@ const Blockeditor = (props: BlockeditorProps) => {
               </NavBarButton>
             </Fragment>
           ) : (
-            <PrimaryButton
-              onClick={() => changeBlockeditorState(blockeditorEntity, "view")}
-            >
+            <PrimaryButton onClick={() => changeBlockeditorState(blockeditorEntity, 'view')}>
               {displayButtonTexts(selectedLanguage).done}
             </PrimaryButton>
           )}
         </NavigationBar>
         <StyledTitleWrapper>
-          {navigateBack && (
-            <BackButton navigateBack={navigateBack}>
-              {backbuttonLabel}
-            </BackButton>
-          )}
-          <Title
-            editable={handleTitleBlur && !isGroupBlockeditor ? true : false}
-            onBlur={handleTitleBlur}
-          >
+          {navigateBack && <BackButton navigateBack={navigateBack}>{backbuttonLabel}</BackButton>}
+          <Title editable={handleTitleBlur && !isGroupBlockeditor ? true : false} onBlur={handleTitleBlur}>
             {title}
           </Title>
           {customHeaderArea ? customHeaderArea : null}

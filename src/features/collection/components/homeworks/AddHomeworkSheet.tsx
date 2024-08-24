@@ -1,22 +1,13 @@
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { Entity } from "@leanscope/ecs-engine";
-import {
-  DescriptionFacet,
-  IdentifierFacet,
-  ParentFacet,
-} from "@leanscope/ecs-models";
-import { useIsStoryCurrent } from "@leanscope/storyboarding";
-import { Fragment, useContext, useEffect, useRef, useState } from "react";
-import { IoAdd, IoCheckmarkCircle, IoEllipseOutline } from "react-icons/io5";
-import { useLocation } from "react-router";
-import { v4 } from "uuid";
-import {
-  DueDateFacet,
-  RelationshipFacet,
-  StatusFacet,
-  TitleFacet,
-} from "../../../../app/additionalFacets";
-import { DataTypes, Stories } from "../../../../base/enums";
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { Entity } from '@leanscope/ecs-engine';
+import { DescriptionFacet, IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
+import { useIsStoryCurrent } from '@leanscope/storyboarding';
+import { Fragment, useContext, useEffect, useRef, useState } from 'react';
+import { IoAdd, IoCheckmarkCircle, IoEllipseOutline } from 'react-icons/io5';
+import { useLocation } from 'react-router';
+import { v4 } from 'uuid';
+import { DueDateFacet, RelationshipFacet, StatusFacet, TitleFacet } from '../../../../app/additionalFacets';
+import { DataType, Story } from '../../../../base/enums';
 import {
   DateInput,
   FlexBox,
@@ -29,46 +20,39 @@ import {
   Spacer,
   TextAreaInput,
   TextInput,
-} from "../../../../components";
-import { addHomework } from "../../../../functions/addHomework";
-import { addTopic } from "../../../../functions/addTopic";
-import { useSchoolSubjectEntities } from "../../../../hooks/useSchoolSubjects";
-import { useSchoolSubjectTopics } from "../../../../hooks/useSchoolSubjectTopics";
-import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import { useUserData } from "../../../../hooks/useUserData";
-import {
-  displayActionTexts,
-  displayButtonTexts,
-  displayLabelTexts,
-} from "../../../../utils/displayText";
-import { useSelectedSchoolSubject } from "../../hooks/useSelectedSchoolSubject";
-import { useSelectedTopic } from "../../hooks/useSelectedTopic";
+} from '../../../../components';
+import { addHomework } from '../../../../functions/addHomework';
+import { addTopic } from '../../../../functions/addTopic';
+import { useSchoolSubjectEntities } from '../../../../hooks/useSchoolSubjects';
+import { useSchoolSubjectTopics } from '../../../../hooks/useSchoolSubjectTopics';
+import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
+import { useUserData } from '../../../../hooks/useUserData';
+import { displayActionTexts, displayButtonTexts, displayLabelTexts } from '../../../../utils/displayText';
+import { useSelectedSchoolSubject } from '../../hooks/useSelectedSchoolSubject';
+import { useSelectedTopic } from '../../hooks/useSelectedTopic';
 
 const AddHomeworkSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.ADDING_HOMEWORK_STORY);
+  const isVisible = useIsStoryCurrent(Story.ADDING_HOMEWORK_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const schooolSubjectEntities = useSchoolSubjectEntities();
   const { selectedTopicId: openTopicId } = useSelectedTopic();
-  const { selectedSchoolSubjectId: openSchoolSubjectId } =
-    useSelectedSchoolSubject();
-  const [selectedSchoolSubjectId, setSelectedSchoolSubjectId] =
-    useState<string>("");
+  const { selectedSchoolSubjectId: openSchoolSubjectId } = useSelectedSchoolSubject();
+  const [selectedSchoolSubjectId, setSelectedSchoolSubjectId] = useState<string>('');
   const [newHomework, setNewHomework] = useState({
     id: v4(),
-    title: "",
-    dueDate: "",
-    parent: "",
-    description: "",
-    relatedSchoolSubject: "",
+    title: '',
+    dueDate: '',
+    parent: '',
+    description: '',
+    relatedSchoolSubject: '',
   });
   const { userId } = useUserData();
-  const { schoolSubjectTopics, setSchoolSubjectTopics } =
-    useSchoolSubjectTopics(selectedSchoolSubjectId);
+  const { schoolSubjectTopics, setSchoolSubjectTopics } = useSchoolSubjectTopics(selectedSchoolSubjectId);
   const location = useLocation();
-  const inCollectionVisible = location.pathname.includes("/collection");
+  const inCollectionVisible = location.pathname.includes('/collection');
   const [isAddingNewTopic, setIsAddingNewTopic] = useState(false);
-  const [newTopicTitle, setNewTopicTitle] = useState("");
+  const [newTopicTitle, setNewTopicTitle] = useState('');
   const homeworkTitleInputRef = useRef<HTMLInputElement>(null);
   const topicTitleInputRef = useRef<HTMLInputElement>(null);
 
@@ -79,19 +63,18 @@ const AddHomeworkSheet = () => {
   useEffect(() => {
     setNewHomework({
       id: v4(),
-      title: "",
-      dueDate: "",
-      parent: "",
-      description: "",
-      relatedSchoolSubject: "",
+      title: '',
+      dueDate: '',
+      parent: '',
+      description: '',
+      relatedSchoolSubject: '',
     });
-    setSelectedSchoolSubjectId("");
+    setSelectedSchoolSubjectId('');
     setSchoolSubjectTopics([]);
-    setNewTopicTitle("");
+    setNewTopicTitle('');
   }, [isVisible]);
 
-  const navigateBack = () =>
-    lsc.stories.transitTo(Stories.OBSERVING_HOMEWORKS_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_HOMEWORKS_STORY);
 
   const saveHomework = async () => {
     const newHomeworkId = v4();
@@ -118,18 +101,16 @@ const AddHomeworkSheet = () => {
       }),
     );
     newHomeworkEntity.add(new StatusFacet({ status: 1 }));
-    newHomeworkEntity.add(DataTypes.HOMEWORK);
+    newHomeworkEntity.add(DataType.HOMEWORK);
 
-    if (newTopicTitle !== "") {
+    if (newTopicTitle !== '') {
       const newTopicId = v4();
       const newTopicEntity = new Entity();
       lsc.engine.addEntity(newTopicEntity);
       newTopicEntity.add(new IdentifierFacet({ guid: newTopicId }));
       newTopicEntity.add(new TitleFacet({ title: newTopicTitle }));
-      newTopicEntity.add(
-        new ParentFacet({ parentId: selectedSchoolSubjectId }),
-      );
-      newTopicEntity.add(DataTypes.TOPIC);
+      newTopicEntity.add(new ParentFacet({ parentId: selectedSchoolSubjectId }));
+      newTopicEntity.add(DataType.TOPIC);
 
       addTopic(lsc, newTopicEntity, userId);
 
@@ -144,17 +125,11 @@ const AddHomeworkSheet = () => {
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>
       <FlexBox>
-        <SecondaryButton onClick={navigateBack}>
-          {displayButtonTexts(selectedLanguage).cancel}
-        </SecondaryButton>
+        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
 
-        {newHomework.title &&
-          newHomework.dueDate &&
-          schooolSubjectEntities.length !== 0 && (
-            <PrimaryButton onClick={saveHomework}>
-              {displayButtonTexts(selectedLanguage).save}
-            </PrimaryButton>
-          )}
+        {newHomework.title && newHomework.dueDate && schooolSubjectEntities.length !== 0 && (
+          <PrimaryButton onClick={saveHomework}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
+        )}
       </FlexBox>
       <Spacer />
       <Section>
@@ -162,9 +137,7 @@ const AddHomeworkSheet = () => {
           <TextInput
             ref={homeworkTitleInputRef}
             value={newHomework.title}
-            onChange={(e) =>
-              setNewHomework({ ...newHomework, title: e.target.value })
-            }
+            onChange={(e) => setNewHomework({ ...newHomework, title: e.target.value })}
             placeholder={displayLabelTexts(selectedLanguage).title}
           />
         </SectionRow>
@@ -173,9 +146,7 @@ const AddHomeworkSheet = () => {
             <p>{displayLabelTexts(selectedLanguage).dueDate} </p>
             <DateInput
               value={newHomework.dueDate}
-              onChange={(e) =>
-                setNewHomework({ ...newHomework, dueDate: e.target.value })
-              }
+              onChange={(e) => setNewHomework({ ...newHomework, dueDate: e.target.value })}
               type="date"
             />
           </FlexBox>
@@ -184,18 +155,11 @@ const AddHomeworkSheet = () => {
           <SectionRow last>
             <FlexBox>
               <p>{displayLabelTexts(selectedLanguage).schoolSubject}</p>
-              <SelectInput
-                value={selectedSchoolSubjectId}
-                onChange={(e) => setSelectedSchoolSubjectId(e.target.value)}
-              >
-                <option value="">
-                  {displayLabelTexts(selectedLanguage).select}
-                </option>
+              <SelectInput value={selectedSchoolSubjectId} onChange={(e) => setSelectedSchoolSubjectId(e.target.value)}>
+                <option value="">{displayLabelTexts(selectedLanguage).select}</option>
                 {schooolSubjectEntities.map((entity, idx) => {
-                  const schoolSubjectId =
-                    entity.get(IdentifierFacet)?.props.guid;
-                  const schoolSubjectTitle =
-                    entity.get(TitleFacet)?.props.title;
+                  const schoolSubjectId = entity.get(IdentifierFacet)?.props.guid;
+                  const schoolSubjectTitle = entity.get(TitleFacet)?.props.title;
                   return (
                     <option key={idx} value={schoolSubjectId}>
                       {schoolSubjectTitle}
@@ -214,16 +178,8 @@ const AddHomeworkSheet = () => {
             {schoolSubjectTopics.map((topic, idx) => (
               <SectionRow
                 key={idx}
-                onClick={() =>
-                  setNewHomework({ ...newHomework, parent: topic.id })
-                }
-                icon={
-                  newHomework.parent === topic.id ? (
-                    <IoCheckmarkCircle />
-                  ) : (
-                    <IoEllipseOutline />
-                  )
-                }
+                onClick={() => setNewHomework({ ...newHomework, parent: topic.id })}
+                icon={newHomework.parent === topic.id ? <IoCheckmarkCircle /> : <IoEllipseOutline />}
               >
                 {topic.title}
               </SectionRow>
@@ -244,18 +200,14 @@ const AddHomeworkSheet = () => {
               <SectionRow
                 last
                 icon={
-                  newTopicTitle !== "" ? (
-                    newHomework.parent === "newTopic" ? (
+                  newTopicTitle !== '' ? (
+                    newHomework.parent === 'newTopic' ? (
                       <IoCheckmarkCircle />
                     ) : (
-                      <IoEllipseOutline
-                        onClick={() =>
-                          setNewHomework({ ...newHomework, parent: "newTopic" })
-                        }
-                      />
+                      <IoEllipseOutline onClick={() => setNewHomework({ ...newHomework, parent: 'newTopic' })} />
                     )
                   ) : (
-                    <IoEllipseOutline style={{ color: "#86858A" }} />
+                    <IoEllipseOutline style={{ color: '#86858A' }} />
                   )
                 }
               >
@@ -275,9 +227,7 @@ const AddHomeworkSheet = () => {
         <SectionRow last>
           <TextAreaInput
             value={newHomework.description}
-            onChange={(e) =>
-              setNewHomework({ ...newHomework, description: e.target.value })
-            }
+            onChange={(e) => setNewHomework({ ...newHomework, description: e.target.value })}
             placeholder={displayLabelTexts(selectedLanguage).description}
           />
         </SectionRow>

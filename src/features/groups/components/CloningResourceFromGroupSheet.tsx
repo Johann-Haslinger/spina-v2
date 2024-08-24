@@ -1,57 +1,30 @@
-import styled from "@emotion/styled/macro";
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { Entity } from "@leanscope/ecs-engine";
-import {
-  FloatOrderFacet,
-  IdentifierFacet,
-  ImageFacet,
-  ParentFacet,
-  TextFacet,
-} from "@leanscope/ecs-models";
-import { useIsStoryCurrent } from "@leanscope/storyboarding";
-import { Fragment, useContext, useEffect, useState } from "react";
-import { IoAdd, IoChevronForward, IoChevronUp } from "react-icons/io5";
-import tw from "twin.macro";
-import { v4 } from "uuid";
-import {
-  AnswerFacet,
-  BlocktypeFacet,
-  QuestionFacet,
-  TitleFacet,
-} from "../../../app/additionalFacets";
-import { dummyTopics } from "../../../base/dummy";
-import {
-  Blocktypes,
-  DataTypes,
-  Stories,
-  SupabaseColumns,
-  SupabaseTables,
-} from "../../../base/enums";
-import {
-  FlexBox,
-  SecondaryButton,
-  Section,
-  SectionRow,
-  Sheet,
-  Spacer,
-} from "../../../components";
-import { addBlocks } from "../../../functions/addBlocks";
-import { addFlashcardSet } from "../../../functions/addFlashcardSet";
-import { addFlashcards } from "../../../functions/addFlashcards";
-import { addNote } from "../../../functions/addNote";
-import { addSubtopic } from "../../../functions/addSubtopic";
-import { useMockupData } from "../../../hooks/useMockupData";
-import { useSchoolSubjectEntities } from "../../../hooks/useSchoolSubjects";
-import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
-import { useUserData } from "../../../hooks/useUserData";
-import supabaseClient from "../../../lib/supabase";
-import {
-  displayAlertTexts,
-  displayButtonTexts,
-} from "../../../utils/displayText";
-import { useSelectedGroupFlashcardSet } from "../hooks/useSelectedGroupFlashcardSet";
-import { useSelectedGroupNote } from "../hooks/useSelectedGroupNote";
-import { useSelectedGroupSubtopic } from "../hooks/useSelectedGroupSubtopic";
+import styled from '@emotion/styled/macro';
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { Entity } from '@leanscope/ecs-engine';
+import { FloatOrderFacet, IdentifierFacet, ImageFacet, ParentFacet, TextFacet } from '@leanscope/ecs-models';
+import { useIsStoryCurrent } from '@leanscope/storyboarding';
+import { Fragment, useContext, useEffect, useState } from 'react';
+import { IoAdd, IoChevronForward, IoChevronUp } from 'react-icons/io5';
+import tw from 'twin.macro';
+import { v4 } from 'uuid';
+import { AnswerFacet, BlocktypeFacet, QuestionFacet, TitleFacet } from '../../../app/additionalFacets';
+import { dummyTopics } from '../../../base/dummy';
+import { Blocktype, DataType, Story, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { FlexBox, SecondaryButton, Section, SectionRow, Sheet, Spacer } from '../../../components';
+import { addBlocks } from '../../../functions/addBlocks';
+import { addFlashcardSet } from '../../../functions/addFlashcardSet';
+import { addFlashcards } from '../../../functions/addFlashcards';
+import { addNote } from '../../../functions/addNote';
+import { addSubtopic } from '../../../functions/addSubtopic';
+import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
+import { useSchoolSubjectEntities } from '../../../hooks/useSchoolSubjects';
+import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
+import { useUserData } from '../../../hooks/useUserData';
+import supabaseClient from '../../../lib/supabase';
+import { displayAlertTexts, displayButtonTexts } from '../../../utils/displayText';
+import { useSelectedGroupFlashcardSet } from '../hooks/useSelectedGroupFlashcardSet';
+import { useSelectedGroupNote } from '../hooks/useSelectedGroupNote';
+import { useSelectedGroupSubtopic } from '../hooks/useSelectedGroupSubtopic';
 
 const StyledMoreButtonWrapper = styled.div`
   ${tw`text-seconderyText text-opacity-50`}
@@ -60,11 +33,11 @@ const StyledMoreButtonWrapper = styled.div`
 const fetchTopicsForSchoolSubject = async (subjectId: string) => {
   const { data: topics, error } = await supabaseClient
     .from(SupabaseTables.TOPICS)
-    .select("title, id")
+    .select('title, id')
     .eq(SupabaseColumns.PARENT_ID, subjectId);
 
   if (error) {
-    console.error("Error fetching topics:", error);
+    console.error('Error fetching topics:', error);
     return [];
   }
 
@@ -73,24 +46,17 @@ const fetchTopicsForSchoolSubject = async (subjectId: string) => {
 
 const CloningResourceFromGroupSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisble = useIsStoryCurrent(Stories.CLONING_RESOURCE_FROM_GROUP_STORY);
+  const isVisble = useIsStoryCurrent(Story.CLONING_RESOURCE_FROM_GROUP_STORY);
   const { selectedLanguage } = useSelectedLanguage();
-  const {
-    selectedGroupFlashcardSetEntity,
-    selectedGroupFlashcardSetId,
-    selectedGroupFlashcardSetTitle,
-  } = useSelectedGroupFlashcardSet();
-  const { selectedGroupNoteEntity, selectedGroupNoteTitle } =
-    useSelectedGroupNote();
-  const { selectedGroupSubtopicEntity, selectedGroupSubtopicTitle } =
-    useSelectedGroupSubtopic();
-  const [selectedSchoolSubjectId, setSelectedSchoolSubjectId] =
-    useState<string>();
+  const { selectedGroupFlashcardSetEntity, selectedGroupFlashcardSetId, selectedGroupFlashcardSetTitle } =
+    useSelectedGroupFlashcardSet();
+  const { selectedGroupNoteEntity, selectedGroupNoteTitle } = useSelectedGroupNote();
+  const { selectedGroupSubtopicEntity, selectedGroupSubtopicTitle } = useSelectedGroupSubtopic();
+  const [selectedSchoolSubjectId, setSelectedSchoolSubjectId] = useState<string>();
   const schoolSubjectEntities = useSchoolSubjectEntities();
   const { userId } = useUserData();
 
-  const navigateBack = () =>
-    lsc.stories.transitTo(Stories.OBSERVING_GROUP_TOPIC_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_GROUP_TOPIC_STORY);
 
   const cloneResource = async (topicId: string) => {
     navigateBack();
@@ -101,77 +67,63 @@ const CloningResourceFromGroupSheet = () => {
       const newFlashcardSetEntity = new Entity();
       newFlashcardSetEntity.add(new IdentifierFacet({ guid: newResourceId }));
       newFlashcardSetEntity.add(new ParentFacet({ parentId: topicId }));
-      newFlashcardSetEntity.add(
-        new TitleFacet({ title: selectedGroupFlashcardSetTitle || "" }),
-      );
-      newFlashcardSetEntity.add(DataTypes.FLASHCARD_SET);
+      newFlashcardSetEntity.add(new TitleFacet({ title: selectedGroupFlashcardSetTitle || '' }));
+      newFlashcardSetEntity.add(DataType.FLASHCARD_SET);
 
       addFlashcardSet(lsc, newFlashcardSetEntity, userId);
 
       const groupFlashcardEntities = lsc.engine.entities.filter(
-        (e) =>
-          e.has(DataTypes.GROUP_FLASHCARD) &&
-          e.get(ParentFacet)?.props.parentId === selectedGroupFlashcardSetId,
+        (e) => e.has(DataType.GROUP_FLASHCARD) && e.get(ParentFacet)?.props.parentId === selectedGroupFlashcardSetId,
       );
 
-      const newFlashcardEntities = groupFlashcardEntities.map(
-        (groupFlashcardEntity) => {
-          const newFlashcardEntity = new Entity();
-          newFlashcardEntity.add(new IdentifierFacet({ guid: v4() }));
-          newFlashcardEntity.add(new ParentFacet({ parentId: newResourceId }));
-          newFlashcardEntity.add(
-            new QuestionFacet({
-              question:
-                groupFlashcardEntity.get(QuestionFacet)?.props.question || "",
-            }),
-          );
-          newFlashcardEntity.add(
-            new AnswerFacet({
-              answer: groupFlashcardEntity.get(AnswerFacet)?.props.answer || "",
-            }),
-          );
-          newFlashcardEntity.add(DataTypes.FLASHCARD);
+      const newFlashcardEntities = groupFlashcardEntities.map((groupFlashcardEntity) => {
+        const newFlashcardEntity = new Entity();
+        newFlashcardEntity.add(new IdentifierFacet({ guid: v4() }));
+        newFlashcardEntity.add(new ParentFacet({ parentId: newResourceId }));
+        newFlashcardEntity.add(
+          new QuestionFacet({
+            question: groupFlashcardEntity.get(QuestionFacet)?.props.question || '',
+          }),
+        );
+        newFlashcardEntity.add(
+          new AnswerFacet({
+            answer: groupFlashcardEntity.get(AnswerFacet)?.props.answer || '',
+          }),
+        );
+        newFlashcardEntity.add(DataType.FLASHCARD);
 
-          return newFlashcardEntity;
-        },
-      );
+        return newFlashcardEntity;
+      });
 
       addFlashcards(lsc, newFlashcardEntities, userId);
     } else if (selectedGroupNoteEntity) {
       const newNoteEntity = new Entity();
       newNoteEntity.add(new IdentifierFacet({ guid: newResourceId }));
-      newNoteEntity.add(
-        new TitleFacet({ title: selectedGroupNoteTitle || "" }),
-      );
+      newNoteEntity.add(new TitleFacet({ title: selectedGroupNoteTitle || '' }));
       newNoteEntity.add(new ParentFacet({ parentId: topicId }));
-      newNoteEntity.add(DataTypes.GROUP_NOTE);
+      newNoteEntity.add(DataType.GROUP_NOTE);
 
       addNote(lsc, newNoteEntity, userId);
 
       const blockEntities = lsc.engine.entities.filter(
         (e) =>
-          e.has(DataTypes.GROUP_BLOCK) &&
-          e.get(ParentFacet)?.props.parentId ===
-            selectedGroupNoteEntity.get(IdentifierFacet)?.props.guid,
+          e.has(DataType.GROUP_BLOCK) &&
+          e.get(ParentFacet)?.props.parentId === selectedGroupNoteEntity.get(IdentifierFacet)?.props.guid,
       );
 
       const newBlockEntities = blockEntities.map((blockEntity) => {
         const newBlockEntity = new Entity();
         newBlockEntity.add(new IdentifierFacet({ guid: v4() }));
         newBlockEntity.add(new ParentFacet({ parentId: newResourceId }));
-        newBlockEntity.add(
-          new TextFacet({ text: blockEntity.get(TextFacet)?.props.text || "" }),
-        );
+        newBlockEntity.add(new TextFacet({ text: blockEntity.get(TextFacet)?.props.text || '' }));
         newBlockEntity.add(
           new BlocktypeFacet({
-            blocktype:
-              blockEntity.get(BlocktypeFacet)?.props.blocktype ||
-              Blocktypes.TEXT,
+            blocktype: blockEntity.get(BlocktypeFacet)?.props.blocktype || Blocktype.TEXT,
           }),
         );
         newBlockEntity.add(
           new ImageFacet({
-            imageSrc: blockEntity.get(ImageFacet)?.props.imageSrc || "",
+            imageSrc: blockEntity.get(ImageFacet)?.props.imageSrc || '',
           }),
         );
         newBlockEntity.add(
@@ -179,7 +131,7 @@ const CloningResourceFromGroupSheet = () => {
             index: blockEntity.get(FloatOrderFacet)?.props.index || 0,
           }),
         );
-        newBlockEntity.add(DataTypes.BLOCK);
+        newBlockEntity.add(DataType.BLOCK);
 
         return newBlockEntity;
       });
@@ -189,18 +141,15 @@ const CloningResourceFromGroupSheet = () => {
       const newSubtopicEntity = new Entity();
       newSubtopicEntity.add(new IdentifierFacet({ guid: newResourceId }));
       newSubtopicEntity.add(new ParentFacet({ parentId: topicId }));
-      newSubtopicEntity.add(
-        new TitleFacet({ title: selectedGroupSubtopicTitle || "" }),
-      );
-      newSubtopicEntity.add(DataTypes.GROUP_SUBTOPIC);
+      newSubtopicEntity.add(new TitleFacet({ title: selectedGroupSubtopicTitle || '' }));
+      newSubtopicEntity.add(DataType.GROUP_SUBTOPIC);
 
       addSubtopic(lsc, newSubtopicEntity, userId);
 
       const blockEntities = lsc.engine.entities.filter(
         (e) =>
-          e.has(DataTypes.GROUP_BLOCK) &&
-          e.get(ParentFacet)?.props.parentId ===
-            selectedGroupSubtopicEntity.get(IdentifierFacet)?.props.guid,
+          e.has(DataType.GROUP_BLOCK) &&
+          e.get(ParentFacet)?.props.parentId === selectedGroupSubtopicEntity.get(IdentifierFacet)?.props.guid,
       );
 
       const newBlockEntities = blockEntities.map((blockEntity) => {
@@ -208,19 +157,15 @@ const CloningResourceFromGroupSheet = () => {
         lsc.engine.addEntity(newBlockEntity);
         newBlockEntity.add(new IdentifierFacet({ guid: v4() }));
         newBlockEntity.add(new ParentFacet({ parentId: newResourceId }));
-        newBlockEntity.add(
-          new TextFacet({ text: blockEntity.get(TextFacet)?.props.text || "" }),
-        );
+        newBlockEntity.add(new TextFacet({ text: blockEntity.get(TextFacet)?.props.text || '' }));
         newBlockEntity.add(
           new BlocktypeFacet({
-            blocktype:
-              blockEntity.get(BlocktypeFacet)?.props.blocktype ||
-              Blocktypes.TEXT,
+            blocktype: blockEntity.get(BlocktypeFacet)?.props.blocktype || Blocktype.TEXT,
           }),
         );
         newBlockEntity.add(
           new ImageFacet({
-            imageSrc: blockEntity.get(ImageFacet)?.props.imageSrc || "",
+            imageSrc: blockEntity.get(ImageFacet)?.props.imageSrc || '',
           }),
         );
         newBlockEntity.add(
@@ -228,7 +173,7 @@ const CloningResourceFromGroupSheet = () => {
             index: blockEntity.get(FloatOrderFacet)?.props.index || 0,
           }),
         );
-        newBlockEntity.add(DataTypes.BLOCK);
+        newBlockEntity.add(DataType.BLOCK);
 
         return newBlockEntity;
       });
@@ -237,9 +182,8 @@ const CloningResourceFromGroupSheet = () => {
 
       const flashcardEntities = lsc.engine.entities.filter(
         (e) =>
-          e.has(DataTypes.GROUP_FLASHCARD) &&
-          e.get(ParentFacet)?.props.parentId ===
-            selectedGroupSubtopicEntity.get(IdentifierFacet)?.props.guid,
+          e.has(DataType.GROUP_FLASHCARD) &&
+          e.get(ParentFacet)?.props.parentId === selectedGroupSubtopicEntity.get(IdentifierFacet)?.props.guid,
       );
 
       const newFlashcardEntities = flashcardEntities.map((flashcardEntity) => {
@@ -249,15 +193,15 @@ const CloningResourceFromGroupSheet = () => {
         newFlashcardEntity.add(new ParentFacet({ parentId: newResourceId }));
         newFlashcardEntity.add(
           new QuestionFacet({
-            question: flashcardEntity.get(QuestionFacet)?.props.question || "",
+            question: flashcardEntity.get(QuestionFacet)?.props.question || '',
           }),
         );
         newFlashcardEntity.add(
           new AnswerFacet({
-            answer: flashcardEntity.get(AnswerFacet)?.props.answer || "",
+            answer: flashcardEntity.get(AnswerFacet)?.props.answer || '',
           }),
         );
-        newFlashcardEntity.add(DataTypes.GROUP_FLASHCARD);
+        newFlashcardEntity.add(DataType.GROUP_FLASHCARD);
 
         return newFlashcardEntity;
       });
@@ -265,15 +209,13 @@ const CloningResourceFromGroupSheet = () => {
       addFlashcards(lsc, newFlashcardEntities, userId);
     }
 
-    lsc.stories.transitTo(Stories.SUCCESS_STORY);
+    lsc.stories.transitTo(Story.SUCCESS_STORY);
   };
 
   return (
     <Sheet visible={isVisble} navigateBack={navigateBack}>
       <FlexBox>
-        <SecondaryButton onClick={navigateBack}>
-          {displayButtonTexts(selectedLanguage).back}
-        </SecondaryButton>
+        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).back}</SecondaryButton>
       </FlexBox>
       <Spacer />
       <Section>
@@ -285,7 +227,7 @@ const CloningResourceFromGroupSheet = () => {
               idx={idx}
               schoolSubjectEntity={schoolSubjectEntity}
               selectSchoolSubject={setSelectedSchoolSubjectId}
-              selectedSchoolSubjectId={selectedSchoolSubjectId || ""}
+              selectedSchoolSubjectId={selectedSchoolSubjectId || ''}
             />
           ))}
       </Section>
@@ -302,53 +244,28 @@ const SchoolSubjectRow = (props: {
   selectedSchoolSubjectId: string;
   cloneResource: (topicId: string) => void;
 }) => {
-  const {
-    idx,
-    schoolSubjectEntity,
-    selectSchoolSubject,
-    selectedSchoolSubjectId,
-    cloneResource,
-  } = props;
+  const { idx, schoolSubjectEntity, selectSchoolSubject, selectedSchoolSubjectId, cloneResource } = props;
   const { selectedLanguage } = useSelectedLanguage();
-  const schoolSubjectId =
-    schoolSubjectEntity.get(IdentifierFacet)?.props.guid || "";
+  const schoolSubjectId = schoolSubjectEntity.get(IdentifierFacet)?.props.guid || '';
   const schoolSubjectTitle =
-    schoolSubjectEntity.get(TitleFacet)?.props.title ||
-    displayAlertTexts(selectedLanguage).noTitle;
+    schoolSubjectEntity.get(TitleFacet)?.props.title || displayAlertTexts(selectedLanguage).noTitle;
   const isSelected = selectedSchoolSubjectId === schoolSubjectId;
-  const topics = useSchoolSubjectTopics(
-    schoolSubjectId,
-    selectedSchoolSubjectId,
-  );
+  const topics = useSchoolSubjectTopics(schoolSubjectId, selectedSchoolSubjectId);
   const schoolSubjectEntities = useSchoolSubjectEntities();
 
-  const handleClick = () =>
-    !isSelected
-      ? selectSchoolSubject(schoolSubjectId)
-      : selectSchoolSubject(undefined);
+  const handleClick = () => (!isSelected ? selectSchoolSubject(schoolSubjectId) : selectSchoolSubject(undefined));
 
   return (
     <Fragment>
-      <SectionRow
-        role="button"
-        last={schoolSubjectEntities.length - 1 === idx}
-        onClick={handleClick}
-      >
+      <SectionRow role="button" last={schoolSubjectEntities.length - 1 === idx} onClick={handleClick}>
         <FlexBox>
           {schoolSubjectTitle}
-          <StyledMoreButtonWrapper>
-            {isSelected ? <IoChevronUp /> : <IoChevronForward />}
-          </StyledMoreButtonWrapper>
+          <StyledMoreButtonWrapper>{isSelected ? <IoChevronUp /> : <IoChevronForward />}</StyledMoreButtonWrapper>
         </FlexBox>
       </SectionRow>
       {isSelected &&
         topics.map((topic, idx) => (
-          <SectionRow
-            onClick={() => cloneResource(topic.id)}
-            role="button"
-            key={idx}
-            icon={<IoAdd />}
-          >
+          <SectionRow onClick={() => cloneResource(topic.id)} role="button" key={idx} icon={<IoAdd />}>
             {topic.title}
           </SectionRow>
         ))}
@@ -356,19 +273,16 @@ const SchoolSubjectRow = (props: {
   );
 };
 
-const useSchoolSubjectTopics = (
-  schoolSubjectId: string,
-  selectedSchoolSubjectId?: string,
-) => {
+const useSchoolSubjectTopics = (schoolSubjectId: string, selectedSchoolSubjectId?: string) => {
   const [topics, setTopics] = useState<{ title: string; id: string }[]>([]);
-  const { shouldFetchFromSupabase, mockupData } = useMockupData();
+  const { isUsingSupabaseData: shouldFetchFromSupabase, isUsingMockupData: mockupData } = useCurrentDataSource();
 
   useEffect(() => {
     const fetchTopics = async () => {
       const topics = mockupData
         ? dummyTopics
         : shouldFetchFromSupabase
-          ? await fetchTopicsForSchoolSubject(selectedSchoolSubjectId || "")
+          ? await fetchTopicsForSchoolSubject(selectedSchoolSubjectId || '')
           : [];
       setTopics(topics);
     };

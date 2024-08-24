@@ -1,35 +1,20 @@
-import styled from "@emotion/styled";
-import { ILeanScopeClient } from "@leanscope/api-client/interfaces";
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { useEntities } from "@leanscope/ecs-engine";
-import { useEntityFacets } from "@leanscope/ecs-engine/react-api/hooks/useEntityFacets";
-import { IdentifierFacet, Tags } from "@leanscope/ecs-models";
-import { motion } from "framer-motion";
-import { Fragment, useContext, useEffect, useState } from "react";
-import tw from "twin.macro";
-import {
-  BlocktypeFacet,
-  ListStyleFacet,
-  TexttypeFacet,
-  TodoStateFacet,
-} from "../../../../../app/additionalFacets";
-import {
-  Blocktypes,
-  DataTypes,
-  ListStyles,
-  SupabaseColumns,
-  SupabaseTables,
-  Texttypes,
-} from "../../../../../base/enums";
-import {
-  BLOCK_TYPE_TEXT_DATA,
-  TEXT_TYPE_TEXT_DATA,
-} from "../../../../../base/textData";
-import { useSelectedLanguage } from "../../../../../hooks/useSelectedLanguage";
-import supabaseClient from "../../../../../lib/supabase";
-import { displayButtonTexts } from "../../../../../utils/displayText";
-import { getPreviewTextStyle } from "../../../functions/getTextStyle";
-import { useCurrentBlockeditor } from "../../../hooks/useCurrentBlockeditor";
+import styled from '@emotion/styled';
+import { ILeanScopeClient } from '@leanscope/api-client/interfaces';
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { useEntities } from '@leanscope/ecs-engine';
+import { useEntityFacets } from '@leanscope/ecs-engine/react-api/hooks/useEntityFacets';
+import { IdentifierFacet, Tags } from '@leanscope/ecs-models';
+import { motion } from 'framer-motion';
+import { Fragment, useContext, useEffect, useState } from 'react';
+import tw from 'twin.macro';
+import { BlocktypeFacet, ListStyleFacet, TexttypeFacet, TodoStateFacet } from '../../../../../app/additionalFacets';
+import { Blocktype, DataType, ListStyles, SupabaseColumns, SupabaseTables, Texttype } from '../../../../../base/enums';
+import { BLOCK_TYPE_TEXT_DATA, TEXT_TYPE_TEXT_DATA } from '../../../../../base/textData';
+import { useSelectedLanguage } from '../../../../../hooks/useSelectedLanguage';
+import supabaseClient from '../../../../../lib/supabase';
+import { displayButtonTexts } from '../../../../../utils/displayText';
+import { getPreviewTextStyle } from '../../../functions/getTextStyle';
+import { useCurrentBlockeditor } from '../../../hooks/useCurrentBlockeditor';
 
 const StyledOptionRow2Wrapper = styled.div`
   ${tw`flex space-x-1 w-full  overflow-x-scroll  h-16  items-center justify-between `}
@@ -68,36 +53,24 @@ const StyledOptionWrapper = styled.div<{ isSelected: boolean }>`
 `;
 
 const useSelectedBlockTypes = () => {
-  const [selectedBlocks] = useEntities(
-    (e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED),
-  );
+  const [selectedBlocks] = useEntities((e) => e.has(DataType.BLOCK) && e.has(Tags.SELECTED));
   const firstSelectedBlockEntity = selectedBlocks[0];
-  const [textTypeProps, blocktypeProps] = useEntityFacets(
-    firstSelectedBlockEntity,
-    TexttypeFacet,
-    BlocktypeFacet,
-  );
+  const [textTypeProps, blocktypeProps] = useEntityFacets(firstSelectedBlockEntity, TexttypeFacet, BlocktypeFacet);
   const firstSelectedBlockTextType = textTypeProps?.texttype;
   const firstSelectedBlockType = blocktypeProps?.blocktype;
-  const [currentTextType, setCurrentTextType] = useState<Texttypes | null>(
-    null,
-  );
-  const [currentBlockType, setCurrentBlockType] = useState<Blocktypes | null>(
-    null,
-  );
+  const [currentTextType, setCurrentTextType] = useState<Texttype | null>(null);
+  const [currentBlockType, setCurrentBlockType] = useState<Blocktype | null>(null);
 
   useEffect(() => {
     setCurrentTextType(
       (selectedBlocks.length !== 0 &&
         selectedBlocks.every(
           (blockEntity) =>
-            (blockEntity?.get(TexttypeFacet)?.props.texttype ||
-              Texttypes.NORMAL) ===
-            (selectedBlocks[0].get(TexttypeFacet)?.props.texttype ||
-              Texttypes.NORMAL),
+            (blockEntity?.get(TexttypeFacet)?.props.texttype || Texttype.NORMAL) ===
+            (selectedBlocks[0].get(TexttypeFacet)?.props.texttype || Texttype.NORMAL),
         ) &&
         selectedBlocks[0].get(TexttypeFacet)?.props.texttype) ||
-        Texttypes.NORMAL ||
+        Texttype.NORMAL ||
         null,
     );
 
@@ -105,70 +78,45 @@ const useSelectedBlockTypes = () => {
       (selectedBlocks.length !== 0 &&
         selectedBlocks.every(
           (blockEntity) =>
-            (blockEntity.get(BlocktypeFacet)?.props.blocktype ||
-              Blocktypes.TEXT) ===
-            (selectedBlocks[0].get(BlocktypeFacet)?.props.blocktype ||
-              Blocktypes.TEXT),
+            (blockEntity.get(BlocktypeFacet)?.props.blocktype || Blocktype.TEXT) ===
+            (selectedBlocks[0].get(BlocktypeFacet)?.props.blocktype || Blocktype.TEXT),
         ) &&
         selectedBlocks[0].get(BlocktypeFacet)?.props.blocktype) ||
-        Blocktypes.TEXT ||
+        Blocktype.TEXT ||
         null,
     );
-  }, [
-    selectedBlocks.length,
-    firstSelectedBlockTextType,
-    firstSelectedBlockType,
-  ]);
+  }, [selectedBlocks.length, firstSelectedBlockTextType, firstSelectedBlockType]);
 
   return { currentTextType, currentBlockType };
 };
 
 const BlockTypeOption = (props: {
-  blockType: Blocktypes;
-  currentBlockType: Blocktypes | null;
-  updateSelectedBlocksBlockType: (
-    lsc: ILeanScopeClient,
-    blockType: Blocktypes,
-  ) => void;
+  blockType: Blocktype;
+  currentBlockType: Blocktype | null;
+  updateSelectedBlocksBlockType: (lsc: ILeanScopeClient, blockType: Blocktype) => void;
   customIcon?: React.ReactNode;
 }) => {
   const lsc = useContext(LeanScopeClientContext);
-  const {
-    blockType,
-    currentBlockType,
-    updateSelectedBlocksBlockType,
-    customIcon,
-  } = props;
+  const { blockType, currentBlockType, updateSelectedBlocksBlockType, customIcon } = props;
   const { selectedLanguage } = useSelectedLanguage();
 
   const handleClick = () => updateSelectedBlocksBlockType(lsc, blockType);
 
   return (
-    <StyledOptionWrapper
-      onClick={handleClick}
-      isSelected={currentBlockType == blockType}
-    >
+    <StyledOptionWrapper onClick={handleClick} isSelected={currentBlockType == blockType}>
       {customIcon || BLOCK_TYPE_TEXT_DATA[blockType][selectedLanguage]}
     </StyledOptionWrapper>
   );
 };
 
 const TextTypeOption = (props: {
-  textType: Texttypes;
-  currentTextType: Texttypes | null;
-  updateSelectedBlocksTextType: (
-    lsc: ILeanScopeClient,
-    textType: Texttypes,
-  ) => void;
+  textType: Texttype;
+  currentTextType: Texttype | null;
+  updateSelectedBlocksTextType: (lsc: ILeanScopeClient, textType: Texttype) => void;
   customIcon?: React.ReactNode;
 }) => {
   const lsc = useContext(LeanScopeClientContext);
-  const {
-    textType,
-    currentTextType,
-    updateSelectedBlocksTextType,
-    customIcon,
-  } = props;
+  const { textType, currentTextType, updateSelectedBlocksTextType, customIcon } = props;
   const { selectedLanguage } = useSelectedLanguage();
 
   const handleClick = () => updateSelectedBlocksTextType(lsc, textType);
@@ -184,22 +132,13 @@ const TextTypeOption = (props: {
   );
 };
 
-const updateSelectedBlocksTextType = async (
-  lsc: ILeanScopeClient,
-  newTextType: Texttypes,
-) => {
-  const selectedBlockEntities = lsc.engine.entities.filter(
-    (e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED),
-  );
+const updateSelectedBlocksTextType = async (lsc: ILeanScopeClient, newTextType: Texttype) => {
+  const selectedBlockEntities = lsc.engine.entities.filter((e) => e.has(DataType.BLOCK) && e.has(Tags.SELECTED));
   selectedBlockEntities.forEach(async (blockEntity) => {
     const blockType = blockEntity.get(BlocktypeFacet)?.props.blocktype;
 
-    if (
-      blockType !== Blocktypes.TEXT &&
-      blockType !== Blocktypes.TODO &&
-      blockType !== Blocktypes.LIST
-    ) {
-      blockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.TEXT }));
+    if (blockType !== Blocktype.TEXT && blockType !== Blocktype.TODO && blockType !== Blocktype.LIST) {
+      blockEntity.add(new BlocktypeFacet({ blocktype: Blocktype.TEXT }));
     }
 
     blockEntity.add(new TexttypeFacet({ texttype: newTextType }));
@@ -212,37 +151,31 @@ const updateSelectedBlocksTextType = async (
       .eq(SupabaseColumns.ID, id);
 
     if (error) {
-      console.error("Error updating text type of block in supabase:", error);
+      console.error('Error updating text type of block in supabase:', error);
     }
   });
 };
 
-const updateSelectedBlocksBlockType = async (
-  lsc: ILeanScopeClient,
-  newBlockType: Blocktypes,
-) => {
-  const selectedBlockEntities = lsc.engine.entities.filter(
-    (e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED),
-  );
+const updateSelectedBlocksBlockType = async (lsc: ILeanScopeClient, newBlockType: Blocktype) => {
+  const selectedBlockEntities = lsc.engine.entities.filter((e) => e.has(DataType.BLOCK) && e.has(Tags.SELECTED));
 
   const isAlreadyBlockType = selectedBlockEntities.every(
-    (blockEntity) =>
-      blockEntity.get(BlocktypeFacet)?.props?.blocktype === newBlockType,
+    (blockEntity) => blockEntity.get(BlocktypeFacet)?.props?.blocktype === newBlockType,
   );
 
   selectedBlockEntities.forEach(async (blockEntity) => {
     if (isAlreadyBlockType) {
-      blockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.TEXT }));
-    } else if (newBlockType === Blocktypes.TODO) {
-      blockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.TODO }));
+      blockEntity.add(new BlocktypeFacet({ blocktype: Blocktype.TEXT }));
+    } else if (newBlockType === Blocktype.TODO) {
+      blockEntity.add(new BlocktypeFacet({ blocktype: Blocktype.TODO }));
       blockEntity.add(new TodoStateFacet({ todoState: 0 }));
-    } else if (newBlockType === Blocktypes.LIST) {
-      blockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.LIST }));
+    } else if (newBlockType === Blocktype.LIST) {
+      blockEntity.add(new BlocktypeFacet({ blocktype: Blocktype.LIST }));
       blockEntity.add(new ListStyleFacet({ listStyle: ListStyles.UNORDERED }));
-    } else if (newBlockType === Blocktypes.PAGE) {
-      blockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.PAGE }));
-    } else if (newBlockType === Blocktypes.TEXT) {
-      blockEntity.add(new BlocktypeFacet({ blocktype: Blocktypes.TEXT }));
+    } else if (newBlockType === Blocktype.PAGE) {
+      blockEntity.add(new BlocktypeFacet({ blocktype: Blocktype.PAGE }));
+    } else if (newBlockType === Blocktype.TEXT) {
+      blockEntity.add(new BlocktypeFacet({ blocktype: Blocktype.TEXT }));
     }
 
     const id = blockEntity.get(IdentifierFacet)?.props.guid;
@@ -253,7 +186,7 @@ const updateSelectedBlocksBlockType = async (
       .eq(SupabaseColumns.ID, id);
 
     if (error) {
-      console.error("Error updating block type of block in supabase:", error);
+      console.error('Error updating block type of block in supabase:', error);
     }
   });
 };
@@ -261,8 +194,7 @@ const updateSelectedBlocksBlockType = async (
 const StyleOptions = () => {
   const { currentTextType, currentBlockType } = useSelectedBlockTypes();
   const { blockeditorState } = useCurrentBlockeditor();
-  const [isMoreTextOptionsVisible, setIsMoreTextOptionsVisible] =
-    useState<boolean>(false);
+  const [isMoreTextOptionsVisible, setIsMoreTextOptionsVisible] = useState<boolean>(false);
   const { selectedLanguage } = useSelectedLanguage();
 
   // TODO: Custom hook for isVisible state
@@ -275,17 +207,17 @@ const StyleOptions = () => {
     <Fragment>
       <StyledOptionRow2Wrapper>
         <TextTypeOption
-          textType={Texttypes.HEADING}
+          textType={Texttype.HEADING}
           currentTextType={currentTextType}
           updateSelectedBlocksTextType={updateSelectedBlocksTextType}
         />
         <TextTypeOption
-          textType={Texttypes.NORMAL}
+          textType={Texttype.NORMAL}
           currentTextType={currentTextType}
           updateSelectedBlocksTextType={updateSelectedBlocksTextType}
         />
         <BlockTypeOption
-          blockType={Blocktypes.PAGE}
+          blockType={Blocktype.PAGE}
           currentBlockType={currentBlockType}
           updateSelectedBlocksBlockType={updateSelectedBlocksBlockType}
         />
@@ -300,29 +232,29 @@ const StyleOptions = () => {
 
       <StyledOptionRowWarpper>
         <BlockTypeOption
-          blockType={Blocktypes.TODO}
+          blockType={Blocktype.TODO}
           currentBlockType={currentBlockType}
           updateSelectedBlocksBlockType={updateSelectedBlocksBlockType}
         />
         <BlockTypeOption
-          blockType={Blocktypes.LIST}
+          blockType={Blocktype.LIST}
           currentBlockType={currentBlockType}
           updateSelectedBlocksBlockType={updateSelectedBlocksBlockType}
         />
         <TextTypeOption
           customIcon={<div>B</div>}
-          textType={Texttypes.BOLD}
+          textType={Texttype.BOLD}
           currentTextType={currentTextType}
           updateSelectedBlocksTextType={updateSelectedBlocksTextType}
         />
         <TextTypeOption
-          textType={Texttypes.UNDERLINE}
+          textType={Texttype.UNDERLINE}
           currentTextType={currentTextType}
           updateSelectedBlocksTextType={updateSelectedBlocksTextType}
-          customIcon={<div style={{ textDecoration: "underline" }}>U</div>}
+          customIcon={<div style={{ textDecoration: 'underline' }}>U</div>}
         />
         <TextTypeOption
-          textType={Texttypes.ITALIC}
+          textType={Texttype.ITALIC}
           currentTextType={currentTextType}
           updateSelectedBlocksTextType={updateSelectedBlocksTextType}
           customIcon={<p className="italic  font-serif ">I</p>}
@@ -330,13 +262,13 @@ const StyleOptions = () => {
       </StyledOptionRowWarpper>
 
       <motion.div
-        transition={{ type: "Tween" }}
+        transition={{ type: 'Tween' }}
         animate={{ y: isMoreTextOptionsVisible ? 0 : 600 }}
         initial={{
           y: 600,
-          position: "fixed",
+          position: 'fixed',
           bottom: 10,
-          width: "100%",
+          width: '100%',
           right: 0,
           left: 0,
 
@@ -353,41 +285,41 @@ const StyleOptions = () => {
 
           <StyledFurtherOptionRowWrapper>
             <TextTypeOption
-              textType={Texttypes.TITLE}
+              textType={Texttype.TITLE}
               currentTextType={currentTextType}
               updateSelectedBlocksTextType={updateSelectedBlocksTextType}
             />
             <TextTypeOption
-              textType={Texttypes.SUBTITLE}
+              textType={Texttype.SUBTITLE}
               currentTextType={currentTextType}
               updateSelectedBlocksTextType={updateSelectedBlocksTextType}
             />
             <TextTypeOption
-              textType={Texttypes.HEADING}
+              textType={Texttype.HEADING}
               currentTextType={currentTextType}
               updateSelectedBlocksTextType={updateSelectedBlocksTextType}
             />
           </StyledFurtherOptionRowWrapper>
           <StyledSecondFurtherOptionRowWrapper>
             <TextTypeOption
-              textType={Texttypes.BOLD}
+              textType={Texttype.BOLD}
               currentTextType={currentTextType}
               updateSelectedBlocksTextType={updateSelectedBlocksTextType}
             />
             <TextTypeOption
-              textType={Texttypes.NORMAL}
+              textType={Texttype.NORMAL}
               currentTextType={currentTextType}
               updateSelectedBlocksTextType={updateSelectedBlocksTextType}
             />
             <TextTypeOption
-              textType={Texttypes.CAPTION}
+              textType={Texttype.CAPTION}
               currentTextType={currentTextType}
               updateSelectedBlocksTextType={updateSelectedBlocksTextType}
             />
           </StyledSecondFurtherOptionRowWrapper>
           <StyledSecondFurtherOptionRowWrapper>
             <BlockTypeOption
-              blockType={Blocktypes.PAGE}
+              blockType={Blocktype.PAGE}
               currentBlockType={currentBlockType}
               updateSelectedBlocksBlockType={updateSelectedBlocksBlockType}
             />

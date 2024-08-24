@@ -1,12 +1,12 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import "../../../index.css";
-import ObservingStudyAreaStory from "./ObservingStudyAreaStory";
+import type { Meta, StoryObj } from '@storybook/react';
+import '../../../index.css';
+import ObservingStudyAreaStory from './ObservingStudyAreaStory';
 
 const meta = {
-  title: "Stories/Study/ObservingStudyAreaStory",
+  title: 'Stories/Study/ObservingStudyAreaStory',
   component: ObservingStudyAreaStory,
   parameters: {
-    layout: "centered",
+    layout: 'centered',
   },
 } satisfies Meta<typeof ObservingStudyAreaStory>;
 

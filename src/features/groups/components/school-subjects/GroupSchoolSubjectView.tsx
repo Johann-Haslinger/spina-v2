@@ -1,10 +1,11 @@
-import {
-  EntityProps,
-  EntityPropsMapper,
-  useEntities,
-} from "@leanscope/ecs-engine";
-import { TitleFacet, TitleProps } from "../../../../app/additionalFacets";
-import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { EntityProps, EntityPropsMapper, useEntities } from '@leanscope/ecs-engine';
+import { DescriptionFacet, Tags } from '@leanscope/ecs-models';
+import { useContext } from 'react';
+import { IoAdd } from 'react-icons/io5';
+import { Fragment } from 'react/jsx-runtime';
+import { TitleFacet, TitleProps } from '../../../../app/additionalFacets';
+import { AdditionalTags, DataType, Story } from '../../../../base/enums';
 import {
   BackButton,
   CollectionGrid,
@@ -14,22 +15,17 @@ import {
   Spacer,
   Title,
   View,
-} from "../../../../components";
-import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
-import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import { useSelectedLearningGroup } from "../../hooks/useSelectedLearningGroup";
-import { IoAdd } from "react-icons/io5";
-import { displayButtonTexts } from "../../../../utils/displayText";
-import { Fragment } from "react/jsx-runtime";
-import LoadGroupTopicsSystem from "../../systems/LoadGroupTopicsSystem";
-import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
-import { DescriptionFacet, Tags } from "@leanscope/ecs-models";
-import { sortEntitiesByDateAdded } from "../../../../utils/sortEntitiesByTime";
-import TopicCell from "../../../collection/components/topics/TopicCell";
-import { useContext } from "react";
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import AddGroupTopicSheet from "./AddGroupTopicSheet";
-import GroupTopicView from "../topics/GroupTopicView";
+} from '../../../../components';
+import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
+import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
+import { displayButtonTexts } from '../../../../utils/displayText';
+import { dataTypeQuery, isChildOfQuery } from '../../../../utils/queries';
+import { sortEntitiesByDateAdded } from '../../../../utils/sortEntitiesByTime';
+import TopicCell from '../../../collection/components/topics/TopicCell';
+import { useSelectedLearningGroup } from '../../hooks/useSelectedLearningGroup';
+import LoadGroupTopicsSystem from '../../systems/LoadGroupTopicsSystem';
+import GroupTopicView from '../topics/GroupTopicView';
+import AddGroupTopicSheet from './AddGroupTopicSheet';
 
 const GroupSchoolSubjectView = (props: TitleProps & EntityProps) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -37,13 +33,10 @@ const GroupSchoolSubjectView = (props: TitleProps & EntityProps) => {
   const isVisible = useIsViewVisible(entity);
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedLearningGroupTitle } = useSelectedLearningGroup();
-  const [groupTopics] = useEntities(
-    (e) => dataTypeQuery(e, DataTypes.GROUP_TOPIC) && isChildOfQuery(e, entity),
-  );
+  const [groupTopics] = useEntities((e) => dataTypeQuery(e, DataType.GROUP_TOPIC) && isChildOfQuery(e, entity));
 
   const navigateBack = () => entity.add(AdditionalTags.NAVIGATE_BACK);
-  const openAddGroupTopicSheet = () =>
-    lsc.stories.transitTo(Stories.ADDING_GROUP_TOPIC_STORY);
+  const openAddGroupTopicSheet = () => lsc.stories.transitTo(Story.ADDING_GROUP_TOPIC_STORY);
 
   return (
     <Fragment>
@@ -56,17 +49,13 @@ const GroupSchoolSubjectView = (props: TitleProps & EntityProps) => {
           </NavBarButton>
         </NavigationBar>
         <BackButton navigateBack={navigateBack}>
-          {selectedLearningGroupTitle ||
-            displayButtonTexts(selectedLanguage).back}
+          {selectedLearningGroupTitle || displayButtonTexts(selectedLanguage).back}
         </BackButton>
         <Title>{title}</Title>
         <Spacer />
         <CollectionGrid columnSize="large">
           <EntityPropsMapper
-            query={(e) =>
-              dataTypeQuery(e, DataTypes.GROUP_TOPIC) &&
-              isChildOfQuery(e, entity)
-            }
+            query={(e) => dataTypeQuery(e, DataType.GROUP_TOPIC) && isChildOfQuery(e, entity)}
             sort={(a, b) => sortEntitiesByDateAdded(a, b)}
             get={[[TitleFacet, DescriptionFacet], []]}
             onMatch={TopicCell}
@@ -77,11 +66,7 @@ const GroupSchoolSubjectView = (props: TitleProps & EntityProps) => {
       </View>
 
       <EntityPropsMapper
-        query={(e) =>
-          dataTypeQuery(e, DataTypes.GROUP_TOPIC) &&
-          isChildOfQuery(e, entity) &&
-          e.has(Tags.SELECTED)
-        }
+        query={(e) => dataTypeQuery(e, DataType.GROUP_TOPIC) && isChildOfQuery(e, entity) && e.has(Tags.SELECTED)}
         get={[[TitleFacet, DescriptionFacet], []]}
         onMatch={GroupTopicView}
       />

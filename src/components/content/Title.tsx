@@ -1,18 +1,17 @@
-import React, { useEffect } from "react";
-import styled from "@emotion/styled";
-import { PropsWithChildren, useRef, useState } from "react";
-import tw from "twin.macro";
+import React, { useEffect } from 'react';
+import styled from '@emotion/styled';
+import { PropsWithChildren, useRef, useState } from 'react';
+import tw from 'twin.macro';
 
-type size = "small" | "medium" | "large";
+type size = 'small' | 'medium' | 'large';
 
 const StyledTitle = styled.div<{ size: size; placeholderStyle: boolean }>`
-  ${tw` line-clamp-2 dark:text-white min-h-10 outline-none text-primatyText font-extrabold`}
-  ${({ size }) => size === "small" && tw`text-2xl`}
-  ${({ size }) => size === "medium" && tw`text-3xl`}
-  ${({ size }) => size === "large" && tw`text-4xl`}
+  ${tw` line-clamp-2 dark:text-white min-h-10 outline-none transition-all text-primatyText font-bold`}
+  ${({ size }) => size === 'small' && tw`text-2xl`}
+  ${({ size }) => size === 'medium' && tw`text-3xl`}
+  ${({ size }) => size === 'large' && tw`md:text-4xl text-3xl`}
   ${({ placeholderStyle }) =>
-    placeholderStyle &&
-    tw`text-placeholderText text-opacity-70 dark:text-placeholderTextDark `}
+    placeholderStyle && tw`text-placeholderText text-opacity-70 dark:text-placeholderTextDark `}
 `;
 
 interface TitleProps {
@@ -23,15 +22,15 @@ interface TitleProps {
 }
 
 const Title = (props: PropsWithChildren & TitleProps) => {
-  const { color, children, size = "medium", editable, onBlur } = props;
+  const { color, children, size = 'medium', editable, onBlur } = props;
   const [isFocused, setIsFocused] = useState(false);
   const titleRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (!children && !isFocused && titleRef.current) {
-      titleRef.current.textContent = "Title";
+      titleRef.current.textContent = 'Title';
     } else if (!children && isFocused && titleRef.current) {
-      titleRef.current.textContent = "";
+      titleRef.current.textContent = '';
     } else if (children && titleRef.current) {
       titleRef.current.textContent = children as string;
     }
@@ -44,15 +43,15 @@ const Title = (props: PropsWithChildren & TitleProps) => {
   }, [titleRef.current?.innerHTML]);
 
   const handleBlur = (e: React.FocusEvent<HTMLDivElement>) => {
-    onBlur && onBlur(e.currentTarget.textContent || "");
+    onBlur && onBlur(e.currentTarget.textContent || '');
     setIsFocused(false);
   };
 
   const handlePaste = async (e: React.ClipboardEvent<HTMLParagraphElement>) => {
     e.preventDefault();
-    const text = e.clipboardData.getData("text/html")
-      ? e.clipboardData.getData("text/html")
-      : e.clipboardData.getData("text/plain");
+    const text = e.clipboardData.getData('text/html')
+      ? e.clipboardData.getData('text/html')
+      : e.clipboardData.getData('text/plain');
 
     if (titleRef.current) {
       titleRef.current.textContent = titleRef.current.textContent + text;
@@ -62,7 +61,7 @@ const Title = (props: PropsWithChildren & TitleProps) => {
   return (
     <StyledTitle
       onKeyPress={(e) => {
-        if (e.key === "Enter" || e.metaKey) {
+        if (e.key === 'Enter' || e.metaKey) {
           e.preventDefault();
         }
       }}

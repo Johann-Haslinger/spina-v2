@@ -1,13 +1,13 @@
-import styled from "@emotion/styled/macro";
-import { Entity, EntityProps } from "@leanscope/ecs-engine";
-import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntityComponents";
-import { OrderFacet, OrderProps, Tags } from "@leanscope/ecs-models";
-import { IoChevronForward, IoChevronUp } from "react-icons/io5";
-import tw from "twin.macro";
-import { AnswerProps, QuestionProps } from "../../../../app/additionalFacets";
-import { COLOR_ITEMS } from "../../../../base/constants";
-import { useExerciseParts } from "../../hooks/useExerciseParts";
-import { useState } from "react";
+import styled from '@emotion/styled/macro';
+import { Entity, EntityProps } from '@leanscope/ecs-engine';
+import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntityComponents';
+import { OrderFacet, OrderProps, Tags } from '@leanscope/ecs-models';
+import { IoChevronForward, IoChevronUp } from 'react-icons/io5';
+import tw from 'twin.macro';
+import { AnswerProps, QuestionProps } from '../../../../app/additionalFacets';
+import { COLOR_ITEMS } from '../../../../base/constants';
+import { useExerciseParts } from '../../hooks/useExerciseParts';
+import { useState } from 'react';
 
 const SytledExercisePartWrapper = styled.div<{
   backgroundColor: string;
@@ -50,26 +50,21 @@ const useExercisePartColor = (entity: Entity) => {
 };
 
 function numberToLetter(num: number): string {
-  const alphabet = "abcdefghijklmnopqrstuvwxyz";
+  const alphabet = 'abcdefghijklmnopqrstuvwxyz';
 
   return alphabet[num];
 }
 
-const ExercisePart = (
-  props: QuestionProps & AnswerProps & OrderProps & EntityProps,
-) => {
+const ExercisePart = (props: QuestionProps & AnswerProps & OrderProps & EntityProps) => {
   const { orderIndex, question, entity } = props;
   const color = useExercisePartColor(entity);
   const { exercisePartsCount } = useExerciseParts(undefined, entity);
   const [isTextareaVisible] = useEntityHasTags(entity, Tags.SELECTED);
-  const [userAnswer, setUserAnswer] = useState("");
+  const [userAnswer, setUserAnswer] = useState('');
 
-  console.log("userAnswer", userAnswer);
+  console.log('userAnswer', userAnswer);
 
-  const toggleTextareaVisibility = () =>
-    isTextareaVisible
-      ? entity.remove(Tags.SELECTED)
-      : entity.add(Tags.SELECTED);
+  const toggleTextareaVisibility = () => (isTextareaVisible ? entity.remove(Tags.SELECTED) : entity.add(Tags.SELECTED));
 
   return (
     <div>
@@ -77,27 +72,20 @@ const ExercisePart = (
         last={orderIndex == exercisePartsCount - 1 || isTextareaVisible == true}
         first={orderIndex == 0}
         color={color}
-        backgroundColor={color + "90"}
+        backgroundColor={color + '90'}
         onClick={toggleTextareaVisibility}
       >
         <StyledLeftSideWrapper>
           <StyledExercisePartIndicator backgroundColor={color}>
-            {" "}
+            {' '}
             {numberToLetter(orderIndex || 0)}
           </StyledExercisePartIndicator>
           <StyledQuestionText> {question}</StyledQuestionText>
         </StyledLeftSideWrapper>
 
-        <StyledMoreButton>
-          {isTextareaVisible ? <IoChevronUp /> : <IoChevronForward />}
-        </StyledMoreButton>
+        <StyledMoreButton>{isTextareaVisible ? <IoChevronUp /> : <IoChevronForward />}</StyledMoreButton>
       </SytledExercisePartWrapper>
-      {isTextareaVisible && (
-        <StyledTextarea
-          contentEditable
-          onBlur={(e) => setUserAnswer(e.currentTarget.innerText)}
-        />
-      )}
+      {isTextareaVisible && <StyledTextarea contentEditable onBlur={(e) => setUserAnswer(e.currentTarget.innerText)} />}
     </div>
   );
 };

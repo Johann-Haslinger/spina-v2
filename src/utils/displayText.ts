@@ -1,4 +1,4 @@
-import { SupportedLanguages } from "../base/enums";
+import { SupportedLanguage } from '../base/enums';
 import {
   ACTION_TEXT_DATA,
   ALERT_TEXT_DATA,
@@ -6,9 +6,9 @@ import {
   DATA_TYPE_TEXT_DATA,
   HEADER_TEXT_DATA,
   LABEL_TEXT_DATA,
-} from "../base/textData";
+} from '../base/textData';
 
-export const displayHeaderTexts = (selectedLanguage: SupportedLanguages) => {
+export const displayHeaderTexts = (selectedLanguage: SupportedLanguage) => {
   return {
     collection: HEADER_TEXT_DATA.collection[selectedLanguage],
     homeworks: HEADER_TEXT_DATA.homeworks[selectedLanguage],
@@ -27,24 +27,21 @@ export const displayHeaderTexts = (selectedLanguage: SupportedLanguages) => {
     profile: HEADER_TEXT_DATA.profile[selectedLanguage],
   };
 };
-export const displayAlertTexts = (selectedLanguage: SupportedLanguages) => {
+export const displayAlertTexts = (selectedLanguage: SupportedLanguage) => {
   return {
-    noContentAddedTitle:
-      ALERT_TEXT_DATA.no_content_added_title[selectedLanguage],
-    noContentAddedSubtitle:
-      ALERT_TEXT_DATA.no_content_added_subtitle[selectedLanguage],
+    noContentAddedTitle: ALERT_TEXT_DATA.no_content_added_title[selectedLanguage],
+    noContentAddedSubtitle: ALERT_TEXT_DATA.no_content_added_subtitle[selectedLanguage],
     noDescription: ALERT_TEXT_DATA.no_description[selectedLanguage],
     noTopics: ALERT_TEXT_DATA.no_topics[selectedLanguage],
     noTitle: ALERT_TEXT_DATA.no_title[selectedLanguage],
     deleteAlertTitle: ALERT_TEXT_DATA.deleting_alert_title[selectedLanguage],
-    deleteAlertSubtitle:
-      ALERT_TEXT_DATA.deleting_alert_subtitle[selectedLanguage],
+    deleteAlertSubtitle: ALERT_TEXT_DATA.deleting_alert_subtitle[selectedLanguage],
     noUserSignedIn: ALERT_TEXT_DATA.no_user_signed_in[selectedLanguage],
     noLearningGroups: ALERT_TEXT_DATA.no_learning_groups[selectedLanguage],
   };
 };
 
-export const displayButtonTexts = (selectedLanguage: SupportedLanguages) => {
+export const displayButtonTexts = (selectedLanguage: SupportedLanguage) => {
   return {
     back: BUTTON_TEXT_DATA.back[selectedLanguage],
     save: BUTTON_TEXT_DATA.save[selectedLanguage],
@@ -59,7 +56,7 @@ export const displayButtonTexts = (selectedLanguage: SupportedLanguages) => {
   };
 };
 
-export const displayActionTexts = (selectedLanguage: SupportedLanguages) => {
+export const displayActionTexts = (selectedLanguage: SupportedLanguage) => {
   return {
     delete: ACTION_TEXT_DATA.delete[selectedLanguage],
     edit: ACTION_TEXT_DATA.edit[selectedLanguage],
@@ -78,8 +75,7 @@ export const displayActionTexts = (selectedLanguage: SupportedLanguages) => {
     copy: ACTION_TEXT_DATA.copy[selectedLanguage],
     cut: ACTION_TEXT_DATA.cut[selectedLanguage],
     duplicate: ACTION_TEXT_DATA.duplicate[selectedLanguage],
-    addToLearningGroup:
-      ACTION_TEXT_DATA.add_to_learning_group[selectedLanguage],
+    addToLearningGroup: ACTION_TEXT_DATA.add_to_learning_group[selectedLanguage],
     generateFromImage: ACTION_TEXT_DATA.generate_from_image[selectedLanguage],
     startLernSession: ACTION_TEXT_DATA.start_lern_session[selectedLanguage],
     flashcardTest: ACTION_TEXT_DATA.flashcard_test[selectedLanguage],
@@ -90,7 +86,7 @@ export const displayActionTexts = (selectedLanguage: SupportedLanguages) => {
   };
 };
 
-export const displayLabelTexts = (selectedLanguage: SupportedLanguages) => {
+export const displayLabelTexts = (selectedLanguage: SupportedLanguage) => {
   return {
     title: LABEL_TEXT_DATA.title[selectedLanguage],
     description: LABEL_TEXT_DATA.description[selectedLanguage],
@@ -117,7 +113,7 @@ export const displayLabelTexts = (selectedLanguage: SupportedLanguages) => {
   };
 };
 
-export const displayDataTypeTexts = (selectedLanguage: SupportedLanguages) => {
+export const displayDataTypeTexts = (selectedLanguage: SupportedLanguage) => {
   return {
     note: DATA_TYPE_TEXT_DATA.note[selectedLanguage],
     homework: DATA_TYPE_TEXT_DATA.homework[selectedLanguage],

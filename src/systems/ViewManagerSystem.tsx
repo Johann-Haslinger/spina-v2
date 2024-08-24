@@ -1,101 +1,93 @@
-import { useEntities, useEntity } from "@leanscope/ecs-engine";
-import { Tags } from "@leanscope/ecs-models";
-import { Fragment, useEffect, useState } from "react";
-import { AdditionalTags, DataTypes, Stories } from "../base/enums";
+import { useEntities, useEntity } from '@leanscope/ecs-engine';
+import { Tags } from '@leanscope/ecs-models';
+import { Fragment, useEffect, useState } from 'react';
+import { AdditionalTags, DataType, Story } from '../base/enums';
 
-import { useSelectedTheme } from "../features/collection/hooks/useSelectedTheme";
-import { useIsAnyStoryCurrent } from "../hooks/useIsAnyStoryCurrent";
-import { SucessSheet } from "../components";
-import { useIsStoryCurrent } from "@leanscope/storyboarding";
-import { useSelectedSchoolSubjectColor } from "../features/collection/hooks/useSelectedSchoolSubjectColor";
-import { useAppState } from "../features/collection/hooks/useAppState";
-import { useWindowDimensions } from "../hooks/useWindowDimensions";
-import { MEDIUM_DEVICE_WIDTH } from "../base/constants";
-import { useCurrentSapientorConversation } from "../features/sapientor/hooks/useCurrentConversation";
-import { useSelectedPodcast } from "../features/collection/hooks/useSelectedPodcast";
-import { dataTypeQuery } from "../utils/queries";
+import { MEDIUM_DEVICE_WIDTH } from '../base/constants';
+import { SucessSheet } from '../components';
+import { useAppState } from '../features/collection/hooks/useAppState';
+import { useSelectedPodcast } from '../features/collection/hooks/useSelectedPodcast';
+import { useSelectedSchoolSubjectColor } from '../features/collection/hooks/useSelectedSchoolSubjectColor';
+import { useSelectedTheme } from '../features/collection/hooks/useSelectedTheme';
+import { useCurrentSapientorConversation } from '../features/sapientor/hooks/useCurrentConversation';
+import { useIsAnyStoryCurrent } from '../hooks/useIsAnyStoryCurrent';
+import { useWindowDimensions } from '../hooks/useWindowDimensions';
+import { dataTypeQuery } from '../utils/queries';
 
 const ViewManagerSystem = () => {
   const isSheetViewVisible = useIsAnyStoryCurrent([
-    Stories.OBSERVING_SETTINGS_STORY,
-    Stories.OBSERVING_PODCAST_STORY,
+    Story.OBSERVING_SETTINGS_STORY,
+    Story.OBSERVING_PODCAST_STORY,
 
-    Stories.ADDING_HOMEWORK_STORY,
-    Stories.ADDING_TOPIC_STORY,
-    Stories.ADDING_RESOURCE_TO_TOPIC_STORY,
-    Stories.ADDING_FLASHCARD_GROUP_STORY,
-    Stories.ADDING_FLASHCARD_SET_STORY,
-    Stories.ADDING_FLASHCARDS_STORY,
-    Stories.ADDING_RESOURCE_TO_LEARNING_GROUP_STORY,
-    Stories.ADDING_EXAM_STORY,
+    Story.ADDING_HOMEWORK_STORY,
+    Story.ADDING_TOPIC_STORY,
+    Story.ADDING_RESOURCE_TO_TOPIC_STORY,
+    Story.ADDING_FLASHCARD_GROUP_STORY,
+    Story.ADDING_FLASHCARD_SET_STORY,
+    Story.ADDING_FLASHCARDS_STORY,
+    Story.ADDING_RESOURCE_TO_LEARNING_GROUP_STORY,
+    Story.ADDING_EXAM_STORY,
 
-    Stories.EDITING_FLASHCARD_STORY,
-    Stories.EDITING_FLASHCARD_SET_STORY,
-    Stories.EDITING_HOMEWORK_STORY,
-    Stories.EDITING_TOPIC_STORY,
-    Stories.EDITING_SUBTOPIC_STORY,
-    Stories.EDETING_GROUP_FLASHCARD_SET_STORY,
-    Stories.EDETING_GROUP_HOMEWORK_STORY,
-    Stories.EDETING_GROUP_TOPIC_STORY,
-    Stories.EDETING_GROUP_SUBTOPIC_STORY,
-    Stories.EDETING_GROUP_NOTE_STORY,
-    Stories.EDITING_EXAM_STORY,
-    Stories.EDITING_LEARNING_GROUP_STORY,
+    Story.EDITING_FLASHCARD_STORY,
+    Story.EDITING_FLASHCARD_SET_STORY,
+    Story.EDITING_HOMEWORK_STORY,
+    Story.EDITING_TOPIC_STORY,
+    Story.EDITING_SUBTOPIC_STORY,
+    Story.EDETING_GROUP_FLASHCARD_SET_STORY,
+    Story.EDETING_GROUP_HOMEWORK_STORY,
+    Story.EDETING_GROUP_TOPIC_STORY,
+    Story.EDETING_GROUP_SUBTOPIC_STORY,
+    Story.EDETING_GROUP_NOTE_STORY,
+    Story.EDITING_EXAM_STORY,
+    Story.EDITING_LEARNING_GROUP_STORY,
 
-    Stories.DELETING_FLASHCARD_SET_STORY,
-    Stories.DELETING_HOMEWORK_STORY,
-    Stories.DELETING_NOTE_STORY,
-    Stories.DELETING_TOPIC_STORY,
-    Stories.DELETING_SUBTOPIC_STORY,
-    Stories.DELETING_GROUP_FLASHCARD_SET_STORY,
-    Stories.DELETING_GROUP_HOMEWORK_STORY,
-    Stories.DELETING_GROUP_TOPIC_STORY,
-    Stories.DELETING_GROUP_SUBTOPIC_STORY,
-    Stories.DELETING_GROUP_NOTE_STORY,
-    Stories.DELETING_BLOCKS_STORY,
-    Stories.DELETING_EXAM_STORY,
+    Story.DELETING_FLASHCARD_SET_STORY,
+    Story.DELETING_HOMEWORK_STORY,
+    Story.DELETING_NOTE_STORY,
+    Story.DELETING_TOPIC_STORY,
+    Story.DELETING_SUBTOPIC_STORY,
+    Story.DELETING_GROUP_FLASHCARD_SET_STORY,
+    Story.DELETING_GROUP_HOMEWORK_STORY,
+    Story.DELETING_GROUP_TOPIC_STORY,
+    Story.DELETING_GROUP_SUBTOPIC_STORY,
+    Story.DELETING_GROUP_NOTE_STORY,
+    Story.DELETING_BLOCKS_STORY,
+    Story.DELETING_EXAM_STORY,
 
-    Stories.GENERATING_FLASHCARDS_STORY,
-    Stories.GENERATING_PODCAST_STORY,
-    Stories.GENERATING_IMPROVED_TEXT_STORY,
-    Stories.GENERATING_TEXT_FROM_FLASHCARDS_STORY,
-    Stories.GENERATING_PODCAST_FROM_FLASHCARDS_STORY,
-    Stories.GENERATING_LEARN_VIDEO_STORY,
-    Stories.GENERATING_RESOURCES_FROM_IMAGE,
-    Stories.GENERATING_EXERCISE_STORY,
+    Story.GENERATING_FLASHCARDS_STORY,
+    Story.GENERATING_PODCAST_STORY,
+    Story.GENERATING_IMPROVED_TEXT_STORY,
+    Story.GENERATING_TEXT_FROM_FLASHCARDS_STORY,
+    Story.GENERATING_PODCAST_FROM_FLASHCARDS_STORY,
+    Story.GENERATING_LEARN_VIDEO_STORY,
+    Story.GENERATING_RESOURCES_FROM_IMAGE,
+    Story.GENERATING_EXERCISE_STORY,
 
-    Stories.CLONING_RESOURCE_FROM_GROUP_STORY,
-    Stories.SUCCESS_STORY,
+    Story.CLONING_RESOURCE_FROM_GROUP_STORY,
+    Story.SUCCESS_STORY,
   ]);
-  const isQuizViewVisible = useIsStoryCurrent(
-    Stories.OBSERVING_FLASHCARD_QUIZ_STORY,
-  );
-  const { isDarkMode } = useSelectedTheme();
-  const [closingVews] = useEntities(
-    (e) => e.hasTag(Tags.SELECTED) && e.hasTag(AdditionalTags.NAVIGATE_BACK),
-  );
-  const [themeColor, setThemeColor] = useState("#F5F5F5");
+  const isQuizViewVisible = useIsAnyStoryCurrent([
+    Story.OBSERVING_FLASHCARD_QUIZ_STORY,
+    Story.OBSERVING_SPACED_REPETITION_QUIZ,
+  ]);
+  const { isDarkModeAktive: isDarkMode } = useSelectedTheme();
+  const [closingVews] = useEntities((e) => e.hasTag(Tags.SELECTED) && e.hasTag(AdditionalTags.NAVIGATE_BACK));
+  const [themeColor, setThemeColor] = useState('#F5F5F5');
   const { backgroundColor } = useSelectedSchoolSubjectColor();
   const { isChatSheetVisible } = useCurrentSapientorConversation();
   const { isSidebarVisible } = useAppState();
   const { width } = useWindowDimensions();
   const { selectedPodcastEntity } = useSelectedPodcast();
-  const [selectedFlashcardEntity] = useEntity(
-    (e) => dataTypeQuery(e, DataTypes.FLASHCARD) && e.hasTag(Tags.SELECTED),
-  );
+  const [selectedFlashcardEntity] = useEntity((e) => dataTypeQuery(e, DataType.FLASHCARD) && e.hasTag(Tags.SELECTED));
 
   useEffect(() => {
-    if (
-      isSheetViewVisible ||
-      selectedPodcastEntity ||
-      selectedFlashcardEntity
-    ) {
+    if (isSheetViewVisible || selectedPodcastEntity || selectedFlashcardEntity) {
       if (!isDarkMode) {
-        setThemeColor("rgb(214,214,214)");
+        setThemeColor('rgb(214,214,214)');
       }
     } else {
       if (!isDarkMode) {
-        setThemeColor("#F5F5F5");
+        setThemeColor('#F5F5F5');
       }
     }
   }, [isSheetViewVisible, selectedPodcastEntity, selectedFlashcardEntity]);
@@ -103,15 +95,15 @@ const ViewManagerSystem = () => {
   useEffect(() => {
     if (isSidebarVisible && width < MEDIUM_DEVICE_WIDTH) {
       if (isDarkMode) {
-        setThemeColor("#1a1a1a");
+        setThemeColor('#1a1a1a');
       } else {
-        setThemeColor("#ffffff");
+        setThemeColor('#ffffff');
       }
     } else if (width < MEDIUM_DEVICE_WIDTH) {
       if (isDarkMode) {
-        setThemeColor("#000000");
+        setThemeColor('#000000');
       } else {
-        setThemeColor("#F5F5F5");
+        setThemeColor('#F5F5F5');
       }
     }
   }, [isSidebarVisible]);
@@ -119,38 +111,34 @@ const ViewManagerSystem = () => {
   useEffect(() => {
     if (isChatSheetVisible) {
       if (!isDarkMode) {
-        setThemeColor("rgb(214,214,214)");
+        setThemeColor('rgb(214,214,214)');
       }
     } else {
       if (!isDarkMode) {
-        setThemeColor("#F5F5F5");
+        setThemeColor('#F5F5F5');
       }
     }
   }, [isChatSheetVisible]);
 
   useEffect(() => {
     if (isQuizViewVisible) {
-      if (isDarkMode) {
-        setThemeColor("#000000");
-      } else {
-        setThemeColor(backgroundColor);
-      }
+      setThemeColor(backgroundColor);
     } else {
       if (isDarkMode) {
-        setThemeColor("#000000");
+        setThemeColor('#000000');
       } else {
-        setThemeColor("#F5F5F5");
+        setThemeColor('#F5F5F5');
       }
     }
   }, [isQuizViewVisible]);
 
   useEffect(() => {
     if (isDarkMode) {
-      document.body.classList.add("dark");
-      setThemeColor("#000000");
+      document.body.classList.add('dark');
+      setThemeColor('#000000');
     } else {
-      document.body.classList.remove("dark");
-      setThemeColor("#F5F5F5");
+      document.body.classList.remove('dark');
+      setThemeColor('#F5F5F5');
     }
   }, [isDarkMode]);
 
@@ -166,11 +154,11 @@ const ViewManagerSystem = () => {
   useEffect(() => {
     if (isSheetViewVisible) {
       if (!isDarkMode) {
-        setThemeColor("rgb(214,214,214)");
+        setThemeColor('rgb(214,214,214)');
       }
     } else {
       if (!isDarkMode) {
-        setThemeColor("#F5F5F5");
+        setThemeColor('#F5F5F5');
       }
     }
   }, [isSheetViewVisible]);

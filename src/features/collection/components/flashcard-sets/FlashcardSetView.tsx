@@ -1,7 +1,7 @@
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
-import { IdentifierFacet, IdentifierProps, Tags } from "@leanscope/ecs-models";
-import { Fragment, useContext } from "react";
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { EntityProps, EntityPropsMapper } from '@leanscope/ecs-engine';
+import { IdentifierFacet, IdentifierProps, Tags } from '@leanscope/ecs-models';
+import { Fragment, useContext } from 'react';
 import {
   IoAdd,
   IoAlbumsOutline,
@@ -15,7 +15,7 @@ import {
   IoPlayOutline,
   IoSparklesOutline,
   IoTrashOutline,
-} from "react-icons/io5";
+} from 'react-icons/io5';
 import {
   AnswerFacet,
   DateAddedFacet,
@@ -23,8 +23,8 @@ import {
   QuestionFacet,
   TitleFacet,
   TitleProps,
-} from "../../../../app/additionalFacets";
-import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
+} from '../../../../app/additionalFacets';
+import { AdditionalTags, DataType, Story } from '../../../../base/enums';
 import {
   ActionRow,
   BackButton,
@@ -35,29 +35,27 @@ import {
   Spacer,
   Title,
   View,
-} from "../../../../components";
-import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
-import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import { displayActionTexts } from "../../../../utils/displayText";
-import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
-import FlashcardQuizView from "../../../study/components/FlashcardQuizView";
-import { useBookmarked } from "../../../study/hooks/useBookmarked";
-import { useEntityHasChildren } from "../../hooks/useEntityHasChildren";
-import { useSelectedTopic } from "../../hooks/useSelectedTopic";
-import LoadFlashcardSetPodcastsSystem from "../../systems/LoadFlashcardSetPodcastsSystem";
-import LoadFlashcardsSystem from "../../systems/LoadFlashcardsSystem";
-import GeneratePodcastSheet from "../generation/GeneratePodcastSheet";
-import GenerateTextFromFlashcardsSheet from "../generation/GenerateTextFromFlashcardsSheet";
-import PodcastRow from "../podcasts/PodcastRow";
-import AddFlashcardsSheet from "./AddFlashcardsSheet";
-import DeleteFlashcardSetAlert from "./DeleteFlashcardSetAlert";
-import EditFlashcardSetSheet from "./EditFlashcardSetSheet";
-import EditFlashcardSheet from "./EditFlashcardSheet";
-import FlashcardCell from "./FlashcardCell";
+} from '../../../../components';
+import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
+import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
+import { displayActionTexts } from '../../../../utils/displayText';
+import { dataTypeQuery, isChildOfQuery } from '../../../../utils/queries';
+import FlashcardQuizView from '../../../study/components/FlashcardQuizView';
+import { useBookmarked } from '../../../study/hooks/useBookmarked';
+import { useEntityHasChildren } from '../../hooks/useEntityHasChildren';
+import { useSelectedTopic } from '../../hooks/useSelectedTopic';
+import LoadFlashcardSetPodcastsSystem from '../../systems/LoadFlashcardSetPodcastsSystem';
+import LoadFlashcardsSystem from '../../systems/LoadFlashcardsSystem';
+import GeneratePodcastSheet from '../generation/GeneratePodcastSheet';
+import GenerateTextFromFlashcardsSheet from '../generation/GenerateTextFromFlashcardsSheet';
+import PodcastRow from '../podcasts/PodcastRow';
+import AddFlashcardsSheet from './AddFlashcardsSheet';
+import DeleteFlashcardSetAlert from './DeleteFlashcardSetAlert';
+import EditFlashcardSetSheet from './EditFlashcardSetSheet';
+import EditFlashcardSheet from './EditFlashcardSheet';
+import FlashcardCell from './FlashcardCell';
 
-const FlashcardSetView = (
-  props: TitleProps & EntityProps & IdentifierProps,
-) => {
+const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => {
   const lsc = useContext(LeanScopeClientContext);
   const { title, entity } = props;
   const isVisible = useIsViewVisible(entity);
@@ -67,20 +65,13 @@ const FlashcardSetView = (
   const { isBookmarked, toggleBookmark } = useBookmarked(entity);
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
-  const openEditFlashcardSetSheet = () =>
-    lsc.stories.transitTo(Stories.EDITING_FLASHCARD_SET_STORY);
-  const openDeleteFlashcardSetAlert = () =>
-    lsc.stories.transitTo(Stories.DELETING_FLASHCARD_SET_STORY);
-  const openAddFlashcardsSheet = () =>
-    lsc.stories.transitTo(Stories.ADDING_FLASHCARDS_STORY);
-  const openFlashcardQuizView = () =>
-    lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_QUIZ_STORY);
-  const openGeneratePodcastSheet = () =>
-    lsc.stories.transitTo(Stories.GENERATING_PODCAST_STORY);
-  const openGenerateTextSheet = () =>
-    lsc.stories.transitTo(Stories.GENERATING_TEXT_FROM_FLASHCARDS_STORY);
-  const openAddResourceToLerningGroupSheet = () =>
-    lsc.stories.transitTo(Stories.ADDING_RESOURCE_TO_LEARNING_GROUP_STORY);
+  const openEditFlashcardSetSheet = () => lsc.stories.transitTo(Story.EDITING_FLASHCARD_SET_STORY);
+  const openDeleteFlashcardSetAlert = () => lsc.stories.transitTo(Story.DELETING_FLASHCARD_SET_STORY);
+  const openAddFlashcardsSheet = () => lsc.stories.transitTo(Story.ADDING_FLASHCARDS_STORY);
+  const openFlashcardQuizView = () => lsc.stories.transitTo(Story.OBSERVING_FLASHCARD_QUIZ_STORY);
+  const openGeneratePodcastSheet = () => lsc.stories.transitTo(Story.GENERATING_PODCAST_STORY);
+  const openGenerateTextSheet = () => lsc.stories.transitTo(Story.GENERATING_TEXT_FROM_FLASHCARDS_STORY);
+  const openAddResourceToLerningGroupSheet = () => lsc.stories.transitTo(Story.ADDING_RESOURCE_TO_LEARNING_GROUP_STORY);
 
   return (
     <Fragment>
@@ -92,18 +83,10 @@ const FlashcardSetView = (
           <NavBarButton
             content={
               <Fragment>
-                <ActionRow
-                  first
-                  icon={<IoHeadsetOutline />}
-                  onClick={openGeneratePodcastSheet}
-                >
+                <ActionRow first icon={<IoHeadsetOutline />} onClick={openGeneratePodcastSheet}>
                   {displayActionTexts(selectedLanguage).generatePodcast}
                 </ActionRow>
-                <ActionRow
-                  onClick={openGenerateTextSheet}
-                  last
-                  icon={<IoSparklesOutline />}
-                >
+                <ActionRow onClick={openGenerateTextSheet} last icon={<IoSparklesOutline />}>
                   {displayActionTexts(selectedLanguage).generateText}
                 </ActionRow>
               </Fragment>
@@ -114,12 +97,7 @@ const FlashcardSetView = (
           <NavBarButton
             content={
               <Fragment>
-                <ActionRow
-                  first
-                  last
-                  icon={<IoAlbumsOutline />}
-                  onClick={() => openFlashcardQuizView()}
-                >
+                <ActionRow first last icon={<IoAlbumsOutline />} onClick={() => openFlashcardQuizView()}>
                   {displayActionTexts(selectedLanguage).quiz}
                 </ActionRow>
               </Fragment>
@@ -133,33 +111,18 @@ const FlashcardSetView = (
           <NavBarButton
             content={
               <Fragment>
-                <ActionRow
-                  first
-                  icon={<IoCreateOutline />}
-                  onClick={openEditFlashcardSetSheet}
-                >
+                <ActionRow first icon={<IoCreateOutline />} onClick={openEditFlashcardSetSheet}>
                   {displayActionTexts(selectedLanguage).edit}
                 </ActionRow>
-                <ActionRow
-                  icon={isBookmarked ? <IoBookmark /> : <IoBookmarkOutline />}
-                  onClick={toggleBookmark}
-                >
+                <ActionRow icon={isBookmarked ? <IoBookmark /> : <IoBookmarkOutline />} onClick={toggleBookmark}>
                   {isBookmarked
                     ? displayActionTexts(selectedLanguage).unbookmark
                     : displayActionTexts(selectedLanguage).bookmark}
                 </ActionRow>
-                <ActionRow
-                  icon={<IoArrowUpCircleOutline />}
-                  onClick={openAddResourceToLerningGroupSheet}
-                >
+                <ActionRow icon={<IoArrowUpCircleOutline />} onClick={openAddResourceToLerningGroupSheet}>
                   {displayActionTexts(selectedLanguage).addToLearningGroup}
                 </ActionRow>
-                <ActionRow
-                  destructive
-                  last
-                  icon={<IoTrashOutline />}
-                  onClick={openDeleteFlashcardSetAlert}
-                >
+                <ActionRow destructive last icon={<IoTrashOutline />} onClick={openDeleteFlashcardSetAlert}>
                   {displayActionTexts(selectedLanguage).delete}
                 </ActionRow>
               </Fragment>
@@ -169,15 +132,11 @@ const FlashcardSetView = (
           </NavBarButton>
         </NavigationBar>
 
-        <BackButton navigateBack={navigateBack}>
-          {selectedTopicTitle}
-        </BackButton>
+        <BackButton navigateBack={navigateBack}>{selectedTopicTitle}</BackButton>
         <Title>{title}</Title>
         <Spacer size={2} />
         <EntityPropsMapper
-          query={(e) =>
-            isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.PODCAST)
-          }
+          query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataType.PODCAST)}
           get={[[TitleFacet, DateAddedFacet], []]}
           onMatch={PodcastRow}
         />
@@ -185,9 +144,7 @@ const FlashcardSetView = (
         {!hasChildren && <NoContentAddedHint />}
         <CollectionGrid columnSize="large">
           <EntityPropsMapper
-            query={(e) =>
-              e.hasTag(DataTypes.FLASHCARD) && isChildOfQuery(e, entity)
-            }
+            query={(e) => e.hasTag(DataType.FLASHCARD) && isChildOfQuery(e, entity)}
             get={[[QuestionFacet, AnswerFacet, MasteryLevelFacet], []]}
             onMatch={FlashcardCell}
           />
@@ -195,13 +152,8 @@ const FlashcardSetView = (
       </View>
 
       <EntityPropsMapper
-        query={(e) =>
-          dataTypeQuery(e, DataTypes.FLASHCARD) && e.hasTag(Tags.SELECTED)
-        }
-        get={[
-          [QuestionFacet, AnswerFacet, MasteryLevelFacet, IdentifierFacet],
-          [],
-        ]}
+        query={(e) => dataTypeQuery(e, DataType.FLASHCARD) && e.hasTag(Tags.SELECTED)}
+        get={[[QuestionFacet, AnswerFacet, MasteryLevelFacet, IdentifierFacet], []]}
         onMatch={EditFlashcardSheet}
       />
 

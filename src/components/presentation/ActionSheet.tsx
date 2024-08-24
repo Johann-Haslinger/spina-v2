@@ -1,7 +1,7 @@
-import styled from "@emotion/styled/macro";
-import { motion } from "framer-motion";
-import { PropsWithChildren, useEffect, useRef } from "react";
-import tw from "twin.macro";
+import styled from '@emotion/styled/macro';
+import { motion } from 'framer-motion';
+import { PropsWithChildren, useEffect, useRef } from 'react';
+import tw from 'twin.macro';
 
 const StyledActionSheetWrapper = styled.div`
   ${tw` bg-[rgb(244,244,244)] mt-2  dark:bg-seconderyDark bg-opacity-80 w-full dark:shadow-[0px_0px_60px_0px_rgba(255, 255, 255, 0.13)] shadow-[0px_0px_60px_0px_rgba(0,0,0,0.13)] text-primatyText dark:text-primaryTextDark  backdrop-blur-2xl rounded-lg `}
@@ -10,25 +10,22 @@ const StyledActionSheetWrapper = styled.div`
 interface ActionSheetProps {
   visible: boolean;
   navigateBack: () => void;
-  direction?: "left" | "right";
+  direction?: 'left' | 'right';
 }
 
 const ActionSheet = (props: PropsWithChildren & ActionSheetProps) => {
-  const { visible, children, navigateBack, direction = "right" } = props;
+  const { visible, children, navigateBack, direction = 'right' } = props;
   const refOne = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    if (visible) {
-    } else {
-      navigateBack();
-    }
+    if (!visible) navigateBack();
   }, [visible]);
 
   useEffect(() => {
-    document.addEventListener("click", handleClickOutside, true);
+    document.addEventListener('click', handleClickOutside, true);
 
     return () => {
-      document.removeEventListener("click", handleClickOutside, true);
+      document.removeEventListener('click', handleClickOutside, true);
     };
   }, []);
 
@@ -44,9 +41,9 @@ const ActionSheet = (props: PropsWithChildren & ActionSheetProps) => {
       initial={{
         opacity: 0,
         scale: 0.0,
-        position: "absolute",
-        right: direction === "right" ? 12 : "auto",
-        width: "14rem",
+        position: 'absolute',
+        right: direction === 'right' ? 12 : 'auto',
+        width: '14rem',
       }}
       animate={{ opacity: visible ? 1 : 0, scale: visible ? 1 : 0.0 }}
       transition={{ duration: 0.2 }}

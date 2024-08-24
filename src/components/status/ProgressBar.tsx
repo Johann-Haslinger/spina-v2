@@ -1,5 +1,5 @@
-import styled from "@emotion/styled";
-import tw from "twin.macro";
+import styled from '@emotion/styled';
+import tw from 'twin.macro';
 
 const StyledProgressBarWrapper = styled.div`
   ${tw`flex items-center w-full  rounded-full bg-secondery dark:bg-primaryDark  `}
@@ -21,7 +21,7 @@ const ProgressBar = (props: ProgressBarProps) => {
 
   return (
     <StyledProgressBarWrapper>
-      <StyledProgressBar width={width + "%"} />
+      <StyledProgressBar width={width + '%'} />
     </StyledProgressBarWrapper>
   );
 };

@@ -1,32 +1,24 @@
-import styled from "@emotion/styled";
-import { EntityPropsMapper, useEntities } from "@leanscope/ecs-engine";
-import { TextFacet } from "@leanscope/ecs-models";
-import { IoBulb, IoClose, IoFlash } from "react-icons/io5";
-import tw from "twin.macro";
+import styled from '@emotion/styled';
+import { EntityPropsMapper, useEntities } from '@leanscope/ecs-engine';
+import { TextFacet } from '@leanscope/ecs-models';
+import { IoBulb, IoClose, IoFlash } from 'react-icons/io5';
+import tw from 'twin.macro';
 
-import { useEffect, useState } from "react";
-import { useEntityHasTags } from "@leanscope/ecs-engine/react-api/hooks/useEntityComponents";
-import {
-  MessageRoleFacet,
-  RelatedResourcesFacet,
-} from "../../../app/additionalFacets";
-import { COLOR_ITEMS } from "../../../base/constants";
-import { AdditionalTags, SupportedModels } from "../../../base/enums";
-import { Sheet, Spacer, ScrollableBox } from "../../../components";
-import SapientorConversationMessage from "../../../components/content/SapientorConversationMessage";
-import { sortMessageEntitiesByDateAdded } from "../../../utils/sortEntitiesByTime";
-import { useCurrentSapientorConversation } from "../hooks/useCurrentConversation";
-import ChatMessage from "./ChatMessage";
-import SapientorPromptBox from "./SapientorPromptBox";
+import { useEffect, useState } from 'react';
+import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntityComponents';
+import { MessageRoleFacet, RelatedResourcesFacet } from '../../../app/additionalFacets';
+import { COLOR_ITEMS } from '../../../base/constants';
+import { AdditionalTags, SupportedModels } from '../../../base/enums';
+import { Sheet, Spacer, ScrollableBox } from '../../../components';
+import SapientorConversationMessage from '../../../components/content/SapientorConversationMessage';
+import { sortMessageEntitiesByDateAdded } from '../../../utils/sortEntitiesByTime';
+import { useCurrentSapientorConversation } from '../hooks/useCurrentConversation';
+import ChatMessage from './ChatMessage';
+import SapientorPromptBox from './SapientorPromptBox';
 
 const useDisplayLoadingAnimation = () => {
-  const [promptEntity] = useEntities(
-    (e) => e.has(AdditionalTags.PROMPT) && e.has(AdditionalTags.PROCESSING),
-  )[0];
-  const [isProcessingCurrentPrompt] = useEntityHasTags(
-    promptEntity,
-    AdditionalTags.PROCESSING,
-  );
+  const [promptEntity] = useEntities((e) => e.has(AdditionalTags.PROMPT) && e.has(AdditionalTags.PROCESSING))[0];
+  const [isProcessingCurrentPrompt] = useEntityHasTags(promptEntity, AdditionalTags.PROCESSING);
   const [displayLoadingAnimation, setDisplayLoadingAnimation] = useState(false);
 
   useEffect(() => {
@@ -58,8 +50,7 @@ const StyledSegmentedControlWrapper = styled.div`
 
 const StyledSegmentedControlCell = styled.div<{ active: boolean }>`
   ${tw`w-1/2 text-xl items-center flex justify-center h-full`}
-  ${({ active }) =>
-    active ? tw` bg-white rounded-full dark:bg-opacity-5` : tw`opacity-20  `}
+  ${({ active }) => (active ? tw` bg-white rounded-full dark:bg-opacity-5` : tw`opacity-20  `)}
 `;
 
 const StyledFlexBox = styled.div`
@@ -72,12 +63,8 @@ const StyledPlaceholderIcon = styled.div`
 `;
 
 const SapientorChatSheet = () => {
-  const {
-    isChatSheetVisible,
-    setChatSheetVisible,
-    useSapientorAssistentModel,
-    changeModel,
-  } = useCurrentSapientorConversation();
+  const { isChatSheetVisible, setChatSheetVisible, useSapientorAssistentModel, changeModel } =
+    useCurrentSapientorConversation();
   const [chatMessageEntities] = useEntities((e) => e.has(MessageRoleFacet));
   const displayLoadingAnimation = useDisplayLoadingAnimation();
 
@@ -120,8 +107,8 @@ const SapientorChatSheet = () => {
           {displayLoadingAnimation && (
             <SapientorConversationMessage
               message={{
-                role: "gpt",
-                message: "",
+                role: 'gpt',
+                message: '',
               }}
               isLoading
             />

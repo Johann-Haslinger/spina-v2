@@ -1,10 +1,7 @@
-import styled from "@emotion/styled";
-import tw from "twin.macro";
-import { useSelectedLanguage } from "../../hooks/useSelectedLanguage";
-import {
-  displayAlertTexts,
-  displayDataTypeTexts,
-} from "../../utils/displayText";
+import styled from '@emotion/styled';
+import tw from 'twin.macro';
+import { useSelectedLanguage } from '../../hooks/useSelectedLanguage';
+import { displayAlertTexts, displayDataTypeTexts } from '../../utils/displayText';
 
 const StyledSubtopicCellWrapper = styled.div`
   ${tw`pb-4 min-h-48 `}
@@ -16,7 +13,7 @@ const StyledSubtopicCellContainer = styled.div`
 
 const StyledSubtopicCellItem = styled.div<{ backgroundColor: string }>`
   ${tw`p-2 w-1/2  pt-4 rounded-md  h-full`}
-  background-color: ${({ backgroundColor }) => backgroundColor + "99"};
+  background-color: ${({ backgroundColor }) => backgroundColor + '99'};
 `;
 
 const StyledSubtopicCellTitle = styled.p`
@@ -36,19 +33,9 @@ const StyledCardContent = styled.div<{ color: string }>`
   background-color: ${({ color }) => color};
 `;
 
-const SubtopicThumbNail = (props: {
-  color: string;
-  title: string;
-  onClick?: () => void;
-  type?: string;
-}) => {
+const SubtopicThumbNail = (props: { color: string; title: string; onClick?: () => void; type?: string }) => {
   const { selectedLanguage } = useSelectedLanguage();
-  const {
-    color,
-    title,
-    onClick,
-    type = displayDataTypeTexts(selectedLanguage).subTopic,
-  } = props;
+  const { color, title, onClick, type = displayDataTypeTexts(selectedLanguage).subTopic } = props;
 
   return (
     <StyledSubtopicCellWrapper onClick={onClick}>
@@ -61,9 +48,7 @@ const SubtopicThumbNail = (props: {
         </CardWrapper>
       </StyledSubtopicCellContainer>
 
-      <StyledSubtopicCellTitle>
-        {title || displayAlertTexts(selectedLanguage).noTitle}
-      </StyledSubtopicCellTitle>
+      <StyledSubtopicCellTitle>{title || displayAlertTexts(selectedLanguage).noTitle}</StyledSubtopicCellTitle>
 
       <StyledResourceTypeText>{type} </StyledResourceTypeText>
     </StyledSubtopicCellWrapper>

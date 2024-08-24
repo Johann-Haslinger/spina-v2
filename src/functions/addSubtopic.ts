@@ -1,15 +1,11 @@
-import { ILeanScopeClient } from "@leanscope/api-client/interfaces";
-import { Entity } from "@leanscope/ecs-engine";
-import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
-import { TitleFacet } from "../app/additionalFacets";
-import supabaseClient from "../lib/supabase";
-import { SupabaseTables } from "../base/enums";
+import { ILeanScopeClient } from '@leanscope/api-client/interfaces';
+import { Entity } from '@leanscope/ecs-engine';
+import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
+import { TitleFacet } from '../app/additionalFacets';
+import supabaseClient from '../lib/supabase';
+import { SupabaseTables } from '../base/enums';
 
-export const addSubtopic = async (
-  lsc: ILeanScopeClient,
-  subtopicEntity: Entity,
-  userId: string,
-) => {
+export const addSubtopic = async (lsc: ILeanScopeClient, subtopicEntity: Entity, userId: string) => {
   lsc.engine.addEntity(subtopicEntity);
 
   const subtopicId = subtopicEntity.get(IdentifierFacet)?.props.guid;
@@ -26,6 +22,6 @@ export const addSubtopic = async (
   ]);
 
   if (error) {
-    console.error("Error adding subtopic", error);
+    console.error('Error adding subtopic', error);
   }
 };

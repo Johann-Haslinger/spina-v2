@@ -1,29 +1,21 @@
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { useEntities } from "@leanscope/ecs-engine";
-import { IdentifierFacet, Tags } from "@leanscope/ecs-models";
-import { useIsStoryCurrent } from "@leanscope/storyboarding";
-import { useContext } from "react";
-import {
-  DataTypes,
-  Stories,
-  SupabaseColumns,
-  SupabaseTables,
-} from "../../../base/enums";
-import { Alert, AlertButton } from "../../../components";
-import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
-import supabaseClient from "../../../lib/supabase";
-import { displayActionTexts } from "../../../utils/displayText";
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { useEntities } from '@leanscope/ecs-engine';
+import { IdentifierFacet, Tags } from '@leanscope/ecs-models';
+import { useIsStoryCurrent } from '@leanscope/storyboarding';
+import { useContext } from 'react';
+import { DataType, Story, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { Alert, AlertButton } from '../../../components';
+import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
+import supabaseClient from '../../../lib/supabase';
+import { displayActionTexts } from '../../../utils/displayText';
 
 const DeleteBlocksAlert = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.DELETING_BLOCKS_STORY);
+  const isVisible = useIsStoryCurrent(Story.DELETING_BLOCKS_STORY);
   const { selectedLanguage } = useSelectedLanguage();
-  const [selectedBlockEntities] = useEntities(
-    (e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED),
-  );
+  const [selectedBlockEntities] = useEntities((e) => e.has(DataType.BLOCK) && e.has(Tags.SELECTED));
 
-  const navigateBack = () =>
-    lsc.stories.transitTo(Stories.OBSERVING_BLOCKEDITOR_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_BLOCKEDITOR_STORY);
 
   const deleteSelectedBlocks = async () => {
     navigateBack();
@@ -33,13 +25,10 @@ const DeleteBlocksAlert = () => {
 
       const id = blockEntity.get(IdentifierFacet)?.props.guid;
 
-      const { error } = await supabaseClient
-        .from(SupabaseTables.BLOCKS)
-        .delete()
-        .eq(SupabaseColumns.ID, id);
+      const { error } = await supabaseClient.from(SupabaseTables.BLOCKS).delete().eq(SupabaseColumns.ID, id);
 
       if (error) {
-        console.error("Error deleting block from supabase:", error);
+        console.error('Error deleting block from supabase:', error);
       }
     });
   };

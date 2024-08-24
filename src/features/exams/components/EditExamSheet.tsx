@@ -1,8 +1,8 @@
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { useIsStoryCurrent } from "@leanscope/storyboarding";
-import { useContext, useEffect, useState } from "react";
-import { DueDateFacet, TitleFacet } from "../../../app/additionalFacets";
-import { Stories, SupabaseColumns, SupabaseTables } from "../../../base/enums";
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { useIsStoryCurrent } from '@leanscope/storyboarding';
+import { useContext, useEffect, useState } from 'react';
+import { DueDateFacet, TitleFacet } from '../../../app/additionalFacets';
+import { Story, SupabaseColumns, SupabaseTables } from '../../../base/enums';
 import {
   DateInput,
   FlexBox,
@@ -13,25 +13,17 @@ import {
   Sheet,
   Spacer,
   TextInput,
-} from "../../../components";
-import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
-import supabaseClient from "../../../lib/supabase";
-import {
-  displayButtonTexts,
-  displayLabelTexts,
-} from "../../../utils/displayText";
-import { useSelectedExam } from "../hooks/useSelectedExam";
+} from '../../../components';
+import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
+import supabaseClient from '../../../lib/supabase';
+import { displayButtonTexts, displayLabelTexts } from '../../../utils/displayText';
+import { useSelectedExam } from '../hooks/useSelectedExam';
 
 const EditExamSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.EDITING_EXAM_STORY);
+  const isVisible = useIsStoryCurrent(Story.EDITING_EXAM_STORY);
   const { selectedLanguage } = useSelectedLanguage();
-  const {
-    selectedExamTitle,
-    selectedExamEntity,
-    selectedExamId,
-    selectedExamDueDate,
-  } = useSelectedExam();
+  const { selectedExamTitle, selectedExamEntity, selectedExamId, selectedExamDueDate } = useSelectedExam();
   const [newTitle, setNewTitle] = useState(selectedExamTitle);
   const [newDueDate, setNewDueDate] = useState(selectedExamTitle);
 
@@ -40,8 +32,7 @@ const EditExamSheet = () => {
     setNewDueDate(selectedExamDueDate);
   }, [selectedExamTitle, selectedExamDueDate]);
 
-  const navigateBack = () =>
-    lsc.stories.transitTo(Stories.OBSERVING_EXAMS_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_EXAMS_STORY);
 
   const updateExam = async () => {
     if (newTitle && newDueDate) {
@@ -58,7 +49,7 @@ const EditExamSheet = () => {
         .eq(SupabaseColumns.ID, selectedExamId);
 
       if (error) {
-        console.error("Error updating exam set", error);
+        console.error('Error updating exam set', error);
       }
     }
   };
@@ -66,14 +57,9 @@ const EditExamSheet = () => {
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>
       <FlexBox>
-        <SecondaryButton onClick={navigateBack}>
-          {displayButtonTexts(selectedLanguage).cancel}
-        </SecondaryButton>
-        {(newTitle !== selectedExamTitle ||
-          newDueDate !== selectedExamDueDate) && (
-          <PrimaryButton onClick={updateExam}>
-            {displayButtonTexts(selectedLanguage).save}
-          </PrimaryButton>
+        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
+        {(newTitle !== selectedExamTitle || newDueDate !== selectedExamDueDate) && (
+          <PrimaryButton onClick={updateExam}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
         )}
       </FlexBox>
       <Spacer />
@@ -88,11 +74,7 @@ const EditExamSheet = () => {
         <SectionRow last>
           <FlexBox>
             <div>{displayLabelTexts(selectedLanguage).dueDate}</div>
-            <DateInput
-              type="date"
-              value={newDueDate}
-              onChange={(e) => setNewDueDate(e.target.value)}
-            />
+            <DateInput type="date" value={newDueDate} onChange={(e) => setNewDueDate(e.target.value)} />
           </FlexBox>
         </SectionRow>
       </Section>

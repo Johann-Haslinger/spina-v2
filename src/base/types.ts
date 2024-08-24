@@ -1,8 +1,8 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
-export type BlockeditorState = "view" | "create" | "edit" | "delete" | "write";
+export type BlockeditorState = 'view' | 'create' | 'edit' | 'delete' | 'write';
 
-export type ResourceTypes = "subject" | "topic" | "note" | "flashcardSet";
+export type ResourceTypes = 'subject' | 'topic' | 'note' | 'flashcardSet';
 
 export interface Resource {
   resourceType: ResourceTypes;

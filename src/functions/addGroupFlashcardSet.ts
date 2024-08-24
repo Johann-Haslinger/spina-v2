@@ -1,8 +1,8 @@
-import { ILeanScopeClient } from "@leanscope/api-client/interfaces";
-import { Entity } from "@leanscope/ecs-engine";
-import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
-import { TitleFacet } from "../app/additionalFacets";
-import supabaseClient from "../lib/supabase";
+import { ILeanScopeClient } from '@leanscope/api-client/interfaces';
+import { Entity } from '@leanscope/ecs-engine';
+import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
+import { TitleFacet } from '../app/additionalFacets';
+import supabaseClient from '../lib/supabase';
 
 export const addGroupFlashcardSet = async (
   lsc: ILeanScopeClient,
@@ -12,7 +12,7 @@ export const addGroupFlashcardSet = async (
 ) => {
   lsc.engine.addEntity(flashcardSetEntity);
 
-  const { error } = await supabaseClient.from("group_flashcard_sets").insert([
+  const { error } = await supabaseClient.from('group_flashcard_sets').insert([
     {
       id: flashcardSetEntity.get(IdentifierFacet)?.props.guid,
       parent_id: flashcardSetEntity.get(ParentFacet)?.props.parentId,
@@ -23,6 +23,6 @@ export const addGroupFlashcardSet = async (
   ]);
 
   if (error) {
-    console.error("Error inserting group flashcard set", error);
+    console.error('Error inserting group flashcard set', error);
   }
 };

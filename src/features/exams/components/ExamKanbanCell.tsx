@@ -1,13 +1,13 @@
-import styled from "@emotion/styled";
-import { Entity } from "@leanscope/ecs-engine";
-import { useEntityFacets } from "@leanscope/ecs-engine/react-api/hooks/useEntityFacets";
-import { Tags } from "@leanscope/ecs-models";
-import { motion } from "framer-motion";
-import tw from "twin.macro";
-import { RelationshipFacet, TitleFacet } from "../../../app/additionalFacets";
-import { useDaysUntilDue } from "../../../hooks/useDaysUntilDue";
-import { useSchoolSubject } from "../../../hooks/useSchoolSubject";
-import { useSelectedTheme } from "../../collection/hooks/useSelectedTheme";
+import styled from '@emotion/styled';
+import { Entity } from '@leanscope/ecs-engine';
+import { useEntityFacets } from '@leanscope/ecs-engine/react-api/hooks/useEntityFacets';
+import { Tags } from '@leanscope/ecs-models';
+import { motion } from 'framer-motion';
+import tw from 'twin.macro';
+import { RelationshipFacet, TitleFacet } from '../../../app/additionalFacets';
+import { useDaysUntilDue } from '../../../hooks/useDaysUntilDue';
+import { useSchoolSubject } from '../../../hooks/useSchoolSubject';
+import { useSelectedTheme } from '../../collection/hooks/useSelectedTheme';
 
 const StyledExamCellContainer = styled.div`
   ${tw`w-full  transition-all h-32 px-2 py-1`}
@@ -27,23 +27,15 @@ const StyledExamCellSubtitle = styled.div`
   ${tw` text-sm mt-0.5 text-opacity-50 font-medium line-clamp-2`}
 `;
 
-const ExamKanbanCell = (pops: {
-  entity: Entity;
-  backgroundColor: string;
-  color: string;
-}) => {
+const ExamKanbanCell = (pops: { entity: Entity; backgroundColor: string; color: string }) => {
   const { entity, backgroundColor, color } = pops;
 
-  const [titleProps, relationShipProps] = useEntityFacets(
-    entity,
-    TitleFacet,
-    RelationshipFacet,
-  );
+  const [titleProps, relationShipProps] = useEntityFacets(entity, TitleFacet, RelationshipFacet);
   const daysUntilDue = useDaysUntilDue(entity);
-  const title = titleProps?.title || "No Title";
+  const title = titleProps?.title || 'No Title';
   const relatedSchoolSubjectId = relationShipProps?.relationship;
   const { schoolSubjectTitle } = useSchoolSubject(relatedSchoolSubjectId);
-  const { isDarkMode } = useSelectedTheme();
+  const { isDarkModeAktive: isDarkMode } = useSelectedTheme();
 
   const handleOpenExam = () => entity.add(Tags.SELECTED);
 
@@ -59,10 +51,7 @@ const ExamKanbanCell = (pops: {
       }}
     >
       <StyledExamCellContainer onClick={handleOpenExam}>
-        <StyledExamCellWrapper
-          backgroundColor={isDarkMode ? backgroundColor + 60 : backgroundColor}
-          color={color}
-        >
+        <StyledExamCellWrapper backgroundColor={isDarkMode ? backgroundColor + 60 : backgroundColor} color={color}>
           <StyledExamCellTitle>{title}</StyledExamCellTitle>
           <StyledExamCellSubtitle>
             {schoolSubjectTitle}, {daysUntilDue}

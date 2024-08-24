@@ -1,22 +1,22 @@
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { Entity } from "@leanscope/ecs-engine";
-import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
-import { useContext, useEffect } from "react";
-import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
-import { dummyFlashcardSets } from "../../../base/dummy";
-import { DataTypes, SupabaseColumns } from "../../../base/enums";
-import { useMockupData } from "../../../hooks/useMockupData";
-import supabaseClient from "../../../lib/supabase";
-import { useSelectedGroupTopic } from "../hooks/useSelectedGroupTopic";
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { Entity } from '@leanscope/ecs-engine';
+import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
+import { useContext, useEffect } from 'react';
+import { DateAddedFacet, TitleFacet } from '../../../app/additionalFacets';
+import { dummyFlashcardSets } from '../../../base/dummy';
+import { DataType, SupabaseColumns } from '../../../base/enums';
+import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
+import supabaseClient from '../../../lib/supabase';
+import { useSelectedGroupTopic } from '../hooks/useSelectedGroupTopic';
 
 const fetchGroupFlashcardSetsForTopic = async (topicId: string) => {
   const { data: groupFlashcardSets, error } = await supabaseClient
-    .from("group_flashcard_sets")
-    .select("title, id, date_added")
+    .from('group_flashcard_sets')
+    .select('title, id, date_added')
     .eq(SupabaseColumns.PARENT_ID, topicId);
 
   if (error) {
-    console.error("Error fetching GroupFlashcardSets:", error);
+    console.error('Error fetching GroupFlashcardSets:', error);
     return [];
   }
 
@@ -24,7 +24,7 @@ const fetchGroupFlashcardSetsForTopic = async (topicId: string) => {
 };
 
 const LoadGroupFlashcardSetsSystem = () => {
-  const { mockupData, shouldFetchFromSupabase } = useMockupData();
+  const { isUsingMockupData: mockupData, isUsingSupabaseData: shouldFetchFromSupabase } = useCurrentDataSource();
   const lsc = useContext(LeanScopeClientContext);
   const { selectedGroupTopicId } = useSelectedGroupTopic();
 
@@ -40,8 +40,7 @@ const LoadGroupFlashcardSetsSystem = () => {
         groupFlashcardSets.forEach((groupFlashcardSet) => {
           const isExisting = lsc.engine.entities.some(
             (e) =>
-              e.get(IdentifierFacet)?.props.guid === groupFlashcardSet.id &&
-              e.hasTag(DataTypes.GROUP_FLASHCARD_SET),
+              e.get(IdentifierFacet)?.props.guid === groupFlashcardSet.id && e.hasTag(DataType.GROUP_FLASHCARD_SET),
           );
 
           if (!isExisting) {
@@ -49,11 +48,9 @@ const LoadGroupFlashcardSetsSystem = () => {
             lsc.engine.addEntity(noteEntity);
             noteEntity.add(new TitleFacet({ title: groupFlashcardSet.title }));
             noteEntity.add(new IdentifierFacet({ guid: groupFlashcardSet.id }));
-            noteEntity.add(
-              new DateAddedFacet({ dateAdded: groupFlashcardSet.date_added }),
-            );
+            noteEntity.add(new DateAddedFacet({ dateAdded: groupFlashcardSet.date_added }));
             noteEntity.add(new ParentFacet({ parentId: selectedGroupTopicId }));
-            noteEntity.addTag(DataTypes.GROUP_FLASHCARD_SET);
+            noteEntity.addTag(DataType.GROUP_FLASHCARD_SET);
           }
         });
       }

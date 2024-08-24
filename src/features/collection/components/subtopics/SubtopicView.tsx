@@ -1,7 +1,7 @@
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { EntityProps, EntityPropsMapper } from "@leanscope/ecs-engine";
-import { IdentifierFacet, IdentifierProps, Tags } from "@leanscope/ecs-models";
-import { useContext, useState } from "react";
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { EntityProps, EntityPropsMapper } from '@leanscope/ecs-engine';
+import { IdentifierFacet, IdentifierProps, Tags } from '@leanscope/ecs-models';
+import { useContext, useState } from 'react';
 import {
   IoAddCircleOutline,
   IoAlbumsOutline,
@@ -18,8 +18,8 @@ import {
   IoSchoolOutline,
   IoSparklesOutline,
   IoTrashOutline,
-} from "react-icons/io5";
-import { Fragment } from "react/jsx-runtime";
+} from 'react-icons/io5';
+import { Fragment } from 'react/jsx-runtime';
 import {
   AnswerFacet,
   DateAddedFacet,
@@ -27,8 +27,8 @@ import {
   QuestionFacet,
   TitleFacet,
   TitleProps,
-} from "../../../../app/additionalFacets";
-import { AdditionalTags, DataTypes, Stories } from "../../../../base/enums";
+} from '../../../../app/additionalFacets';
+import { AdditionalTags, DataType, Story } from '../../../../base/enums';
 import {
   ActionRow,
   BackButton,
@@ -41,29 +41,29 @@ import {
   TextEditor,
   Title,
   View,
-} from "../../../../components";
-import { useIsViewVisible } from "../../../../hooks/useIsViewVisible";
-import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import { displayActionTexts } from "../../../../utils/displayText";
-import { dataTypeQuery, isChildOfQuery } from "../../../../utils/queries";
-import FlashcardQuizView from "../../../study/components/FlashcardQuizView";
-import { useBookmarked } from "../../../study/hooks/useBookmarked";
-import { useSelectedTopic } from "../../hooks/useSelectedTopic";
-import { useText } from "../../hooks/useText";
-import LoadSubtopicResourcesSystem from "../../systems/LoadSubtopicResourcesSystem";
-import AddFlashcardsSheet from "../flashcard-sets/AddFlashcardsSheet";
-import EditFlashcardSheet from "../flashcard-sets/EditFlashcardSheet";
-import FlashcardCell from "../flashcard-sets/FlashcardCell";
-import GenerateImprovedTextSheet from "../generation/GenerateImprovedTextSheet";
-import GeneratePodcastSheet from "../generation/GeneratePodcastSheet";
-import LernvideoRow from "../lern-videos/LernvideoRow";
-import LernvideoView from "../lern-videos/LernvideoView";
-import PodcastRow from "../podcasts/PodcastRow";
-import BlurtingView from "./BlurtingView";
-import DeleteSubtopicAlert from "./DeleteSubtopicAlert";
-import EditSubtopicSheet from "./EditSubtopicSheet";
-import FlashcardTestView from "./FlashcardTestView";
-import GenerateExerciseSheet from "../exercises/GenerateExerciseSheet";
+} from '../../../../components';
+import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
+import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
+import { displayActionTexts } from '../../../../utils/displayText';
+import { dataTypeQuery, isChildOfQuery } from '../../../../utils/queries';
+import FlashcardQuizView from '../../../study/components/FlashcardQuizView';
+import { useBookmarked } from '../../../study/hooks/useBookmarked';
+import { useSelectedTopic } from '../../hooks/useSelectedTopic';
+import { useText } from '../../hooks/useText';
+import LoadSubtopicResourcesSystem from '../../systems/LoadSubtopicResourcesSystem';
+import GenerateExerciseSheet from '../exercises/GenerateExerciseSheet';
+import AddFlashcardsSheet from '../flashcard-sets/AddFlashcardsSheet';
+import EditFlashcardSheet from '../flashcard-sets/EditFlashcardSheet';
+import FlashcardCell from '../flashcard-sets/FlashcardCell';
+import GenerateImprovedTextSheet from '../generation/GenerateImprovedTextSheet';
+import GeneratePodcastSheet from '../generation/GeneratePodcastSheet';
+import LernvideoRow from '../lern-videos/LernvideoRow';
+import LernvideoView from '../lern-videos/LernvideoView';
+import PodcastRow from '../podcasts/PodcastRow';
+import BlurtingView from './BlurtingView';
+import DeleteSubtopicAlert from './DeleteSubtopicAlert';
+import EditSubtopicSheet from './EditSubtopicSheet';
+import FlashcardTestView from './FlashcardTestView';
 
 enum SubtopicViewStates {
   NOTE,
@@ -76,33 +76,21 @@ const SubtopicView = (props: TitleProps & EntityProps & IdentifierProps) => {
   const isVisible = useIsViewVisible(entity);
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedTopicTitle } = useSelectedTopic();
-  const [subtopicViewState, setSubtopicViewState] = useState(
-    SubtopicViewStates.NOTE,
-  );
+  const [subtopicViewState, setSubtopicViewState] = useState(SubtopicViewStates.NOTE);
   const { isBookmarked, toggleBookmark } = useBookmarked(entity);
   const { text, updateText } = useText(entity);
 
   const navigateBack = () => entity.add(AdditionalTags.NAVIGATE_BACK);
-  const openDeleteAlert = () =>
-    lsc.stories.transitTo(Stories.DELETING_SUBTOPIC_STORY);
-  const openEditSheet = () =>
-    lsc.stories.transitTo(Stories.EDITING_SUBTOPIC_STORY);
-  const openAddFlashcardsSheet = () =>
-    lsc.stories.transitTo(Stories.ADDING_FLASHCARDS_STORY);
-  const openFlashcardQuizView = () =>
-    lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_QUIZ_STORY);
-  const openGeneratePodcastSheet = () =>
-    lsc.stories.transitTo(Stories.GENERATING_PODCAST_STORY);
-  const openAddResourceToLerningGroupSheet = () =>
-    lsc.stories.transitTo(Stories.ADDING_RESOURCE_TO_LEARNING_GROUP_STORY);
-  const openFlashcardTestView = () =>
-    lsc.stories.transitTo(Stories.OBSERVING_FLASHCARD_TEST_STORY);
-  const openBlurtingView = () =>
-    lsc.stories.transitTo(Stories.OBSERVING_BLURTING_STORY);
-  const openImproveTextSheet = () =>
-    lsc.stories.transitTo(Stories.GENERATING_IMPROVED_TEXT_STORY);
-  const openGenerateExerciseSheet = () =>
-    lsc.stories.transitTo(Stories.GENERATING_EXERCISE_STORY);
+  const openDeleteAlert = () => lsc.stories.transitTo(Story.DELETING_SUBTOPIC_STORY);
+  const openEditSheet = () => lsc.stories.transitTo(Story.EDITING_SUBTOPIC_STORY);
+  const openAddFlashcardsSheet = () => lsc.stories.transitTo(Story.ADDING_FLASHCARDS_STORY);
+  const openFlashcardQuizView = () => lsc.stories.transitTo(Story.OBSERVING_FLASHCARD_QUIZ_STORY);
+  const openGeneratePodcastSheet = () => lsc.stories.transitTo(Story.GENERATING_PODCAST_STORY);
+  const openAddResourceToLerningGroupSheet = () => lsc.stories.transitTo(Story.ADDING_RESOURCE_TO_LEARNING_GROUP_STORY);
+  const openFlashcardTestView = () => lsc.stories.transitTo(Story.OBSERVING_FLASHCARD_TEST_STORY);
+  const openBlurtingView = () => lsc.stories.transitTo(Story.OBSERVING_BLURTING_STORY);
+  const openImproveTextSheet = () => lsc.stories.transitTo(Story.GENERATING_IMPROVED_TEXT_STORY);
+  const openGenerateExerciseSheet = () => lsc.stories.transitTo(Story.GENERATING_EXERCISE_STORY);
 
   return (
     <Fragment>
@@ -113,25 +101,13 @@ const SubtopicView = (props: TitleProps & EntityProps & IdentifierProps) => {
           <NavBarButton
             content={
               <Fragment>
-                <ActionRow
-                  icon={<IoSparklesOutline />}
-                  first
-                  onClick={openImproveTextSheet}
-                >
+                <ActionRow icon={<IoSparklesOutline />} first onClick={openImproveTextSheet}>
                   {displayActionTexts(selectedLanguage).improveText}
                 </ActionRow>
-                <ActionRow
-                  icon={<IoReaderOutline />}
-                  first
-                  onClick={openGenerateExerciseSheet}
-                >
+                <ActionRow icon={<IoReaderOutline />} first onClick={openGenerateExerciseSheet}>
                   {displayActionTexts(selectedLanguage).generateExercise}
                 </ActionRow>
-                <ActionRow
-                  first
-                  icon={<IoHeadsetOutline />}
-                  onClick={openGeneratePodcastSheet}
-                >
+                <ActionRow first icon={<IoHeadsetOutline />} onClick={openGeneratePodcastSheet}>
                   {displayActionTexts(selectedLanguage).generatePodcast}
                 </ActionRow>
                 <ActionRow last icon={<IoChatboxEllipsesOutline />}>
@@ -145,24 +121,13 @@ const SubtopicView = (props: TitleProps & EntityProps & IdentifierProps) => {
           <NavBarButton
             content={
               <Fragment>
-                <ActionRow
-                  first
-                  icon={<IoAlbumsOutline />}
-                  onClick={() => openFlashcardQuizView()}
-                >
+                <ActionRow first icon={<IoAlbumsOutline />} onClick={() => openFlashcardQuizView()}>
                   {displayActionTexts(selectedLanguage).quiz}
                 </ActionRow>
-                <ActionRow
-                  icon={<IoSchoolOutline />}
-                  onClick={() => openFlashcardTestView()}
-                >
+                <ActionRow icon={<IoSchoolOutline />} onClick={() => openFlashcardTestView()}>
                   {displayActionTexts(selectedLanguage).flashcardTest}
                 </ActionRow>
-                <ActionRow
-                  last
-                  icon={<IoReaderOutline />}
-                  onClick={() => openBlurtingView()}
-                >
+                <ActionRow last icon={<IoReaderOutline />} onClick={() => openBlurtingView()}>
                   {displayActionTexts(selectedLanguage).blurting}
                 </ActionRow>
               </Fragment>
@@ -173,39 +138,21 @@ const SubtopicView = (props: TitleProps & EntityProps & IdentifierProps) => {
           <NavBarButton
             content={
               <Fragment>
-                <ActionRow
-                  icon={<IoCreateOutline />}
-                  onClick={openEditSheet}
-                  first
-                >
+                <ActionRow icon={<IoCreateOutline />} onClick={openEditSheet} first>
                   {displayActionTexts(selectedLanguage).edit}
                 </ActionRow>
-                <ActionRow
-                  icon={<IoAddCircleOutline />}
-                  onClick={openAddFlashcardsSheet}
-                >
+                <ActionRow icon={<IoAddCircleOutline />} onClick={openAddFlashcardsSheet}>
                   {displayActionTexts(selectedLanguage).addFlashcards}
                 </ActionRow>
-                <ActionRow
-                  icon={isBookmarked ? <IoBookmark /> : <IoBookmarkOutline />}
-                  onClick={toggleBookmark}
-                >
+                <ActionRow icon={isBookmarked ? <IoBookmark /> : <IoBookmarkOutline />} onClick={toggleBookmark}>
                   {isBookmarked
                     ? displayActionTexts(selectedLanguage).unbookmark
                     : displayActionTexts(selectedLanguage).bookmark}
                 </ActionRow>
-                <ActionRow
-                  icon={<IoArrowUpCircleOutline />}
-                  onClick={openAddResourceToLerningGroupSheet}
-                >
+                <ActionRow icon={<IoArrowUpCircleOutline />} onClick={openAddResourceToLerningGroupSheet}>
                   {displayActionTexts(selectedLanguage).addToLearningGroup}
                 </ActionRow>
-                <ActionRow
-                  last
-                  destructive
-                  icon={<IoTrashOutline />}
-                  onClick={openDeleteAlert}
-                >
+                <ActionRow last destructive icon={<IoTrashOutline />} onClick={openDeleteAlert}>
                   {displayActionTexts(selectedLanguage).delete}
                 </ActionRow>
               </Fragment>
@@ -215,9 +162,7 @@ const SubtopicView = (props: TitleProps & EntityProps & IdentifierProps) => {
           </NavBarButton>
         </NavigationBar>
 
-        <BackButton navigateBack={navigateBack}>
-          {selectedTopicTitle}
-        </BackButton>
+        <BackButton navigateBack={navigateBack}>{selectedTopicTitle}</BackButton>
         <Title>{title}</Title>
 
         <SegmentedControl>
@@ -239,16 +184,12 @@ const SubtopicView = (props: TitleProps & EntityProps & IdentifierProps) => {
 
         <Spacer />
         <EntityPropsMapper
-          query={(e) =>
-            isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.PODCAST)
-          }
+          query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataType.PODCAST)}
           get={[[TitleFacet, DateAddedFacet], []]}
           onMatch={PodcastRow}
         />
         <EntityPropsMapper
-          query={(e) =>
-            isChildOfQuery(e, entity) && dataTypeQuery(e, DataTypes.LERNVIDEO)
-          }
+          query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataType.LERNVIDEO)}
           get={[[TitleFacet, DateAddedFacet], []]}
           onMatch={LernvideoRow}
         />
@@ -258,10 +199,7 @@ const SubtopicView = (props: TitleProps & EntityProps & IdentifierProps) => {
         ) : (
           <CollectionGrid columnSize="large">
             <EntityPropsMapper
-              query={(e) =>
-                dataTypeQuery(e, DataTypes.FLASHCARD) &&
-                isChildOfQuery(e, entity)
-              }
+              query={(e) => dataTypeQuery(e, DataType.FLASHCARD) && isChildOfQuery(e, entity)}
               get={[[QuestionFacet, AnswerFacet, MasteryLevelFacet], []]}
               onMatch={FlashcardCell}
             />
@@ -270,19 +208,12 @@ const SubtopicView = (props: TitleProps & EntityProps & IdentifierProps) => {
       </View>
 
       <EntityPropsMapper
-        query={(e) =>
-          e.hasTag(Tags.SELECTED) && dataTypeQuery(e, DataTypes.FLASHCARD)
-        }
-        get={[
-          [AnswerFacet, QuestionFacet, IdentifierFacet, MasteryLevelFacet],
-          [],
-        ]}
+        query={(e) => e.hasTag(Tags.SELECTED) && dataTypeQuery(e, DataType.FLASHCARD)}
+        get={[[AnswerFacet, QuestionFacet, IdentifierFacet, MasteryLevelFacet], []]}
         onMatch={EditFlashcardSheet}
       />
       <EntityPropsMapper
-        query={(e) =>
-          e.hasTag(Tags.SELECTED) && dataTypeQuery(e, DataTypes.LERNVIDEO)
-        }
+        query={(e) => e.hasTag(Tags.SELECTED) && dataTypeQuery(e, DataType.LERNVIDEO)}
         get={[[TitleFacet, DateAddedFacet, IdentifierFacet], []]}
         onMatch={LernvideoView}
       />

@@ -1,15 +1,11 @@
-import { ILeanScopeClient } from "@leanscope/api-client/interfaces";
-import { Entity } from "@leanscope/ecs-engine";
-import supabaseClient from "../lib/supabase";
-import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
-import { AnswerFacet, QuestionFacet } from "../app/additionalFacets";
-import { SupabaseTables } from "../base/enums";
+import { ILeanScopeClient } from '@leanscope/api-client/interfaces';
+import { Entity } from '@leanscope/ecs-engine';
+import supabaseClient from '../lib/supabase';
+import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
+import { AnswerFacet, QuestionFacet } from '../app/additionalFacets';
+import { SupabaseTables } from '../base/enums';
 
-export const addFlashcards = async (
-  lsc: ILeanScopeClient,
-  flashcardEntities: Entity[],
-  userId: string,
-) => {
+export const addFlashcards = async (lsc: ILeanScopeClient, flashcardEntities: Entity[], userId: string) => {
   flashcardEntities.forEach((flashcardEntity) => {
     lsc.engine.addEntity(flashcardEntity);
   });
@@ -25,6 +21,6 @@ export const addFlashcards = async (
   );
 
   if (error) {
-    console.error("Error inserting flashcard", error);
+    console.error('Error inserting flashcard', error);
   }
 };

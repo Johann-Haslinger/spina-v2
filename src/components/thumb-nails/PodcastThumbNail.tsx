@@ -1,11 +1,8 @@
-import styled from "@emotion/styled";
-import tw from "twin.macro";
-import { useSelectedLanguage } from "../../hooks/useSelectedLanguage";
-import {
-  displayAlertTexts,
-  displayDataTypeTexts,
-} from "../../utils/displayText";
-import { IoHeadset } from "react-icons/io5";
+import styled from '@emotion/styled';
+import tw from 'twin.macro';
+import { useSelectedLanguage } from '../../hooks/useSelectedLanguage';
+import { displayAlertTexts, displayDataTypeTexts } from '../../utils/displayText';
+import { IoHeadset } from 'react-icons/io5';
 
 const StyledPOdcastCellWrapper = styled.div`
   ${tw`pb-4 min-h-48 `}
@@ -28,19 +25,9 @@ const StyledResourceTypeText = styled.p`
   ${tw`text-sm  text-seconderyText dark:text-seconderyTextDark `}
 `;
 
-const PodcastThumbNail = (props: {
-  color: string;
-  title: string;
-  onClick?: () => void;
-  type?: string;
-}) => {
+const PodcastThumbNail = (props: { color: string; title: string; onClick?: () => void; type?: string }) => {
   const { selectedLanguage } = useSelectedLanguage();
-  const {
-    color,
-    title,
-    onClick,
-    type = displayDataTypeTexts(selectedLanguage).podcast,
-  } = props;
+  const { color, title, onClick, type = displayDataTypeTexts(selectedLanguage).podcast } = props;
 
   return (
     <StyledPOdcastCellWrapper onClick={onClick}>
@@ -50,9 +37,7 @@ const PodcastThumbNail = (props: {
         </StyledPOdcastCellItem>
       </StyledPOdcastCellContainer>
 
-      <StyledPOdcastCellTitle>
-        {title || displayAlertTexts(selectedLanguage).noTitle}
-      </StyledPOdcastCellTitle>
+      <StyledPOdcastCellTitle>{title || displayAlertTexts(selectedLanguage).noTitle}</StyledPOdcastCellTitle>
 
       <StyledResourceTypeText>{type} </StyledResourceTypeText>
     </StyledPOdcastCellWrapper>

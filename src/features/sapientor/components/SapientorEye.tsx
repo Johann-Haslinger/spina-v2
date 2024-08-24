@@ -1,7 +1,7 @@
-import styled from "@emotion/styled";
-import { useEffect, useState } from "react";
-import tw from "twin.macro";
-import { COLOR_ITEMS } from "../../../base/constants";
+import styled from '@emotion/styled';
+import { useEffect, useState } from 'react';
+import tw from 'twin.macro';
+import { COLOR_ITEMS } from '../../../base/constants';
 
 const StyledSapientorEyeAccent = styled.div<{ top: number; left: number }>`
   ${tw`size-2 rounded-full`}
@@ -24,7 +24,7 @@ const useEyePosition = () => {
 
   useEffect(() => {
     const handleMouseMove = (event: MouseEvent) => {
-      const eye = document.getElementById("eye");
+      const eye = document.getElementById('eye');
       if (!eye) return;
 
       const rect = eye.getBoundingClientRect();
@@ -41,9 +41,9 @@ const useEyePosition = () => {
       setEyePosition({ top, left });
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener('mousemove', handleMouseMove);
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener('mousemove', handleMouseMove);
     };
   }, []);
 

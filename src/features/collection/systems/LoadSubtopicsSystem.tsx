@@ -1,35 +1,31 @@
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { Entity } from "@leanscope/ecs-engine";
-import { IdentifierFacet, ParentFacet } from "@leanscope/ecs-models";
-import { useContext, useEffect } from "react";
-import { DateAddedFacet, TitleFacet } from "../../../app/additionalFacets";
-import { dummySubtopics } from "../../../base/dummy";
-import {
-  DataTypes,
-  SupabaseColumns,
-  SupabaseTables,
-} from "../../../base/enums";
-import { useMockupData } from "../../../hooks/useMockupData";
-import { useSelectedLanguage } from "../../../hooks/useSelectedLanguage";
-import supabaseClient from "../../../lib/supabase";
-import { displayAlertTexts } from "../../../utils/displayText";
-import { useSelectedTopic } from "../hooks/useSelectedTopic";
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { Entity } from '@leanscope/ecs-engine';
+import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
+import { useContext, useEffect } from 'react';
+import { DateAddedFacet, TitleFacet } from '../../../app/additionalFacets';
+import { dummySubtopics } from '../../../base/dummy';
+import { DataType, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
+import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
+import supabaseClient from '../../../lib/supabase';
+import { displayAlertTexts } from '../../../utils/displayText';
+import { useSelectedTopic } from '../hooks/useSelectedTopic';
 
 const fetchSubtopicsForSchoolSubject = async (subjectId: string) => {
   const { data: subtopics, error } = await supabaseClient
     .from(SupabaseTables.SUBTOPICS)
-    .select("title, id, date_added")
+    .select('title, id, date_added')
     .eq(SupabaseColumns.PARENT_ID, subjectId);
 
   if (error) {
-    console.error("Error fetching Subtopics:", error);
+    console.error('Error fetching Subtopics:', error);
     return [];
   }
   return subtopics || [];
 };
 
 const LoadSubtopicsSystem = () => {
-  const { mockupData, shouldFetchFromSupabase } = useMockupData();
+  const { isUsingMockupData: mockupData, isUsingSupabaseData: shouldFetchFromSupabase } = useCurrentDataSource();
   const lsc = useContext(LeanScopeClientContext);
   const { selectedTopicId } = useSelectedTopic();
   const { selectedLanguage } = useSelectedLanguage();
@@ -45,9 +41,7 @@ const LoadSubtopicsSystem = () => {
 
         Subtopics.forEach((topic) => {
           const isExisting = lsc.engine.entities.some(
-            (e) =>
-              e.get(IdentifierFacet)?.props.guid === topic.id &&
-              e.hasTag(DataTypes.SUBTOPIC),
+            (e) => e.get(IdentifierFacet)?.props.guid === topic.id && e.hasTag(DataType.SUBTOPIC),
           );
 
           if (!isExisting) {
@@ -55,17 +49,14 @@ const LoadSubtopicsSystem = () => {
             lsc.engine.addEntity(topicEntity);
             topicEntity.add(
               new TitleFacet({
-                title:
-                  topic.title || displayAlertTexts(selectedLanguage).noTitle,
+                title: topic.title || displayAlertTexts(selectedLanguage).noTitle,
               }),
             );
             topicEntity.add(new IdentifierFacet({ guid: topic.id }));
-            topicEntity.add(
-              new DateAddedFacet({ dateAdded: topic.date_added }),
-            );
+            topicEntity.add(new DateAddedFacet({ dateAdded: topic.date_added }));
 
             topicEntity.add(new ParentFacet({ parentId: selectedTopicId }));
-            topicEntity.addTag(DataTypes.SUBTOPIC);
+            topicEntity.addTag(DataType.SUBTOPIC);
           }
         });
       }

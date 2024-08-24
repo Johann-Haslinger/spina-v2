@@ -1,7 +1,7 @@
-import { Entity } from "@leanscope/ecs-engine";
-import { ParentFacet, TextFacet } from "@leanscope/ecs-models";
-import { SupabaseTables } from "../base/enums";
-import supabaseClient from "../lib/supabase";
+import { Entity } from '@leanscope/ecs-engine';
+import { ParentFacet, TextFacet } from '@leanscope/ecs-models';
+import { SupabaseTables } from '../base/enums';
+import supabaseClient from '../lib/supabase';
 
 export const addText = async (textEntity: Entity, userId: string) => {
   const parentId = textEntity.get(ParentFacet)?.props.parentId;
@@ -16,6 +16,6 @@ export const addText = async (textEntity: Entity, userId: string) => {
   ]);
 
   if (error) {
-    console.error("Error adding text", error);
+    console.error('Error adding text', error);
   }
 };

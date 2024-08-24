@@ -1,5 +1,5 @@
-import { ILeanScopeClient } from "@leanscope/api-client/interfaces";
-import { Entity } from "@leanscope/ecs-engine";
+import { ILeanScopeClient } from '@leanscope/api-client/interfaces';
+import { Entity } from '@leanscope/ecs-engine';
 import {
   FloatOrderFacet,
   IdentifierFacet,
@@ -8,21 +8,12 @@ import {
   ImageSizeFacet,
   ParentFacet,
   TextFacet,
-} from "@leanscope/ecs-models";
-import {
-  BlocktypeFacet,
-  ListStyleFacet,
-  TexttypeFacet,
-  TodoStateFacet,
-} from "../../../app/additionalFacets";
-import supabaseClient from "../../../lib/supabase";
-import { SupabaseTables } from "../../../base/enums";
+} from '@leanscope/ecs-models';
+import { BlocktypeFacet, ListStyleFacet, TexttypeFacet, TodoStateFacet } from '../../../app/additionalFacets';
+import supabaseClient from '../../../lib/supabase';
+import { SupabaseTables } from '../../../base/enums';
 
-export const addBlock = async (
-  lsc: ILeanScopeClient,
-  newBlockEntity: Entity,
-  userId: string,
-) => {
+export const addBlock = async (lsc: ILeanScopeClient, newBlockEntity: Entity, userId: string) => {
   lsc.engine.addEntity(newBlockEntity);
 
   const user_id = userId;
@@ -54,6 +45,6 @@ export const addBlock = async (
   });
 
   if (error) {
-    console.error("Error adding block to supabase:", error);
+    console.error('Error adding block to supabase:', error);
   }
 };

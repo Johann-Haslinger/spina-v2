@@ -1,12 +1,7 @@
-import {
-  Blocktypes,
-  ListStyles,
-  MessageRoles,
-  SupportedLanguages,
-  Texttypes,
-} from "../base/enums";
-import { Facet } from "../base/facet";
-import { BlockeditorState, Resource } from "../base/types";
+import { Facet } from '@leanscope/ecs-engine';
+import { Blocktype, ListStyles, MessageRoles, SupportedLanguage, Texttype } from '../base/enums';
+
+import { BlockeditorState, Resource } from '../base/types';
 
 export interface TitleProps {
   title: string;
@@ -18,7 +13,7 @@ export class TitleFacet extends Facet<TitleProps> {
   }
 }
 export interface SelectedLanguageProps {
-  selectedLanguage: SupportedLanguages;
+  selectedLanguage: SupportedLanguage;
 }
 
 export class SelectedLanguageFacet extends Facet<SelectedLanguageProps> {
@@ -116,7 +111,7 @@ export class EmailFacet extends Facet<EmailProps> {
 }
 
 export interface UserSessionProps {
-  session: any;
+  session: unknown;
 }
 
 export class UserSessionFacet extends Facet<UserSessionProps> {
@@ -150,7 +145,7 @@ export class BlockeditorStateFacet extends Facet<BlockeditorStateProps> {
 }
 
 export interface BlocktypeProps {
-  blocktype: Blocktypes;
+  blocktype: Blocktype;
 }
 
 export class BlocktypeFacet extends Facet<BlocktypeProps> {
@@ -160,7 +155,7 @@ export class BlocktypeFacet extends Facet<BlocktypeProps> {
 }
 
 export interface TexttypeProps {
-  texttype: Texttypes;
+  texttype: Texttype;
 }
 
 export class TexttypeFacet extends Facet<TexttypeProps> {
@@ -205,6 +200,72 @@ export interface RelatedResourcesProps {
 
 export class RelatedResourcesFacet extends Facet<RelatedResourcesProps> {
   constructor(props: RelatedResourcesProps) {
+    super(props);
+  }
+}
+
+export interface FlashcardCountProps {
+  flashcardCount: number;
+}
+
+export class FlashcardCountFacet extends Facet<{ flashcardCount: number }> {
+  constructor(props: FlashcardCountProps) {
+    super(props);
+  }
+}
+
+export interface StreakProps {
+  streak: number;
+}
+
+export class StreakFacet extends Facet<StreakProps> {
+  constructor(props: StreakProps) {
+    super(props);
+  }
+}
+
+export interface DateUpdatedProps {
+  dateUpdated: string;
+}
+
+export class DateUpdatedFacet extends Facet<DateUpdatedProps> {
+  constructor(props: DateUpdatedProps) {
+    super(props);
+  }
+}
+
+export interface DurationProps {
+  duration: number;
+}
+
+export class DurationFacet extends Facet<DurationProps> {
+  constructor(props: DurationProps) {
+    super(props);
+  }
+}
+
+export interface FlashcardPerformanceProps {
+  flashcardPerformance: {
+    skip: number;
+    forgot: number;
+    partiallyRemembered: number;
+    rememberedWithEffort: number;
+    easilyRemembered: number;
+  };
+}
+
+export class FlashcardPerformanceFacet extends Facet<FlashcardPerformanceProps> {
+  constructor(props: FlashcardPerformanceProps) {
+    super(props);
+  }
+}
+
+export interface PriorityProps {
+  priority: number;
+}
+
+export class PriorityFacet extends Facet<PriorityProps> {
+  constructor(props: PriorityProps) {
     super(props);
   }
 }

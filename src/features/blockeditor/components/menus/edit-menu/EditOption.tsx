@@ -1,10 +1,10 @@
-import { Entity, useEntities } from "@leanscope/ecs-engine";
-import { Tags } from "@leanscope/ecs-models";
-import { useState, useEffect, Fragment } from "react";
-import { DataTypes } from "../../../../../base/enums";
-import styled from "@emotion/styled";
-import tw from "twin.macro";
-import { motion } from "framer-motion";
+import styled from '@emotion/styled';
+import { Entity, useEntities } from '@leanscope/ecs-engine';
+import { Tags } from '@leanscope/ecs-models';
+import { motion } from 'framer-motion';
+import { Fragment, useEffect, useState } from 'react';
+import tw from 'twin.macro';
+import { DataType } from '../../../../../base/enums';
 
 type Option = {
   name: string;
@@ -34,7 +34,7 @@ const StyledOptionWrapper = styled.div<{ color?: string }>`
   ${tw`w-full hover:opacity-80 transition-all min-w-[4rem] p-2 bg-opacity-10  text-white rounded-lg mr-0 m-1`}
   ${({ color: backgroundColor }) => `
     color: ${backgroundColor};
-    background-color: ${backgroundColor + "50"};
+    background-color: ${backgroundColor + '50'};
   `}
 `;
 
@@ -46,15 +46,9 @@ const StyledOptionTextWrapper = styled.p`
   ${tw`text-xs mt-1 opacity-60 w-full text-center font-semibold`}
 `;
 
-const EditOption: React.FC<EditOptionProps> = ({
-  option,
-  isVisible,
-  canShow,
-}) => {
+const EditOption: React.FC<EditOptionProps> = ({ option, isVisible, canShow }) => {
   const { name, icon, color, customFunc, content } = option;
-  const [selectedBlockEntities] = useEntities(
-    (e) => e.has(DataTypes.BLOCK) && e.has(Tags.SELECTED),
-  );
+  const [selectedBlockEntities] = useEntities((e) => e.has(DataType.BLOCK) && e.has(Tags.SELECTED));
   const [isOptionsVisible, setIsOptionsVisible] = useState(false);
   const [show, setShow] = useState(false);
 
@@ -77,16 +71,16 @@ const EditOption: React.FC<EditOptionProps> = ({
     }
   };
 
-  const handleDragEnd = (_: any, info: any) => {
-    if (info.offset.y >= 1) {
-      setIsOptionsVisible(false);
-    }
-  };
+  // const handleDragEnd = (_: any, info: any) => {
+  //   if (info.offset.y >= 1) {
+  //     setIsOptionsVisible(false);
+  //   }
+  // };
 
   return (
     <Fragment>
       {show && (
-        <StyledOptionWrapper color={color || "blue"} onClick={handleClick}>
+        <StyledOptionWrapper color={color || 'blue'} onClick={handleClick}>
           <StyledOptionIconWrapper>{icon}</StyledOptionIconWrapper>
           <StyledOptionTextWrapper>{name}</StyledOptionTextWrapper>
         </StyledOptionWrapper>
@@ -94,22 +88,22 @@ const EditOption: React.FC<EditOptionProps> = ({
 
       <motion.div
         style={{ zIndex: 40 }}
-        transition={{ type: "Tween" }}
+        transition={{ type: 'Tween' }}
         animate={{ y: isOptionsVisible && isVisible && content ? 0 : 300 }}
         initial={{
           y: 200,
-          position: "fixed",
+          position: 'fixed',
           left: 0,
           right: 0,
-          width: "100%",
+          width: '100%',
           bottom: 4,
         }}
         drag="y"
         dragConstraints={{ top: 0, bottom: 200 }}
-        onDragEnd={handleDragEnd}
+        // onDragEnd={handleDragEnd}
       >
         <StyledFurtherOptionSheetWrapper>
-          {" "}
+          {' '}
           <StyledBackIcon />
           {content}
         </StyledFurtherOptionSheetWrapper>

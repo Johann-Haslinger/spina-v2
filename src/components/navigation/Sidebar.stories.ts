@@ -1,12 +1,12 @@
-import type { Meta, StoryObj } from "@storybook/react";
-import "../../index.css";
-import Sidebar from "./Sidebar";
+import type { Meta, StoryObj } from '@storybook/react';
+import '../../index.css';
+import Sidebar from './Sidebar';
 
 const meta = {
-  title: "Components/Navigation/Sidebar",
+  title: 'Components/Navigation/Sidebar',
   component: Sidebar,
   parameters: {
-    layout: "centered",
+    layout: 'centered',
   },
 } satisfies Meta<typeof Sidebar>;
 

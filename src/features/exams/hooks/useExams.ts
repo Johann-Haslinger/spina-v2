@@ -1,9 +1,9 @@
-import { useEntities } from "@leanscope/ecs-engine";
-import { dataTypeQuery } from "../../../utils/queries";
-import { DataTypes } from "../../../base/enums";
+import { useEntities } from '@leanscope/ecs-engine';
+import { DataType } from '../../../base/enums';
+import { dataTypeQuery } from '../../../utils/queries';
 
 export const useExams = () => {
-  const [examEntities] = useEntities((e) => dataTypeQuery(e, DataTypes.EXAM));
+  const [examEntities] = useEntities((e) => dataTypeQuery(e, DataType.EXAM));
   const existExams = examEntities.length > 0;
 
   return { examEntities, existExams };

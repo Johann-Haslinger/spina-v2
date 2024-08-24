@@ -1,27 +1,20 @@
-import { useContext } from "react";
-import { Alert, AlertButton } from "../../../../components";
-import {
-  AdditionalTags,
-  Stories,
-  SupabaseColumns,
-  SupabaseTables,
-} from "../../../../base/enums";
-import { useIsStoryCurrent } from "@leanscope/storyboarding";
-import { LeanScopeClientContext } from "@leanscope/api-client/node";
-import { useSelectedFlashcardSet } from "../../hooks/useSelectedFlashcardSet";
-import supabaseClient from "../../../../lib/supabase";
-import { useSelectedLanguage } from "../../../../hooks/useSelectedLanguage";
-import { displayActionTexts } from "../../../../utils/displayText";
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { useIsStoryCurrent } from '@leanscope/storyboarding';
+import { useContext } from 'react';
+import { AdditionalTags, Story, SupabaseColumns, SupabaseTables } from '../../../../base/enums';
+import { Alert, AlertButton } from '../../../../components';
+import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
+import supabaseClient from '../../../../lib/supabase';
+import { displayActionTexts } from '../../../../utils/displayText';
+import { useSelectedFlashcardSet } from '../../hooks/useSelectedFlashcardSet';
 
 const DeleteFlashcardSetAlert = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Stories.DELETING_FLASHCARD_SET_STORY);
+  const isVisible = useIsStoryCurrent(Story.DELETING_FLASHCARD_SET_STORY);
   const { selectedLanguage } = useSelectedLanguage();
-  const { selectedFlashcardSetId, selectedFlashcardSetEntity } =
-    useSelectedFlashcardSet();
+  const { selectedFlashcardSetId, selectedFlashcardSetEntity } = useSelectedFlashcardSet();
 
-  const navigateBack = () =>
-    lsc.stories.transitTo(Stories.OBSERVING_TOPIC_STORY);
+  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_TOPIC_STORY);
 
   const deleteFlashcardSet = async () => {
     navigateBack();
@@ -36,7 +29,7 @@ const DeleteFlashcardSetAlert = () => {
           .eq(SupabaseColumns.ID, selectedFlashcardSetId);
 
         if (error) {
-          console.error("Error deleting flashcard set", error);
+          console.error('Error deleting flashcard set', error);
         }
 
         const { error: flashcardsError } = await supabaseClient
@@ -45,7 +38,7 @@ const DeleteFlashcardSetAlert = () => {
           .eq(SupabaseColumns.PARENT_ID, selectedFlashcardSetId);
 
         if (flashcardsError) {
-          console.error("Error deleting flashcards", flashcardsError);
+          console.error('Error deleting flashcards', flashcardsError);
         }
       }
     }, 300);
