@@ -17,11 +17,11 @@ const StyledContent = styled(motion.div)`
 `;
 
 const StyledIcon = styled.div<{ color: string }>`
-  ${tw`text-xl`}
+  ${tw`text-xl `}
   color: ${({ color }) => color};
 `;
 
-const StyledText = styled.p`
+const StyledText = styled.span`
   ${tw`font-semibold`}
 `;
 
@@ -29,7 +29,7 @@ const StyledChevron = styled.div`
   ${tw`text-lg text-opacity-80 text-seconderyText`}
 `;
 
-const ChapterRow = (props: TitleProps & OrderProps & EntityProps) => {
+const ChapterCell = (props: TitleProps & OrderProps & EntityProps) => {
   const { title, orderIndex = 0, entity } = props;
   const { accentColor } = useSelectedSchoolSubjectColor();
   const [isHovered, setIsHovered] = useState(false);
@@ -42,13 +42,13 @@ const ChapterRow = (props: TitleProps & OrderProps & EntityProps) => {
       onMouseLeave={() => setIsHovered(false)}
       onClick={openChapter}
     >
-      <StyledContent animate={{ x: isHovered ? 5 : 0 }}>
+      <StyledContent animate={{ x: isHovered ? 10 : 0 }}>
         <StyledIcon color={accentColor}>
           <IoBook />
         </StyledIcon>
-        <StyledText>
-          <span>Kapitel {orderIndex + 1} -</span> {title}
-        </StyledText>
+        <p>
+          <StyledText>Kapitel {orderIndex + 1} -</StyledText> {title}
+        </p>
       </StyledContent>
       <StyledChevron>
         <IoChevronForward />
@@ -57,4 +57,4 @@ const ChapterRow = (props: TitleProps & OrderProps & EntityProps) => {
   );
 };
 
-export default ChapterRow;
+export default ChapterCell;

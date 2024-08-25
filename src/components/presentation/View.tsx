@@ -20,7 +20,7 @@ const StyledViewContent = styled.div<{
 }>`
   ${tw` mx-auto h-fit text-primatyText dark:text-primaryTextDark pb-60 md:pt-28 xl:pt-36 pt-16    w-full  px-4`}
   ${({ reducePaddingX: ignorePaddingX }) =>
-    ignorePaddingX ? tw`md:w-[52rem] px-1.5` : tw` md:w-[48rem] xl:w-[51rem] `} 
+    ignorePaddingX ? tw`md:w-[52rem] px-1.5` : tw` md:w-[48rem] xl:w-[51rem] 2xl:w-[56rem] `} 
   ${({ hidePadding }) => hidePadding && tw`!w-full !pt-0 px-0 !pb-0 `}
 `;
 

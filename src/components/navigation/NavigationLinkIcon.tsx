@@ -1,12 +1,10 @@
-import { IoAlbums, IoBook, IoGrid, IoHome, IoJournal, IoPeople, IoTrophy } from 'react-icons/io5';
+import { IoBook, IoCopy, IoGrid, IoHome, IoJournal, IoPeople, IoTrophy } from 'react-icons/io5';
 import { NavigationLinks } from '../../base/enums';
 
 const NavigationLinkIcon = (props: { navLink: NavigationLinks }) => {
   switch (props.navLink) {
     case NavigationLinks.OVERVIEW:
       return <IoHome />;
-    case NavigationLinks.STUDY:
-      return <IoBook />;
     case NavigationLinks.HOMEWORKS:
       return <IoJournal />;
     case NavigationLinks.EXAMS:
@@ -16,7 +14,7 @@ const NavigationLinkIcon = (props: { navLink: NavigationLinks }) => {
     case NavigationLinks.GROUPS:
       return <IoPeople />;
     case NavigationLinks.FLASHCARDS:
-      return <IoAlbums />;
+      return <IoCopy />;
 
     default:
       return <IoBook />;

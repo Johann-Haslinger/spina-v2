@@ -21,6 +21,7 @@ export enum Story {
   OBSERVING_BLURTING_STORY = 'observingBlurtingStory',
   OBSERVING_FLASHCARD_TEST_STORY = 'observingFlashcardTestStory',
   OBSERVING_SPACED_REPETITION_QUIZ = 'observingSpacedRepetitionQuiz',
+  OBSERVING_OVERVIEW = 'observingOverview',
 
   ADDING_FLASHCARD_SET_STORY = 'addFlashcardSetStory',
   ADDING_TOPIC_STORY = 'addTopicStory',
@@ -77,6 +78,8 @@ export enum Story {
   CLONING_RESOURCE_FROM_GROUP_STORY = 'cloneResourceFromGroupStory',
 
   SUCCESS_STORY = 'successStory',
+
+  READING_ARTICLE = 'readingArticle',
 }
 
 export enum AdditionalTags {

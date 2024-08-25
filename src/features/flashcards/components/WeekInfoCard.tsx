@@ -1,26 +1,9 @@
 import styled from '@emotion/styled';
-import { useEntities } from '@leanscope/ecs-engine';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { IoStatsChart } from 'react-icons/io5';
 import tw from 'twin.macro';
-import {
-  DateAddedFacet,
-  DurationFacet,
-  FlashcardCountFacet,
-  FlashcardPerformanceFacet,
-} from '../../../app/additionalFacets';
 import { COLOR_ITEMS } from '../../../base/constants';
-import { DataType } from '../../../base/enums';
-import { FlexBox } from '../../../components';
-import { dataTypeQuery } from '../../../utils/queries';
-
-type FlashcardPerformance = {
-  skip: number;
-  forgot: number;
-  partiallyRemembered: number;
-  rememberedWithEffort: number;
-  easilyRemembered: number;
-};
+import { useWeekInfoData } from '../hooks/useWeekInfoData';
 
 const StyledCardWrapper = styled.div`
   ${tw`w-full h-fit md:h-[15rem] p-4 pb-6 md:p-5 rounded-2xl   bg-opacity-40`}
@@ -40,136 +23,89 @@ const StyledRightSideWrapper = styled.div`
   ${tw`w-1/2 flex flex-col items-end`}
 `;
 
-const StyledText2 = styled.div`
-  ${tw`text-xl font-semibold`}
-`;
-
 const StyledBar = styled.div<{ isHoverd: boolean }>`
   ${tw` transition-all mr-auto rounded-r h-3 ml-4  opacity-60 `}
   background-color: ${COLOR_ITEMS[0].accentColor};
   ${({ isHoverd }) => isHoverd && tw`opacity-100`}
 `;
 
+const StyledHeader = styled.div`
+  ${tw`flex space-x-2 md:opacity-80 items-center`}
+`;
+
+const StyledIconWrapper = styled.div`
+  ${tw`rotate-90`}
+`;
+
+const StyledTitle = styled.div`
+  ${tw`font-bold text-sm`}
+`;
+
+const StyledSummaryText = styled.div`
+  ${tw`md:leading-6 mt-1 mb-3 dark:text-white md:hidden text-black font-medium`}
+`;
+
+const StyledText = styled.div`
+  ${tw`font-medium`}
+`;
+
+const StyledPerformanceList = styled.div`
+  ${tw`space-y-1 md:space-y-0`}
+`;
+
+const StyledFlexItem = styled(StyledFlexBox)`
+  ${tw`items-center`}
+`;
+
 const WeekInfoCard = () => {
   const { totalCardCount, totalTimeSpent, flashcardPerformance } = useWeekInfoData();
-  const [hoverdBar, setHoverdBar] = useState(0);
+  const [hoveredBar, setHoveredBar] = useState(0);
+
+  const formatTime = (totalMinutes: number) => {
+    const hours = Math.floor(totalMinutes / 60);
+    const minutes = totalMinutes % 60;
+    return `${hours}h ${minutes}min`;
+  };
 
   return (
     <StyledCardWrapper>
-      <div tw="flex space-x-2  md:opacity-80 items-center">
-        <div tw="rotate-90">
+      <StyledHeader>
+        <StyledIconWrapper>
           <IoStatsChart />
-        </div>
-        <div tw="font-bold text-sm">Letzte 7 Tage</div>
-      </div>
+        </StyledIconWrapper>
+        <StyledTitle>Letzte 7 Tage</StyledTitle>
+      </StyledHeader>
 
-      <div tw="md:leading-6 mt-1 mb-3 dark:text-white md:hidden text-black font-medium ">
-        Du hast dich in den letzten 7 Tagen {totalCardCount}, in {Math.floor(totalTimeSpent / 60)}h und{' '}
-        {totalTimeSpent % 60} min abgefragt.
-      </div>
+      <StyledSummaryText>
+        Du hast dich in den letzten 7 Tagen {totalCardCount} Karten, in {formatTime(totalTimeSpent)} abgefragt.
+      </StyledSummaryText>
 
       <StyledFlexBox>
         <StyledLeftSideWrapper>
-          <StyledText2>{totalCardCount} Karten</StyledText2>
+          <StyledText>{totalCardCount} Karten</StyledText>
         </StyledLeftSideWrapper>
         <StyledRightSideWrapper>
-          <StyledText2>
-            {Math.floor(totalTimeSpent / 60)}h {totalTimeSpent % 60} min
-          </StyledText2>
+          <StyledText>{formatTime(totalTimeSpent)}</StyledText>
         </StyledRightSideWrapper>
       </StyledFlexBox>
-      <div tw="space-y-1 md:space-y-0">
-        {' '}
-        <FlexBox onMouseEnter={() => setHoverdBar(1)} onMouseLeave={() => setHoverdBar(0)}>
-          <div>⏩</div> <StyledBar isHoverd={hoverdBar == 1} style={{ width: `${flashcardPerformance?.skip}%` }} />
-          {hoverdBar === 1 && <div> {flashcardPerformance?.skip}%</div>}
-        </FlexBox>
-        <FlexBox onMouseEnter={() => setHoverdBar(2)} onMouseLeave={() => setHoverdBar(0)}>
-          <div>❌</div> <StyledBar isHoverd={hoverdBar == 2} style={{ width: `${flashcardPerformance?.forgot}%` }} />{' '}
-          {hoverdBar === 2 && <div> {flashcardPerformance?.forgot}%</div>}
-        </FlexBox>
-        <FlexBox onMouseEnter={() => setHoverdBar(3)} onMouseLeave={() => setHoverdBar(0)}>
-          <div>🤔</div>{' '}
-          <StyledBar isHoverd={hoverdBar == 3} style={{ width: `${flashcardPerformance?.partiallyRemembered}%` }} />{' '}
-          {hoverdBar === 3 && <div> {flashcardPerformance?.partiallyRemembered}%</div>}
-        </FlexBox>
-        <FlexBox onMouseEnter={() => setHoverdBar(4)} onMouseLeave={() => setHoverdBar(0)}>
-          <div>😀</div>{' '}
-          <StyledBar isHoverd={hoverdBar == 4} style={{ width: `${flashcardPerformance?.rememberedWithEffort}%` }} />
-          {hoverdBar === 4 && <div> {flashcardPerformance?.rememberedWithEffort}%</div>}
-        </FlexBox>
-        <FlexBox onMouseEnter={() => setHoverdBar(5)} onMouseLeave={() => setHoverdBar(0)}>
-          <div>👑</div>{' '}
-          <StyledBar isHoverd={hoverdBar == 5} style={{ width: `${flashcardPerformance?.easilyRemembered}%` }} />
-          {hoverdBar === 5 && <div> {flashcardPerformance?.easilyRemembered}%</div>}
-        </FlexBox>
-      </div>
+
+      <StyledPerformanceList>
+        {[
+          { label: '⏩', value: flashcardPerformance?.skip, id: 1 },
+          { label: '❌', value: flashcardPerformance?.forgot, id: 2 },
+          { label: '🤔', value: flashcardPerformance?.partiallyRemembered, id: 3 },
+          { label: '😀', value: flashcardPerformance?.rememberedWithEffort, id: 4 },
+          { label: '👑', value: flashcardPerformance?.easilyRemembered, id: 5 },
+        ].map(({ label, value, id }) => (
+          <StyledFlexItem key={id} onMouseEnter={() => setHoveredBar(id)} onMouseLeave={() => setHoveredBar(0)}>
+            <div>{label}</div>
+            <StyledBar isHoverd={hoveredBar === id ? true : false} style={{ width: `${value}%` }} />
+            {hoveredBar === id && <div>{value}%</div>}
+          </StyledFlexItem>
+        ))}
+      </StyledPerformanceList>
     </StyledCardWrapper>
   );
 };
 
 export default WeekInfoCard;
-
-const useWeekInfoData = () => {
-  const today = new Date();
-  const sevenDaysAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
-  const [flashcardSessionEntities] = useEntities(
-    (e) =>
-      dataTypeQuery(e, DataType.FLASHCARD_SESSION) &&
-      (e.get(DateAddedFacet)?.props.dateAdded || '') > sevenDaysAgo.toISOString(),
-  );
-
-  const [totalCardCount, setTotalCardCount] = useState(0);
-  const [totalTimeSpent, setTotalTimeSpent] = useState(0);
-  const [flashcardPerformance, setFlashcardPerformance] = useState<FlashcardPerformance>();
-
-  useEffect(() => {
-    const cardCount = flashcardSessionEntities.reduce((acc, entity) => {
-      return acc + (entity.get(FlashcardCountFacet)?.props.flashcardCount || 0);
-    }, 0);
-    setTotalCardCount(cardCount);
-
-    const timeSpent = flashcardSessionEntities.reduce((acc, entity) => {
-      return acc + (entity.get(DurationFacet)?.props.duration || 0);
-    }, 0);
-
-    setTotalTimeSpent(timeSpent);
-
-    let performance = {
-      skip: 0,
-      forgot: 0,
-      partiallyRemembered: 0,
-      rememberedWithEffort: 0,
-      easilyRemembered: 0,
-    };
-
-    flashcardSessionEntities.forEach((entity) => {
-      const entityPerformance = entity.get(FlashcardPerformanceFacet)?.props.flashcardPerformance;
-      if (entityPerformance) {
-        performance = {
-          skip: performance.skip + entityPerformance.skip,
-          forgot: performance.forgot + entityPerformance.forgot,
-          partiallyRemembered: performance.partiallyRemembered + entityPerformance.partiallyRemembered,
-          rememberedWithEffort: performance.rememberedWithEffort + entityPerformance.rememberedWithEffort,
-          easilyRemembered: performance.easilyRemembered + entityPerformance.easilyRemembered,
-        };
-      }
-    });
-
-    const skipPercentage = Math.round((performance.skip / cardCount) * 100);
-    const forgotPercentage = Math.round((performance.forgot / cardCount) * 100);
-    const partiallyRememberedPercentage = Math.round((performance.partiallyRemembered / cardCount) * 100);
-    const rememberedWithEffortPercentage = Math.round((performance.rememberedWithEffort / cardCount) * 100);
-    const easilyRememberedPercentage = Math.round((performance.easilyRemembered / cardCount) * 100);
-
-    setFlashcardPerformance({
-      skip: skipPercentage || 0,
-      forgot: forgotPercentage || 0,
-      partiallyRemembered: partiallyRememberedPercentage || 0,
-      rememberedWithEffort: rememberedWithEffortPercentage || 0,
-      easilyRemembered: easilyRememberedPercentage || 0,
-    });
-  }, [flashcardSessionEntities.length]);
-
-  return { totalCardCount, totalTimeSpent, flashcardPerformance };
-};

@@ -10,7 +10,7 @@ import {
   Tags,
   TextFacet,
 } from '@leanscope/ecs-models';
-import { Fragment, useContext, useState } from 'react';
+import { Fragment, useContext, useEffect, useState } from 'react';
 import {
   IoAdd,
   IoArrowBack,
@@ -23,14 +23,7 @@ import tw from 'twin.macro';
 import { v4 } from 'uuid';
 import { DateAddedFacet, SourceFacet, TitleFacet, TitleProps } from '../../../../app/additionalFacets';
 import { AdditionalTags, DataType, Story } from '../../../../base/enums';
-import {
-  ActionRow,
-  CollectionGrid,
-  NavBarButton,
-  NavigationBar,
-  NoContentAddedHint,
-  View,
-} from '../../../../components';
+import { ActionRow, CollectionGrid, NavBarButton, NavigationBar, View } from '../../../../components';
 import { addNote } from '../../../../functions/addNote';
 import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
@@ -40,15 +33,17 @@ import { displayActionTexts, displayDataTypeTexts } from '../../../../utils/disp
 import { dataTypeQuery, isChildOfQuery } from '../../../../utils/queries';
 import { sortEntitiesByDateAdded } from '../../../../utils/sortEntitiesByTime';
 import AddResourceToLearningGroupSheet from '../../../groups/components/AddResourceToLearningGroupSheet';
-import { useEntityHasChildren } from '../../hooks/useEntityHasChildren';
 import { useSelectedSchoolSubjectGrid } from '../../hooks/useSchoolSubjectGrid';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
+import LoadChaptersSystem from '../../systems/LoadChapterSystem';
 import LoadExercisesSystem from '../../systems/LoadExercisesSystem';
 import LoadFlashcardSetsSystem from '../../systems/LoadFlashcardSetsSystem';
 import LoadHomeworksSystem from '../../systems/LoadHomeworksSystem';
 import LoadNotesSystem from '../../systems/LoadNotesSystem';
 import LoadSubtopicsSystem from '../../systems/LoadSubtopicsSystem';
-import ChapterRow from '../chapter/ChapterRow';
+import AddChapterButton from '../chapter/AddChapterButton';
+import ChapterCell from '../chapter/ChapterCell';
+import ChapterView from '../chapter/ChapterView';
 import ExerciseCell from '../exercises/ExerciseCell';
 import ExerciseView from '../exercises/ExerciseView';
 import AddFlashcardSetSheet from '../flashcard-sets/AddFlashcardSetSheet';
@@ -64,7 +59,6 @@ import SubtopicCell from '../subtopics/SubtopicCell';
 import SubtopicView from '../subtopics/SubtopicView';
 import DeleteTopicAlert from './DeleteTopicAlert';
 import EditTopicSheet from './EditTopicSheet';
-import AddChapterButton from '../chapter/AddChapterButton';
 
 const useImageSelector = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -134,12 +128,14 @@ const StyledTopicViewContainer = styled.div`
   ${tw`w-full overflow-x-hidden h-full`}
 `;
 
+const StyledChapterWrapper = styled.div`
+  ${tw`divide-y transition-all  bg-tertiary px-4 py-2 rounded-xl bg-opacity-40 divide-primaryBorder  mb-10`}
+`;
 const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImageProps) => {
   const lsc = useContext(LeanScopeClientContext);
   const { title, entity, imageSrc } = props;
   const isVisible = useIsViewVisible(entity);
   const { selectedLanguage } = useSelectedLanguage();
-  const { hasChildren } = useEntityHasChildren(entity);
   const { openImageSelector } = useImageSelector();
   const { userId } = useUserData();
   const { selectedTopicId } = useSelectedTopic();
@@ -168,6 +164,10 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
     }
   };
 
+  useEffect(() => {
+    console.log('image', title, imageSrc);
+  }, [imageSrc]);
+
   return (
     <Fragment>
       <LoadNotesSystem />
@@ -175,7 +175,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
       <LoadHomeworksSystem />
       <LoadSubtopicsSystem />
       <LoadExercisesSystem />
-      {/* <LoadChaptersSystem /> */}
+      <LoadChaptersSystem />
 
       <View hidePadding visible={isVisible}>
         <StyledTopicViewContainer
@@ -234,17 +234,17 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
           </StyledTopAreaWrapper>
 
           <StyledTopicResourcesWrapper largeShadow={imageSrc ? true : false}>
-            {!hasChildren && <NoContentAddedHint />}
+            {/* {!hasChildren && <NoContentAddedHint />} */}
 
-            <div tw="divide-y transition-all  bg-tertiary px-4 py-2 rounded-xl bg-opacity-50 divide-primaryBorder  mb-10">
+            <StyledChapterWrapper>
               <EntityPropsMapper
                 query={(e) => dataTypeQuery(e, DataType.CHAPTER) && isChildOfQuery(e, entity)}
                 sort={(a, b) => (a.get(OrderFacet)?.props.orderIndex || 0) - (b.get(OrderFacet)?.props.orderIndex || 0)}
                 get={[[TitleFacet, OrderFacet], []]}
-                onMatch={ChapterRow}
+                onMatch={ChapterCell}
               />
               <AddChapterButton />
-            </div>
+            </StyledChapterWrapper>
 
             <CollectionGrid columnSize="small">
               <EntityPropsMapper
@@ -318,6 +318,11 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
         query={(e) => dataTypeQuery(e, DataType.EXERCISE) && e.has(Tags.SELECTED)}
         get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
         onMatch={ExerciseView}
+      />
+      <EntityPropsMapper
+        query={(e) => dataTypeQuery(e, DataType.CHAPTER) && e.has(Tags.SELECTED)}
+        get={[[TitleFacet, OrderFacet, DateAddedFacet], []]}
+        onMatch={ChapterView}
       />
 
       <AddHomeworkSheet />

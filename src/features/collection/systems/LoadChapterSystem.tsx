@@ -1,6 +1,6 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { Entity } from '@leanscope/ecs-engine';
-import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
+import { IdentifierFacet, OrderFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { DateAddedFacet, TitleFacet } from '../../../app/additionalFacets';
 import { dummyChapters } from '../../../base/dummy';
@@ -56,6 +56,7 @@ const LoadChaptersSystem = () => {
             chapterEntity.add(new IdentifierFacet({ guid: chapter.id }));
             chapterEntity.add(new DateAddedFacet({ dateAdded: chapter.date_added }));
             chapterEntity.add(new ParentFacet({ parentId: selectedTopicId }));
+            chapterEntity.add(new OrderFacet({ orderIndex: chapter.order_index }));
             chapterEntity.addTag(DataType.CHAPTER);
           }
         });

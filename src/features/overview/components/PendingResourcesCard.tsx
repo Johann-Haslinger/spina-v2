@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
-import { Entity, EntityProps, EntityPropsMapper } from '@leanscope/ecs-engine';
+import { Entity, EntityProps, EntityPropsMapper, useEntities } from '@leanscope/ecs-engine';
 import { IdentifierFacet, Tags } from '@leanscope/ecs-models';
+import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 import { IoTime } from 'react-icons/io5';
 import tw from 'twin.macro';
 import {
@@ -27,23 +29,24 @@ enum ResoruceStatus {
 }
 
 const StyledCardWrapper = styled.div`
-  ${tw`w-full h-[28rem] overflow-y-scroll p-4 pr-0 rounded-2xl bg-[#A3CB63] bg-opacity-15`}
+  ${tw`w-full h-fit md:h-[28rem] overflow-y-scroll p-4 pr-0 rounded-2xl bg-[#A3CB63] bg-opacity-15`}
 `;
 
 const StyledFlexContainer = styled.div`
-  ${tw`flex text-[#A3CB63] space-x-2 md:opacity-80 items-center`}
+  ${tw`flex text-[#A3CB63] mb-2 space-x-2 items-center`}
 `;
 
 const StyledText = styled.div`
   ${tw`font-bold text-sm`}
 `;
 
-const PendingResourcesCard = () => {
-  // const { hasPendingResources } = usePendingResources();
-  const currentDate = new Date();
-  const twoWeeksFromNow = new Date(currentDate);
-  twoWeeksFromNow.setDate(currentDate.getDate() + 14);
+const StyledInfoText = styled.div`
+  ${tw`mt-2 font-medium`}
+`;
 
+const PendingResourcesCard = () => {
+  const { hasPendingResources } = usePendingResources();
+  const currentDate = new Date();
   const sevenDaysAgo = new Date(currentDate);
   sevenDaysAgo.setDate(currentDate.getDate() - 7);
 
@@ -57,19 +60,35 @@ const PendingResourcesCard = () => {
           <IoTime />
           <StyledText>Anstehende Leistungen</StyledText>
         </StyledFlexContainer>
-        <div tw="mt-2 ">
-          <EntityPropsMapper
-            query={(e) => new Date(e.get(DueDateFacet)?.props.dueDate || '') >= sevenDaysAgo}
-            get={[[TitleFacet, StatusFacet, DueDateFacet], []]}
-            onMatch={PandingResourceRow}
-          />
-        </div>
+
+        {!hasPendingResources && (
+          <StyledInfoText>Alles erledigt! Du hast aktuell keine anstehenden Leistungen. 🎉</StyledInfoText>
+        )}
+        <EntityPropsMapper
+          query={(e) => new Date(e.get(DueDateFacet)?.props.dueDate || '') >= sevenDaysAgo}
+          get={[[TitleFacet, StatusFacet, DueDateFacet], []]}
+          onMatch={PandingResourceRow}
+        />
       </StyledCardWrapper>
     </div>
   );
 };
 
 export default PendingResourcesCard;
+
+const usePendingResources = () => {
+  const currentDate = new Date();
+  const sevenDaysAgo = new Date(currentDate);
+  sevenDaysAgo.setDate(currentDate.getDate() - 7);
+
+  const [pendingResourceEntities] = useEntities(
+    (e) => new Date(e.get(DueDateFacet)?.props.dueDate || '') >= sevenDaysAgo,
+  );
+
+  const hasPendingResources = pendingResourceEntities.length > 0;
+
+  return { pendingResourceEntities, hasPendingResources };
+};
 
 const updateStatus = async (entity: Entity, status: number) => {
   const id = entity.get(IdentifierFacet)?.props.guid;
@@ -85,6 +104,18 @@ const updateStatus = async (entity: Entity, status: number) => {
 
 const StyledSelect = styled.select`
   ${tw`outline-none bg-white bg-opacity-0`}
+`;
+
+const StyledRowWrapper = styled(motion.div)`
+  ${tw`flex pr-4 items-center pl-2 justify-between py-1.5 border-b border-black border-opacity-5`}
+`;
+
+const StyledTitle = styled.p`
+  ${tw`line-clamp-2`}
+`;
+
+const StyledDueDate = styled.p`
+  ${tw`text-sm text-seconderyText`}
 `;
 
 const StyledSelectWrapper = styled.div<{ status: ResoruceStatus; dark: boolean }>`
@@ -105,47 +136,58 @@ const StyledSelectWrapper = styled.div<{ status: ResoruceStatus; dark: boolean }
     }
   }};
 `;
-
 const PandingResourceRow = (props: TitleProps & StatusProps & DueDateProps & EntityProps) => {
   const { title, status, entity } = props;
   const daysUntilDue = useDaysUntilDue(entity);
   const { isDarkModeAktive } = useSelectedTheme();
-  // const isDisplayed = [1, 2, 3].includes(entity.get(StatusFacet)?.props.status || 0);
+  const isDone = [4, 3].includes(entity.get(StatusFacet)?.props.status || 0);
+  const isDisplayed = useIsDisplayed(isDone);
+  const [isHovered, setIsHovered] = useState(false);
 
   const openResource = () => entity.add(Tags.SELECTED);
 
-  return (
-    <div
-      tw="flex pr-4 items-center hover:opacity-70 transition-all pl-2 justify-between py-1.5 border-b border-black border-opacity-5 "
-      onClick={openResource}
+  return isDisplayed ? (
+    <StyledRowWrapper
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      animate={{
+        x: !isDone ? 0 : 400,
+      }}
+      transition={{ duration: 0.2, type: 'tween' }}
     >
-      <div>
-        <p tw="line-clamp-2">{title}</p>
-        <p tw=" text-sm text-seconderyText">{daysUntilDue}</p>
-      </div>
-      {status}
+      <motion.div
+        animate={{
+          x: isHovered ? 15 : 0,
+        }}
+        onClick={openResource}
+      >
+        <StyledTitle>{title}</StyledTitle>
+        <StyledDueDate>{daysUntilDue}</StyledDueDate>
+      </motion.div>
       {status && (
         <StyledSelectWrapper dark={isDarkModeAktive} status={status}>
-          <StyledSelect
-            onChange={(e) => updateStatus(entity, parseInt(e.target.value))}
-            defaultValue={status}
-            value={status}
-          >
-            <option value={1}>Todo</option>
-            <option value={3}>In Arbeit</option>
-            <option value={4}>Erledigt</option>
-            <option value={5}>Verfehlt</option>
+          <StyledSelect onChange={(e) => updateStatus(entity, parseInt(e.target.value))} value={status.toString()}>
+            <option value={ResoruceStatus.TODO}>Todo</option>
+            <option value={ResoruceStatus.IN_PROGRESS}>In Arbeit</option>
+            <option value={ResoruceStatus.DONE}>Erledigt</option>
+            <option value={ResoruceStatus.MISSED}>Verfehlt</option>
           </StyledSelect>
         </StyledSelectWrapper>
       )}
-    </div>
-  );
+    </StyledRowWrapper>
+  ) : null;
 };
 
-// const usePendingResources = () => {
-//   const [pendingResourceEntities] = useEntities((e) => e.has(AdditionalTags.PENDING_RESOURCE));
+const useIsDisplayed = (isDone: boolean) => {
+  const [isDisplayed, setIsDisplayed] = useState(true);
 
-//   const hasPendingResources = pendingResourceEntities.length > 0;
+  useEffect(() => {
+    if (isDone) {
+      setTimeout(() => {
+        setIsDisplayed(false);
+      }, 400);
+    }
+  }, [isDone]);
 
-//   return { pendingResourceEntities, hasPendingResources };
-// };
+  return isDisplayed;
+};

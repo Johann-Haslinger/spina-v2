@@ -6,12 +6,12 @@ import tw from 'twin.macro';
 import { DateUpdatedFacet, StreakFacet } from '../../../app/additionalFacets';
 
 const StyledCardWrapper = styled.div`
-  ${tw`w-full h-[11rem] flex flex-col justify-between p-4 rounded-2xl text-[#A3CB63] bg-[#A3CB63] bg-opacity-15`}
+  ${tw`w-full h-[11rem] flex flex-col justify-between p-4 rounded-2xl  bg-[#A3CB63] bg-opacity-15`}
 `;
 
 const StyledStreakLabel = styled.div<{ currentStrak: boolean }>`
-  ${tw`text-[#A3CB63] mt-1 font-semibold`}
-  ${({ currentStrak }) => (currentStrak ? tw`text-4xl` : tw`text-2xl mt-2 leading-7`)}
+  ${tw` mt-1 font-bold`}
+  ${({ currentStrak }) => (currentStrak ? tw`text-3xl` : tw`text-2xl mt-2 leading-7`)}
 `;
 
 const StyledCheckbox = styled.div<{ isChecked: boolean }>`
@@ -29,7 +29,7 @@ const StreakCard = () => {
   return (
     <StyledCardWrapper>
       <div tw="h-24">
-        <div tw="flex space-x-2 md:opacity-80 items-center">
+        <div tw="flex space-x-2 text-[#A3CB63] items-center">
           <div tw="">
             <IoFlame />
           </div>
