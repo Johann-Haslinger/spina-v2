@@ -75,7 +75,7 @@ const ExploreCard = () => {
         </StyledImageContainer>
 
         <StyledContentContainer>
-          <StyledTitle>Spaced Repetition und Active Recall: Die Superkräfte im Lernprozess</StyledTitle>
+          <StyledTitle> 🚀 Spaced Repetition und Active Recall: Die Superkräfte im Lernprozess</StyledTitle>
           <StyledDescription>
             Lernen kann manchmal wie eine unüberwindbare Herausforderung erscheinen, besonders wenn es um große Mengen
             an Informationen geht. Aber was, wenn es Methoden gäbe, die das Lernen nicht nur effektiver,
@@ -94,7 +94,7 @@ const ExploreCard = () => {
           <IoClose />
         </StyledCloseButton>
         <Spacer size={8} />
-        <StyledSheetTitle>Spaced Repetition und Active Recall: Die Superkräfte im Lernprozess</StyledSheetTitle>
+        <StyledSheetTitle>🚀 Spaced Repetition und Active Recall: Die Superkräfte im Lernprozess </StyledSheetTitle>
       </Sheet>
     </div>
   );

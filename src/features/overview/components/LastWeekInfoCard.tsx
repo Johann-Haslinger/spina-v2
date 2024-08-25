@@ -4,8 +4,9 @@ import { IoStatsChart } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { useWeekInfoData } from '../../flashcards/hooks/useWeekInfoData';
 
-const StyledCardWrapper = styled.div`
-  ${tw`w-full h-fit md:h-[24rem] p-4 text-[#E76542] rounded-2xl bg-[#E76542] bg-opacity-15`}
+const StyledCardWrapper = styled.div<{ height: string }>`
+  ${tw`w-full h-fit p-4  rounded-2xl bg-[#E76542] bg-opacity-15`}
+  ${({ height }) => (height === '24rem' ? tw`md:h-[23rem]` : tw`md:h-[17.25rem]`)}
 `;
 
 const StyledBar = styled.div<{ isHoverd: boolean }>`
@@ -14,7 +15,7 @@ const StyledBar = styled.div<{ isHoverd: boolean }>`
 `;
 
 const StyledHeader = styled.div`
-  ${tw`flex space-x-2  items-center`}
+  ${tw`flex text-[#E76542] space-x-2  items-center`}
 `;
 
 const StyledIconWrapper = styled.div`
@@ -26,11 +27,11 @@ const StyledTitle = styled.div`
 `;
 
 const StyledSummaryText = styled.div`
-  ${tw`mt-2 mb-3 dark:text-white text-black font-medium`}
+  ${tw`mt-2 mb-3 font-medium`}
 `;
 
 const StyledPerformanceList = styled.div`
-  ${tw` md:mt-8 mt-4 space-y-2`}
+  ${tw` text-[#E76542] mt-2 space-y-1`}
 `;
 
 const StyledFlexItem = styled.div`
@@ -41,7 +42,12 @@ const StyledLabel = styled.div`
   ${tw`text-lg`}
 `;
 
-const LastWeekInfoCard = () => {
+interface CardProps {
+  height: '24rem' | '17rem';
+}
+
+const LastWeekInfoCard = (props: CardProps) => {
+  const { height } = props;
   const { totalCardCount, totalTimeSpent, flashcardPerformance } = useWeekInfoData();
   const [hoveredBar, setHoveredBar] = useState(0);
 
@@ -52,7 +58,7 @@ const LastWeekInfoCard = () => {
   };
 
   return (
-    <StyledCardWrapper>
+    <StyledCardWrapper height={height}>
       <StyledHeader>
         <StyledIconWrapper>
           <IoStatsChart />

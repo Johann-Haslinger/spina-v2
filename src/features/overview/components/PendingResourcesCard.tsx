@@ -20,6 +20,7 @@ import { dataTypeQuery } from '../../../utils/queries';
 import { useSelectedTheme } from '../../collection/hooks/useSelectedTheme';
 import InitializeExamsSystem from '../../exams/systems/InitializeExamsSystem';
 import InitializeHomeworksSystem from '../../homeworks/systems/InitializeHomeworksSystem';
+import { sortEntitiesByDueDate } from '../../../utils/sortEntitiesByTime';
 
 enum ResoruceStatus {
   TODO = 1,
@@ -66,6 +67,7 @@ const PendingResourcesCard = () => {
         )}
         <EntityPropsMapper
           query={(e) => new Date(e.get(DueDateFacet)?.props.dueDate || '') >= sevenDaysAgo}
+          sort={(a, b) => sortEntitiesByDueDate(a, b)}
           get={[[TitleFacet, StatusFacet, DueDateFacet], []]}
           onMatch={PandingResourceRow}
         />

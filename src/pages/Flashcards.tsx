@@ -7,11 +7,12 @@ import tw from 'twin.macro';
 import { COLOR_ITEMS } from '../base/constants';
 import { Story } from '../base/enums';
 import { NavigationBar, Spacer, Title, View } from '../components';
-import { FlashcardGroupTable, WeekInfoCard, WeekStatsCard } from '../features/flashcards';
+import { FlashcardGroupTable } from '../features/flashcards';
 import StreakCard from '../features/flashcards/components/StreakCard';
 import LoadCurrentStreakSystem from '../features/flashcards/systems/LoadCurrentStrekSystem';
 import LoadFlashcardGroupsSystem from '../features/flashcards/systems/LoadFlashcardGroupsSystem';
 import LoadFlashcardSessionsSystem from '../features/flashcards/systems/LoadFlashcardSessionsSystem';
+import { FlashcardChartCard, LastWeekInfoCard } from '../features/overview';
 import FlashcardQuizView from '../features/study/components/FlashcardQuizView';
 import { useSelectedLanguage } from '../hooks/useSelectedLanguage';
 import { displayHeaderTexts } from '../utils/displayText';
@@ -92,7 +93,7 @@ const Flashcards = () => {
         </StyledHeaderWrapper>
 
         <StyledFlexBox>
-          <WeekStatsCard />
+          <FlashcardChartCard />
           <StyledMobileQuizButton>
             <StyledMobileQuizButtonContent onClick={openFlashcardQuiz}>
               <StyledMobilePlayIcon>
@@ -106,7 +107,7 @@ const Flashcards = () => {
           </StyledMobileQuizButton>
           <StyledCardWrapper>
             <StreakCard />
-            <WeekInfoCard />
+            <LastWeekInfoCard height="17rem" />
           </StyledCardWrapper>
         </StyledFlexBox>
 

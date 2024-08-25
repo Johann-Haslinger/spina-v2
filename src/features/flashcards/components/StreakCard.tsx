@@ -6,16 +6,16 @@ import tw from 'twin.macro';
 import { DateUpdatedFacet, StreakFacet } from '../../../app/additionalFacets';
 
 const StyledCardWrapper = styled.div`
-  ${tw`w-full h-[11rem] flex flex-col justify-between p-4 rounded-2xl  bg-[#A3CB63] bg-opacity-15`}
+  ${tw`w-full h-[10rem] flex flex-col justify-between p-4 rounded-2xl  bg-[#A3CB63] bg-opacity-15`}
 `;
 
-const StyledStreakLabel = styled.div<{ currentStrak: boolean }>`
-  ${tw` mt-1 font-bold`}
-  ${({ currentStrak }) => (currentStrak ? tw`text-3xl` : tw`text-2xl mt-2 leading-7`)}
-`;
+// const StyledStreakLabel = styled.div<{ currentStrak: boolean }>`
+//   ${tw` mt-1 font-bold`}
+//   ${({ currentStrak }) => (currentStrak ? tw`text-3xl` : tw`text-2xl mt-2 leading-7`)}
+// `;
 
 const StyledCheckbox = styled.div<{ isChecked: boolean }>`
-  ${tw`flex items-center justify-center size-7 rounded-md text-xl text-white bg-[#A3CB63]`}
+  ${tw`flex items-center justify-center size-8 rounded-md text-2xl text-white bg-[#A3CB63]`}
   ${({ isChecked }) => (isChecked ? tw` bg-opacity-80` : tw` bg-opacity-40`)}
 `;
 
@@ -35,9 +35,19 @@ const StreakCard = () => {
           </div>
           <div tw="font-bold text-sm">Aktuelle Streak</div>
         </div>
-        <StyledStreakLabel currentStrak={isCurrentStreakEntityExisting}>
-          {isCurrentStreakEntityExisting ? `${streak} Tage` : 'Bereit für eine neue Streak?'}
-        </StyledStreakLabel>
+        {/* <StyledStreakLabel currentStrak={isCurrentStreakEntityExisting}>
+         
+        </StyledStreakLabel> */}
+        <p tw="font-medium mt-2">
+          {isCurrentStreakEntityExisting ? (
+            <p>
+              {' '}
+              Du hast bereits <strong>{streak} Tage</strong> in Folge gelernt. 🎉{' '}
+            </p>
+          ) : (
+            'Bist du bereit für eine neue Streak? 🚀'
+          )}
+        </p>
       </div>
 
       <StyledCheckmarksContainer>

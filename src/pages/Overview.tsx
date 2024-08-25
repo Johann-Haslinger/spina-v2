@@ -47,12 +47,11 @@ const Overview = () => {
           <StyledColumn>
             <PendingResourcesCard />
             <ExploreCard />
-            <LastWeekInfoCard />
+            <LastWeekInfoCard height="24rem" />
           </StyledColumn>
           <StyledColumn>
             <StartFlashcardSessionCard />
             <FlashcarChartCard />
-
             <NewResourcesCard />
             <StreakCard />
           </StyledColumn>
