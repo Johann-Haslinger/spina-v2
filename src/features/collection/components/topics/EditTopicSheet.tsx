@@ -20,7 +20,7 @@ import {
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../../lib/supabase';
 import { displayActionTexts, displayButtonTexts, displayLabelTexts } from '../../../../utils/displayText';
-import { generateImageForTopic } from '../../functions/generateImageForTopic';
+import { generateDescriptionForTopic } from '../../functions/generateDescriptionForTopic';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
 
 const EditTopicSheet = () => {
@@ -39,7 +39,7 @@ const EditTopicSheet = () => {
 
   const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_TOPIC_STORY);
   const handleRegenerateImage = async () =>
-    selectedTopicEntity && (await generateImageForTopic(selectedTopicEntity, true));
+    selectedTopicEntity && (await generateDescriptionForTopic(selectedTopicEntity));
 
   const updateTopic = async () => {
     if (newTitle && newDescription) {

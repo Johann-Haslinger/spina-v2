@@ -1,14 +1,23 @@
 import styled from '@emotion/styled';
-import { useEffect, useRef } from 'react';
+import dompurify from 'dompurify';
+import { useEffect, useRef, useState } from 'react';
 import tw from 'twin.macro';
 
-const StyledTextEditorWrapper = styled.div`
+const StyledTextEditorWrapper = styled.div<{ isHidden: boolean }>`
   ${tw`w-full dark:text-primaryTextDark transition-all outline-none pb-20 h-full`}
+  ${({ isHidden }) => isHidden && tw`hidden`}
 `;
 
-const TextEditor = (props: { onBlur?: (newValue: string) => void; value?: string }) => {
-  const { onBlur, value } = props;
+const StyledPlaceholder = styled.div`
+  ${tw`text-seconderyText opacity-70`}
+`;
+
+const TextEditor = (props: { onBlur?: (newValue: string) => void; value?: string; placeholder?: string }) => {
+  const { onBlur, value, placeholder } = props;
   const textEditorRef = useRef<HTMLDivElement>(null);
+  const sanitizer = dompurify.sanitize;
+  const [isTextEditorFocused, setIsTextEditorFocused] = useState(false);
+  const isPlaceholderVisible = !value && textEditorRef.current?.innerHTML == '' && !isTextEditorFocused;
 
   useEffect(() => {
     const handleUnload = () => {
@@ -24,13 +33,33 @@ const TextEditor = (props: { onBlur?: (newValue: string) => void; value?: string
     };
   }, [textEditorRef.current?.innerHTML, onBlur]);
 
+  const handleFocus = () => {
+    setIsTextEditorFocused(true);
+    setTimeout(() => textEditorRef.current?.focus(), 10);
+  };
+
+  const handleBlur = () => {
+    onBlur && textEditorRef.current && onBlur(textEditorRef.current.innerHTML);
+    setIsTextEditorFocused(false);
+  };
+
+  useEffect(() => {
+    if (value) setIsTextEditorFocused(true);
+  }, [value]);
+
   return (
-    <StyledTextEditorWrapper
-      ref={textEditorRef}
-      contentEditable
-      onBlur={() => onBlur && textEditorRef.current && onBlur(textEditorRef.current.innerHTML)}
-      dangerouslySetInnerHTML={{ __html: value || '' }}
-    />
+    <div onClick={handleFocus}>
+      {isPlaceholderVisible && <StyledPlaceholder onClick={handleFocus}>{placeholder}</StyledPlaceholder>}
+
+      <StyledTextEditorWrapper
+        isHidden={isPlaceholderVisible}
+        onFocus={(e) => value == '' && e.preventDefault()}
+        ref={textEditorRef}
+        contentEditable
+        onBlur={handleBlur}
+        dangerouslySetInnerHTML={{ __html: sanitizer(value || '') }}
+      />
+    </div>
   );
 };
 

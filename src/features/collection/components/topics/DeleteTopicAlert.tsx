@@ -31,6 +31,60 @@ const DeleteTopicAlert = () => {
         if (error) {
           console.error('Error deleting Topic', error);
         }
+
+        const { error: error2 } = await supabaseClient
+          .from(SupabaseTables.CHAPTERS)
+          .delete()
+          .eq(SupabaseColumns.PARENT_ID, selectedTopicId);
+
+        if (error2) {
+          console.error('Error deleting Chapters', error2);
+        }
+
+        const { error: error3 } = await supabaseClient
+          .from(SupabaseTables.NOTES)
+          .delete()
+          .eq(SupabaseColumns.PARENT_ID, selectedTopicId);
+
+        if (error3) {
+          console.error('Error deleting Notes', error3);
+        }
+
+        const { error: error4 } = await supabaseClient
+          .from(SupabaseTables.SUBTOPICS)
+          .delete()
+          .eq(SupabaseColumns.PARENT_ID, selectedTopicId);
+
+        if (error4) {
+          console.error('Error deleting Subtopics', error4);
+        }
+
+        const { error: error5 } = await supabaseClient
+          .from(SupabaseTables.FLASHCARD_SETS)
+          .delete()
+          .eq(SupabaseColumns.PARENT_ID, selectedTopicId);
+
+        if (error5) {
+          console.error('Error deleting Flashcard Sets', error5);
+        }
+
+        const { error: error6 } = await supabaseClient
+          .from(SupabaseTables.HOMEWORKS)
+          .delete()
+          .eq(SupabaseColumns.PARENT_ID, selectedTopicId);
+
+        if (error6) {
+          console.error('Error deleting Homeworks', error6);
+        }
+
+        const { error: error7 } = await supabaseClient
+          .from(SupabaseTables.EXAMS)
+          .delete()
+          .eq(SupabaseColumns.PARENT_ID, selectedTopicId);
+
+        if (error7) {
+          console.error('Error deleting Exams', error7);
+        }
       }
     }, 300);
   };

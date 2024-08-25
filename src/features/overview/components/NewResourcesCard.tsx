@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { EntityPropsMapper, useEntities } from '@leanscope/ecs-engine';
 import { IoFileTray } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { DateAddedFacet, TitleFacet, TitleProps } from '../../../app/additionalFacets';
+import { DateAddedFacet, TitleFacet } from '../../../app/additionalFacets';
 
 const StyledCardWrapper = styled.div`
   ${tw`w-full h-[28rem] p-4 text-[#EF9D4A] rounded-2xl bg-[#EF9D4A] bg-opacity-15`}
@@ -54,8 +54,6 @@ const useNewResources = () => {
   return { hasNewResources, sevenDaysAgo };
 };
 
-const NewResourceRow = (props: TitleProps) => {
-  const {} = props;
-
+const NewResourceRow = () => {
   return <div></div>;
 };

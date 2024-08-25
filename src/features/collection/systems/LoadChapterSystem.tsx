@@ -6,9 +6,7 @@ import { DateAddedFacet, TitleFacet } from '../../../app/additionalFacets';
 import { dummyChapters } from '../../../base/dummy';
 import { DataType, SupabaseColumns, SupabaseTables } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
-import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../lib/supabase';
-import { displayAlertTexts } from '../../../utils/displayText';
 import { useSelectedTopic } from '../hooks/useSelectedTopic';
 
 const fetchChaptersForTopic = async (topicId: string) => {
@@ -29,7 +27,6 @@ const LoadChaptersSystem = () => {
   const { isUsingMockupData: mockupData, isUsingSupabaseData: shouldFetchFromSupabase } = useCurrentDataSource();
   const lsc = useContext(LeanScopeClientContext);
   const { selectedTopicId } = useSelectedTopic();
-  const { selectedLanguage } = useSelectedLanguage();
 
   useEffect(() => {
     const initializeChapterEntities = async () => {
@@ -48,11 +45,7 @@ const LoadChaptersSystem = () => {
           if (!isExisting) {
             const chapterEntity = new Entity();
             lsc.engine.addEntity(chapterEntity);
-            chapterEntity.add(
-              new TitleFacet({
-                title: chapter.title || displayAlertTexts(selectedLanguage).noTitle,
-              }),
-            );
+            chapterEntity.add(new TitleFacet({ title: chapter.title || '' }));
             chapterEntity.add(new IdentifierFacet({ guid: chapter.id }));
             chapterEntity.add(new DateAddedFacet({ dateAdded: chapter.date_added }));
             chapterEntity.add(new ParentFacet({ parentId: selectedTopicId }));

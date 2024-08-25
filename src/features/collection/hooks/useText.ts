@@ -1,4 +1,5 @@
 import { Entity } from '@leanscope/ecs-engine';
+import { useEntityFacets } from '@leanscope/ecs-engine/react-api/hooks/useEntityFacets';
 import { IdentifierFacet, TextFacet } from '@leanscope/ecs-models';
 import { useEffect } from 'react';
 import { SupabaseColumns, SupabaseTables } from '../../../base/enums';
@@ -34,7 +35,8 @@ const fetchText = async (parentId: string, userId: string) => {
 export const useText = (entity: Entity) => {
   const parentId = entity.get(IdentifierFacet)?.props.guid;
   const { userId } = useUserData();
-  const text = entity.get(TextFacet)?.props.text || '';
+  const [textProps] = useEntityFacets(entity, TextFacet);
+  const text = textProps?.text || '';
   const { isUsingSupabaseData: shouldFetchFromSupabase, isUsingMockupData: mockupData } = useCurrentDataSource();
 
   useEffect(() => {

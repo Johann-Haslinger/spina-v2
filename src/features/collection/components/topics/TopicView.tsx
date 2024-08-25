@@ -10,7 +10,7 @@ import {
   Tags,
   TextFacet,
 } from '@leanscope/ecs-models';
-import { Fragment, useContext, useEffect, useState } from 'react';
+import { Fragment, useContext, useState } from 'react';
 import {
   IoAdd,
   IoArrowBack,
@@ -43,7 +43,7 @@ import LoadNotesSystem from '../../systems/LoadNotesSystem';
 import LoadSubtopicsSystem from '../../systems/LoadSubtopicsSystem';
 import AddChapterButton from '../chapter/AddChapterButton';
 import ChapterCell from '../chapter/ChapterCell';
-import ChapterView from '../chapter/ChapterView';
+import ChapterEditor from '../chapter/ChaptersEditor';
 import ExerciseCell from '../exercises/ExerciseCell';
 import ExerciseView from '../exercises/ExerciseView';
 import AddFlashcardSetSheet from '../flashcard-sets/AddFlashcardSetSheet';
@@ -131,6 +131,7 @@ const StyledTopicViewContainer = styled.div`
 const StyledChapterWrapper = styled.div`
   ${tw`divide-y transition-all  bg-tertiary px-4 py-2 rounded-xl bg-opacity-40 divide-primaryBorder  mb-10`}
 `;
+
 const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImageProps) => {
   const lsc = useContext(LeanScopeClientContext);
   const { title, entity, imageSrc } = props;
@@ -163,10 +164,6 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
       addNote(lsc, newNoteEntity, userId);
     }
   };
-
-  useEffect(() => {
-    console.log('image', title, imageSrc);
-  }, [imageSrc]);
 
   return (
     <Fragment>
@@ -234,8 +231,6 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
           </StyledTopAreaWrapper>
 
           <StyledTopicResourcesWrapper largeShadow={imageSrc ? true : false}>
-            {/* {!hasChildren && <NoContentAddedHint />} */}
-
             <StyledChapterWrapper>
               <EntityPropsMapper
                 query={(e) => dataTypeQuery(e, DataType.CHAPTER) && isChildOfQuery(e, entity)}
@@ -321,8 +316,8 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
       />
       <EntityPropsMapper
         query={(e) => dataTypeQuery(e, DataType.CHAPTER) && e.has(Tags.SELECTED)}
-        get={[[TitleFacet, OrderFacet, DateAddedFacet], []]}
-        onMatch={ChapterView}
+        get={[[ParentFacet], []]}
+        onMatch={ChapterEditor}
       />
 
       <AddHomeworkSheet />

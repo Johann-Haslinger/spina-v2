@@ -6,6 +6,8 @@ import { useState } from 'react';
 import { IoBook, IoChevronForward } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { TitleProps } from '../../../../app/additionalFacets';
+import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
+import { displayAlertTexts } from '../../../../utils/displayText';
 import { useSelectedSchoolSubjectColor } from '../../hooks/useSelectedSchoolSubjectColor';
 
 const StyledContainer = styled.div`
@@ -30,9 +32,10 @@ const StyledChevron = styled.div`
 `;
 
 const ChapterCell = (props: TitleProps & OrderProps & EntityProps) => {
-  const { title, orderIndex = 0, entity } = props;
+  const { title = '', orderIndex = 0, entity } = props;
   const { accentColor } = useSelectedSchoolSubjectColor();
   const [isHovered, setIsHovered] = useState(false);
+  const { selectedLanguage } = useSelectedLanguage();
 
   const openChapter = () => entity.add(Tags.SELECTED);
 
@@ -47,7 +50,8 @@ const ChapterCell = (props: TitleProps & OrderProps & EntityProps) => {
           <IoBook />
         </StyledIcon>
         <p>
-          <StyledText>Kapitel {orderIndex + 1} -</StyledText> {title}
+          <StyledText>Kapitel {orderIndex + 1} -</StyledText>{' '}
+          {title ? title : displayAlertTexts(selectedLanguage).noTitle}
         </p>
       </StyledContent>
       <StyledChevron>

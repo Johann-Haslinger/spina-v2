@@ -5,7 +5,7 @@ import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useState } from 'react';
 import { v4 } from 'uuid';
 import { DateAddedFacet, TitleFacet } from '../../../../app/additionalFacets';
-import { AdditionalTags, DataType, Story } from '../../../../base/enums';
+import { DataType, Story } from '../../../../base/enums';
 import {
   FlexBox,
   PrimaryButton,
@@ -21,7 +21,7 @@ import { addTopic } from '../../../../functions/addTopic';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import { useUserData } from '../../../../hooks/useUserData';
 import { displayButtonTexts, displayLabelTexts } from '../../../../utils/displayText';
-import { generateImageForTopic } from '../../functions/generateImageForTopic';
+import { generateDescriptionForTopic } from '../../functions/generateDescriptionForTopic';
 import { useSelectedSchoolSubject } from '../../hooks/useSelectedSchoolSubject';
 
 const AddTopicSheet = () => {
@@ -48,10 +48,10 @@ const AddTopicSheet = () => {
       newTopicEntity.add(new TitleFacet({ title: title }));
       newTopicEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
       newTopicEntity.add(DataType.TOPIC);
-      newTopicEntity.add(AdditionalTags.GENERATING);
+      // newTopicEntity.add(AdditionalTags.GENERATING);
       navigateBack();
 
-      await generateImageForTopic(newTopicEntity);
+      await generateDescriptionForTopic(newTopicEntity);
 
       addTopic(lsc, newTopicEntity, userId);
     }
