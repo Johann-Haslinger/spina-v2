@@ -1,8 +1,8 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { EntityProps, EntityPropsMapper } from '@leanscope/ecs-engine';
 import { DescriptionFacet, ImageFacet, Tags } from '@leanscope/ecs-models';
-import { Fragment, useContext } from 'react';
-import { IoAdd } from 'react-icons/io5';
+import { useContext } from 'react';
+import { IoAdd, IoArchiveOutline } from 'react-icons/io5';
 import { TitleFacet, TitleProps } from '../../../../app/additionalFacets';
 import { AdditionalTags, DataType, Story } from '../../../../base/enums';
 import { BackButton, CollectionGrid, NavBarButton, NavigationBar, Spacer, Title, View } from '../../../../components';
@@ -17,6 +17,7 @@ import LoadTopicsSystem from '../../systems/LoadTopicsSystem';
 import TopicCell from '../topics/TopicCell';
 import TopicView from '../topics/TopicView';
 import AddTopicSheet from './AddTopicSheet';
+import TopicArchive from './TopicArchive';
 
 const SchoolSubjectView = (props: TitleProps & EntityProps) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -27,15 +28,19 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
   const openAddTopicSheet = () => lsc.stories.transitTo(Story.ADDING_TOPIC_STORY);
+  const openTopicArchive = () => lsc.stories.transitTo(Story.OBSERVING_TOPIC_ARCHIVE_STORY);
 
   return (
-    <Fragment>
+    <div>
       <LoadTopicsSystem />
 
       <View visible={isVisible}>
         <NavigationBar>
-          <NavBarButton>
-            <IoAdd onClick={openAddTopicSheet} />
+          <NavBarButton onClick={openTopicArchive}>
+            <IoArchiveOutline />
+          </NavBarButton>
+          <NavBarButton onClick={openAddTopicSheet}>
+            <IoAdd />
           </NavBarButton>
         </NavigationBar>
 
@@ -46,7 +51,9 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
 
         <CollectionGrid gapSize="large" columnSize="large">
           <EntityPropsMapper
-            query={(e) => dataTypeQuery(e, DataType.TOPIC) && isChildOfQuery(e, entity)}
+            query={(e) =>
+              dataTypeQuery(e, DataType.TOPIC) && isChildOfQuery(e, entity) && !e.hasTag(AdditionalTags.ARCHIVED)
+            }
             sort={(a, b) => sortEntitiesByDateAdded(a, b)}
             get={[[TitleFacet, DescriptionFacet, ImageFacet], []]}
             onMatch={TopicCell}
@@ -55,6 +62,8 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
         <Spacer size={20} />
       </View>
 
+      <TopicArchive />
+
       <EntityPropsMapper
         query={(e) => dataTypeQuery(e, DataType.TOPIC) && e.hasTag(Tags.SELECTED)}
         get={[[TitleFacet, DescriptionFacet, ImageFacet], []]}
@@ -62,7 +71,7 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
       />
 
       <AddTopicSheet />
-    </Fragment>
+    </div>
   );
 };
 

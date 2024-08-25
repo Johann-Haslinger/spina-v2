@@ -1,10 +1,11 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { Entity } from '@leanscope/ecs-engine';
-import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
+import { DescriptionFacet, IdentifierFacet, ImageFacet, ParentFacet } from '@leanscope/ecs-models';
+import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect } from 'react';
 import { DateAddedFacet, TitleFacet } from '../../../app/additionalFacets';
 import { dummyTopics } from '../../../base/dummy';
-import { DataType, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { AdditionalTags, DataType, Story, SupabaseColumns, SupabaseTables } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 import { useSchoolSubjectTopicEntities } from '../hooks/useSchoolSubjectTopicEntities';
@@ -13,8 +14,8 @@ import { useSelectedSchoolSubject } from '../hooks/useSelectedSchoolSubject';
 const fetchTopicsForSchoolSubject = async (subjectId: string) => {
   const { data: topics, error } = await supabaseClient
     .from(SupabaseTables.TOPICS)
-    .select('title, id, date_added')
-    .eq('is_archived', false)
+    .select('title, id, date_added, description, image_url')
+    .eq('is_archived', true)
     .eq(SupabaseColumns.PARENT_ID, subjectId);
 
   if (error) {
@@ -25,9 +26,10 @@ const fetchTopicsForSchoolSubject = async (subjectId: string) => {
   return topics || [];
 };
 
-const LoadTopicsSystem = () => {
-  const { isUsingMockupData: mockupData, isUsingSupabaseData: shouldFetchFromSupabase } = useCurrentDataSource();
+const LoadArchivedTopicsSystem = () => {
   const lsc = useContext(LeanScopeClientContext);
+  const { isUsingMockupData: mockupData, isUsingSupabaseData: shouldFetchFromSupabase } = useCurrentDataSource();
+  const isObservingTopicArchiveStory = useIsStoryCurrent(Story.OBSERVING_TOPIC_ARCHIVE_STORY);
   const { selectedSchoolSubjectEntity, selectedSchoolSubjectId } = useSelectedSchoolSubject();
   const { hasTopics } = useSchoolSubjectTopicEntities(selectedSchoolSubjectEntity);
 
@@ -51,17 +53,20 @@ const LoadTopicsSystem = () => {
             topicEntity.add(new TitleFacet({ title: topic.title }));
             topicEntity.add(new IdentifierFacet({ guid: topic.id }));
             topicEntity.add(new DateAddedFacet({ dateAdded: topic.date_added }));
+            topicEntity.add(new ImageFacet({ imageSrc: topic.image_url || '' }));
+            topicEntity.add(new DescriptionFacet({ description: topic.description }));
             topicEntity.add(new ParentFacet({ parentId: selectedSchoolSubjectId }));
             topicEntity.addTag(DataType.TOPIC);
+            topicEntity.addTag(AdditionalTags.ARCHIVED);
           }
         });
       }
     };
 
-    initializeTopicEntities();
-  }, [selectedSchoolSubjectId, mockupData, shouldFetchFromSupabase]);
+    if (isObservingTopicArchiveStory) initializeTopicEntities();
+  }, [selectedSchoolSubjectId, mockupData, shouldFetchFromSupabase, isObservingTopicArchiveStory]);
 
   return null;
 };
 
-export default LoadTopicsSystem;
+export default LoadArchivedTopicsSystem;

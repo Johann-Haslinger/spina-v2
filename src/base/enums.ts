@@ -22,6 +22,7 @@ export enum Story {
   OBSERVING_FLASHCARD_TEST_STORY = 'observingFlashcardTestStory',
   OBSERVING_SPACED_REPETITION_QUIZ = 'observingSpacedRepetitionQuiz',
   OBSERVING_OVERVIEW = 'observingOverview',
+  OBSERVING_TOPIC_ARCHIVE_STORY = 'observingTopicArchiveStory',
 
   ADDING_FLASHCARD_SET_STORY = 'addFlashcardSetStory',
   ADDING_TOPIC_STORY = 'addTopicStory',
@@ -119,6 +120,7 @@ export enum AdditionalTags {
   REMEMBERED_WITH_EFFORT,
   REMEMBERED_EASILY,
   PENDING_RESOURCE,
+  ARCHIVED,
 }
 
 export enum NavigationLinks {
