@@ -10,7 +10,6 @@ import { NavigationBar, Spacer, Title, View } from '../components';
 import { FlashcardGroupTable } from '../features/flashcards';
 import StreakCard from '../features/flashcards/components/StreakCard';
 import LoadCurrentStreakSystem from '../features/flashcards/systems/LoadCurrentStrekSystem';
-import LoadFlashcardGroupsSystem from '../features/flashcards/systems/LoadFlashcardGroupsSystem';
 import LoadFlashcardSessionsSystem from '../features/flashcards/systems/LoadFlashcardSessionsSystem';
 import { FlashcardChartCard, LastWeekInfoCard } from '../features/overview';
 import FlashcardQuizView from '../features/study/components/FlashcardQuizView';
@@ -73,7 +72,6 @@ const Flashcards = () => {
 
   return (
     <Fragment>
-      <LoadFlashcardGroupsSystem />
       <LoadFlashcardSessionsSystem />
       <LoadCurrentStreakSystem />
 

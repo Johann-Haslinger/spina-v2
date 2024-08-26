@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
-import { useEntity } from '@leanscope/ecs-engine';
+import { useEntities } from '@leanscope/ecs-engine';
 import { useEffect, useState } from 'react';
-import { IoCheckmark, IoFlame } from 'react-icons/io5';
+import { IoCheckmark, IoFlame, IoSnowOutline } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { DateUpdatedFacet, StreakFacet } from '../../../app/additionalFacets';
 
@@ -14,9 +14,10 @@ const StyledCardWrapper = styled.div`
 //   ${({ currentStrak }) => (currentStrak ? tw`text-3xl` : tw`text-2xl mt-2 leading-7`)}
 // `;
 
-const StyledCheckbox = styled.div<{ isChecked: boolean }>`
+const StyledCheckbox = styled.div<{ isChecked: boolean; isFrozen: boolean }>`
   ${tw`flex items-center justify-center size-8 rounded-md text-2xl text-white bg-[#A3CB63]`}
   ${({ isChecked }) => (isChecked ? tw` bg-opacity-80` : tw` bg-opacity-40`)}
+  ${({ isFrozen }) => isFrozen && tw`bg-[#9ad0ff]`}
 `;
 
 const StyledCheckmarksContainer = styled.div`
@@ -25,6 +26,7 @@ const StyledCheckmarksContainer = styled.div`
 
 const StreakCard = () => {
   const { isCurrentStreakEntityExisting, streak, streakEndIndex, streakStartIndex } = useCurrentStreak();
+  const isFrozen = streakEndIndex < 6 && streakEndIndex !== 0;
 
   return (
     <StyledCardWrapper>
@@ -35,11 +37,11 @@ const StreakCard = () => {
           </div>
           <div tw="font-bold text-sm">Aktuelle Streak</div>
         </div>
-        {/* <StyledStreakLabel currentStrak={isCurrentStreakEntityExisting}>
-         
-        </StyledStreakLabel> */}
+
         <p tw="font-medium mt-2">
-          {isCurrentStreakEntityExisting ? (
+          {isFrozen ? (
+            'Deine Streak ist eingefroren. 🥶 Starte eine Lernrunde um sie fortzusetzten!'
+          ) : isCurrentStreakEntityExisting ? (
             <p>
               {' '}
               Du hast bereits <strong>{streak} Tage</strong> in Folge gelernt. 🎉{' '}
@@ -53,9 +55,12 @@ const StreakCard = () => {
       <StyledCheckmarksContainer>
         {Array.from({ length: 7 }).map((_, index) => {
           const isChecked = index >= streakStartIndex && index <= streakEndIndex && streak >= 1;
+          const isFrozen = index > streakEndIndex && index !== 6 && streak >= 1;
+
           return (
-            <StyledCheckbox key={index} isChecked={isChecked}>
+            <StyledCheckbox isFrozen={isFrozen} key={index} isChecked={isChecked || isFrozen}>
               {isChecked && <IoCheckmark />}
+              {isFrozen && <IoSnowOutline />}
             </StyledCheckbox>
           );
         })}{' '}
@@ -67,7 +72,7 @@ const StreakCard = () => {
 export default StreakCard;
 
 const useCurrentStreak = () => {
-  const [currentStreakEntity] = useEntity((e) => e.has(StreakFacet));
+  const [currentStreakEntity] = useEntities((e) => e.has(StreakFacet))[0];
   const isCurrentStreakEntityExisting =
     currentStreakEntity !== undefined && currentStreakEntity.get(StreakFacet)?.props.streak !== 0;
   const streak = currentStreakEntity?.get(StreakFacet)?.props.streak || 0;

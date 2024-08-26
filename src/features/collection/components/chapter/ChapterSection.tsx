@@ -13,7 +13,7 @@ import { useSelectedSchoolSubjectColor } from '../../hooks/useSelectedSchoolSubj
 import { useText } from '../../hooks/useText';
 
 const StyledBackButton = styled.div`
-  ${tw`flex size-8 hover:scale-105 rounded-full justify-center text-xl bg-opacity-40 transition-all bg-[#D9D9D9] dark:bg-opacity-20 dark:text-primaryTextDark mb-4 space-x-2 items-center cursor-pointer right-14 top-12 relative`}
+  ${tw`flex size-8 hover:scale-105 rounded-full justify-center text-xl bg-opacity-40 transition-all bg-[#D9D9D9] dark:bg-opacity-20 dark:text-primaryTextDark mb-4 space-x-2 items-center cursor-pointer right-14 top-24 relative`}
 `;
 
 const StyledChapterWrapper = styled.div`
@@ -30,8 +30,13 @@ const StyledTitle = styled.div`
   ${tw`text-3xl flex md:text-3xl mb-4 font-extrabold`}
 `;
 
-const StyledInfoContainer = styled.div`
+const StyledInfoContainer = styled.div<{ accentColor: string }>`
   ${tw`font-medium items-center text-seconderyText flex justify-between`}
+  color: ${({ accentColor }) => accentColor};
+`;
+
+const StyledBetaBadge = styled.div`
+  ${tw`bg-primaryColor mb-4 text-primaryColor font-bold hover:opacity-70 transition-all w-fit bg-opacity-20 text-sm rounded-lg px-4 py-1`}
 `;
 
 const ChapterSection = (
@@ -55,6 +60,9 @@ const ChapterSection = (
       <StyledBackButton onClick={navigateBack}>
         <IoArrowBack />
       </StyledBackButton>
+
+      <StyledBetaBadge>BETA</StyledBetaBadge>
+
       <StyledChapterHeader accentColor={accentColor}>
         <IoBook tw="text-6xl" />
 
@@ -62,10 +70,10 @@ const ChapterSection = (
           <StyledTitle>
             KAPITEL {orderIndex + 1} - <ChapterTitle {...props}>{title || ''}</ChapterTitle>
           </StyledTitle>
-          <StyledInfoContainer>
+          <StyledInfoContainer accentColor={accentColor}>
             <p>Hinzugefügt am {formattedDate}</p>
             <p>
-              {orderIndex + 1} / {chapterCount}
+              {orderIndex + 1} / {chapterCount || 1}
             </p>
           </StyledInfoContainer>
         </div>

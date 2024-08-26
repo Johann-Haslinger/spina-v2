@@ -252,3 +252,9 @@ export enum FlashcardsNavigationStates {
   FLASHCARDS = 'flashcards',
   STATS = 'stats',
 }
+
+export enum FLASHCARD_PRIORITY {
+  PAUSED = 0,
+  ACTIVE = 1,
+  MAINTAINING = 2,
+}

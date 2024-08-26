@@ -11,9 +11,12 @@ import { useUserData } from '../../../hooks/useUserData';
 import supabaseClient from '../../../lib/supabase';
 
 const fetchCurrentStreak = async () => {
+  const twoDaysAgo = new Date().setDate(new Date().getDate() - 2);
+
   const { data: currentStreak, error } = await supabaseClient
     .from(SupabaseTables.STREAKS)
     .select('streak, id, date_updated')
+    .gte('date_updated', new Date(twoDaysAgo).toISOString())
     .single();
 
   if (error) {
@@ -44,7 +47,7 @@ const LoadCurrentStreakSystem = () => {
         streakEntity.add(new IdentifierFacet({ guid: currentStreak.id }));
         streakEntity.add(new StreakFacet({ streak: currentStreak.streak }));
         streakEntity.add(new DateUpdatedFacet({ dateUpdated: currentStreak.date_updated }));
-      } else if (!currentStreak) {
+      } else if (!currentStreak && !isStrekEntityAlreadyExisting) {
         if (!userId || userId === 'Kein Benutzer angemeldet ') return;
 
         const newStreakId = v4();

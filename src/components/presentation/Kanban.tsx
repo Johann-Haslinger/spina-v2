@@ -59,7 +59,7 @@ const KanbanColumn = (props: {
   const { accentColor: backgroundColor, color } = selectColorItemForColoumn(statusId);
 
   return (
-    <StyledKanbanColumnWrapper backgroundColor={backgroundColor + 90}>
+    <StyledKanbanColumnWrapper backgroundColor={backgroundColor + 60}>
       <StyledStatusWrapper backgroundColor={backgroundColor + 0} color={backgroundColor}>
         {statusLabel}
       </StyledStatusWrapper>
