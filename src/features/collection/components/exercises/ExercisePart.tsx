@@ -7,7 +7,6 @@ import tw from 'twin.macro';
 import { AnswerProps, QuestionProps } from '../../../../app/additionalFacets';
 import { COLOR_ITEMS } from '../../../../base/constants';
 import { useExerciseParts } from '../../hooks/useExerciseParts';
-import { useState } from 'react';
 
 const SytledExercisePartWrapper = styled.div<{
   backgroundColor: string;
@@ -60,9 +59,6 @@ const ExercisePart = (props: QuestionProps & AnswerProps & OrderProps & EntityPr
   const color = useExercisePartColor(entity);
   const { exercisePartsCount } = useExerciseParts(undefined, entity);
   const [isTextareaVisible] = useEntityHasTags(entity, Tags.SELECTED);
-  const [userAnswer, setUserAnswer] = useState('');
-
-  console.log('userAnswer', userAnswer);
 
   const toggleTextareaVisibility = () => (isTextareaVisible ? entity.remove(Tags.SELECTED) : entity.add(Tags.SELECTED));
 
@@ -85,7 +81,7 @@ const ExercisePart = (props: QuestionProps & AnswerProps & OrderProps & EntityPr
 
         <StyledMoreButton>{isTextareaVisible ? <IoChevronUp /> : <IoChevronForward />}</StyledMoreButton>
       </SytledExercisePartWrapper>
-      {isTextareaVisible && <StyledTextarea contentEditable onBlur={(e) => setUserAnswer(e.currentTarget.innerText)} />}
+      {isTextareaVisible && <StyledTextarea contentEditable />}
     </div>
   );
 };

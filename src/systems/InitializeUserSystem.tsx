@@ -3,8 +3,8 @@ import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ImageFacet, NameFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { EmailFacet } from '../app/additionalFacets';
-import supabaseClient from '../lib/supabase';
 import { SupabaseTables } from '../base/enums';
+import supabaseClient from '../lib/supabase';
 
 const InitializeUserSystem = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -24,7 +24,7 @@ const InitializeUserSystem = () => {
         .select('user_name, profile_picture')
         .eq('user_id', userId)
         .single();
-      console.log(data);
+
       if (error) {
         console.error('Error fetching user data', error);
       }

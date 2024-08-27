@@ -194,8 +194,6 @@ const SchoolSubjectRow = (props: { schoolSubject: { title: string; id: string };
       newSubtopicEntity.add(DataType.GROUP_SUBTOPIC);
       newSubtopicEntity.add(new TextFacet({ text: selectedSubtopicText || '' }));
 
-      console.log('selectedSubtopicText', selectedSubtopicText);
-
       addGroupSubtopic(lsc, newSubtopicEntity, userId, learningGroupId);
 
       const flashcardEntites = lsc.engine.entities.filter(

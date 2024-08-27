@@ -133,7 +133,7 @@ const StyledChapterWrapper = styled.div`
 `;
 
 const StyledBetaBadge = styled.div`
-  ${tw`bg-primaryColor text-primaryColor font-bold hover:opacity-70 transition-all w-fit bg-opacity-20 text-sm rounded-lg mb-4 px-4 py-1`}
+  ${tw`bg-primaryColor text-primaryColor font-bold hover:opacity-70 transition-all w-fit bg-opacity-10 text-sm rounded-lg mb-4 px-4 py-1`}
 `;
 
 const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImageProps) => {
@@ -235,8 +235,8 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
           </StyledTopAreaWrapper>
 
           <StyledTopicResourcesWrapper largeShadow={imageSrc ? true : false}>
+            <StyledBetaBadge>BETA</StyledBetaBadge>
             <StyledChapterWrapper>
-              <StyledBetaBadge>BETA</StyledBetaBadge>
               <EntityPropsMapper
                 query={(e) => dataTypeQuery(e, DataType.CHAPTER) && isChildOfQuery(e, entity)}
                 sort={(a, b) => (a.get(OrderFacet)?.props.orderIndex || 0) - (b.get(OrderFacet)?.props.orderIndex || 0)}

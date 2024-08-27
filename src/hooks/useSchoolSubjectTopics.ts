@@ -15,7 +15,8 @@ export const useSchoolSubjectTopics = (schoolSubjectId: string) => {
       const { data: topics, error } = await supabaseClient
         .from(SupabaseTables.TOPICS)
         .select('title, id')
-        .eq(SupabaseColumns.PARENT_ID, schoolSubjectId);
+        .eq(SupabaseColumns.PARENT_ID, schoolSubjectId)
+        .eq('is_archived', false);
 
       if (error) {
         console.error('Error fetching topics:', error);

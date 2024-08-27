@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { Entity, EntityProps, EntityPropsMapper, useEntities } from '@leanscope/ecs-engine';
+import { Entity, EntityProps, EntityPropsMapper, useEntities, useEntity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, Tags } from '@leanscope/ecs-models';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
@@ -8,26 +8,21 @@ import tw from 'twin.macro';
 import {
   DueDateFacet,
   DueDateProps,
+  RelationshipFacet,
+  RelationshipProps,
   StatusFacet,
   StatusProps,
   TitleFacet,
   TitleProps,
 } from '../../../app/additionalFacets';
-import { DataType } from '../../../base/enums';
+import { AdditionalTags, DataType, ResoruceStatus, SupabaseTables } from '../../../base/enums';
 import { useDaysUntilDue } from '../../../hooks/useDaysUntilDue';
 import supabaseClient from '../../../lib/supabase';
 import { dataTypeQuery } from '../../../utils/queries';
+import { sortEntitiesByDueDate } from '../../../utils/sortEntitiesByTime';
 import { useSelectedTheme } from '../../collection/hooks/useSelectedTheme';
 import InitializeExamsSystem from '../../exams/systems/InitializeExamsSystem';
 import InitializeHomeworksSystem from '../../homeworks/systems/InitializeHomeworksSystem';
-import { sortEntitiesByDueDate } from '../../../utils/sortEntitiesByTime';
-
-enum ResoruceStatus {
-  TODO = 1,
-  IN_PROGRESS = 2,
-  DONE = 3,
-  MISSED = 4,
-}
 
 const StyledCardWrapper = styled.div`
   ${tw`w-full h-fit md:h-[28rem] overflow-y-scroll p-4 pr-0 rounded-2xl bg-[#A3CB63] bg-opacity-15`}
@@ -66,9 +61,13 @@ const PendingResourcesCard = () => {
           <StyledInfoText>Alles erledigt! Du hast aktuell keine anstehenden Leistungen. 🎉</StyledInfoText>
         )}
         <EntityPropsMapper
-          query={(e) => new Date(e.get(DueDateFacet)?.props.dueDate || '') >= sevenDaysAgo}
+          query={(e) =>
+            new Date(e.get(DueDateFacet)?.props.dueDate || '') >= sevenDaysAgo &&
+            ([ResoruceStatus.TODO, ResoruceStatus.IN_PROGRESS].includes(e.get(StatusFacet)?.props.status || 0) ||
+              e.has(AdditionalTags.CHANGED))
+          }
           sort={(a, b) => sortEntitiesByDueDate(a, b)}
-          get={[[TitleFacet, StatusFacet, DueDateFacet], []]}
+          get={[[TitleFacet, StatusFacet, DueDateFacet, RelationshipFacet], []]}
           onMatch={PandingResourceRow}
         />
       </StyledCardWrapper>
@@ -96,8 +95,13 @@ const updateStatus = async (entity: Entity, status: number) => {
   const id = entity.get(IdentifierFacet)?.props.guid;
   const dataType = dataTypeQuery(entity, DataType.HOMEWORK) ? DataType.HOMEWORK : DataType.EXAM;
   entity.add(new StatusFacet({ status }));
+  entity.add(AdditionalTags.CHANGED);
+  setTimeout(() => entity.remove(AdditionalTags.CHANGED), 1000);
 
-  const { error } = await supabaseClient.from(dataType).update({ status }).eq('id', id);
+  const { error } = await supabaseClient
+    .from(dataType == DataType.HOMEWORK ? SupabaseTables.HOMEWORKS : SupabaseTables.EXAMS)
+    .update({ status: status })
+    .eq('id', id);
 
   if (error) {
     console.error('Error updating status:', error);
@@ -138,13 +142,15 @@ const StyledSelectWrapper = styled.div<{ status: ResoruceStatus; dark: boolean }
     }
   }};
 `;
-const PandingResourceRow = (props: TitleProps & StatusProps & DueDateProps & EntityProps) => {
-  const { title, status, entity } = props;
+const PandingResourceRow = (props: TitleProps & StatusProps & DueDateProps & EntityProps & RelationshipProps) => {
+  const { title, status, entity, relationship } = props;
   const daysUntilDue = useDaysUntilDue(entity);
   const { isDarkModeAktive } = useSelectedTheme();
   const isDone = [4, 3].includes(entity.get(StatusFacet)?.props.status || 0);
   const isDisplayed = useIsDisplayed(isDone);
   const [isHovered, setIsHovered] = useState(false);
+  const [relatedSchoolSubject] = useEntity((e) => e.get(IdentifierFacet)?.props.guid === relationship);
+  const relatedSchoolSubjectTitle = relatedSchoolSubject?.get(TitleFacet)?.props.title;
 
   const openResource = () => entity.add(Tags.SELECTED);
 
@@ -164,7 +170,9 @@ const PandingResourceRow = (props: TitleProps & StatusProps & DueDateProps & Ent
         onClick={openResource}
       >
         <StyledTitle>{title}</StyledTitle>
-        <StyledDueDate>{daysUntilDue}</StyledDueDate>
+        <StyledDueDate>
+          {daysUntilDue}, {relatedSchoolSubjectTitle}{' '}
+        </StyledDueDate>
       </motion.div>
       {status && (
         <StyledSelectWrapper dark={isDarkModeAktive} status={status}>

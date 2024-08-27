@@ -208,7 +208,7 @@ const FlashcardQuizView = () => {
   const flashcardEntities = useFlashcardQuizEntities();
   const [currentFlashcardIndex, setCurrentFlashcardIndex] = useState(0);
   const { selectedLanguage } = useSelectedLanguage();
-  const { elapsedTime, startTimer, stopTimer } = useTimer();
+  const { elapsedTime: elapsedSeconds, startTimer, stopTimer } = useTimer();
   const { selectedFlashcardGroupTitle } = useSeletedFlashcardGroup();
   const { userId } = useUserData();
 
@@ -290,11 +290,12 @@ const FlashcardQuizView = () => {
   };
 
   const addFlashcardSession = async () => {
+    const elapsedMinutes = Math.ceil(elapsedSeconds / 60);
     const newFlashcardSession = {
       id: v4(),
       user_id: userId,
       session_date: new Date().toISOString(),
-      duration: elapsedTime,
+      duration: elapsedMinutes,
       flashcard_count: flashcardEntities.length,
       skip: flashcardEntities.filter((e) => e.has(AdditionalTags.SKIP)).length,
       forgot: flashcardEntities.filter((e) => e.has(AdditionalTags.FORGOT)).length,
@@ -375,7 +376,7 @@ const FlashcardQuizView = () => {
         </StyledFlashcardsStatusWrapper>
       </StyledStatusBarWrapper>
 
-      {currentFlashcardIndex === flashcardEntities.length && <FlashcardQuizEndCard elapsedTime={elapsedTime} />}
+      {currentFlashcardIndex === flashcardEntities.length && <FlashcardQuizEndCard elapsedTime={elapsedSeconds} />}
 
       {flashcardEntities.map((flashcardEntity, index) => (
         <FlashcardCell

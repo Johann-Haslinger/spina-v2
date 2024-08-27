@@ -144,8 +144,6 @@ const fetchRecentlyAddedFlashcardSets = async () => {
     return [];
   }
 
-  console.log('data', data);
-
   return data || [];
 };
 

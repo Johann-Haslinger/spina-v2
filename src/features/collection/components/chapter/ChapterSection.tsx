@@ -2,41 +2,28 @@ import styled from '@emotion/styled';
 import { Entity, EntityProps, useEntities } from '@leanscope/ecs-engine';
 import { IdentifierFacet, IdentifierProps, OrderProps, ParentFacet, ParentProps, Tags } from '@leanscope/ecs-models';
 import { PropsWithChildren, useEffect, useRef, useState } from 'react';
-import { IoArrowBack, IoBook } from 'react-icons/io5';
+import { IoArrowBack } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { DateAddedProps, TitleFacet, TitleProps } from '../../../../app/additionalFacets';
 import { AdditionalTags, DataType, SupabaseTables } from '../../../../base/enums';
-import { TextEditor } from '../../../../components';
+import { SecondaryText, Spacer, TextEditor } from '../../../../components';
 import supabaseClient from '../../../../lib/supabase';
 import { dataTypeQuery } from '../../../../utils/queries';
 import { useSelectedSchoolSubjectColor } from '../../hooks/useSelectedSchoolSubjectColor';
 import { useText } from '../../hooks/useText';
 
 const StyledBackButton = styled.div`
-  ${tw`flex size-8 hover:scale-105 rounded-full justify-center text-xl bg-opacity-40 transition-all bg-[#D9D9D9] dark:bg-opacity-20 dark:text-primaryTextDark mb-4 space-x-2 items-center cursor-pointer right-14 top-24 relative`}
+  ${tw`flex size-8 hover:scale-105 rounded-full justify-center text-xl bg-opacity-40 transition-all bg-[#D9D9D9] dark:bg-opacity-20 dark:text-primaryTextDark mb-4 space-x-2 items-center cursor-pointer right-14 top-[9rem]  relative`}
 `;
 
 const StyledChapterWrapper = styled.div`
-  ${tw`min-h-screen border-primaryBorder border-b w-full`}
+  ${tw`min-h-screen flex flex-col justify-between pb-6 items-end border-primaryBorder border-b w-full`}
 `;
 
 const StyledChapterHeader = styled.div<{ accentColor: string }>`
-  ${tw`h-60 mb-8 p-6 flex rounded-2xl flex-col justify-between w-full`}
+  ${tw`size-12 rounded-lg font-black text-3xl flex justify-center items-center mb-6`}
   background-color: ${({ accentColor }) => accentColor + 50};
   color: ${({ accentColor }) => accentColor};
-`;
-
-const StyledTitle = styled.div`
-  ${tw`text-3xl flex md:text-3xl mb-4 font-extrabold`}
-`;
-
-const StyledInfoContainer = styled.div<{ accentColor: string }>`
-  ${tw`font-medium items-center text-seconderyText flex justify-between`}
-  color: ${({ accentColor }) => accentColor};
-`;
-
-const StyledBetaBadge = styled.div`
-  ${tw`bg-primaryColor mb-4 text-primaryColor font-bold hover:opacity-70 transition-all w-fit bg-opacity-20 text-sm rounded-lg px-4 py-1`}
 `;
 
 const ChapterSection = (
@@ -57,29 +44,22 @@ const ChapterSection = (
 
   return (
     <StyledChapterWrapper>
-      <StyledBackButton onClick={navigateBack}>
-        <IoArrowBack />
-      </StyledBackButton>
+      <div tw="w-full">
+        <StyledBackButton onClick={navigateBack}>
+          <IoArrowBack />
+        </StyledBackButton>
 
-      <StyledBetaBadge>BETA</StyledBetaBadge>
+        <StyledChapterHeader accentColor={accentColor}>{orderIndex + 1}.</StyledChapterHeader>
 
-      <StyledChapterHeader accentColor={accentColor}>
-        <IoBook tw="text-6xl" />
+        <ChapterTitle {...props}>{title || ''}</ChapterTitle>
 
-        <div>
-          <StyledTitle>
-            KAPITEL {orderIndex + 1} - <ChapterTitle {...props}>{title || ''}</ChapterTitle>
-          </StyledTitle>
-          <StyledInfoContainer accentColor={accentColor}>
-            <p>Hinzugefügt am {formattedDate}</p>
-            <p>
-              {orderIndex + 1} / {chapterCount || 1}
-            </p>
-          </StyledInfoContainer>
-        </div>
-      </StyledChapterHeader>
+        <SecondaryText>Hinzugefügt am {formattedDate}</SecondaryText>
 
-      <TextEditor placeholder="Beginne hier..." value={text} onBlur={updateText} />
+        <Spacer size={6} />
+
+        <TextEditor placeholder="Beginne hier..." value={text} onBlur={updateText} />
+      </div>
+      <SecondaryText>{chapterCount > 1 ? ` ${orderIndex + 1} von ${chapterCount}` : ''}</SecondaryText>
     </StyledChapterWrapper>
   );
 };
@@ -95,7 +75,7 @@ const useChapterCount = (parentId: string) => {
 };
 
 const StyledEditableTitle = styled.div<{ placeholderStyle: boolean; color: string }>`
-  ${tw` line-clamp-2 w-fit min-w-10 ml-2 min-h-10 outline-none transition-all`}
+  ${tw` line-clamp-2 text-3xl font-semibold w-fit min-w-10 mb-1 min-h-10 outline-none transition-all`}
   color: ${({ color, placeholderStyle }) => placeholderStyle && color + 60};
 `;
 

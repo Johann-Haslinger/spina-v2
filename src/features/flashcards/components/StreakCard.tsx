@@ -26,7 +26,7 @@ const StyledCheckmarksContainer = styled.div`
 
 const StreakCard = () => {
   const { isCurrentStreakEntityExisting, streak, streakEndIndex, streakStartIndex } = useCurrentStreak();
-  const isFrozen = streakEndIndex < 6 && streakEndIndex !== 0;
+  const isFrozen = streakEndIndex < 5 && streakEndIndex !== 0;
 
   return (
     <StyledCardWrapper>

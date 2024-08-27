@@ -6,6 +6,14 @@ import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautif
 import tw from 'twin.macro';
 import { StatusFacet } from '../../app/additionalFacets';
 import { COLOR_ITEMS } from '../../base/constants';
+import { ResoruceStatus } from '../../base/enums';
+
+const statusStates = {
+  [ResoruceStatus.TODO]: 'To-do',
+  [ResoruceStatus.IN_PROGRESS]: 'In Arbeit',
+  [ResoruceStatus.DONE]: 'Erledigt',
+  [ResoruceStatus.MISSED]: 'Verfehlt',
+};
 
 const selectColorItemForColoumn = (statusId: string) => {
   switch (statusId) {
@@ -24,13 +32,6 @@ const selectColorItemForColoumn = (statusId: string) => {
   }
 };
 
-const statusStates = {
-  1: 'Nicht begonnen',
-  3: 'In Arbeit',
-  4: 'Abgeschlossen',
-  5: 'Abseits der Spur',
-};
-
 const StyledKanbanColumnWrapper = styled.div<{ backgroundColor: string }>`
   ${tw`py-1 w-1/4  transition-all min-h-96 min-w-[12rem]`}
   background-color: ${({ backgroundColor }) => backgroundColor};
@@ -47,16 +48,18 @@ const StyledStatusWrapper = styled.div<{
 
 const KanbanColumn = (props: {
   idx: number;
-  statusId: string;
+  statusId: ResoruceStatus;
   statusLabel: string;
   query: (e: Entity) => boolean;
   sortingRule?: (a: Entity, b: Entity) => number;
   kanbanCell: (props: unknown) => ReactNode;
 }) => {
   const { statusId, statusLabel, query, kanbanCell, sortingRule } = props;
-  const [columEntities] = useEntities((e) => e.get(StatusFacet)?.props.status == Number(statusId) && query(e));
+  const [columEntities] = useEntities(
+    (e) => e.get(StatusFacet)?.props.status == (statusId as ResoruceStatus) && query(e),
+  );
 
-  const { accentColor: backgroundColor, color } = selectColorItemForColoumn(statusId);
+  const { accentColor: backgroundColor, color } = selectColorItemForColoumn(statusId.toString());
 
   return (
     <StyledKanbanColumnWrapper backgroundColor={backgroundColor + 60}>
@@ -141,7 +144,13 @@ const Kanban = (props: KanbanProps & PropsWithChildren) => {
     <DragDropContext onDragEnd={handleDragEnd}>
       <StyledKanbanWrapper>
         {Object.entries(statusStates).map(([statusId, statusLabel], idx) => (
-          <KanbanColumn idx={idx} {...props} statusId={statusId} statusLabel={statusLabel} key={statusId} />
+          <KanbanColumn
+            idx={idx}
+            {...props}
+            statusLabel={statusLabel}
+            statusId={Number(statusId) as ResoruceStatus}
+            key={status}
+          />
         ))}
       </StyledKanbanWrapper>
     </DragDropContext>

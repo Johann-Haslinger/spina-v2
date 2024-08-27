@@ -121,6 +121,7 @@ export enum AdditionalTags {
   REMEMBERED_EASILY,
   PENDING_RESOURCE,
   ARCHIVED,
+  CHANGED,
 }
 
 export enum NavigationLinks {
@@ -257,4 +258,11 @@ export enum FLASHCARD_PRIORITY {
   PAUSED = 0,
   ACTIVE = 1,
   MAINTAINING = 2,
+}
+
+export enum ResoruceStatus {
+  TODO = 1,
+  IN_PROGRESS = 2,
+  DONE = 3,
+  MISSED = 4,
 }

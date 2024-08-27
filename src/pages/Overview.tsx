@@ -1,12 +1,15 @@
 import styled from '@emotion/styled';
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { EntityPropsMapper } from '@leanscope/ecs-engine';
 import { IdentifierFacet, Tags, TextFacet } from '@leanscope/ecs-models';
-import { Fragment } from 'react/jsx-runtime';
+import { useContext } from 'react';
+import { IoAdd } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { TitleFacet } from '../app/additionalFacets';
-import { DataType } from '../base/enums';
-import { NavigationBar, Spacer, Title, View } from '../components';
-import { HomeworkView } from '../features/collection';
+import { DataType, Story } from '../base/enums';
+import { ActionRow, NavBarButton, NavigationBar, Spacer, Title, View } from '../components';
+import { AddHomeworkSheet, HomeworkView } from '../features/collection';
+import AddExamSheet from '../features/exams/components/AddExamSheet';
 import ExamView from '../features/exams/components/ExamView';
 import StreakCard from '../features/flashcards/components/StreakCard';
 import LoadCurrentStreakSystem from '../features/flashcards/systems/LoadCurrentStrekSystem';
@@ -20,7 +23,7 @@ import {
 } from '../features/overview';
 import FlashcarChartCard from '../features/overview/components/FlashcarChartCard';
 import { useSelectedLanguage } from '../hooks/useSelectedLanguage';
-import { displayHeaderTexts } from '../utils/displayText';
+import { displayDataTypeTexts, displayHeaderTexts } from '../utils/displayText';
 import { dataTypeQuery } from '../utils/queries';
 
 const StyledColumnsWrapper = styled.div`
@@ -30,16 +33,36 @@ const StyledColumnsWrapper = styled.div`
 const StyledColumn = styled.div`
   ${tw`flex space-y-4 w-full flex-col`}
 `;
+
 const Overview = () => {
+  const lsc = useContext(LeanScopeClientContext);
   const { selectedLanguage } = useSelectedLanguage();
 
+  const openAddHomeworkSheet = () => lsc.stories.transitTo(Story.ADDING_HOMEWORK_STORY);
+  const openAddExamSheet = () => lsc.stories.transitTo(Story.ADDING_EXAM_STORY);
+
   return (
-    <Fragment>
+    <div>
       <LoadFlashcardSessionsSystem />
       <LoadCurrentStreakSystem />
 
       <View viewType="baseView">
-        <NavigationBar></NavigationBar>
+        <NavigationBar>
+          <NavBarButton
+            content={
+              <div>
+                <ActionRow first onClick={openAddHomeworkSheet} icon={<IoAdd />}>
+                  {displayDataTypeTexts(selectedLanguage).homework}
+                </ActionRow>
+                <ActionRow last onClick={openAddExamSheet} icon={<IoAdd />}>
+                  {displayDataTypeTexts(selectedLanguage).exam}
+                </ActionRow>
+              </div>
+            }
+          >
+            <IoAdd />
+          </NavBarButton>
+        </NavigationBar>
         <Spacer size={8} />
         <Title>{displayHeaderTexts(selectedLanguage).overview}</Title>
         <Spacer size={4} />
@@ -58,6 +81,9 @@ const Overview = () => {
         </StyledColumnsWrapper>
       </View>
 
+      <AddHomeworkSheet />
+      <AddExamSheet />
+
       <EntityPropsMapper
         query={(e) => e.has(Tags.SELECTED) && dataTypeQuery(e, DataType.HOMEWORK)}
         get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
@@ -68,57 +94,8 @@ const Overview = () => {
         get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
         onMatch={ExamView}
       />
-    </Fragment>
+    </div>
   );
 };
 
 export default Overview;
-
-{
-  /* <StyledSubtitle>{displayLabelTexts(selectedLanguage).pendingResources}</StyledSubtitle>
-
-        <Spacer size={2} />
-        <EntityPropsMapper
-          query={(e) =>
-            (e.has(DataTypes.HOMEWORK) || e.has(DataTypes.EXAM)) &&
-            new Date(e.get(DueDateFacet)?.props.dueDate || '') <= twoWeeksFromNow &&
-            [1, 2, 3].includes(e.get(StatusFacet)?.props.status || 0)
-          }
-          get={[[DueDateFacet, TitleFacet, StatusFacet], []]}
-          sort={(a, b) => sortEntitiesByDueDate(a, b)}
-          onMatch={PendingResourceRow}
-        />
-        {pendingResourceEntities.length == 0 && (
-          <SectionRow icon={<IoCheckmarkCircleOutline />} last>
-            Alles erledigt
-          </SectionRow>
-        )}
-
-        <Spacer size={14} />
-        <StyledSubtitle>{displayLabelTexts(selectedLanguage).recentlyAdded}</StyledSubtitle>
-        <Spacer />
-        <EntityPropsMapper
-          query={(e) => e.has(AdditionalTags.RECENTLY_ADDED)}
-          get={[[TitleFacet], []]}
-          sort={(a, b) => sortEntitiesByDueDate(a, b)}
-          onMatch={RecentlyAddedResourceRow}
-        />
-        {recentlyAddedResourceEntities.length == 0 && (
-          <SectionRow icon={<IoCheckmarkCircleOutline />} last>
-            Nichts hinzugefügt
-          </SectionRow>
-        )}
-
-        <Spacer size={14} />
-        <StyledSubtitle>{displayLabelTexts(selectedLanguage).kanban}</StyledSubtitle>
-        <Spacer />
-
-        <Kanban
-          updateEntityStatus={updatePendingResourceStatus}
-          sortingRule={sortEntitiesByDueDate}
-          query={(e) => dataTypeQuery(e, DataTypes.HOMEWORK) || dataTypeQuery(e, DataTypes.EXAM)}
-          kanbanCell={PendingResourceKanbanCell as () => JSX.Element}
-        />
-
-        <Spacer size={20} /> */
-}
