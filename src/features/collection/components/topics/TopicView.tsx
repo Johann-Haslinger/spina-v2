@@ -13,7 +13,7 @@ import {
 } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { v4 } from 'uuid';
-import { DateAddedFacet, SourceFacet, TitleFacet, TitleProps } from '../../../../app/additionalFacets';
+import { DateAddedFacet, DueDateFacet, SourceFacet, TitleFacet, TitleProps } from '../../../../app/additionalFacets';
 import { AdditionalTags, DataType, Story } from '../../../../base/enums';
 import {
   ActionRow,
@@ -21,6 +21,9 @@ import {
   NavBarButton,
   NavigationBar,
   NoContentAddedHint,
+  SecondaryText,
+  Spacer,
+  Title,
   View,
 } from '../../../../components';
 import { addNote } from '../../../../functions/addNote';
@@ -93,13 +96,9 @@ const useImageSelector = () => {
 };
 
 const StyledTopAreaWrapper = styled.div<{ image: string; grid: boolean }>`
-  ${tw`w-full  top-0 z-0 mt-14 xl:mt-0 h-64 md:h-[21rem] xl:h-96 2xl:h-[28rem] bg-contain   flex md:bg-fixed`}
+  ${tw`w-full  top-0 z-0 mt-14 xl:mt-0 h-64 md:h-[16rem] xl:h-96 2xl:h-[24rem] bg-contain   flex md:bg-fixed`}
   background-image: ${({ image }) => `url(${image})`};
   ${({ grid }) => (grid ? tw`bg-contain` : tw`bg-auto`)}
-`;
-
-const StyledTopicTitle = styled.div`
-  ${tw` pr-4 text-4xl w-full md:w-[40rem] pl-4 md:pl-20 lg:pl-32 xl:pl-60 2xl:pl-96 text-white font-bold`}
 `;
 
 const StyledTopicResourcesWrapper = styled.div<{ largeShadow: boolean }>`
@@ -115,12 +114,12 @@ const StyledNavbarBackground = styled.div`
 `;
 
 const StyledImageOverlay = styled.div<{ overlay?: string }>`
-  ${tw`w-full pb-4 md:pb-8 flex flex-col justify-end h-full overflow-visible`}
+  ${tw`w-full  flex flex-col justify-end h-full overflow-visible`}
   ${({ overlay }) => overlay && tw`bg-black  bg-opacity-30  `}
 `;
 
 const StyledBackButton = styled.div`
-  ${tw` size-9 mb-4  transition-all md:hover:scale-105 text-xl ml-4 md:ml-20 lg:ml-32 xl:ml-60 2xl:ml-96 bg-white bg-opacity-25 backdrop-blur-lg text-white rounded-full flex justify-center items-center`}
+  ${tw` size-10  relative top-5 transition-all md:hover:scale-105 text-2xl ml-4 md:ml-20 lg:ml-32 xl:ml-60 2xl:ml-96 bg-tertiary  text-black rounded-full flex justify-center items-center`}
 `;
 
 const StyledTopicViewContainer = styled.div`
@@ -137,7 +136,7 @@ const StyledTopicViewContainer = styled.div`
 
 const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImageProps) => {
   const lsc = useContext(LeanScopeClientContext);
-  const { title, entity, imageSrc } = props;
+  const { title, entity, imageSrc, description } = props;
   const isVisible = useIsViewVisible(entity);
   const { selectedLanguage } = useSelectedLanguage();
   const { openImageSelector } = useImageSelector();
@@ -161,6 +160,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
       const newNoteEntity = new Entity();
       newNoteEntity.add(new IdentifierFacet({ guid: noteId }));
       newNoteEntity.add(new ParentFacet({ parentId: selectedTopicId }));
+      newNoteEntity.add(new TitleFacet({ title: '' }));
       newNoteEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
       newNoteEntity.add(DataType.NOTE);
       newNoteEntity.add(Tags.SELECTED);
@@ -186,7 +186,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
           }}
         >
           <StyledNavbarBackground />
-          <NavigationBar tw="bg-black">
+          <NavigationBar white={scrollY < 360 && width > 1280} tw="bg-black">
             <NavBarButton
               content={
                 <div>
@@ -225,16 +225,22 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
           </NavigationBar>
           <StyledTopAreaWrapper grid={!imageSrc} image={imageSrc || grid}>
             <StyledImageOverlay overlay={imageSrc}>
-              <div tw="h-fit w-full">
-                <StyledBackButton onClick={navigateBack}>
-                  <IoArrowBack />
-                </StyledBackButton>
-                <StyledTopicTitle>{title}</StyledTopicTitle>
-              </div>
+              <StyledBackButton onClick={navigateBack}>
+                <IoArrowBack />
+              </StyledBackButton>
             </StyledImageOverlay>
           </StyledTopAreaWrapper>
 
           <StyledTopicResourcesWrapper largeShadow={imageSrc ? true : false}>
+            <div tw="h-fit w-full">
+              <Spacer />
+              <Title>{title}</Title>
+              {description && <Spacer size={2} />}
+              <div tw="md:w-4/5 ">
+                <SecondaryText>{description}</SecondaryText>
+              </div>
+              <Spacer size={8} />
+            </div>
             {/* <StyledBetaBadge>BETA</StyledBetaBadge>
             <StyledChapterWrapper>
               <EntityPropsMapper
@@ -308,7 +314,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
       />
       <EntityPropsMapper
         query={(e) => dataTypeQuery(e, DataType.HOMEWORK) && e.has(Tags.SELECTED)}
-        get={[[TitleFacet, IdentifierFacet, TextFacet], []]}
+        get={[[TitleFacet, IdentifierFacet, TextFacet, DueDateFacet], []]}
         onMatch={HomeworkView}
       />
       <EntityPropsMapper

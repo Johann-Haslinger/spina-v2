@@ -20,6 +20,7 @@ import {
   BackButton,
   NavBarButton,
   NavigationBar,
+  SecondaryText,
   Spacer,
   TextEditor,
   Title,
@@ -40,6 +41,7 @@ import GenerateImprovedTextSheet from '../generation/GenerateImprovedTextSheet';
 import GeneratePodcastSheet from '../generation/GeneratePodcastSheet';
 import PodcastRow from '../podcasts/PodcastRow';
 import DeleteNoteAlert from './DeleteNoteAlert';
+import { useFormattedDateAdded } from '../../hooks/useFormattedDateAdded';
 
 const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -49,6 +51,7 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
   const isVisible = useIsViewVisible(entity);
   const { isBookmarked, toggleBookmark } = useBookmarked(entity);
   const { text, updateText } = useText(entity);
+  const formattedDateAdded = useFormattedDateAdded(entity);
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
   const openDeleteAlert = () => lsc.stories.transitTo(Story.DELETING_NOTE_STORY);
@@ -118,7 +121,9 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
         <Title editable onBlur={handleTitleBlur}>
           {title}
         </Title>
-        <Spacer />
+        <Spacer size={2} />
+        <SecondaryText>{formattedDateAdded}</SecondaryText>
+        <Spacer size={6} />
         <EntityPropsMapper
           query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataType.PODCAST)}
           get={[[TitleFacet, DateAddedFacet], []]}

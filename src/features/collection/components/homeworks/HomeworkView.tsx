@@ -10,11 +10,13 @@ import {
   BackButton,
   NavBarButton,
   NavigationBar,
+  SecondaryText,
   Spacer,
   TextEditor,
   Title,
   View,
 } from '../../../../components';
+import { useDaysUntilDue } from '../../../../hooks/useDaysUntilDue';
 import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import { displayActionTexts, displayButtonTexts } from '../../../../utils/displayText';
@@ -31,6 +33,7 @@ const HomeworkView = (props: EntityProps & TitleProps & TextProps & IdentifierPr
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedTopicTitle } = useSelectedTopic();
   const { text, updateText } = useText(entity);
+  const daysUntilDue = useDaysUntilDue(entity);
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
   const openEditHomeworkSheet = () => lsc.stories.transitTo(Story.EDITING_HOMEWORK_STORY);
@@ -62,7 +65,9 @@ const HomeworkView = (props: EntityProps & TitleProps & TextProps & IdentifierPr
           {selectedTopicTitle || displayButtonTexts(selectedLanguage).back}
         </BackButton>
         <Title>{title}</Title>
-        <Spacer />
+        <Spacer size={2} />
+        <SecondaryText>{daysUntilDue}</SecondaryText>
+        <Spacer size={6} />
         <TextEditor placeholder="Beginne hier..." value={text} onBlur={updateText} />
       </View>
 

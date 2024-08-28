@@ -32,6 +32,7 @@ import {
   NavBarButton,
   NavigationBar,
   NoContentAddedHint,
+  SecondaryText,
   Spacer,
   Title,
   View,
@@ -54,6 +55,7 @@ import DeleteFlashcardSetAlert from './DeleteFlashcardSetAlert';
 import EditFlashcardSetSheet from './EditFlashcardSetSheet';
 import EditFlashcardSheet from './EditFlashcardSheet';
 import FlashcardCell from './FlashcardCell';
+import { useFormattedDateAdded } from '../../hooks/useFormattedDateAdded';
 
 const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -63,6 +65,7 @@ const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => 
   const { selectedTopicTitle } = useSelectedTopic();
   const { hasChildren } = useEntityHasChildren(entity);
   const { isBookmarked, toggleBookmark } = useBookmarked(entity);
+  const formattedDateAdded = useFormattedDateAdded(entity);
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
   const openEditFlashcardSetSheet = () => lsc.stories.transitTo(Story.EDITING_FLASHCARD_SET_STORY);
@@ -135,6 +138,8 @@ const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => 
         <BackButton navigateBack={navigateBack}>{selectedTopicTitle}</BackButton>
         <Title>{title}</Title>
         <Spacer size={2} />
+        <SecondaryText>{formattedDateAdded}</SecondaryText>
+        <Spacer size={6} />
         <EntityPropsMapper
           query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataType.PODCAST)}
           get={[[TitleFacet, DateAddedFacet], []]}

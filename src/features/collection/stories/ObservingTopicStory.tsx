@@ -23,7 +23,10 @@ const ObservingTopicStory = () => {
           <EntityCreator
             facets={[
               new TitleFacet({ title: 'Sinus' }),
-              new DescriptionFacet({ description: 'Sinusfunktionen' }),
+              new DescriptionFacet({
+                description:
+                  'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua',
+              }),
               new IdentifierFacet({ guid: '100' }),
               new OrderFacet({ orderIndex: 1 }),
               new ParentFacet({ parentId: '1' }),

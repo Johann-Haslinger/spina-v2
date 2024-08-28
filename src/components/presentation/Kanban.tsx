@@ -18,15 +18,14 @@ const statusStates = {
 const selectColorItemForColoumn = (statusId: string) => {
   switch (statusId) {
     case '1':
-      return COLOR_ITEMS[3];
+      return COLOR_ITEMS[0];
     case '2':
-      return COLOR_ITEMS[5];
-    case '3':
       return COLOR_ITEMS[2];
-    case '4':
+    case '3':
       return COLOR_ITEMS[1];
-    case '5':
-      return COLOR_ITEMS[6];
+    case '4':
+      return COLOR_ITEMS[3];
+
     default:
       return COLOR_ITEMS[0];
   }
@@ -62,7 +61,7 @@ const KanbanColumn = (props: {
   const { color: backgroundColor, color } = selectColorItemForColoumn(statusId.toString());
 
   return (
-    <StyledKanbanColumnWrapper backgroundColor={backgroundColor + 60}>
+    <StyledKanbanColumnWrapper backgroundColor={backgroundColor + 90}>
       <StyledStatusWrapper backgroundColor={backgroundColor + 0} color={backgroundColor}>
         {statusLabel}
       </StyledStatusWrapper>

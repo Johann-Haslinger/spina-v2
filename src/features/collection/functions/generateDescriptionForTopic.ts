@@ -19,6 +19,18 @@ export const generateDescriptionForTopic = async (entity: Entity) => {
   if (!description) {
     topicDescription = await getCompletion(generatingDescriptionPrompt);
     entity.add(new DescriptionFacet({ description: topicDescription }));
+
+    const { error } = await supabaseClient
+      .from(SupabaseTables.TOPICS)
+      .update({
+        description: topicDescription,
+      })
+      .eq('id', id);
+
+    console.log('topicDescription', topicDescription);
+    if (error) {
+      console.error('Error updating topic:', error);
+    }
   }
   // if (!image || regenerate) {
   //   const imageContent = await getCompletion(imageContentPrompt);
@@ -30,18 +42,6 @@ export const generateDescriptionForTopic = async (entity: Entity) => {
   //   console.log('topicImage', topicImage);
   //   entity.add(new ImageFacet({ imageSrc: topicImage }));
   // }
-
-  const { error } = await supabaseClient
-    .from(SupabaseTables.TOPICS)
-    .update({
-      // image_url: topicImage,
-      description: topicDescription,
-    })
-    .eq('id', id);
-
-  if (error) {
-    console.error('Error updating topic:', error);
-  }
 
   entity.remove(AdditionalTags.GENERATING);
 };

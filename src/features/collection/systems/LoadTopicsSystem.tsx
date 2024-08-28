@@ -1,6 +1,6 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { Entity } from '@leanscope/ecs-engine';
-import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
+import { DescriptionFacet, IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { DateAddedFacet, TitleFacet } from '../../../app/additionalFacets';
 import { dummyTopics } from '../../../base/dummy';
@@ -13,7 +13,7 @@ import { useSelectedSchoolSubject } from '../hooks/useSelectedSchoolSubject';
 const fetchTopicsForSchoolSubject = async (subjectId: string) => {
   const { data: topics, error } = await supabaseClient
     .from(SupabaseTables.TOPICS)
-    .select('title, id, date_added')
+    .select('title, id, date_added, description')
     .eq('is_archived', false)
     .eq(SupabaseColumns.PARENT_ID, subjectId);
 
@@ -52,6 +52,7 @@ const LoadTopicsSystem = () => {
             topicEntity.add(new IdentifierFacet({ guid: topic.id }));
             topicEntity.add(new DateAddedFacet({ dateAdded: topic.date_added }));
             topicEntity.add(new ParentFacet({ parentId: selectedSchoolSubjectId }));
+            topicEntity.add(new DescriptionFacet({ description: topic.description }));
             topicEntity.addTag(DataType.TOPIC);
           }
         });

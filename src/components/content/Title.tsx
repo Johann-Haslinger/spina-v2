@@ -1,6 +1,5 @@
-import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
-import { PropsWithChildren, useRef, useState } from 'react';
+import React, { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import tw from 'twin.macro';
 
 type size = 'small' | 'medium' | 'large';
@@ -25,6 +24,13 @@ const Title = (props: PropsWithChildren & TitleProps) => {
   const { color, children, size = 'medium', editable, onBlur } = props;
   const [isFocused, setIsFocused] = useState(false);
   const titleRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (children?.toString().length == 0 && titleRef.current) {
+      setIsFocused(true);
+      titleRef.current.focus();
+    }
+  }, []);
 
   useEffect(() => {
     if (!children && !isFocused && titleRef.current) {

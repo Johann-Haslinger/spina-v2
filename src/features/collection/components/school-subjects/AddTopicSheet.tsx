@@ -2,7 +2,7 @@ import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { Entity } from '@leanscope/ecs-engine';
 import { DescriptionFacet, IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { v4 } from 'uuid';
 import { DateAddedFacet, TitleFacet } from '../../../../app/additionalFacets';
 import { DataType, Story } from '../../../../base/enums';
@@ -56,6 +56,11 @@ const AddTopicSheet = () => {
       addTopic(lsc, newTopicEntity, userId);
     }
   };
+
+  useEffect(() => {
+    setTitle('');
+    setDescription('');
+  }, [isVisible]);
 
   return (
     <Sheet navigateBack={navigateBack} visible={isVisible}>
