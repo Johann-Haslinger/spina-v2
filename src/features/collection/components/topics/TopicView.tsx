@@ -189,8 +189,8 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
           <NavigationBar tw="bg-black">
             <NavBarButton
               content={
-                <Fragment>
-                  <ActionRow icon={<IoAdd />} onClick={saveNote}>
+                <div>
+                  <ActionRow first icon={<IoAdd />} onClick={saveNote}>
                     {displayDataTypeTexts(selectedLanguage).note}
                   </ActionRow>
                   <ActionRow icon={<IoAdd />} onClick={openAddFlashcardsSheet}>
@@ -202,7 +202,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
                   <ActionRow icon={<IoCameraOutline />} onClick={openImageSelector} last>
                     {displayActionTexts(selectedLanguage).generateFromImage}
                   </ActionRow>
-                </Fragment>
+                </div>
               }
             >
               <IoAdd color={scrollY < 360 && width > 1280 ? 'white' : ''} />

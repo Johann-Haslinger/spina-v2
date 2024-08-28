@@ -38,7 +38,7 @@ const StreakCard = () => {
           <div tw="font-bold text-sm">Aktuelle Streak</div>
         </div>
 
-        <p tw="font-medium mt-2">
+        <div tw="font-medium mt-2">
           {isFrozen ? (
             'Deine Streak ist eingefroren. 🥶 Starte eine Lernrunde um sie fortzusetzten!'
           ) : isCurrentStreakEntityExisting ? (
@@ -49,7 +49,7 @@ const StreakCard = () => {
           ) : (
             'Bist du bereit für eine neue Streak? 🚀'
           )}
-        </p>
+        </div>
       </div>
 
       <StyledCheckmarksContainer>

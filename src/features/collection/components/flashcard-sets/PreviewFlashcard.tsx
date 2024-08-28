@@ -14,14 +14,14 @@ const PreviewFlashcard = (props: { flashcard: Flashcard; updateFlashcard: (flash
       <Section>
         <SectionRow>
           <TextAreaInput
-            placeholder="Question"
+            placeholder="Frage"
             value={flashcard.question}
             onChange={(e) => props.updateFlashcard({ ...flashcard, question: e.target.value })}
           />
         </SectionRow>
         <SectionRow last>
           <TextAreaInput
-            placeholder="Answer"
+            placeholder="Antwort"
             value={flashcard.answer}
             onChange={(e) => props.updateFlashcard({ ...flashcard, answer: e.target.value })}
           />

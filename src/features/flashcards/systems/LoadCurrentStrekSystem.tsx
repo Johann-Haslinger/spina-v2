@@ -64,6 +64,7 @@ const LoadCurrentStreakSystem = () => {
         lsc.engine.addEntity(newStreakEntity);
         newStreakEntity.add(new IdentifierFacet({ guid: newStreakId }));
         newStreakEntity.add(new StreakFacet({ streak: 0 }));
+        newStreakEntity.add(new DateUpdatedFacet({ dateUpdated: new Date().toISOString() }));
       }
     };
 

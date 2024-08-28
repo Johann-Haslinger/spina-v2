@@ -1,7 +1,7 @@
 import styled from '@emotion/styled/macro';
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { Entity, useEntities } from '@leanscope/ecs-engine';
-import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
+import { CountFacet, IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { motion } from 'framer-motion';
 import { Fragment, useContext, useEffect, useState } from 'react';
@@ -30,41 +30,28 @@ import { dataTypeQuery } from '../../../utils/queries';
 import { useSeletedFlashcardGroup } from '../../collection/hooks/useSelectedFlashcardGroup';
 import { useSelectedSchoolSubjectColor } from '../../collection/hooks/useSelectedSchoolSubjectColor';
 import { useSelectedSubtopic } from '../../collection/hooks/useSelectedSubtopic';
+import { useDueFlashcards } from '../../flashcards/hooks/useDueFlashcards';
 import { useBookmarkedFlashcardGroups } from '../hooks/useBookmarkedFlashcardGroups';
+
 const fetchFlashcardsByDue = async () => {
-  // const { data: flashcards, error } = await supabaseClient
-  //   .from(SupabaseTables.FLASHCARDS)
-  //   .select('answer, question, id')
-  //   .lt('dueDate', new Date());
+  const { data: flashcards, error } = await supabaseClient
+    .from(SupabaseTables.FLASHCARDS)
+    .select('answer, question, id, parent_id')
+    .lt('due_date', new Date().toISOString());
 
-  // if (error) {
-  //   console.error('Error fetching flashcards:', error);
-  //   return [];
-  // }
+  console.log('flashcards', flashcards);
 
-  const flashcards = [
-    {
-      id: '1',
-      question: 'Was ist die Hauptstadt von Deutschland?',
-      answer: 'Berlin',
-    },
-    {
-      id: '2',
-      question: 'Was ist die Hauptstadt von Frankreich?',
-      answer: 'Paris',
-    },
-    {
-      id: '3',
-      question: 'Was ist die Hauptstadt von Italien?',
-      answer: 'Rom',
-    },
-  ];
+  if (error) {
+    console.error('Error fetching flashcards:', error);
+    return [];
+  }
 
   const flashcardsEntities = flashcards?.map((flashcard) => {
     const entity = new Entity();
     entity.add(new IdentifierFacet({ guid: flashcard.id }));
     entity.add(new QuestionFacet({ question: flashcard.question }));
     entity.add(new AnswerFacet({ answer: flashcard.answer }));
+    entity.add(new ParentFacet({ parentId: flashcard.parent_id }));
     entity.add(DataType.FLASHCARD);
     return entity;
   });
@@ -92,7 +79,7 @@ const useFlashcardQuizEntities = () => {
           if (id) {
             const { data: flashcards, error } = await supabaseClient
               .from(SupabaseTables.FLASHCARDS)
-              .select('answer, question, id')
+              .select('answer, question, id, parent_id')
               .eq(SupabaseColumns.PARENT_ID, id);
             if (error) {
               console.error('Error fetching flashcards:', error);
@@ -211,6 +198,7 @@ const FlashcardQuizView = () => {
   const { elapsedTime: elapsedSeconds, startTimer, stopTimer } = useTimer();
   const { selectedFlashcardGroupTitle } = useSeletedFlashcardGroup();
   const { userId } = useUserData();
+  const { dueFlashcardEntity, dueFlashcardsCount } = useDueFlashcards();
 
   useEffect(() => {
     if (isVisible) {
@@ -232,30 +220,50 @@ const FlashcardQuizView = () => {
       id: string;
       user_id: string;
       due_date: string;
+      parent_id: string;
     }[] = [];
 
-    flashcardEntities.map((flashcardEntity) => {
+    flashcardEntities.forEach((flashcardEntity) => {
       const id = flashcardEntity.get(IdentifierFacet)?.props.guid;
+      const parentId = flashcardEntity.get(ParentFacet)?.props.parentId || '';
 
       if (!id) return;
 
+      let dueDate: Date | null = null;
+
       if (flashcardEntity.has(AdditionalTags.REMEMBERED_EASILY)) {
-        const dueDate = new Date(new Date().setDate(new Date().getDate() + 4)).toISOString();
-        updatedFlashcards.push({ id, user_id: userId, due_date: dueDate });
+        dueDate = new Date();
+        dueDate.setDate(dueDate.getDate() + 4);
       } else if (flashcardEntity.has(AdditionalTags.REMEMBERED_WITH_EFFORT)) {
-        const dueDate = new Date(new Date().setDate(new Date().getDate() + 1)).toISOString();
-        updatedFlashcards.push({ id, user_id: userId, due_date: dueDate });
+        dueDate = new Date();
+        dueDate.setDate(dueDate.getDate() + 1);
       } else if (flashcardEntity.has(AdditionalTags.PARTIALLY_REMEMBERED)) {
-        const dueDate = new Date(new Date().setHours(new Date().getHours() + 12)).toISOString();
-        updatedFlashcards.push({ id, user_id: userId, due_date: dueDate });
+        dueDate = new Date();
+        dueDate.setHours(dueDate.getHours() + 12);
       } else if (flashcardEntity.has(AdditionalTags.ANSWERD_WRONG)) {
-        const dueDate = new Date(new Date().setMinutes(new Date().getMinutes() + 1)).toISOString();
-        updatedFlashcards.push({ id, user_id: userId, due_date: dueDate });
+        dueDate = new Date();
       } else if (flashcardEntity.has(AdditionalTags.SKIP)) {
-        const dueDate = new Date(new Date().setHours(new Date().getHours() + 1)).toISOString();
-        updatedFlashcards.push({ id, user_id: userId, due_date: dueDate });
+        dueDate = new Date();
+        dueDate.setHours(dueDate.getHours() + 1);
+      }
+
+      if (dueDate) {
+        updatedFlashcards.push({
+          id,
+          user_id: userId,
+          due_date: dueDate.toISOString(),
+          parent_id: parentId,
+        });
       }
     });
+
+    dueFlashcardEntity?.add(
+      new CountFacet({
+        count:
+          dueFlashcardsCount -
+          (currentFlashcardIndex - flashcardEntities.filter((e) => e.has(AdditionalTags.ANSWERD_WRONG)).length),
+      }),
+    );
 
     const { error } = await supabaseClient
       .from(SupabaseTables.FLASHCARDS)
@@ -271,7 +279,10 @@ const FlashcardQuizView = () => {
     const currentStreak = streakEntity?.get(StreakFacet)?.props.streak || 0;
     const currentDate = new Date();
 
-    if (streakEntity) {
+    if (
+      streakEntity &&
+      currentDate.getDate() !== new Date(streakEntity.get(DateUpdatedFacet)?.props.dateUpdated || '').getDate()
+    ) {
       const { error: updateError } = await supabaseClient
         .from(SupabaseTables.STREAKS)
         .update({
@@ -296,7 +307,7 @@ const FlashcardQuizView = () => {
       user_id: userId,
       session_date: new Date().toISOString(),
       duration: elapsedMinutes,
-      flashcard_count: flashcardEntities.length,
+      flashcard_count: currentFlashcardIndex,
       skip: flashcardEntities.filter((e) => e.has(AdditionalTags.SKIP)).length,
       forgot: flashcardEntities.filter((e) => e.has(AdditionalTags.FORGOT)).length,
       partially_remembered: flashcardEntities.filter((e) => e.has(AdditionalTags.PARTIALLY_REMEMBERED)).length,

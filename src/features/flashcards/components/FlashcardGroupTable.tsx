@@ -6,18 +6,19 @@ import { useContext, useEffect, useState } from 'react';
 import tw from 'twin.macro';
 import { PriorityFacet, PriorityProps, TitleFacet, TitleProps } from '../../../app/additionalFacets';
 import { dummyFlashcardSets, dummySubtopics } from '../../../base/dummy';
-import { DataType, SupabaseTables } from '../../../base/enums';
+import { DataType, FLASHCARD_GROUP_PRIORITY, SupabaseTables } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 import { dataTypeQuery } from '../../../utils/queries';
+import { sortEntitiesByDateAdded } from '../../../utils/sortEntitiesByTime';
 import { FlashcardSetView } from '../../collection';
 import SubtopicView from '../../collection/components/subtopics/SubtopicView';
 
 enum FlashcardGroupFilter {
   ALL = -1,
-  ACTIV = 0,
-  MAINTAINING = 1,
-  PASUED = 2,
+  ACTIV = FLASHCARD_GROUP_PRIORITY.ACTIVE,
+  MAINTAINING = FLASHCARD_GROUP_PRIORITY.MAINTAINING,
+  PASUED = FLASHCARD_GROUP_PRIORITY.PAUSED,
 }
 
 const StyledTabBar = styled.div`
@@ -91,6 +92,7 @@ const FlashcardGroupTable = () => {
         <EntityPropsMapper
           query={(e) => dataTypeQuery(e, DataType.FLASHCARD_SET) || dataTypeQuery(e, DataType.SUBTOPIC)}
           filter={(e) => (currentFilter !== FlashcardGroupFilter.ALL ? currentFilter === e.priority : true)}
+          sort={sortEntitiesByDateAdded}
           get={[[TitleFacet, PriorityFacet], []]}
           onMatch={FlashcardGroupRow}
         />
@@ -113,7 +115,7 @@ const FlashcardGroupTable = () => {
 export default FlashcardGroupTable;
 
 const FlashcardGroupRow = (props: TitleProps & PriorityProps & EntityProps) => {
-  const { title, entity } = props;
+  const { title, entity, priority } = props;
 
   const openFlashcardGroup = () => entity.add(Tags.SELECTED);
 
@@ -122,21 +124,23 @@ const FlashcardGroupRow = (props: TitleProps & PriorityProps & EntityProps) => {
       <div tw=" hover:underline " onClick={openFlashcardGroup}>
         {title}
       </div>
-      {/* <div tw="flex space-x-4">
-        <div>{priority}</div>
-        <div>
-          <div tw=" text-seconderyText dark:text-seconderyTextDark ">Üben</div>
-        </div>
-      </div> */}
+      <select value={priority}>
+        <option value={FLASHCARD_GROUP_PRIORITY.ACTIVE}>Aktiv</option>
+        <option value={FLASHCARD_GROUP_PRIORITY.MAINTAINING}>Aufrechterhalten</option>
+        <option value={FLASHCARD_GROUP_PRIORITY.PAUSED}>Pausiert</option>
+      </select>
     </div>
   );
 };
 
 const fetchRecentlyAddedFlashcardSets = async () => {
+  const fourteenDaysAgo = new Date(new Date().setDate(new Date().getDate() - 14)).toISOString();
+
   const { data, error } = await supabaseClient
     .from(SupabaseTables.FLASHCARD_SETS)
     .select('id, title, priority, parent_id')
     .order('date_added', { ascending: false })
+    .gte('date_added', fourteenDaysAgo)
     .limit(5);
 
   if (error) {
@@ -148,11 +152,14 @@ const fetchRecentlyAddedFlashcardSets = async () => {
 };
 
 const fetchRecentlyAddedSubtopics = async () => {
+  const fourteenDaysAgo = new Date(new Date().setDate(new Date().getDate() - 14)).toISOString();
+
   const { data, error } = await supabaseClient
     .from(SupabaseTables.SUBTOPICS)
     .select('id, title, priority, parent_id')
     .order('date_added', { ascending: false })
-    .limit(5);
+    .gte('date_added', fourteenDaysAgo)
+    .limit(10);
 
   if (error) {
     console.error('Error fetching recently added subtopics', error);

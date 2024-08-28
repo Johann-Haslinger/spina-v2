@@ -171,7 +171,7 @@ const PandingResourceRow = (props: TitleProps & StatusProps & DueDateProps & Ent
       >
         <StyledTitle>{title}</StyledTitle>
         <StyledDueDate>
-          {daysUntilDue}, {relatedSchoolSubjectTitle}{' '}
+          {relatedSchoolSubjectTitle}, {daysUntilDue}
         </StyledDueDate>
       </motion.div>
       {status && (
