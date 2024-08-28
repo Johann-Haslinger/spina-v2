@@ -10,6 +10,7 @@ import {
   IoLogOutOutline,
   IoMoon,
   IoPause,
+  IoPerson,
   IoPersonCircleOutline,
   IoPlay,
   IoSettingsOutline,
@@ -106,7 +107,7 @@ const StyledProfileIcon = styled.div<{
   color: string;
   backgroundColor: string;
 }>`
-  ${tw`text-2xl  transition-all font-black mx-1 size-10 rounded-lg flex items-center justify-center`}
+  ${tw`text-xl  transition-all font-black mx-1 size-10 rounded-lg flex items-center justify-center`}
   color: ${({ color }) => color};
   background-color: ${({ backgroundColor }) => backgroundColor + 50};
 `;
@@ -221,7 +222,7 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
               <StyledProfilePicture src={profilePicture} />
             ) : (
               <StyledProfileIcon color={color} backgroundColor={color}>
-                S
+                <IoPerson />
               </StyledProfileIcon>
             )}
             <motion.div
@@ -293,7 +294,7 @@ const SidebarLink = (props: { title: NavigationLinks; path: string; idx: number;
   return (
     <NavLink to={path}>
       <StyledSidebarLinkWrapper onClick={handleClick} isCurrent={path == pathname && isHoverd}>
-        <StyledNavLinkIcon color={COLOR_ITEMS[idx].accentColor}>
+        <StyledNavLinkIcon color={COLOR_ITEMS[idx].color}>
           <NavigationLinkIcon navLink={title} />
         </StyledNavLinkIcon>
 

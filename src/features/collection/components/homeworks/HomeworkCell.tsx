@@ -6,7 +6,7 @@ import { useSelectedSchoolSubjectColor } from '../../hooks/useSelectedSchoolSubj
 
 const HomeworkCell = (props: TitleProps & EntityProps) => {
   const { title, entity } = props;
-  const { accentColor } = useSelectedSchoolSubjectColor();
+  const { color: accentColor } = useSelectedSchoolSubjectColor();
 
   const openHomework = () => entity.addTag(Tags.SELECTED);
 

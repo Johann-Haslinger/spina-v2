@@ -1,15 +1,7 @@
 import styled from '@emotion/styled';
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { Entity, EntityProps, EntityPropsMapper } from '@leanscope/ecs-engine';
-import {
-  DescriptionProps,
-  IdentifierFacet,
-  ImageProps,
-  OrderFacet,
-  ParentFacet,
-  Tags,
-  TextFacet,
-} from '@leanscope/ecs-models';
+import { DescriptionProps, IdentifierFacet, ImageProps, ParentFacet, Tags, TextFacet } from '@leanscope/ecs-models';
 import { Fragment, useContext, useState } from 'react';
 import {
   IoAdd,
@@ -23,7 +15,14 @@ import tw from 'twin.macro';
 import { v4 } from 'uuid';
 import { DateAddedFacet, SourceFacet, TitleFacet, TitleProps } from '../../../../app/additionalFacets';
 import { AdditionalTags, DataType, Story } from '../../../../base/enums';
-import { ActionRow, CollectionGrid, NavBarButton, NavigationBar, View } from '../../../../components';
+import {
+  ActionRow,
+  CollectionGrid,
+  NavBarButton,
+  NavigationBar,
+  NoContentAddedHint,
+  View,
+} from '../../../../components';
 import { addNote } from '../../../../functions/addNote';
 import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
@@ -33,6 +32,7 @@ import { displayActionTexts, displayDataTypeTexts } from '../../../../utils/disp
 import { dataTypeQuery, isChildOfQuery } from '../../../../utils/queries';
 import { sortEntitiesByDateAdded } from '../../../../utils/sortEntitiesByTime';
 import AddResourceToLearningGroupSheet from '../../../groups/components/AddResourceToLearningGroupSheet';
+import { useEntityHasChildren } from '../../hooks/useEntityHasChildren';
 import { useSelectedSchoolSubjectGrid } from '../../hooks/useSchoolSubjectGrid';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
 import LoadChaptersSystem from '../../systems/LoadChapterSystem';
@@ -41,8 +41,6 @@ import LoadFlashcardSetsSystem from '../../systems/LoadFlashcardSetsSystem';
 import LoadHomeworksSystem from '../../systems/LoadHomeworksSystem';
 import LoadNotesSystem from '../../systems/LoadNotesSystem';
 import LoadSubtopicsSystem from '../../systems/LoadSubtopicsSystem';
-import AddChapterButton from '../chapter/AddChapterButton';
-import ChapterCell from '../chapter/ChapterCell';
 import ChapterEditor from '../chapter/ChaptersEditor';
 import ExerciseCell from '../exercises/ExerciseCell';
 import ExerciseView from '../exercises/ExerciseView';
@@ -94,9 +92,10 @@ const useImageSelector = () => {
   };
 };
 
-const StyledTopAreaWrapper = styled.div<{ image: string }>`
-  ${tw`w-full  top-0 z-0 mt-14 xl:mt-0 h-64 md:h-[21rem] xl:h-96 2xl:h-[28rem] bg-contain md:bg-auto  flex md:bg-fixed`}
+const StyledTopAreaWrapper = styled.div<{ image: string; grid: boolean }>`
+  ${tw`w-full  top-0 z-0 mt-14 xl:mt-0 h-64 md:h-[21rem] xl:h-96 2xl:h-[28rem] bg-contain   flex md:bg-fixed`}
   background-image: ${({ image }) => `url(${image})`};
+  ${({ grid }) => (grid ? tw`bg-contain` : tw`bg-auto`)}
 `;
 
 const StyledTopicTitle = styled.div`
@@ -128,13 +127,13 @@ const StyledTopicViewContainer = styled.div`
   ${tw`w-full overflow-x-hidden h-full`}
 `;
 
-const StyledChapterWrapper = styled.div`
-  ${tw`divide-y transition-all  bg-tertiary px-4 py-2 rounded-xl bg-opacity-40 divide-primaryBorder  mb-10`}
-`;
+// const StyledChapterWrapper = styled.div`
+//   ${tw`divide-y transition-all dark:bg-seconderyDark dark:bg-opacity-80 dark:divide-primaryBorderDark bg-tertiary px-4 py-2 rounded-xl bg-opacity-40 divide-primaryBorder  mb-10`}
+// `;
 
-const StyledBetaBadge = styled.div`
-  ${tw`bg-primaryColor text-primaryColor font-bold hover:opacity-70 transition-all w-fit bg-opacity-10 text-sm rounded-lg mb-4 px-4 py-1`}
-`;
+// const StyledBetaBadge = styled.div`
+//   ${tw`bg-primaryColor text-primaryColor font-bold hover:opacity-70 transition-all w-fit bg-opacity-10 text-sm rounded-lg mb-4 px-4 py-1`}
+// `;
 
 const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImageProps) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -147,6 +146,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
   const [scrollY, setScrollY] = useState(0);
   const { width } = useWindowDimensions();
   const grid = useSelectedSchoolSubjectGrid();
+  const { hasChildren } = useEntityHasChildren(entity);
 
   const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
   const openEditTopicSheet = () => lsc.stories.transitTo(Story.EDITING_TOPIC_STORY);
@@ -223,7 +223,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
               <IoEllipsisHorizontalCircleOutline color={scrollY < 360 && width > 1280 ? 'white' : ''} />
             </NavBarButton>
           </NavigationBar>
-          <StyledTopAreaWrapper image={imageSrc || grid}>
+          <StyledTopAreaWrapper grid={!imageSrc} image={imageSrc || grid}>
             <StyledImageOverlay overlay={imageSrc}>
               <div tw="h-fit w-full">
                 <StyledBackButton onClick={navigateBack}>
@@ -235,7 +235,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
           </StyledTopAreaWrapper>
 
           <StyledTopicResourcesWrapper largeShadow={imageSrc ? true : false}>
-            <StyledBetaBadge>BETA</StyledBetaBadge>
+            {/* <StyledBetaBadge>BETA</StyledBetaBadge>
             <StyledChapterWrapper>
               <EntityPropsMapper
                 query={(e) => dataTypeQuery(e, DataType.CHAPTER) && isChildOfQuery(e, entity)}
@@ -244,7 +244,9 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
                 onMatch={ChapterCell}
               />
               <AddChapterButton />
-            </StyledChapterWrapper>
+            </StyledChapterWrapper> */}
+
+            {!hasChildren && <NoContentAddedHint />}
 
             <CollectionGrid columnSize="small">
               <EntityPropsMapper

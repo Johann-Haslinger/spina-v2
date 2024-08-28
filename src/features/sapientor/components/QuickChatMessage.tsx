@@ -18,8 +18,7 @@ const StyledMessageHeader = styled.div`
 
 const StyledRoleIcon = styled.div<{ role: MessageRoles }>`
   ${tw`w-4 h-4 rounded-full`}
-  background-color: ${(props) =>
-    props.role === MessageRoles.SAPIENTOR ? COLOR_ITEMS[0].accentColor : COLOR_ITEMS[1].accentColor};
+  background-color: ${(props) => (props.role === MessageRoles.SAPIENTOR ? COLOR_ITEMS[0].color : COLOR_ITEMS[1].color)};
 `;
 
 const StyledRoleTitle = styled.p`

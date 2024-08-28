@@ -25,7 +25,7 @@ const TopicResourceCell = (props: TitleProps & EntityProps) => {
     appStateEntity?.remove(AdditionalTags.CONVERSATION_VISIBLE);
   };
 
-  return <TopicResoucreThumbNail onClick={openTopic} color={COLOR_ITEMS[1].accentColor} title={title} />;
+  return <TopicResoucreThumbNail onClick={openTopic} color={COLOR_ITEMS[1].color} title={title} />;
 };
 
 const StyledNoteResouceCellWrapper = styled.div`
@@ -38,7 +38,7 @@ const NoteResouceCell = (props: TitleProps & EntityProps) => {
 
   return (
     <StyledNoteResouceCellWrapper>
-      <NoteThumbNail color={COLOR_ITEMS[1].accentColor} onClick={openNote} title={title} />
+      <NoteThumbNail color={COLOR_ITEMS[1].color} onClick={openNote} title={title} />
     </StyledNoteResouceCellWrapper>
   );
 };
@@ -53,7 +53,7 @@ const HomeworkResourceCell = (props: TitleProps & EntityProps) => {
     <StyledNoteResouceCellWrapper>
       <NoteThumbNail
         onClick={openHomework}
-        color={COLOR_ITEMS[1].accentColor}
+        color={COLOR_ITEMS[1].color}
         title={title}
         type={displayDataTypeTexts(selectedLanguage).homework}
       />

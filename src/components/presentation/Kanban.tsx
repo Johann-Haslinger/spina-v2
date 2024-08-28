@@ -59,7 +59,7 @@ const KanbanColumn = (props: {
     (e) => e.get(StatusFacet)?.props.status == (statusId as ResoruceStatus) && query(e),
   );
 
-  const { accentColor: backgroundColor, color } = selectColorItemForColoumn(statusId.toString());
+  const { color: backgroundColor, color } = selectColorItemForColoumn(statusId.toString());
 
   return (
     <StyledKanbanColumnWrapper backgroundColor={backgroundColor + 60}>

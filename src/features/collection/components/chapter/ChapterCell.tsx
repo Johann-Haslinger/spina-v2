@@ -33,7 +33,7 @@ const StyledChevron = styled.div`
 
 const ChapterCell = (props: TitleProps & OrderProps & EntityProps) => {
   const { title = '', orderIndex = 0, entity } = props;
-  const { accentColor } = useSelectedSchoolSubjectColor();
+  const { color: accentColor } = useSelectedSchoolSubjectColor();
   const [isHovered, setIsHovered] = useState(false);
   const { selectedLanguage } = useSelectedLanguage();
 

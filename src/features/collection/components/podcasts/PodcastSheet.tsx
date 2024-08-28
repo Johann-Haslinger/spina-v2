@@ -68,7 +68,7 @@ const PodcastSheet = (props: TitleProps & SourceProps & EntityProps & DateAddedP
   const [currentTime, setCurrentTime] = useState<number>(0);
   const [duration, setDuration] = useState<number>(0);
   const audioRef = useRef<HTMLAudioElement>(null);
-  const { accentColor, backgroundColor } = useSelectedSchoolSubjectColor();
+  const { color: accentColor, backgroundColor } = useSelectedSchoolSubjectColor();
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
   const [audioUrl, setAudioUrl] = useState<string>('');
 

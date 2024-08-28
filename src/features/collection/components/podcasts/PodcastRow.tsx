@@ -5,13 +5,13 @@ import { Fragment, useState } from 'react';
 import { IoBookmarkOutline, IoEllipsisHorizontal, IoHeadset, IoTrashOutline } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { DateAddedProps, TitleProps } from '../../../../app/additionalFacets';
+import { COLOR_ITEMS } from '../../../../base/constants';
 import { AdditionalTags } from '../../../../base/enums';
 import { ActionRow, ActionSheet, FlexBox } from '../../../../components';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import { displayActionTexts, displayAlertTexts, displayDataTypeTexts } from '../../../../utils/displayText';
 import { useSelectedSchoolSubjectColor } from '../../hooks/useSelectedSchoolSubjectColor';
 import DeletePodcastAlert from './DeletePodcastAlert';
-import { COLOR_ITEMS } from '../../../../base/constants';
 
 const StyledPodcastRowWrapper = styled.div`
   ${tw`hover:bg-tertiary dark:hover:bg-seconderyDark cursor-pointer items-center flex space-x-4 rounded-lg transition-all  md:hover:dark:bg-seconderyDark p-2`}
@@ -40,7 +40,7 @@ const StyledPodcastIconContainer = styled.div`
 `;
 
 const PodcastRow = (props: TitleProps & DateAddedProps & EntityProps) => {
-  const { accentColor } = useSelectedSchoolSubjectColor();
+  const { color: accentColor } = useSelectedSchoolSubjectColor();
   const { title, dateAdded, entity } = props;
   const { selectedLanguage } = useSelectedLanguage();
   const [isActionMenuOpen, setIsActionMenuOpen] = useState(false);
@@ -55,7 +55,7 @@ const PodcastRow = (props: TitleProps & DateAddedProps & EntityProps) => {
         <FlexBox>
           <StyledLeftSideWrapper onClick={openPodcast}>
             <StyledPodcastIconContainer>
-              <StyledPodcastIcon color={accentColor || COLOR_ITEMS[1].accentColor}>
+              <StyledPodcastIcon color={accentColor || COLOR_ITEMS[1].color}>
                 <IoHeadset />
               </StyledPodcastIcon>
             </StyledPodcastIconContainer>

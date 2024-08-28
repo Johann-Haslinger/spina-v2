@@ -195,7 +195,7 @@ const SubtopicView = (props: TitleProps & EntityProps & IdentifierProps) => {
         />
         <Spacer />
         {subtopicViewState == SubtopicViewStates.NOTE ? (
-          <TextEditor value={text} onBlur={updateText} />
+          <TextEditor placeholder="Beginne hier..." value={text} onBlur={updateText} />
         ) : (
           <CollectionGrid columnSize="large">
             <EntityPropsMapper

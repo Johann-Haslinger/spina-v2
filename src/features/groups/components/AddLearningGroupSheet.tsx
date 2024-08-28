@@ -36,14 +36,14 @@ const useNewLearningGroup = () => {
   const isVisible = useIsStoryCurrent(Story.ADDING_LERNING_GROUP_STORY);
   const [newLearningGroup, setNewLearningGroup] = useState({
     title: '',
-    color: COLOR_ITEMS[2].accentColor,
+    color: COLOR_ITEMS[2].color,
     description: '',
   });
 
   useEffect(() => {
     setNewLearningGroup({
       title: '',
-      color: COLOR_ITEMS[2].accentColor,
+      color: COLOR_ITEMS[2].color,
       description: '',
     });
   }, [isVisible]);
@@ -157,7 +157,7 @@ const AddLearningGroupSheet = () => {
               value={newLearningGroup.color}
             >
               {COLOR_ITEMS.map((colorItem, idx) => (
-                <option key={idx} value={colorItem.accentColor}>
+                <option key={idx} value={colorItem.color}>
                   {colorItem.name}
                 </option>
               ))}

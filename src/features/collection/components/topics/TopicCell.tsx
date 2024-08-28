@@ -36,7 +36,7 @@ const StyledTopicDescription = styled.p`
 
 const TopicCell = (props: TitleProps & EntityProps & DescriptionProps & ImageProps) => {
   const { title, entity, description, imageSrc } = props;
-  const { accentColor } = useTopicColor(entity);
+  const { color: accentColor } = useTopicColor(entity);
   const { isSidebarVisible } = useAppState();
   const { selectedLanguage } = useSelectedLanguage();
   const [isGeneratingImage] = useEntityHasTags(entity, AdditionalTags.GENERATING);

@@ -63,7 +63,7 @@ const HomeworkView = (props: EntityProps & TitleProps & TextProps & IdentifierPr
         </BackButton>
         <Title>{title}</Title>
         <Spacer />
-        <TextEditor value={text} onBlur={updateText} />
+        <TextEditor placeholder="Beginne hier..." value={text} onBlur={updateText} />
       </View>
 
       <DeleteHomeworkAlert />

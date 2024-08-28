@@ -13,7 +13,7 @@ const ToolIconWrapper = styled.div`
 `;
 
 const StyledSidebarIcon = styled.div<{ type: 'light' | 'dark' }>`
-  ${tw`text-xl md:flex hidden h-fit`}
+  ${tw`text-xl relative top-0.5 md:flex hidden h-fit`}
   ${({ type }) => (type === 'light' ? tw`dark:invisible dark:w-0` : tw`dark:visible w-0 dark:w-fit invisible`)};
 `;
 

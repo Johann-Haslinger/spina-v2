@@ -199,7 +199,7 @@ const formatElapsedTime = (timeInSeconds: number) => {
 
 const FlashcardQuizView = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const { backgroundColor, accentColor } = useSelectedSchoolSubjectColor();
+  const { backgroundColor, color: accentColor } = useSelectedSchoolSubjectColor();
   const isVisible = useIsAnyStoryCurrent([
     Story.OBSERVING_FLASHCARD_QUIZ_STORY,
     Story.OBSERVING_BOOKMARKED_FLASHCARD_GROUP_QUIZ_STORY,
@@ -401,7 +401,7 @@ const StyledDoneIcon = styled.div<{ color: string }>`
 
 const FlashcardQuizEndCard = (props: { elapsedTime: number }) => {
   const { elapsedTime } = props;
-  const { accentColor } = useSelectedSchoolSubjectColor();
+  const { color: accentColor } = useSelectedSchoolSubjectColor();
   const [isFlipped, setIsFlipped] = useState(false);
   const [rightAnswerdFlashcards] = useEntities((e) => e.has(AdditionalTags.ANSWERD_RIGHT));
   const [wrongAnswerdFlashcards] = useEntities((e) => e.has(AdditionalTags.ANSWERD_WRONG));
@@ -494,7 +494,7 @@ const FlashcardCell = (props: {
   const isCurrent = currentFlashcardIndex === flashcardIndex;
   const question = flashcardEntity.get(QuestionFacet)?.props.question;
   const answer = flashcardEntity.get(AnswerFacet)?.props.answer;
-  const { accentColor } = useSelectedSchoolSubjectColor();
+  const { color: accentColor } = useSelectedSchoolSubjectColor();
 
   useEffect(() => {
     if (isCurrent) {

@@ -6,7 +6,7 @@ import { useSelectedSchoolSubjectColor } from '../../hooks/useSelectedSchoolSubj
 
 const SubtopicCell = (props: EntityProps & TitleProps) => {
   const { title, entity } = props;
-  const { accentColor } = useSelectedSchoolSubjectColor();
+  const { color: accentColor } = useSelectedSchoolSubjectColor();
 
   const openSubtopicView = () => entity.add(Tags.SELECTED);
 

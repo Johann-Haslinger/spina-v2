@@ -72,7 +72,7 @@ const ExamView = (props: TitleProps & TextProps & IdentifierProps & EntityProps)
         </BackButton>
         <Title>{title}</Title>
         <Spacer />
-        <TextEditor value={text} onBlur={handleTextBlur} />
+        <TextEditor placeholder="Beginne hier..." value={text} onBlur={handleTextBlur} />
       </View>
 
       <EditExamSheet />

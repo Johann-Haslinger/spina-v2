@@ -14,7 +14,7 @@ import { useBookmarked } from '../hooks/useBookmarked';
 const StyledFlashcardGroupCellWrapper = styled.div`
   ${tw`w-full h-40 p-3 rounded-lg text-white transition-all md:hover:scale-105`}
 
-  background-color: ${COLOR_ITEMS[3].accentColor};
+  background-color: ${COLOR_ITEMS[3].color};
 `;
 const StyledFlashcardGroupCellTitle = styled.div`
   ${tw` line-clamp-2 font-semibold`}

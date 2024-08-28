@@ -23,7 +23,7 @@ const StyledTitle = styled.p`
 const SchoolSubjectCell = (props: TitleProps & OrderProps & EntityProps) => {
   const { title, entity } = props;
   const { isSidebarVisible } = useAppState();
-  const { accentColor } = useSchoolSubjectColors(props.entity);
+  const { color: accentColor } = useSchoolSubjectColors(props.entity);
   const { isDarkModeAktive: isDarkModeAktiv } = useSelectedTheme();
 
   const handleOpenSchoolSubject = () => {

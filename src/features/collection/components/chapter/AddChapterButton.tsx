@@ -62,7 +62,7 @@ const StyledIcon = styled.div`
 
 const AddChapterButton = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const { accentColor } = useSelectedSchoolSubjectColor();
+  const { color: accentColor } = useSelectedSchoolSubjectColor();
   const { userId } = useUserData();
   const { selectedTopicEntity } = useSelectedTopic();
 

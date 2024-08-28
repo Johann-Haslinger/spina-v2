@@ -6,7 +6,7 @@ import { useSelectedSchoolSubjectColor } from '../../hooks/useSelectedSchoolSubj
 
 const ExerciseCell = (props: TitleProps & EntityProps) => {
   const { title, entity } = props;
-  const { accentColor } = useSelectedSchoolSubjectColor();
+  const { color: accentColor } = useSelectedSchoolSubjectColor();
 
   const openExercise = () => entity.add(Tags.SELECTED);
 

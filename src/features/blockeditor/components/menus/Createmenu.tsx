@@ -204,25 +204,25 @@ const Createmenu = () => {
       blockType: Blocktype.IMAGE,
       icon: <IoImage />,
 
-      color: COLOR_ITEMS[1].accentColor,
+      color: COLOR_ITEMS[1].color,
     },
     {
       blockType: Blocktype.DIVIDER,
       icon: <IoRemove />,
 
-      color: COLOR_ITEMS[3].accentColor,
+      color: COLOR_ITEMS[3].color,
     },
     {
       blockType: Blocktype.TABLE,
       icon: <IoGrid />,
 
-      color: COLOR_ITEMS[4].accentColor,
+      color: COLOR_ITEMS[4].color,
     },
     {
       blockType: Blocktype.CODE,
       icon: <IoCodeSlash />,
 
-      color: COLOR_ITEMS[8].accentColor,
+      color: COLOR_ITEMS[8].color,
     },
   ];
 

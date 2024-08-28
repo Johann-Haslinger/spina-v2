@@ -124,7 +124,7 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
           get={[[TitleFacet, DateAddedFacet], []]}
           onMatch={PodcastRow}
         />
-        <TextEditor value={text} onBlur={updateText} />
+        <TextEditor placeholder="Beginne hier..." value={text} onBlur={updateText} />
       </View>
 
       <DeleteNoteAlert />

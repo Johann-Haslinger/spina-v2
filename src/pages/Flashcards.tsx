@@ -22,14 +22,14 @@ const StyledFlexBox = styled.div`
 
 const StyledQuizButton = styled.div`
   ${tw`md:rounded-full hidden text-base justify-between rounded-xl w-full md:w-fit mt-2 md:mt-0 hover:opacity-70 transition-all md:flex space-x-2 px-4 md:px-5 h-fit py-1.5 items-center mr-2`}
-  color: ${COLOR_ITEMS[6].accentColor};
-  background-color: ${COLOR_ITEMS[6].accentColor + 20};
+  color: ${COLOR_ITEMS[6].color};
+  background-color: ${COLOR_ITEMS[6].color + 20};
 `;
 
 const StyledMobileQuizButton = styled.div`
   ${tw`md:rounded-full justify-between rounded-xl w-full md:w-fit md:mt-0 hover:opacity-70 transition-all md:hidden flex space-x-2 px-4 md:px-5 py-2.5 items-center mr-2`}
-  color: ${COLOR_ITEMS[6].accentColor};
-  background-color: ${COLOR_ITEMS[6].accentColor + 20};
+  color: ${COLOR_ITEMS[6].color};
+  background-color: ${COLOR_ITEMS[6].color + 20};
 `;
 
 const StyledQuizButtonContent = styled.div`

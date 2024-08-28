@@ -21,7 +21,7 @@ module.exports = {
         secondery: '#F6F6F6',
         tertiary: 'rgb(234,234,234)',
         primaryDark: '#000000',
-        seconderyDark: '#1a1a1a',
+        seconderyDark: '#1A1A1A',
         tertiaryDark: '#232323',
       },
       borderColor: {

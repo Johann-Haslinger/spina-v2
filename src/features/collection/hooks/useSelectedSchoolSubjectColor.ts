@@ -11,7 +11,7 @@ export const useSelectedSchoolSubjectColor = () => {
       e.has(Tags.SELECTED) &&
       (dataTypeQuery(e, DataType.SCHOOL_SUBJECT) || dataTypeQuery(e, DataType.GROUP_SCHOOL_SUBJECT)),
   )[0];
-  const { accentColor, color, backgroundColor } = useSchoolSubjectColors(selectedSchoolSubjectEntity);
+  const { color: accentColor, color, backgroundColor } = useSchoolSubjectColors(selectedSchoolSubjectEntity);
 
   if (selectedSchoolSubjectEntity) {
     return { backgroundColor, color, accentColor };

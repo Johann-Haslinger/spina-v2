@@ -6,7 +6,7 @@ import { useSelectedSchoolSubjectColor } from '../../hooks/useSelectedSchoolSubj
 
 const NoteCell = (props: TitleProps & EntityProps) => {
   const { title, entity } = props;
-  const { accentColor } = useSelectedSchoolSubjectColor();
+  const { color: accentColor } = useSelectedSchoolSubjectColor();
 
   const openNote = () => {
     entity.addTag(Tags.SELECTED);

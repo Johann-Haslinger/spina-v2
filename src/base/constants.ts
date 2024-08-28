@@ -50,52 +50,44 @@ export const COLORS = [
 
 export const COLOR_ITEMS: {
   color: string;
-  accentColor: string;
   name?: string;
   backgroundColor: string;
 }[] = [
   {
-    color: '#B9DA87',
-    accentColor: '#668FE8',
+    color: '#668FE8',
     name: 'lavendar',
     backgroundColor: '#ADC1EE',
   },
   {
-    color: '#6D8FD9',
-    accentColor: '#A3CB63',
+    color: '#A3CB63',
     name: 'green',
     backgroundColor: '#CBE0AB',
   },
   {
-    color: '#364893',
-    accentColor: '#6EBED9',
+    color: '#6EBED9',
     name: 'light blue',
     backgroundColor: '#B1D9E7',
   },
 
   {
-    color: '#397A45',
-    accentColor: '#EF9D4A',
+    color: '#EF9D4A',
     name: 'orange',
     backgroundColor: '#F2C99F',
   },
 
   {
-    color: '#FFCC00',
-    accentColor: '#E76542',
+    color: '#E76542',
     name: 'red',
     backgroundColor: '#EEAD9B',
   },
 
   {
-    color: '#F3A487',
-    accentColor: '#BF3039',
+    color: '#BF3039',
     name: 'camin',
     backgroundColor: '#DA9297',
   },
   {
-    color: '#EF9D4A',
-    accentColor: '#397A45',
+    color: '#397A45',
     name: 'dark green',
     backgroundColor: '#97B79D',
   },
@@ -107,14 +99,12 @@ export const COLOR_ITEMS: {
   //   backgroundColor: '#FAE07A',
   // },
   {
-    color: '#FFCC00',
-    accentColor: '#039FC4',
+    color: '#039FC4',
     name: 'blue',
     backgroundColor: '#7CCADC',
   },
   {
-    color: '#6EBED9',
-    accentColor: '#364893',
+    color: '#364893',
     name: 'navy',
     backgroundColor: '#959EC4',
   },

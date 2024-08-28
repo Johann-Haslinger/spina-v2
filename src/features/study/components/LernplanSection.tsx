@@ -16,12 +16,12 @@ const StyledLernplanSectionWrapper = styled.div`
 `;
 const StyledFlashcardGroupWrapper = styled.div`
   ${tw`md:w-3/4 w-full rounded-lg  flex flex-shrink-0  overflow-x-scroll`}
-  background-color: ${COLOR_ITEMS[3].accentColor};
+  background-color: ${COLOR_ITEMS[3].color};
 `;
 
 const StyledPlayIconContainer = styled.div`
   ${tw`md:w-1/4 w-full h-40 rounded-lg   flex items-center justify-center `}
-  background-color: ${COLOR_ITEMS[3].accentColor};
+  background-color: ${COLOR_ITEMS[3].color};
 `;
 
 const StyledPlayIconWrapper = styled.div`

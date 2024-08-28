@@ -18,7 +18,7 @@ const StyledColumnContainer = styled.div`
 const StyledBar = styled.div<{ isHoverd?: boolean }>`
   ${tw`bg-[rgb(56,121,246)] opacity-60 backdrop-blur-lg  h-full transition-all w-1/2 mx-auto rounded-t-md `}
   ${({ isHoverd }) => isHoverd && tw`opacity-100`}
-  background-color: ${COLOR_ITEMS[2].accentColor};
+  background-color: ${COLOR_ITEMS[2].color};
 `;
 
 const StyledColumnLabel = styled.div`
@@ -27,7 +27,7 @@ const StyledColumnLabel = styled.div`
 
 const StyledAverageMarker = styled.div`
   ${tw` opacity-100 transition-all  relative border-t-4 rounded w-full`}
-  border-color: ${COLOR_ITEMS[2].accentColor};
+  border-color: ${COLOR_ITEMS[2].color};
 `;
 
 const StyledColumnsWrapper = styled.div`
@@ -108,7 +108,7 @@ const FlashcardChartCard = () => {
             <StyledAverageLabel>
               <StyledCardInfo>{selectedDay !== null ? WEEK_DAYS[selectedDay] : 'Durchschnitt'}</StyledCardInfo>
               <StyledCardCountText>
-                <span style={{ color: COLOR_ITEMS[2].accentColor }} tw=" font-bold text-lg ">
+                <span style={{ color: COLOR_ITEMS[2].color }} tw=" font-bold text-lg ">
                   {' '}
                   {selectedDay !== null ? weekDays[selectedDay] : averageFlashcards}{' '}
                 </span>

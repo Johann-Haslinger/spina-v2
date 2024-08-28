@@ -5,7 +5,7 @@ import { COLOR_ITEMS } from '../../../base/constants';
 
 const StyledSapientorEyeAccent = styled.div<{ top: number; left: number }>`
   ${tw`size-2 rounded-full`}
-  background-color: ${COLOR_ITEMS[7].accentColor};
+  background-color: ${COLOR_ITEMS[7].color};
   position: absolute;
   top: ${({ top }) => top}px;
   left: ${({ left }) => left}px;

@@ -37,7 +37,7 @@ const StyledProgressBar = styled.div<{
 
 const FlashcardCell = (props: QuestionProps & AnswerProps & EntityProps & MasteryLevelProps) => {
   const { question, answer, entity, masteryLevel = 0 } = props;
-  const { accentColor } = useSelectedSchoolSubjectColor();
+  const { color: accentColor } = useSelectedSchoolSubjectColor();
 
   const openFlashcard = () => entity.add(Tags.SELECTED);
 
