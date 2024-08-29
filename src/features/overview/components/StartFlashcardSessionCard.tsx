@@ -1,15 +1,10 @@
 import styled from '@emotion/styled';
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
-import { Entity } from '@leanscope/ecs-engine';
-import { CountFacet, IdentifierFacet } from '@leanscope/ecs-models';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { IoCopy, IoPlay } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { dummyFlashcards } from '../../../base/dummy';
-import { Story, SupabaseTables } from '../../../base/enums';
-import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
-import supabaseClient from '../../../lib/supabase';
-import { useDueFlashcards } from '../../flashcards/hooks/useDueFlashcards';
+import { Story } from '../../../base/enums';
+import { useDueFlashcardsCount } from '../../flashcards/hooks/useDueFlashcardsCount';
 import FlashcardQuizView from '../../study/components/FlashcardQuizView';
 
 const StyledCardWrapper = styled.div`
@@ -82,48 +77,3 @@ const StartFlashcardSessionCard = () => {
 };
 
 export default StartFlashcardSessionCard;
-
-const fetchDueFlashcards = async () => {
-  const currentDateTime = new Date().toISOString();
-
-  const { data, error } = await supabaseClient
-    .from(SupabaseTables.FLASHCARDS)
-    .select('bookmarked')
-    .lte('due_date', currentDateTime);
-
-  if (error) {
-    console.error('Error fetching due flashcards:', error);
-  }
-  return data || [];
-};
-
-const useDueFlashcardsCount = () => {
-  const lsc = useContext(LeanScopeClientContext);
-  const { isUsingMockupData, isUsingSupabaseData } = useCurrentDataSource();
-  const { dueFlashcardEntity, dueFlashcardsCount } = useDueFlashcards();
-
-  useEffect(() => {
-    const isEntityAlreadyAdded = lsc.engine.entities.some(
-      (e) => e.get(IdentifierFacet)?.props.guid === 'dueFlashcards',
-    );
-    if (isEntityAlreadyAdded) return;
-    const newDueFlashcardsEntity = new Entity();
-    lsc.engine.addEntity(newDueFlashcardsEntity);
-    newDueFlashcardsEntity.add(new IdentifierFacet({ guid: 'dueFlashcards' }));
-    newDueFlashcardsEntity.add(new CountFacet({ count: 0 }));
-  }, []);
-
-  useEffect(() => {
-    const countDueFlashcards = async () => {
-      const dueFlashcards = isUsingMockupData ? dummyFlashcards : isUsingSupabaseData ? await fetchDueFlashcards() : [];
-
-      if (dueFlashcards) {
-        dueFlashcardEntity?.add(new CountFacet({ count: dueFlashcards.length }));
-      }
-    };
-
-    countDueFlashcards();
-  }, [isUsingMockupData, isUsingSupabaseData, dueFlashcardEntity]);
-
-  return dueFlashcardsCount;
-};

@@ -1,24 +1,25 @@
 import styled from '@emotion/styled';
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
-import { Entity, EntityProps, EntityPropsMapper } from '@leanscope/ecs-engine';
+import { Entity, EntityPropsMapper } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet, Tags, TextFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect, useState } from 'react';
 import tw from 'twin.macro';
-import { PriorityFacet, PriorityProps, TitleFacet, TitleProps } from '../../../app/additionalFacets';
+import { PriorityFacet, TitleFacet } from '../../../app/additionalFacets';
 import { dummyFlashcardSets, dummySubtopics } from '../../../base/dummy';
-import { DataType, FLASHCARD_GROUP_PRIORITY, SupabaseTables } from '../../../base/enums';
+import { DataType, FlashcardGroupPriority, SupabaseTables } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 import { dataTypeQuery } from '../../../utils/queries';
 import { sortEntitiesByDateAdded } from '../../../utils/sortEntitiesByTime';
 import { FlashcardSetView } from '../../collection';
 import SubtopicView from '../../collection/components/subtopics/SubtopicView';
+import FlashcardGroupRow from './FlashcardGroupRow';
 
 enum FlashcardGroupFilter {
   ALL = -1,
-  ACTIV = FLASHCARD_GROUP_PRIORITY.ACTIVE,
-  MAINTAINING = FLASHCARD_GROUP_PRIORITY.MAINTAINING,
-  PASUED = FLASHCARD_GROUP_PRIORITY.PAUSED,
+  ACTIV = FlashcardGroupPriority.ACTIVE,
+  MAINTAINING = FlashcardGroupPriority.MAINTAINING,
+  PASUED = FlashcardGroupPriority.PAUSED,
 }
 
 const StyledTabBar = styled.div`
@@ -78,10 +79,10 @@ const FlashcardGroupTable = () => {
         <div>
           <StyledLabel>Titel</StyledLabel>
         </div>
-        <div tw="flex  space-x-8">
+        <div tw="flex opacity-80  space-x-8">
           {' '}
-          {/* <StyledLabel2>Priotität</StyledLabel2>
-          <StyledLabel2>Fälllig</StyledLabel2>
+          {/* <StyledLabel2>Priotität</StyledLabel2> */}
+          {/* <StyledLabel2>Fälllig</StyledLabel2>
           <StyledLabel2>Karten</StyledLabel2>
           <StyledLabel2>Fortschtitt</StyledLabel2>
           <StyledLabel2>Üben</StyledLabel2> */}
@@ -97,6 +98,7 @@ const FlashcardGroupTable = () => {
           onMatch={FlashcardGroupRow}
         />
       </div>
+
       <EntityPropsMapper
         query={(e) => dataTypeQuery(e, DataType.FLASHCARD_SET) && e.has(Tags.SELECTED)}
         get={[[TitleFacet, IdentifierFacet], []]}
@@ -114,27 +116,8 @@ const FlashcardGroupTable = () => {
 
 export default FlashcardGroupTable;
 
-const FlashcardGroupRow = (props: TitleProps & PriorityProps & EntityProps) => {
-  const { title, entity, priority } = props;
-
-  const openFlashcardGroup = () => entity.add(Tags.SELECTED);
-
-  return (
-    <div tw="flex px-2  justify-between">
-      <div tw=" hover:underline " onClick={openFlashcardGroup}>
-        {title}
-      </div>
-      <select value={priority}>
-        <option value={FLASHCARD_GROUP_PRIORITY.ACTIVE}>Aktiv</option>
-        <option value={FLASHCARD_GROUP_PRIORITY.MAINTAINING}>Aufrechterhalten</option>
-        <option value={FLASHCARD_GROUP_PRIORITY.PAUSED}>Pausiert</option>
-      </select>
-    </div>
-  );
-};
-
 const fetchRecentlyAddedFlashcardSets = async () => {
-  const fourteenDaysAgo = new Date(new Date().setDate(new Date().getDate() - 14)).toISOString();
+  const fourteenDaysAgo = new Date(new Date().setDate(new Date().getDate() - 28)).toISOString();
 
   const { data, error } = await supabaseClient
     .from(SupabaseTables.FLASHCARD_SETS)
@@ -152,7 +135,7 @@ const fetchRecentlyAddedFlashcardSets = async () => {
 };
 
 const fetchRecentlyAddedSubtopics = async () => {
-  const fourteenDaysAgo = new Date(new Date().setDate(new Date().getDate() - 14)).toISOString();
+  const fourteenDaysAgo = new Date(new Date().setDate(new Date().getDate() - 28)).toISOString();
 
   const { data, error } = await supabaseClient
     .from(SupabaseTables.SUBTOPICS)

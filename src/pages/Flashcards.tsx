@@ -7,7 +7,7 @@ import tw from 'twin.macro';
 import { COLOR_ITEMS } from '../base/constants';
 import { Story } from '../base/enums';
 import { NavigationBar, Spacer, Title, View } from '../components';
-import { FlashcardGroupTable } from '../features/flashcards';
+import { FlashcardGroupTable, useDueFlashcardsCount } from '../features/flashcards';
 import StreakCard from '../features/flashcards/components/StreakCard';
 import LoadCurrentStreakSystem from '../features/flashcards/systems/LoadCurrentStrekSystem';
 import LoadFlashcardSessionsSystem from '../features/flashcards/systems/LoadFlashcardSessionsSystem';
@@ -21,7 +21,7 @@ const StyledFlexBox = styled.div`
 `;
 
 const StyledQuizButton = styled.div`
-  ${tw`md:rounded-full hidden text-base justify-between rounded-xl w-full md:w-fit mt-2 md:mt-0 hover:opacity-70 transition-all md:flex space-x-2 px-4 md:px-5 h-fit py-1.5 items-center mr-2`}
+  ${tw` hidden text-base justify-between rounded-2xl w-full md:w-fit mt-2 md:mt-0 hover:opacity-70 transition-all md:flex space-x-2 pl-4 md:pr-8 h-fit py-2 items-center`}
   color: ${COLOR_ITEMS[6].color};
   background-color: ${COLOR_ITEMS[6].color + 20};
 `;
@@ -33,7 +33,7 @@ const StyledMobileQuizButton = styled.div`
 `;
 
 const StyledQuizButtonContent = styled.div`
-  ${tw`flex items-center space-x-2`}
+  ${tw`flex items-center space-x-4`}
 `;
 
 const StyledMobileQuizButtonContent = styled.div`
@@ -41,11 +41,11 @@ const StyledMobileQuizButtonContent = styled.div`
 `;
 
 const StyledPlayIcon = styled.div`
-  ${tw`text-lg`}
+  ${tw`text-xl`}
 `;
 
 const StyledMobilePlayIcon = styled.div`
-  ${tw`text-2xl`}
+  ${tw`text-3xl`}
 `;
 
 const StyledQuizButtonText = styled.p`
@@ -57,7 +57,7 @@ const StyledQuizButtonSubText = styled.p`
 `;
 
 const StyledHeaderWrapper = styled.div`
-  ${tw`md:flex mb-4 justify-between`}
+  ${tw`md:flex mb-4 items-end justify-between`}
 `;
 
 const StyledCardWrapper = styled.div`
@@ -67,6 +67,7 @@ const StyledCardWrapper = styled.div`
 const Flashcards = () => {
   const lsc = useContext(LeanScopeClientContext);
   const { selectedLanguage } = useSelectedLanguage();
+  const dueFlashcardsCount = useDueFlashcardsCount();
 
   const openFlashcardQuiz = () => lsc.stories.transitTo(Story.OBSERVING_SPACED_REPETITION_QUIZ);
 
@@ -85,7 +86,10 @@ const Flashcards = () => {
               <StyledPlayIcon>
                 <IoPlay />
               </StyledPlayIcon>
-              <div>Abfrage Starten</div>
+              <div>
+                <p tw="text-sm font-semibold">Abfrage Starten</p>
+                <p tw="text-sm">{dueFlashcardsCount} fällige Karten</p>
+              </div>
             </StyledQuizButtonContent>
           </StyledQuizButton>
         </StyledHeaderWrapper>
@@ -99,7 +103,7 @@ const Flashcards = () => {
               </StyledMobilePlayIcon>
               <div>
                 <StyledQuizButtonText>Abfrage Starten</StyledQuizButtonText>
-                <StyledQuizButtonSubText>Üben mit Spaced Repitition</StyledQuizButtonSubText>
+                <StyledQuizButtonSubText>{dueFlashcardsCount} fällige Karten</StyledQuizButtonSubText>
               </div>
             </StyledMobileQuizButtonContent>
           </StyledMobileQuizButton>
