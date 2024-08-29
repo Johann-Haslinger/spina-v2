@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import { IoCreateOutline, IoEllipsisHorizontalCircleOutline, IoTrashOutline } from 'react-icons/io5';
 import { Fragment } from 'react/jsx-runtime';
 import { TitleProps } from '../../../app/additionalFacets';
-import { AdditionalTags, Story, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { AdditionalTag, Story, SupabaseColumn, SupabaseTable } from '../../../base/enums';
 import {
   ActionRow,
   BackButton,
@@ -30,16 +30,16 @@ const ExamView = (props: TitleProps & TextProps & IdentifierProps & EntityProps)
   const isVisible = useIsViewVisible(entity);
   const { selectedLanguage } = useSelectedLanguage();
 
-  const navigateBack = () => entity.add(AdditionalTags.NAVIGATE_BACK);
+  const navigateBack = () => entity.add(AdditionalTag.NAVIGATE_BACK);
   const openEditExamSheet = () => lsc.stories.transitTo(Story.EDITING_EXAM_STORY);
   const openDeleteExamAlert = () => lsc.stories.transitTo(Story.DELETING_EXAM_STORY);
 
   const handleTextBlur = async (value: string) => {
     entity.add(new TextFacet({ text: value }));
     const { error } = await supabaseClient
-      .from(SupabaseTables.EXAMS)
+      .from(SupabaseTable.EXAMS)
       .update({ text: value })
-      .eq(SupabaseColumns.ID, guid);
+      .eq(SupabaseColumn.ID, guid);
 
     if (error) {
       console.error('Error updating exam text', error);

@@ -6,7 +6,7 @@ import { IoPlay } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { DateAddedFacet, DateAddedProps, TitleFacet, TitleProps } from '../../../app/additionalFacets';
 import { COLOR_ITEMS } from '../../../base/constants';
-import { AdditionalTags, DataType, Story } from '../../../base/enums';
+import { AdditionalTag, DataType, Story } from '../../../base/enums';
 import { sortEntitiesByDateAdded } from '../../../utils/sortEntitiesByTime';
 import { useBookmarkedFlashcardGroups } from '../hooks/useBookmarkedFlashcardGroups';
 import FlashcardGroupCell from './FlashcardGroupCell';
@@ -40,7 +40,7 @@ const LernplanSection = () => {
       <StyledLernplanSectionWrapper>
         <StyledFlashcardGroupWrapper>
           <EntityPropsMapper
-            query={(e) => e.has(DataType.FLASHCARD_GROUP) && e.has(AdditionalTags.BOOKMARKED)}
+            query={(e) => e.has(DataType.FLASHCARD_GROUP) && e.has(AdditionalTag.BOOKMARKED)}
             sort={sortEntitiesByDateAdded}
             get={[[TitleFacet, DateAddedFacet], []]}
             onMatch={LernplanFlashcardGroupCell}

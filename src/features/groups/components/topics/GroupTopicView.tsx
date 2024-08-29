@@ -4,7 +4,7 @@ import { DescriptionProps, IdentifierFacet, Tags, TextFacet } from '@leanscope/e
 import { Fragment, useContext } from 'react';
 import { IoCreateOutline, IoEllipsisHorizontalCircleOutline, IoTrashOutline } from 'react-icons/io5';
 import { TitleFacet, TitleProps } from '../../../../app/additionalFacets';
-import { AdditionalTags, DataType, Story } from '../../../../base/enums';
+import { AdditionalTag, DataType, Story } from '../../../../base/enums';
 import {
   ActionRow,
   BackButton,
@@ -44,7 +44,7 @@ const GroupTopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
   const { selectedLanguage } = useSelectedLanguage();
   const { hasChildren } = useEntityHasChildren(entity);
 
-  const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
+  const navigateBack = () => entity.addTag(AdditionalTag.NAVIGATE_BACK);
   const openEditTopicSheet = () => lsc.stories.transitTo(Story.EDETING_GROUP_TOPIC_STORY);
   const openDeleteTopicAlert = () => lsc.stories.transitTo(Story.DELETING_GROUP_TOPIC_STORY);
 

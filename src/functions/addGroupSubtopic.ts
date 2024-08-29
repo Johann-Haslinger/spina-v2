@@ -1,9 +1,9 @@
 import { ILeanScopeClient } from '@leanscope/api-client/interfaces';
 import { Entity } from '@leanscope/ecs-engine';
-import supabaseClient from '../lib/supabase';
 import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { TitleFacet } from '../app/additionalFacets';
-import { SupabaseTables } from '../base/enums';
+import { SupabaseTable } from '../base/enums';
+import supabaseClient from '../lib/supabase';
 
 export const addGroupSubtopic = async (
   lsc: ILeanScopeClient,
@@ -13,7 +13,7 @@ export const addGroupSubtopic = async (
 ) => {
   lsc.engine.addEntity(subtopicEntity);
 
-  const { error } = await supabaseClient.from(SupabaseTables.GROUP_SUBTOPICS).insert([
+  const { error } = await supabaseClient.from(SupabaseTable.GROUP_SUBTOPICS).insert([
     {
       id: subtopicEntity.get(IdentifierFacet)?.props.guid,
       parent_id: subtopicEntity.get(ParentFacet)?.props.parentId,

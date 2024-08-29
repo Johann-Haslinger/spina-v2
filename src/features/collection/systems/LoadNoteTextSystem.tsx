@@ -1,7 +1,7 @@
 import { TextFacet } from '@leanscope/ecs-models';
 import { useEffect } from 'react';
 import { dummyText } from '../../../base/dummy';
-import { SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { SupabaseColumn, SupabaseTable } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import { useUserData } from '../../../hooks/useUserData';
 import supabaseClient from '../../../lib/supabase';
@@ -9,9 +9,9 @@ import { useSelectedNote } from '../hooks/useSelectedNote';
 
 const fetchNoteText = async (noteId: string, userId: string) => {
   const { data: noteTextData, error } = await supabaseClient
-    .from(SupabaseTables.NOTES)
+    .from(SupabaseTable.NOTES)
     .select('text')
-    .eq(SupabaseColumns.ID, noteId);
+    .eq(SupabaseColumn.ID, noteId);
 
   if (error) {
     console.error('error fetching note text', error);
@@ -19,9 +19,9 @@ const fetchNoteText = async (noteId: string, userId: string) => {
   }
 
   const { error: error2 } = await supabaseClient
-    .from(SupabaseTables.NOTES)
+    .from(SupabaseTable.NOTES)
     .update({ old_note_version: false, new_note_version: true, text: '' })
-    .eq(SupabaseColumns.ID, noteId);
+    .eq(SupabaseColumn.ID, noteId);
 
   if (error2) {
     console.error('error updating note to newNoteVersion', error2);
@@ -30,7 +30,7 @@ const fetchNoteText = async (noteId: string, userId: string) => {
   const noteText = noteTextData[0]?.text;
 
   const { error: error3 } = await supabaseClient
-    .from(SupabaseTables.TEXTS)
+    .from(SupabaseTable.TEXTS)
     .upsert([{ text: noteText, parent_id: noteId, user_id: userId }]);
 
   if (error3) {
@@ -42,9 +42,9 @@ const fetchNoteText = async (noteId: string, userId: string) => {
 
 const fetchNoteVersion = async (noteId: string) => {
   const { data: noteVersionData, error } = await supabaseClient
-    .from(SupabaseTables.NOTES)
+    .from(SupabaseTable.NOTES)
     .select('old_note_version, new_note_version')
-    .eq(SupabaseColumns.ID, noteId)
+    .eq(SupabaseColumn.ID, noteId)
     .single();
 
   if (error) {
@@ -74,9 +74,9 @@ const LoadNoteTextSystem = () => {
           selectedNoteEntity?.add(new TextFacet({ text: noteText }));
         } else if (noteVersion == 'blocks-version') {
           const { data: blocks, error } = await supabaseClient
-            .from(SupabaseTables.BLOCKS)
+            .from(SupabaseTable.BLOCKS)
             .select('content')
-            .eq(SupabaseColumns.PARENT_ID, selectedNoteId);
+            .eq(SupabaseColumn.PARENT_ID, selectedNoteId);
 
           if (error) {
             console.error('error fetching blocks', error);
@@ -87,7 +87,7 @@ const LoadNoteTextSystem = () => {
           selectedNoteEntity?.add(new TextFacet({ text: text || '' }));
 
           const { error: error2 } = await supabaseClient
-            .from(SupabaseTables.TEXTS)
+            .from(SupabaseTable.TEXTS)
             .upsert([{ text, parent_id: selectedNoteId, user_id: userId }]);
 
           if (error2) {
@@ -95,18 +95,18 @@ const LoadNoteTextSystem = () => {
           }
 
           const { error: error3 } = await supabaseClient
-            .from(SupabaseTables.NOTES)
+            .from(SupabaseTable.NOTES)
             .update({ old_note_version: false, new_note_version: true })
-            .eq(SupabaseColumns.ID, selectedNoteId);
+            .eq(SupabaseColumn.ID, selectedNoteId);
 
           if (error3) {
             console.error('error updating note to newNoteVersion', error3);
           }
 
           const { error: error4 } = await supabaseClient
-            .from(SupabaseTables.BLOCKS)
+            .from(SupabaseTable.BLOCKS)
             .delete()
-            .eq(SupabaseColumns.PARENT_ID, selectedNoteId);
+            .eq(SupabaseColumn.PARENT_ID, selectedNoteId);
 
           if (error4) {
             console.error('error deleting blocks', error4);

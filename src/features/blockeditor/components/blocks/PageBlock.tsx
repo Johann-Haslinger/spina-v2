@@ -6,7 +6,7 @@ import { FloatOrderProps, IdentifierFacet, ParentFacet, Tags, TextFacet } from '
 import { useContext, useEffect } from 'react';
 import { Fragment } from 'react/jsx-runtime';
 import tw from 'twin.macro';
-import { AdditionalTags, SupabaseColumns, SupabaseTables } from '../../../../base/enums';
+import { AdditionalTag, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
 import { View } from '../../../../components';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../../lib/supabase';
@@ -49,7 +49,7 @@ const PageBlock = (props: EntityProps & FloatOrderProps) => {
   const { blockeditorState, blockeditorEntity } = useCurrentBlockeditor();
   const { selectedLanguage } = useSelectedLanguage();
   const title = entity.get(TextFacet)?.props.text;
-  const [isPageViewVisible] = useEntityHasTags(entity, AdditionalTags.OPEN);
+  const [isPageViewVisible] = useEntityHasTags(entity, AdditionalTag.OPEN);
   const id = entity.get(IdentifierFacet)?.props.guid;
   const [parentBlockEntity] = useEntity(
     (e) => e.get(IdentifierFacet)?.props.guid === entity.get(ParentFacet)?.props.parentId,
@@ -78,16 +78,16 @@ const PageBlock = (props: EntityProps & FloatOrderProps) => {
     }
   }, [isPageViewVisible, entity, blockeditorEntity]);
 
-  const openPageBlock = () => blockeditorState === 'view' && entity.add(AdditionalTags.OPEN);
-  const closePageBlock = () => entity.remove(AdditionalTags.OPEN);
+  const openPageBlock = () => blockeditorState === 'view' && entity.add(AdditionalTag.OPEN);
+  const closePageBlock = () => entity.remove(AdditionalTag.OPEN);
 
   const handleTitleBlur = async (value: string) => {
     entity.add(new TextFacet({ text: value }));
 
     const { error } = await supabaseClient
-      .from(SupabaseTables.BLOCKS)
+      .from(SupabaseTable.BLOCKS)
       .update({ content: value })
-      .eq(SupabaseColumns.ID, id);
+      .eq(SupabaseColumn.ID, id);
 
     if (error) {
       console.error('Error updating block title', error);

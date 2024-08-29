@@ -14,7 +14,7 @@ import {
   IoTrashOutline,
 } from 'react-icons/io5';
 import { DateAddedFacet, TitleFacet, TitleProps } from '../../../../app/additionalFacets';
-import { AdditionalTags, DataType, Story, SupabaseColumns, SupabaseTables } from '../../../../base/enums';
+import { AdditionalTag, DataType, Story, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
 import {
   ActionRow,
   BackButton,
@@ -32,6 +32,7 @@ import supabaseClient from '../../../../lib/supabase';
 import { displayActionTexts } from '../../../../utils/displayText';
 import { dataTypeQuery, isChildOfQuery } from '../../../../utils/queries';
 import { useBookmarked } from '../../../study/hooks/useBookmarked';
+import { useFormattedDateAdded } from '../../hooks/useFormattedDateAdded';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
 import { useText } from '../../hooks/useText';
 import LoadNotePodcastsSystem from '../../systems/LoadNotePodcastsSystem';
@@ -41,7 +42,6 @@ import GenerateImprovedTextSheet from '../generation/GenerateImprovedTextSheet';
 import GeneratePodcastSheet from '../generation/GeneratePodcastSheet';
 import PodcastRow from '../podcasts/PodcastRow';
 import DeleteNoteAlert from './DeleteNoteAlert';
-import { useFormattedDateAdded } from '../../hooks/useFormattedDateAdded';
 
 const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -53,7 +53,7 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
   const { text, updateText } = useText(entity);
   const formattedDateAdded = useFormattedDateAdded(entity);
 
-  const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
+  const navigateBack = () => entity.addTag(AdditionalTag.NAVIGATE_BACK);
   const openDeleteAlert = () => lsc.stories.transitTo(Story.DELETING_NOTE_STORY);
   const openGenerateFlashcardsSheet = () => lsc.stories.transitTo(Story.GENERATING_FLASHCARDS_STORY);
   const openGeneratePodcastSheet = () => lsc.stories.transitTo(Story.GENERATING_PODCAST_STORY);
@@ -63,9 +63,9 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
   const handleTitleBlur = async (value: string) => {
     entity.add(new TitleFacet({ title: value }));
     const { error } = await supabaseClient
-      .from(SupabaseTables.NOTES)
+      .from(SupabaseTable.NOTES)
       .update({ title: value })
-      .eq(SupabaseColumns.ID, guid);
+      .eq(SupabaseColumn.ID, guid);
 
     if (error) {
       console.error('Error updating note title', error);

@@ -5,7 +5,7 @@ import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useState } from 'react';
 import { v4 } from 'uuid';
 import { DateAddedFacet, TitleFacet } from '../../../../app/additionalFacets';
-import { DataType, Story, SupabaseTables } from '../../../../base/enums';
+import { DataType, Story, SupabaseTable } from '../../../../base/enums';
 import {
   FlexBox,
   PrimaryButton,
@@ -61,7 +61,7 @@ const AddGroupTopicSheet = () => {
         newTopicEntity.add(new DescriptionFacet({ description: topicDescription }));
       }
 
-      const { error } = await supabaseClient.from(SupabaseTables.GROUP_TOPICS).insert([
+      const { error } = await supabaseClient.from(SupabaseTable.GROUP_TOPICS).insert([
         {
           id: topicId,
           creator_id: userId,

@@ -1,5 +1,5 @@
 import { Entity, useEntities } from '@leanscope/ecs-engine';
-import { AdditionalTags, DataType } from '../../../base/enums';
+import { AdditionalTag, DataType } from '../../../base/enums';
 import { dataTypeQuery, isChildOfQuery } from '../../../utils/queries';
 
 export const useSchoolSubjectTopicEntities = (schoolSubjectEntity?: Entity) => {
@@ -7,7 +7,7 @@ export const useSchoolSubjectTopicEntities = (schoolSubjectEntity?: Entity) => {
     (e) =>
       dataTypeQuery(e, DataType.TOPIC) &&
       isChildOfQuery(e, schoolSubjectEntity || new Entity()) &&
-      !e.has(AdditionalTags.ARCHIVED),
+      !e.has(AdditionalTag.ARCHIVED),
   );
 
   return { schoolSubjectTopics: topics, hasTopics: topics.length > 0 };

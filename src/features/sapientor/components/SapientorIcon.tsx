@@ -8,7 +8,7 @@ import tw from 'twin.macro';
 
 import { MessageRoleFacet } from '../../../app/additionalFacets';
 import { COLOR_ITEMS, MEDIUM_DEVICE_WIDTH } from '../../../base/constants';
-import { AdditionalTags } from '../../../base/enums';
+import { AdditionalTag } from '../../../base/enums';
 import { useWindowDimensions } from '../../../hooks/useWindowDimensions';
 import { useCurrentSapientorConversation } from '../hooks/useCurrentConversation';
 import SapientorChatSheet from './SapientorChatSheet';
@@ -18,7 +18,7 @@ import SapientorQuickChat from './SapientorQuickChat';
 const useQuickChat = () => {
   const lsc = useContext(LeanScopeClientContext);
   const quickChatRef = useRef<HTMLDivElement>(null);
-  const [promptEntities] = useEntities((e) => e.has(AdditionalTags.PROMPT));
+  const [promptEntities] = useEntities((e) => e.has(AdditionalTag.PROMPT));
   const [messageEntities] = useEntities((e) => e.has(MessageRoleFacet));
   const {
     isChatSheetVisible,
@@ -31,7 +31,7 @@ const useQuickChat = () => {
   useEffect(() => {
     if (!isChatSheetVisible && !isQuickChatVisible) {
       lsc.engine.entities
-        .filter((e) => e?.has(AdditionalTags.RELATED_THREAD_RESOURCE))
+        .filter((e) => e?.has(AdditionalTag.RELATED_THREAD_RESOURCE))
         .forEach((entity) => {
           lsc.engine.removeEntity(entity);
         });
@@ -77,8 +77,8 @@ const StyledThinkingAnimationWrapper = styled.div`
 `;
 
 const SapientorIcon = () => {
-  const [promptEntity] = useEntities((e) => e.has(AdditionalTags.PROMPT) && e.has(AdditionalTags.PROCESSING))[0];
-  const [isProcessingCurrentPrompt] = useEntityHasTags(promptEntity, AdditionalTags.PROCESSING);
+  const [promptEntity] = useEntities((e) => e.has(AdditionalTag.PROMPT) && e.has(AdditionalTag.PROCESSING))[0];
+  const [isProcessingCurrentPrompt] = useEntityHasTags(promptEntity, AdditionalTag.PROCESSING);
   const { quickChatRef } = useQuickChat();
   const { isQuickChatVisible, setQuickChatVisible, setChatSheetVisible, isChatSheetVisible } =
     useCurrentSapientorConversation();

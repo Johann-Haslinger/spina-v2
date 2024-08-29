@@ -1,7 +1,7 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext } from 'react';
-import { AdditionalTags, Story, SupabaseColumns, SupabaseTables } from '../../../../base/enums';
+import { AdditionalTag, Story, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
 import { Alert, AlertButton } from '../../../../components';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../../lib/supabase';
@@ -18,69 +18,69 @@ const DeleteTopicAlert = () => {
 
   const deleteTopic = async () => {
     navigateBack();
-    selectedTopicEntity?.add(AdditionalTags.NAVIGATE_BACK);
+    selectedTopicEntity?.add(AdditionalTag.NAVIGATE_BACK);
     setTimeout(async () => {
       if (selectedTopicEntity) {
         lsc.engine.removeEntity(selectedTopicEntity);
 
         const { error } = await supabaseClient
-          .from(SupabaseTables.TOPICS)
+          .from(SupabaseTable.TOPICS)
           .delete()
-          .eq(SupabaseColumns.ID, selectedTopicId);
+          .eq(SupabaseColumn.ID, selectedTopicId);
 
         if (error) {
           console.error('Error deleting Topic', error);
         }
 
         const { error: error2 } = await supabaseClient
-          .from(SupabaseTables.CHAPTERS)
+          .from(SupabaseTable.CHAPTERS)
           .delete()
-          .eq(SupabaseColumns.PARENT_ID, selectedTopicId);
+          .eq(SupabaseColumn.PARENT_ID, selectedTopicId);
 
         if (error2) {
           console.error('Error deleting Chapters', error2);
         }
 
         const { error: error3 } = await supabaseClient
-          .from(SupabaseTables.NOTES)
+          .from(SupabaseTable.NOTES)
           .delete()
-          .eq(SupabaseColumns.PARENT_ID, selectedTopicId);
+          .eq(SupabaseColumn.PARENT_ID, selectedTopicId);
 
         if (error3) {
           console.error('Error deleting Notes', error3);
         }
 
         const { error: error4 } = await supabaseClient
-          .from(SupabaseTables.SUBTOPICS)
+          .from(SupabaseTable.SUBTOPICS)
           .delete()
-          .eq(SupabaseColumns.PARENT_ID, selectedTopicId);
+          .eq(SupabaseColumn.PARENT_ID, selectedTopicId);
 
         if (error4) {
           console.error('Error deleting Subtopics', error4);
         }
 
         const { error: error5 } = await supabaseClient
-          .from(SupabaseTables.FLASHCARD_SETS)
+          .from(SupabaseTable.FLASHCARD_SETS)
           .delete()
-          .eq(SupabaseColumns.PARENT_ID, selectedTopicId);
+          .eq(SupabaseColumn.PARENT_ID, selectedTopicId);
 
         if (error5) {
           console.error('Error deleting Flashcard Sets', error5);
         }
 
         const { error: error6 } = await supabaseClient
-          .from(SupabaseTables.HOMEWORKS)
+          .from(SupabaseTable.HOMEWORKS)
           .delete()
-          .eq(SupabaseColumns.PARENT_ID, selectedTopicId);
+          .eq(SupabaseColumn.PARENT_ID, selectedTopicId);
 
         if (error6) {
           console.error('Error deleting Homeworks', error6);
         }
 
         const { error: error7 } = await supabaseClient
-          .from(SupabaseTables.EXAMS)
+          .from(SupabaseTable.EXAMS)
           .delete()
-          .eq(SupabaseColumns.PARENT_ID, selectedTopicId);
+          .eq(SupabaseColumn.PARENT_ID, selectedTopicId);
 
         if (error7) {
           console.error('Error deleting Exams', error7);

@@ -3,7 +3,7 @@ import { DescriptionFacet } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
 import { TitleFacet } from '../../../app/additionalFacets';
-import { Story, SupabaseColumns } from '../../../base/enums';
+import { Story, SupabaseColumn } from '../../../base/enums';
 import {
   FlexBox,
   PrimaryButton,
@@ -51,7 +51,7 @@ const EditLearningGroupSheet = () => {
         .update({
           title: newTitle,
         })
-        .eq(SupabaseColumns.ID, selectedLearningGroupId);
+        .eq(SupabaseColumn.ID, selectedLearningGroupId);
 
       if (error) {
         console.error('Error updating flashcard set', error);

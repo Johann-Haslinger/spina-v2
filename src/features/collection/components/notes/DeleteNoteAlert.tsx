@@ -1,7 +1,7 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext } from 'react';
-import { AdditionalTags, Story, SupabaseColumns, SupabaseTables } from '../../../../base/enums';
+import { AdditionalTag, Story, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
 import { Alert, AlertButton } from '../../../../components';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../../lib/supabase';
@@ -18,33 +18,30 @@ const DeleteNoteAlert = () => {
 
   const deleteNote = async () => {
     navigateBack();
-    selectedNoteEntity?.add(AdditionalTags.NAVIGATE_BACK);
+    selectedNoteEntity?.add(AdditionalTag.NAVIGATE_BACK);
     setTimeout(async () => {
       if (selectedNoteEntity) {
         lsc.engine.removeEntity(selectedNoteEntity);
 
-        const { error } = await supabaseClient
-          .from(SupabaseTables.NOTES)
-          .delete()
-          .eq(SupabaseColumns.ID, selectedNoteId);
+        const { error } = await supabaseClient.from(SupabaseTable.NOTES).delete().eq(SupabaseColumn.ID, selectedNoteId);
 
         if (error) {
           console.error('Error deleting note', error);
         }
 
         const { error: error2 } = await supabaseClient
-          .from(SupabaseTables.BLOCKS)
+          .from(SupabaseTable.BLOCKS)
           .delete()
-          .eq(SupabaseColumns.PARENT_ID, selectedNoteId);
+          .eq(SupabaseColumn.PARENT_ID, selectedNoteId);
 
         if (error2) {
           console.error('Error deleting blocks', error2);
         }
 
         const { error: error3 } = await supabaseClient
-          .from(SupabaseTables.PODCASTS)
+          .from(SupabaseTable.PODCASTS)
           .delete()
-          .eq(SupabaseColumns.PARENT_ID, selectedNoteId);
+          .eq(SupabaseColumn.PARENT_ID, selectedNoteId);
 
         if (error3) {
           console.error('Error deleting podcasts', error3);

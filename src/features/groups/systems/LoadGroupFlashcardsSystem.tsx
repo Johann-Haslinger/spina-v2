@@ -4,7 +4,7 @@ import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { AnswerFacet, QuestionFacet } from '../../../app/additionalFacets';
 import { dummyFlashcards } from '../../../base/dummy';
-import { DataType, SupabaseColumns } from '../../../base/enums';
+import { DataType, SupabaseColumn } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 import { useSelectedGroupFlashcardSet } from '../hooks/useSelectedGroupFlashcardSet';
@@ -13,7 +13,7 @@ const fetchGroupFlashcardsForGroupFlashcardGroup = async (parentId: string) => {
   const { data: groupFlashcards, error } = await supabaseClient
     .from('group_flashcards')
     .select('question, id, answer')
-    .eq(SupabaseColumns.PARENT_ID, parentId);
+    .eq(SupabaseColumn.PARENT_ID, parentId);
 
   if (error) {
     console.error('Error fetching GroupFlashcards:', error);

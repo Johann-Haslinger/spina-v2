@@ -6,7 +6,7 @@ import { ChangeEvent, Fragment, useContext, useEffect, useRef, useState } from '
 import { IoArrowUp, IoClose } from 'react-icons/io5';
 import tw from 'twin.macro';
 
-import { AdditionalTags } from '../../../base/enums';
+import { AdditionalTag } from '../../../base/enums';
 import { FlexBox } from '../../../components';
 import { useCurrentSapientorConversation } from '../hooks/useCurrentConversation';
 
@@ -138,7 +138,7 @@ const SapientorPromptBox = (props: { isVisible: boolean }) => {
     const newPromptEntity = new Entity();
     lsc.engine.addEntity(newPromptEntity);
     newPromptEntity.add(new TextFacet({ text: prompt }));
-    newPromptEntity.addTag(AdditionalTags.PROMPT);
+    newPromptEntity.addTag(AdditionalTag.PROMPT);
 
     setPrompt('');
   };

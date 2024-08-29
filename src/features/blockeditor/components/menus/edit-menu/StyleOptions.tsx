@@ -8,7 +8,7 @@ import { motion } from 'framer-motion';
 import { Fragment, useContext, useEffect, useState } from 'react';
 import tw from 'twin.macro';
 import { BlocktypeFacet, ListStyleFacet, TexttypeFacet, TodoStateFacet } from '../../../../../app/additionalFacets';
-import { Blocktype, DataType, ListStyles, SupabaseColumns, SupabaseTables, Texttype } from '../../../../../base/enums';
+import { Blocktype, DataType, ListStyle, SupabaseColumn, SupabaseTable, Texttype } from '../../../../../base/enums';
 import { BLOCK_TYPE_TEXT_DATA, TEXT_TYPE_TEXT_DATA } from '../../../../../base/textData';
 import { useSelectedLanguage } from '../../../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../../../lib/supabase';
@@ -146,9 +146,9 @@ const updateSelectedBlocksTextType = async (lsc: ILeanScopeClient, newTextType: 
     const id = blockEntity.get(IdentifierFacet)?.props.guid;
 
     const { error } = await supabaseClient
-      .from(SupabaseTables.BLOCKS)
+      .from(SupabaseTable.BLOCKS)
       .update({ text_type: newTextType })
-      .eq(SupabaseColumns.ID, id);
+      .eq(SupabaseColumn.ID, id);
 
     if (error) {
       console.error('Error updating text type of block in supabase:', error);
@@ -171,7 +171,7 @@ const updateSelectedBlocksBlockType = async (lsc: ILeanScopeClient, newBlockType
       blockEntity.add(new TodoStateFacet({ todoState: 0 }));
     } else if (newBlockType === Blocktype.LIST) {
       blockEntity.add(new BlocktypeFacet({ blocktype: Blocktype.LIST }));
-      blockEntity.add(new ListStyleFacet({ listStyle: ListStyles.UNORDERED }));
+      blockEntity.add(new ListStyleFacet({ listStyle: ListStyle.UNORDERED }));
     } else if (newBlockType === Blocktype.PAGE) {
       blockEntity.add(new BlocktypeFacet({ blocktype: Blocktype.PAGE }));
     } else if (newBlockType === Blocktype.TEXT) {
@@ -181,9 +181,9 @@ const updateSelectedBlocksBlockType = async (lsc: ILeanScopeClient, newBlockType
     const id = blockEntity.get(IdentifierFacet)?.props.guid;
 
     const { error } = await supabaseClient
-      .from(SupabaseTables.BLOCKS)
+      .from(SupabaseTable.BLOCKS)
       .update({ type: newBlockType })
-      .eq(SupabaseColumns.ID, id);
+      .eq(SupabaseColumn.ID, id);
 
     if (error) {
       console.error('Error updating block type of block in supabase:', error);

@@ -5,7 +5,7 @@ import { useContext, useEffect } from 'react';
 import { v4 } from 'uuid';
 import { DateUpdatedFacet, StreakFacet } from '../../../app/additionalFacets';
 import { dummyStreak } from '../../../base/dummy';
-import { SupabaseTables } from '../../../base/enums';
+import { SupabaseTable } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import { useUserData } from '../../../hooks/useUserData';
 import supabaseClient from '../../../lib/supabase';
@@ -14,7 +14,7 @@ const fetchCurrentStreak = async () => {
   const twoDaysAgo = new Date().setDate(new Date().getDate() - 2);
 
   const { data: currentStreak, error } = await supabaseClient
-    .from(SupabaseTables.STREAKS)
+    .from(SupabaseTable.STREAKS)
     .select('streak, id, date_updated')
     .gte('date_updated', new Date(twoDaysAgo).toISOString())
     .single();
@@ -53,7 +53,7 @@ const LoadCurrentStreakSystem = () => {
         const newStreakId = v4();
 
         const { error } = await supabaseClient
-          .from(SupabaseTables.STREAKS)
+          .from(SupabaseTable.STREAKS)
           .insert([{ id: newStreakId, streak: 0, date_added: new Date(), user_id: userId }]);
 
         if (error) {

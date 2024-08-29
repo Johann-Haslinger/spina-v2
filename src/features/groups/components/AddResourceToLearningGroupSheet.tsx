@@ -9,7 +9,7 @@ import tw from 'twin.macro';
 import { v4 } from 'uuid';
 import { AnswerFacet, DateAddedFacet, QuestionFacet, TitleFacet } from '../../../app/additionalFacets';
 import { dummyGroupSchoolSubjects, dummyGroupTopics, dummyLearningGroups } from '../../../base/dummy';
-import { DataType, Story, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { DataType, Story, SupabaseColumn, SupabaseTable } from '../../../base/enums';
 import { CloseButton, FlexBox, ScrollableBox, Section, SectionRow, Sheet, Spacer } from '../../../components';
 import { addGroupFlashcards } from '../../../functions/addGroupFlashcards';
 import { addGroupNote } from '../../../functions/addGroupNote';
@@ -28,7 +28,7 @@ const StyledMoreButtonWrapper = styled.div`
 `;
 
 const fetchLearningGroups = async () => {
-  const { data: learningGroups, error } = await supabaseClient.from(SupabaseTables.LEARNING_GROUPS).select('title, id');
+  const { data: learningGroups, error } = await supabaseClient.from(SupabaseTable.LEARNING_GROUPS).select('title, id');
 
   if (error) {
     console.error('Error fetching learningGroups:', error);
@@ -40,7 +40,7 @@ const fetchLearningGroups = async () => {
 
 const fetchSchoolSubjectsForLearnigGroup = async (learningGroupId: string) => {
   const { data: schoolSubjects, error } = await supabaseClient
-    .from(SupabaseTables.GROUP_SCHOOL_SUBJECTS)
+    .from(SupabaseTable.GROUP_SCHOOL_SUBJECTS)
     .select('title, id')
     .eq('group_id', learningGroupId);
 
@@ -54,9 +54,9 @@ const fetchSchoolSubjectsForLearnigGroup = async (learningGroupId: string) => {
 
 const fetchTopicsForGroupSchoolSubject = async (subjectId: string) => {
   const { data: topics, error } = await supabaseClient
-    .from(SupabaseTables.GROUP_TOPICS)
+    .from(SupabaseTable.GROUP_TOPICS)
     .select('title, id')
-    .eq(SupabaseColumns.PARENT_ID, subjectId);
+    .eq(SupabaseColumn.PARENT_ID, subjectId);
 
   if (error) {
     console.error('Error fetching group topics:', error);

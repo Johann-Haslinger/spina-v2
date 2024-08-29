@@ -7,7 +7,7 @@ import { useContext, useEffect, useState } from 'react';
 import tw from 'twin.macro';
 import { v4 } from 'uuid';
 import { AnswerFacet, MasteryLevelFacet, QuestionFacet, TitleFacet } from '../../../../app/additionalFacets';
-import { AdditionalTags, DataType, Story, SupabaseColumns, SupabaseTables } from '../../../../base/enums';
+import { AdditionalTag, DataType, Story, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
 import {
   FlexBox,
   GeneratingIndecator,
@@ -107,7 +107,7 @@ const GenerateFlashcardsSheet = () => {
         parentId: selectedNoteParentId,
       };
 
-      selectedNoteEntity?.add(AdditionalTags.NAVIGATE_BACK);
+      selectedNoteEntity?.add(AdditionalTag.NAVIGATE_BACK);
 
       setTimeout(async () => {
         const subtopicEntity = new Entity();
@@ -125,9 +125,9 @@ const GenerateFlashcardsSheet = () => {
         }
 
         const { error: noteError } = await supabaseClient
-          .from(SupabaseTables.NOTES)
+          .from(SupabaseTable.NOTES)
           .delete()
-          .eq(SupabaseColumns.ID, selectedNoteId);
+          .eq(SupabaseColumn.ID, selectedNoteId);
 
         if (noteError) {
           console.error('Error deleting note', noteError);

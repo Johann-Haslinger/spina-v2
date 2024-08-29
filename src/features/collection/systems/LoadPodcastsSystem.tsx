@@ -5,14 +5,14 @@ import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect } from 'react';
 import { DateAddedFacet, TitleFacet } from '../../../app/additionalFacets';
 import { dummyPodcasts } from '../../../base/dummy';
-import { DataType, Story, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { DataType, Story, SupabaseColumn, SupabaseTable } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 import { useSelectedTopic } from '../hooks/useSelectedTopic';
 
 const fetchPodcasts = async () => {
   const { data: podcasts, error } = await supabaseClient
-    .from(SupabaseTables.PODCASTS)
+    .from(SupabaseTable.PODCASTS)
     .select('title, date_added, id')
     .limit(10);
 
@@ -25,9 +25,9 @@ const fetchPodcasts = async () => {
 
 const fetchPodcastsForTopic = async (parentId: string) => {
   const { data: podcasts, error } = await supabaseClient
-    .from(SupabaseTables.PODCASTS)
+    .from(SupabaseTable.PODCASTS)
     .select('title, date_added, id')
-    .eq(SupabaseColumns.PARENT_ID, parentId);
+    .eq(SupabaseColumn.PARENT_ID, parentId);
 
   if (error) {
     console.error('Error fetching podcasts', error);

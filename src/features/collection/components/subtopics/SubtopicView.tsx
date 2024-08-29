@@ -28,7 +28,7 @@ import {
   TitleFacet,
   TitleProps,
 } from '../../../../app/additionalFacets';
-import { AdditionalTags, DataType, Story } from '../../../../base/enums';
+import { AdditionalTag, DataType, Story } from '../../../../base/enums';
 import {
   ActionRow,
   BackButton,
@@ -80,7 +80,7 @@ const SubtopicView = (props: TitleProps & EntityProps & IdentifierProps) => {
   const { isBookmarked, toggleBookmark } = useBookmarked(entity);
   const { text, updateText } = useText(entity);
 
-  const navigateBack = () => entity.add(AdditionalTags.NAVIGATE_BACK);
+  const navigateBack = () => entity.add(AdditionalTag.NAVIGATE_BACK);
   const openDeleteAlert = () => lsc.stories.transitTo(Story.DELETING_SUBTOPIC_STORY);
   const openEditSheet = () => lsc.stories.transitTo(Story.EDITING_SUBTOPIC_STORY);
   const openAddFlashcardsSheet = () => lsc.stories.transitTo(Story.ADDING_FLASHCARDS_STORY);

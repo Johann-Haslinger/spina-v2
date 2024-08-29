@@ -1,14 +1,14 @@
 import { Entity } from '@leanscope/ecs-engine';
 import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntityComponents';
 import { IdentifierFacet } from '@leanscope/ecs-models';
-import { AdditionalTags, DataType, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { AdditionalTag, DataType, SupabaseColumn, SupabaseTable } from '../../../base/enums';
 import supabaseClient from '../../../lib/supabase';
 
 const changeFlashcardSetBookmarkedStatus = async (status: boolean, id: string) => {
   const { error } = await supabaseClient
-    .from(SupabaseTables.FLASHCARD_SETS)
+    .from(SupabaseTable.FLASHCARD_SETS)
     .update({ bookmarked: status })
-    .eq(SupabaseColumns.ID, id);
+    .eq(SupabaseColumn.ID, id);
   if (error) {
     console.error('Error updating flashcardSets:', error);
   }
@@ -16,9 +16,9 @@ const changeFlashcardSetBookmarkedStatus = async (status: boolean, id: string) =
 
 const changeSubtopicBookmarkedStatus = async (status: boolean, id: string) => {
   const { error } = await supabaseClient
-    .from(SupabaseTables.SUBTOPICS)
+    .from(SupabaseTable.SUBTOPICS)
     .update({ bookmarked: status })
-    .eq(SupabaseColumns.ID, id);
+    .eq(SupabaseColumn.ID, id);
   if (error) {
     console.error('Error updating subtopics:', error);
   }
@@ -26,9 +26,9 @@ const changeSubtopicBookmarkedStatus = async (status: boolean, id: string) => {
 
 const changeFlashcardBookmarkedStatus = async (status: boolean, id: string) => {
   const { error } = await supabaseClient
-    .from(SupabaseTables.FLASHCARDS)
+    .from(SupabaseTable.FLASHCARDS)
     .update({ bookmarked: status })
-    .eq(SupabaseColumns.ID, id);
+    .eq(SupabaseColumn.ID, id);
   if (error) {
     console.error('Error updating flashcards:', error);
   }
@@ -36,16 +36,16 @@ const changeFlashcardBookmarkedStatus = async (status: boolean, id: string) => {
 
 const changeNoteBookmarkedStatus = async (status: boolean, id: string) => {
   const { error } = await supabaseClient
-    .from(SupabaseTables.NOTES)
+    .from(SupabaseTable.NOTES)
     .update({ bookmarked: status })
-    .eq(SupabaseColumns.ID, id);
+    .eq(SupabaseColumn.ID, id);
   if (error) {
     console.error('Error updating notes:', error);
   }
 };
 
 export const useBookmarked = (entity: Entity) => {
-  const [isBookmarked] = useEntityHasTags(entity, AdditionalTags.BOOKMARKED);
+  const [isBookmarked] = useEntityHasTags(entity, AdditionalTag.BOOKMARKED);
   const [isFlashcardSet] = useEntityHasTags(entity, DataType.FLASHCARD_SET);
   const [isSubtopic] = useEntityHasTags(entity, DataType.SUBTOPIC);
   const [isNote] = useEntityHasTags(entity, DataType.NOTE);
@@ -55,7 +55,7 @@ export const useBookmarked = (entity: Entity) => {
   const toggleBookmark = async () => {
     if (id) {
       if (isBookmarked) {
-        entity.removeTag(AdditionalTags.BOOKMARKED);
+        entity.removeTag(AdditionalTag.BOOKMARKED);
         if (isFlashcardSet) {
           await changeFlashcardSetBookmarkedStatus(false, id);
         } else if (isSubtopic) {
@@ -66,7 +66,7 @@ export const useBookmarked = (entity: Entity) => {
           await changeNoteBookmarkedStatus(false, id);
         }
       } else {
-        entity.addTag(AdditionalTags.BOOKMARKED);
+        entity.addTag(AdditionalTag.BOOKMARKED);
         if (isFlashcardSet) {
           await changeFlashcardSetBookmarkedStatus(true, id);
         } else if (isSubtopic) {

@@ -3,7 +3,7 @@ import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ImageFacet, NameFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { EmailFacet } from '../app/additionalFacets';
-import { SupabaseTables } from '../base/enums';
+import { SupabaseTable } from '../base/enums';
 import supabaseClient from '../lib/supabase';
 
 const InitializeUserSystem = () => {
@@ -20,7 +20,7 @@ const InitializeUserSystem = () => {
       const userId = user.data.user?.id;
 
       const { data, error } = await supabaseClient
-        .from(SupabaseTables.PROFILES)
+        .from(SupabaseTable.PROFILES)
         .select('user_name, profile_picture')
         .eq('user_id', userId)
         .single();

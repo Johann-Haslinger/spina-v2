@@ -4,16 +4,16 @@ import { DescriptionFacet, IdentifierFacet, ParentFacet } from '@leanscope/ecs-m
 import { useContext, useEffect } from 'react';
 import { DateAddedFacet, TitleFacet } from '../../../app/additionalFacets';
 import { dummyGroupTopics } from '../../../base/dummy';
-import { DataType, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { DataType, SupabaseColumn, SupabaseTable } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 import { useSelectedGroupSchoolSubject } from '../hooks/useSelectedGroupSchoolSubject';
 
 const fetchGroupTopicsForSchoolSubject = async (subjectId: string) => {
   const { data: GroupTopics, error } = await supabaseClient
-    .from(SupabaseTables.GROUP_TOPICS)
+    .from(SupabaseTable.GROUP_TOPICS)
     .select('title, id, date_added, description')
-    .eq(SupabaseColumns.PARENT_ID, subjectId);
+    .eq(SupabaseColumn.PARENT_ID, subjectId);
 
   if (error) {
     console.error('Error fetching learning group topics:', error);

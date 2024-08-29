@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FlashcardsNavigationStates } from '../../../base/enums';
+import { FlashcardsNavigationState } from '../../../base/enums';
 
 // const StyledSegmentedControlWrapper = styled.div`
 //   ${tw`flex space-x-6 mr-2`}
@@ -26,9 +26,9 @@ import { FlashcardsNavigationStates } from '../../../base/enums';
 // };
 
 const usePageNavigation = () => {
-  const [currentNavigationState, setCurrentNavigationState] = useState(FlashcardsNavigationStates.OVERVIEW);
+  const [currentNavigationState, setCurrentNavigationState] = useState(FlashcardsNavigationState.OVERVIEW);
 
-  const changeNavigationState = (newNavigationState: FlashcardsNavigationStates) =>
+  const changeNavigationState = (newNavigationState: FlashcardsNavigationState) =>
     setCurrentNavigationState(newNavigationState);
 
   // const formattedNavigationState = (selectedLanguage: SupportedLanguages) => {

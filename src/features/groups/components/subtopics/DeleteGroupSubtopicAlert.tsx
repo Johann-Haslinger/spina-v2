@@ -1,7 +1,7 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext } from 'react';
-import { AdditionalTags, Story, SupabaseColumns, SupabaseTables } from '../../../../base/enums';
+import { AdditionalTag, Story, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
 import { Alert, AlertButton } from '../../../../components';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../../lib/supabase';
@@ -18,7 +18,7 @@ const DeleteGroupSubtopicAlert = () => {
 
   const deleteGroupSubtopic = async () => {
     navigateBack();
-    selectedGroupSubtopicEntity?.add(AdditionalTags.NAVIGATE_BACK);
+    selectedGroupSubtopicEntity?.add(AdditionalTag.NAVIGATE_BACK);
     setTimeout(async () => {
       if (selectedGroupSubtopicEntity) {
         lsc.engine.removeEntity(selectedGroupSubtopicEntity);
@@ -26,16 +26,16 @@ const DeleteGroupSubtopicAlert = () => {
         const { error: GroupSubtopicError } = await supabaseClient
           .from('group_subtopics')
           .delete()
-          .eq(SupabaseColumns.ID, selectedGroupSubtopicId);
+          .eq(SupabaseColumn.ID, selectedGroupSubtopicId);
 
         if (GroupSubtopicError) {
           console.error('Error deleting group subtopic', GroupSubtopicError);
         }
 
         const { error: blockError } = await supabaseClient
-          .from(SupabaseTables.BLOCKS)
+          .from(SupabaseTable.BLOCKS)
           .delete()
-          .eq(SupabaseColumns.PARENT_ID, selectedGroupSubtopicId);
+          .eq(SupabaseColumn.PARENT_ID, selectedGroupSubtopicId);
 
         if (blockError) {
           console.error('Error deleting blocks', blockError);
@@ -44,7 +44,7 @@ const DeleteGroupSubtopicAlert = () => {
         const { error: flashcardsError } = await supabaseClient
           .from('group_flashcards')
           .delete()
-          .eq(SupabaseColumns.PARENT_ID, selectedGroupSubtopicId);
+          .eq(SupabaseColumn.PARENT_ID, selectedGroupSubtopicId);
 
         if (flashcardsError) {
           console.error('Error deleting flashcards', flashcardsError);

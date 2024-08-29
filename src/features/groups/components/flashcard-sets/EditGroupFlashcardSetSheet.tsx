@@ -2,7 +2,7 @@ import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
 import { TitleFacet } from '../../../../app/additionalFacets';
-import { Story, SupabaseColumns } from '../../../../base/enums';
+import { Story, SupabaseColumn } from '../../../../base/enums';
 import {
   FlexBox,
   PrimaryButton,
@@ -42,7 +42,7 @@ const EditGroupFlashcardSetSheet = () => {
         .update({
           title: newTitle,
         })
-        .eq(SupabaseColumns.ID, selectedGroupFlashcardSetId);
+        .eq(SupabaseColumn.ID, selectedGroupFlashcardSetId);
 
       if (error) {
         console.error('Error updating flashcard set', error);

@@ -5,7 +5,7 @@ import { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { IoArrowBack } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { DateAddedProps, TitleFacet, TitleProps } from '../../../../app/additionalFacets';
-import { AdditionalTags, DataType, SupabaseTables } from '../../../../base/enums';
+import { AdditionalTag, DataType, SupabaseTable } from '../../../../base/enums';
 import { SecondaryText, Spacer, TextEditor } from '../../../../components';
 import supabaseClient from '../../../../lib/supabase';
 import { dataTypeQuery } from '../../../../utils/queries';
@@ -40,7 +40,7 @@ const ChapterSection = (
   });
   const chapterCount = useChapterCount(parentId);
 
-  const navigateBack = () => selectedChapters.forEach((e) => e.add(AdditionalTags.NAVIGATE_BACK));
+  const navigateBack = () => selectedChapters.forEach((e) => e.add(AdditionalTag.NAVIGATE_BACK));
 
   return (
     <StyledChapterWrapper>
@@ -96,7 +96,7 @@ const updateChapterTitle = async (entity: Entity, title: string) => {
   const id = entity?.get(IdentifierFacet)?.props.guid;
   if (!id) return;
 
-  const { error } = await supabaseClient.from(SupabaseTables.CHAPTERS).update({ title }).eq('id', id);
+  const { error } = await supabaseClient.from(SupabaseTable.CHAPTERS).update({ title }).eq('id', id);
 
   if (error) {
     console.error('Error updating chapter title:', error);

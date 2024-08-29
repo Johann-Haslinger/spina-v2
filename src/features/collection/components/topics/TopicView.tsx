@@ -14,7 +14,7 @@ import {
 import tw from 'twin.macro';
 import { v4 } from 'uuid';
 import { DateAddedFacet, DueDateFacet, SourceFacet, TitleFacet, TitleProps } from '../../../../app/additionalFacets';
-import { AdditionalTags, DataType, Story } from '../../../../base/enums';
+import { AdditionalTag, DataType, Story } from '../../../../base/enums';
 import {
   ActionRow,
   CollectionGrid,
@@ -74,7 +74,7 @@ const useImageSelector = () => {
         const newImagePromptEntity = new Entity();
         lsc.engine.addEntity(newImagePromptEntity);
         newImagePromptEntity.add(new SourceFacet({ source: base64 }));
-        newImagePromptEntity.add(AdditionalTags.GENERATE_FROM_IMAGE_PROMPT);
+        newImagePromptEntity.add(AdditionalTag.GENERATE_FROM_IMAGE_PROMPT);
 
         lsc.stories.transitTo(Story.GENERATING_RESOURCES_FROM_IMAGE);
       };
@@ -147,7 +147,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
   const grid = useSelectedSchoolSubjectGrid();
   const { hasChildren } = useEntityHasChildren(entity);
 
-  const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
+  const navigateBack = () => entity.addTag(AdditionalTag.NAVIGATE_BACK);
   const openEditTopicSheet = () => lsc.stories.transitTo(Story.EDITING_TOPIC_STORY);
   const openDeleteTopicAlert = () => lsc.stories.transitTo(Story.DELETING_TOPIC_STORY);
   const openAddFlashcardsSheet = () => lsc.stories.transitTo(Story.ADDING_FLASHCARD_SET_STORY);

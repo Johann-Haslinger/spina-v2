@@ -4,7 +4,7 @@ import { FloatOrderFacet, IdentifierFacet, ParentFacet } from '@leanscope/ecs-mo
 import { useContext, useEffect, useRef } from 'react';
 import { v4 } from 'uuid';
 import { BlocktypeFacet, TexttypeFacet } from '../../../app/additionalFacets';
-import { AdditionalTags, Blocktype, DataType, Texttype } from '../../../base/enums';
+import { AdditionalTag, Blocktype, DataType, Texttype } from '../../../base/enums';
 import { useUserData } from '../../../hooks/useUserData';
 import { addBlock } from '../functions/addBlock';
 import { changeBlockeditorState } from '../functions/changeBlockeditorState';
@@ -38,7 +38,7 @@ export const useClickOutsideBlockEditorHandler = () => {
             index: (getHighestOrder(lsc, blockeditorId || '') || 0) + 1,
           }),
         );
-        newBlockEntity.add(AdditionalTags.FOCUSED);
+        newBlockEntity.add(AdditionalTag.FOCUSED);
         newBlockEntity.add(DataType.BLOCK);
 
         addBlock(lsc, newBlockEntity, userId);

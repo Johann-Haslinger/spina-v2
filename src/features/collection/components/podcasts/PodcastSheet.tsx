@@ -4,7 +4,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { IoHeadset, IoPlay, IoPlayBack, IoPlayForward } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { DateAddedProps, SourceProps, TitleProps } from '../../../../app/additionalFacets';
-import { AdditionalTags } from '../../../../base/enums';
+import { AdditionalTag } from '../../../../base/enums';
 import { FlexBox, Sheet } from '../../../../components';
 import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
 import { formatCounterTime } from '../../../../utils/formatTime';
@@ -111,7 +111,7 @@ const PodcastSheet = (props: TitleProps & SourceProps & EntityProps & DateAddedP
     }
   }, [audioRef.current?.paused]);
 
-  const navigateBack = () => entity.add(AdditionalTags.NAVIGATE_BACK);
+  const navigateBack = () => entity.add(AdditionalTag.NAVIGATE_BACK);
 
   const handleTimeUpdate = () => {
     if (audioRef.current) {

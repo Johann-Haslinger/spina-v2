@@ -5,7 +5,7 @@ import { IdentifierFacet, Tags } from '@leanscope/ecs-models';
 import React, { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { Draggable, DraggableProvided } from 'react-beautiful-dnd';
 import tw from 'twin.macro';
-import { AdditionalTags } from '../../../../base/enums';
+import { AdditionalTag } from '../../../../base/enums';
 import { useCurrentBlockeditor } from '../../hooks/useCurrentBlockeditor';
 
 const StyledBlockWrapper = styled.div<{
@@ -49,7 +49,7 @@ const BlockOutline = (props: BlockOutlineProps & PropsWithChildren) => {
   const isEditing = blockeditorState === 'edit';
   const [isPressed] = useEntityHasTags(blockEntity, Tags.SELECTED);
   const blockId = blockEntity.get(IdentifierFacet)?.props.guid;
-  const [isContentEditable] = useEntityHasTags(blockEntity, AdditionalTags.CONTENT_EDITABLE);
+  const [isContentEditable] = useEntityHasTags(blockEntity, AdditionalTag.CONTENT_EDITABLE);
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const textBlockRef = useRef<HTMLDivElement | null>(null);
   const [startX, setStartX] = useState<number | null>(null);
@@ -67,7 +67,7 @@ const BlockOutline = (props: BlockOutlineProps & PropsWithChildren) => {
 
   useEffect(() => {
     if (!isEditing) {
-      blockEntity.addTag(AdditionalTags.CONTENT_EDITABLE);
+      blockEntity.addTag(AdditionalTag.CONTENT_EDITABLE);
     }
   }, [isEditing]);
 
@@ -80,7 +80,7 @@ const BlockOutline = (props: BlockOutlineProps & PropsWithChildren) => {
   const toggleIsBlockPressed = () => {
     if (blockeditorState !== 'write') {
       if (!isPressed) {
-        blockEntity.removeTag(AdditionalTags.CONTENT_EDITABLE);
+        blockEntity.removeTag(AdditionalTag.CONTENT_EDITABLE);
         blockEntity.add(Tags.SELECTED);
       } else {
         blockEntity.remove(Tags.SELECTED);

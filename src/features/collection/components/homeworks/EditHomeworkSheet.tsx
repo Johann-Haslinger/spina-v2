@@ -2,7 +2,7 @@ import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
 import { DueDateFacet, TitleFacet } from '../../../../app/additionalFacets';
-import { Story, SupabaseColumns, SupabaseTables } from '../../../../base/enums';
+import { Story, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
 import {
   DateInput,
   FlexBox,
@@ -42,12 +42,12 @@ const EditHomeworkSheet = () => {
       selectedHomeworkEntity?.add(new DueDateFacet({ dueDate: newDueDate }));
 
       const { error } = await supabaseClient
-        .from(SupabaseTables.HOMEWORKS)
+        .from(SupabaseTable.HOMEWORKS)
         .update({
           title: newTitle,
           due_date: newDueDate,
         })
-        .eq(SupabaseColumns.ID, selectedHomeworkId);
+        .eq(SupabaseColumn.ID, selectedHomeworkId);
 
       if (error) {
         console.error('Error updating homework set', error);

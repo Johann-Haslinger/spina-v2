@@ -3,7 +3,7 @@ import { Entity, useEntities } from '@leanscope/ecs-engine';
 import { IdentifierFacet, Tags } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { BlockeditorStateFacet } from '../../../app/additionalFacets';
-import { AdditionalTags } from '../../../base/enums';
+import { AdditionalTag } from '../../../base/enums';
 
 const InitializeBlockeditorSystem = (props: {
   blockeditorId: string;
@@ -26,7 +26,7 @@ const InitializeBlockeditorSystem = (props: {
       newBlockeditorEntity.add(new BlockeditorStateFacet({ blockeditorState: 'view' }));
 
       if (isGroupBlockeditor) {
-        newBlockeditorEntity.add(AdditionalTags.GROUP_BLOCKEDITOR);
+        newBlockeditorEntity.add(AdditionalTag.GROUP_BLOCKEDITOR);
       }
       newBlockeditorEntity.add(Tags.CURRENT);
     };

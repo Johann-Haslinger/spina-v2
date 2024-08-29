@@ -3,7 +3,7 @@ import { useEntities } from '@leanscope/ecs-engine';
 import { IdentifierFacet, Tags } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext } from 'react';
-import { DataType, Story, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { DataType, Story, SupabaseColumn, SupabaseTable } from '../../../base/enums';
 import { Alert, AlertButton } from '../../../components';
 import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../lib/supabase';
@@ -25,7 +25,7 @@ const DeleteBlocksAlert = () => {
 
       const id = blockEntity.get(IdentifierFacet)?.props.guid;
 
-      const { error } = await supabaseClient.from(SupabaseTables.BLOCKS).delete().eq(SupabaseColumns.ID, id);
+      const { error } = await supabaseClient.from(SupabaseTable.BLOCKS).delete().eq(SupabaseColumn.ID, id);
 
       if (error) {
         console.error('Error deleting block from supabase:', error);

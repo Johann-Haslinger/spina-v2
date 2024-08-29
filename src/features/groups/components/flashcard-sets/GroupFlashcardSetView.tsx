@@ -10,7 +10,7 @@ import {
 } from 'react-icons/io5';
 import { Fragment } from 'react/jsx-runtime';
 import { AnswerFacet, QuestionFacet, TitleProps } from '../../../../app/additionalFacets';
-import { AdditionalTags, DataType, Story } from '../../../../base/enums';
+import { AdditionalTag, DataType, Story } from '../../../../base/enums';
 import {
   ActionRow,
   BackButton,
@@ -41,7 +41,7 @@ const GroupFlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps
   const { selectedGroupTopicTitle } = useSelectedGroupTopic();
   const { hasChildren } = useEntityHasChildren(entity);
 
-  const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
+  const navigateBack = () => entity.addTag(AdditionalTag.NAVIGATE_BACK);
   const openEditGroupFlashcardSetSheet = () => lsc.stories.transitTo(Story.EDETING_GROUP_FLASHCARD_SET_STORY);
   const openDeleteGroupFlashcardSetAlert = () => lsc.stories.transitTo(Story.DELETING_GROUP_FLASHCARD_SET_STORY);
   const openCloneResourceSheet = () => lsc.stories.transitTo(Story.CLONING_RESOURCE_FROM_GROUP_STORY);

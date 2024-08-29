@@ -8,7 +8,7 @@ import { useContext, useState } from 'react';
 import { IoBookOutline, IoChevronForward } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { DateAddedFacet, DateAddedProps, TitleFacet, TitleProps } from '../../../../app/additionalFacets';
-import { AdditionalTags, DataType, Story } from '../../../../base/enums';
+import { AdditionalTag, DataType, Story } from '../../../../base/enums';
 import { BackButton, NavigationBar, NoContentAddedHint, Spacer, Title, View } from '../../../../components';
 import { isChildOfQuery } from '../../../../utils/queries';
 import { sortEntitiesByDateAdded } from '../../../../utils/sortEntitiesByTime';
@@ -41,7 +41,7 @@ const TopicArchive = () => {
           <EntityPropsMapper
             query={(e) =>
               e.hasTag(DataType.TOPIC) &&
-              e.hasTag(AdditionalTags.ARCHIVED) &&
+              e.hasTag(AdditionalTag.ARCHIVED) &&
               isChildOfQuery(e, selectedSchoolSubjectEntity)
             }
             get={[[TitleFacet, DateAddedFacet], []]}
@@ -61,7 +61,7 @@ const useArchivedTopics = () => {
   const { selectedSchoolSubjectEntity } = useSelectedSchoolSubject();
   const archivedTopicEntities = lsc.engine.entities.filter(
     (e) =>
-      e.hasTag(DataType.TOPIC) && e.hasTag(AdditionalTags.ARCHIVED) && isChildOfQuery(e, selectedSchoolSubjectEntity),
+      e.hasTag(DataType.TOPIC) && e.hasTag(AdditionalTag.ARCHIVED) && isChildOfQuery(e, selectedSchoolSubjectEntity),
   );
 
   const hasArchivedTopics = archivedTopicEntities.length > 0;

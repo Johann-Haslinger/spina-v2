@@ -2,8 +2,8 @@ import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { Entity, useEntities } from '@leanscope/ecs-engine';
 import { IdentifierFacet, TextFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
-import { MessageRoleFacet, DateAddedFacet, RelatedResourcesFacet } from '../../../app/additionalFacets';
-import { AdditionalTags, MessageRoles } from '../../../base/enums';
+import { DateAddedFacet, MessageRoleFacet, RelatedResourcesFacet } from '../../../app/additionalFacets';
+import { AdditionalTag, MessageRole } from '../../../base/enums';
 import { Resource } from '../../../base/types';
 import supabaseClient from '../../../lib/supabase';
 import { useCurrentSapientorConversation } from '../hooks/useCurrentConversation';
@@ -73,22 +73,22 @@ function formatString(input: string): string {
 
 const GenerateAnswerSystem = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const [currentPromptEntities] = useEntities((e) => e.hasTag(AdditionalTags.PROMPT));
-  const [currentThreadEntities] = useEntities((e) => e.hasTag(AdditionalTags.THREAD));
+  const [currentPromptEntities] = useEntities((e) => e.hasTag(AdditionalTag.PROMPT));
+  const [currentThreadEntities] = useEntities((e) => e.hasTag(AdditionalTag.THREAD));
   const { useSapientorAssistentModel } = useCurrentSapientorConversation();
 
   useEffect(() => {
     const generateAnswer = async (promptEntity: Entity) => {
       const prompt = promptEntity?.get(TextFacet)?.props.text;
-      const isProcessing = promptEntity?.hasTag(AdditionalTags.PROCESSING);
-      promptEntity?.add(AdditionalTags.PROCESSING);
+      const isProcessing = promptEntity?.hasTag(AdditionalTag.PROCESSING);
+      promptEntity?.add(AdditionalTag.PROCESSING);
 
       if (!prompt || isProcessing) return;
 
       const newQuestionMessageEntity = new Entity();
       lsc.engine.addEntity(newQuestionMessageEntity);
       newQuestionMessageEntity.add(new TextFacet({ text: prompt }));
-      newQuestionMessageEntity.add(new MessageRoleFacet({ role: MessageRoles.USER }));
+      newQuestionMessageEntity.add(new MessageRoleFacet({ role: MessageRole.USER }));
       newQuestionMessageEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
 
       const threadId = currentThreadEntities[0]?.get(IdentifierFacet)?.props.guid;
@@ -117,7 +117,7 @@ const GenerateAnswerSystem = () => {
           lsc.engine.addEntity(newCurrentThreadEntity);
           newCurrentThreadEntity.add(new IdentifierFacet({ guid: response.threadId }));
           newCurrentThreadEntity.add(new TextFacet({ text: response.assistantId || '' }));
-          newCurrentThreadEntity.addTag(AdditionalTags.THREAD);
+          newCurrentThreadEntity.addTag(AdditionalTag.THREAD);
         }
       } else {
         answer = await getTurboCompletion(prompt);
@@ -128,10 +128,10 @@ const GenerateAnswerSystem = () => {
           text: formatString(answer.replace('\n', '<br/><br/>').replace('#', '')),
         }),
       );
-      newAnswerMessageEntity.add(new MessageRoleFacet({ role: MessageRoles.SAPIENTOR }));
+      newAnswerMessageEntity.add(new MessageRoleFacet({ role: MessageRole.SAPIENTOR }));
       newAnswerMessageEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
 
-      promptEntity.remove(AdditionalTags.PROCESSING);
+      promptEntity.remove(AdditionalTag.PROCESSING);
       lsc.engine.removeEntity(promptEntity);
     };
 

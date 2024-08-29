@@ -1,17 +1,17 @@
 import { ILeanScopeClient } from '@leanscope/api-client/interfaces';
 import { Entity } from '@leanscope/ecs-engine';
-import supabaseClient from '../lib/supabase';
 import {
-  ParentFacet,
-  IdentifierFacet,
   FloatOrderFacet,
+  IdentifierFacet,
   ImageFacet,
   ImageFitFacet,
   ImageSizeFacet,
+  ParentFacet,
   TextFacet,
 } from '@leanscope/ecs-models';
-import { BlocktypeFacet, TodoStateFacet, ListStyleFacet, TexttypeFacet } from '../app/additionalFacets';
-import { SupabaseTables } from '../base/enums';
+import { BlocktypeFacet, ListStyleFacet, TexttypeFacet, TodoStateFacet } from '../app/additionalFacets';
+import { SupabaseTable } from '../base/enums';
+import supabaseClient from '../lib/supabase';
 
 export const addGroupsBlocks = async (
   lsc: ILeanScopeClient,
@@ -23,7 +23,7 @@ export const addGroupsBlocks = async (
     lsc.engine.addEntity(blockEntity);
   });
 
-  const { error } = await supabaseClient.from(SupabaseTables.GROUP_BLOCKS).insert(
+  const { error } = await supabaseClient.from(SupabaseTable.GROUP_BLOCKS).insert(
     blockEntities.map((blockEntity) => ({
       parent_id: blockEntity.get(ParentFacet)?.props.parentId,
       id: blockEntity.get(IdentifierFacet)?.props.guid,

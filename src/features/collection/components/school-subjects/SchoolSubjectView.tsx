@@ -4,7 +4,7 @@ import { DescriptionFacet, ImageFacet, Tags } from '@leanscope/ecs-models';
 import { useContext } from 'react';
 import { IoAdd, IoArchiveOutline } from 'react-icons/io5';
 import { TitleFacet, TitleProps } from '../../../../app/additionalFacets';
-import { AdditionalTags, DataType, Story } from '../../../../base/enums';
+import { AdditionalTag, DataType, Story } from '../../../../base/enums';
 import { BackButton, CollectionGrid, NavBarButton, NavigationBar, Spacer, Title, View } from '../../../../components';
 import NoContentAddedHint from '../../../../components/content/NoContentAddedHint';
 import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
@@ -26,7 +26,7 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
   const { hasTopics } = useSchoolSubjectTopicEntities(props.entity);
   const { selectedLanguage } = useSelectedLanguage();
 
-  const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
+  const navigateBack = () => entity.addTag(AdditionalTag.NAVIGATE_BACK);
   const openAddTopicSheet = () => lsc.stories.transitTo(Story.ADDING_TOPIC_STORY);
   const openTopicArchive = () => lsc.stories.transitTo(Story.OBSERVING_TOPIC_ARCHIVE_STORY);
 
@@ -52,7 +52,7 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
         <CollectionGrid gapSize="large" columnSize="large">
           <EntityPropsMapper
             query={(e) =>
-              dataTypeQuery(e, DataType.TOPIC) && isChildOfQuery(e, entity) && !e.hasTag(AdditionalTags.ARCHIVED)
+              dataTypeQuery(e, DataType.TOPIC) && isChildOfQuery(e, entity) && !e.hasTag(AdditionalTag.ARCHIVED)
             }
             sort={(a, b) => sortEntitiesByDateAdded(a, b)}
             get={[[TitleFacet, DescriptionFacet, ImageFacet], []]}

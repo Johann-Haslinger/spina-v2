@@ -19,7 +19,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import tw from 'twin.macro';
 import { ViSpina } from '../../assets/icons';
 import { COLOR_ITEMS, MEDIUM_DEVICE_WIDTH, NAV_LINKS } from '../../base/constants';
-import { NavigationLinks, SupportedLanguage, SupportedTheme } from '../../base/enums';
+import { NavigationLink, SupportedLanguage, SupportedTheme } from '../../base/enums';
 import { useAppState } from '../../features/collection/hooks/useAppState';
 import { usePlayingPodcast } from '../../features/collection/hooks/usePlayingPodcast';
 import { useSelectedTheme } from '../../features/collection/hooks/useSelectedTheme';
@@ -254,28 +254,28 @@ const StyledNavLinkIcon = styled.div<{ color: string }>`
   color: ${({ color }) => color};
 `;
 
-const selectNavLinkText = (navLink: NavigationLinks, selectedLanguage: SupportedLanguage) => {
+const selectNavLinkText = (navLink: NavigationLink, selectedLanguage: SupportedLanguage) => {
   switch (navLink) {
-    case NavigationLinks.COLLECTION:
+    case NavigationLink.COLLECTION:
       return displayHeaderTexts(selectedLanguage).collection;
-    case NavigationLinks.STUDY:
+    case NavigationLink.STUDY:
       return displayHeaderTexts(selectedLanguage).study;
-    case NavigationLinks.HOMEWORKS:
+    case NavigationLink.HOMEWORKS:
       return displayHeaderTexts(selectedLanguage).homeworks;
-    case NavigationLinks.FLASHCARDS:
+    case NavigationLink.FLASHCARDS:
       return displayHeaderTexts(selectedLanguage).flashcards;
-    case NavigationLinks.EXAMS:
+    case NavigationLink.EXAMS:
       return displayHeaderTexts(selectedLanguage).exams;
-    case NavigationLinks.OVERVIEW:
+    case NavigationLink.OVERVIEW:
       return displayHeaderTexts(selectedLanguage).overview;
-    case NavigationLinks.GROUPS:
+    case NavigationLink.GROUPS:
       return displayHeaderTexts(selectedLanguage).groups;
     default:
       return '';
   }
 };
 
-const SidebarLink = (props: { title: NavigationLinks; path: string; idx: number; isFullWidth: boolean }) => {
+const SidebarLink = (props: { title: NavigationLink; path: string; idx: number; isFullWidth: boolean }) => {
   const { title, path, idx, isFullWidth: isHoverd } = props;
   const { selectedLanguage } = useSelectedLanguage();
   const { pathname } = useLocation();

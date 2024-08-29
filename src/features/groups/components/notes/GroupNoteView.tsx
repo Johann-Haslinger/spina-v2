@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import { IoArrowDownCircleOutline, IoTrashOutline } from 'react-icons/io5';
 import { Fragment } from 'react/jsx-runtime';
 import { DateAddedFacet, TitleFacet, TitleProps } from '../../../../app/additionalFacets';
-import { AdditionalTags, DataType, Story, SupabaseColumns, SupabaseTables } from '../../../../base/enums';
+import { AdditionalTag, DataType, Story, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
 import { ActionRow, NavBarButton, View } from '../../../../components';
 import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
@@ -27,16 +27,16 @@ const GroupNoteView = (props: TitleProps & IdentifierProps & EntityProps) => {
   const { selectedLanguage } = useSelectedLanguage();
   const isVisible = useIsViewVisible(entity);
 
-  const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
+  const navigateBack = () => entity.addTag(AdditionalTag.NAVIGATE_BACK);
   const openDeleteAlert = () => lsc.stories.transitTo(Story.DELETING_GROUP_NOTE_STORY);
   const openCloneResourceSheet = () => lsc.stories.transitTo(Story.CLONING_RESOURCE_FROM_GROUP_STORY);
 
   const handleTitleBlur = async (value: string) => {
     entity.add(new TitleFacet({ title: value }));
     const { error } = await supabaseClient
-      .from(SupabaseTables.GROUP_NOTES)
+      .from(SupabaseTable.GROUP_NOTES)
       .update({ title: value })
-      .eq(SupabaseColumns.ID, guid);
+      .eq(SupabaseColumn.ID, guid);
 
     if (error) {
       console.error('Error updating group note title', error);

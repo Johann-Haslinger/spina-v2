@@ -4,14 +4,14 @@ import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntit
 import { IdentifierFacet } from '@leanscope/ecs-models';
 import { useContext } from 'react';
 import { v4 } from 'uuid';
-import { AdditionalTags, SupportedModels } from '../../../base/enums';
+import { AdditionalTag, SupportedModel } from '../../../base/enums';
 
 export const useCurrentSapientorConversation = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const [currentConversationEntity] = useEntity((e) => e.hasTag(AdditionalTags.SAPIENTOR_CONVERSATION));
-  const [isQuickChatVisible] = useEntityHasTags(currentConversationEntity, AdditionalTags.QUIK_CHAT_VISIBLE);
-  const [isChatSheetVisible] = useEntityHasTags(currentConversationEntity, AdditionalTags.CHAT_SHEET_VISIBLE);
-  const [useSapientorAssistentModel] = useEntityHasTags(currentConversationEntity, SupportedModels.SAPIENTOR_ASSISTENT);
+  const [currentConversationEntity] = useEntity((e) => e.hasTag(AdditionalTag.SAPIENTOR_CONVERSATION));
+  const [isQuickChatVisible] = useEntityHasTags(currentConversationEntity, AdditionalTag.QUIK_CHAT_VISIBLE);
+  const [isChatSheetVisible] = useEntityHasTags(currentConversationEntity, AdditionalTag.CHAT_SHEET_VISIBLE);
+  const [useSapientorAssistentModel] = useEntityHasTags(currentConversationEntity, SupportedModel.SAPIENTOR_ASSISTENT);
 
   const deleteCurrentConversation = () => {
     currentConversationEntity && lsc.engine.removeEntity(currentConversationEntity);
@@ -23,14 +23,14 @@ export const useCurrentSapientorConversation = () => {
         const newConversationEntity = new Entity();
         lsc.engine.addEntity(newConversationEntity);
         newConversationEntity.add(new IdentifierFacet({ guid: v4() }));
-        newConversationEntity.add(AdditionalTags.SAPIENTOR_CONVERSATION);
-        newConversationEntity?.add(AdditionalTags.QUIK_CHAT_VISIBLE);
-        newConversationEntity.add(SupportedModels.TURBO);
+        newConversationEntity.add(AdditionalTag.SAPIENTOR_CONVERSATION);
+        newConversationEntity?.add(AdditionalTag.QUIK_CHAT_VISIBLE);
+        newConversationEntity.add(SupportedModel.TURBO);
       } else {
-        currentConversationEntity.add(AdditionalTags.QUIK_CHAT_VISIBLE);
+        currentConversationEntity.add(AdditionalTag.QUIK_CHAT_VISIBLE);
       }
     } else {
-      currentConversationEntity?.remove(AdditionalTags.QUIK_CHAT_VISIBLE);
+      currentConversationEntity?.remove(AdditionalTag.QUIK_CHAT_VISIBLE);
     }
   };
 
@@ -40,24 +40,24 @@ export const useCurrentSapientorConversation = () => {
         const newConversationEntity = new Entity();
         lsc.engine.addEntity(newConversationEntity);
         newConversationEntity.add(new IdentifierFacet({ guid: v4() }));
-        newConversationEntity.add(AdditionalTags.SAPIENTOR_CONVERSATION);
-        newConversationEntity?.add(AdditionalTags.CHAT_SHEET_VISIBLE);
-        newConversationEntity.add(SupportedModels.TURBO);
+        newConversationEntity.add(AdditionalTag.SAPIENTOR_CONVERSATION);
+        newConversationEntity?.add(AdditionalTag.CHAT_SHEET_VISIBLE);
+        newConversationEntity.add(SupportedModel.TURBO);
       } else {
-        currentConversationEntity.add(AdditionalTags.CHAT_SHEET_VISIBLE);
+        currentConversationEntity.add(AdditionalTag.CHAT_SHEET_VISIBLE);
       }
     } else {
-      currentConversationEntity?.remove(AdditionalTags.CHAT_SHEET_VISIBLE);
+      currentConversationEntity?.remove(AdditionalTag.CHAT_SHEET_VISIBLE);
     }
   };
 
-  const changeModel = (model: SupportedModels) => {
-    if (model === SupportedModels.SAPIENTOR_ASSISTENT) {
-      currentConversationEntity?.add(SupportedModels.SAPIENTOR_ASSISTENT);
-      currentConversationEntity?.remove(SupportedModels.TURBO);
+  const changeModel = (model: SupportedModel) => {
+    if (model === SupportedModel.SAPIENTOR_ASSISTENT) {
+      currentConversationEntity?.add(SupportedModel.SAPIENTOR_ASSISTENT);
+      currentConversationEntity?.remove(SupportedModel.TURBO);
     } else {
-      currentConversationEntity?.remove(SupportedModels.SAPIENTOR_ASSISTENT);
-      currentConversationEntity?.add(SupportedModels.TURBO);
+      currentConversationEntity?.remove(SupportedModel.SAPIENTOR_ASSISTENT);
+      currentConversationEntity?.add(SupportedModel.TURBO);
     }
   };
 

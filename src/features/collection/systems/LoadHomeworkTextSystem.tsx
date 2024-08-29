@@ -2,16 +2,16 @@ import { useEntity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, Tags, TextFacet } from '@leanscope/ecs-models';
 import { useEffect } from 'react';
 import { dummyText } from '../../../base/dummy';
-import { DataType, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { DataType, SupabaseColumn, SupabaseTable } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import { useUserData } from '../../../hooks/useUserData';
 import supabaseClient from '../../../lib/supabase';
 
 const fetchHomeworkText = async (homeworkId: string, userId: string) => {
   const { data: text, error } = await supabaseClient
-    .from(SupabaseTables.HOMEWORKS)
+    .from(SupabaseTable.HOMEWORKS)
     .select('text')
-    .eq(SupabaseColumns.ID, homeworkId)
+    .eq(SupabaseColumn.ID, homeworkId)
     .single();
 
   if (error) {
@@ -20,9 +20,9 @@ const fetchHomeworkText = async (homeworkId: string, userId: string) => {
   }
 
   const { error: error2 } = await supabaseClient
-    .from(SupabaseTables.HOMEWORKS)
+    .from(SupabaseTable.HOMEWORKS)
     .update({ old_note_version: false, new_note_version: true, text: '' })
-    .eq(SupabaseColumns.ID, homeworkId);
+    .eq(SupabaseColumn.ID, homeworkId);
 
   if (error2) {
     console.error('error updating homework to oldNoteVersion', error2);
@@ -31,7 +31,7 @@ const fetchHomeworkText = async (homeworkId: string, userId: string) => {
   const homeworkText = text?.text;
 
   const { error: error3 } = await supabaseClient
-    .from(SupabaseTables.TEXTS)
+    .from(SupabaseTable.TEXTS)
     .upsert([{ text: homeworkText, parent_id: homeworkId, user_id: userId }]);
 
   if (error3) {
@@ -43,9 +43,9 @@ const fetchHomeworkText = async (homeworkId: string, userId: string) => {
 
 const fetchNoteVersion = async (homeworkId: string) => {
   const { data: noteVersionData, error } = await supabaseClient
-    .from(SupabaseTables.HOMEWORKS)
+    .from(SupabaseTable.HOMEWORKS)
     .select('old_note_version')
-    .eq(SupabaseColumns.ID, homeworkId)
+    .eq(SupabaseColumn.ID, homeworkId)
     .single();
 
   if (error) {

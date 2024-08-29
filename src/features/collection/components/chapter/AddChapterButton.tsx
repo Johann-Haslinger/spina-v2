@@ -8,7 +8,7 @@ import { IoAdd } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { v4 } from 'uuid';
 import { DateAddedFacet } from '../../../../app/additionalFacets';
-import { DataType, SupabaseTables } from '../../../../base/enums';
+import { DataType, SupabaseTable } from '../../../../base/enums';
 import { useUserData } from '../../../../hooks/useUserData';
 import supabaseClient from '../../../../lib/supabase';
 import { dataTypeQuery, isChildOfQuery } from '../../../../utils/queries';
@@ -34,7 +34,7 @@ const addChapter = async (lsc: ILeanScopeClient, userId: string, topic?: Entity)
   newChapterEntity.add(new OrderFacet({ orderIndex: orderIndex }));
   newChapterEntity.add(DataType.CHAPTER);
 
-  const { error } = await supabaseClient.from(SupabaseTables.CHAPTERS).insert({
+  const { error } = await supabaseClient.from(SupabaseTable.CHAPTERS).insert({
     id: id,
     user_id: userId,
     parent_id: parentId,

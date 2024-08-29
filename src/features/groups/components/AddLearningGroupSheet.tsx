@@ -8,7 +8,7 @@ import tw from 'twin.macro';
 import { v4 } from 'uuid';
 import { TitleFacet } from '../../../app/additionalFacets';
 import { COLOR_ITEMS } from '../../../base/constants';
-import { DataType, Story, SupabaseTables } from '../../../base/enums';
+import { DataType, Story, SupabaseTable } from '../../../base/enums';
 import {
   FlexBox,
   PrimaryButton,
@@ -79,7 +79,7 @@ const AddLearningGroupSheet = () => {
     newLearningGroupEntity.add(DataType.LEARNING_GROUP);
 
     if (shouldFetchFromSupabase) {
-      const { error } = await supabaseClient.from(SupabaseTables.LEARNING_GROUPS).insert([
+      const { error } = await supabaseClient.from(SupabaseTable.LEARNING_GROUPS).insert([
         {
           id: newLearningGroupId,
           title: newLearningGroup.title,
@@ -107,7 +107,7 @@ const AddLearningGroupSheet = () => {
         newLearningGroupSchoolSubjectEntity.add(new OrderFacet({ orderIndex: idx }));
         newLearningGroupSchoolSubjectEntity.add(DataType.GROUP_SCHOOL_SUBJECT);
 
-        const { error } = await supabaseClient.from(SupabaseTables.GROUP_SCHOOL_SUBJECTS).insert([
+        const { error } = await supabaseClient.from(SupabaseTable.GROUP_SCHOOL_SUBJECTS).insert([
           {
             id: newLearningGroupSchoolSubjectId,
             group_id: newLearningGroupId,

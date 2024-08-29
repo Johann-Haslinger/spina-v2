@@ -4,16 +4,16 @@ import { IdentifierFacet, OrderFacet, ParentFacet } from '@leanscope/ecs-models'
 import { useContext, useEffect } from 'react';
 import { DateAddedFacet, TitleFacet } from '../../../app/additionalFacets';
 import { dummyChapters } from '../../../base/dummy';
-import { DataType, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { DataType, SupabaseColumn, SupabaseTable } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 import { useSelectedTopic } from '../hooks/useSelectedTopic';
 
 const fetchChaptersForTopic = async (topicId: string) => {
   const { data: Chapters, error } = await supabaseClient
-    .from(SupabaseTables.CHAPTERS)
+    .from(SupabaseTable.CHAPTERS)
     .select('title, id, date_added, order_index')
-    .eq(SupabaseColumns.PARENT_ID, topicId);
+    .eq(SupabaseColumn.PARENT_ID, topicId);
 
   if (error) {
     console.error('Error fetching chapters:', error);

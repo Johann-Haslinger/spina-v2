@@ -1,7 +1,7 @@
 import { TextFacet } from '@leanscope/ecs-models';
 import { useEffect } from 'react';
 import { dummyText } from '../../../base/dummy';
-import { SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { SupabaseColumn, SupabaseTable } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 import { useSelectedExam } from '../hooks/useSelectedExam';
@@ -17,9 +17,9 @@ const LoadExamTextSystem = () => {
         examText = dummyText;
       } else if (shouldFetchFromSupabase) {
         const { data: examTextData, error } = await supabaseClient
-          .from(SupabaseTables.EXAMS)
+          .from(SupabaseTable.EXAMS)
           .select('text')
-          .eq(SupabaseColumns.ID, selectedExamId)
+          .eq(SupabaseColumn.ID, selectedExamId)
           .single();
 
         if (error) {

@@ -2,7 +2,7 @@ import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
 import { TitleFacet } from '../../../../app/additionalFacets';
-import { Story, SupabaseColumns, SupabaseTables } from '../../../../base/enums';
+import { Story, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
 import {
   FlexBox,
   PrimaryButton,
@@ -37,11 +37,11 @@ const EditFlashcardSetSheet = () => {
       selectedFlashcardSetEntity?.add(new TitleFacet({ title: newTitle }));
 
       const { error } = await supabaseClient
-        .from(SupabaseTables.FLASHCARD_SETS)
+        .from(SupabaseTable.FLASHCARD_SETS)
         .update({
           title: newTitle,
         })
-        .eq(SupabaseColumns.ID, selectedFlashcardSetId);
+        .eq(SupabaseColumn.ID, selectedFlashcardSetId);
 
       if (error) {
         console.error('Error updating flashcard set', error);

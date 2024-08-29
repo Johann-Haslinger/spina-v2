@@ -18,7 +18,7 @@ import {
   TitleFacet,
   TitleProps,
 } from '../../../../app/additionalFacets';
-import { AdditionalTags, DataType, Story } from '../../../../base/enums';
+import { AdditionalTag, DataType, Story } from '../../../../base/enums';
 import {
   ActionRow,
   BackButton,
@@ -62,7 +62,7 @@ const GroupSubtopicView = (props: TitleProps & EntityProps & IdentifierProps & T
   const { selectedGroupTopicTitle } = useSelectedGroupTopic();
   const [groupSubtopicViewState, setGroupSubtopicViewState] = useState(GroupSubtopicViewStates.NOTE);
 
-  const navigateBack = () => entity.add(AdditionalTags.NAVIGATE_BACK);
+  const navigateBack = () => entity.add(AdditionalTag.NAVIGATE_BACK);
   const openDeleteAlert = () => lsc.stories.transitTo(Story.DELETING_GROUP_SUBTOPIC_STORY);
   const openEditSheet = () => lsc.stories.transitTo(Story.EDETING_GROUP_SUBTOPIC_STORY);
   const openCloneResourceSheet = () => lsc.stories.transitTo(Story.CLONING_RESOURCE_FROM_GROUP_STORY);

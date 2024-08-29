@@ -9,7 +9,7 @@ import tw from 'twin.macro';
 import { v4 } from 'uuid';
 import { AnswerFacet, BlocktypeFacet, QuestionFacet, TitleFacet } from '../../../app/additionalFacets';
 import { dummyTopics } from '../../../base/dummy';
-import { Blocktype, DataType, Story, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { Blocktype, DataType, Story, SupabaseColumn, SupabaseTable } from '../../../base/enums';
 import { FlexBox, SecondaryButton, Section, SectionRow, Sheet, Spacer } from '../../../components';
 import { addBlocks } from '../../../functions/addBlocks';
 import { addFlashcardSet } from '../../../functions/addFlashcardSet';
@@ -32,9 +32,9 @@ const StyledMoreButtonWrapper = styled.div`
 
 const fetchTopicsForSchoolSubject = async (subjectId: string) => {
   const { data: topics, error } = await supabaseClient
-    .from(SupabaseTables.TOPICS)
+    .from(SupabaseTable.TOPICS)
     .select('title, id')
-    .eq(SupabaseColumns.PARENT_ID, subjectId);
+    .eq(SupabaseColumn.PARENT_ID, subjectId);
 
   if (error) {
     console.error('Error fetching topics:', error);

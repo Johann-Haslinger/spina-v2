@@ -18,7 +18,7 @@ import {
   QuestionFacet,
   StreakFacet,
 } from '../../../app/additionalFacets';
-import { AdditionalTags, DataType, Story, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { AdditionalTag, DataType, Story, SupabaseColumn, SupabaseTable } from '../../../base/enums';
 import { FlexBox, View } from '../../../components';
 import { useIsAnyStoryCurrent } from '../../../hooks/useIsAnyStoryCurrent';
 import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
@@ -35,7 +35,7 @@ import { useBookmarkedFlashcardGroups } from '../hooks/useBookmarkedFlashcardGro
 
 const fetchFlashcardsByDue = async () => {
   const { data: flashcards, error } = await supabaseClient
-    .from(SupabaseTables.FLASHCARDS)
+    .from(SupabaseTable.FLASHCARDS)
     .select('answer, question, id, parent_id')
     .lt('due_date', new Date().toISOString());
 
@@ -78,9 +78,9 @@ const useFlashcardQuizEntities = () => {
 
           if (id) {
             const { data: flashcards, error } = await supabaseClient
-              .from(SupabaseTables.FLASHCARDS)
+              .from(SupabaseTable.FLASHCARDS)
               .select('answer, question, id, parent_id')
-              .eq(SupabaseColumns.PARENT_ID, id);
+              .eq(SupabaseColumn.PARENT_ID, id);
             if (error) {
               console.error('Error fetching flashcards:', error);
             }
@@ -231,18 +231,18 @@ const FlashcardQuizView = () => {
 
       let dueDate: Date | null = null;
 
-      if (flashcardEntity.has(AdditionalTags.REMEMBERED_EASILY)) {
+      if (flashcardEntity.has(AdditionalTag.REMEMBERED_EASILY)) {
         dueDate = new Date();
         dueDate.setDate(dueDate.getDate() + 4);
-      } else if (flashcardEntity.has(AdditionalTags.REMEMBERED_WITH_EFFORT)) {
+      } else if (flashcardEntity.has(AdditionalTag.REMEMBERED_WITH_EFFORT)) {
         dueDate = new Date();
         dueDate.setDate(dueDate.getDate() + 1);
-      } else if (flashcardEntity.has(AdditionalTags.PARTIALLY_REMEMBERED)) {
+      } else if (flashcardEntity.has(AdditionalTag.PARTIALLY_REMEMBERED)) {
         dueDate = new Date();
         dueDate.setHours(dueDate.getHours() + 12);
-      } else if (flashcardEntity.has(AdditionalTags.ANSWERD_WRONG)) {
+      } else if (flashcardEntity.has(AdditionalTag.ANSWERD_WRONG)) {
         dueDate = new Date();
-      } else if (flashcardEntity.has(AdditionalTags.SKIP)) {
+      } else if (flashcardEntity.has(AdditionalTag.SKIP)) {
         dueDate = new Date();
         dueDate.setHours(dueDate.getHours() + 1);
       }
@@ -261,13 +261,13 @@ const FlashcardQuizView = () => {
       new CountFacet({
         count:
           dueFlashcardsCount -
-          (currentFlashcardIndex - flashcardEntities.filter((e) => e.has(AdditionalTags.ANSWERD_WRONG)).length),
+          (currentFlashcardIndex - flashcardEntities.filter((e) => e.has(AdditionalTag.ANSWERD_WRONG)).length),
       }),
     );
 
     const { error } = await supabaseClient
-      .from(SupabaseTables.FLASHCARDS)
-      .upsert(updatedFlashcards, { onConflict: SupabaseColumns.ID });
+      .from(SupabaseTable.FLASHCARDS)
+      .upsert(updatedFlashcards, { onConflict: SupabaseColumn.ID });
 
     if (error) {
       console.error('Fehler beim Aktualisieren der Flashcards:', error);
@@ -284,12 +284,12 @@ const FlashcardQuizView = () => {
       currentDate.getDate() !== new Date(streakEntity.get(DateUpdatedFacet)?.props.dateUpdated || '').getDate()
     ) {
       const { error: updateError } = await supabaseClient
-        .from(SupabaseTables.STREAKS)
+        .from(SupabaseTable.STREAKS)
         .update({
           streak: currentStreak + 1,
           date_updated: currentDate.toISOString(),
         })
-        .eq(SupabaseColumns.ID, streakEntity.get(IdentifierFacet)?.props.guid);
+        .eq(SupabaseColumn.ID, streakEntity.get(IdentifierFacet)?.props.guid);
 
       if (updateError) {
         console.error('Error updating current streak:', updateError);
@@ -308,13 +308,13 @@ const FlashcardQuizView = () => {
       session_date: new Date().toISOString(),
       duration: elapsedMinutes,
       flashcard_count: currentFlashcardIndex,
-      skip: flashcardEntities.filter((e) => e.has(AdditionalTags.SKIP)).length,
-      forgot: flashcardEntities.filter((e) => e.has(AdditionalTags.FORGOT)).length,
-      partially_remembered: flashcardEntities.filter((e) => e.has(AdditionalTags.PARTIALLY_REMEMBERED)).length,
-      remembered_with_effort: flashcardEntities.filter((e) => e.has(AdditionalTags.REMEMBERED_WITH_EFFORT)).length,
-      easily_remembered: flashcardEntities.filter((e) => e.has(AdditionalTags.REMEMBERED_EASILY)).length,
+      skip: flashcardEntities.filter((e) => e.has(AdditionalTag.SKIP)).length,
+      forgot: flashcardEntities.filter((e) => e.has(AdditionalTag.FORGOT)).length,
+      partially_remembered: flashcardEntities.filter((e) => e.has(AdditionalTag.PARTIALLY_REMEMBERED)).length,
+      remembered_with_effort: flashcardEntities.filter((e) => e.has(AdditionalTag.REMEMBERED_WITH_EFFORT)).length,
+      easily_remembered: flashcardEntities.filter((e) => e.has(AdditionalTag.REMEMBERED_EASILY)).length,
     };
-    const { error } = await supabaseClient.from(SupabaseTables.FLASHCARD_SESSIONS).insert([newFlashcardSession]);
+    const { error } = await supabaseClient.from(SupabaseTable.FLASHCARD_SESSIONS).insert([newFlashcardSession]);
 
     if (error) {
       console.error('Error adding flashcard session:', error);
@@ -414,8 +414,8 @@ const FlashcardQuizEndCard = (props: { elapsedTime: number }) => {
   const { elapsedTime } = props;
   const { color: accentColor } = useSelectedSchoolSubjectColor();
   const [isFlipped, setIsFlipped] = useState(false);
-  const [rightAnswerdFlashcards] = useEntities((e) => e.has(AdditionalTags.ANSWERD_RIGHT));
-  const [wrongAnswerdFlashcards] = useEntities((e) => e.has(AdditionalTags.ANSWERD_WRONG));
+  const [rightAnswerdFlashcards] = useEntities((e) => e.has(AdditionalTag.ANSWERD_RIGHT));
+  const [wrongAnswerdFlashcards] = useEntities((e) => e.has(AdditionalTag.ANSWERD_WRONG));
 
   const rightAnswerdFlashcardsCount = rightAnswerdFlashcards.length;
   const wrongAnswerdFlashcardsCount = wrongAnswerdFlashcards.length;
@@ -518,27 +518,27 @@ const FlashcardCell = (props: {
   }, [isCurrent]);
 
   const handleSkipClick = () => {
-    flashcardEntity.add(AdditionalTags.SKIP);
+    flashcardEntity.add(AdditionalTag.SKIP);
     navigateToNextFlashcard();
   };
 
   const handleForgotClick = () => {
-    flashcardEntity.add(AdditionalTags.FORGOT);
+    flashcardEntity.add(AdditionalTag.FORGOT);
     navigateToNextFlashcard();
   };
 
   const handlePartiallyRememberedClick = () => {
-    flashcardEntity.add(AdditionalTags.PARTIALLY_REMEMBERED);
+    flashcardEntity.add(AdditionalTag.PARTIALLY_REMEMBERED);
     navigateToNextFlashcard();
   };
 
   const handleRememberedWithEffortClick = () => {
-    flashcardEntity.add(AdditionalTags.REMEMBERED_WITH_EFFORT);
+    flashcardEntity.add(AdditionalTag.REMEMBERED_WITH_EFFORT);
     navigateToNextFlashcard();
   };
 
   const handleRememberedEasilyClick = () => {
-    flashcardEntity.add(AdditionalTags.REMEMBERED_EASILY);
+    flashcardEntity.add(AdditionalTag.REMEMBERED_EASILY);
     navigateToNextFlashcard();
   };
 

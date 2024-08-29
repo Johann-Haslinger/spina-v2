@@ -5,7 +5,7 @@ import { DescriptionProps, ImageProps, Tags } from '@leanscope/ecs-models';
 import { IoBook } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { TitleProps } from '../../../../app/additionalFacets';
-import { AdditionalTags } from '../../../../base/enums';
+import { AdditionalTag } from '../../../../base/enums';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import { displayAlertTexts } from '../../../../utils/displayText';
 import { useAppState } from '../../hooks/useAppState';
@@ -39,7 +39,7 @@ const TopicCell = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
   const { color: accentColor } = useTopicColor(entity);
   const { isSidebarVisible } = useAppState();
   const { selectedLanguage } = useSelectedLanguage();
-  const [isGeneratingImage] = useEntityHasTags(entity, AdditionalTags.GENERATING);
+  const [isGeneratingImage] = useEntityHasTags(entity, AdditionalTag.GENERATING);
   const { isDarkModeAktive: isDarkModeAktiv } = useSelectedTheme();
 
   const handleOpenTopic = () => {

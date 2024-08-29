@@ -10,7 +10,7 @@ import {
   TitleFacet,
 } from '../../../app/additionalFacets';
 import { dummyFlashcards, dummyPodcasts, dummyText } from '../../../base/dummy';
-import { DataType, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { DataType, SupabaseColumn, SupabaseTable } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import { useUserData } from '../../../hooks/useUserData';
 import supabaseClient from '../../../lib/supabase';
@@ -18,9 +18,9 @@ import { useSelectedSubtopic } from '../hooks/useSelectedSubtopic';
 
 const fetchNoteVersion = async (noteId: string) => {
   const { data: noteVersionData, error } = await supabaseClient
-    .from(SupabaseTables.SUBTOPICS)
+    .from(SupabaseTable.SUBTOPICS)
     .select('old_note_version, new_note_version')
-    .eq(SupabaseColumns.ID, noteId)
+    .eq(SupabaseColumn.ID, noteId)
     .single();
 
   if (error) {
@@ -36,9 +36,9 @@ const fetchNoteVersion = async (noteId: string) => {
 
 const fetchFlashcardsForSubtopic = async (parentId: string) => {
   const { data: flashcards, error } = await supabaseClient
-    .from(SupabaseTables.FLASHCARDS)
+    .from(SupabaseTable.FLASHCARDS)
     .select('question, id, answer, mastery_level')
-    .eq(SupabaseColumns.PARENT_ID, parentId);
+    .eq(SupabaseColumn.PARENT_ID, parentId);
 
   if (error) {
     console.error('Error fetching subtopic flashcards:', error);
@@ -49,9 +49,9 @@ const fetchFlashcardsForSubtopic = async (parentId: string) => {
 };
 const fetchPodcastForSubtopic = async (parentId: string) => {
   const { data: podcast, error } = await supabaseClient
-    .from(SupabaseTables.PODCASTS)
+    .from(SupabaseTable.PODCASTS)
     .select('title, id, date_added')
-    .eq(SupabaseColumns.PARENT_ID, parentId)
+    .eq(SupabaseColumn.PARENT_ID, parentId)
     .single();
 
   if (error) {
@@ -135,7 +135,7 @@ const LoadSubtopicResourcesSystem = () => {
             const { data: subtopicTextData, error } = await supabaseClient
               .from('knowledges')
               .select('text')
-              .eq(SupabaseColumns.PARENT_ID, selectedSubtopicId)
+              .eq(SupabaseColumn.PARENT_ID, selectedSubtopicId)
               .single();
 
             if (error) {
@@ -145,18 +145,18 @@ const LoadSubtopicResourcesSystem = () => {
             subtopicText = subtopicTextData?.text;
 
             const { error: error2 } = await supabaseClient
-              .from(SupabaseTables.SUBTOPICS)
+              .from(SupabaseTable.SUBTOPICS)
               .update({ old_note_version: false })
-              .eq(SupabaseColumns.ID, selectedSubtopicId);
+              .eq(SupabaseColumn.ID, selectedSubtopicId);
 
             if (error2) {
               console.error('error updating subtopic to oldNoteVersion', error2);
             }
           } else if (noteVersion == 'blocks-version') {
             const { data: blocks, error } = await supabaseClient
-              .from(SupabaseTables.BLOCKS)
+              .from(SupabaseTable.BLOCKS)
               .select('content')
-              .eq(SupabaseColumns.PARENT_ID, selectedSubtopicId);
+              .eq(SupabaseColumn.PARENT_ID, selectedSubtopicId);
 
             if (error) {
               console.error('error fetching blocks', error);
@@ -167,7 +167,7 @@ const LoadSubtopicResourcesSystem = () => {
             selectedSubtopicEntity?.add(new TextFacet({ text: text || '' }));
 
             const { error: error2 } = await supabaseClient
-              .from(SupabaseTables.TEXTS)
+              .from(SupabaseTable.TEXTS)
               .upsert([{ text, parent_id: selectedSubtopicId, user_id: userId }]);
 
             if (error2) {
@@ -175,18 +175,18 @@ const LoadSubtopicResourcesSystem = () => {
             }
 
             const { error: error3 } = await supabaseClient
-              .from(SupabaseTables.SUBTOPICS)
+              .from(SupabaseTable.SUBTOPICS)
               .update({ old_note_version: false, new_note_version: true })
-              .eq(SupabaseColumns.ID, selectedSubtopicId);
+              .eq(SupabaseColumn.ID, selectedSubtopicId);
 
             if (error3) {
               console.error('error updating note to newNoteVersion', error3);
             }
 
             const { error: error4 } = await supabaseClient
-              .from(SupabaseTables.BLOCKS)
+              .from(SupabaseTable.BLOCKS)
               .delete()
-              .eq(SupabaseColumns.PARENT_ID, selectedSubtopicId);
+              .eq(SupabaseColumn.PARENT_ID, selectedSubtopicId);
 
             if (error4) {
               console.error('error deleting blocks', error4);

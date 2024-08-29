@@ -4,13 +4,13 @@ import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { PriorityFacet, TitleFacet } from '../../../app/additionalFacets';
 import { dummyFlashcardSets, dummySubtopics } from '../../../base/dummy';
-import { DataType, SupabaseTables } from '../../../base/enums';
+import { DataType, SupabaseTable } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 
 const fetchFlashcardSets = async () => {
   const { data: flashcardSets, error } = await supabaseClient
-    .from(SupabaseTables.FLASHCARD_SETS)
+    .from(SupabaseTable.FLASHCARD_SETS)
     .select('id, title, priority, parent_id');
 
   if (error) {
@@ -22,7 +22,7 @@ const fetchFlashcardSets = async () => {
 
 const fetchSubtopics = async () => {
   const { data: subtopics, error } = await supabaseClient
-    .from(SupabaseTables.SUBTOPICS)
+    .from(SupabaseTable.SUBTOPICS)
     .select('id, title, priority, parent_id');
 
   if (error) {

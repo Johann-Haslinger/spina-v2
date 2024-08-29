@@ -83,7 +83,7 @@ export enum Story {
   READING_ARTICLE = 'readingArticle',
 }
 
-export enum AdditionalTags {
+export enum AdditionalTag {
   MOCKUP_DATA,
   NAVIGATE_BACK,
   APP_STATE_ENTITY,
@@ -124,7 +124,7 @@ export enum AdditionalTags {
   CHANGED,
 }
 
-export enum NavigationLinks {
+export enum NavigationLink {
   OVERVIEW = 'overview',
   STUDY = 'study',
   HOMEWORKS = 'homeworks',
@@ -172,7 +172,7 @@ export enum SupportedTheme {
   DARK = 'dark',
 }
 
-export enum MessageRoles {
+export enum MessageRole {
   SAPIENTOR = 'sapientor',
   USER = 'user',
 }
@@ -199,18 +199,18 @@ export enum Texttype {
   ITALIC = 'italic',
 }
 
-export enum ListStyles {
+export enum ListStyle {
   BULLET = 'bullet',
   NUMBER = 'number',
   UNORDERED = 'unordered',
 }
 
-export enum SupportedModels {
+export enum SupportedModel {
   SAPIENTOR_ASSISTENT,
   TURBO,
 }
 
-export enum SupabaseTables {
+export enum SupabaseTable {
   USERS = 'users',
   SCHOOL_SUBJECTS = 'school_subjects',
   TOPICS = 'topics',
@@ -239,7 +239,7 @@ export enum SupabaseTables {
   CHAPTERS = 'chapters',
 }
 
-export enum SupabaseColumns {
+export enum SupabaseColumn {
   ID = 'id',
   USER_ID = 'user_id',
   TITLE = 'title',
@@ -248,7 +248,7 @@ export enum SupabaseColumns {
   DUE_DATE = 'due_date',
 }
 
-export enum FlashcardsNavigationStates {
+export enum FlashcardsNavigationState {
   OVERVIEW = 'overview',
   FLASHCARDS = 'flashcards',
   STATS = 'stats',

@@ -4,7 +4,7 @@ import { IdentifierFacet, ParentFacet, TextFacet } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
 import { AnswerFacet, QuestionFacet, TitleFacet } from '../../../../app/additionalFacets';
-import { AdditionalTags, DataType, Story, SupabaseColumns, SupabaseTables } from '../../../../base/enums';
+import { AdditionalTag, DataType, Story, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
 import {
   FlexBox,
   GeneratingIndecator,
@@ -71,7 +71,7 @@ const GenerateTextFromFlashcardsSheet = () => {
   const saveText = async () => {
     navigateBack();
 
-    selectedFlashcardSetEntity?.add(AdditionalTags.NAVIGATE_BACK);
+    selectedFlashcardSetEntity?.add(AdditionalTag.NAVIGATE_BACK);
 
     if (selectedFlashcardSetId) {
       setTimeout(async () => {
@@ -87,9 +87,9 @@ const GenerateTextFromFlashcardsSheet = () => {
         addBlockEntitiesFromString(lsc, generatedText, selectedFlashcardSetId, '');
 
         const { error: flashcardSetError } = await supabaseClient
-          .from(SupabaseTables.FLASHCARD_SETS)
+          .from(SupabaseTable.FLASHCARD_SETS)
           .delete()
-          .eq(SupabaseColumns.ID, selectedFlashcardSetId);
+          .eq(SupabaseColumn.ID, selectedFlashcardSetId);
 
         if (flashcardSetError) {
           console.error('Error deleting flashcard set', flashcardSetError);

@@ -1,24 +1,24 @@
 import { ILeanScopeClient } from '@leanscope/api-client/interfaces';
 import { Entity } from '@leanscope/ecs-engine';
-import supabaseClient from '../lib/supabase';
 import {
-  ParentFacet,
-  IdentifierFacet,
   FloatOrderFacet,
+  IdentifierFacet,
   ImageFacet,
   ImageFitFacet,
   ImageSizeFacet,
+  ParentFacet,
   TextFacet,
 } from '@leanscope/ecs-models';
-import { BlocktypeFacet, TodoStateFacet, ListStyleFacet, TexttypeFacet } from '../app/additionalFacets';
-import { SupabaseTables } from '../base/enums';
+import { BlocktypeFacet, ListStyleFacet, TexttypeFacet, TodoStateFacet } from '../app/additionalFacets';
+import { SupabaseTable } from '../base/enums';
+import supabaseClient from '../lib/supabase';
 
 export const addBlocks = async (lsc: ILeanScopeClient, blockEntities: Entity[], userId: string) => {
   blockEntities.forEach((blockEntity) => {
     lsc.engine.addEntity(blockEntity);
   });
 
-  const { error } = await supabaseClient.from(SupabaseTables.BLOCKS).insert(
+  const { error } = await supabaseClient.from(SupabaseTable.BLOCKS).insert(
     blockEntities.map((blockEntity) => ({
       parent_id: blockEntity.get(ParentFacet)?.props.parentId,
       id: blockEntity.get(IdentifierFacet)?.props.guid,

@@ -9,12 +9,12 @@ import tw from 'twin.macro';
 import { v4 } from 'uuid';
 import { BlocktypeFacet, ListStyleFacet, TexttypeFacet, TodoStateFacet } from '../../../../app/additionalFacets';
 import {
-  AdditionalTags,
+  AdditionalTag,
   Blocktype,
   DataType,
-  ListStyles,
-  SupabaseColumns,
-  SupabaseTables,
+  ListStyle,
+  SupabaseColumn,
+  SupabaseTable,
   Texttype,
 } from '../../../../base/enums';
 import { useUserData } from '../../../../hooks/useUserData';
@@ -39,14 +39,14 @@ import HandleTexteditorKeyPressSystem from '../../systems/HandleTexteditorKeyPre
 
 const updateTextBlockToListBlock = async (blockEntity: Entity) => {
   blockEntity.add(new BlocktypeFacet({ blocktype: Blocktype.LIST }));
-  blockEntity.add(new ListStyleFacet({ listStyle: ListStyles.UNORDERED }));
+  blockEntity.add(new ListStyleFacet({ listStyle: ListStyle.UNORDERED }));
 
   const id = blockEntity.get(IdentifierFacet)?.props.guid;
 
   const { error } = await supabaseClient
-    .from(SupabaseTables.BLOCKS)
+    .from(SupabaseTable.BLOCKS)
     .update({ type: 'list', listStyle: 'unordered' })
-    .eq(SupabaseColumns.ID, id);
+    .eq(SupabaseColumn.ID, id);
 
   if (error) {
     console.error('Error updating block to list block:', error);
@@ -60,9 +60,9 @@ const udateTextBlockToTodoBlock = async (blockEntity: Entity) => {
   const id = blockEntity.get(IdentifierFacet)?.props.guid;
 
   const { error } = await supabaseClient
-    .from(SupabaseTables.BLOCKS)
+    .from(SupabaseTable.BLOCKS)
     .update({ type: 'todo', state: 0 })
-    .eq(SupabaseColumns.ID, id);
+    .eq(SupabaseColumn.ID, id);
 
   if (error) {
     console.error('Error updating block to todo block:', error);
@@ -92,7 +92,7 @@ const addDividerBlock = (lsc: ILeanScopeClient, blockEntity: Entity, userId: str
       nextHigherBlockType === Blocktype.TODO) &&
     nextHigherBlockText == ''
   ) {
-    nextHigherBlockEntity?.add(AdditionalTags.FOCUSED);
+    nextHigherBlockEntity?.add(AdditionalTag.FOCUSED);
   } else {
     const newBlock = new Entity();
     newBlock.add(new IdentifierFacet({ guid: v4() }));
@@ -120,7 +120,7 @@ const handleEnterPress = async (
   const cuttedtext = blockText?.substring(cursorPosition);
 
   if (blockType == Blocktype.TEXT || textEditor?.innerHTML !== '') {
-    blockEntity.removeTag(AdditionalTags.FOCUSED);
+    blockEntity.removeTag(AdditionalTag.FOCUSED);
     blockEntity.add(new TextFacet({ text: newtext }));
 
     const blockId = blockEntity.get(IdentifierFacet)?.props.guid;
@@ -141,14 +141,14 @@ const handleEnterPress = async (
     newBlockEntity.add(new TextFacet({ text: cuttedtext }));
     newBlockEntity.add(new BlocktypeFacet({ blocktype: blockType }));
     newBlockEntity.add(DataType.BLOCK);
-    newBlockEntity.add(AdditionalTags.FOCUSED);
+    newBlockEntity.add(AdditionalTag.FOCUSED);
 
     addBlock(lsc, newBlockEntity, userId);
 
     const { error } = await supabaseClient
-      .from(SupabaseTables.BLOCKS)
+      .from(SupabaseTable.BLOCKS)
       .update({ content: newtext })
-      .eq(SupabaseColumns.ID, blockId);
+      .eq(SupabaseColumn.ID, blockId);
 
     if (error) {
       console.error('Error updating block text:', error);
@@ -163,9 +163,9 @@ const handleEnterPress = async (
     const blockId = blockEntity.get(IdentifierFacet)?.props.guid;
 
     const { error } = await supabaseClient
-      .from(SupabaseTables.BLOCKS)
+      .from(SupabaseTable.BLOCKS)
       .update({ type: Blocktype.TEXT })
-      .eq(SupabaseColumns.ID, blockId);
+      .eq(SupabaseColumn.ID, blockId);
 
     if (error) {
       console.error('Error updating block type:', error);
@@ -181,13 +181,13 @@ const handleBackspacePressWithoutText = async (lsc: ILeanScopeClient, blockEntit
     const lowerBlockType = lowerBlockEntity?.get(BlocktypeFacet)?.props.blocktype;
     deleteBlock(lsc, blockEntity);
 
-    lowerBlockEntity?.add(AdditionalTags.FOCUSED);
+    lowerBlockEntity?.add(AdditionalTag.FOCUSED);
 
     if (
       lowerBlockEntity &&
       (lowerBlockType === Blocktype.TEXT || lowerBlockType === Blocktype.LIST || lowerBlockType === Blocktype.TODO)
     ) {
-      lowerBlockEntity.add(AdditionalTags.FOCUSED);
+      lowerBlockEntity.add(AdditionalTag.FOCUSED);
     }
   } else {
     blockEntity.add(new BlocktypeFacet({ blocktype: Blocktype.TEXT }));
@@ -195,9 +195,9 @@ const handleBackspacePressWithoutText = async (lsc: ILeanScopeClient, blockEntit
     const blockId = blockEntity.get(IdentifierFacet)?.props.guid;
 
     const { error } = await supabaseClient
-      .from(SupabaseTables.BLOCKS)
+      .from(SupabaseTable.BLOCKS)
       .update({ type: Blocktype.TEXT })
-      .eq(SupabaseColumns.ID, blockId);
+      .eq(SupabaseColumn.ID, blockId);
 
     if (error) {
       console.error('Error updating block type:', error);
@@ -219,7 +219,7 @@ const handleBackSpacePressWithText = (
   if (higherBlockType === Blocktype.TEXT || higherBlockType === Blocktype.TODO || higherBlockType === Blocktype.LIST) {
     texteditorRef.current?.blur();
     higherBlock?.add(new TextFacet({ text: higherBlockText + blockText }));
-    higherBlock?.add(AdditionalTags.FOCUSED);
+    higherBlock?.add(AdditionalTag.FOCUSED);
 
     deleteBlock(lsc, blockEntity);
   }
@@ -234,8 +234,8 @@ const handleArrowUpPress = (lsc: ILeanScopeClient, blockEntity: Entity) => {
     nextLowerBlockType === Blocktype.LIST ||
     nextLowerBlockType === Blocktype.TODO
   ) {
-    blockEntity.removeTag(AdditionalTags.FOCUSED);
-    nextLowerBlockEntity?.add(AdditionalTags.FOCUSED);
+    blockEntity.removeTag(AdditionalTag.FOCUSED);
+    nextLowerBlockEntity?.add(AdditionalTag.FOCUSED);
   }
 };
 const handleArrowDownPress = (lsc: ILeanScopeClient, blockEntity: Entity) => {
@@ -247,8 +247,8 @@ const handleArrowDownPress = (lsc: ILeanScopeClient, blockEntity: Entity) => {
     nextLowerBlockType === Blocktype.LIST ||
     nextLowerBlockType === Blocktype.TODO
   ) {
-    blockEntity.removeTag(AdditionalTags.FOCUSED);
-    nextLowerBlockEntity?.add(AdditionalTags.FOCUSED);
+    blockEntity.removeTag(AdditionalTag.FOCUSED);
+    nextLowerBlockEntity?.add(AdditionalTag.FOCUSED);
   }
 };
 
@@ -257,7 +257,7 @@ const changeBlockTextStyles = async (entity: Entity, textType: Texttype) => {
 
   const id = entity.get(IdentifierFacet)?.props.guid;
 
-  const { error } = await supabaseClient.from(SupabaseTables.BLOCKS).update({ textType }).eq(SupabaseColumns.ID, id);
+  const { error } = await supabaseClient.from(SupabaseTable.BLOCKS).update({ textType }).eq(SupabaseColumn.ID, id);
 
   if (error) {
     console.error('Error updating block text type:', error);
@@ -284,7 +284,7 @@ const BlockTexteditor = (props: EntityProps) => {
 
   const handleFocus = () => {
     changeBlockeditorState(blockeditorEntity, 'write');
-    entity.add(AdditionalTags.FOCUSED);
+    entity.add(AdditionalTag.FOCUSED);
   };
   const handleInput = (e: FormEvent<HTMLDivElement>) => entity.add(new TextFacet({ text: e.currentTarget.innerHTML }));
   const handleBlur = (e: FormEvent<HTMLDivElement>) => updateBlocktext(entity, e.currentTarget.innerHTML);
@@ -300,7 +300,7 @@ const BlockTexteditor = (props: EntityProps) => {
     if (text === '') {
       deleteBlock(lsc, entity);
     }
-    entity.removeTag(AdditionalTags.FOCUSED);
+    entity.removeTag(AdditionalTag.FOCUSED);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLParagraphElement>) => {

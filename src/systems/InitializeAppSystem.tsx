@@ -2,7 +2,7 @@ import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { Entity } from '@leanscope/ecs-engine';
 import { useContext, useEffect } from 'react';
 import { SelectedLanguageFacet } from '../app/additionalFacets';
-import { AdditionalTags, SupportedLanguage, SupportedTheme } from '../base/enums';
+import { AdditionalTag, SupportedLanguage, SupportedTheme } from '../base/enums';
 
 const InitializeAppSystem = (props: { mockupData?: boolean }) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -11,12 +11,12 @@ const InitializeAppSystem = (props: { mockupData?: boolean }) => {
   useEffect(() => {
     const appStateEntity = new Entity();
     lsc.engine.addEntity(appStateEntity);
-    appStateEntity.add(AdditionalTags.APP_STATE_ENTITY);
+    appStateEntity.add(AdditionalTag.APP_STATE_ENTITY);
     appStateEntity.add(SupportedTheme.LIGHT);
     if (mockupData) {
-      appStateEntity.add(AdditionalTags.MOCKUP_DATA);
+      appStateEntity.add(AdditionalTag.MOCKUP_DATA);
     } else {
-      appStateEntity.add(AdditionalTags.ONLINE);
+      appStateEntity.add(AdditionalTag.ONLINE);
     }
 
     const storedTheme = localStorage.getItem('theme');

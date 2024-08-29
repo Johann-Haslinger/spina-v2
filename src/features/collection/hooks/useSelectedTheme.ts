@@ -1,9 +1,9 @@
 import { useEntity } from '@leanscope/ecs-engine';
 import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntityComponents';
-import { AdditionalTags, SupportedTheme } from '../../../base/enums';
+import { AdditionalTag, SupportedTheme } from '../../../base/enums';
 
 export const useSelectedTheme = () => {
-  const [appStateEntity] = useEntity((e) => e.has(AdditionalTags.APP_STATE_ENTITY));
+  const [appStateEntity] = useEntity((e) => e.has(AdditionalTag.APP_STATE_ENTITY));
   const [isDarkModeAktiv] = useEntityHasTags(appStateEntity, SupportedTheme.DARK);
 
   const changeTheme = (theme: SupportedTheme) => {

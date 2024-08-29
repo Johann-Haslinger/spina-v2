@@ -3,7 +3,7 @@ import { Entity } from '@leanscope/ecs-engine';
 import { CountFacet, IdentifierFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { dummyFlashcards } from '../../../base/dummy';
-import { SupabaseTables } from '../../../base/enums';
+import { SupabaseTable } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 import { useDueFlashcards } from './useDueFlashcards';
@@ -12,7 +12,7 @@ const fetchDueFlashcards = async () => {
   const currentDateTime = new Date().toISOString();
 
   const { data, error } = await supabaseClient
-    .from(SupabaseTables.FLASHCARDS)
+    .from(SupabaseTable.FLASHCARDS)
     .select('bookmarked')
     .lte('due_date', currentDateTime);
 

@@ -8,7 +8,7 @@ import tw from 'twin.macro';
 import { v4 } from 'uuid';
 import { AnswerFacet, DateAddedFacet, QuestionFacet, SourceFacet, TitleFacet } from '../../../../app/additionalFacets';
 import { COLOR_ITEMS } from '../../../../base/constants';
-import { AdditionalTags, DataType, Story } from '../../../../base/enums';
+import { AdditionalTag, DataType, Story } from '../../../../base/enums';
 import { CloseButton, FlexBox, ScrollableBox, Sheet } from '../../../../components';
 import SapientorConversationMessage from '../../../../components/content/SapientorConversationMessage';
 import { addBlocks } from '../../../../functions/addBlocks';
@@ -93,7 +93,7 @@ const GenerateResourcesFromImageSheet = () => {
   const { selectedTopicId } = useSelectedTopic();
   const [isTypingAnimationPlaying, setIsTypingAnimationPlaying] = useState(true);
   const isVisible = useIsStoryCurrent(Story.GENERATING_RESOURCES_FROM_IMAGE);
-  const [imagePromptEntity] = useEntity((e) => e.has(AdditionalTags.GENERATE_FROM_IMAGE_PROMPT));
+  const [imagePromptEntity] = useEntity((e) => e.has(AdditionalTag.GENERATE_FROM_IMAGE_PROMPT));
   const imageSrc = imagePromptEntity?.get(SourceFacet)?.props.source;
 
   useEffect(() => {

@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import { IoCreateOutline, IoTrashOutline } from 'react-icons/io5';
 import { Fragment } from 'react/jsx-runtime';
 import { TitleProps } from '../../../../app/additionalFacets';
-import { AdditionalTags, Story } from '../../../../base/enums';
+import { AdditionalTag, Story } from '../../../../base/enums';
 import { ActionRow, View } from '../../../../components';
 import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
@@ -23,7 +23,7 @@ const GroupHomeworkView = (props: EntityProps & TitleProps & IdentifierProps) =>
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedGroupTopicTitle } = useSelectedGroupTopic();
 
-  const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
+  const navigateBack = () => entity.addTag(AdditionalTag.NAVIGATE_BACK);
   const openEditGroupHomeworkSheet = () => lsc.stories.transitTo(Story.EDETING_GROUP_HOMEWORK_STORY);
   const openDeleteGroupHomeworkAlert = () => lsc.stories.transitTo(Story.DELETING_GROUP_HOMEWORK_STORY);
 

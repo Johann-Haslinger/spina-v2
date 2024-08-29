@@ -4,7 +4,7 @@ import { Tags } from '@leanscope/ecs-models';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import tw from 'twin.macro';
 import { DateAddedFacet, SourceFacet, TitleFacet } from './app/additionalFacets';
-import { DataType, NavigationLinks, Story } from './base/enums';
+import { DataType, NavigationLink, Story } from './base/enums';
 import { Sidebar } from './components';
 import TabBar from './components/navigation/TabBar';
 import { AuthUI } from './features/auth-ui';
@@ -43,13 +43,13 @@ function App() {
         <Sidebar />
         <Routes>
           <Route path="/" element={<Overview />} />
-          <Route path={formatNavLinkAsPath(NavigationLinks.OVERVIEW)} element={<Overview />} />
-          <Route path={formatNavLinkAsPath(NavigationLinks.STUDY)} element={<Study />} />
-          <Route path={formatNavLinkAsPath(NavigationLinks.HOMEWORKS)} element={<Homeworks />} />
-          <Route path={formatNavLinkAsPath(NavigationLinks.EXAMS)} element={<Exams />} />
-          <Route path={formatNavLinkAsPath(NavigationLinks.COLLECTION)} element={<Collection />} />
-          <Route path={formatNavLinkAsPath(NavigationLinks.GROUPS)} element={<Groups />} />
-          <Route path={formatNavLinkAsPath(NavigationLinks.FLASHCARDS)} element={<Flashcards />} />
+          <Route path={formatNavLinkAsPath(NavigationLink.OVERVIEW)} element={<Overview />} />
+          <Route path={formatNavLinkAsPath(NavigationLink.STUDY)} element={<Study />} />
+          <Route path={formatNavLinkAsPath(NavigationLink.HOMEWORKS)} element={<Homeworks />} />
+          <Route path={formatNavLinkAsPath(NavigationLink.EXAMS)} element={<Exams />} />
+          <Route path={formatNavLinkAsPath(NavigationLink.COLLECTION)} element={<Collection />} />
+          <Route path={formatNavLinkAsPath(NavigationLink.GROUPS)} element={<Groups />} />
+          <Route path={formatNavLinkAsPath(NavigationLink.FLASHCARDS)} element={<Flashcards />} />
         </Routes>
 
         <Settings />

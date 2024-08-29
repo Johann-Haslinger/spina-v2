@@ -1,14 +1,14 @@
 import { ILeanScopeClient } from '@leanscope/api-client/interfaces';
 import { Entity } from '@leanscope/ecs-engine';
 import { DescriptionFacet, IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
-import { SupabaseTables } from '../base/enums';
-import supabaseClient from '../lib/supabase';
 import { DueDateFacet, RelationshipFacet, TitleFacet } from '../app/additionalFacets';
+import { SupabaseTable } from '../base/enums';
+import supabaseClient from '../lib/supabase';
 
 export const addHomework = async (lsc: ILeanScopeClient, homeworkEntity: Entity, userId: string) => {
   lsc.engine.addEntity(homeworkEntity);
 
-  const { error } = await supabaseClient.from(SupabaseTables.HOMEWORKS).insert([
+  const { error } = await supabaseClient.from(SupabaseTable.HOMEWORKS).insert([
     {
       id: homeworkEntity.get(IdentifierFacet)?.props.guid,
       user_id: userId,

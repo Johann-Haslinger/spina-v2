@@ -9,7 +9,7 @@ import {
   FlashcardPerformanceFacet,
 } from '../../../app/additionalFacets';
 import { dummyFlashcardSessions } from '../../../base/dummy';
-import { DataType, SupabaseTables } from '../../../base/enums';
+import { DataType, SupabaseTable } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 
@@ -17,7 +17,7 @@ const fetchFlashcardSessions = async () => {
   const sevenDaysAgo = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
 
   const { data: flashcardSessions, error } = await supabaseClient
-    .from(SupabaseTables.FLASHCARD_SESSIONS)
+    .from(SupabaseTable.FLASHCARD_SESSIONS)
     .select(
       'id, flashcard_count, session_date, duration, skip, forgot, partially_remembered, remembered_with_effort, easily_remembered',
     )

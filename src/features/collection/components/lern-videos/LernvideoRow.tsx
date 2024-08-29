@@ -5,7 +5,7 @@ import { Fragment, useState } from 'react';
 import { IoBookmarkOutline, IoEllipsisHorizontal, IoTrashOutline, IoVideocam } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { DateAddedProps, TitleProps } from '../../../../app/additionalFacets';
-import { AdditionalTags } from '../../../../base/enums';
+import { AdditionalTag } from '../../../../base/enums';
 import { ActionRow, ActionSheet, FlexBox } from '../../../../components';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import { displayActionTexts, displayAlertTexts, displayDataTypeTexts } from '../../../../utils/displayText';
@@ -41,7 +41,7 @@ const LernvideoRow = (props: TitleProps & DateAddedProps & EntityProps) => {
   const [isActionMenuOpen, setIsActionMenuOpen] = useState(false);
 
   const openLernvideo = () => entity.add(Tags.SELECTED);
-  const openDeleteAlert = () => entity.add(AdditionalTags.DELETE);
+  const openDeleteAlert = () => entity.add(AdditionalTag.DELETE);
 
   return (
     <Fragment>

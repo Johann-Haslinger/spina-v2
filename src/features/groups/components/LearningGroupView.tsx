@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import { IoCreateOutline, IoEllipsisHorizontalCircleOutline, IoTrashOutline } from 'react-icons/io5';
 import { Fragment } from 'react/jsx-runtime';
 import { TitleFacet, TitleProps } from '../../../app/additionalFacets';
-import { AdditionalTags, DataType, Story } from '../../../base/enums';
+import { AdditionalTag, DataType, Story } from '../../../base/enums';
 import {
   ActionRow,
   BackButton,
@@ -33,7 +33,7 @@ const LearningGroupView = (props: TitleProps & DescriptionProps & ColorProps & E
   const isVisible = useIsViewVisible(entity);
   const { selectedLanguage } = useSelectedLanguage();
 
-  const navigateBack = () => entity.add(AdditionalTags.NAVIGATE_BACK);
+  const navigateBack = () => entity.add(AdditionalTag.NAVIGATE_BACK);
   const openEditLearningGroupSheet = () => lsc.stories.transitTo(Story.EDITING_LEARNING_GROUP_STORY);
   const openDeleteLearningGroupAlert = () => lsc.stories.transitTo(Story.DELETING_LERNING_GROUP_STORY);
 

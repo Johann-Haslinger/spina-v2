@@ -1,7 +1,7 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext } from 'react';
-import { AdditionalTags, Story, SupabaseColumns, SupabaseTables } from '../../../../base/enums';
+import { AdditionalTag, Story, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
 import { Alert, AlertButton } from '../../../../components';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../../lib/supabase';
@@ -18,24 +18,24 @@ const DeleteFlashcardSetAlert = () => {
 
   const deleteFlashcardSet = async () => {
     navigateBack();
-    selectedFlashcardSetEntity?.add(AdditionalTags.NAVIGATE_BACK);
+    selectedFlashcardSetEntity?.add(AdditionalTag.NAVIGATE_BACK);
     setTimeout(async () => {
       if (selectedFlashcardSetEntity) {
         lsc.engine.removeEntity(selectedFlashcardSetEntity);
 
         const { error } = await supabaseClient
-          .from(SupabaseTables.FLASHCARD_SETS)
+          .from(SupabaseTable.FLASHCARD_SETS)
           .delete()
-          .eq(SupabaseColumns.ID, selectedFlashcardSetId);
+          .eq(SupabaseColumn.ID, selectedFlashcardSetId);
 
         if (error) {
           console.error('Error deleting flashcard set', error);
         }
 
         const { error: flashcardsError } = await supabaseClient
-          .from(SupabaseTables.FLASHCARDS)
+          .from(SupabaseTable.FLASHCARDS)
           .delete()
-          .eq(SupabaseColumns.PARENT_ID, selectedFlashcardSetId);
+          .eq(SupabaseColumn.PARENT_ID, selectedFlashcardSetId);
 
         if (flashcardsError) {
           console.error('Error deleting flashcards', flashcardsError);

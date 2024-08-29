@@ -1,6 +1,6 @@
 import { useEntity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, Tags } from '@leanscope/ecs-models';
-import { AdditionalTags, DataType } from '../../../base/enums';
+import { AdditionalTag, DataType } from '../../../base/enums';
 import { dataTypeQuery } from '../../../utils/queries';
 
 import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntityComponents';
@@ -11,13 +11,13 @@ export const useSelectedPodcast = () => {
   const selectedPodcastId = selectedPodcastEntity?.get(IdentifierFacet)?.props.guid;
   const selectedPodcastTitle = selectedPodcastEntity?.get(TitleFacet)?.props.title;
   const selectedPodcastSource = selectedPodcastEntity?.get(SourceFacet)?.props.source;
-  const [isPlaying] = useEntityHasTags(selectedPodcastEntity, AdditionalTags.PLAYING);
+  const [isPlaying] = useEntityHasTags(selectedPodcastEntity, AdditionalTag.PLAYING);
 
   const setIsPlaying = (value: boolean) => {
     if (value) {
-      selectedPodcastEntity?.addTag(AdditionalTags.PLAYING);
+      selectedPodcastEntity?.addTag(AdditionalTag.PLAYING);
     } else {
-      selectedPodcastEntity?.removeTag(AdditionalTags.PLAYING);
+      selectedPodcastEntity?.removeTag(AdditionalTag.PLAYING);
     }
   };
 

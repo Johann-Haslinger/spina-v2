@@ -4,7 +4,7 @@ import { CountFacet, IdentifierFacet, Tags } from '@leanscope/ecs-models';
 import tw from 'twin.macro';
 import { PriorityFacet, PriorityProps, TitleProps } from '../../../app/additionalFacets';
 import { COLOR_ITEMS } from '../../../base/constants';
-import { DataType, FlashcardGroupPriority, SupabaseTables } from '../../../base/enums';
+import { DataType, FlashcardGroupPriority, SupabaseTable } from '../../../base/enums';
 import supabaseClient from '../../../lib/supabase';
 import { useDueFlashcards } from '../hooks';
 
@@ -39,7 +39,7 @@ const updatePriority = async (
   const dataType = entity.has(DataType.FLASHCARD_SET) ? DataType.FLASHCARD_SET : DataType.SUBTOPIC;
 
   const { error } = await supabaseClient
-    .from(dataType == DataType.FLASHCARD_SET ? SupabaseTables.FLASHCARD_SETS : SupabaseTables.SUBTOPICS)
+    .from(dataType == DataType.FLASHCARD_SET ? SupabaseTable.FLASHCARD_SETS : SupabaseTable.SUBTOPICS)
     .update({ priority })
     .eq('id', id);
 
@@ -50,7 +50,7 @@ const updatePriority = async (
   const newFlashcardDueDate = priority === FlashcardGroupPriority.PAUSED ? null : new Date().toISOString();
 
   const { error: updateFlashcardsError } = await supabaseClient
-    .from(SupabaseTables.FLASHCARDS)
+    .from(SupabaseTable.FLASHCARDS)
     .update({ due_date: newFlashcardDueDate })
     .eq('parent_id', id);
 
@@ -61,7 +61,7 @@ const updatePriority = async (
   const currentDate = new Date().toISOString();
 
   const { data, error: dueFlashcardsError } = await supabaseClient
-    .from(SupabaseTables.FLASHCARDS)
+    .from(SupabaseTable.FLASHCARDS)
     .select('bookmarked')
     .lte('due_date', currentDate);
 

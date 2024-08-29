@@ -1,7 +1,7 @@
 import { useEntities, useEntity } from '@leanscope/ecs-engine';
 import { Tags } from '@leanscope/ecs-models';
 import { Fragment, useEffect, useState } from 'react';
-import { AdditionalTags, DataType, Story } from '../base/enums';
+import { AdditionalTag, DataType, Story } from '../base/enums';
 
 import { MEDIUM_DEVICE_WIDTH } from '../base/constants';
 import { SucessSheet } from '../components';
@@ -72,7 +72,7 @@ const ViewManagerSystem = () => {
     Story.OBSERVING_SPACED_REPETITION_QUIZ,
   ]);
   const { isDarkModeAktive: isDarkMode } = useSelectedTheme();
-  const [closingVews] = useEntities((e) => e.hasTag(Tags.SELECTED) && e.hasTag(AdditionalTags.NAVIGATE_BACK));
+  const [closingVews] = useEntities((e) => e.hasTag(Tags.SELECTED) && e.hasTag(AdditionalTag.NAVIGATE_BACK));
   const [themeColor, setThemeColor] = useState('#F5F5F5');
   const { backgroundColor } = useSelectedSchoolSubjectColor();
   const { isChatSheetVisible } = useCurrentSapientorConversation();
@@ -147,7 +147,7 @@ const ViewManagerSystem = () => {
     setTimeout(() => {
       closingVews.forEach((view) => {
         view.removeTag(Tags.SELECTED);
-        view.removeTag(AdditionalTags.NAVIGATE_BACK);
+        view.removeTag(AdditionalTag.NAVIGATE_BACK);
       });
     }, 300);
   }, [closingVews.length]);

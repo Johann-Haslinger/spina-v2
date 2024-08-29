@@ -2,7 +2,7 @@ import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
 import { TitleFacet } from '../../../../app/additionalFacets';
-import { Story, SupabaseColumns, SupabaseTables } from '../../../../base/enums';
+import { Story, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
 import {
   FlexBox,
   PrimaryButton,
@@ -37,11 +37,11 @@ const EditSubtopicSheet = () => {
       selectedSubtopicEntity?.add(new TitleFacet({ title: newTitle }));
 
       const { error } = await supabaseClient
-        .from(SupabaseTables.SUBTOPICS)
+        .from(SupabaseTable.SUBTOPICS)
         .update({
           title: newTitle,
         })
-        .eq(SupabaseColumns.ID, selectedSubtopicId);
+        .eq(SupabaseColumn.ID, selectedSubtopicId);
 
       if (error) {
         console.error('Error updating subtopic', error);

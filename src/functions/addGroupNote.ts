@@ -1,9 +1,9 @@
 import { ILeanScopeClient } from '@leanscope/api-client/interfaces';
 import { Entity } from '@leanscope/ecs-engine';
-import supabaseClient from '../lib/supabase';
 import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { TitleFacet } from '../app/additionalFacets';
-import { SupabaseTables } from '../base/enums';
+import { SupabaseTable } from '../base/enums';
+import supabaseClient from '../lib/supabase';
 
 export const addGroupNote = async (
   lsc: ILeanScopeClient,
@@ -13,7 +13,7 @@ export const addGroupNote = async (
 ) => {
   lsc.engine.addEntity(noteEntity);
 
-  const { error } = await supabaseClient.from(SupabaseTables.GROUP_NOTES).insert([
+  const { error } = await supabaseClient.from(SupabaseTable.GROUP_NOTES).insert([
     {
       id: noteEntity.get(IdentifierFacet)?.props.guid,
       parent_id: noteEntity.get(ParentFacet)?.props.parentId,

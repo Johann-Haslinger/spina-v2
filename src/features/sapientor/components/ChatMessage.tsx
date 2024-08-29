@@ -8,7 +8,7 @@ import { Fragment } from 'react/jsx-runtime';
 import tw from 'twin.macro';
 import { MessageRoleProps, RelatedResourcesProps, TitleFacet, TitleProps } from '../../../app/additionalFacets';
 import { COLOR_ITEMS } from '../../../base/constants';
-import { AdditionalTags, DataType, MessageRoles } from '../../../base/enums';
+import { AdditionalTag, DataType, MessageRole } from '../../../base/enums';
 import { Resource } from '../../../base/types';
 import { NoteThumbNail, TopicResoucreThumbNail } from '../../../components';
 import SapientorConversationMessage from '../../../components/content/SapientorConversationMessage';
@@ -22,7 +22,7 @@ const TopicResourceCell = (props: TitleProps & EntityProps) => {
 
   const openTopic = () => {
     entity.addTag(Tags.SELECTED);
-    appStateEntity?.remove(AdditionalTags.CONVERSATION_VISIBLE);
+    appStateEntity?.remove(AdditionalTag.CONVERSATION_VISIBLE);
   };
 
   return <TopicResoucreThumbNail onClick={openTopic} color={COLOR_ITEMS[1].color} title={title} />;
@@ -77,7 +77,7 @@ const InitializeRelatedResourcesSystem = (props: { relatedResources: Resource[] 
         newResoucreEntity.add(new IdentifierFacet({ guid: r.id }));
         newResoucreEntity.add(new TitleFacet({ title: r.title }));
         newResoucreEntity.add(r.resourceType as DataType);
-        newResoucreEntity.add(AdditionalTags.RELATED_THREAD_RESOURCE);
+        newResoucreEntity.add(AdditionalTag.RELATED_THREAD_RESOURCE);
       }
     });
   }, [lsc.engine, relatedResources, relatedResources.length]);
@@ -147,7 +147,7 @@ const ChatMessage = (props: TextProps & MessageRoleProps & RelatedResourcesProps
         <SapientorConversationMessage
           playWritingAnimation={false}
           message={{
-            role: role == MessageRoles.USER ? 'user' : 'gpt',
+            role: role == MessageRole.USER ? 'user' : 'gpt',
             message: text,
             specialContent: relatedResources.length > 0 && <RelatedResourcesInfo relatedResources={relatedResources} />,
           }}

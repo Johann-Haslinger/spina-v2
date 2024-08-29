@@ -4,16 +4,16 @@ import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { DateAddedFacet, TitleFacet } from '../../../app/additionalFacets';
 import { dummyPodcasts } from '../../../base/dummy';
-import { DataType, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { DataType, SupabaseColumn, SupabaseTable } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 import { useSelectedNote } from '../hooks/useSelectedNote';
 
 const fetchPodcastsForNote = async (noteId: string) => {
   const { data: podcasts, error } = await supabaseClient
-    .from(SupabaseTables.PODCASTS)
+    .from(SupabaseTable.PODCASTS)
     .select('title, id, date_added')
-    .eq(SupabaseColumns.PARENT_ID, noteId);
+    .eq(SupabaseColumn.PARENT_ID, noteId);
 
   if (error) {
     console.error('Error fetching note podcasts:', error);

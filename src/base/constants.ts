@@ -1,6 +1,6 @@
 import { formatNavLinkAsPath } from '../utils/formatNavLinkAsPath';
 
-import { NavigationLinks, SupportedLanguage } from './enums';
+import { NavigationLink, SupportedLanguage } from './enums';
 
 export const SELECTED_LANGUAGE = SupportedLanguage.DE;
 
@@ -10,24 +10,24 @@ export const LARGE_DEVICE_WIDTH = 1400;
 
 export const NAV_LINKS = [
   {
-    title: NavigationLinks.OVERVIEW,
-    path: formatNavLinkAsPath(NavigationLinks.OVERVIEW),
+    title: NavigationLink.OVERVIEW,
+    path: formatNavLinkAsPath(NavigationLink.OVERVIEW),
   },
   {
-    title: NavigationLinks.FLASHCARDS,
-    path: formatNavLinkAsPath(NavigationLinks.FLASHCARDS),
+    title: NavigationLink.FLASHCARDS,
+    path: formatNavLinkAsPath(NavigationLink.FLASHCARDS),
   },
   {
-    title: NavigationLinks.HOMEWORKS,
-    path: formatNavLinkAsPath(NavigationLinks.HOMEWORKS),
+    title: NavigationLink.HOMEWORKS,
+    path: formatNavLinkAsPath(NavigationLink.HOMEWORKS),
   },
   {
-    title: NavigationLinks.EXAMS,
-    path: formatNavLinkAsPath(NavigationLinks.EXAMS),
+    title: NavigationLink.EXAMS,
+    path: formatNavLinkAsPath(NavigationLink.EXAMS),
   },
   {
-    title: NavigationLinks.COLLECTION,
-    path: formatNavLinkAsPath(NavigationLinks.COLLECTION),
+    title: NavigationLink.COLLECTION,
+    path: formatNavLinkAsPath(NavigationLink.COLLECTION),
   },
 
   // {

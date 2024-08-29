@@ -1,7 +1,7 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext } from 'react';
-import { AdditionalTags, Story, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { AdditionalTag, Story, SupabaseColumn, SupabaseTable } from '../../../base/enums';
 import { Alert, AlertButton } from '../../../components';
 import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../lib/supabase';
@@ -18,15 +18,12 @@ const DeleteExamAlert = () => {
 
   const deleteExam = async () => {
     navigateBack();
-    selectedExamEntity?.add(AdditionalTags.NAVIGATE_BACK);
+    selectedExamEntity?.add(AdditionalTag.NAVIGATE_BACK);
     setTimeout(async () => {
       if (selectedExamEntity) {
         lsc.engine.removeEntity(selectedExamEntity);
 
-        const { error } = await supabaseClient
-          .from(SupabaseTables.EXAMS)
-          .delete()
-          .eq(SupabaseColumns.ID, selectedExamId);
+        const { error } = await supabaseClient.from(SupabaseTable.EXAMS).delete().eq(SupabaseColumn.ID, selectedExamId);
 
         if (error) {
           console.error('Error deleting exam', error);

@@ -7,7 +7,7 @@ import { FitTypes, IdentifierFacet, ImageFitFacet, ImageSizeFacet, SizeTypes, Ta
 import React, { useContext } from 'react';
 import { IoCropOutline, IoMoveOutline, IoScanOutline, IoSquareOutline } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { DataType, SupabaseColumns, SupabaseTables } from '../../../../../base/enums';
+import { DataType, SupabaseColumn, SupabaseTable } from '../../../../../base/enums';
 import { IMAGE_FIT_TEXT_DATA, IMAGE_SIZE_TEXT_DATA } from '../../../../../base/textData';
 import { useSelectedLanguage } from '../../../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../../../lib/supabase';
@@ -54,9 +54,9 @@ const changeSize = (lsc: ILeanScopeClient, size: SizeTypes) => {
     const blockId = blockEntity.get(IdentifierFacet)?.props.guid;
 
     const { error } = await supabaseClient
-      .from(SupabaseTables.BLOCKS)
+      .from(SupabaseTable.BLOCKS)
       .update({ size: size })
-      .eq(SupabaseColumns.ID, blockId);
+      .eq(SupabaseColumn.ID, blockId);
 
     if (error) {
       console.error('Error updating block size', error);
@@ -73,9 +73,9 @@ const changeFit = (lsc: ILeanScopeClient, fit: FitTypes) => {
     const blockId = blockEntity.get(IdentifierFacet)?.props.guid;
 
     const { error } = await supabaseClient
-      .from(SupabaseTables.BLOCKS)
+      .from(SupabaseTable.BLOCKS)
       .update({ fit: fit })
-      .eq(SupabaseColumns.ID, blockId);
+      .eq(SupabaseColumn.ID, blockId);
 
     if (error) {
       console.error('Error updating block fit', error);

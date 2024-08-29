@@ -4,7 +4,7 @@ import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntit
 import React, { Fragment, useContext } from 'react';
 import { IoAdd, IoColorWandOutline, IoEllipsisHorizontalCircleOutline, IoSparklesOutline } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { AdditionalTags, Story } from '../../../base/enums';
+import { AdditionalTag, Story } from '../../../base/enums';
 import { ActionRow, BackButton, NavBarButton, NavigationBar, PrimaryButton, Spacer, Title } from '../../../components';
 import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
 import { displayActionTexts, displayButtonTexts } from '../../../utils/displayText';
@@ -59,7 +59,7 @@ const Blockeditor = (props: BlockeditorProps) => {
   const { selectedLanguage } = useSelectedLanguage();
   const { blockeditorState, blockeditorEntity, blockeditorId } = useCurrentBlockeditor();
   const { blocksAreaRef, addBlockAreaRef } = useClickOutsideBlockEditorHandler();
-  const [isGroupBlockeditor] = useEntityHasTags(blockeditorEntity, AdditionalTags.GROUP_BLOCKEDITOR);
+  const [isGroupBlockeditor] = useEntityHasTags(blockeditorEntity, AdditionalTag.GROUP_BLOCKEDITOR);
 
   const openImproveTextSheet = () => lsc.stories.transitTo(Story.GENERATING_IMPROVED_TEXT_STORY);
 

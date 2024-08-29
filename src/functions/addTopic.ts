@@ -2,7 +2,7 @@ import { ILeanScopeClient } from '@leanscope/api-client/interfaces';
 import { Entity } from '@leanscope/ecs-engine';
 import { DescriptionFacet, IdentifierFacet, ImageFacet, ParentFacet } from '@leanscope/ecs-models';
 import { TitleFacet } from '../app/additionalFacets';
-import { SupabaseTables } from '../base/enums';
+import { SupabaseTable } from '../base/enums';
 import supabaseClient from '../lib/supabase';
 
 export const addTopic = async (lsc: ILeanScopeClient, topicEntity: Entity, userId: string) => {
@@ -12,7 +12,7 @@ export const addTopic = async (lsc: ILeanScopeClient, topicEntity: Entity, userI
   const parentId = topicEntity.get(ParentFacet)?.props.parentId;
   const title = topicEntity.get(TitleFacet)?.props.title;
 
-  const { error } = await supabaseClient.from(SupabaseTables.TOPICS).insert([
+  const { error } = await supabaseClient.from(SupabaseTable.TOPICS).insert([
     {
       id: topicId,
       parent_id: parentId,

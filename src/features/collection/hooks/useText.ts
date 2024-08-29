@@ -2,16 +2,16 @@ import { Entity } from '@leanscope/ecs-engine';
 import { useEntityFacets } from '@leanscope/ecs-engine/react-api/hooks/useEntityFacets';
 import { IdentifierFacet, TextFacet } from '@leanscope/ecs-models';
 import { useEffect } from 'react';
-import { SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { SupabaseColumn, SupabaseTable } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import { useUserData } from '../../../hooks/useUserData';
 import supabaseClient from '../../../lib/supabase';
 
 const fetchText = async (parentId: string, userId: string) => {
   const { data: textData, error } = await supabaseClient
-    .from(SupabaseTables.TEXTS)
+    .from(SupabaseTable.TEXTS)
     .select('text')
-    .eq(SupabaseColumns.PARENT_ID, parentId);
+    .eq(SupabaseColumn.PARENT_ID, parentId);
 
   if (error) {
     console.error('Error fetching text', error);
@@ -19,7 +19,7 @@ const fetchText = async (parentId: string, userId: string) => {
 
   if (textData?.length === 0) {
     const { error: error2 } = await supabaseClient
-      .from(SupabaseTables.TEXTS)
+      .from(SupabaseTable.TEXTS)
       .insert([{ text: '', parent_id: parentId, user_id: userId }]);
 
     if (error2) {
@@ -62,9 +62,9 @@ export const useText = (entity: Entity) => {
     entity.add(new TextFacet({ text: newText }));
 
     const { error } = await supabaseClient
-      .from(SupabaseTables.TEXTS)
+      .from(SupabaseTable.TEXTS)
       .update({ text: newText })
-      .eq(SupabaseColumns.PARENT_ID, parentId);
+      .eq(SupabaseColumn.PARENT_ID, parentId);
 
     if (error) {
       console.error('Error updating text', error);

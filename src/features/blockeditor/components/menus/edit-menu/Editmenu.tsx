@@ -18,12 +18,12 @@ import { v4 } from 'uuid';
 import { BlocktypeFacet, TexttypeFacet, TitleFacet } from '../../../../../app/additionalFacets';
 import { COLOR_ITEMS } from '../../../../../base/constants';
 import {
-  AdditionalTags,
+  AdditionalTag,
   Blocktype,
   DataType,
   Story,
-  SupabaseColumns,
-  SupabaseTables,
+  SupabaseColumn,
+  SupabaseTable,
   Texttype,
 } from '../../../../../base/enums';
 import { useSelectedLanguage } from '../../../../../hooks/useSelectedLanguage';
@@ -89,9 +89,9 @@ const groupSelectedBlocks = (lsc: ILeanScopeClient, userId: string) => {
       const id = blockEntity.get(IdentifierFacet)?.props.guid;
 
       const { error } = await supabaseClient
-        .from(SupabaseTables.BLOCKS)
+        .from(SupabaseTable.BLOCKS)
         .update({ parentId: newPageBlockId })
-        .eq(SupabaseColumns.ID, id);
+        .eq(SupabaseColumn.ID, id);
 
       if (error) {
         console.error('Error updating block in supabase:', error);
@@ -105,7 +105,7 @@ const addContentToSelectedBlock = async (lsc: ILeanScopeClient, userId: string) 
   const firstSelectedBlockId = firstSelectedBlockEntity.get(IdentifierFacet)?.props.guid || '';
 
   firstSelectedBlockEntity.add(new BlocktypeFacet({ blocktype: Blocktype.PAGE }));
-  firstSelectedBlockEntity.add(AdditionalTags.OPEN);
+  firstSelectedBlockEntity.add(AdditionalTag.OPEN);
 
   const newBlockEntity = new Entity();
   newBlockEntity.add(new IdentifierFacet({ guid: v4() }));
@@ -114,14 +114,14 @@ const addContentToSelectedBlock = async (lsc: ILeanScopeClient, userId: string) 
   newBlockEntity.add(new TexttypeFacet({ texttype: Texttype.NORMAL }));
   newBlockEntity.add(new FloatOrderFacet({ index: 1 }));
   newBlockEntity.add(DataType.BLOCK);
-  newBlockEntity.add(AdditionalTags.FOCUSED);
+  newBlockEntity.add(AdditionalTag.FOCUSED);
 
   addBlock(lsc, newBlockEntity, userId);
 
   const { error } = await supabaseClient
-    .from(SupabaseTables.BLOCKS)
+    .from(SupabaseTable.BLOCKS)
     .update({ type: Blocktype.PAGE })
-    .eq(SupabaseColumns.ID, firstSelectedBlockId);
+    .eq(SupabaseColumn.ID, firstSelectedBlockId);
 
   if (error) {
     console.error('Error updating block in supabase:', error);

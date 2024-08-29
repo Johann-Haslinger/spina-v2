@@ -10,7 +10,7 @@ import {
   QuestionFacet,
   TitleFacet,
 } from '../../../../app/additionalFacets';
-import { AdditionalTags, DataType, Story } from '../../../../base/enums';
+import { AdditionalTag, DataType, Story } from '../../../../base/enums';
 import {
   BackButton,
   CollectionGrid,
@@ -42,12 +42,12 @@ const BookmarkCollectionView = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Story.OBSERVING_BOOKMARK_COLLECTION_STORY);
   const { selectedLanguage } = useSelectedLanguage();
-  const [bookmarkedEntities] = useEntities((e) => e.has(AdditionalTags.BOOKMARKED));
+  const [bookmarkedEntities] = useEntities((e) => e.has(AdditionalTag.BOOKMARKED));
   const [bookmarkedPodcasts] = useEntities(
-    (e) => e.has(AdditionalTags.BOOKMARKED) && dataTypeQuery(e, DataType.PODCAST),
+    (e) => e.has(AdditionalTag.BOOKMARKED) && dataTypeQuery(e, DataType.PODCAST),
   );
   const [bookmarkedFlashcards] = useEntities(
-    (e) => e.has(AdditionalTags.BOOKMARKED) && dataTypeQuery(e, DataType.FLASHCARD),
+    (e) => e.has(AdditionalTag.BOOKMARKED) && dataTypeQuery(e, DataType.FLASHCARD),
   );
 
   const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_COLLECTION_STORY);
@@ -65,7 +65,7 @@ const BookmarkCollectionView = () => {
 
         <CollectionGrid>
           <EntityPropsMapper
-            query={(e) => dataTypeQuery(e, DataType.SUBTOPIC) && e.has(AdditionalTags.BOOKMARKED)}
+            query={(e) => dataTypeQuery(e, DataType.SUBTOPIC) && e.has(AdditionalTag.BOOKMARKED)}
             sort={(a, b) => sortEntitiesByDateAdded(a, b)}
             get={[[TitleFacet], []]}
             onMatch={SubtopicCell}
@@ -74,7 +74,7 @@ const BookmarkCollectionView = () => {
 
         <CollectionGrid>
           <EntityPropsMapper
-            query={(e) => dataTypeQuery(e, DataType.NOTE) && e.has(AdditionalTags.BOOKMARKED)}
+            query={(e) => dataTypeQuery(e, DataType.NOTE) && e.has(AdditionalTag.BOOKMARKED)}
             sort={(a, b) => sortEntitiesByDateAdded(a, b)}
             get={[[TitleFacet], []]}
             onMatch={NoteCell}
@@ -83,7 +83,7 @@ const BookmarkCollectionView = () => {
 
         <CollectionGrid>
           <EntityPropsMapper
-            query={(e) => dataTypeQuery(e, DataType.FLASHCARD_SET) && e.has(AdditionalTags.BOOKMARKED)}
+            query={(e) => dataTypeQuery(e, DataType.FLASHCARD_SET) && e.has(AdditionalTag.BOOKMARKED)}
             get={[[TitleFacet, IdentifierFacet], []]}
             sort={(a, b) => sortEntitiesByDateAdded(a, b)}
             onMatch={FlashcardSetCell}
@@ -92,7 +92,7 @@ const BookmarkCollectionView = () => {
 
         <CollectionGrid>
           <EntityPropsMapper
-            query={(e) => dataTypeQuery(e, DataType.HOMEWORK) && e.has(AdditionalTags.BOOKMARKED)}
+            query={(e) => dataTypeQuery(e, DataType.HOMEWORK) && e.has(AdditionalTag.BOOKMARKED)}
             get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
             sort={(a, b) => sortEntitiesByDateAdded(a, b)}
             onMatch={HomeworkCell}
@@ -106,7 +106,7 @@ const BookmarkCollectionView = () => {
         <Spacer />
         <CollectionGrid columnSize="large">
           <EntityPropsMapper
-            query={(e) => dataTypeQuery(e, DataType.FLASHCARD) && e.has(AdditionalTags.BOOKMARKED)}
+            query={(e) => dataTypeQuery(e, DataType.FLASHCARD) && e.has(AdditionalTag.BOOKMARKED)}
             get={[[AnswerFacet, QuestionFacet, MasteryLevelFacet, IdentifierFacet], []]}
             onMatch={FlashcardCell}
           />
@@ -114,7 +114,7 @@ const BookmarkCollectionView = () => {
         <Spacer size={8} />
         {bookmarkedPodcasts.length > 0 && <Title size="small">{displayHeaderTexts(selectedLanguage).podcasts}</Title>}
         <EntityPropsMapper
-          query={(e) => dataTypeQuery(e, DataType.PODCAST) && e.has(AdditionalTags.BOOKMARKED)}
+          query={(e) => dataTypeQuery(e, DataType.PODCAST) && e.has(AdditionalTag.BOOKMARKED)}
           get={[[TitleFacet, DateAddedFacet], []]}
           onMatch={PodcastRow}
         />

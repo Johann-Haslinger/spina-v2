@@ -3,7 +3,7 @@ import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { TitleFacet } from '../../../app/additionalFacets';
-import { AdditionalTags, DataType, SupabaseTables } from '../../../base/enums';
+import { AdditionalTag, DataType, SupabaseTable } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 
@@ -12,7 +12,7 @@ const fetchRecentlyAddedSubtopics = async () => {
   const toDaysAgo = new Date(currentDate.getTime() - 2 * 24 * 60 * 60 * 1000).toISOString();
 
   const { data: subtopics, error } = await supabaseClient
-    .from(SupabaseTables.SUBTOPICS)
+    .from(SupabaseTable.SUBTOPICS)
     .select('title, id')
     .gte('date_added', toDaysAgo);
 
@@ -28,7 +28,7 @@ const fetchRecentlyAddedNotes = async () => {
   const toDaysAgo = new Date(currentDate.getTime() - 2 * 24 * 60 * 60 * 1000).toISOString();
 
   const { data: notes, error } = await supabaseClient
-    .from(SupabaseTables.NOTES)
+    .from(SupabaseTable.NOTES)
     .select('title, id')
     .gte('date_added', toDaysAgo);
 
@@ -44,7 +44,7 @@ const fetchRecentlyAddedFlashcardSets = async () => {
   const toDaysAgo = new Date(currentDate.getTime() - 2 * 24 * 60 * 60 * 1000).toISOString();
 
   const { data: flashcardSets, error } = await supabaseClient
-    .from(SupabaseTables.FLASHCARD_SETS)
+    .from(SupabaseTable.FLASHCARD_SETS)
     .select('title, id')
     .gte('date_added', toDaysAgo);
 
@@ -75,7 +75,7 @@ const InitializeRecentlyAddedResources = () => {
         newSubtopicEntity.add(new IdentifierFacet({ guid: subtopic.id }));
         newSubtopicEntity.add(new TitleFacet({ title: subtopic.title || 'Kein Titel' }));
         newSubtopicEntity.add(DataType.SUBTOPIC);
-        newSubtopicEntity.add(AdditionalTags.RECENTLY_ADDED);
+        newSubtopicEntity.add(AdditionalTag.RECENTLY_ADDED);
       });
     };
 
@@ -94,7 +94,7 @@ const InitializeRecentlyAddedResources = () => {
         newNoteEntity.add(new IdentifierFacet({ guid: note.id }));
         newNoteEntity.add(new TitleFacet({ title: note.title || 'Kein Titel' }));
         newNoteEntity.add(DataType.NOTE);
-        newNoteEntity.add(AdditionalTags.RECENTLY_ADDED);
+        newNoteEntity.add(AdditionalTag.RECENTLY_ADDED);
       });
     };
 
@@ -113,7 +113,7 @@ const InitializeRecentlyAddedResources = () => {
         newFlashcardSetEntity.add(new IdentifierFacet({ guid: flashcardSet.id }));
         newFlashcardSetEntity.add(new TitleFacet({ title: flashcardSet.title || 'Kein Titel' }));
         newFlashcardSetEntity.add(DataType.FLASHCARD_SET);
-        newFlashcardSetEntity.add(AdditionalTags.RECENTLY_ADDED);
+        newFlashcardSetEntity.add(AdditionalTag.RECENTLY_ADDED);
       });
     };
 

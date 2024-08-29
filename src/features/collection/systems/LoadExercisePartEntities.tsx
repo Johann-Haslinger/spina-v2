@@ -4,7 +4,7 @@ import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { TitleFacet } from '../../../app/additionalFacets';
 import { dummyExerciseParts } from '../../../base/dummy';
-import { DataType, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { DataType, SupabaseColumn, SupabaseTable } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../lib/supabase';
@@ -13,9 +13,9 @@ import { useSelectedTopic } from '../hooks/useSelectedTopic';
 
 const fetchExercisePartsForTopic = async (topicId: string) => {
   const { data: ExerciseParts, error } = await supabaseClient
-    .from(SupabaseTables.EXERCISE_PARTS)
+    .from(SupabaseTable.EXERCISE_PARTS)
     .select('title, id, date_added')
-    .eq(SupabaseColumns.PARENT_ID, topicId);
+    .eq(SupabaseColumn.PARENT_ID, topicId);
 
   if (error) {
     console.error('Error fetching ExerciseParts:', error);

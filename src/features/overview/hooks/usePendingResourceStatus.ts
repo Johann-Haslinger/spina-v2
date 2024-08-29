@@ -1,6 +1,6 @@
 import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet } from '@leanscope/ecs-models';
-import { DataType, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { DataType, SupabaseColumn, SupabaseTable } from '../../../base/enums';
 import supabaseClient from '../../../lib/supabase';
 
 const usePendingResourceStatus = () => {
@@ -9,17 +9,17 @@ const usePendingResourceStatus = () => {
 
     if (pendingEntity.hasTag(DataType.HOMEWORK)) {
       const { error } = await supabaseClient
-        .from(SupabaseTables.HOMEWORKS)
+        .from(SupabaseTable.HOMEWORKS)
         .update({ status })
-        .eq(SupabaseColumns.ID, homeworkId);
+        .eq(SupabaseColumn.ID, homeworkId);
       if (error) {
         console.error('Error updating homework status', error);
       }
     } else if (pendingEntity.hasTag(DataType.EXAM)) {
       const { error } = await supabaseClient
-        .from(SupabaseTables.EXAMS)
+        .from(SupabaseTable.EXAMS)
         .update({ status })
-        .eq(SupabaseColumns.ID, homeworkId);
+        .eq(SupabaseColumn.ID, homeworkId);
       if (error) {
         console.error('Error updating exam status', error);
       }

@@ -12,7 +12,7 @@ import {
   QuestionFacet,
   QuestionProps,
 } from '../../../../app/additionalFacets';
-import { AdditionalTags, SupabaseColumns, SupabaseTables } from '../../../../base/enums';
+import { AdditionalTag, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
 import {
   FlexBox,
   PrimaryButton,
@@ -43,7 +43,7 @@ const EditFlashcardSheet = (props: QuestionProps & AnswerProps & MasteryLevelPro
   const [answerValue, setAnswerValue] = useState(answer);
   const { isBookmarked, toggleBookmark } = useBookmarked(entity);
 
-  const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
+  const navigateBack = () => entity.addTag(AdditionalTag.NAVIGATE_BACK);
 
   const updateFlashcard = async () => {
     navigateBack();
@@ -52,12 +52,12 @@ const EditFlashcardSheet = (props: QuestionProps & AnswerProps & MasteryLevelPro
     entity.add(new AnswerFacet({ answer: answerValue }));
 
     const { error } = await supabaseClient
-      .from(SupabaseTables.FLASHCARDS)
+      .from(SupabaseTable.FLASHCARDS)
       .update({
         question: questionValue,
         answer: answerValue,
       })
-      .eq(SupabaseColumns.ID, guid);
+      .eq(SupabaseColumn.ID, guid);
 
     if (error) {
       console.error('Error updating flashcard: ', error);
@@ -70,7 +70,7 @@ const EditFlashcardSheet = (props: QuestionProps & AnswerProps & MasteryLevelPro
     setTimeout(async () => {
       lsc.engine.removeEntity(entity);
 
-      const { error } = await supabaseClient.from(SupabaseTables.FLASHCARDS).delete().eq(SupabaseColumns.ID, guid);
+      const { error } = await supabaseClient.from(SupabaseTable.FLASHCARDS).delete().eq(SupabaseColumn.ID, guid);
 
       if (error) {
         console.error('Error deleting flashcard: ', error);

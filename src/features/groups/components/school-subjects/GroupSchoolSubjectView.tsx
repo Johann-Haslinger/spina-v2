@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import { IoAdd } from 'react-icons/io5';
 import { Fragment } from 'react/jsx-runtime';
 import { TitleFacet, TitleProps } from '../../../../app/additionalFacets';
-import { AdditionalTags, DataType, Story } from '../../../../base/enums';
+import { AdditionalTag, DataType, Story } from '../../../../base/enums';
 import {
   BackButton,
   CollectionGrid,
@@ -35,7 +35,7 @@ const GroupSchoolSubjectView = (props: TitleProps & EntityProps) => {
   const { selectedLearningGroupTitle } = useSelectedLearningGroup();
   const [groupTopics] = useEntities((e) => dataTypeQuery(e, DataType.GROUP_TOPIC) && isChildOfQuery(e, entity));
 
-  const navigateBack = () => entity.add(AdditionalTags.NAVIGATE_BACK);
+  const navigateBack = () => entity.add(AdditionalTag.NAVIGATE_BACK);
   const openAddGroupTopicSheet = () => lsc.stories.transitTo(Story.ADDING_GROUP_TOPIC_STORY);
 
   return (

@@ -6,7 +6,7 @@ import { useContext, useEffect, useState } from 'react';
 import tw from 'twin.macro';
 import { PriorityFacet, TitleFacet } from '../../../app/additionalFacets';
 import { dummyFlashcardSets, dummySubtopics } from '../../../base/dummy';
-import { DataType, FlashcardGroupPriority, SupabaseTables } from '../../../base/enums';
+import { DataType, FlashcardGroupPriority, SupabaseTable } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 import { dataTypeQuery } from '../../../utils/queries';
@@ -120,7 +120,7 @@ const fetchRecentlyAddedFlashcardSets = async () => {
   const fourteenDaysAgo = new Date(new Date().setDate(new Date().getDate() - 28)).toISOString();
 
   const { data, error } = await supabaseClient
-    .from(SupabaseTables.FLASHCARD_SETS)
+    .from(SupabaseTable.FLASHCARD_SETS)
     .select('id, title, priority, parent_id')
     .order('date_added', { ascending: false })
     .gte('date_added', fourteenDaysAgo)
@@ -138,7 +138,7 @@ const fetchRecentlyAddedSubtopics = async () => {
   const fourteenDaysAgo = new Date(new Date().setDate(new Date().getDate() - 28)).toISOString();
 
   const { data, error } = await supabaseClient
-    .from(SupabaseTables.SUBTOPICS)
+    .from(SupabaseTable.SUBTOPICS)
     .select('id, title, priority, parent_id')
     .order('date_added', { ascending: false })
     .gte('date_added', fourteenDaysAgo)

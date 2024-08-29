@@ -10,7 +10,7 @@ import {
   TitleFacet,
 } from '../../../app/additionalFacets';
 import { dummyHomeworks } from '../../../base/dummy';
-import { DataType, SupabaseTables } from '../../../base/enums';
+import { DataType, SupabaseTable } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 import { dataTypeQuery } from '../../../utils/queries';
@@ -19,7 +19,7 @@ const fetchHomeworks = async () => {
   const sevenDaysAgo = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
 
   const { data: homeworks, error } = await supabaseClient
-    .from(SupabaseTables.HOMEWORKS)
+    .from(SupabaseTable.HOMEWORKS)
     .select('title, id, due_date, status, parent_id, related_subject')
     .gte('due_date', sevenDaysAgo);
 

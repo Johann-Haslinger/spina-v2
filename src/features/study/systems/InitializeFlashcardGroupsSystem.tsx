@@ -4,7 +4,7 @@ import { IdentifierFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { DateAddedFacet, TitleFacet } from '../../../app/additionalFacets';
 import { dummyFlashcardSets, dummySubtopics } from '../../../base/dummy';
-import { AdditionalTags, DataType, SupabaseTables } from '../../../base/enums';
+import { AdditionalTag, DataType, SupabaseTable } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 import { dataTypeQuery } from '../../../utils/queries';
@@ -26,7 +26,7 @@ const fetchFlashcardSets = async () => {
 
 const fetchSubtopics = async () => {
   const { data: subtopics, error } = await supabaseClient
-    .from(SupabaseTables.SUBTOPICS)
+    .from(SupabaseTable.SUBTOPICS)
     .select('title, id, date_added, bookmarked')
     .order('date_added', { ascending: false })
     .limit(10);
@@ -66,7 +66,7 @@ const InitializeFlashcardGroupsSystem = () => {
           flashcardGroupEntity.addTag(DataType.FLASHCARD_GROUP);
 
           if (flashcardSet.bookmarked) {
-            flashcardGroupEntity.addTag(AdditionalTags.BOOKMARKED);
+            flashcardGroupEntity.addTag(AdditionalTag.BOOKMARKED);
           }
         }
       });
@@ -94,7 +94,7 @@ const InitializeFlashcardGroupsSystem = () => {
           subtopicEntity.addTag(DataType.FLASHCARD_GROUP);
 
           if (subtopic.bookmarked) {
-            subtopicEntity.addTag(AdditionalTags.BOOKMARKED);
+            subtopicEntity.addTag(AdditionalTag.BOOKMARKED);
           }
         }
       });

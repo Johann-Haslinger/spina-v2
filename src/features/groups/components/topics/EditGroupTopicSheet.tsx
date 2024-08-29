@@ -3,7 +3,7 @@ import { DescriptionFacet } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
 import { TitleFacet } from '../../../../app/additionalFacets';
-import { Story, SupabaseColumns } from '../../../../base/enums';
+import { Story, SupabaseColumn } from '../../../../base/enums';
 import {
   FlexBox,
   PrimaryButton,
@@ -47,7 +47,7 @@ const EditGroupGroupTopicSheet = () => {
           title: newTitle,
           description: newDescription,
         })
-        .eq(SupabaseColumns.ID, selectedGroupTopicId);
+        .eq(SupabaseColumn.ID, selectedGroupTopicId);
 
       if (error) {
         console.error('Error updating learning group topic', error);

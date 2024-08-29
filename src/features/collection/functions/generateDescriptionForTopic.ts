@@ -1,7 +1,7 @@
 import { Entity } from '@leanscope/ecs-engine';
 import { DescriptionFacet, IdentifierFacet } from '@leanscope/ecs-models';
 import { TitleFacet } from '../../../app/additionalFacets';
-import { AdditionalTags, SupabaseTables } from '../../../base/enums';
+import { AdditionalTag, SupabaseTable } from '../../../base/enums';
 import supabaseClient from '../../../lib/supabase';
 import { getCompletion } from '../../../utils/getCompletion';
 
@@ -15,13 +15,13 @@ export const generateDescriptionForTopic = async (entity: Entity) => {
 
   const generatingDescriptionPrompt = 'Bitte schreibe einen sehr kurzen Beschreibungssatz zu folgendem Thema:' + title;
   // const imageContentPrompt = `Beschreibe kurz und präzise ein passendes Bild zu '${title}', damit es einfach nachgemalt werden kann. Verwende wenige Wörter und wähle ein reales Motiv.`;
-  entity.addTag(AdditionalTags.GENERATING);
+  entity.addTag(AdditionalTag.GENERATING);
   if (!description) {
     topicDescription = await getCompletion(generatingDescriptionPrompt);
     entity.add(new DescriptionFacet({ description: topicDescription }));
 
     const { error } = await supabaseClient
-      .from(SupabaseTables.TOPICS)
+      .from(SupabaseTable.TOPICS)
       .update({
         description: topicDescription,
       })
@@ -43,5 +43,5 @@ export const generateDescriptionForTopic = async (entity: Entity) => {
   //   entity.add(new ImageFacet({ imageSrc: topicImage }));
   // }
 
-  entity.remove(AdditionalTags.GENERATING);
+  entity.remove(AdditionalTag.GENERATING);
 };

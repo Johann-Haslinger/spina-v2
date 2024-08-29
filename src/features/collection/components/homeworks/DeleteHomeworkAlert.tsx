@@ -1,7 +1,7 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext } from 'react';
-import { AdditionalTags, Story, SupabaseColumns, SupabaseTables } from '../../../../base/enums';
+import { AdditionalTag, Story, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
 import { Alert, AlertButton } from '../../../../components';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../../lib/supabase';
@@ -18,15 +18,15 @@ const DeleteHomeworkAlert = () => {
 
   const deleteHomework = async () => {
     navigateBack();
-    selectedHomeworkEntity?.add(AdditionalTags.NAVIGATE_BACK);
+    selectedHomeworkEntity?.add(AdditionalTag.NAVIGATE_BACK);
     setTimeout(async () => {
       if (selectedHomeworkEntity) {
         lsc.engine.removeEntity(selectedHomeworkEntity);
 
         const { error } = await supabaseClient
-          .from(SupabaseTables.HOMEWORKS)
+          .from(SupabaseTable.HOMEWORKS)
           .delete()
-          .eq(SupabaseColumns.ID, selectedHomeworkId);
+          .eq(SupabaseColumn.ID, selectedHomeworkId);
 
         if (error) {
           console.error('Error deleting homework', error);

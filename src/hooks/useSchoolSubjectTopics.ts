@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { SupabaseColumns, SupabaseTables } from '../base/enums';
+import { SupabaseColumn, SupabaseTable } from '../base/enums';
 import supabaseClient from '../lib/supabase';
 
 interface Topic {
@@ -13,9 +13,9 @@ export const useSchoolSubjectTopics = (schoolSubjectId: string) => {
   useEffect(() => {
     const fetchSchoolSubjectTopics = async () => {
       const { data: topics, error } = await supabaseClient
-        .from(SupabaseTables.TOPICS)
+        .from(SupabaseTable.TOPICS)
         .select('title, id')
-        .eq(SupabaseColumns.PARENT_ID, schoolSubjectId)
+        .eq(SupabaseColumn.PARENT_ID, schoolSubjectId)
         .eq('is_archived', false);
 
       if (error) {

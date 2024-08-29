@@ -1,7 +1,7 @@
 import { EntityProps, EntityPropsMapper } from '@leanscope/ecs-engine';
 import { IoAdd } from 'react-icons/io5';
 import { AnswerFacet, MasteryLevelFacet, QuestionFacet, TitleProps } from '../../../app/additionalFacets';
-import { AdditionalTags, DataType } from '../../../base/enums';
+import { AdditionalTag, DataType } from '../../../base/enums';
 import { BackButton, CollectionGrid, NavBarButton, NavigationBar, Spacer, Title, View } from '../../../components';
 import { useIsViewVisible } from '../../../hooks/useIsViewVisible';
 import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
@@ -14,7 +14,7 @@ const FlashcardGroupView = (props: TitleProps & EntityProps) => {
   const { selectedLanguage } = useSelectedLanguage();
   const isVisible = useIsViewVisible(entity);
 
-  const navigateBack = () => entity.add(AdditionalTags.NAVIGATE_BACK);
+  const navigateBack = () => entity.add(AdditionalTag.NAVIGATE_BACK);
 
   return (
     <View visible={isVisible}>

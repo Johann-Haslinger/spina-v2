@@ -1,9 +1,9 @@
 import { IdentifierFacet, TextFacet } from '@leanscope/ecs-models';
+import { SupabaseTable } from '../../../base/enums';
 import supabaseClient from '../../../lib/supabase';
 import { useSelectedHomework } from './useSelectedHomework';
 import { useSelectedNote } from './useSelectedNote';
 import { useSelectedSubtopic } from './useSelectedSubtopic';
-import { SupabaseTables } from '../../../base/enums';
 
 export const useVisibleText = () => {
   const { selectedNoteText, selectedNoteEntity } = useSelectedNote();
@@ -20,7 +20,7 @@ export const useVisibleText = () => {
       const textEntityId = visibletextEntity.get(IdentifierFacet)?.props.guid;
 
       const { error } = await supabaseClient
-        .from(SupabaseTables.TEXTS)
+        .from(SupabaseTable.TEXTS)
         .update({ parent_id: textEntityId, text: newText });
 
       if (error) {

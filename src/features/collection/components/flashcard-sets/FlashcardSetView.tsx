@@ -24,7 +24,7 @@ import {
   TitleFacet,
   TitleProps,
 } from '../../../../app/additionalFacets';
-import { AdditionalTags, DataType, Story } from '../../../../base/enums';
+import { AdditionalTag, DataType, Story } from '../../../../base/enums';
 import {
   ActionRow,
   BackButton,
@@ -44,6 +44,7 @@ import { dataTypeQuery, isChildOfQuery } from '../../../../utils/queries';
 import FlashcardQuizView from '../../../study/components/FlashcardQuizView';
 import { useBookmarked } from '../../../study/hooks/useBookmarked';
 import { useEntityHasChildren } from '../../hooks/useEntityHasChildren';
+import { useFormattedDateAdded } from '../../hooks/useFormattedDateAdded';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
 import LoadFlashcardSetPodcastsSystem from '../../systems/LoadFlashcardSetPodcastsSystem';
 import LoadFlashcardsSystem from '../../systems/LoadFlashcardsSystem';
@@ -55,7 +56,6 @@ import DeleteFlashcardSetAlert from './DeleteFlashcardSetAlert';
 import EditFlashcardSetSheet from './EditFlashcardSetSheet';
 import EditFlashcardSheet from './EditFlashcardSheet';
 import FlashcardCell from './FlashcardCell';
-import { useFormattedDateAdded } from '../../hooks/useFormattedDateAdded';
 
 const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -67,7 +67,7 @@ const FlashcardSetView = (props: TitleProps & EntityProps & IdentifierProps) => 
   const { isBookmarked, toggleBookmark } = useBookmarked(entity);
   const formattedDateAdded = useFormattedDateAdded(entity);
 
-  const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
+  const navigateBack = () => entity.addTag(AdditionalTag.NAVIGATE_BACK);
   const openEditFlashcardSetSheet = () => lsc.stories.transitTo(Story.EDITING_FLASHCARD_SET_STORY);
   const openDeleteFlashcardSetAlert = () => lsc.stories.transitTo(Story.DELETING_FLASHCARD_SET_STORY);
   const openAddFlashcardsSheet = () => lsc.stories.transitTo(Story.ADDING_FLASHCARDS_STORY);

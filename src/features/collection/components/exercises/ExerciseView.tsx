@@ -2,7 +2,7 @@ import { EntityProps, EntityPropsMapper } from '@leanscope/ecs-engine';
 import { OrderFacet } from '@leanscope/ecs-models';
 import { Fragment } from 'react/jsx-runtime';
 import { AnswerFacet, QuestionFacet, TitleProps } from '../../../../app/additionalFacets';
-import { AdditionalTags, DataType } from '../../../../base/enums';
+import { AdditionalTag, DataType } from '../../../../base/enums';
 import { BackButton, NavigationBar, NoContentAddedHint, Spacer, Title, View } from '../../../../components';
 import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
 import { dataTypeQuery, isChildOfQuery } from '../../../../utils/queries';
@@ -17,7 +17,7 @@ const ExerciseView = (props: TitleProps & EntityProps) => {
   const isVisible = useIsViewVisible(entity);
   const { hasExerciseParts } = useExerciseParts(entity);
 
-  const navigateBack = () => entity.add(AdditionalTags.NAVIGATE_BACK);
+  const navigateBack = () => entity.add(AdditionalTag.NAVIGATE_BACK);
 
   return (
     <Fragment>

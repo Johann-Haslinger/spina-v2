@@ -13,7 +13,7 @@ import {
 import { useContext, useEffect } from 'react';
 import { BlocktypeFacet, TexttypeFacet } from '../../../app/additionalFacets';
 import { dummyBlocks } from '../../../base/dummy';
-import { AdditionalTags, DataType, SupabaseColumns, SupabaseTables } from '../../../base/enums';
+import { AdditionalTag, DataType, SupabaseColumn, SupabaseTable } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import { useUserData } from '../../../hooks/useUserData';
 import supabaseClient from '../../../lib/supabase';
@@ -25,9 +25,9 @@ import { useCurrentBlockeditor } from '../hooks/useCurrentBlockeditor';
 
 const fetchBlocks = async (blockeditorId: string) => {
   const { data: blocks, error } = await supabaseClient
-    .from(SupabaseTables.BLOCKS)
+    .from(SupabaseTable.BLOCKS)
     .select('id, type, text_type, content, order, image_url, size, fit')
-    .eq(SupabaseColumns.PARENT_ID, blockeditorId);
+    .eq(SupabaseColumn.PARENT_ID, blockeditorId);
 
   if (error) {
     console.error('Error fetching blocks:', error);
@@ -38,9 +38,9 @@ const fetchBlocks = async (blockeditorId: string) => {
 
 const fetchGroupBlocks = async (blockeditorId: string) => {
   const { data: blocks, error } = await supabaseClient
-    .from(SupabaseTables.GROUP_BLOCKS)
+    .from(SupabaseTable.GROUP_BLOCKS)
     .select('id, type, text_type, content, order, image_url, size, fit')
-    .eq(SupabaseColumns.PARENT_ID, blockeditorId);
+    .eq(SupabaseColumn.PARENT_ID, blockeditorId);
 
   if (error) {
     console.error('Error fetching blocks:', error);
@@ -56,7 +56,7 @@ const LoadBlocksSystem = () => {
   const { selectedHomeworkText } = useSelectedHomework();
   const { selectedNoteText } = useSelectedNote();
   const { selectedSubtopicText } = useSelectedSubtopic();
-  const [isGroupBlockeditor] = useEntityHasTags(blockeditorEntity, AdditionalTags.GROUP_BLOCKEDITOR);
+  const [isGroupBlockeditor] = useEntityHasTags(blockeditorEntity, AdditionalTag.GROUP_BLOCKEDITOR);
 
   const { userId } = useUserData();
 

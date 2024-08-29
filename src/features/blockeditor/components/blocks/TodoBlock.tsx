@@ -6,7 +6,7 @@ import { useEffect, useRef } from 'react';
 import { IoCheckmarkCircle, IoCloseCircle, IoEllipseOutline } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { TodoStateFacet } from '../../../../app/additionalFacets';
-import { SupabaseColumns, SupabaseTables } from '../../../../base/enums';
+import { SupabaseColumn, SupabaseTable } from '../../../../base/enums';
 import supabaseClient from '../../../../lib/supabase';
 import { useCurrentBlockeditor } from '../../hooks/useCurrentBlockeditor';
 import BlockOutline from './BlockOutline';
@@ -24,9 +24,9 @@ const useTodoClickHandler = (entity: Entity) => {
       const id = entity.get(IdentifierFacet)?.props.guid;
 
       const { error } = await supabaseClient
-        .from(SupabaseTables.BLOCKS)
+        .from(SupabaseTable.BLOCKS)
         .update({ state: newTodoState })
-        .eq(SupabaseColumns.ID, id);
+        .eq(SupabaseColumn.ID, id);
 
       if (error) {
         console.error('Error updating block in supabase:', error);

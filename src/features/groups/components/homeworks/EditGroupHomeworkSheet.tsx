@@ -2,7 +2,7 @@ import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
 import { DueDateFacet, TitleFacet } from '../../../../app/additionalFacets';
-import { Story, SupabaseColumns } from '../../../../base/enums';
+import { Story, SupabaseColumn } from '../../../../base/enums';
 import {
   DateInput,
   FlexBox,
@@ -51,7 +51,7 @@ const EditGroupHomeworkSheet = () => {
           title: newTitle,
           dueDate: newDueDate,
         })
-        .eq(SupabaseColumns.ID, selectedGroupHomeworkId);
+        .eq(SupabaseColumn.ID, selectedGroupHomeworkId);
 
       if (error) {
         console.error('Error updating group homework', error);

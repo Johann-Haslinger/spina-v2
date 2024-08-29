@@ -4,13 +4,13 @@ import { IdentifierFacet, OrderFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { TitleFacet } from '../app/additionalFacets';
 import { dummySchoolSubjects } from '../base/dummy';
-import { DataType, SupabaseTables } from '../base/enums';
+import { DataType, SupabaseTable } from '../base/enums';
 import { useCurrentDataSource } from '../hooks/useCurrentDataSource';
 import supabaseClient from '../lib/supabase';
 import { dataTypeQuery } from '../utils/queries';
 
 const fetchSchoolSubjects = async () => {
-  const { data: schoolSubjects, error } = await supabaseClient.from(SupabaseTables.SCHOOL_SUBJECTS).select('title, id');
+  const { data: schoolSubjects, error } = await supabaseClient.from(SupabaseTable.SCHOOL_SUBJECTS).select('title, id');
 
   if (error) {
     console.error('Error fetching school subjects:', error);

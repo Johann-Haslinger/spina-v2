@@ -8,7 +8,7 @@ import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntit
 import { useEffect, useState } from 'react';
 import { MessageRoleFacet, RelatedResourcesFacet } from '../../../app/additionalFacets';
 import { COLOR_ITEMS } from '../../../base/constants';
-import { AdditionalTags, SupportedModels } from '../../../base/enums';
+import { AdditionalTag, SupportedModel } from '../../../base/enums';
 import { ScrollableBox, Sheet, Spacer } from '../../../components';
 import SapientorConversationMessage from '../../../components/content/SapientorConversationMessage';
 import { sortMessageEntitiesByDateAdded } from '../../../utils/sortEntitiesByTime';
@@ -17,8 +17,8 @@ import ChatMessage from './ChatMessage';
 import SapientorPromptBox from './SapientorPromptBox';
 
 const useDisplayLoadingAnimation = () => {
-  const [promptEntity] = useEntities((e) => e.has(AdditionalTags.PROMPT) && e.has(AdditionalTags.PROCESSING))[0];
-  const [isProcessingCurrentPrompt] = useEntityHasTags(promptEntity, AdditionalTags.PROCESSING);
+  const [promptEntity] = useEntities((e) => e.has(AdditionalTag.PROMPT) && e.has(AdditionalTag.PROCESSING))[0];
+  const [isProcessingCurrentPrompt] = useEntityHasTags(promptEntity, AdditionalTag.PROCESSING);
   const [displayLoadingAnimation, setDisplayLoadingAnimation] = useState(false);
 
   useEffect(() => {
@@ -78,13 +78,13 @@ const SapientorChatSheet = () => {
 
           <StyledSegmentedControlWrapper>
             <StyledSegmentedControlCell
-              onClick={() => changeModel(SupportedModels.TURBO)}
+              onClick={() => changeModel(SupportedModel.TURBO)}
               active={!useSapientorAssistentModel}
             >
               <IoFlash />
             </StyledSegmentedControlCell>
             <StyledSegmentedControlCell
-              onClick={() => changeModel(SupportedModels.SAPIENTOR_ASSISTENT)}
+              onClick={() => changeModel(SupportedModel.SAPIENTOR_ASSISTENT)}
               active={useSapientorAssistentModel}
             >
               <IoBulb />

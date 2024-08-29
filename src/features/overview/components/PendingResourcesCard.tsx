@@ -15,7 +15,7 @@ import {
   TitleFacet,
   TitleProps,
 } from '../../../app/additionalFacets';
-import { AdditionalTags, DataType, ResoruceStatus, SupabaseTables } from '../../../base/enums';
+import { AdditionalTag, DataType, ResoruceStatus, SupabaseTable } from '../../../base/enums';
 import { useDaysUntilDue } from '../../../hooks/useDaysUntilDue';
 import supabaseClient from '../../../lib/supabase';
 import { dataTypeQuery } from '../../../utils/queries';
@@ -64,7 +64,7 @@ const PendingResourcesCard = () => {
           query={(e) =>
             new Date(e.get(DueDateFacet)?.props.dueDate || '') >= sevenDaysAgo &&
             ([ResoruceStatus.TODO, ResoruceStatus.IN_PROGRESS].includes(e.get(StatusFacet)?.props.status || 0) ||
-              e.has(AdditionalTags.CHANGED))
+              e.has(AdditionalTag.CHANGED))
           }
           sort={(a, b) => sortEntitiesByDueDate(a, b)}
           get={[[TitleFacet, StatusFacet, DueDateFacet, RelationshipFacet], []]}
@@ -95,11 +95,11 @@ const updateStatus = async (entity: Entity, status: number) => {
   const id = entity.get(IdentifierFacet)?.props.guid;
   const dataType = dataTypeQuery(entity, DataType.HOMEWORK) ? DataType.HOMEWORK : DataType.EXAM;
   entity.add(new StatusFacet({ status }));
-  entity.add(AdditionalTags.CHANGED);
-  setTimeout(() => entity.remove(AdditionalTags.CHANGED), 1000);
+  entity.add(AdditionalTag.CHANGED);
+  setTimeout(() => entity.remove(AdditionalTag.CHANGED), 1000);
 
   const { error } = await supabaseClient
-    .from(dataType == DataType.HOMEWORK ? SupabaseTables.HOMEWORKS : SupabaseTables.EXAMS)
+    .from(dataType == DataType.HOMEWORK ? SupabaseTable.HOMEWORKS : SupabaseTable.EXAMS)
     .update({ status: status })
     .eq('id', id);
 

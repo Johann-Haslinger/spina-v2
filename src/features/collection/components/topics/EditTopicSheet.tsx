@@ -5,7 +5,7 @@ import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
 import { IoColorWandOutline } from 'react-icons/io5';
 import { TitleFacet } from '../../../../app/additionalFacets';
-import { AdditionalTags, Story, SupabaseColumns, SupabaseTables } from '../../../../base/enums';
+import { AdditionalTag, Story, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
 import {
   FlexBox,
   PrimaryButton,
@@ -30,7 +30,7 @@ const EditTopicSheet = () => {
   const { selectedTopicTitle, selectedTopicDescription, selectedTopicEntity, selectedTopicId } = useSelectedTopic();
   const [newTitle, setNewTitle] = useState(selectedTopicTitle);
   const [newDescription, setNewDescription] = useState(selectedTopicDescription);
-  const [isGeneratingImage] = useEntityHasTags(selectedTopicEntity, AdditionalTags.GENERATING);
+  const [isGeneratingImage] = useEntityHasTags(selectedTopicEntity, AdditionalTag.GENERATING);
 
   useEffect(() => {
     setNewTitle(selectedTopicTitle);
@@ -48,12 +48,12 @@ const EditTopicSheet = () => {
       selectedTopicEntity?.add(new DescriptionFacet({ description: newDescription }));
 
       const { error } = await supabaseClient
-        .from(SupabaseTables.TOPICS)
+        .from(SupabaseTable.TOPICS)
         .update({
           title: newTitle,
           description: newDescription,
         })
-        .eq(SupabaseColumns.ID, selectedTopicId);
+        .eq(SupabaseColumn.ID, selectedTopicId);
 
       if (error) {
         console.error('Error updating topic set', error);

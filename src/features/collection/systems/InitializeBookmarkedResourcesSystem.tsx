@@ -11,13 +11,13 @@ import {
   TitleFacet,
 } from '../../../app/additionalFacets';
 import { dummyFlashcards, dummyFlashcardSets, dummyNotes, dummyPodcasts, dummySubtopics } from '../../../base/dummy';
-import { AdditionalTags, DataType, Story, SupabaseTables } from '../../../base/enums';
+import { AdditionalTag, DataType, Story, SupabaseTable } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 
 const fetchBookmarkedFlashcardSets = async () => {
   const { data: flashcardSets, error } = await supabaseClient
-    .from(SupabaseTables.FLASHCARD_SETS)
+    .from(SupabaseTable.FLASHCARD_SETS)
     .select('title, id, parent_id, date_added')
     .eq('bookmarked', true);
 
@@ -31,7 +31,7 @@ const fetchBookmarkedFlashcardSets = async () => {
 
 const fetchBookmarkedPodcasts = async () => {
   const { data: podcasts, error } = await supabaseClient
-    .from(SupabaseTables.PODCASTS)
+    .from(SupabaseTable.PODCASTS)
     .select('title, id, parent_id, date_added')
     .eq('bookmarked', true);
 
@@ -45,7 +45,7 @@ const fetchBookmarkedPodcasts = async () => {
 
 const fetchBookmarkedFlashcards = async () => {
   const { data: flashcards, error } = await supabaseClient
-    .from(SupabaseTables.FLASHCARDS)
+    .from(SupabaseTable.FLASHCARDS)
     .select('question, id, answer, mastery_level')
     .eq('bookmarked', true);
 
@@ -59,7 +59,7 @@ const fetchBookmarkedFlashcards = async () => {
 
 const fetchBookmarkedSubtopics = async () => {
   const { data: subtopics, error } = await supabaseClient
-    .from(SupabaseTables.SUBTOPICS)
+    .from(SupabaseTable.SUBTOPICS)
     .select('title, id, parent_id, date_added')
     .eq('bookmarked', true);
 
@@ -73,7 +73,7 @@ const fetchBookmarkedSubtopics = async () => {
 
 const fetchBookmarkedNotes = async () => {
   const { data: notes, error } = await supabaseClient
-    .from(SupabaseTables.NOTES)
+    .from(SupabaseTable.NOTES)
     .select('title, id, parent_id, date_added')
     .eq('bookmarked', true);
 
@@ -109,7 +109,7 @@ const InitializeBookmarkedResourcesSystem = () => {
           flashcardEntity.add(new MasteryLevelFacet({ masteryLevel: flashcard.mastery_level }));
           flashcardEntity.add(new QuestionFacet({ question: flashcard.question }));
           flashcardEntity.add(new AnswerFacet({ answer: flashcard.answer }));
-          flashcardEntity.add(AdditionalTags.BOOKMARKED);
+          flashcardEntity.add(AdditionalTag.BOOKMARKED);
           flashcardEntity.addTag(DataType.FLASHCARD);
         }
       });
@@ -128,7 +128,7 @@ const InitializeBookmarkedResourcesSystem = () => {
           podcastEntity.add(new IdentifierFacet({ guid: podcast.id }));
           podcastEntity.add(new DateAddedFacet({ dateAdded: podcast.date_added }));
           podcastEntity.add(new ParentFacet({ parentId: podcast.parent_id }));
-          podcastEntity.add(AdditionalTags.BOOKMARKED);
+          podcastEntity.add(AdditionalTag.BOOKMARKED);
           podcastEntity.addTag(DataType.PODCAST);
         }
       });
@@ -151,7 +151,7 @@ const InitializeBookmarkedResourcesSystem = () => {
           flashcardSetEntity.add(new IdentifierFacet({ guid: flashcardSet.id }));
           flashcardSetEntity.add(new DateAddedFacet({ dateAdded: flashcardSet.date_added }));
           flashcardSetEntity.add(new ParentFacet({ parentId: flashcardSet.parent_id }));
-          flashcardSetEntity.add(AdditionalTags.BOOKMARKED);
+          flashcardSetEntity.add(AdditionalTag.BOOKMARKED);
           flashcardSetEntity.addTag(DataType.FLASHCARD_SET);
         }
       });
@@ -170,7 +170,7 @@ const InitializeBookmarkedResourcesSystem = () => {
           subtopicEntity.add(new IdentifierFacet({ guid: subtopic.id }));
           subtopicEntity.add(new DateAddedFacet({ dateAdded: subtopic.date_added }));
           subtopicEntity.add(new ParentFacet({ parentId: subtopic.parent_id }));
-          subtopicEntity.add(AdditionalTags.BOOKMARKED);
+          subtopicEntity.add(AdditionalTag.BOOKMARKED);
           subtopicEntity.addTag(DataType.SUBTOPIC);
         }
       });
@@ -189,7 +189,7 @@ const InitializeBookmarkedResourcesSystem = () => {
           noteEntity.add(new IdentifierFacet({ guid: note.id }));
           noteEntity.add(new DateAddedFacet({ dateAdded: note.date_added }));
           noteEntity.add(new ParentFacet({ parentId: note.parent_id }));
-          noteEntity.add(AdditionalTags.BOOKMARKED);
+          noteEntity.add(AdditionalTag.BOOKMARKED);
           noteEntity.addTag(DataType.NOTE);
         }
       });

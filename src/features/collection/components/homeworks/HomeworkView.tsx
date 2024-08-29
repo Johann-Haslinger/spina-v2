@@ -4,7 +4,7 @@ import { IdentifierProps, TextProps } from '@leanscope/ecs-models';
 import { Fragment, useContext } from 'react';
 import { IoCreateOutline, IoEllipsisHorizontalCircleOutline, IoTrashOutline } from 'react-icons/io5';
 import { TitleProps } from '../../../../app/additionalFacets';
-import { AdditionalTags, Story } from '../../../../base/enums';
+import { AdditionalTag, Story } from '../../../../base/enums';
 import {
   ActionRow,
   BackButton,
@@ -35,7 +35,7 @@ const HomeworkView = (props: EntityProps & TitleProps & TextProps & IdentifierPr
   const { text, updateText } = useText(entity);
   const daysUntilDue = useDaysUntilDue(entity);
 
-  const navigateBack = () => entity.addTag(AdditionalTags.NAVIGATE_BACK);
+  const navigateBack = () => entity.addTag(AdditionalTag.NAVIGATE_BACK);
   const openEditHomeworkSheet = () => lsc.stories.transitTo(Story.EDITING_HOMEWORK_STORY);
   const openDeleteHomeworkAlert = () => lsc.stories.transitTo(Story.DELETING_HOMEWORK_STORY);
 
