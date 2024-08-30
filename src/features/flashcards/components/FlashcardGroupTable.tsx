@@ -117,14 +117,14 @@ const FlashcardGroupTable = () => {
 export default FlashcardGroupTable;
 
 const fetchRecentlyAddedFlashcardSets = async () => {
-  const fourteenDaysAgo = new Date(new Date().setDate(new Date().getDate() - 28)).toISOString();
+  const fourteenDaysAgo = new Date(new Date().setDate(new Date().getDate() - 14)).toISOString();
 
   const { data, error } = await supabaseClient
     .from(SupabaseTable.FLASHCARD_SETS)
     .select('id, title, priority, parent_id')
     .order('date_added', { ascending: false })
     .gte('date_added', fourteenDaysAgo)
-    .limit(5);
+    .or(`date_added.gte.${fourteenDaysAgo},priority.eq.1`);
 
   if (error) {
     console.error('Error fetching recently added flashcard sets', error);
@@ -135,14 +135,14 @@ const fetchRecentlyAddedFlashcardSets = async () => {
 };
 
 const fetchRecentlyAddedSubtopics = async () => {
-  const fourteenDaysAgo = new Date(new Date().setDate(new Date().getDate() - 28)).toISOString();
+  const fourteenDaysAgo = new Date(new Date().setDate(new Date().getDate() - 14)).toISOString();
 
   const { data, error } = await supabaseClient
     .from(SupabaseTable.SUBTOPICS)
     .select('id, title, priority, parent_id')
     .order('date_added', { ascending: false })
     .gte('date_added', fourteenDaysAgo)
-    .limit(10);
+    .or(`date_added.gte.${fourteenDaysAgo},priority.eq.1`);
 
   if (error) {
     console.error('Error fetching recently added subtopics', error);

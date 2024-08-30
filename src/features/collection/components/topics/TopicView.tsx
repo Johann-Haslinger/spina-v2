@@ -96,9 +96,9 @@ const useImageSelector = () => {
 };
 
 const StyledTopAreaWrapper = styled.div<{ image: string; grid: boolean }>`
-  ${tw`w-full  top-0 z-0 mt-14 xl:mt-0 h-64 md:h-[16rem] xl:h-96 2xl:h-[24rem] bg-contain   flex md:bg-fixed`}
+  ${tw`w-full  top-0 z-0 mt-14 xl:mt-0 h-64 md:h-[16rem] xl:h-96 2xl:h-[24rem]  flex`}
   background-image: ${({ image }) => `url(${image})`};
-  ${({ grid }) => (grid ? tw`bg-contain` : tw`bg-auto`)}
+  ${({ grid }) => (grid ? tw`bg-contain  md:bg-fixed` : tw`bg-cover `)}
 `;
 
 const StyledTopicResourcesWrapper = styled.div<{ largeShadow: boolean }>`

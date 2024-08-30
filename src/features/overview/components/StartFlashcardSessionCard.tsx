@@ -5,7 +5,6 @@ import { IoCopy, IoPlay } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { Story } from '../../../base/enums';
 import { useDueFlashcardsCount } from '../../flashcards/hooks/useDueFlashcardsCount';
-import FlashcardQuizView from '../../study/components/FlashcardQuizView';
 
 const StyledCardWrapper = styled.div`
   ${tw`w-full h-[12rem] p-4 flex flex-col justify-between rounded-2xl bg-[#397A45] bg-opacity-15`}
@@ -70,8 +69,6 @@ const StartFlashcardSessionCard = () => {
           </StyledButtonText>
         </StyledButtonWrapper>
       </StyledCardWrapper>
-
-      <FlashcardQuizView />
     </div>
   );
 };

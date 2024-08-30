@@ -1,7 +1,11 @@
 import styled from '@emotion/styled';
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { Tags } from '@leanscope/ecs-models';
+import { useContext } from 'react';
 import { IoCopy, IoGrid, IoHome, IoPersonCircle } from 'react-icons/io5';
 import { NavLink, useLocation } from 'react-router-dom';
 import tw from 'twin.macro';
+import { AdditionalTag } from '../../base/enums';
 
 const TABS = [
   {
@@ -34,13 +38,21 @@ const StyledTabWrapper = styled(NavLink)<{ active: string }>`
 `;
 
 const TabBar = () => {
+  const lsc = useContext(LeanScopeClientContext);
   const location = useLocation();
 
+  const handleTabClick = () =>
+    lsc.engine.entities.filter((e) => e.has(Tags.SELECTED)).forEach((e) => e.add(AdditionalTag.NAVIGATE_BACK));
   return (
     <StyledTabBarContainer>
       {TABS.map((tab, idx) => {
         return (
-          <StyledTabWrapper active={location.pathname === tab.link ? 'true' : 'false'} key={idx} to={tab.link}>
+          <StyledTabWrapper
+            onClick={handleTabClick}
+            active={location.pathname === tab.link ? 'true' : 'false'}
+            key={idx}
+            to={tab.link}
+          >
             <div tw="pb-0.5 flex justify-center text-[1.6rem]"> {tab.icon}</div>
             <p tw=" text-[0.6rem] text-center">{tab.title}</p>
           </StyledTabWrapper>

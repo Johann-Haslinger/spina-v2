@@ -35,6 +35,7 @@ import {
   CollectionGrid,
   NavBarButton,
   NavigationBar,
+  SecondaryText,
   SegmentedControl,
   SegmentedControlCell,
   Spacer,
@@ -64,6 +65,7 @@ import BlurtingView from './BlurtingView';
 import DeleteSubtopicAlert from './DeleteSubtopicAlert';
 import EditSubtopicSheet from './EditSubtopicSheet';
 import FlashcardTestView from './FlashcardTestView';
+import { useFormattedDateAdded } from '../../hooks/useFormattedDateAdded';
 
 enum SubtopicViewStates {
   NOTE,
@@ -79,6 +81,7 @@ const SubtopicView = (props: TitleProps & EntityProps & IdentifierProps) => {
   const [subtopicViewState, setSubtopicViewState] = useState(SubtopicViewStates.NOTE);
   const { isBookmarked, toggleBookmark } = useBookmarked(entity);
   const { text, updateText } = useText(entity);
+  const formattedDateAdded = useFormattedDateAdded(entity);
 
   const navigateBack = () => entity.add(AdditionalTag.NAVIGATE_BACK);
   const openDeleteAlert = () => lsc.stories.transitTo(Story.DELETING_SUBTOPIC_STORY);
@@ -164,6 +167,9 @@ const SubtopicView = (props: TitleProps & EntityProps & IdentifierProps) => {
 
         <BackButton navigateBack={navigateBack}>{selectedTopicTitle}</BackButton>
         <Title>{title}</Title>
+        <Spacer size={2} />
+        <SecondaryText>{formattedDateAdded}</SecondaryText>
+        <Spacer size={2} />
 
         <SegmentedControl>
           <SegmentedControlCell

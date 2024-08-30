@@ -83,6 +83,8 @@ export const displayActionTexts = (selectedLanguage: SupportedLanguage) => {
     generateExercise: ACTION_TEXT_DATA.generate_exercise[selectedLanguage],
     addTopic: ACTION_TEXT_DATA.add_topic[selectedLanguage],
     regenerateImage: ACTION_TEXT_DATA.regenerate_image[selectedLanguage],
+    editImage: ACTION_TEXT_DATA.edit_image[selectedLanguage],
+    addFile: ACTION_TEXT_DATA.add_file[selectedLanguage],
   };
 };
 

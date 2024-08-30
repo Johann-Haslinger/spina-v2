@@ -261,7 +261,13 @@ const FlashcardQuizView = () => {
       new CountFacet({
         count:
           dueFlashcardsCount -
-          (currentFlashcardIndex - flashcardEntities.filter((e) => e.has(AdditionalTag.ANSWERD_WRONG)).length),
+          flashcardEntities.filter(
+            (e) =>
+              e.has(AdditionalTag.REMEMBERED_WITH_EFFORT) ||
+              e.has(AdditionalTag.REMEMBERED_EASILY) ||
+              e.has(AdditionalTag.SKIP) ||
+              e.has(AdditionalTag.PARTIALLY_REMEMBERED),
+          ).length,
       }),
     );
 

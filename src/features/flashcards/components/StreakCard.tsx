@@ -44,7 +44,11 @@ const StreakCard = () => {
           ) : isCurrentStreakEntityExisting ? (
             <p>
               {' '}
-              Du hast bereits <strong>{streak} Tage</strong> in Folge gelernt. 🎉{' '}
+              Du hast bereits{' '}
+              <strong>
+                {streak} {streak == 1 ? 'Tag' : 'Tage'}
+              </strong>{' '}
+              in Folge gelernt. 🎉{' '}
             </p>
           ) : (
             'Bist du bereit für eine neue Streak? 🚀'

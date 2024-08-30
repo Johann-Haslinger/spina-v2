@@ -243,6 +243,14 @@ export const ACTION_TEXT_DATA = {
     de: 'Bild neu generieren',
     en: 'Regenerate image',
   },
+  edit_image: {
+    de: 'Bild bearbeiten',
+    en: 'Edit image',
+  },
+  add_file: {
+    de: 'Datei hinzufügen',
+    en: 'Add file',
+  },
 };
 
 export const LABEL_TEXT_DATA = {

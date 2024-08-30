@@ -92,8 +92,11 @@ const FlashcardChartCard = () => {
           <StyledTitle>Abgefragte Karten</StyledTitle>
         </StyledFlexContainer>
         <StyledText>
-          Du hast dich in den letzten 7 Tagen im Durchschnitt <strong>{averageFlashcards} Karten</strong> pro Tag
-          abgefragt.
+          Du hast dich in den letzten 7 Tagen im Durchschnitt{' '}
+          <strong>
+            {averageFlashcards} {averageFlashcards == 1 ? 'Karte' : 'Karten'}
+          </strong>{' '}
+          pro Tag abgefragt.
         </StyledText>
       </StyledContainer>
       <StyledColumnsWrapper>

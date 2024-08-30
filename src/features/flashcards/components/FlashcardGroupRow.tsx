@@ -13,7 +13,7 @@ const StyledRowWrapper = styled.div`
 `;
 
 const StyledSelect = styled.select<{ value: FlashcardGroupPriority }>`
-  ${tw`rounded-lg text-sm pl-2 py-1 outline-none`}
+  ${tw`rounded-lg h-fit text-sm pl-2 py-1 outline-none`}
   background-color: ${({ value }) => {
     switch (value) {
       case FlashcardGroupPriority.ACTIVE:

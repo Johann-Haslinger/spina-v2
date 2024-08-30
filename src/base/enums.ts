@@ -76,6 +76,8 @@ export enum Story {
   GENERATING_RESOURCES_FROM_IMAGE = 'generateResourceFromImage',
   GENERATING_EXERCISE_STORY = 'generateExerciseStory',
 
+  SELECTING_IMAGE_FOR_TOPIC_STORY = 'selectingImageForTopicStory',
+
   CLONING_RESOURCE_FROM_GROUP_STORY = 'cloneResourceFromGroupStory',
 
   SUCCESS_STORY = 'successStory',

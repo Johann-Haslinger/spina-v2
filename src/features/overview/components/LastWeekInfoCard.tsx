@@ -67,8 +67,11 @@ const LastWeekInfoCard = (props: CardProps) => {
       </StyledHeader>
 
       <StyledSummaryText>
-        Du hast dich in den letzten 7 Tagen <strong>{totalCardCount} Karten</strong>, in{' '}
-        <strong>{formatTime(totalTimeSpent)}</strong> abgefragt.
+        Du hast dich in den letzten 7 Tagen{' '}
+        <strong>
+          {totalCardCount} {totalCardCount == 1 ? 'Karte' : 'Karten'}
+        </strong>
+        , in <strong>{formatTime(totalTimeSpent)}</strong> abgefragt.
       </StyledSummaryText>
 
       <StyledPerformanceList>

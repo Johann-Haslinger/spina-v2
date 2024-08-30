@@ -1,9 +1,11 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { useEntities } from '@leanscope/ecs-engine';
 import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntityComponents';
-import { DescriptionFacet } from '@leanscope/ecs-models';
+import { DescriptionFacet, IdentifierFacet, ImageFacet } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
-import { IoColorWandOutline } from 'react-icons/io5';
+import { IoCreateOutline } from 'react-icons/io5';
+import tw from 'twin.macro';
 import { TitleFacet } from '../../../../app/additionalFacets';
 import { AdditionalTag, Story, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
 import {
@@ -20,8 +22,10 @@ import {
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../../lib/supabase';
 import { displayActionTexts, displayButtonTexts, displayLabelTexts } from '../../../../utils/displayText';
-import { generateDescriptionForTopic } from '../../functions/generateDescriptionForTopic';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
+import SelectTopicImageSheet from './SelectTopicImageSheet';
+
+const StyledPreviewImage = tw.img`h-40 w-80 object-cover rounded-2xl`;
 
 const EditTopicSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -31,6 +35,31 @@ const EditTopicSheet = () => {
   const [newTitle, setNewTitle] = useState(selectedTopicTitle);
   const [newDescription, setNewDescription] = useState(selectedTopicDescription);
   const [isGeneratingImage] = useEntityHasTags(selectedTopicEntity, AdditionalTag.GENERATING);
+  const [selectedImageEntities] = useEntities((e) => e.get(IdentifierFacet)?.props.guid === 'selectedImage');
+  const selectedImageSrc = selectedImageEntities[0]?.get(ImageFacet)?.props.imageSrc;
+
+  useEffect(() => {
+    const updateTopicImage = async () => {
+      selectedTopicEntity?.add(new ImageFacet({ imageSrc: selectedImageEntities[0]?.get(ImageFacet)?.props.imageSrc }));
+      console.log('updating to', selectedImageEntities[0]?.get(ImageFacet)?.props.imageSrc);
+      const { error } = await supabaseClient
+        .from(SupabaseTable.TOPICS)
+        .update({
+          image_url: selectedImageEntities[0]?.get(ImageFacet)?.props.imageSrc,
+        })
+        .eq(SupabaseColumn.ID, selectedTopicId);
+
+      if (error) {
+        console.error('Error updating topic set', error);
+      }
+
+      selectedImageEntities.forEach((e) => lsc.engine.removeEntity(e));
+    };
+
+    if (selectedImageEntities.length) {
+      updateTopicImage();
+    }
+  }, [selectedImageEntities.length]);
 
   useEffect(() => {
     setNewTitle(selectedTopicTitle);
@@ -38,8 +67,7 @@ const EditTopicSheet = () => {
   }, [selectedTopicTitle, selectedTopicDescription]);
 
   const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_TOPIC_STORY);
-  const handleRegenerateImage = async () =>
-    selectedTopicEntity && (await generateDescriptionForTopic(selectedTopicEntity));
+  const openImageSelectorSheet = () => lsc.stories.transitTo(Story.SELECTING_IMAGE_FOR_TOPIC_STORY);
 
   const updateTopic = async () => {
     if (newTitle && newDescription) {
@@ -47,11 +75,13 @@ const EditTopicSheet = () => {
       selectedTopicEntity?.add(new TitleFacet({ title: newTitle }));
       selectedTopicEntity?.add(new DescriptionFacet({ description: newDescription }));
 
+      console.log('updating to', selectedImageEntities[0]?.get(ImageFacet)?.props.imageSrc);
       const { error } = await supabaseClient
         .from(SupabaseTable.TOPICS)
         .update({
           title: newTitle,
           description: newDescription,
+          image_url: selectedImageEntities[0]?.get(ImageFacet)?.props.imageSrc,
         })
         .eq(SupabaseColumn.ID, selectedTopicId);
 
@@ -62,39 +92,46 @@ const EditTopicSheet = () => {
   };
 
   return (
-    <Sheet visible={isVisible} navigateBack={navigateBack}>
-      <FlexBox>
-        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
-        {(newTitle !== selectedTopicTitle || newDescription !== selectedTopicDescription) && (
-          <PrimaryButton onClick={updateTopic}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
-        )}
-      </FlexBox>
-      <Spacer />
-      <Section>
-        <SectionRow>
-          <TextInput
-            value={newTitle}
-            onChange={(e) => setNewTitle(e.target.value)}
-            placeholder={displayLabelTexts(selectedLanguage).title}
-          />
-        </SectionRow>
-        <SectionRow last>
-          <TextAreaInput
-            value={newDescription}
-            onChange={(e) => setNewDescription(e.target.value)}
-            placeholder={displayLabelTexts(selectedLanguage).description}
-          />
-        </SectionRow>
-      </Section>
-      <Spacer size={2} />
-      {!isGeneratingImage && (
+    <div>
+      <Sheet visible={isVisible} navigateBack={navigateBack}>
+        <FlexBox>
+          <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
+          {(newTitle !== selectedTopicTitle || newDescription !== selectedTopicDescription || selectedImageSrc) && (
+            <PrimaryButton onClick={updateTopic}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
+          )}
+        </FlexBox>
+        <Spacer />
         <Section>
-          <SectionRow last role="button" onClick={handleRegenerateImage} icon={<IoColorWandOutline />}>
-            {displayActionTexts(selectedLanguage).regenerateImage}
+          <SectionRow>
+            <TextInput
+              value={newTitle}
+              onChange={(e) => setNewTitle(e.target.value)}
+              placeholder={displayLabelTexts(selectedLanguage).title}
+            />
+          </SectionRow>
+          <SectionRow last>
+            <TextAreaInput
+              value={newDescription}
+              onChange={(e) => setNewDescription(e.target.value)}
+              placeholder={displayLabelTexts(selectedLanguage).description}
+            />
           </SectionRow>
         </Section>
-      )}
-    </Sheet>
+        <Spacer size={2} />
+        {!isGeneratingImage && (
+          <Section>
+            <SectionRow last role="button" onClick={openImageSelectorSheet} icon={<IoCreateOutline />}>
+              {displayActionTexts(selectedLanguage).editImage}
+            </SectionRow>
+          </Section>
+        )}
+
+        <Spacer />
+        {selectedImageSrc && <StyledPreviewImage src={selectedImageSrc} alt="selected topic" />}
+      </Sheet>
+
+      <SelectTopicImageSheet />
+    </div>
   );
 };
 

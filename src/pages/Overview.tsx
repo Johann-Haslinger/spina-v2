@@ -21,7 +21,8 @@ import {
   PendingResourcesCard,
   StartFlashcardSessionCard,
 } from '../features/overview';
-import FlashcarChartCard from '../features/overview/components/FlashcarChartCard';
+import FlashcarChartCard from '../features/overview/components/FlashcardChartCard';
+import FlashcardQuizView from '../features/study/components/FlashcardQuizView';
 import { useSelectedLanguage } from '../hooks/useSelectedLanguage';
 import { displayDataTypeTexts, displayHeaderTexts } from '../utils/displayText';
 import { dataTypeQuery } from '../utils/queries';
@@ -94,6 +95,8 @@ const Overview = () => {
         get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
         onMatch={ExamView}
       />
+
+      <FlashcardQuizView />
     </div>
   );
 };
