@@ -142,9 +142,6 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
                 <ActionRow icon={<IoArrowUpCircleOutline />} onClick={openAddResourceToLerningGroupSheet}>
                   {displayActionTexts(selectedLanguage).addToLearningGroup}
                 </ActionRow>
-                <ActionRow onClick={openAddResourceToLerningGroupSheet}>
-                  {displayActionTexts(selectedLanguage).addToLearningGroup}
-                </ActionRow>
                 <ActionRow last destructive onClick={openDeleteAlert} icon={<IoTrashOutline />}>
                   {displayActionTexts(selectedLanguage).delete}
                 </ActionRow>

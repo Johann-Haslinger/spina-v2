@@ -5,8 +5,6 @@ import tw from 'twin.macro';
 import { COLOR_ITEMS } from '../../../base/constants';
 import { useWeekStats } from '../../flashcards/hooks/useWeekStats';
 
-const WEEK_DAYS = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag', 'Sonntag'];
-
 const StyledCardWrapper = styled.div`
   ${tw`w-full pr-5 h-[28rem] p-4 text-[#6EBED9] rounded-2xl bg-[#6EBED9] bg-opacity-15`}
 `;
@@ -109,7 +107,7 @@ const FlashcardChartCard = () => {
               }}
             />
             <StyledAverageLabel>
-              <StyledCardInfo>{selectedDay !== null ? WEEK_DAYS[selectedDay] : 'Durchschnitt'}</StyledCardInfo>
+              <StyledCardInfo>{selectedDay !== null ? dayLabels[selectedDay] : 'Durchschnitt'}</StyledCardInfo>
               <StyledCardCountText>
                 <span style={{ color: COLOR_ITEMS[2].color }} tw=" font-bold text-lg ">
                   {' '}
@@ -134,7 +132,7 @@ const FlashcardChartCard = () => {
                 <StyledBar isHoverd={selectedDay == idx} />
               </StyledColumnWrapper>
             </StyledColumnContainer>
-            <StyledColumnLabel>{dayLabels[idx]}</StyledColumnLabel>
+            <StyledColumnLabel>{dayLabels[idx][0]}</StyledColumnLabel>
           </div>
         ))}
         <StyledYLabelsWrapper>

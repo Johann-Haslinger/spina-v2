@@ -9,9 +9,10 @@ import { DateAddedFacet, TitleFacet, TitleProps } from '../../../app/additionalF
 import { DataType } from '../../../base/enums';
 import { sortEntitiesByDateAdded } from '../../../utils/sortEntitiesByTime';
 import { useFormattedDateAdded } from '../../collection/hooks/useFormattedDateAdded';
+import InitializeRecentlyAddedResources from '../systems/InitializeRecentlyAddedResources';
 
 const StyledCardWrapper = styled.div`
-  ${tw`w-full h-[28rem] overflow-y-scroll p-4 text-[#EF9D4A] rounded-2xl bg-[#EF9D4A] bg-opacity-15`}
+  ${tw`w-full h-[28rem] overflow-y-scroll pr-0 p-4 text-[#EF9D4A] rounded-2xl bg-[#EF9D4A] bg-opacity-15`}
 `;
 
 const StyledFlexContainer = styled.div`
@@ -31,6 +32,8 @@ const NewResourcesCard = () => {
 
   return (
     <div>
+      <InitializeRecentlyAddedResources />
+
       <StyledCardWrapper>
         <StyledFlexContainer>
           <IoFileTray />
@@ -44,7 +47,7 @@ const NewResourcesCard = () => {
             new Date(e.get(DateAddedFacet)?.props.dateAdded || '') >= sevenDaysAgo &&
             (e.has(DataType.NOTE) || e.has(DataType.FLASHCARD_SET) || e.has(DataType.SUBTOPIC) || e.has(DataType.TOPIC))
           }
-          get={[[TitleFacet], []]}
+          get={[[TitleFacet, DateAddedFacet], []]}
           sort={sortEntitiesByDateAdded}
           onMatch={NewResourceRow}
         />
@@ -60,7 +63,9 @@ const useNewResources = () => {
   sevenDaysAgo.setDate(sevenDaysAgo.getDate() - 7);
 
   const [newResourceEntities] = useEntities(
-    (e) => new Date(e.get(DateAddedFacet)?.props.dateAdded || '') >= sevenDaysAgo,
+    (e) =>
+      new Date(e.get(DateAddedFacet)?.props.dateAdded || '') >= sevenDaysAgo &&
+      (e.has(DataType.NOTE) || e.has(DataType.FLASHCARD_SET) || e.has(DataType.SUBTOPIC) || e.has(DataType.TOPIC)),
   );
 
   const hasNewResources = newResourceEntities.length > 0;
@@ -73,7 +78,7 @@ const StyledRowWrapper = styled(motion.div)`
 `;
 
 const StyledTitle = styled.p`
-  ${tw`line-clamp-2`}
+  ${tw`line-clamp-2 text-primary dark:text-primaryTextDark`}
 `;
 
 const StyledDueDate = styled.p`
@@ -82,7 +87,7 @@ const StyledDueDate = styled.p`
 
 const NewResourceRow = (props: TitleProps & EntityProps) => {
   const { title, entity } = props;
-  const formattedDateAdded = useFormattedDateAdded(entity);
+  const formattedDateAdded = useFormattedDateAdded(entity, true);
   const [isHovered, setIsHovered] = useState(false);
 
   const openResource = () => entity.add(Tags.SELECTED);

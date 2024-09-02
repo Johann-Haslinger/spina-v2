@@ -6,7 +6,13 @@ import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
 import tw from 'twin.macro';
 import { v4 } from 'uuid';
-import { AnswerFacet, MasteryLevelFacet, QuestionFacet, TitleFacet } from '../../../../app/additionalFacets';
+import {
+  AnswerFacet,
+  DateAddedFacet,
+  MasteryLevelFacet,
+  QuestionFacet,
+  TitleFacet,
+} from '../../../../app/additionalFacets';
 import { AdditionalTag, DataType, Story, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
 import {
   FlexBox,
@@ -115,6 +121,11 @@ const GenerateFlashcardsSheet = () => {
         subtopicEntity.add(new ParentFacet({ parentId: selectedNoteParentId || '' }));
         subtopicEntity.add(new TitleFacet({ title: selectedNoteTitle || '' }));
         subtopicEntity.add(new TextFacet({ text: selectedNoteText || '' }));
+        subtopicEntity.add(
+          new DateAddedFacet({
+            dateAdded: selectedNoteEntity?.get(DateAddedFacet)?.props.dateAdded || new Date().toISOString(),
+          }),
+        );
         subtopicEntity.add(DataType.SUBTOPIC);
         subtopicEntity.add(Tags.SELECTED);
 

@@ -4,7 +4,7 @@ import { Entity, EntityPropsMapper } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet, Tags, TextFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect, useState } from 'react';
 import tw from 'twin.macro';
-import { PriorityFacet, TitleFacet } from '../../../app/additionalFacets';
+import { DateAddedFacet, PriorityFacet, TitleFacet } from '../../../app/additionalFacets';
 import { dummyFlashcardSets, dummySubtopics } from '../../../base/dummy';
 import { DataType, FlashcardGroupPriority, SupabaseTable } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
@@ -121,7 +121,7 @@ const fetchRecentlyAddedFlashcardSets = async () => {
 
   const { data, error } = await supabaseClient
     .from(SupabaseTable.FLASHCARD_SETS)
-    .select('id, title, priority, parent_id')
+    .select('id, title, priority, parent_id, date_added')
     .order('date_added', { ascending: false })
     .gte('date_added', fourteenDaysAgo)
     .or(`date_added.gte.${fourteenDaysAgo},priority.eq.1`);
@@ -139,7 +139,7 @@ const fetchRecentlyAddedSubtopics = async () => {
 
   const { data, error } = await supabaseClient
     .from(SupabaseTable.SUBTOPICS)
-    .select('id, title, priority, parent_id')
+    .select('id, title, priority, parent_id, date_added')
     .order('date_added', { ascending: false })
     .gte('date_added', fourteenDaysAgo)
     .or(`date_added.gte.${fourteenDaysAgo},priority.eq.1`);
@@ -175,6 +175,7 @@ const InitializeRecentlyAddedFlashcardGroupSeystem = () => {
           newFlashcardSetEntity.add(new IdentifierFacet({ guid: flashcardSet.id }));
           newFlashcardSetEntity.add(new TitleFacet({ title: flashcardSet.title }));
           newFlashcardSetEntity.add(new PriorityFacet({ priority: flashcardSet.priority }));
+          newFlashcardSetEntity.add(new DateAddedFacet({ dateAdded: flashcardSet.date_added }));
           newFlashcardSetEntity.add(new ParentFacet({ parentId: flashcardSet.parent_id }));
           newFlashcardSetEntity.add(DataType.FLASHCARD_SET);
         }
@@ -200,6 +201,7 @@ const InitializeRecentlyAddedFlashcardGroupSeystem = () => {
           newSubtopicEntity.add(new TitleFacet({ title: subtopic.title }));
           newSubtopicEntity.add(new PriorityFacet({ priority: subtopic.priority }));
           newSubtopicEntity.add(new ParentFacet({ parentId: subtopic.parent_id }));
+          newSubtopicEntity.add(new DateAddedFacet({ dateAdded: subtopic.date_added }));
           newSubtopicEntity.add(DataType.SUBTOPIC);
         }
       });

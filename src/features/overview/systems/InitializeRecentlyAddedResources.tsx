@@ -1,20 +1,20 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { Entity } from '@leanscope/ecs-engine';
-import { IdentifierFacet } from '@leanscope/ecs-models';
+import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
-import { TitleFacet } from '../../../app/additionalFacets';
-import { AdditionalTag, DataType, SupabaseTable } from '../../../base/enums';
+import { DateAddedFacet, TitleFacet } from '../../../app/additionalFacets';
+import { DataType, SupabaseTable } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 
 const fetchRecentlyAddedSubtopics = async () => {
   const currentDate = new Date();
-  const toDaysAgo = new Date(currentDate.getTime() - 2 * 24 * 60 * 60 * 1000).toISOString();
+  const sevenDaysAgo = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
 
   const { data: subtopics, error } = await supabaseClient
     .from(SupabaseTable.SUBTOPICS)
-    .select('title, id')
-    .gte('date_added', toDaysAgo);
+    .select('title, id, date_added, parent_id')
+    .gte('date_added', sevenDaysAgo);
 
   if (error) {
     console.error('Error fetching recently added subtopics: ', error);
@@ -25,12 +25,12 @@ const fetchRecentlyAddedSubtopics = async () => {
 
 const fetchRecentlyAddedNotes = async () => {
   const currentDate = new Date();
-  const toDaysAgo = new Date(currentDate.getTime() - 2 * 24 * 60 * 60 * 1000).toISOString();
+  const sevenDaysAgo = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
 
   const { data: notes, error } = await supabaseClient
     .from(SupabaseTable.NOTES)
-    .select('title, id')
-    .gte('date_added', toDaysAgo);
+    .select('title, id, date_added, parent_id')
+    .gte('date_added', sevenDaysAgo);
 
   if (error) {
     console.error('Error fetching recently added notes: ', error);
@@ -41,12 +41,12 @@ const fetchRecentlyAddedNotes = async () => {
 
 const fetchRecentlyAddedFlashcardSets = async () => {
   const currentDate = new Date();
-  const toDaysAgo = new Date(currentDate.getTime() - 2 * 24 * 60 * 60 * 1000).toISOString();
+  const sevenDaysAgo = new Date(currentDate.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
 
   const { data: flashcardSets, error } = await supabaseClient
     .from(SupabaseTable.FLASHCARD_SETS)
-    .select('title, id')
-    .gte('date_added', toDaysAgo);
+    .select('title, id, date_added, parent_id')
+    .gte('date_added', sevenDaysAgo);
 
   if (error) {
     console.error('Error fetching recently added flashcard sets: ', error);
@@ -73,9 +73,10 @@ const InitializeRecentlyAddedResources = () => {
         const newSubtopicEntity = new Entity();
         lsc.engine.addEntity(newSubtopicEntity);
         newSubtopicEntity.add(new IdentifierFacet({ guid: subtopic.id }));
-        newSubtopicEntity.add(new TitleFacet({ title: subtopic.title || 'Kein Titel' }));
+        newSubtopicEntity.add(new TitleFacet({ title: subtopic.title || '' }));
+        newSubtopicEntity.add(new DateAddedFacet({ dateAdded: subtopic.date_added }));
+        newSubtopicEntity.add(new ParentFacet({ parentId: subtopic.parent_id }));
         newSubtopicEntity.add(DataType.SUBTOPIC);
-        newSubtopicEntity.add(AdditionalTag.RECENTLY_ADDED);
       });
     };
 
@@ -92,9 +93,10 @@ const InitializeRecentlyAddedResources = () => {
         const newNoteEntity = new Entity();
         lsc.engine.addEntity(newNoteEntity);
         newNoteEntity.add(new IdentifierFacet({ guid: note.id }));
-        newNoteEntity.add(new TitleFacet({ title: note.title || 'Kein Titel' }));
+        newNoteEntity.add(new TitleFacet({ title: note.title }));
+        newNoteEntity.add(new DateAddedFacet({ dateAdded: note.date_added }));
+        newNoteEntity.add(new ParentFacet({ parentId: note.parent_id }));
         newNoteEntity.add(DataType.NOTE);
-        newNoteEntity.add(AdditionalTag.RECENTLY_ADDED);
       });
     };
 
@@ -111,9 +113,10 @@ const InitializeRecentlyAddedResources = () => {
         const newFlashcardSetEntity = new Entity();
         lsc.engine.addEntity(newFlashcardSetEntity);
         newFlashcardSetEntity.add(new IdentifierFacet({ guid: flashcardSet.id }));
-        newFlashcardSetEntity.add(new TitleFacet({ title: flashcardSet.title || 'Kein Titel' }));
+        newFlashcardSetEntity.add(new TitleFacet({ title: flashcardSet.title }));
+        newFlashcardSetEntity.add(new DateAddedFacet({ dateAdded: flashcardSet.date_added }));
+        newFlashcardSetEntity.add(new ParentFacet({ parentId: flashcardSet.parent_id }));
         newFlashcardSetEntity.add(DataType.FLASHCARD_SET);
-        newFlashcardSetEntity.add(AdditionalTag.RECENTLY_ADDED);
       });
     };
 

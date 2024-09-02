@@ -20,7 +20,6 @@ import {
   CollectionGrid,
   NavBarButton,
   NavigationBar,
-  NoContentAddedHint,
   SecondaryText,
   Spacer,
   Title,
@@ -235,9 +234,11 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
             <div tw="h-fit w-full">
               <Spacer />
               <Title>{title}</Title>
-              {description && <Spacer size={2} />}
+              {(description || !hasChildren) && <Spacer size={2} />}
               <div tw="md:w-4/5 ">
-                <SecondaryText>{description}</SecondaryText>
+                <SecondaryText>
+                  {hasChildren ? description : "Drücke auf das Plus Symbol, um etwas zu '" + title + "' hinzuzufügen."}
+                </SecondaryText>
               </div>
               <Spacer size={8} />
             </div>
@@ -251,8 +252,6 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
               />
               <AddChapterButton />
             </StyledChapterWrapper> */}
-
-            {!hasChildren && <NoContentAddedHint />}
 
             <CollectionGrid columnSize="small">
               <EntityPropsMapper

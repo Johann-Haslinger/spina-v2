@@ -24,7 +24,7 @@ export const useWeekStats = () => {
 
     for (let i = 6; i >= 0; i--) {
       const date = new Date(today.getTime() - i * 24 * 60 * 60 * 1000);
-      days.push(date.toLocaleString('de-DE', { weekday: 'short' })[0]);
+      days.push(date.toLocaleString('de-DE', { weekday: 'long' }));
     }
 
     flashcardSessionEntities.forEach((entity) => {

@@ -1,20 +1,21 @@
 import { Entity } from '@leanscope/ecs-engine';
 import { DateAddedFacet } from '../../../app/additionalFacets';
-export const useFormattedDateAdded = (entity: Entity) => {
+
+export const useFormattedDateAdded = (entity: Entity, short?: boolean) => {
   const dateAdded = entity.get(DateAddedFacet)?.props.dateAdded || '';
   const addedDate = new Date(dateAdded);
   const now = new Date();
 
-  const differenceInTime = now.getTime() - addedDate.getTime();
-  const differenceInHours = differenceInTime / (1000 * 3600); // Unterschied in Stunden
+  // Berechnung der Differenz in Tagen zwischen now und addedDate
+  const differenceInDates = Math.floor((now.getTime() - addedDate.getTime()) / (1000 * 60 * 60 * 24));
 
   let formattedDateAdded;
 
-  if (differenceInHours < 24) {
+  if (differenceInDates < 1) {
     formattedDateAdded = 'Heute hinzugefügt';
-  } else if (differenceInHours < 48) {
+  } else if (differenceInDates < 2) {
     formattedDateAdded = 'Gestern hinzugefügt';
-  } else if (differenceInHours < 72) {
+  } else if (differenceInDates < 3) {
     formattedDateAdded = 'Vorgestern hinzugefügt';
   } else {
     const formattedDayAdded = addedDate.toLocaleDateString('de-DE', {
@@ -27,7 +28,11 @@ export const useFormattedDateAdded = (entity: Entity) => {
       day: 'numeric',
     });
 
-    formattedDateAdded = 'Hinzugefügt am ' + formattedDayAdded + ', dem ' + formattedDate;
+    if (short) {
+      formattedDateAdded = 'Hinzugefügt am ' + formattedDate;
+    } else {
+      formattedDateAdded = 'Hinzugefügt am ' + formattedDayAdded + ', dem ' + formattedDate;
+    }
   }
 
   return formattedDateAdded;

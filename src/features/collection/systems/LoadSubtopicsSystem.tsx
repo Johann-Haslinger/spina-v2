@@ -54,7 +54,6 @@ const LoadSubtopicsSystem = () => {
             );
             topicEntity.add(new IdentifierFacet({ guid: topic.id }));
             topicEntity.add(new DateAddedFacet({ dateAdded: topic.date_added }));
-
             topicEntity.add(new ParentFacet({ parentId: selectedTopicId }));
             topicEntity.addTag(DataType.SUBTOPIC);
           }
