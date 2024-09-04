@@ -12,8 +12,13 @@ const StyledPlaceholder = styled.div`
   ${tw`text-seconderyText opacity-70`}
 `;
 
-const TextEditor = (props: { onBlur?: (newValue: string) => void; value?: string; placeholder?: string }) => {
-  const { onBlur, value, placeholder } = props;
+const TextEditor = (props: {
+  onBlur?: (newValue: string) => void;
+  value?: string;
+  placeholder?: string;
+  saveSelection?: () => void;
+}) => {
+  const { onBlur, value, placeholder, saveSelection } = props;
   const textEditorRef = useRef<HTMLDivElement>(null);
   const sanitizer = dompurify.sanitize;
   const [isTextEditorFocused, setIsTextEditorFocused] = useState(false);
@@ -58,6 +63,8 @@ const TextEditor = (props: { onBlur?: (newValue: string) => void; value?: string
         contentEditable
         onBlur={handleBlur}
         dangerouslySetInnerHTML={{ __html: sanitizer(value || '') }}
+        onMouseUp={saveSelection}
+        onKeyUp={saveSelection}
       />
     </div>
   );

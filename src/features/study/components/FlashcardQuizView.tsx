@@ -492,11 +492,11 @@ const StyledAnswerText = styled.div<{ color: string }>`
 `;
 
 const StyledNavButtonAreaWrapper = styled.div`
-  ${tw`flex w-[90%] space-x-1 md:space-x-1.5 md:w-2/5 text-xl md:text-2xl md:right-[30%] right-[5%] md:left-[30%] left-[5%] justify-between bg-white bg-opacity-20 p-1 md:p-1.5 rounded-xl md:rounded-2xl absolute bottom-8  `}
+  ${tw`flex w-[90%] space-x-1  md:w-2/5 text-xl md:text-2xl md:right-[30%] right-[5%] md:left-[30%] left-[5%] justify-between bg-white bg-opacity-40 p-1  rounded-xl md:rounded-2xl absolute bottom-8  `}
 `;
 
 const StyledNavButton = styled.div`
-  ${tw`w-1/5 space-y-0.5 h-16 flex justify-center flex-col items-center rounded-lg md:rounded-xl hover:opacity-50 transition-all bg-white bg-opacity-60`}
+  ${tw`w-1/5 space-y-0.5 h-16 flex justify-center flex-col items-center rounded-lg md:rounded-xl hover:opacity-50 transition-all bg-white bg-opacity-80`}
 `;
 
 const FlashcardCell = (props: {

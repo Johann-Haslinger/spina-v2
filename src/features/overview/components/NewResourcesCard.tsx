@@ -12,7 +12,7 @@ import { useFormattedDateAdded } from '../../collection/hooks/useFormattedDateAd
 import InitializeRecentlyAddedResources from '../systems/InitializeRecentlyAddedResources';
 
 const StyledCardWrapper = styled.div`
-  ${tw`w-full h-[28rem] overflow-y-scroll pr-0 p-4 text-[#EF9D4A] rounded-2xl bg-[#EF9D4A] bg-opacity-15`}
+  ${tw`w-full h-fit md:h-[28rem] overflow-y-scroll pr-0 p-4 text-[#EF9D4A] rounded-2xl bg-[#EF9D4A] bg-opacity-15`}
 `;
 
 const StyledFlexContainer = styled.div`

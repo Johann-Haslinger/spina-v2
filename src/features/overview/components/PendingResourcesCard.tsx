@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
-import { Entity, EntityProps, EntityPropsMapper, useEntities, useEntity } from '@leanscope/ecs-engine';
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { Entity, EntityProps, EntityPropsMapper, useEntities } from '@leanscope/ecs-engine';
 import { IdentifierFacet, Tags } from '@leanscope/ecs-models';
 import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { IoTime } from 'react-icons/io5';
 import tw from 'twin.macro';
 import {
@@ -17,12 +18,12 @@ import {
 } from '../../../app/additionalFacets';
 import { AdditionalTag, DataType, ResoruceStatus, SupabaseTable } from '../../../base/enums';
 import { useDaysUntilDue } from '../../../hooks/useDaysUntilDue';
-import supabaseClient from '../../../lib/supabase';
 import { dataTypeQuery } from '../../../utils/queries';
 import { sortEntitiesByDueDate } from '../../../utils/sortEntitiesByTime';
 import { useSelectedTheme } from '../../collection/hooks/useSelectedTheme';
 import InitializeExamsSystem from '../../exams/systems/InitializeExamsSystem';
 import InitializeHomeworksSystem from '../../homeworks/systems/InitializeHomeworksSystem';
+import supabaseClient from '../../../lib/supabase';
 
 const StyledCardWrapper = styled.div`
   ${tw`w-full h-fit md:h-[28rem] overflow-y-scroll p-4 pr-0 rounded-2xl bg-[#A3CB63] bg-opacity-15`}
@@ -60,15 +61,16 @@ const PendingResourcesCard = () => {
         {!hasPendingResources && (
           <StyledInfoText>Alles erledigt! Du hast aktuell keine anstehenden Leistungen. 🎉</StyledInfoText>
         )}
+
         <EntityPropsMapper
           query={(e) =>
             new Date(e.get(DueDateFacet)?.props.dueDate || '') >= sevenDaysAgo &&
             ([ResoruceStatus.TODO, ResoruceStatus.IN_PROGRESS].includes(e.get(StatusFacet)?.props.status || 0) ||
               e.has(AdditionalTag.CHANGED))
           }
-          sort={(a, b) => sortEntitiesByDueDate(a, b)}
+          sort={sortEntitiesByDueDate}
           get={[[TitleFacet, StatusFacet, DueDateFacet, RelationshipFacet], []]}
-          onMatch={PandingResourceRow}
+          onMatch={PendingResourceRow}
         />
       </StyledCardWrapper>
     </div>
@@ -96,7 +98,6 @@ const updateStatus = async (entity: Entity, status: number) => {
   const dataType = dataTypeQuery(entity, DataType.HOMEWORK) ? DataType.HOMEWORK : DataType.EXAM;
   entity.add(new StatusFacet({ status }));
   entity.add(AdditionalTag.CHANGED);
-  setTimeout(() => entity.remove(AdditionalTag.CHANGED), 1000);
 
   const { error } = await supabaseClient
     .from(dataType == DataType.HOMEWORK ? SupabaseTable.HOMEWORKS : SupabaseTable.EXAMS)
@@ -142,20 +143,28 @@ const StyledSelectWrapper = styled.div<{ status: ResoruceStatus; dark: boolean }
     }
   }};
 `;
-const PandingResourceRow = (props: TitleProps & StatusProps & DueDateProps & EntityProps & RelationshipProps) => {
-  const { title, status, entity, relationship } = props;
-  const daysUntilDue = useDaysUntilDue(entity);
+const PendingResourceRow = (props: TitleProps & StatusProps & DueDateProps & EntityProps & RelationshipProps) => {
+  const lsc = useContext(LeanScopeClientContext);
+  const { title, status, entity, relationship, dueDate } = props;
+  const daysUntilDue = useDaysUntilDue(entity, dueDate);
   const { isDarkModeAktive } = useSelectedTheme();
-  const isDone = [4, 3].includes(entity.get(StatusFacet)?.props.status || 0);
+  const isDone = [4, 3].includes(status || 0);
   const isDisplayed = useIsDisplayed(isDone);
   const [isHovered, setIsHovered] = useState(false);
-  const [relatedSchoolSubject] = useEntity((e) => e.get(IdentifierFacet)?.props.guid === relationship);
-  const relatedSchoolSubjectTitle = relatedSchoolSubject?.get(TitleFacet)?.props.title;
+  const [relatedSchoolSubjectTitle, setRelatedSchoolSubjectTitle] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (relationship) {
+      const schoolSubjectEntity = lsc.engine.entities.find((e) => e.get(IdentifierFacet)?.props.guid === relationship);
+      setRelatedSchoolSubjectTitle(schoolSubjectEntity?.get(TitleFacet)?.props.title || '');
+    }
+  }, [relationship]);
 
   const openResource = () => entity.add(Tags.SELECTED);
 
   return isDisplayed ? (
     <StyledRowWrapper
+      key={entity.id}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       animate={{

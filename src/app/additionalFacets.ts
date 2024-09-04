@@ -269,3 +269,33 @@ export class PriorityFacet extends Facet<PriorityProps> {
     super(props);
   }
 }
+
+export interface FileProps {
+  file: File;
+}
+
+export class FileFacet extends Facet<FileProps> {
+  constructor(props: FileProps) {
+    super(props);
+  }
+}
+
+export interface UrlProps {
+  url: string;
+}
+
+export class UrlFacet extends Facet<UrlProps> {
+  constructor(props: UrlProps) {
+    super(props);
+  }
+}
+
+export interface TypeProps {
+  type: string;
+}
+
+export class TypeFacet extends Facet<TypeProps> {
+  constructor(props: TypeProps) {
+    super(props);
+  }
+}

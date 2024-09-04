@@ -121,7 +121,7 @@ const FlashcardChartCard = () => {
             </StyledAverageLabel>
           </StyledAverageLabelWrapper>
         )}
-        {weekDays.map((count, idx) => (
+        {weekDays.map((count = 1, idx) => (
           <div style={{ width: `${100 / weekDays.length}%`, height: '100%' }} key={idx}>
             <StyledColumnContainer>
               <StyledColumnWrapper
@@ -132,7 +132,7 @@ const FlashcardChartCard = () => {
                 <StyledBar isHoverd={selectedDay == idx} />
               </StyledColumnWrapper>
             </StyledColumnContainer>
-            <StyledColumnLabel>{dayLabels[idx][0]}</StyledColumnLabel>
+            <StyledColumnLabel>{dayLabels[idx] && dayLabels[idx][0] ? dayLabels[idx][0] : null}</StyledColumnLabel>
           </div>
         ))}
         <StyledYLabelsWrapper>

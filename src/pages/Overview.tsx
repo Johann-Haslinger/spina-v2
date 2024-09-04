@@ -1,14 +1,14 @@
 import styled from '@emotion/styled';
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { EntityPropsMapper } from '@leanscope/ecs-engine';
-import { IdentifierFacet, Tags, TextFacet } from '@leanscope/ecs-models';
+import { DescriptionFacet, IdentifierFacet, ImageFacet, Tags, TextFacet } from '@leanscope/ecs-models';
 import { useContext } from 'react';
 import { IoAdd } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { TitleFacet } from '../app/additionalFacets';
 import { DataType, Story } from '../base/enums';
 import { ActionRow, NavBarButton, NavigationBar, Spacer, Title, View } from '../components';
-import { AddHomeworkSheet, HomeworkView } from '../features/collection';
+import { AddHomeworkSheet, FlashcardSetView, HomeworkView } from '../features/collection';
 import AddExamSheet from '../features/exams/components/AddExamSheet';
 import ExamView from '../features/exams/components/ExamView';
 import StreakCard from '../features/flashcards/components/StreakCard';
@@ -26,6 +26,9 @@ import FlashcardQuizView from '../features/study/components/FlashcardQuizView';
 import { useSelectedLanguage } from '../hooks/useSelectedLanguage';
 import { displayDataTypeTexts, displayHeaderTexts } from '../utils/displayText';
 import { dataTypeQuery } from '../utils/queries';
+import NoteView from '../features/collection/components/notes/NoteView';
+import SubtopicView from '../features/collection/components/subtopics/SubtopicView';
+import TopicView from '../features/collection/components/topics/TopicView';
 
 const StyledColumnsWrapper = styled.div`
   ${tw`grid grid-cols-1 md:grid-cols-2 gap-4`}
@@ -94,6 +97,29 @@ const Overview = () => {
         query={(e) => e.has(Tags.SELECTED) && dataTypeQuery(e, DataType.EXAM)}
         get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
         onMatch={ExamView}
+      />
+
+      <EntityPropsMapper
+        query={(e) => dataTypeQuery(e, DataType.NOTE) && e.has(Tags.SELECTED)}
+        get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
+        onMatch={NoteView}
+      />
+      <EntityPropsMapper
+        query={(e) => dataTypeQuery(e, DataType.FLASHCARD_SET) && e.has(Tags.SELECTED)}
+        get={[[TitleFacet, IdentifierFacet], []]}
+        onMatch={FlashcardSetView}
+      />
+
+      <EntityPropsMapper
+        query={(e) => dataTypeQuery(e, DataType.SUBTOPIC) && e.has(Tags.SELECTED)}
+        get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
+        onMatch={SubtopicView}
+      />
+
+      <EntityPropsMapper
+        query={(e) => dataTypeQuery(e, DataType.TOPIC) && e.hasTag(Tags.SELECTED)}
+        get={[[TitleFacet, DescriptionFacet, ImageFacet], []]}
+        onMatch={TopicView}
       />
 
       <FlashcardQuizView />

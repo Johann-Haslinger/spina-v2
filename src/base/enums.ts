@@ -239,6 +239,7 @@ export enum SupabaseTable {
   FLASHCARD_SESSIONS = 'flashcard_sessions',
   STREAKS = 'streaks',
   CHAPTERS = 'chapters',
+  FILES = 'files',
 }
 
 export enum SupabaseColumn {

@@ -1,24 +1,47 @@
+import styled from '@emotion/styled';
 import { ILeanScopeClient } from '@leanscope/api-client/interfaces';
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { Entity, EntityProps, EntityPropsMapper, useEntities } from '@leanscope/ecs-engine';
-import { IdentifierFacet, IdentifierProps, ImageFacet, ParentFacet, TextProps } from '@leanscope/ecs-models';
-import { ChangeEvent, Fragment, useContext, useEffect, useRef, useState } from 'react';
+import {
+  IdentifierFacet,
+  IdentifierProps,
+  ImageFacet,
+  ParentFacet,
+  Tags,
+  TextProps,
+  UrlFacet,
+  UrlProps,
+} from '@leanscope/ecs-models';
+import saveAs from 'file-saver';
+import { motion } from 'framer-motion';
+import { Fragment, useContext, useEffect, useRef, useState } from 'react';
 import {
   IoAdd,
   IoAlbumsOutline,
+  IoArrowDownCircleOutline,
   IoArrowUpCircleOutline,
   IoBookmark,
   IoBookmarkOutline,
   IoColorWandOutline,
   IoCopyOutline,
+  IoDocumentOutline,
   IoEllipsisHorizontalCircleOutline,
   IoFolderOutline,
   IoHeadsetOutline,
+  IoImageOutline,
   IoSparklesOutline,
   IoTrashOutline,
 } from 'react-icons/io5';
+import tw from 'twin.macro';
 import { v4 } from 'uuid';
-import { DateAddedFacet, TitleFacet, TitleProps } from '../../../../app/additionalFacets';
+import {
+  DateAddedFacet,
+  FileFacet,
+  TitleFacet,
+  TitleProps,
+  TypeFacet,
+  TypeProps,
+} from '../../../../app/additionalFacets';
 import { AdditionalTag, DataType, Story, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
 import {
   ActionRow,
@@ -47,19 +70,37 @@ import GenerateImprovedTextSheet from '../generation/GenerateImprovedTextSheet';
 import GeneratePodcastSheet from '../generation/GeneratePodcastSheet';
 import PodcastRow from '../podcasts/PodcastRow';
 import DeleteNoteAlert from './DeleteNoteAlert';
+import FileViewer from './FileViewer';
 
-const addFile = (lsc: ILeanScopeClient, entity: Entity, file: string) => {
+interface UploadedFile {
+  id: string;
+  file: File;
+  url: string;
+  type: string;
+}
+
+const addFile = async (lsc: ILeanScopeClient, entity: Entity, file: UploadedFile) => {
   const parentId = entity.get(IdentifierFacet)?.props.guid;
   const id = v4();
 
   if (!parentId) return;
 
-  console.log('Adding file', file);
   const newFileEntity = new Entity();
   lsc.engine.addEntity(newFileEntity);
   newFileEntity.add(new IdentifierFacet({ guid: id }));
   newFileEntity.add(new ParentFacet({ parentId: parentId }));
-  newFileEntity.add(new ImageFacet({ imageSrc: file }));
+  newFileEntity.add(new TypeFacet({ type: file.type }));
+  newFileEntity.add(new UrlFacet({ url: file.url }));
+  newFileEntity.add(new FileFacet({ file: file.file }));
+  newFileEntity.add(new TitleFacet({ title: file.file.name }));
+
+  // const { error } = await supabaseClient
+  //   .from(SupabaseTable.FILES)
+  //   .insert([{ id, parentId, type: file.type, url: file.url, file: file, title: file.file.name }]);
+
+  // if (error) {
+  //   console.error('Error adding file', error);
+  // }
 };
 
 const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps) => {
@@ -151,8 +192,23 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
             <IoEllipsisHorizontalCircleOutline />
           </NavBarButton>
         </NavigationBar>
-
         <BackButton navigateBack={navigateBack}>{selectedTopicTitle}</BackButton>
+        {/* <div className="toolbar" onMouseDown={saveSelection}>
+        <button onClick={() => applyCommand("formatBlock", "H1")}>H1</button>
+        <button onClick={() => applyCommand("bold")}>Bold</button>
+        <button onClick={() => applyCommand("italic")}>Italic</button>
+        <button onClick={() => applyCommand("underline")}>Underline</button>
+        <select onChange={(e) => highlightText(e.target.value)} onMouseDown={saveSelection}>
+          <option value="">Mark Text</option>
+          <option value="yellow">Yellow</option>
+          <option value="green">Green</option>
+          <option value="pink">Pink</option>
+          <option value="blue">Blue</option>
+          <option value="orange">Orange</option>
+          <option value="red">Red</option>
+        </select>
+        <button onClick={() => insertTable(3, 3)}>Insert 3x3 Table</button>
+      </div> */}
         <Title editable onBlur={handleTitleBlur}>
           {title}
         </Title>
@@ -175,12 +231,26 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
             />
           </div>
         )}
+
+        <div>
+          <EntityPropsMapper
+            query={(e) => isChildOfQuery(e, entity) && e.has(FileFacet)}
+            get={[[FileFacet, TitleFacet, UrlFacet, TypeFacet], []]}
+            onMatch={FileRow}
+          />
+        </div>
       </View>
 
       <DeleteNoteAlert />
       <GenerateFlashcardsSheet />
       <GeneratePodcastSheet />
       <GenerateImprovedTextSheet />
+
+      <EntityPropsMapper
+        query={(e) => isChildOfQuery(e, entity) && e.has(FileFacet) && e.hasTag(Tags.SELECTED)}
+        get={[[FileFacet, TitleFacet, UrlFacet], []]}
+        onMatch={FileViewer}
+      />
 
       {fileInput}
     </Fragment>
@@ -202,7 +272,7 @@ const useHastAttachedResources = (entity: Entity) => {
   return hasAttachedResources;
 };
 
-const useFileSelector = (onFileSelect: (file: string) => void) => {
+const useFileSelector = (onFileSelect: (file: UploadedFile) => void) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [isSelectingImageSrc, setIsSelectingImageSrc] = useState(false);
 
@@ -219,55 +289,67 @@ const useFileSelector = (onFileSelect: (file: string) => void) => {
     }
   };
 
-  const handleImageSelect = (event: ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = event.target.files && event.target.files[0];
-    const reader = new FileReader();
-
-    reader.onloadend = () => {
-      const image = new Image();
-      image.src = reader.result as string;
-
-      image.onload = () => {
-        const canvas = document.createElement('canvas');
-        const context = canvas.getContext('2d');
-
-        const maxWidth = 1080;
-        const maxHeight = 180;
-
-        let width = image.width;
-        let height = image.height;
-
-        if (width > height) {
-          if (width > maxWidth) {
-            height *= maxWidth / width;
-            width = maxWidth;
-          }
-        } else {
-          if (height > maxHeight) {
-            width *= maxHeight / height;
-            height = maxHeight;
-          }
-        }
-
-        canvas.width = width;
-        canvas.height = height;
-
-        context?.drawImage(image, 0, 0, width, height);
-
-        const resizedImage = canvas.toDataURL('image/jpeg');
-
-        onFileSelect(resizedImage);
-      };
-    };
-
-    if (selectedFile) reader.readAsDataURL(selectedFile);
-    setIsSelectingImageSrc(false);
-    return '';
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files) {
+      Array.from(files).forEach((file) => {
+        const url = URL.createObjectURL(file);
+        onFileSelect({ id: Date.now().toString(), file, url, type: file.type });
+      });
+    }
   };
 
   const fileInput = isSelectingImageSrc && (
-    <input type="file" accept="image/*" ref={fileInputRef} onChange={handleImageSelect} style={{ display: 'none' }} />
+    <input type="file" ref={fileInputRef} multiple onChange={handleFileChange} style={{ display: 'none' }} />
   );
 
   return { openFilePicker, fileInput };
+};
+
+const StyledRowWrapper = styled(motion.div)`
+  ${tw`flex pr-4 items-center pl-2 justify-between py-2 border-b border-black border-opacity-5`}
+`;
+
+const StyledTitle = styled.p`
+  ${tw`line-clamp-2`}
+`;
+
+const StyledDueDate = styled.p`
+  ${tw`text-sm text-seconderyText`}
+`;
+
+const StyledIcon = styled.div`
+  ${tw`text-xl hover:opacity-50 text-seconderyText`}
+`;
+
+const FileRow = (props: TitleProps & UrlProps & EntityProps & TypeProps) => {
+  const { entity, url, title, type } = props;
+  const [isHovered, setIsHovered] = useState(false);
+
+  const donwnloadFile = () => saveAs(url, title);
+  const openFile = () => entity.addTag(Tags.SELECTED);
+
+  return (
+    <StyledRowWrapper key={entity.id} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+      <motion.div
+        animate={{
+          x: isHovered ? 15 : 0,
+        }}
+        onClick={openFile}
+        tw="flex items-center space-x-6 pl-4 "
+      >
+        <div tw="text-2xl text-primaryColor">
+          {' '}
+          {type.startsWith('image/') ? <IoImageOutline /> : <IoDocumentOutline />}
+        </div>
+        <div>
+          <StyledTitle>{title}</StyledTitle>
+          <StyledDueDate>Zum Öffnen klicken</StyledDueDate>
+        </div>
+      </motion.div>
+      <StyledIcon>
+        <IoArrowDownCircleOutline onClick={donwnloadFile} />
+      </StyledIcon>
+    </StyledRowWrapper>
+  );
 };
