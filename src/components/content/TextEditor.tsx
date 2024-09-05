@@ -12,18 +12,79 @@ const StyledPlaceholder = styled.div`
   ${tw`text-seconderyText opacity-70`}
 `;
 
-const TextEditor = (props: {
-  onBlur?: (newValue: string) => void;
-  value?: string;
-  placeholder?: string;
-  saveSelection?: () => void;
-}) => {
-  const { onBlur, value, placeholder, saveSelection } = props;
+const TextEditor = (props: { onBlur?: (newValue: string) => void; value?: string; placeholder?: string }) => {
+  const { onBlur, value, placeholder } = props;
   const textEditorRef = useRef<HTMLDivElement>(null);
   const sanitizer = dompurify.sanitize;
   const [isTextEditorFocused, setIsTextEditorFocused] = useState(false);
-  const isPlaceholderVisible = !value && textEditorRef.current?.innerHTML == '' && !isTextEditorFocused;
 
+  const initialText = useInitialText(value);
+  const isPlaceholderVisible = textEditorRef.current?.innerHTML === '' && !isTextEditorFocused;
+
+  useBeforeUnload(textEditorRef, onBlur);
+
+  useEffect(() => {
+    if (initialText) setIsTextEditorFocused(true);
+  }, [initialText]);
+
+  const handlePaste = (e: React.ClipboardEvent<HTMLDivElement>) => {
+    e.preventDefault();
+
+    const clipboardData = e.clipboardData;
+    const pastedData = clipboardData.getData('text/html') || clipboardData.getData('text');
+
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = pastedData;
+
+    const removeInlineStyles = (element: HTMLElement) => {
+      element.style.fontFamily = 'system-ui';
+      element.style.fontSize = '16px';
+      element.style.backgroundColor = 'transparent';
+      element.style.color = 'inherit';
+
+      for (const child of Array.from(element.children)) {
+        if (child instanceof HTMLElement) {
+          removeInlineStyles(child);
+        }
+      }
+    };
+
+    removeInlineStyles(tempDiv);
+
+    const cleanedHtml = tempDiv.innerHTML;
+    document.execCommand('insertHTML', false, cleanedHtml);
+  };
+
+  const handleFocus = () => {
+    setIsTextEditorFocused(true);
+    setTimeout(() => textEditorRef.current?.focus(), 10);
+  };
+
+  const handleBlur = () => {
+    setTimeout(() => onBlur && textEditorRef.current && onBlur(textEditorRef.current.innerHTML), 100);
+  };
+
+  return (
+    <div onClick={handleFocus}>
+      {isPlaceholderVisible && <StyledPlaceholder onClick={handleFocus}>{placeholder}</StyledPlaceholder>}
+
+      <StyledTextEditorWrapper
+        suppressContentEditableWarning={true}
+        isHidden={isPlaceholderVisible}
+        onFocus={(e) => initialText === '' && e.preventDefault()}
+        ref={textEditorRef}
+        contentEditable
+        onBlur={handleBlur}
+        onPaste={handlePaste}
+        dangerouslySetInnerHTML={{ __html: sanitizer(initialText || '') }}
+      />
+    </div>
+  );
+};
+
+// Custom Hooks
+
+const useBeforeUnload = (textEditorRef: React.RefObject<HTMLDivElement>, onBlur?: (newValue: string) => void) => {
   useEffect(() => {
     const handleUnload = () => {
       if (onBlur && textEditorRef.current) {
@@ -36,38 +97,19 @@ const TextEditor = (props: {
     return () => {
       window.removeEventListener('beforeunload', handleUnload);
     };
-  }, [textEditorRef.current?.innerHTML, onBlur]);
+  }, [onBlur, textEditorRef]);
+};
 
-  const handleFocus = () => {
-    setIsTextEditorFocused(true);
-    setTimeout(() => textEditorRef.current?.focus(), 10);
-  };
-
-  const handleBlur = () => {
-    onBlur && textEditorRef.current && onBlur(textEditorRef.current.innerHTML);
-    setIsTextEditorFocused(false);
-  };
+const useInitialText = (value?: string) => {
+  const [initialText, setInitialText] = useState('');
 
   useEffect(() => {
-    if (value) setIsTextEditorFocused(true);
+    if (value) {
+      setInitialText(value);
+    }
   }, [value]);
 
-  return (
-    <div onClick={handleFocus}>
-      {isPlaceholderVisible && <StyledPlaceholder onClick={handleFocus}>{placeholder}</StyledPlaceholder>}
-
-      <StyledTextEditorWrapper
-        isHidden={isPlaceholderVisible}
-        onFocus={(e) => value == '' && e.preventDefault()}
-        ref={textEditorRef}
-        contentEditable
-        onBlur={handleBlur}
-        dangerouslySetInnerHTML={{ __html: sanitizer(value || '') }}
-        onMouseUp={saveSelection}
-        onKeyUp={saveSelection}
-      />
-    </div>
-  );
+  return initialText;
 };
 
 export default TextEditor;

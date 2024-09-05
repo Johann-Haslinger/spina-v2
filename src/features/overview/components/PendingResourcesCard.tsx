@@ -180,7 +180,8 @@ const PendingResourceRow = (props: TitleProps & StatusProps & DueDateProps & Ent
       >
         <StyledTitle>{title}</StyledTitle>
         <StyledDueDate>
-          {relatedSchoolSubjectTitle}, {daysUntilDue}
+          {relatedSchoolSubjectTitle}
+          {relatedSchoolSubjectTitle && ','} {daysUntilDue}
         </StyledDueDate>
       </motion.div>
       {status && (

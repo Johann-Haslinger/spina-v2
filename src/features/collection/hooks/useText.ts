@@ -1,11 +1,12 @@
 import { Entity } from '@leanscope/ecs-engine';
 import { useEntityFacets } from '@leanscope/ecs-engine/react-api/hooks/useEntityFacets';
-import { IdentifierFacet, TextFacet } from '@leanscope/ecs-models';
-import { useEffect } from 'react';
+import { IdentifierFacet, Tags, TextFacet } from '@leanscope/ecs-models';
+import { useEffect, useState } from 'react';
 import { SupabaseColumn, SupabaseTable } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import { useUserData } from '../../../hooks/useUserData';
 import supabaseClient from '../../../lib/supabase';
+import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntityComponents';
 
 const fetchText = async (parentId: string, userId: string) => {
   const { data: textData, error } = await supabaseClient
@@ -36,15 +37,24 @@ export const useText = (entity: Entity) => {
   const parentId = entity.get(IdentifierFacet)?.props.guid;
   const { userId } = useUserData();
   const [textProps] = useEntityFacets(entity, TextFacet);
-  const text = textProps?.text || '';
+  const [isEntitySelected] = useEntityHasTags(entity, Tags.SELECTED);
   const { isUsingSupabaseData: shouldFetchFromSupabase, isUsingMockupData: mockupData } = useCurrentDataSource();
+  const [text, setText] = useState(textProps?.text || '');
 
   useEffect(() => {
     const loadText = async () => {
-      if (!parentId || text !== '') return;
+      if (!parentId) return;
+
+      if (entity.get(TextFacet)?.props.text) {
+        console.log('text already loaded', entity.get(TextFacet)?.props.text);
+        setText(entity.get(TextFacet)?.props.text || '');
+        return;
+      }
 
       const loadedText = await fetchText(parentId, userId);
       entity.add(new TextFacet({ text: loadedText }));
+      setText(loadedText);
+      console.log('loaded text', loadedText);
     };
 
     if (shouldFetchFromSupabase) {
@@ -56,7 +66,7 @@ export const useText = (entity: Entity) => {
         }),
       );
     }
-  }, [parentId, userId, mockupData, shouldFetchFromSupabase, text]);
+  }, [parentId, userId, mockupData, shouldFetchFromSupabase, isEntitySelected]);
 
   const updateText = async (newText: string) => {
     entity.add(new TextFacet({ text: newText }));

@@ -12,9 +12,10 @@ import {
   UrlFacet,
   UrlProps,
 } from '@leanscope/ecs-models';
+import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import saveAs from 'file-saver';
 import { motion } from 'framer-motion';
-import { Fragment, useContext, useEffect, useRef, useState } from 'react';
+import { MouseEvent as ButtonMouseEvent, Fragment, useContext, useEffect, useRef, useState } from 'react';
 import {
   IoAdd,
   IoAlbumsOutline,
@@ -30,6 +31,7 @@ import {
   IoHeadsetOutline,
   IoImageOutline,
   IoSparklesOutline,
+  IoTextOutline,
   IoTrashOutline,
 } from 'react-icons/io5';
 import tw from 'twin.macro';
@@ -56,6 +58,7 @@ import {
 } from '../../../../components';
 import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
+import { useSelection } from '../../../../hooks/useSelection';
 import supabaseClient from '../../../../lib/supabase';
 import { displayActionTexts } from '../../../../utils/displayText';
 import { dataTypeQuery, isChildOfQuery } from '../../../../utils/queries';
@@ -71,6 +74,7 @@ import GeneratePodcastSheet from '../generation/GeneratePodcastSheet';
 import PodcastRow from '../podcasts/PodcastRow';
 import DeleteNoteAlert from './DeleteNoteAlert';
 import FileViewer from './FileViewer';
+import StyleActionSheet from './StyleActionSheet';
 
 interface UploadedFile {
   id: string;
@@ -114,6 +118,8 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
   const formattedDateAdded = useFormattedDateAdded(entity);
   const { openFilePicker, fileInput } = useFileSelector((file) => addFile(lsc, entity, file));
   const hasAttachedResources = useHastAttachedResources(entity);
+  const isEditTextStyleSheetVisible = useIsStoryCurrent(Story.EDITING_TEXT_STYLE_STORY);
+  const hasSelection = useSelection();
 
   const navigateBack = () => entity.addTag(AdditionalTag.NAVIGATE_BACK);
   const openDeleteAlert = () => lsc.stories.transitTo(Story.DELETING_NOTE_STORY);
@@ -121,6 +127,7 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
   const openGeneratePodcastSheet = () => lsc.stories.transitTo(Story.GENERATING_PODCAST_STORY);
   const openImproveTextSheet = () => lsc.stories.transitTo(Story.GENERATING_IMPROVED_TEXT_STORY);
   const openAddResourceToLerningGroupSheet = () => lsc.stories.transitTo(Story.ADDING_RESOURCE_TO_LEARNING_GROUP_STORY);
+  const openEditTextStyleSheet = () => lsc.stories.transitTo(Story.EDITING_TEXT_STYLE_STORY);
 
   const handleTitleBlur = async (value: string) => {
     entity.add(new TitleFacet({ title: value }));
@@ -134,6 +141,14 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
     }
   };
 
+  const handleButtonClick = (event: ButtonMouseEvent<HTMLButtonElement>) => {
+    if (!hasSelection) return;
+
+    event.preventDefault();
+    event.stopPropagation();
+    openEditTextStyleSheet();
+  };
+
   return (
     <Fragment>
       <LoadNoteTextSystem />
@@ -141,6 +156,11 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
 
       <View visible={isVisible}>
         <NavigationBar>
+          <button onClick={handleButtonClick}>
+            <NavBarButton blocked={!hasSelection}>
+              <IoTextOutline style={{ opacity: isEditTextStyleSheetVisible ? '0.5' : '1' }} />
+            </NavBarButton>{' '}
+          </button>
           <NavBarButton
             content={
               <div>
@@ -192,23 +212,8 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
             <IoEllipsisHorizontalCircleOutline />
           </NavBarButton>
         </NavigationBar>
+
         <BackButton navigateBack={navigateBack}>{selectedTopicTitle}</BackButton>
-        {/* <div className="toolbar" onMouseDown={saveSelection}>
-        <button onClick={() => applyCommand("formatBlock", "H1")}>H1</button>
-        <button onClick={() => applyCommand("bold")}>Bold</button>
-        <button onClick={() => applyCommand("italic")}>Italic</button>
-        <button onClick={() => applyCommand("underline")}>Underline</button>
-        <select onChange={(e) => highlightText(e.target.value)} onMouseDown={saveSelection}>
-          <option value="">Mark Text</option>
-          <option value="yellow">Yellow</option>
-          <option value="green">Green</option>
-          <option value="pink">Pink</option>
-          <option value="blue">Blue</option>
-          <option value="orange">Orange</option>
-          <option value="red">Red</option>
-        </select>
-        <button onClick={() => insertTable(3, 3)}>Insert 3x3 Table</button>
-      </div> */}
         <Title editable onBlur={handleTitleBlur}>
           {title}
         </Title>
@@ -220,6 +225,7 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
           get={[[TitleFacet, DateAddedFacet], []]}
           onMatch={PodcastRow}
         />
+
         <TextEditor placeholder="Beginne hier..." value={text} onBlur={updateText} />
         {hasAttachedResources && (
           <div>
@@ -245,6 +251,7 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
       <GenerateFlashcardsSheet />
       <GeneratePodcastSheet />
       <GenerateImprovedTextSheet />
+      <StyleActionSheet />
 
       <EntityPropsMapper
         query={(e) => isChildOfQuery(e, entity) && e.has(FileFacet) && e.hasTag(Tags.SELECTED)}

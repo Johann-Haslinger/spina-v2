@@ -52,6 +52,7 @@ export enum Story {
   EDETING_GROUP_NOTE_STORY = 'editGroupNoteStory',
   EDETING_GROUP_HOMEWORK_STORY = 'editGroupHomeworkStory',
   EDETING_GROUP_FLASHCARD_SET_STORY = 'editGroupFlashcardSetStory',
+  EDITING_TEXT_STYLE_STORY = 'editTextStyleStory',
 
   DELETING_FLASHCARD_SET_STORY = 'deleteFlashcardSetStory',
   DELETING_HOMEWORK_STORY = 'deleteHomeworkStory',

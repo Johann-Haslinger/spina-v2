@@ -37,8 +37,8 @@ export const NAV_LINKS = [
 ];
 
 export const COLORS = [
-  '#FFD600',
-  '#FF8A00',
+  '#668FE8',
+  '#A3CB63',
   '#FF0000',
   '#DB00FF',
   '#8F00FF',
