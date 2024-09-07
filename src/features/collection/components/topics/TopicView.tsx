@@ -53,8 +53,8 @@ import GenerateResourcesFromImageSheet from '../generation/GenerateResourcesFrom
 import AddHomeworkSheet from '../homeworks/AddHomeworkSheet';
 import HomeworkCell from '../homeworks/HomeworkCell';
 import HomeworkView from '../homeworks/HomeworkView';
-import NoteCell from '../notes/NoteCell';
-import NoteView from '../notes/NoteView';
+import LearningUnitCell from '../learning_units/LearningUnitCell';
+import LearningUnitView from '../learning_units/LearningUnitView';
 import SubtopicCell from '../subtopics/SubtopicCell';
 import SubtopicView from '../subtopics/SubtopicView';
 import DeleteTopicAlert from './DeleteTopicAlert';
@@ -267,7 +267,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
                 query={(e) => dataTypeQuery(e, DataType.NOTE) && isChildOfQuery(e, entity)}
                 sort={(a, b) => sortEntitiesByDateAdded(a, b)}
                 get={[[TitleFacet], []]}
-                onMatch={NoteCell}
+                onMatch={LearningUnitCell}
               />
             </CollectionGrid>
 
@@ -304,7 +304,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
       <EntityPropsMapper
         query={(e) => dataTypeQuery(e, DataType.NOTE) && e.has(Tags.SELECTED)}
         get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
-        onMatch={NoteView}
+        onMatch={LearningUnitView}
       />
       <EntityPropsMapper
         query={(e) => dataTypeQuery(e, DataType.FLASHCARD_SET) && e.has(Tags.SELECTED)}

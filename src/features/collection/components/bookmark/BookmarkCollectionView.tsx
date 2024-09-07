@@ -31,8 +31,8 @@ import FlashcardSetCell from '../flashcard-sets/FlashcardSetCell';
 import FlashcardSetView from '../flashcard-sets/FlashcardSetView';
 import HomeworkCell from '../homeworks/HomeworkCell';
 import HomeworkView from '../homeworks/HomeworkView';
-import NoteCell from '../notes/NoteCell';
-import NoteView from '../notes/NoteView';
+import LearningUnitCell from '../learning_units/LearningUnitCell';
+import LearningUnitView from '../learning_units/LearningUnitView';
 import DeletePodcastAlert from '../podcasts/DeletePodcastAlert';
 import PodcastRow from '../podcasts/PodcastRow';
 import SubtopicCell from '../subtopics/SubtopicCell';
@@ -77,7 +77,7 @@ const BookmarkCollectionView = () => {
             query={(e) => dataTypeQuery(e, DataType.NOTE) && e.has(AdditionalTag.BOOKMARKED)}
             sort={(a, b) => sortEntitiesByDateAdded(a, b)}
             get={[[TitleFacet], []]}
-            onMatch={NoteCell}
+            onMatch={LearningUnitCell}
           />
         </CollectionGrid>
 
@@ -125,7 +125,7 @@ const BookmarkCollectionView = () => {
           <EntityPropsMapper
             query={(e) => dataTypeQuery(e, DataType.NOTE) && e.has(Tags.SELECTED)}
             get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
-            onMatch={NoteView}
+            onMatch={LearningUnitView}
           />
           <EntityPropsMapper
             query={(e) => dataTypeQuery(e, DataType.FLASHCARD_SET) && e.has(Tags.SELECTED)}

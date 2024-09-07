@@ -8,7 +8,7 @@ import supabaseClient from '../../../../lib/supabase';
 import { displayActionTexts } from '../../../../utils/displayText';
 import { useSelectedNote } from '../../hooks/useSelectedNote';
 
-const DeleteNoteAlert = () => {
+const LearningUnit = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Story.DELETING_NOTE_STORY);
   const { selectedLanguage } = useSelectedLanguage();
@@ -62,4 +62,4 @@ const DeleteNoteAlert = () => {
   );
 };
 
-export default DeleteNoteAlert;
+export default LearningUnit;

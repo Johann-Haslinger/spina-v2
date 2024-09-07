@@ -118,14 +118,18 @@ const GenerateResourcesFromImageSheet = () => {
           func: () => handleSelectGenerateNoteFromImageOption(),
         },
         {
-          answer: 'Kannst du mir ein paar Karteikarten dazu erstellen?',
-          func: () => handleSelectGenerateFlashcardsFromImageOption(),
+          answer: 'Kannst du mir Lernkarten dazu erstellen?',
+          func: () => handleSelectGenerateFlashcardsFromImageOption('knowlegde'),
+        },
+        {
+          answer: 'Kannst du mir Vokabelkarten dazu erstellen?',
+          func: () => handleSelectGenerateFlashcardsFromImageOption('vocabulary'),
         },
       ]);
     }
   }, [isTypingAnimationPlaying, conversation, imageSrc]);
 
-  const handleSelectGenerateFlashcardsFromImageOption = async () => {
+  const handleSelectGenerateFlashcardsFromImageOption = async (flashcardType: 'vocabulary' | 'knowlegde') => {
     const session = await supabaseClient.auth.getSession();
     setGenerationState(GenerationState.GENERATING_FLASHCARDS);
     setSuggestions([]);
@@ -134,7 +138,7 @@ const GenerateResourcesFromImageSheet = () => {
       headers: {
         Authorization: `Bearer ${session.data.session?.access_token}`,
       },
-      body: { base64_image: imageSrc },
+      body: { base64_image: imageSrc, flashcardType: flashcardType },
     });
 
     if (error) {
@@ -178,12 +182,12 @@ const GenerateResourcesFromImageSheet = () => {
           },
         },
 
-        {
-          answer: "Nein, kannst du's nochmal machen?",
-          func: () => {
-            handleSelectGenerateFlashcardsFromImageOption();
-          },
-        },
+        // {
+        //   answer: "Nein, kannst du's nochmal machen?",
+        //   func: () => {
+        //     handleSelectGenerateFlashcardsFromImageOption();
+        //   },
+        // },
       ]);
   };
 
@@ -432,6 +436,7 @@ const GenerateResourcesFromImageSheet = () => {
 
         addText(newTextEntity, userId);
       } else {
+        console.log('add flashcards', flashcards);
         const flashcardSetId = v4();
 
         const newFlashcardSetEntity = new Entity();
@@ -461,7 +466,7 @@ const GenerateResourcesFromImageSheet = () => {
 
       const newNoteEntity = new Entity();
       newNoteEntity.add(new IdentifierFacet({ guid: noteId }));
-      newNoteEntity.add(new TitleFacet({ title: title }));
+      newNoteEntity.add(new TitleFacet({ title: title || 'Lernkarten' }));
       newNoteEntity.add(new ParentFacet({ parentId: selectedTopicId || '' }));
       newNoteEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
       newNoteEntity.add(DataType.NOTE);

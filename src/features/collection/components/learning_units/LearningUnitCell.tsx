@@ -4,7 +4,7 @@ import { TitleProps } from '../../../../app/additionalFacets';
 import { NoteThumbNail } from '../../../../components';
 import { useSelectedSchoolSubjectColor } from '../../hooks/useSelectedSchoolSubjectColor';
 
-const NoteCell = (props: TitleProps & EntityProps) => {
+const LearningUnitCell = (props: TitleProps & EntityProps) => {
   const { title, entity } = props;
   const { color: accentColor } = useSelectedSchoolSubjectColor();
 
@@ -15,4 +15,4 @@ const NoteCell = (props: TitleProps & EntityProps) => {
   return <NoteThumbNail onClick={openNote} color={accentColor} title={title} />;
 };
 
-export default NoteCell;
+export default LearningUnitCell;

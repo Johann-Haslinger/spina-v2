@@ -6,16 +6,23 @@ export const useFormattedDateAdded = (entity: Entity, short?: boolean) => {
   const addedDate = new Date(dateAdded);
   const now = new Date();
 
-  // Berechnung der Differenz in Tagen zwischen now und addedDate
-  const differenceInDates = Math.floor((now.getTime() - addedDate.getTime()) / (1000 * 60 * 60 * 24));
+  const addedYear = addedDate.getFullYear();
+  const addedMonth = addedDate.getMonth();
+  const addedDay = addedDate.getDate();
+
+  const nowYear = now.getFullYear();
+  const nowMonth = now.getMonth();
+  const nowDay = now.getDate();
+
+  const differenceInDates = (nowYear - addedYear) * 365 + (nowMonth - addedMonth) * 30 + (nowDay - addedDay);
 
   let formattedDateAdded;
 
-  if (differenceInDates < 1) {
+  if (differenceInDates === 0) {
     formattedDateAdded = 'Heute hinzugefügt';
-  } else if (differenceInDates < 2) {
+  } else if (differenceInDates === 1) {
     formattedDateAdded = 'Gestern hinzugefügt';
-  } else if (differenceInDates < 3) {
+  } else if (differenceInDates === 2) {
     formattedDateAdded = 'Vorgestern hinzugefügt';
   } else {
     const formattedDayAdded = addedDate.toLocaleDateString('de-DE', {

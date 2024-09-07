@@ -72,7 +72,7 @@ import GenerateFlashcardsSheet from '../generation/GenerateFlashcardsSheet';
 import GenerateImprovedTextSheet from '../generation/GenerateImprovedTextSheet';
 import GeneratePodcastSheet from '../generation/GeneratePodcastSheet';
 import PodcastRow from '../podcasts/PodcastRow';
-import DeleteNoteAlert from './DeleteNoteAlert';
+import LearningUnit from './DeleteLearningUnitAlert';
 import FileViewer from './FileViewer';
 import StyleActionSheet from './StyleActionSheet';
 
@@ -97,17 +97,9 @@ const addFile = async (lsc: ILeanScopeClient, entity: Entity, file: UploadedFile
   newFileEntity.add(new UrlFacet({ url: file.url }));
   newFileEntity.add(new FileFacet({ file: file.file }));
   newFileEntity.add(new TitleFacet({ title: file.file.name }));
-
-  // const { error } = await supabaseClient
-  //   .from(SupabaseTable.FILES)
-  //   .insert([{ id, parentId, type: file.type, url: file.url, file: file, title: file.file.name }]);
-
-  // if (error) {
-  //   console.error('Error adding file', error);
-  // }
 };
 
-const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps) => {
+const LearningUnitView = (props: TitleProps & IdentifierProps & EntityProps & TextProps) => {
   const lsc = useContext(LeanScopeClientContext);
   const { title, entity, guid } = props;
   const { selectedTopicTitle } = useSelectedTopic();
@@ -247,7 +239,7 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
         </div>
       </View>
 
-      <DeleteNoteAlert />
+      <LearningUnit />
       <GenerateFlashcardsSheet />
       <GeneratePodcastSheet />
       <GenerateImprovedTextSheet />
@@ -264,7 +256,7 @@ const NoteView = (props: TitleProps & IdentifierProps & EntityProps & TextProps)
   );
 };
 
-export default NoteView;
+export default LearningUnitView;
 
 // const AttachedFileCell = (props: TitleProps & EntityProps) => {};
 

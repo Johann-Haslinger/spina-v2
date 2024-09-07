@@ -9,6 +9,9 @@ import { TitleFacet } from '../app/additionalFacets';
 import { DataType, Story } from '../base/enums';
 import { ActionRow, NavBarButton, NavigationBar, Spacer, Title, View } from '../components';
 import { AddHomeworkSheet, FlashcardSetView, HomeworkView } from '../features/collection';
+import LearningUnitView from '../features/collection/components/learning_units/LearningUnitView';
+import SubtopicView from '../features/collection/components/subtopics/SubtopicView';
+import TopicView from '../features/collection/components/topics/TopicView';
 import AddExamSheet from '../features/exams/components/AddExamSheet';
 import ExamView from '../features/exams/components/ExamView';
 import StreakCard from '../features/flashcards/components/StreakCard';
@@ -26,9 +29,6 @@ import FlashcardQuizView from '../features/study/components/FlashcardQuizView';
 import { useSelectedLanguage } from '../hooks/useSelectedLanguage';
 import { displayDataTypeTexts, displayHeaderTexts } from '../utils/displayText';
 import { dataTypeQuery } from '../utils/queries';
-import NoteView from '../features/collection/components/notes/NoteView';
-import SubtopicView from '../features/collection/components/subtopics/SubtopicView';
-import TopicView from '../features/collection/components/topics/TopicView';
 
 const StyledColumnsWrapper = styled.div`
   ${tw`grid grid-cols-1 md:grid-cols-2 gap-4`}
@@ -102,7 +102,7 @@ const Overview = () => {
       <EntityPropsMapper
         query={(e) => dataTypeQuery(e, DataType.NOTE) && e.has(Tags.SELECTED)}
         get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
-        onMatch={NoteView}
+        onMatch={LearningUnitView}
       />
       <EntityPropsMapper
         query={(e) => dataTypeQuery(e, DataType.FLASHCARD_SET) && e.has(Tags.SELECTED)}

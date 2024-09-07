@@ -96,7 +96,7 @@ const StyledActionSheetWrapper = styled(motion.div)`
 `;
 
 const ColorButton = styled.button`
-  ${tw`hover:opacity-50 size-5 m-2 rounded-full`}
+  ${tw`hover:opacity-50 size-6 m-1.5 rounded-full`}
 `;
 
 const ButtonContainer = styled.div`
@@ -108,7 +108,7 @@ const StyleOptionsContainer = styled.div`
 `;
 
 const StyledTextOptionButton = styled.button<{ isCurrent: boolean }>`
-  ${tw`px-2 w-1/3 py-1 rounded text-seconderyText border-primaryBorder dark:border-primaryBorderDark dark:text-primaryTextDark`}
+  ${tw`px-2 w-1/3 text-lg py-1 rounded text-seconderyText border-primaryBorder dark:border-primaryBorderDark dark:text-primaryTextDark`}
   ${({ isCurrent }) => isCurrent && tw`text-primaryColor border-primaryColor`}
 `;
 
@@ -133,6 +133,10 @@ const StyleActionSheet = () => {
 
   useClickOutside(refOne, navigateBack);
 
+  useEffect(() => {
+    if (!hasSelection) navigateBack();
+  }, [hasSelection]);
+
   return (
     <StyledActionSheetWrapper
       ref={refOne}
@@ -144,18 +148,27 @@ const StyleActionSheet = () => {
       transition={{ duration: 0.2 }}
     >
       <ButtonContainer>
-        {[...COLOR_ITEMS.slice(1)].map((color) => (
-          <ColorButton
-            key={color.color}
-            onClick={() =>
-              applyStyle('hiliteColor', selectedColor === color.color ? 'transparent' : color.color + '90')
-            }
-            style={{
-              backgroundColor: color.color,
-              outline: selectedColor === color.color ? '1px solid #325FFF' : 'none',
-            }}
-          />
-        ))}
+        {COLOR_ITEMS.slice(1, 7)
+          .concat(COLOR_ITEMS.slice(8))
+          .map((color) => (
+            <ColorButton
+              key={color.color}
+              onClick={() =>
+                applyStyle('hiliteColor', selectedColor === color.color ? 'transparent' : color.color + '90')
+              }
+              style={{
+                backgroundColor: color.color,
+                outline: selectedColor === color.color ? '1px solid #325FFF' : 'none',
+              }}
+            />
+          ))}
+        <ColorButton
+          onClick={() => applyStyle('hiliteColor', 'transparent')}
+          style={{
+            backgroundColor: '',
+            outline: '1px solid #86858A70',
+          }}
+        />
       </ButtonContainer>
 
       <StyleOptionsContainer>

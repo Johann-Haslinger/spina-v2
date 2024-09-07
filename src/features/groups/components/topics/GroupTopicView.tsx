@@ -23,7 +23,7 @@ import { displayActionTexts, displayAlertTexts } from '../../../../utils/display
 import { dataTypeQuery, isChildOfQuery } from '../../../../utils/queries';
 import { sortEntitiesByDateAdded } from '../../../../utils/sortEntitiesByTime';
 import FlashcardSetCell from '../../../collection/components/flashcard-sets/FlashcardSetCell';
-import NoteCell from '../../../collection/components/notes/NoteCell';
+import LearningUnitCell from '../../../collection/components/learning_units/LearningUnitCell';
 import SubtopicCell from '../../../collection/components/subtopics/SubtopicCell';
 import { useEntityHasChildren } from '../../../collection/hooks/useEntityHasChildren';
 import { useSelectedGroupSchoolSubject } from '../../hooks/useSelectedGroupSchoolSubject';
@@ -98,7 +98,7 @@ const GroupTopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
             query={(e) => dataTypeQuery(e, DataType.GROUP_NOTE) && isChildOfQuery(e, entity)}
             sort={(a, b) => sortEntitiesByDateAdded(a, b)}
             get={[[TitleFacet], []]}
-            onMatch={NoteCell}
+            onMatch={LearningUnitCell}
           />
         </CollectionGrid>
 
