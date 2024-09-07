@@ -8,9 +8,8 @@ import tw from 'twin.macro';
 import { TitleFacet } from '../app/additionalFacets';
 import { DataType, Story } from '../base/enums';
 import { ActionRow, NavBarButton, NavigationBar, Spacer, Title, View } from '../components';
-import { AddHomeworkSheet, FlashcardSetView, HomeworkView } from '../features/collection';
+import { AddHomeworkSheet, HomeworkView } from '../features/collection';
 import LearningUnitView from '../features/collection/components/learning_units/LearningUnitView';
-import SubtopicView from '../features/collection/components/subtopics/SubtopicView';
 import TopicView from '../features/collection/components/topics/TopicView';
 import AddExamSheet from '../features/exams/components/AddExamSheet';
 import ExamView from '../features/exams/components/ExamView';
@@ -100,20 +99,9 @@ const Overview = () => {
       />
 
       <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataType.NOTE) && e.has(Tags.SELECTED)}
-        get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
-        onMatch={LearningUnitView}
-      />
-      <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataType.FLASHCARD_SET) && e.has(Tags.SELECTED)}
+        query={(e) => dataTypeQuery(e, DataType.LEARNING_UNIT) && e.has(Tags.SELECTED)}
         get={[[TitleFacet, IdentifierFacet], []]}
-        onMatch={FlashcardSetView}
-      />
-
-      <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataType.SUBTOPIC) && e.has(Tags.SELECTED)}
-        get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
-        onMatch={SubtopicView}
+        onMatch={LearningUnitView}
       />
 
       <EntityPropsMapper

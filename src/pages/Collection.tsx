@@ -7,12 +7,7 @@ import { TitleFacet } from '../app/additionalFacets';
 import { MEDIUM_DEVICE_WIDTH } from '../base/constants';
 import { DataType } from '../base/enums';
 import { CollectionGrid, NavigationBar, Spacer, Title, View } from '../components';
-import {
-  BookmarkCollectionView,
-  PodcastCollectionView,
-  SchoolSubjectCell,
-  SchoolSubjectView,
-} from '../features/collection';
+import { PodcastCollectionView, SchoolSubjectCell, SchoolSubjectView } from '../features/collection';
 import { useSelectedLanguage } from '../hooks/useSelectedLanguage';
 import { useWindowDimensions } from '../hooks/useWindowDimensions';
 import { displayHeaderTexts } from '../utils/displayText';
@@ -53,7 +48,6 @@ const Collection = () => {
       />
 
       <PodcastCollectionView />
-      <BookmarkCollectionView />
     </Fragment>
   );
 };

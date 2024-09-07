@@ -11,7 +11,7 @@ import { AuthUI } from './features/auth-ui';
 import PodcastSheet from './features/collection/components/podcasts/PodcastSheet';
 import { Profile, Settings } from './features/settings';
 import { useSession } from './hooks/useSession';
-import { Collection, Exams, Flashcards, Groups, Homeworks, Overview, Study } from './pages/Index';
+import { Collection, Exams, Flashcards, Groups, Homeworks, Overview } from './pages/Index';
 import {
   InitializeAppSystem,
   InitializeSchoolSubjectsSystem,
@@ -44,7 +44,6 @@ function App() {
         <Routes>
           <Route path="/" element={<Overview />} />
           <Route path={formatNavLinkAsPath(NavigationLink.OVERVIEW)} element={<Overview />} />
-          <Route path={formatNavLinkAsPath(NavigationLink.STUDY)} element={<Study />} />
           <Route path={formatNavLinkAsPath(NavigationLink.HOMEWORKS)} element={<Homeworks />} />
           <Route path={formatNavLinkAsPath(NavigationLink.EXAMS)} element={<Exams />} />
           <Route path={formatNavLinkAsPath(NavigationLink.COLLECTION)} element={<Collection />} />

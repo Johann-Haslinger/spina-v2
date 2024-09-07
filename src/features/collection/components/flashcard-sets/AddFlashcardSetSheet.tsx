@@ -18,11 +18,9 @@ import {
   Spacer,
   TextInput,
 } from '../../../../components';
-import { addFlashcardSet } from '../../../../functions/addFlashcardSet';
 import { useSchoolSubjectEntities } from '../../../../hooks/useSchoolSubjects';
 import { useSchoolSubjectTopics } from '../../../../hooks/useSchoolSubjectTopics';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
-import { useUserData } from '../../../../hooks/useUserData';
 import { displayAlertTexts, displayButtonTexts, displayLabelTexts } from '../../../../utils/displayText';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
 
@@ -32,7 +30,6 @@ const AddFlashcardSetSheet = () => {
   const [selectedSchoolSubjectId, setSelectedSchoolSubjectId] = useState<string>('');
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedTopicId } = useSelectedTopic();
-  const { userId } = useUserData();
   const schooolSubjectEntities = useSchoolSubjectEntities();
   const inCollectionVisible = location.pathname.includes('/collection');
   const { schoolSubjectTopics, hasSchoolSubjectTopics } = useSchoolSubjectTopics(selectedSchoolSubjectId);
@@ -54,7 +51,7 @@ const AddFlashcardSetSheet = () => {
     newFlashcardSetEntity.addTag(DataType.FLASHCARD_SET);
     newFlashcardSetEntity.addTag(DataType.FLASHCARD_GROUP);
 
-    addFlashcardSet(lsc, newFlashcardSetEntity, userId);
+    // addFlashcardSet(lsc, newFlashcardSetEntity, userId);
   };
 
   const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_TOPIC_STORY);

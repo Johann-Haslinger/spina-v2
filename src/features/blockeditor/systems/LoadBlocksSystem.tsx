@@ -38,7 +38,7 @@ const fetchBlocks = async (blockeditorId: string) => {
 
 const fetchGroupBlocks = async (blockeditorId: string) => {
   const { data: blocks, error } = await supabaseClient
-    .from(SupabaseTable.GROUP_BLOCKS)
+    .from('')
     .select('id, type, text_type, content, order, image_url, size, fit')
     .eq(SupabaseColumn.PARENT_ID, blockeditorId);
 

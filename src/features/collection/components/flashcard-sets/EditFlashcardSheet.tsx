@@ -28,7 +28,7 @@ import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../../lib/supabase';
 import { displayActionTexts, displayButtonTexts } from '../../../../utils/displayText';
-import { useBookmarked } from '../../../study/hooks/useBookmarked';
+import { useIsBookmarked } from '../../../../common/hooks/isBookmarked';
 
 const StyledMasteryLevelText = styled.div`
   ${tw`lg:pl-10 px-4 dark:text-primaryTextDark`}
@@ -41,7 +41,7 @@ const EditFlashcardSheet = (props: QuestionProps & AnswerProps & MasteryLevelPro
   const { selectedLanguage } = useSelectedLanguage();
   const [questionValue, setQuestionValue] = useState(question);
   const [answerValue, setAnswerValue] = useState(answer);
-  const { isBookmarked, toggleBookmark } = useBookmarked(entity);
+  const { isBookmarked, toggleBookmark } = useIsBookmarked(entity);
 
   const navigateBack = () => entity.addTag(AdditionalTag.NAVIGATE_BACK);
 

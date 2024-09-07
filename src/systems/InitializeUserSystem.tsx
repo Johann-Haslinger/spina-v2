@@ -1,9 +1,8 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { Entity } from '@leanscope/ecs-engine';
-import { IdentifierFacet, ImageFacet, NameFacet } from '@leanscope/ecs-models';
+import { IdentifierFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { EmailFacet } from '../app/additionalFacets';
-import { SupabaseTable } from '../base/enums';
 import supabaseClient from '../lib/supabase';
 
 const InitializeUserSystem = () => {
@@ -19,21 +18,21 @@ const InitializeUserSystem = () => {
       const userEmail = user.data.user?.email;
       const userId = user.data.user?.id;
 
-      const { data, error } = await supabaseClient
-        .from(SupabaseTable.PROFILES)
-        .select('user_name, profile_picture')
-        .eq('user_id', userId)
-        .single();
+      // const { data, error } = await supabaseClient
+      //   .from(SupabaseTable.PROFILES)
+      //   .select('user_name, profile_picture')
+      //   .eq('user_id', userId)
+      //   .single();
 
-      if (error) {
-        console.error('Error fetching user data', error);
-      }
+      // if (error) {
+      //   console.error('Error fetching user data', error);
+      // }
 
-      if (data) {
-        const { user_name, profile_picture } = data;
-        userEntity.add(new NameFacet({ firstName: user_name }));
-        userEntity.add(new ImageFacet({ imageSrc: profile_picture }));
-      }
+      // if (data) {
+      //   const { user_name, profile_picture } = data;
+      //   userEntity.add(new NameFacet({ firstName: user_name }));
+      //   userEntity.add(new ImageFacet({ imageSrc: profile_picture }));
+      // }
 
       userEntity.add(new IdentifierFacet({ guid: 'user', displayName: userId || '' }));
       userEntity.add(new EmailFacet({ email: userEmail || '' }));

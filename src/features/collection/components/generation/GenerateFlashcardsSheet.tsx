@@ -13,7 +13,7 @@ import {
   QuestionFacet,
   TitleFacet,
 } from '../../../../app/additionalFacets';
-import { AdditionalTag, DataType, Story, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
+import { AdditionalTag, DataType, Story } from '../../../../base/enums';
 import {
   FlexBox,
   GeneratingIndecator,
@@ -25,10 +25,8 @@ import {
 } from '../../../../components';
 import SapientorConversationMessage from '../../../../components/content/SapientorConversationMessage';
 import { addFlashcards } from '../../../../functions/addFlashcards';
-import { addSubtopic } from '../../../../functions/addSubtopic';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import { useUserData } from '../../../../hooks/useUserData';
-import supabaseClient from '../../../../lib/supabase';
 import { displayButtonTexts } from '../../../../utils/displayText';
 import { generateFlashCards } from '../../../../utils/generateResources';
 import { useSelectedNote } from '../../hooks/useSelectedNote';
@@ -129,19 +127,10 @@ const GenerateFlashcardsSheet = () => {
         subtopicEntity.add(DataType.SUBTOPIC);
         subtopicEntity.add(Tags.SELECTED);
 
-        addSubtopic(lsc, subtopicEntity, userId);
+        // addSubtopic(lsc, subtopicEntity, userId);
 
         if (selectedNoteEntity) {
           lsc.engine.removeEntity(selectedNoteEntity);
-        }
-
-        const { error: noteError } = await supabaseClient
-          .from(SupabaseTable.NOTES)
-          .delete()
-          .eq(SupabaseColumn.ID, selectedNoteId);
-
-        if (noteError) {
-          console.error('Error deleting note', noteError);
         }
       }, 200);
     }

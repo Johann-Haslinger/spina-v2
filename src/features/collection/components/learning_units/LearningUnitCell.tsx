@@ -1,7 +1,9 @@
 import { EntityProps } from '@leanscope/ecs-engine';
 import { Tags } from '@leanscope/ecs-models';
 import { TitleProps } from '../../../../app/additionalFacets';
-import { NoteThumbNail } from '../../../../components';
+import { LearningUnitType } from '../../../../base/enums';
+import { FlashcardSetThumbNail, NoteThumbNail } from '../../../../components';
+import SubtopicThumbNail from '../../../../components/thumb-nails/SubtopicThumbNail';
 import { useSelectedSchoolSubjectColor } from '../../hooks/useSelectedSchoolSubjectColor';
 
 const LearningUnitCell = (props: TitleProps & EntityProps) => {
@@ -12,7 +14,13 @@ const LearningUnitCell = (props: TitleProps & EntityProps) => {
     entity.addTag(Tags.SELECTED);
   };
 
-  return <NoteThumbNail onClick={openNote} color={accentColor} title={title} />;
+  return entity.has(LearningUnitType.NOTE) ? (
+    <NoteThumbNail onClick={openNote} color={accentColor} title={title} />
+  ) : entity.has(LearningUnitType.FLASHCARD_SET) ? (
+    <FlashcardSetThumbNail onClick={openNote} color={accentColor} title={title} />
+  ) : (
+    <SubtopicThumbNail onClick={openNote} color={accentColor} title={title} />
+  );
 };
 
 export default LearningUnitCell;

@@ -8,7 +8,6 @@ import {
   ImageFacet,
   ParentFacet,
   Tags,
-  TextProps,
   UrlFacet,
   UrlProps,
 } from '@leanscope/ecs-models';
@@ -45,6 +44,7 @@ import {
   TypeProps,
 } from '../../../../app/additionalFacets';
 import { AdditionalTag, DataType, Story, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
+import { useIsBookmarked } from '../../../../common/hooks/isBookmarked';
 import {
   ActionRow,
   BackButton,
@@ -62,12 +62,10 @@ import { useSelection } from '../../../../hooks/useSelection';
 import supabaseClient from '../../../../lib/supabase';
 import { displayActionTexts } from '../../../../utils/displayText';
 import { dataTypeQuery, isChildOfQuery } from '../../../../utils/queries';
-import { useBookmarked } from '../../../study/hooks/useBookmarked';
 import { useFormattedDateAdded } from '../../hooks/useFormattedDateAdded';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
 import { useText } from '../../hooks/useText';
 import LoadNotePodcastsSystem from '../../systems/LoadNotePodcastsSystem';
-import LoadNoteTextSystem from '../../systems/LoadNoteTextSystem';
 import GenerateFlashcardsSheet from '../generation/GenerateFlashcardsSheet';
 import GenerateImprovedTextSheet from '../generation/GenerateImprovedTextSheet';
 import GeneratePodcastSheet from '../generation/GeneratePodcastSheet';
@@ -99,13 +97,13 @@ const addFile = async (lsc: ILeanScopeClient, entity: Entity, file: UploadedFile
   newFileEntity.add(new TitleFacet({ title: file.file.name }));
 };
 
-const LearningUnitView = (props: TitleProps & IdentifierProps & EntityProps & TextProps) => {
+const LearningUnitView = (props: TitleProps & IdentifierProps & EntityProps) => {
   const lsc = useContext(LeanScopeClientContext);
   const { title, entity, guid } = props;
   const { selectedTopicTitle } = useSelectedTopic();
   const { selectedLanguage } = useSelectedLanguage();
   const isVisible = useIsViewVisible(entity);
-  const { isBookmarked, toggleBookmark } = useBookmarked(entity);
+  const { isBookmarked, toggleBookmark } = useIsBookmarked(entity);
   const { text, updateText } = useText(entity);
   const formattedDateAdded = useFormattedDateAdded(entity);
   const { openFilePicker, fileInput } = useFileSelector((file) => addFile(lsc, entity, file));
@@ -124,7 +122,7 @@ const LearningUnitView = (props: TitleProps & IdentifierProps & EntityProps & Te
   const handleTitleBlur = async (value: string) => {
     entity.add(new TitleFacet({ title: value }));
     const { error } = await supabaseClient
-      .from(SupabaseTable.NOTES)
+      .from(SupabaseTable.LEARNING_UNITS)
       .update({ title: value })
       .eq(SupabaseColumn.ID, guid);
 
@@ -143,7 +141,6 @@ const LearningUnitView = (props: TitleProps & IdentifierProps & EntityProps & Te
 
   return (
     <Fragment>
-      <LoadNoteTextSystem />
       <LoadNotePodcastsSystem />
 
       <View visible={isVisible}>

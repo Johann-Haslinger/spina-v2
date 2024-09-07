@@ -14,7 +14,7 @@ import {
 import tw from 'twin.macro';
 import { v4 } from 'uuid';
 import { DateAddedFacet, DueDateFacet, SourceFacet, TitleFacet, TitleProps } from '../../../../app/additionalFacets';
-import { AdditionalTag, DataType, Story } from '../../../../base/enums';
+import { AdditionalTag, DataType, LearningUnitType, Story } from '../../../../base/enums';
 import {
   ActionRow,
   CollectionGrid,
@@ -25,10 +25,8 @@ import {
   Title,
   View,
 } from '../../../../components';
-import { addNote } from '../../../../functions/addNote';
 import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
-import { useUserData } from '../../../../hooks/useUserData';
 import { useWindowDimensions } from '../../../../hooks/useWindowDimensions';
 import { displayActionTexts, displayDataTypeTexts } from '../../../../utils/displayText';
 import { dataTypeQuery, isChildOfQuery } from '../../../../utils/queries';
@@ -37,26 +35,16 @@ import AddResourceToLearningGroupSheet from '../../../groups/components/AddResou
 import { useEntityHasChildren } from '../../hooks/useEntityHasChildren';
 import { useSelectedSchoolSubjectGrid } from '../../hooks/useSchoolSubjectGrid';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
-import LoadChaptersSystem from '../../systems/LoadChapterSystem';
-import LoadExercisesSystem from '../../systems/LoadExercisesSystem';
-import LoadFlashcardSetsSystem from '../../systems/LoadFlashcardSetsSystem';
 import LoadHomeworksSystem from '../../systems/LoadHomeworksSystem';
-import LoadNotesSystem from '../../systems/LoadNotesSystem';
-import LoadSubtopicsSystem from '../../systems/LoadSubtopicsSystem';
-import ChapterEditor from '../chapter/ChaptersEditor';
-import ExerciseCell from '../exercises/ExerciseCell';
+import LoadLearningUnitsSystm from '../../systems/LoadLearningUnitsSystm';
 import ExerciseView from '../exercises/ExerciseView';
 import AddFlashcardSetSheet from '../flashcard-sets/AddFlashcardSetSheet';
-import FlashcardSetCell from '../flashcard-sets/FlashcardSetCell';
-import FlashcardSetView from '../flashcard-sets/FlashcardSetView';
 import GenerateResourcesFromImageSheet from '../generation/GenerateResourcesFromImageSheet';
 import AddHomeworkSheet from '../homeworks/AddHomeworkSheet';
 import HomeworkCell from '../homeworks/HomeworkCell';
 import HomeworkView from '../homeworks/HomeworkView';
 import LearningUnitCell from '../learning_units/LearningUnitCell';
 import LearningUnitView from '../learning_units/LearningUnitView';
-import SubtopicCell from '../subtopics/SubtopicCell';
-import SubtopicView from '../subtopics/SubtopicView';
 import DeleteTopicAlert from './DeleteTopicAlert';
 import EditTopicSheet from './EditTopicSheet';
 
@@ -125,21 +113,13 @@ const StyledTopicViewContainer = styled.div`
   ${tw`w-full overflow-x-hidden h-full`}
 `;
 
-// const StyledChapterWrapper = styled.div`
-//   ${tw`divide-y transition-all dark:bg-seconderyDark dark:bg-opacity-80 dark:divide-primaryBorderDark bg-tertiary px-4 py-2 rounded-xl bg-opacity-40 divide-primaryBorder  mb-10`}
-// `;
-
-// const StyledBetaBadge = styled.div`
-//   ${tw`bg-primaryColor text-primaryColor font-bold hover:opacity-70 transition-all w-fit bg-opacity-10 text-sm rounded-lg mb-4 px-4 py-1`}
-// `;
-
 const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImageProps) => {
   const lsc = useContext(LeanScopeClientContext);
   const { title, entity, imageSrc, description } = props;
   const isVisible = useIsViewVisible(entity);
   const { selectedLanguage } = useSelectedLanguage();
   const { openImageSelector } = useImageSelector();
-  const { userId } = useUserData();
+
   const { selectedTopicId } = useSelectedTopic();
   const [scrollY, setScrollY] = useState(0);
   const { width } = useWindowDimensions();
@@ -164,18 +144,14 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
       newNoteEntity.add(DataType.NOTE);
       newNoteEntity.add(Tags.SELECTED);
 
-      addNote(lsc, newNoteEntity, userId);
+      // addNote(lsc, newNoteEntity, userId);
     }
   };
 
   return (
     <Fragment>
-      <LoadNotesSystem />
-      <LoadFlashcardSetsSystem />
+      <LoadLearningUnitsSystm />
       <LoadHomeworksSystem />
-      <LoadSubtopicsSystem />
-      <LoadExercisesSystem />
-      <LoadChaptersSystem />
 
       <View hidePadding visible={isVisible}>
         <StyledTopicViewContainer
@@ -242,29 +218,10 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
               </div>
               <Spacer size={8} />
             </div>
-            {/* <StyledBetaBadge>BETA</StyledBetaBadge>
-            <StyledChapterWrapper>
-              <EntityPropsMapper
-                query={(e) => dataTypeQuery(e, DataType.CHAPTER) && isChildOfQuery(e, entity)}
-                sort={(a, b) => (a.get(OrderFacet)?.props.orderIndex || 0) - (b.get(OrderFacet)?.props.orderIndex || 0)}
-                get={[[TitleFacet, OrderFacet], []]}
-                onMatch={ChapterCell}
-              />
-              <AddChapterButton />
-            </StyledChapterWrapper> */}
 
             <CollectionGrid columnSize="small">
               <EntityPropsMapper
-                query={(e) => dataTypeQuery(e, DataType.SUBTOPIC) && isChildOfQuery(e, entity)}
-                sort={(a, b) => sortEntitiesByDateAdded(a, b)}
-                get={[[TitleFacet], []]}
-                onMatch={SubtopicCell}
-              />
-            </CollectionGrid>
-
-            <CollectionGrid columnSize="small">
-              <EntityPropsMapper
-                query={(e) => dataTypeQuery(e, DataType.NOTE) && isChildOfQuery(e, entity)}
+                query={(e) => e.has(LearningUnitType.MIXED) && isChildOfQuery(e, entity)}
                 sort={(a, b) => sortEntitiesByDateAdded(a, b)}
                 get={[[TitleFacet], []]}
                 onMatch={LearningUnitCell}
@@ -273,19 +230,19 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
 
             <CollectionGrid columnSize="small">
               <EntityPropsMapper
-                query={(e) => dataTypeQuery(e, DataType.EXERCISE) && isChildOfQuery(e, entity)}
+                query={(e) => e.has(LearningUnitType.NOTE) && isChildOfQuery(e, entity)}
                 sort={(a, b) => sortEntitiesByDateAdded(a, b)}
                 get={[[TitleFacet], []]}
-                onMatch={ExerciseCell}
+                onMatch={LearningUnitCell}
               />
             </CollectionGrid>
 
             <CollectionGrid columnSize="small">
               <EntityPropsMapper
-                query={(e) => dataTypeQuery(e, DataType.FLASHCARD_SET) && isChildOfQuery(e, entity)}
+                query={(e) => e.has(LearningUnitType.FLASHCARD_SET) && isChildOfQuery(e, entity)}
                 get={[[TitleFacet, IdentifierFacet], []]}
                 sort={(a, b) => sortEntitiesByDateAdded(a, b)}
-                onMatch={FlashcardSetCell}
+                onMatch={LearningUnitCell}
               />
             </CollectionGrid>
 
@@ -306,30 +263,17 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
         get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
         onMatch={LearningUnitView}
       />
-      <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataType.FLASHCARD_SET) && e.has(Tags.SELECTED)}
-        get={[[TitleFacet, IdentifierFacet], []]}
-        onMatch={FlashcardSetView}
-      />
+
       <EntityPropsMapper
         query={(e) => dataTypeQuery(e, DataType.HOMEWORK) && e.has(Tags.SELECTED)}
         get={[[TitleFacet, IdentifierFacet, TextFacet, DueDateFacet], []]}
         onMatch={HomeworkView}
       />
-      <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataType.SUBTOPIC) && e.has(Tags.SELECTED)}
-        get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
-        onMatch={SubtopicView}
-      />
+
       <EntityPropsMapper
         query={(e) => dataTypeQuery(e, DataType.EXERCISE) && e.has(Tags.SELECTED)}
         get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
         onMatch={ExerciseView}
-      />
-      <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataType.CHAPTER) && e.has(Tags.SELECTED)}
-        get={[[ParentFacet], []]}
-        onMatch={ChapterEditor}
       />
 
       <AddHomeworkSheet />

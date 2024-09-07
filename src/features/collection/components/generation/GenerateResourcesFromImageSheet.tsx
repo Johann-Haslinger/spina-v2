@@ -13,9 +13,6 @@ import { CloseButton, FlexBox, ScrollableBox, Sheet } from '../../../../componen
 import SapientorConversationMessage from '../../../../components/content/SapientorConversationMessage';
 import { addBlocks } from '../../../../functions/addBlocks';
 import { addFlashcards } from '../../../../functions/addFlashcards';
-import { addFlashcardSet } from '../../../../functions/addFlashcardSet';
-import { addNote } from '../../../../functions/addNote';
-import { addSubtopic } from '../../../../functions/addSubtopic';
 import { addText } from '../../../../functions/addText';
 import { useUserData } from '../../../../hooks/useUserData';
 import supabaseClient from '../../../../lib/supabase';
@@ -412,7 +409,7 @@ const GenerateResourcesFromImageSheet = () => {
         newSubtopicEntity.add(DataType.SUBTOPIC);
         newSubtopicEntity.add(new TextFacet({ text: note }));
 
-        addSubtopic(lsc, newSubtopicEntity, userId);
+        // addSubtopic(lsc, newSubtopicEntity, userId);
 
         const flashcardEntities = flashcards.map((flashcard) => {
           const newFlashcardEntity = new Entity();
@@ -446,7 +443,7 @@ const GenerateResourcesFromImageSheet = () => {
         newFlashcardSetEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
         newFlashcardSetEntity.add(DataType.FLASHCARD_SET);
 
-        addFlashcardSet(lsc, newFlashcardSetEntity, userId);
+        // addFlashcardSet(lsc, newFlashcardSetEntity, userId);
 
         const flashcardEntities = flashcards.map((flashcard) => {
           const newFlashcardEntity = new Entity();
@@ -471,7 +468,7 @@ const GenerateResourcesFromImageSheet = () => {
       newNoteEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
       newNoteEntity.add(DataType.NOTE);
 
-      addNote(lsc, newNoteEntity, userId);
+      // addNote(lsc, newNoteEntity, userId);
 
       if (note) {
         const newBlockEntites = getBlockEntitiesFromText(note, noteId);

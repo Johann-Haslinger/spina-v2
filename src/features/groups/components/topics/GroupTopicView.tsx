@@ -1,6 +1,6 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { EntityProps, EntityPropsMapper } from '@leanscope/ecs-engine';
-import { DescriptionProps, IdentifierFacet, Tags, TextFacet } from '@leanscope/ecs-models';
+import { DescriptionProps, IdentifierFacet } from '@leanscope/ecs-models';
 import { Fragment, useContext } from 'react';
 import { IoCreateOutline, IoEllipsisHorizontalCircleOutline, IoTrashOutline } from 'react-icons/io5';
 import { TitleFacet, TitleProps } from '../../../../app/additionalFacets';
@@ -24,15 +24,9 @@ import { dataTypeQuery, isChildOfQuery } from '../../../../utils/queries';
 import { sortEntitiesByDateAdded } from '../../../../utils/sortEntitiesByTime';
 import FlashcardSetCell from '../../../collection/components/flashcard-sets/FlashcardSetCell';
 import LearningUnitCell from '../../../collection/components/learning_units/LearningUnitCell';
-import SubtopicCell from '../../../collection/components/subtopics/SubtopicCell';
 import { useEntityHasChildren } from '../../../collection/hooks/useEntityHasChildren';
 import { useSelectedGroupSchoolSubject } from '../../hooks/useSelectedGroupSchoolSubject';
-import LoadGroupGroupNotesSystem from '../../systems/LoadGroupNotesSystem';
-import LoadGroupGroupSubtopicsSystem from '../../systems/LoadGroupSubtopicsSystem';
 import CloningResourceFromGroupSheet from '../CloningResourceFromGroupSheet';
-import GroupFlashcardSetView from '../flashcard-sets/GroupFlashcardSetView';
-import GroupNoteView from '../notes/GroupNoteView';
-import GroupSubtopicView from '../subtopics/GroupSubtopicView';
 import DeleteGroupTopicAlert from './DeleteGroupTopicAlert';
 import EditGroupGroupTopicSheet from './EditGroupTopicSheet';
 
@@ -50,9 +44,6 @@ const GroupTopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
 
   return (
     <Fragment>
-      <LoadGroupGroupSubtopicsSystem />
-      <LoadGroupGroupNotesSystem />
-
       {/* TODO: implement homeworks and flashcard sets to group topic view */}
 
       {/* <LoadGroupFlashcardSetsSystem />
@@ -89,7 +80,6 @@ const GroupTopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
             query={(e) => dataTypeQuery(e, DataType.GROUP_SUBTOPIC) && isChildOfQuery(e, entity)}
             sort={(a, b) => sortEntitiesByDateAdded(a, b)}
             get={[[TitleFacet], []]}
-            onMatch={SubtopicCell}
           />
         </CollectionGrid>
 
@@ -111,26 +101,6 @@ const GroupTopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
           />
         </CollectionGrid>
       </View>
-
-      <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataType.GROUP_SUBTOPIC) && e.has(Tags.SELECTED) && isChildOfQuery(e, entity)}
-        get={[[TitleFacet, IdentifierFacet, TextFacet], []]}
-        onMatch={GroupSubtopicView}
-      />
-
-      <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataType.GROUP_NOTE) && isChildOfQuery(e, entity) && e.has(Tags.SELECTED)}
-        get={[[TitleFacet, IdentifierFacet], []]}
-        onMatch={GroupNoteView}
-      />
-
-      <EntityPropsMapper
-        query={(e) =>
-          dataTypeQuery(e, DataType.GROUP_FLASHCARD_SET) && isChildOfQuery(e, entity) && e.has(Tags.SELECTED)
-        }
-        get={[[TitleFacet, IdentifierFacet], []]}
-        onMatch={GroupFlashcardSetView}
-      />
 
       <DeleteGroupTopicAlert />
       <EditGroupGroupTopicSheet />

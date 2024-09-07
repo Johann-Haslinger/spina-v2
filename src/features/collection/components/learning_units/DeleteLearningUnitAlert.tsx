@@ -23,7 +23,10 @@ const LearningUnit = () => {
       if (selectedNoteEntity) {
         lsc.engine.removeEntity(selectedNoteEntity);
 
-        const { error } = await supabaseClient.from(SupabaseTable.NOTES).delete().eq(SupabaseColumn.ID, selectedNoteId);
+        const { error } = await supabaseClient
+          .from(SupabaseTable.LEARNING_UNITS)
+          .delete()
+          .eq(SupabaseColumn.ID, selectedNoteId);
 
         if (error) {
           console.error('Error deleting note', error);

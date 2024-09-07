@@ -12,8 +12,6 @@ import { dummyGroupSchoolSubjects, dummyGroupTopics, dummyLearningGroups } from 
 import { DataType, Story, SupabaseColumn, SupabaseTable } from '../../../base/enums';
 import { CloseButton, FlexBox, ScrollableBox, Section, SectionRow, Sheet, Spacer } from '../../../components';
 import { addGroupFlashcards } from '../../../functions/addGroupFlashcards';
-import { addGroupNote } from '../../../functions/addGroupNote';
-import { addGroupSubtopic } from '../../../functions/addGroupSubtopic';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
 import { useUserData } from '../../../hooks/useUserData';
@@ -183,8 +181,6 @@ const SchoolSubjectRow = (props: { schoolSubject: { title: string; id: string };
       newNoteEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
       newNoteEntity.add(DataType.GROUP_NOTE);
       newNoteEntity.add(new TextFacet({ text: selectedNoteText || '' }));
-
-      addGroupNote(lsc, newNoteEntity, userId, learningGroupId);
     } else if (selectedSubtopicTitle) {
       const newSubtopicEntity = new Entity();
       newSubtopicEntity.add(new IdentifierFacet({ guid: newResourceId }));
@@ -193,8 +189,6 @@ const SchoolSubjectRow = (props: { schoolSubject: { title: string; id: string };
       newSubtopicEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
       newSubtopicEntity.add(DataType.GROUP_SUBTOPIC);
       newSubtopicEntity.add(new TextFacet({ text: selectedSubtopicText || '' }));
-
-      addGroupSubtopic(lsc, newSubtopicEntity, userId, learningGroupId);
 
       const flashcardEntites = lsc.engine.entities.filter(
         (e) => e.has(DataType.FLASHCARD) && e.get(ParentFacet)?.props.parentId == selectedSubtopicId,

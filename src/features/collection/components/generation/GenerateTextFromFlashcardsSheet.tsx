@@ -4,7 +4,7 @@ import { IdentifierFacet, ParentFacet, TextFacet } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
 import { AnswerFacet, QuestionFacet, TitleFacet } from '../../../../app/additionalFacets';
-import { AdditionalTag, DataType, Story, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
+import { AdditionalTag, DataType, Story } from '../../../../base/enums';
 import {
   FlexBox,
   GeneratingIndecator,
@@ -15,10 +15,7 @@ import {
   Spacer,
 } from '../../../../components';
 import SapientorConversationMessage from '../../../../components/content/SapientorConversationMessage';
-import { addSubtopic } from '../../../../functions/addSubtopic';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
-import { useUserData } from '../../../../hooks/useUserData';
-import supabaseClient from '../../../../lib/supabase';
 import { displayButtonTexts } from '../../../../utils/displayText';
 import { generateImprovedText } from '../../../../utils/generateResources';
 import { dataTypeQuery, isChildOfQuery } from '../../../../utils/queries';
@@ -38,7 +35,6 @@ const GenerateTextFromFlashcardsSheet = () => {
   const [isGenerating, setIsGenerating] = useState(false);
   const [flashcardEntities] = useEntities((e) => dataTypeQuery(e, DataType.FLASHCARD));
   const [generatedText, setGeneratedText] = useState<string>('');
-  const { userId } = useUserData();
 
   const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_FLASHCARD_SET_STORY);
 
@@ -82,18 +78,9 @@ const GenerateTextFromFlashcardsSheet = () => {
         subtopicEntity.add(new TextFacet({ text: generatedText || '' }));
         subtopicEntity.add(DataType.SUBTOPIC);
 
-        addSubtopic(lsc, subtopicEntity, userId);
+        // addSubtopic(lsc, subtopicEntity, userId);
 
         addBlockEntitiesFromString(lsc, generatedText, selectedFlashcardSetId, '');
-
-        const { error: flashcardSetError } = await supabaseClient
-          .from(SupabaseTable.FLASHCARD_SETS)
-          .delete()
-          .eq(SupabaseColumn.ID, selectedFlashcardSetId);
-
-        if (flashcardSetError) {
-          console.error('Error deleting flashcard set', flashcardSetError);
-        }
       }, 200);
     }
   };

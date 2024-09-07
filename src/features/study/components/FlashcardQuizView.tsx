@@ -31,7 +31,6 @@ import { useSeletedFlashcardGroup } from '../../collection/hooks/useSelectedFlas
 import { useSelectedSchoolSubjectColor } from '../../collection/hooks/useSelectedSchoolSubjectColor';
 import { useSelectedSubtopic } from '../../collection/hooks/useSelectedSubtopic';
 import { useDueFlashcards } from '../../flashcards/hooks/useDueFlashcards';
-import { useBookmarkedFlashcardGroups } from '../hooks/useBookmarkedFlashcardGroups';
 
 const fetchFlashcardsByDue = async () => {
   const { data: flashcards, error } = await supabaseClient
@@ -60,10 +59,8 @@ const fetchFlashcardsByDue = async () => {
 };
 
 const useFlashcardQuizEntities = () => {
-  const lsc = useContext(LeanScopeClientContext);
   const isBookmarkedQuiz = useIsStoryCurrent(Story.OBSERVING_BOOKMARKED_FLASHCARD_GROUP_QUIZ_STORY);
   const isSpacedRepetitionQuizVisible = useIsStoryCurrent(Story.OBSERVING_SPACED_REPETITION_QUIZ);
-  const { bookmarkedFlashcardGroupEntities } = useBookmarkedFlashcardGroups();
   const [allFlashcardEntities] = useEntities((e) => dataTypeQuery(e, DataType.FLASHCARD));
   const { selectedFlashcardGroupId } = useSeletedFlashcardGroup();
   const { selectedSubtopicId } = useSelectedSubtopic();
@@ -73,30 +70,30 @@ const useFlashcardQuizEntities = () => {
     const selectFlashcardsForSession = async () => {
       if (isBookmarkedQuiz) {
         const flashcardEntities: Entity[] = [];
-        bookmarkedFlashcardGroupEntities.forEach(async (bookmarkedFlashcardGroup) => {
-          const id = bookmarkedFlashcardGroup.get(IdentifierFacet)?.props.guid;
+        // bookmarkedFlashcardGroupEntities.forEach(async (bookmarkedFlashcardGroup) => {
+        //   const id = bookmarkedFlashcardGroup.get(IdentifierFacet)?.props.guid;
 
-          if (id) {
-            const { data: flashcards, error } = await supabaseClient
-              .from(SupabaseTable.FLASHCARDS)
-              .select('answer, question, id, parent_id')
-              .eq(SupabaseColumn.PARENT_ID, id);
-            if (error) {
-              console.error('Error fetching flashcards:', error);
-            }
+        //   if (id) {
+        //     const { data: flashcards, error } = await supabaseClient
+        //       .from(SupabaseTable.FLASHCARDS)
+        //       .select('answer, question, id, parent_id')
+        //       .eq(SupabaseColumn.PARENT_ID, id);
+        //     if (error) {
+        //       console.error('Error fetching flashcards:', error);
+        //     }
 
-            flashcards?.forEach((flashcard) => {
-              const entity = new Entity();
-              lsc.engine.addEntity(entity);
-              flashcardEntities.push(entity);
-              entity.add(new IdentifierFacet({ guid: flashcard.id }));
-              entity.add(new QuestionFacet({ question: flashcard.question }));
-              entity.add(new AnswerFacet({ answer: flashcard.answer }));
-              entity.add(new ParentFacet({ parentId: id }));
-              entity.add(DataType.FLASHCARD);
-            });
-          }
-        });
+        //     flashcards?.forEach((flashcard) => {
+        //       const entity = new Entity();
+        //       lsc.engine.addEntity(entity);
+        //       flashcardEntities.push(entity);
+        //       entity.add(new IdentifierFacet({ guid: flashcard.id }));
+        //       entity.add(new QuestionFacet({ question: flashcard.question }));
+        //       entity.add(new AnswerFacet({ answer: flashcard.answer }));
+        //       entity.add(new ParentFacet({ parentId: id }));
+        //       entity.add(DataType.FLASHCARD);
+        //     });
+        //   }
+        // });
         setSelectedFlashcardEntities(flashcardEntities);
       } else if (isSpacedRepetitionQuizVisible) {
         const sessionFlashcards = await fetchFlashcardsByDue();
@@ -125,7 +122,6 @@ const useFlashcardQuizEntities = () => {
   }, [
     selectedFlashcardGroupId,
     selectedSubtopicId,
-    bookmarkedFlashcardGroupEntities,
     isBookmarkedQuiz,
     allFlashcardEntities.length,
     isSpacedRepetitionQuizVisible,

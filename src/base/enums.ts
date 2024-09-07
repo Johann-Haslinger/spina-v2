@@ -163,6 +163,7 @@ export enum DataType {
   EXERCISE_PART = 'exercisePart',
   FLASHCARD_SESSION = 'flashcardSession',
   CHAPTER = 'chapter',
+  LEARNING_UNIT = 'learningUnit',
 }
 
 export enum SupportedLanguage {
@@ -214,33 +215,24 @@ export enum SupportedModel {
 }
 
 export enum SupabaseTable {
-  USERS = 'users',
   SCHOOL_SUBJECTS = 'school_subjects',
   TOPICS = 'topics',
-  SUBTOPICS = 'subtopics',
   FLASHCARDS = 'flashcards',
-  FLASHCARD_SETS = 'flashcard_sets',
   HOMEWORKS = 'homeworks',
   EXAMS = 'exams',
-  NOTES = 'notes',
   PODCASTS = 'podcasts',
   BLOCKS = 'blocks',
   LEARNING_GROUPS = 'learning_groups',
   GROUP_SCHOOL_SUBJECTS = 'group_school_subjects',
   GROUP_TOPICS = 'group_topics',
-  GROUP_SUBTOPICS = 'group_subtopics',
-  GROUP_NOTES = 'group_notes',
-  GROUP_FLASHCARD_SETS = 'group_flashcard_sets',
   GROUP_FLASHCARDS = 'group_flashcards',
-  GROUP_BLOCKS = 'group_blocks',
   TEXTS = 'texts',
-  EXERCISES = 'exercises',
-  EXERCISE_PARTS = 'exercise_parts',
-  PROFILES = 'profiles',
   FLASHCARD_SESSIONS = 'flashcard_sessions',
   STREAKS = 'streaks',
-  CHAPTERS = 'chapters',
   FILES = 'files',
+  LEARNING_UNITS = 'learning_units',
+  EXERCISE_PARTS = 'exercise_parts',
+  EXERCISES = 'exercises',
 }
 
 export enum SupabaseColumn {
@@ -258,7 +250,7 @@ export enum FlashcardsNavigationState {
   STATS = 'stats',
 }
 
-export enum FlashcardGroupPriority {
+export enum LearningUnitPriority {
   PAUSED = 0,
   ACTIVE = 1,
   MAINTAINING = 2,
@@ -269,4 +261,10 @@ export enum ResoruceStatus {
   IN_PROGRESS = 2,
   DONE = 3,
   MISSED = 4,
+}
+
+export enum LearningUnitType {
+  NOTE = 'note',
+  FLASHCARD_SET = 'flashcardSet',
+  MIXED = 'mixed',
 }

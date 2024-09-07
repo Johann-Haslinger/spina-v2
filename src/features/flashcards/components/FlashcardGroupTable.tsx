@@ -5,21 +5,20 @@ import { IdentifierFacet, ParentFacet, Tags, TextFacet } from '@leanscope/ecs-mo
 import { useContext, useEffect, useState } from 'react';
 import tw from 'twin.macro';
 import { DateAddedFacet, PriorityFacet, TitleFacet } from '../../../app/additionalFacets';
-import { dummyFlashcardSets, dummySubtopics } from '../../../base/dummy';
-import { DataType, FlashcardGroupPriority, SupabaseTable } from '../../../base/enums';
+import { dummyFlashcardSets } from '../../../base/dummy';
+import { LearningUnitPriority, LearningUnitType, SupabaseTable } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
-import { dataTypeQuery } from '../../../utils/queries';
 import { sortEntitiesByDateAdded } from '../../../utils/sortEntitiesByTime';
-import { FlashcardSetView } from '../../collection';
-import SubtopicView from '../../collection/components/subtopics/SubtopicView';
+
+import LearningUnitView from '../../collection/components/learning_units/LearningUnitView';
 import FlashcardGroupRow from './FlashcardGroupRow';
 
 enum FlashcardGroupFilter {
   ALL = -1,
-  ACTIV = FlashcardGroupPriority.ACTIVE,
-  MAINTAINING = FlashcardGroupPriority.MAINTAINING,
-  PASUED = FlashcardGroupPriority.PAUSED,
+  ACTIV = LearningUnitPriority.ACTIVE,
+  MAINTAINING = LearningUnitPriority.MAINTAINING,
+  PASUED = LearningUnitPriority.PAUSED,
 }
 
 const StyledTabBar = styled.div`
@@ -48,7 +47,6 @@ const FlashcardGroupTable = () => {
   return (
     <div tw="w-full overflow-hidden">
       <InitializeRecentlyAddedFlashcardGroupSeystem />
-
       <StyledTabBar>
         <StyledTabLabel
           isActive={currentFilter === FlashcardGroupFilter.ALL}
@@ -88,27 +86,20 @@ const FlashcardGroupTable = () => {
           <StyledLabel2>Üben</StyledLabel2> */}
         </div>
       </StyledSegmentedControl>
-
       <div tw="min-h-96 space-y-2">
         <EntityPropsMapper
-          query={(e) => dataTypeQuery(e, DataType.FLASHCARD_SET) || dataTypeQuery(e, DataType.SUBTOPIC)}
+          query={(e) => e.has(LearningUnitType.MIXED) || e.has(LearningUnitType.FLASHCARD_SET)}
           filter={(e) => (currentFilter !== FlashcardGroupFilter.ALL ? currentFilter === e.priority : true)}
           sort={sortEntitiesByDateAdded}
           get={[[TitleFacet, PriorityFacet], []]}
           onMatch={FlashcardGroupRow}
         />
       </div>
-
+      ´
       <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataType.FLASHCARD_SET) && e.has(Tags.SELECTED)}
-        get={[[TitleFacet, IdentifierFacet], []]}
-        onMatch={FlashcardSetView}
-      />
-
-      <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataType.SUBTOPIC) && e.has(Tags.SELECTED)}
+        query={(e) => (e.has(LearningUnitType.MIXED) || e.has(LearningUnitType.FLASHCARD_SET)) && e.has(Tags.SELECTED)}
         get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
-        onMatch={SubtopicView}
+        onMatch={LearningUnitView}
       />
     </div>
   );
@@ -116,11 +107,11 @@ const FlashcardGroupTable = () => {
 
 export default FlashcardGroupTable;
 
-const fetchRecentlyAddedFlashcardSets = async () => {
+const fetchRecentlyAddedLearningUnits = async () => {
   const fourteenDaysAgo = new Date(new Date().setDate(new Date().getDate() - 14)).toISOString();
 
   const { data, error } = await supabaseClient
-    .from(SupabaseTable.FLASHCARD_SETS)
+    .from(SupabaseTable.LEARNING_UNITS)
     .select('id, title, priority, parent_id, date_added')
     .order('date_added', { ascending: false })
     .gte('date_added', fourteenDaysAgo)
@@ -134,81 +125,36 @@ const fetchRecentlyAddedFlashcardSets = async () => {
   return data || [];
 };
 
-const fetchRecentlyAddedSubtopics = async () => {
-  const fourteenDaysAgo = new Date(new Date().setDate(new Date().getDate() - 14)).toISOString();
-
-  const { data, error } = await supabaseClient
-    .from(SupabaseTable.SUBTOPICS)
-    .select('id, title, priority, parent_id, date_added')
-    .order('date_added', { ascending: false })
-    .gte('date_added', fourteenDaysAgo)
-    .or(`date_added.gte.${fourteenDaysAgo},priority.eq.1`);
-
-  if (error) {
-    console.error('Error fetching recently added subtopics', error);
-    return [];
-  }
-
-  return data || [];
-};
-
 const InitializeRecentlyAddedFlashcardGroupSeystem = () => {
   const lsc = useContext(LeanScopeClientContext);
   const { isUsingMockupData, isUsingSupabaseData } = useCurrentDataSource();
 
   useEffect(() => {
-    const initializeRecentlyAddedFlashcardSetEntities = async () => {
-      const flashcardSets = isUsingMockupData
+    const initializeRecentlyAddeLearningUnitsEntities = async () => {
+      const learningUnits = isUsingMockupData
         ? dummyFlashcardSets
         : isUsingSupabaseData
-          ? await fetchRecentlyAddedFlashcardSets()
+          ? await fetchRecentlyAddedLearningUnits()
           : [];
 
-      flashcardSets.forEach((flashcardSet) => {
+      learningUnits.forEach((learningUnit) => {
         const isFlashcardSetAlreadyInitialized = lsc.engine.entities.some(
-          (entity) => entity.get(IdentifierFacet)?.props.guid === flashcardSet.id,
+          (entity) => entity.get(IdentifierFacet)?.props.guid === learningUnit.id,
         );
 
         if (!isFlashcardSetAlreadyInitialized) {
           const newFlashcardSetEntity = new Entity();
           lsc.engine.addEntity(newFlashcardSetEntity);
-          newFlashcardSetEntity.add(new IdentifierFacet({ guid: flashcardSet.id }));
-          newFlashcardSetEntity.add(new TitleFacet({ title: flashcardSet.title }));
-          newFlashcardSetEntity.add(new PriorityFacet({ priority: flashcardSet.priority }));
-          newFlashcardSetEntity.add(new DateAddedFacet({ dateAdded: flashcardSet.date_added }));
-          newFlashcardSetEntity.add(new ParentFacet({ parentId: flashcardSet.parent_id }));
-          newFlashcardSetEntity.add(DataType.FLASHCARD_SET);
+          newFlashcardSetEntity.add(new IdentifierFacet({ guid: learningUnit.id }));
+          newFlashcardSetEntity.add(new TitleFacet({ title: learningUnit.title }));
+          newFlashcardSetEntity.add(new PriorityFacet({ priority: learningUnit.priority }));
+          newFlashcardSetEntity.add(new DateAddedFacet({ dateAdded: learningUnit.date_added }));
+          newFlashcardSetEntity.add(new ParentFacet({ parentId: learningUnit.parent_id }));
         }
       });
     };
 
-    const initializeRecentlyAddedSubtopicEntities = async () => {
-      const subtopics = isUsingMockupData
-        ? dummySubtopics
-        : isUsingSupabaseData
-          ? await fetchRecentlyAddedSubtopics()
-          : [];
-
-      subtopics.forEach((subtopic) => {
-        const isSubtopicAlreadyInitialized = lsc.engine.entities.some(
-          (entity) => entity.get(IdentifierFacet)?.props.guid === subtopic.id,
-        );
-
-        if (!isSubtopicAlreadyInitialized) {
-          const newSubtopicEntity = new Entity();
-          lsc.engine.addEntity(newSubtopicEntity);
-          newSubtopicEntity.add(new IdentifierFacet({ guid: subtopic.id }));
-          newSubtopicEntity.add(new TitleFacet({ title: subtopic.title }));
-          newSubtopicEntity.add(new PriorityFacet({ priority: subtopic.priority }));
-          newSubtopicEntity.add(new ParentFacet({ parentId: subtopic.parent_id }));
-          newSubtopicEntity.add(new DateAddedFacet({ dateAdded: subtopic.date_added }));
-          newSubtopicEntity.add(DataType.SUBTOPIC);
-        }
-      });
-    };
-
-    initializeRecentlyAddedFlashcardSetEntities();
-    initializeRecentlyAddedSubtopicEntities();
+    initializeRecentlyAddeLearningUnitsEntities();
   }, [isUsingMockupData, isUsingSupabaseData]);
 
   return null;

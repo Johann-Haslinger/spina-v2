@@ -4,7 +4,7 @@ import { CountFacet, IdentifierFacet, Tags } from '@leanscope/ecs-models';
 import tw from 'twin.macro';
 import { PriorityFacet, PriorityProps, TitleProps } from '../../../app/additionalFacets';
 import { COLOR_ITEMS } from '../../../base/constants';
-import { DataType, FlashcardGroupPriority, SupabaseTable } from '../../../base/enums';
+import { LearningUnitPriority, SupabaseTable } from '../../../base/enums';
 import supabaseClient from '../../../lib/supabase';
 import { useDueFlashcards } from '../hooks';
 
@@ -12,15 +12,15 @@ const StyledRowWrapper = styled.div`
   ${tw`flex pl-2  justify-between`}
 `;
 
-const StyledSelect = styled.select<{ value: FlashcardGroupPriority }>`
+const StyledSelect = styled.select<{ value: LearningUnitPriority }>`
   ${tw`rounded-lg h-fit text-sm pl-2 py-1 outline-none`}
   background-color: ${({ value }) => {
     switch (value) {
-      case FlashcardGroupPriority.ACTIVE:
+      case LearningUnitPriority.ACTIVE:
         return COLOR_ITEMS[1].color + 40;
-      case FlashcardGroupPriority.MAINTAINING:
+      case LearningUnitPriority.MAINTAINING:
         return COLOR_ITEMS[2].color + 40;
-      case FlashcardGroupPriority.PAUSED:
+      case LearningUnitPriority.PAUSED:
         return COLOR_ITEMS[0].color + 40;
       default:
         return '#FFFFFF';
@@ -30,24 +30,20 @@ const StyledSelect = styled.select<{ value: FlashcardGroupPriority }>`
 
 const updatePriority = async (
   entity: Entity,
-  priority: FlashcardGroupPriority,
+  priority: LearningUnitPriority,
   dueFlashcardEntity: Entity | undefined,
 ) => {
   entity.add(new PriorityFacet({ priority: priority }));
 
   const id = entity.get(IdentifierFacet)?.props.guid;
-  const dataType = entity.has(DataType.FLASHCARD_SET) ? DataType.FLASHCARD_SET : DataType.SUBTOPIC;
 
-  const { error } = await supabaseClient
-    .from(dataType == DataType.FLASHCARD_SET ? SupabaseTable.FLASHCARD_SETS : SupabaseTable.SUBTOPICS)
-    .update({ priority })
-    .eq('id', id);
+  const { error } = await supabaseClient.from(SupabaseTable.LEARNING_UNITS).update({ priority }).eq('id', id);
 
   if (error) {
     console.error('Error updating priority', error);
   }
 
-  const newFlashcardDueDate = priority === FlashcardGroupPriority.PAUSED ? null : new Date().toISOString();
+  const newFlashcardDueDate = priority === LearningUnitPriority.PAUSED ? null : new Date().toISOString();
 
   const { error: updateFlashcardsError } = await supabaseClient
     .from(SupabaseTable.FLASHCARDS)
@@ -85,12 +81,12 @@ const FlashcardGroupRow = (props: TitleProps & PriorityProps & EntityProps) => {
         {title}
       </div>
       <StyledSelect
-        onChange={(e) => updatePriority(entity, Number(e.target.value) as FlashcardGroupPriority, dueFlashcardEntity)}
+        onChange={(e) => updatePriority(entity, Number(e.target.value) as LearningUnitPriority, dueFlashcardEntity)}
         value={priority}
       >
-        <option value={FlashcardGroupPriority.ACTIVE}>Aktiv</option>
-        <option value={FlashcardGroupPriority.MAINTAINING}>Aufrechterhalten</option>
-        <option value={FlashcardGroupPriority.PAUSED}>Pausiert</option>
+        <option value={LearningUnitPriority.ACTIVE}>Aktiv</option>
+        <option value={LearningUnitPriority.MAINTAINING}>Aufrechterhalten</option>
+        <option value={LearningUnitPriority.PAUSED}>Pausiert</option>
       </StyledSelect>
     </StyledRowWrapper>
   );

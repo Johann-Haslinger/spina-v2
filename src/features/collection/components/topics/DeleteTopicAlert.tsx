@@ -32,42 +32,6 @@ const DeleteTopicAlert = () => {
           console.error('Error deleting Topic', error);
         }
 
-        const { error: error2 } = await supabaseClient
-          .from(SupabaseTable.CHAPTERS)
-          .delete()
-          .eq(SupabaseColumn.PARENT_ID, selectedTopicId);
-
-        if (error2) {
-          console.error('Error deleting Chapters', error2);
-        }
-
-        const { error: error3 } = await supabaseClient
-          .from(SupabaseTable.NOTES)
-          .delete()
-          .eq(SupabaseColumn.PARENT_ID, selectedTopicId);
-
-        if (error3) {
-          console.error('Error deleting Notes', error3);
-        }
-
-        const { error: error4 } = await supabaseClient
-          .from(SupabaseTable.SUBTOPICS)
-          .delete()
-          .eq(SupabaseColumn.PARENT_ID, selectedTopicId);
-
-        if (error4) {
-          console.error('Error deleting Subtopics', error4);
-        }
-
-        const { error: error5 } = await supabaseClient
-          .from(SupabaseTable.FLASHCARD_SETS)
-          .delete()
-          .eq(SupabaseColumn.PARENT_ID, selectedTopicId);
-
-        if (error5) {
-          console.error('Error deleting Flashcard Sets', error5);
-        }
-
         const { error: error6 } = await supabaseClient
           .from(SupabaseTable.HOMEWORKS)
           .delete()

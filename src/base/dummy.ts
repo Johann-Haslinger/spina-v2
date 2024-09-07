@@ -624,26 +624,26 @@ export const dummyStreak = {
   date_updated: new Date().setDate(new Date().getDate() - 1),
 };
 
-export const dummyChapters = [
+export const dummyLearningUnits = [
   {
     title: 'Addition',
     id: v4(),
     date_added: new Date().toISOString(),
-    order_index: 0,
     parent_id: v4(),
+    type: 'NOTE',
   },
   {
     title: 'Subtraction',
     id: '2',
     date_added: new Date().toISOString(),
-    order_index: 1,
     parent_id: v4(),
+    type: 'FLASHCARD_SET',
   },
   {
     title: 'Multiplication',
     id: '3',
     date_added: new Date().toISOString(),
-    order_index: 2,
     parent_id: v4(),
+    type: 'MIXED',
   },
 ];

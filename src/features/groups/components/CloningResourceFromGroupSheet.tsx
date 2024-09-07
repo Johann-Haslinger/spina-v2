@@ -12,10 +12,7 @@ import { dummyTopics } from '../../../base/dummy';
 import { Blocktype, DataType, Story, SupabaseColumn, SupabaseTable } from '../../../base/enums';
 import { FlexBox, SecondaryButton, Section, SectionRow, Sheet, Spacer } from '../../../components';
 import { addBlocks } from '../../../functions/addBlocks';
-import { addFlashcardSet } from '../../../functions/addFlashcardSet';
 import { addFlashcards } from '../../../functions/addFlashcards';
-import { addNote } from '../../../functions/addNote';
-import { addSubtopic } from '../../../functions/addSubtopic';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import { useSchoolSubjectEntities } from '../../../hooks/useSchoolSubjects';
 import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
@@ -70,8 +67,6 @@ const CloningResourceFromGroupSheet = () => {
       newFlashcardSetEntity.add(new TitleFacet({ title: selectedGroupFlashcardSetTitle || '' }));
       newFlashcardSetEntity.add(DataType.FLASHCARD_SET);
 
-      addFlashcardSet(lsc, newFlashcardSetEntity, userId);
-
       const groupFlashcardEntities = lsc.engine.entities.filter(
         (e) => e.has(DataType.GROUP_FLASHCARD) && e.get(ParentFacet)?.props.parentId === selectedGroupFlashcardSetId,
       );
@@ -102,8 +97,6 @@ const CloningResourceFromGroupSheet = () => {
       newNoteEntity.add(new TitleFacet({ title: selectedGroupNoteTitle || '' }));
       newNoteEntity.add(new ParentFacet({ parentId: topicId }));
       newNoteEntity.add(DataType.GROUP_NOTE);
-
-      addNote(lsc, newNoteEntity, userId);
 
       const blockEntities = lsc.engine.entities.filter(
         (e) =>
@@ -143,8 +136,6 @@ const CloningResourceFromGroupSheet = () => {
       newSubtopicEntity.add(new ParentFacet({ parentId: topicId }));
       newSubtopicEntity.add(new TitleFacet({ title: selectedGroupSubtopicTitle || '' }));
       newSubtopicEntity.add(DataType.GROUP_SUBTOPIC);
-
-      addSubtopic(lsc, newSubtopicEntity, userId);
 
       const blockEntities = lsc.engine.entities.filter(
         (e) =>
