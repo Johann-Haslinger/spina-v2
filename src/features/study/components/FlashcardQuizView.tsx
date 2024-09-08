@@ -31,6 +31,7 @@ import { useSeletedFlashcardGroup } from '../../collection/hooks/useSelectedFlas
 import { useSelectedSchoolSubjectColor } from '../../collection/hooks/useSelectedSchoolSubjectColor';
 import { useSelectedSubtopic } from '../../collection/hooks/useSelectedSubtopic';
 import { useDueFlashcards } from '../../flashcards/hooks/useDueFlashcards';
+import { useSelectedLearningUnit } from '../../../common/hooks/useSelectedLearningUnit';
 
 const fetchFlashcardsByDue = async () => {
   const { data: flashcards, error } = await supabaseClient
@@ -62,7 +63,7 @@ const useFlashcardQuizEntities = () => {
   const isBookmarkedQuiz = useIsStoryCurrent(Story.OBSERVING_BOOKMARKED_FLASHCARD_GROUP_QUIZ_STORY);
   const isSpacedRepetitionQuizVisible = useIsStoryCurrent(Story.OBSERVING_SPACED_REPETITION_QUIZ);
   const [allFlashcardEntities] = useEntities((e) => dataTypeQuery(e, DataType.FLASHCARD));
-  const { selectedFlashcardGroupId } = useSeletedFlashcardGroup();
+  const { selectedLearningUnitId } = useSelectedLearningUnit();
   const { selectedSubtopicId } = useSelectedSubtopic();
   const [selectedFlashcardEntities, setSelectedFlashcardEntities] = useState<readonly Entity[]>([]);
 
@@ -106,10 +107,10 @@ const useFlashcardQuizEntities = () => {
               (flashcardEntity) => flashcardEntity.get(ParentFacet)?.props.parentId === selectedSubtopicId,
             ),
           );
-        } else if (selectedFlashcardGroupId) {
+        } else if (selectedLearningUnitId) {
           setSelectedFlashcardEntities(
             allFlashcardEntities.filter(
-              (flashcardEntity) => flashcardEntity.get(ParentFacet)?.props.parentId === selectedFlashcardGroupId,
+              (flashcardEntity) => flashcardEntity.get(ParentFacet)?.props.parentId === selectedLearningUnitId,
             ),
           );
         } else {
@@ -120,7 +121,7 @@ const useFlashcardQuizEntities = () => {
 
     selectFlashcardsForSession();
   }, [
-    selectedFlashcardGroupId,
+    selectedLearningUnitId,
     selectedSubtopicId,
     isBookmarkedQuiz,
     allFlashcardEntities.length,

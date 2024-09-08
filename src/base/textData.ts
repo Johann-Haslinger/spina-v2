@@ -251,6 +251,10 @@ export const ACTION_TEXT_DATA = {
     de: 'Datei hinzufügen',
     en: 'Add file',
   },
+  add_text: {
+    de: 'Text hinzufügen',
+    en: 'Add text',
+  },
 };
 
 export const LABEL_TEXT_DATA = {

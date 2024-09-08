@@ -1,6 +1,6 @@
 import { useEntity } from '@leanscope/ecs-engine';
-import { IdentifierFacet, ParentFacet, Tags } from '@leanscope/ecs-models';
-import { TitleFacet } from '../../app/additionalFacets';
+import { IdentifierFacet, ParentFacet, Tags, TextFacet } from '@leanscope/ecs-models';
+import { LearningUnitTypeFacet, TitleFacet } from '../../app/additionalFacets';
 import { DataType } from '../../base/enums';
 import { dataTypeQuery } from '../../utils/queries';
 
@@ -12,6 +12,15 @@ export const useSelectedLearningUnit = () => {
   const selectedLearningUnitId = selectedLearningUnitEntity?.get(IdentifierFacet)?.props.guid;
   const selectedLearningUnitTitle = selectedLearningUnitEntity?.get(TitleFacet)?.props.title;
   const selectedLearningUnitParentId = selectedLearningUnitEntity?.get(ParentFacet)?.props.parentId;
+  const selectedLearningUnitType = selectedLearningUnitEntity?.get(LearningUnitTypeFacet)?.props.type;
+  const selectedLearningUnitText = selectedLearningUnitEntity?.get(TextFacet)?.props.text;
 
-  return { selectedLearningUnitId, selectedLearningUnitTitle, selectedLearningUnitParentId };
+  return {
+    selectedLearningUnitId,
+    selectedLearningUnitTitle,
+    selectedLearningUnitParentId,
+    selectedLearningUnitType,
+    selectedLearningUnitEntity,
+    selectedLearningUnitText,
+  };
 };

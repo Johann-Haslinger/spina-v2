@@ -6,7 +6,7 @@ import { Fragment, useContext, useEffect, useState } from 'react';
 import { IoAdd, IoColorWandOutline } from 'react-icons/io5';
 import { v4 } from 'uuid';
 import { AnswerFacet, MasteryLevelFacet, QuestionFacet } from '../../../../app/additionalFacets';
-import { DataType, Story } from '../../../../base/enums';
+import { DataType, LearningUnitType, Story } from '../../../../base/enums';
 import { useSelectedLearningUnit } from '../../../../common/hooks/useSelectedLearningUnit';
 import {
   FlexBox,
@@ -26,6 +26,7 @@ import { useUserData } from '../../../../hooks/useUserData';
 import { displayButtonTexts } from '../../../../utils/displayText';
 import { generateFlashCards } from '../../../../utils/generateResources';
 import PreviewFlashcard from './PreviewFlashcard';
+import { updateLearningUnitType } from '../../functions/updateLearningUnitType';
 
 type Flashcard = {
   question: string;
@@ -44,7 +45,7 @@ const AddFlashcardsSheet = () => {
   const isVisible = useIsStoryCurrent(Story.ADDING_FLASHCARDS_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const [flashcards, setFlashcards] = useState<Flashcard[]>([]);
-  const { selectedLearningUnitId } = useSelectedLearningUnit();
+  const { selectedLearningUnitId, selectedLearningUnitType, selectedLearningUnitEntity } = useSelectedLearningUnit();
   const [addFlashcardsMethod, setAddFlashcardsMethod] = useState<AddFlashcardsMethods | undefined>(undefined);
   const { userId } = useUserData();
   const [generateFlashcardsPrompt, setGenerateFlashcardsPrompt] = useState('');
@@ -66,6 +67,11 @@ const AddFlashcardsSheet = () => {
 
   const saveFlashcards = async () => {
     navigateBack();
+
+    if (selectedLearningUnitType == LearningUnitType.NOTE && selectedLearningUnitEntity) {
+      updateLearningUnitType(selectedLearningUnitEntity, userId, LearningUnitType.MIXED);
+    }
+
     const parentId = selectedLearningUnitId;
 
     if (parentId) {

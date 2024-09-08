@@ -1,53 +1,44 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext } from 'react';
-import { AdditionalTag, Story, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
+import { AdditionalTag, Story, SupabaseTable } from '../../../../base/enums';
+import { useSelectedLearningUnit } from '../../../../common/hooks/useSelectedLearningUnit';
 import { Alert, AlertButton } from '../../../../components';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
-import supabaseClient from '../../../../lib/supabase';
 import { displayActionTexts } from '../../../../utils/displayText';
-import { useSelectedNote } from '../../hooks/useSelectedNote';
+import supabaseClient from '../../../../lib/supabase';
 
 const LearningUnit = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Story.DELETING_NOTE_STORY);
   const { selectedLanguage } = useSelectedLanguage();
-  const { selectedNoteId, selectedNoteEntity } = useSelectedNote();
+  const { selectedLearningUnitEntity, selectedLearningUnitId } = useSelectedLearningUnit();
 
   const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_TOPIC_STORY);
 
   const deleteNote = async () => {
     navigateBack();
-    selectedNoteEntity?.add(AdditionalTag.NAVIGATE_BACK);
+    selectedLearningUnitEntity?.add(AdditionalTag.NAVIGATE_BACK);
     setTimeout(async () => {
-      if (selectedNoteEntity) {
-        lsc.engine.removeEntity(selectedNoteEntity);
+      if (selectedLearningUnitEntity) {
+        lsc.engine.removeEntity(selectedLearningUnitEntity);
 
         const { error } = await supabaseClient
           .from(SupabaseTable.LEARNING_UNITS)
           .delete()
-          .eq(SupabaseColumn.ID, selectedNoteId);
+          .eq('id', selectedLearningUnitId);
 
         if (error) {
-          console.error('Error deleting note', error);
+          console.error('Error deleting learning unit', error);
         }
 
         const { error: error2 } = await supabaseClient
-          .from(SupabaseTable.BLOCKS)
+          .from(SupabaseTable.FLASHCARDS)
           .delete()
-          .eq(SupabaseColumn.PARENT_ID, selectedNoteId);
+          .eq('parent_id', selectedLearningUnitId);
 
         if (error2) {
-          console.error('Error deleting blocks', error2);
-        }
-
-        const { error: error3 } = await supabaseClient
-          .from(SupabaseTable.PODCASTS)
-          .delete()
-          .eq(SupabaseColumn.PARENT_ID, selectedNoteId);
-
-        if (error3) {
-          console.error('Error deleting podcasts', error3);
+          console.error('Error deleting flashcards', error2);
         }
       }
     }, 300);

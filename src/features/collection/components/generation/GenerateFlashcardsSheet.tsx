@@ -1,19 +1,13 @@
 import styled from '@emotion/styled';
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { Entity } from '@leanscope/ecs-engine';
-import { IdentifierFacet, ParentFacet, Tags, TextFacet } from '@leanscope/ecs-models';
+import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
 import tw from 'twin.macro';
 import { v4 } from 'uuid';
-import {
-  AnswerFacet,
-  DateAddedFacet,
-  MasteryLevelFacet,
-  QuestionFacet,
-  TitleFacet,
-} from '../../../../app/additionalFacets';
-import { AdditionalTag, DataType, Story } from '../../../../base/enums';
+import { AnswerFacet, MasteryLevelFacet, QuestionFacet } from '../../../../app/additionalFacets';
+import { DataType, LearningUnitType, Story } from '../../../../base/enums';
 import {
   FlexBox,
   GeneratingIndecator,
@@ -29,9 +23,10 @@ import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import { useUserData } from '../../../../hooks/useUserData';
 import { displayButtonTexts } from '../../../../utils/displayText';
 import { generateFlashCards } from '../../../../utils/generateResources';
-import { useSelectedNote } from '../../hooks/useSelectedNote';
-import { useVisibleText } from '../../hooks/useVisibleText';
+
+import { useSelectedLearningUnit } from '../../../../common/hooks/useSelectedLearningUnit';
 import PreviewFlashcard from '../flashcard-sets/PreviewFlashcard';
+import { updateLearningUnitType } from '../../functions/updateLearningUnitType';
 
 type Flashcard = {
   question: string;
@@ -46,24 +41,23 @@ const GenerateFlashcardsSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Story.GENERATING_FLASHCARDS_STORY);
   const [generatedFlashcards, setGeneratedFlashcards] = useState<Flashcard[]>([]);
-  const { selectedNoteTitle, selectedNoteText, selectedNoteId, selectedNoteParentId, selectedNoteEntity } =
-    useSelectedNote();
+  const { selectedLearningUnitText, selectedLearningUnitId, selectedLearningUnitType, selectedLearningUnitEntity } =
+    useSelectedLearningUnit();
   const { selectedLanguage } = useSelectedLanguage();
   const [isGenerating, setIsGenerating] = useState(false);
   const { userId } = useUserData();
-  const { visibleText } = useVisibleText();
   const [message, setMessage] = useState<string>('');
 
   useEffect(() => {
     const generateFlashcards = async () => {
-      if (visibleText === '') {
+      if (selectedLearningUnitText === '') {
         setMessage('Bitte füge erst Text hinzu, um Karteikarten zu generieren.');
         setGeneratedFlashcards([]);
         setIsGenerating(false);
         return;
       }
       setIsGenerating(true);
-      const flashcards = await generateFlashCards(visibleText || '');
+      const flashcards = await generateFlashCards(selectedLearningUnitText || '');
       setIsGenerating(false);
       setMessage('Passen die Karteikarten so für dich?<br/> <br/> ');
       setTimeout(() => {
@@ -76,64 +70,36 @@ const GenerateFlashcardsSheet = () => {
     } else if (!isVisible) {
       setGeneratedFlashcards([]);
     }
-  }, [isVisible, visibleText]);
+  }, [isVisible, selectedLearningUnitText]);
 
   const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_FLASHCARD_SET_STORY);
 
   const saveFlashcards = async () => {
     navigateBack();
 
-    const parentId = selectedNoteId;
+    if (!selectedLearningUnitId) return;
 
-    if (parentId) {
-      const newFlashcardEntities = generatedFlashcards
-        .filter((flashcard) => flashcard.answer && flashcard.question)
-        .map((flashcard) => {
-          const flashcardId = v4();
-
-          const newFlashcardEntity = new Entity();
-          newFlashcardEntity.add(new IdentifierFacet({ guid: flashcardId }));
-          newFlashcardEntity.add(new ParentFacet({ parentId: parentId }));
-          newFlashcardEntity.add(new QuestionFacet({ question: flashcard.question }));
-          newFlashcardEntity.add(new AnswerFacet({ answer: flashcard.answer }));
-          newFlashcardEntity.add(new MasteryLevelFacet({ masteryLevel: 0 }));
-          newFlashcardEntity.add(DataType.FLASHCARD);
-
-          return newFlashcardEntity;
-        });
-
-      addFlashcards(lsc, newFlashcardEntities, userId);
-
-      const newSubTopic = {
-        user_id: userId,
-        id: selectedNoteId,
-        name: selectedNoteTitle,
-        parentId: selectedNoteParentId,
-      };
-
-      selectedNoteEntity?.add(AdditionalTag.NAVIGATE_BACK);
-
-      setTimeout(async () => {
-        const subtopicEntity = new Entity();
-        subtopicEntity.add(new IdentifierFacet({ guid: newSubTopic.id }));
-        subtopicEntity.add(new ParentFacet({ parentId: selectedNoteParentId || '' }));
-        subtopicEntity.add(new TitleFacet({ title: selectedNoteTitle || '' }));
-        subtopicEntity.add(new TextFacet({ text: selectedNoteText || '' }));
-        subtopicEntity.add(
-          new DateAddedFacet({
-            dateAdded: selectedNoteEntity?.get(DateAddedFacet)?.props.dateAdded || new Date().toISOString(),
-          }),
-        );
-        subtopicEntity.add(DataType.SUBTOPIC);
-        subtopicEntity.add(Tags.SELECTED);
-
-        // addSubtopic(lsc, subtopicEntity, userId);
-
-        if (selectedNoteEntity) {
-          lsc.engine.removeEntity(selectedNoteEntity);
-        }
-      }, 200);
+    if (selectedLearningUnitType === LearningUnitType.NOTE && selectedLearningUnitEntity) {
+      updateLearningUnitType(selectedLearningUnitEntity, userId, LearningUnitType.MIXED);
     }
+
+    const newFlashcardEntities = generatedFlashcards
+      .filter((flashcard) => flashcard.answer && flashcard.question)
+      .map((flashcard) => {
+        const flashcardId = v4();
+
+        const newFlashcardEntity = new Entity();
+        newFlashcardEntity.add(new IdentifierFacet({ guid: flashcardId }));
+        newFlashcardEntity.add(new ParentFacet({ parentId: selectedLearningUnitId }));
+        newFlashcardEntity.add(new QuestionFacet({ question: flashcard.question }));
+        newFlashcardEntity.add(new AnswerFacet({ answer: flashcard.answer }));
+        newFlashcardEntity.add(new MasteryLevelFacet({ masteryLevel: 0 }));
+        newFlashcardEntity.add(DataType.FLASHCARD);
+
+        return newFlashcardEntity;
+      });
+
+    addFlashcards(lsc, newFlashcardEntities, userId);
   };
 
   return (

@@ -85,6 +85,7 @@ export const displayActionTexts = (selectedLanguage: SupportedLanguage) => {
     regenerateImage: ACTION_TEXT_DATA.regenerate_image[selectedLanguage],
     editImage: ACTION_TEXT_DATA.edit_image[selectedLanguage],
     addFile: ACTION_TEXT_DATA.add_file[selectedLanguage],
+    addText: ACTION_TEXT_DATA.add_text[selectedLanguage],
   };
 };
 

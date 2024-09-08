@@ -268,3 +268,8 @@ export enum LearningUnitType {
   FLASHCARD_SET,
   MIXED,
 }
+
+export enum LearningUnitViews {
+  FLASHCARDS,
+  NOTE,
+}

@@ -7,16 +7,17 @@ import { IoFileTray } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { DateAddedFacet, TitleFacet, TitleProps } from '../../../app/additionalFacets';
 import { DataType } from '../../../base/enums';
+import { dataTypeQuery } from '../../../utils/queries';
 import { sortEntitiesByDateAdded } from '../../../utils/sortEntitiesByTime';
 import { useFormattedDateAdded } from '../../collection/hooks/useFormattedDateAdded';
 import InitializeRecentlyAddedResources from '../systems/InitializeRecentlyAddedResources';
 
 const StyledCardWrapper = styled.div`
-  ${tw`w-full h-fit md:h-[28rem] overflow-y-scroll pr-0 p-4 text-[#EF9D4A] rounded-2xl bg-[#EF9D4A] bg-opacity-15`}
+  ${tw`w-full h-fit md:h-[28rem] overflow-y-scroll pr-0 p-4  rounded-2xl bg-[#EF9D4A] bg-opacity-15`}
 `;
 
 const StyledFlexContainer = styled.div`
-  ${tw`flex space-x-2 mb-2 md:opacity-80 items-center`}
+  ${tw`flex space-x-2 text-[#EF9D4A] mb-2 md:opacity-80 items-center`}
 `;
 
 const StyledText = styled.div`
@@ -24,7 +25,7 @@ const StyledText = styled.div`
 `;
 
 const StyledInfoText = styled.div`
-  ${tw` font-medium`}
+  ${tw` font-medium `}
 `;
 
 const NewResourcesCard = () => {
@@ -45,7 +46,7 @@ const NewResourcesCard = () => {
         <EntityPropsMapper
           query={(e) =>
             new Date(e.get(DateAddedFacet)?.props.dateAdded || '') >= sevenDaysAgo &&
-            (e.has(DataType.NOTE) || e.has(DataType.FLASHCARD_SET) || e.has(DataType.SUBTOPIC) || e.has(DataType.TOPIC))
+            dataTypeQuery(e, DataType.LEARNING_UNIT)
           }
           get={[[TitleFacet, DateAddedFacet], []]}
           sort={sortEntitiesByDateAdded}
@@ -65,7 +66,7 @@ const useNewResources = () => {
   const [newResourceEntities] = useEntities(
     (e) =>
       new Date(e.get(DateAddedFacet)?.props.dateAdded || '') >= sevenDaysAgo &&
-      (e.has(DataType.NOTE) || e.has(DataType.FLASHCARD_SET) || e.has(DataType.SUBTOPIC) || e.has(DataType.TOPIC)),
+      dataTypeQuery(e, DataType.LEARNING_UNIT),
   );
 
   const hasNewResources = newResourceEntities.length > 0;
