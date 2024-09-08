@@ -264,7 +264,7 @@ export enum ResoruceStatus {
 }
 
 export enum LearningUnitType {
-  NOTE = 'note',
-  FLASHCARD_SET = 'flashcardSet',
-  MIXED = 'mixed',
+  NOTE,
+  FLASHCARD_SET,
+  MIXED,
 }

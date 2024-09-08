@@ -18,10 +18,10 @@ const rgbaToHex = (rgba: string) => {
   return `#${r}${g}${b}`.toUpperCase();
 };
 
-const useClickOutside = (ref: RefObject<HTMLElement>, callback: () => void) => {
+const useClickOutside = (ref: RefObject<HTMLElement>, callback: () => void, isVisible: boolean) => {
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      if (ref.current && !ref.current.contains(e.target as Node)) {
+      if (ref.current && !ref.current.contains(e.target as Node) && isVisible) {
         callback();
       }
     };
@@ -31,7 +31,7 @@ const useClickOutside = (ref: RefObject<HTMLElement>, callback: () => void) => {
     return () => {
       document.removeEventListener('click', handleClickOutside, true);
     };
-  }, [ref, callback]);
+  }, [ref, callback, isVisible]);
 };
 
 const useStyleUpdater = (isVisible: boolean, hasSelection: boolean) => {
@@ -131,7 +131,7 @@ const StyleActionSheet = () => {
     if (!isVisible) navigateBack();
   }, [isVisible]);
 
-  useClickOutside(refOne, navigateBack);
+  useClickOutside(refOne, navigateBack, isVisible);
 
   useEffect(() => {
     if (!hasSelection) navigateBack();

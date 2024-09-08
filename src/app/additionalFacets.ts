@@ -1,5 +1,5 @@
 import { Facet } from '@leanscope/ecs-engine';
-import { Blocktype, ListStyle, MessageRole, SupportedLanguage, Texttype } from '../base/enums';
+import { Blocktype, LearningUnitType, ListStyle, MessageRole, SupportedLanguage, Texttype } from '../base/enums';
 
 import { BlockeditorState, Resource } from '../base/types';
 
@@ -296,6 +296,16 @@ export interface TypeProps {
 
 export class TypeFacet extends Facet<TypeProps> {
   constructor(props: TypeProps) {
+    super(props);
+  }
+}
+
+export interface LearningUnitTypeProps {
+  type: LearningUnitType;
+}
+
+export class LearningUnitTypeFacet extends Facet<LearningUnitTypeProps> {
+  constructor(props: LearningUnitTypeProps) {
     super(props);
   }
 }

@@ -5,7 +5,7 @@ import { DescriptionFacet, IdentifierFacet, ImageFacet, Tags, TextFacet } from '
 import { useContext } from 'react';
 import { IoAdd } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { TitleFacet } from '../app/additionalFacets';
+import { LearningUnitTypeFacet, TitleFacet } from '../app/additionalFacets';
 import { DataType, Story } from '../base/enums';
 import { ActionRow, NavBarButton, NavigationBar, Spacer, Title, View } from '../components';
 import { AddHomeworkSheet, HomeworkView } from '../features/collection';
@@ -100,7 +100,7 @@ const Overview = () => {
 
       <EntityPropsMapper
         query={(e) => dataTypeQuery(e, DataType.LEARNING_UNIT) && e.has(Tags.SELECTED)}
-        get={[[TitleFacet, IdentifierFacet], []]}
+        get={[[TitleFacet, IdentifierFacet, LearningUnitTypeFacet], []]}
         onMatch={LearningUnitView}
       />
 

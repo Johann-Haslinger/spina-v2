@@ -6,13 +6,21 @@ import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
 import tw from 'twin.macro';
 import { v4 } from 'uuid';
-import { AnswerFacet, DateAddedFacet, QuestionFacet, SourceFacet, TitleFacet } from '../../../../app/additionalFacets';
+import {
+  AnswerFacet,
+  DateAddedFacet,
+  LearningUnitTypeFacet,
+  QuestionFacet,
+  SourceFacet,
+  TitleFacet,
+} from '../../../../app/additionalFacets';
 import { COLOR_ITEMS } from '../../../../base/constants';
-import { AdditionalTag, DataType, Story } from '../../../../base/enums';
+import { AdditionalTag, DataType, LearningUnitType, Story } from '../../../../base/enums';
 import { CloseButton, FlexBox, ScrollableBox, Sheet } from '../../../../components';
 import SapientorConversationMessage from '../../../../components/content/SapientorConversationMessage';
 import { addBlocks } from '../../../../functions/addBlocks';
 import { addFlashcards } from '../../../../functions/addFlashcards';
+import { addLearningUnit } from '../../../../functions/addLeaningUnit';
 import { addText } from '../../../../functions/addText';
 import { useUserData } from '../../../../hooks/useUserData';
 import supabaseClient from '../../../../lib/supabase';
@@ -406,10 +414,10 @@ const GenerateResourcesFromImageSheet = () => {
         newSubtopicEntity.add(new TitleFacet({ title: title }));
         newSubtopicEntity.add(new ParentFacet({ parentId: selectedTopicId || '' }));
         newSubtopicEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
-        newSubtopicEntity.add(DataType.SUBTOPIC);
-        newSubtopicEntity.add(new TextFacet({ text: note }));
+        newSubtopicEntity.add(new LearningUnitTypeFacet({ type: LearningUnitType.MIXED }));
+        newSubtopicEntity.add(DataType.LEARNING_UNIT);
 
-        // addSubtopic(lsc, newSubtopicEntity, userId);
+        addLearningUnit(lsc, newSubtopicEntity, userId);
 
         const flashcardEntities = flashcards.map((flashcard) => {
           const newFlashcardEntity = new Entity();
@@ -433,7 +441,6 @@ const GenerateResourcesFromImageSheet = () => {
 
         addText(newTextEntity, userId);
       } else {
-        console.log('add flashcards', flashcards);
         const flashcardSetId = v4();
 
         const newFlashcardSetEntity = new Entity();
@@ -441,9 +448,10 @@ const GenerateResourcesFromImageSheet = () => {
         newFlashcardSetEntity.add(new TitleFacet({ title: title }));
         newFlashcardSetEntity.add(new ParentFacet({ parentId: selectedTopicId || '' }));
         newFlashcardSetEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
-        newFlashcardSetEntity.add(DataType.FLASHCARD_SET);
+        newFlashcardSetEntity.add(new LearningUnitTypeFacet({ type: LearningUnitType.FLASHCARD_SET }));
+        newFlashcardSetEntity.add(DataType.LEARNING_UNIT);
 
-        // addFlashcardSet(lsc, newFlashcardSetEntity, userId);
+        addLearningUnit(lsc, newFlashcardSetEntity, userId);
 
         const flashcardEntities = flashcards.map((flashcard) => {
           const newFlashcardEntity = new Entity();
@@ -466,9 +474,10 @@ const GenerateResourcesFromImageSheet = () => {
       newNoteEntity.add(new TitleFacet({ title: title || 'Lernkarten' }));
       newNoteEntity.add(new ParentFacet({ parentId: selectedTopicId || '' }));
       newNoteEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
-      newNoteEntity.add(DataType.NOTE);
+      newNoteEntity.add(new LearningUnitTypeFacet({ type: LearningUnitType.NOTE }));
+      newNoteEntity.add(DataType.LEARNING_UNIT);
 
-      // addNote(lsc, newNoteEntity, userId);
+      addLearningUnit(lsc, newNoteEntity, userId);
 
       if (note) {
         const newBlockEntites = getBlockEntitiesFromText(note, noteId);

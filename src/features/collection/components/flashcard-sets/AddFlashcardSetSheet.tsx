@@ -5,8 +5,8 @@ import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { Fragment, useContext, useState } from 'react';
 import { IoCheckmarkCircle, IoEllipseOutline } from 'react-icons/io5';
 import { v4 } from 'uuid';
-import { DateAddedFacet, TitleFacet } from '../../../../app/additionalFacets';
-import { DataType, Story } from '../../../../base/enums';
+import { DateAddedFacet, LearningUnitTypeFacet, TitleFacet } from '../../../../app/additionalFacets';
+import { DataType, LearningUnitType, Story } from '../../../../base/enums';
 import {
   FlexBox,
   PrimaryButton,
@@ -23,6 +23,8 @@ import { useSchoolSubjectTopics } from '../../../../hooks/useSchoolSubjectTopics
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import { displayAlertTexts, displayButtonTexts, displayLabelTexts } from '../../../../utils/displayText';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
+import { addLearningUnit } from '../../../../functions/addLeaningUnit';
+import { useUserData } from '../../../../hooks/useUserData';
 
 const AddFlashcardSetSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -37,6 +39,7 @@ const AddFlashcardSetSheet = () => {
     title: '',
     parent: '',
   });
+  const { userId } = useUserData();
 
   const saveFlashcardSet = async () => {
     navigateBack();
@@ -48,10 +51,10 @@ const AddFlashcardSetSheet = () => {
     newFlashcardSetEntity.add(new TitleFacet({ title: newFlashcardSet.title }));
     newFlashcardSetEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
     newFlashcardSetEntity.add(new ParentFacet({ parentId: parentId }));
-    newFlashcardSetEntity.addTag(DataType.FLASHCARD_SET);
-    newFlashcardSetEntity.addTag(DataType.FLASHCARD_GROUP);
+    newFlashcardSetEntity.add(new LearningUnitTypeFacet({ type: LearningUnitType.FLASHCARD_SET }));
+    newFlashcardSetEntity.addTag(DataType.LEARNING_UNIT);
 
-    // addFlashcardSet(lsc, newFlashcardSetEntity, userId);
+    addLearningUnit(lsc, newFlashcardSetEntity, userId);
   };
 
   const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_TOPIC_STORY);

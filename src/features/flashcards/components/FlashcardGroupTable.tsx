@@ -4,7 +4,7 @@ import { Entity, EntityPropsMapper } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet, Tags, TextFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect, useState } from 'react';
 import tw from 'twin.macro';
-import { DateAddedFacet, PriorityFacet, TitleFacet } from '../../../app/additionalFacets';
+import { DateAddedFacet, LearningUnitTypeFacet, PriorityFacet, TitleFacet } from '../../../app/additionalFacets';
 import { dummyFlashcardSets } from '../../../base/dummy';
 import { LearningUnitPriority, LearningUnitType, SupabaseTable } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
@@ -98,7 +98,7 @@ const FlashcardGroupTable = () => {
       ´
       <EntityPropsMapper
         query={(e) => (e.has(LearningUnitType.MIXED) || e.has(LearningUnitType.FLASHCARD_SET)) && e.has(Tags.SELECTED)}
-        get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
+        get={[[TitleFacet, TextFacet, IdentifierFacet, LearningUnitTypeFacet], []]}
         onMatch={LearningUnitView}
       />
     </div>

@@ -13,7 +13,14 @@ import {
 } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { v4 } from 'uuid';
-import { DateAddedFacet, DueDateFacet, SourceFacet, TitleFacet, TitleProps } from '../../../../app/additionalFacets';
+import {
+  DateAddedFacet,
+  DueDateFacet,
+  LearningUnitTypeFacet,
+  SourceFacet,
+  TitleFacet,
+  TitleProps,
+} from '../../../../app/additionalFacets';
 import { AdditionalTag, DataType, LearningUnitType, Story } from '../../../../base/enums';
 import {
   ActionRow,
@@ -25,11 +32,13 @@ import {
   Title,
   View,
 } from '../../../../components';
+import { addLearningUnit } from '../../../../functions/addLeaningUnit';
 import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
+import { useUserData } from '../../../../hooks/useUserData';
 import { useWindowDimensions } from '../../../../hooks/useWindowDimensions';
 import { displayActionTexts, displayDataTypeTexts } from '../../../../utils/displayText';
-import { dataTypeQuery, isChildOfQuery } from '../../../../utils/queries';
+import { dataTypeQuery, isChildOfQuery, learningUnitTypeQuery } from '../../../../utils/queries';
 import { sortEntitiesByDateAdded } from '../../../../utils/sortEntitiesByTime';
 import AddResourceToLearningGroupSheet from '../../../groups/components/AddResourceToLearningGroupSheet';
 import { useEntityHasChildren } from '../../hooks/useEntityHasChildren';
@@ -119,7 +128,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
   const isVisible = useIsViewVisible(entity);
   const { selectedLanguage } = useSelectedLanguage();
   const { openImageSelector } = useImageSelector();
-
+  const { userId } = useUserData();
   const { selectedTopicId } = useSelectedTopic();
   const [scrollY, setScrollY] = useState(0);
   const { width } = useWindowDimensions();
@@ -141,10 +150,11 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
       newNoteEntity.add(new ParentFacet({ parentId: selectedTopicId }));
       newNoteEntity.add(new TitleFacet({ title: '' }));
       newNoteEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
-      newNoteEntity.add(DataType.NOTE);
+      newNoteEntity.add(new LearningUnitTypeFacet({ type: LearningUnitType.NOTE }));
+      newNoteEntity.add(DataType.LEARNING_UNIT);
       newNoteEntity.add(Tags.SELECTED);
 
-      // addNote(lsc, newNoteEntity, userId);
+      addLearningUnit(lsc, newNoteEntity, userId);
     }
   };
 
@@ -221,7 +231,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
 
             <CollectionGrid columnSize="small">
               <EntityPropsMapper
-                query={(e) => e.has(LearningUnitType.MIXED) && isChildOfQuery(e, entity)}
+                query={(e) => learningUnitTypeQuery(e, LearningUnitType.MIXED) && isChildOfQuery(e, entity)}
                 sort={(a, b) => sortEntitiesByDateAdded(a, b)}
                 get={[[TitleFacet], []]}
                 onMatch={LearningUnitCell}
@@ -230,7 +240,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
 
             <CollectionGrid columnSize="small">
               <EntityPropsMapper
-                query={(e) => e.has(LearningUnitType.NOTE) && isChildOfQuery(e, entity)}
+                query={(e) => learningUnitTypeQuery(e, LearningUnitType.NOTE) && isChildOfQuery(e, entity)}
                 sort={(a, b) => sortEntitiesByDateAdded(a, b)}
                 get={[[TitleFacet], []]}
                 onMatch={LearningUnitCell}
@@ -239,7 +249,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
 
             <CollectionGrid columnSize="small">
               <EntityPropsMapper
-                query={(e) => e.has(LearningUnitType.FLASHCARD_SET) && isChildOfQuery(e, entity)}
+                query={(e) => learningUnitTypeQuery(e, LearningUnitType.FLASHCARD_SET) && isChildOfQuery(e, entity)}
                 get={[[TitleFacet, IdentifierFacet], []]}
                 sort={(a, b) => sortEntitiesByDateAdded(a, b)}
                 onMatch={LearningUnitCell}
@@ -259,8 +269,8 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
       </View>
 
       <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataType.NOTE) && e.has(Tags.SELECTED)}
-        get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
+        query={(e) => dataTypeQuery(e, DataType.LEARNING_UNIT) && e.has(Tags.SELECTED)}
+        get={[[TitleFacet, TextFacet, IdentifierFacet, LearningUnitTypeFacet], []]}
         onMatch={LearningUnitView}
       />
 

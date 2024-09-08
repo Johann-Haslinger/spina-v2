@@ -27,9 +27,7 @@ const LoadFlashcardsSystem = () => {
   const { isUsingMockupData: mockupData, isUsingSupabaseData: shouldFetchFromSupabase } = useCurrentDataSource();
   const lsc = useContext(LeanScopeClientContext);
   const [selectedFlashcardGroupEntity] = useEntity(
-    (e) =>
-      (dataTypeQuery(e, DataType.FLASHCARD_GROUP) || dataTypeQuery(e, DataType.FLASHCARD_SET)) &&
-      e.hasTag(Tags.SELECTED),
+    (e) => dataTypeQuery(e, DataType.LEARNING_UNIT) && e.hasTag(Tags.SELECTED),
   );
   const selectedFlashcardGroupId = selectedFlashcardGroupEntity?.get(IdentifierFacet)?.props.guid;
 
@@ -55,7 +53,6 @@ const LoadFlashcardsSystem = () => {
             flashcardEntity.add(new QuestionFacet({ question: flashcard.question }));
             flashcardEntity.add(new AnswerFacet({ answer: flashcard.answer }));
             flashcardEntity.add(new ParentFacet({ parentId: selectedFlashcardGroupId }));
-
             flashcardEntity.addTag(DataType.FLASHCARD);
           }
         });

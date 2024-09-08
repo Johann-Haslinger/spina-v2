@@ -2,7 +2,7 @@ import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
-import { DateAddedFacet, TitleFacet } from '../../../app/additionalFacets';
+import { DateAddedFacet, LearningUnitTypeFacet, TitleFacet } from '../../../app/additionalFacets';
 import { DataType, LearningUnitType, SupabaseTable } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
@@ -41,8 +41,10 @@ const InitializeRecentlyAddedResources = () => {
           newResourceEntity.add(new TitleFacet({ title: resource.title }));
           newResourceEntity.add(new DateAddedFacet({ dateAdded: resource.date_added }));
           newResourceEntity.add(new ParentFacet({ parentId: resource.parent_id }));
+          newResourceEntity.add(
+            new LearningUnitTypeFacet({ type: LearningUnitType[resource.type as keyof typeof LearningUnitType] }),
+          );
           newResourceEntity.addTag(DataType.LEARNING_UNIT);
-          newResourceEntity.addTag(LearningUnitType[resource.type as keyof typeof LearningUnitType]);
         }
       });
     };

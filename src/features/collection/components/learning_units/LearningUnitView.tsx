@@ -36,18 +36,30 @@ import {
 import tw from 'twin.macro';
 import { v4 } from 'uuid';
 import {
+  AnswerFacet,
   DateAddedFacet,
   FileFacet,
+  LearningUnitTypeProps,
+  MasteryLevelFacet,
+  QuestionFacet,
   TitleFacet,
   TitleProps,
   TypeFacet,
   TypeProps,
 } from '../../../../app/additionalFacets';
-import { AdditionalTag, DataType, Story, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
+import {
+  AdditionalTag,
+  DataType,
+  LearningUnitType,
+  Story,
+  SupabaseColumn,
+  SupabaseTable,
+} from '../../../../base/enums';
 import { useIsBookmarked } from '../../../../common/hooks/isBookmarked';
 import {
   ActionRow,
   BackButton,
+  CollectionGrid,
   NavBarButton,
   NavigationBar,
   SecondaryText,
@@ -65,7 +77,11 @@ import { dataTypeQuery, isChildOfQuery } from '../../../../utils/queries';
 import { useFormattedDateAdded } from '../../hooks/useFormattedDateAdded';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
 import { useText } from '../../hooks/useText';
+import LoadFlashcardsSystem from '../../systems/LoadFlashcardsSystem';
 import LoadNotePodcastsSystem from '../../systems/LoadNotePodcastsSystem';
+import AddFlashcardsSheet from '../flashcard-sets/AddFlashcardsSheet';
+import EditFlashcardSheet from '../flashcard-sets/EditFlashcardSheet';
+import FlashcardCell from '../flashcard-sets/FlashcardCell';
 import GenerateFlashcardsSheet from '../generation/GenerateFlashcardsSheet';
 import GenerateImprovedTextSheet from '../generation/GenerateImprovedTextSheet';
 import GeneratePodcastSheet from '../generation/GeneratePodcastSheet';
@@ -97,9 +113,9 @@ const addFile = async (lsc: ILeanScopeClient, entity: Entity, file: UploadedFile
   newFileEntity.add(new TitleFacet({ title: file.file.name }));
 };
 
-const LearningUnitView = (props: TitleProps & IdentifierProps & EntityProps) => {
+const LearningUnitView = (props: TitleProps & IdentifierProps & EntityProps & LearningUnitTypeProps) => {
   const lsc = useContext(LeanScopeClientContext);
-  const { title, entity, guid } = props;
+  const { title, entity, guid, type } = props;
   const { selectedTopicTitle } = useSelectedTopic();
   const { selectedLanguage } = useSelectedLanguage();
   const isVisible = useIsViewVisible(entity);
@@ -118,6 +134,7 @@ const LearningUnitView = (props: TitleProps & IdentifierProps & EntityProps) => 
   const openImproveTextSheet = () => lsc.stories.transitTo(Story.GENERATING_IMPROVED_TEXT_STORY);
   const openAddResourceToLerningGroupSheet = () => lsc.stories.transitTo(Story.ADDING_RESOURCE_TO_LEARNING_GROUP_STORY);
   const openEditTextStyleSheet = () => lsc.stories.transitTo(Story.EDITING_TEXT_STYLE_STORY);
+  const openAddFlashcardsSheet = () => lsc.stories.transitTo(Story.ADDING_FLASHCARDS_STORY);
 
   const handleTitleBlur = async (value: string) => {
     entity.add(new TitleFacet({ title: value }));
@@ -142,14 +159,17 @@ const LearningUnitView = (props: TitleProps & IdentifierProps & EntityProps) => 
   return (
     <Fragment>
       <LoadNotePodcastsSystem />
+      <LoadFlashcardsSystem />
 
       <View visible={isVisible}>
         <NavigationBar>
-          <button onClick={handleButtonClick}>
-            <NavBarButton blocked={!hasSelection}>
-              <IoTextOutline style={{ opacity: isEditTextStyleSheetVisible ? '0.5' : '1' }} />
-            </NavBarButton>{' '}
-          </button>
+          {type !== LearningUnitType.FLASHCARD_SET && (
+            <button onClick={handleButtonClick}>
+              <NavBarButton blocked={!hasSelection}>
+                <IoTextOutline style={{ opacity: isEditTextStyleSheetVisible ? '0.5' : '1' }} />
+              </NavBarButton>{' '}
+            </button>
+          )}
           <NavBarButton
             content={
               <div>
@@ -170,7 +190,7 @@ const LearningUnitView = (props: TitleProps & IdentifierProps & EntityProps) => 
           <NavBarButton
             content={
               <div>
-                <ActionRow icon={<IoCopyOutline />} first onClick={() => {}}>
+                <ActionRow icon={<IoCopyOutline />} first onClick={openAddFlashcardsSheet}>
                   {displayActionTexts(selectedLanguage).addFlashcards}
                 </ActionRow>
                 <ActionRow last icon={<IoFolderOutline />} onClick={openFilePicker}>
@@ -215,7 +235,18 @@ const LearningUnitView = (props: TitleProps & IdentifierProps & EntityProps) => 
           onMatch={PodcastRow}
         />
 
-        <TextEditor placeholder="Beginne hier..." value={text} onBlur={updateText} />
+        {type === LearningUnitType.FLASHCARD_SET ? (
+          <CollectionGrid columnSize="large">
+            <EntityPropsMapper
+              query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataType.FLASHCARD)}
+              get={[[QuestionFacet, AnswerFacet, MasteryLevelFacet], []]}
+              onMatch={FlashcardCell}
+            />
+          </CollectionGrid>
+        ) : (
+          <TextEditor placeholder="Beginne hier..." value={text} onBlur={updateText} />
+        )}
+
         {hasAttachedResources && (
           <div>
             <Spacer size={6} />
@@ -241,6 +272,13 @@ const LearningUnitView = (props: TitleProps & IdentifierProps & EntityProps) => 
       <GeneratePodcastSheet />
       <GenerateImprovedTextSheet />
       <StyleActionSheet />
+      <AddFlashcardsSheet />
+
+      <EntityPropsMapper
+        query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataType.FLASHCARD) && e.hasTag(Tags.SELECTED)}
+        get={[[AnswerFacet, QuestionFacet, MasteryLevelFacet, IdentifierFacet], []]}
+        onMatch={EditFlashcardSheet}
+      />
 
       <EntityPropsMapper
         query={(e) => isChildOfQuery(e, entity) && e.has(FileFacet) && e.hasTag(Tags.SELECTED)}

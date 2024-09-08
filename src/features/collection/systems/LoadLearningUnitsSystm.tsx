@@ -2,7 +2,7 @@ import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
-import { DateAddedFacet, TitleFacet } from '../../../app/additionalFacets';
+import { DateAddedFacet, LearningUnitTypeFacet, TitleFacet } from '../../../app/additionalFacets';
 import { dummyLearningUnits } from '../../../base/dummy';
 import { DataType, LearningUnitType, SupabaseTable } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
@@ -49,8 +49,10 @@ const LoadLearningUnitsSystm = () => {
             learningUnitEntity.add(new IdentifierFacet({ guid: learningUnit.id }));
             learningUnitEntity.add(new DateAddedFacet({ dateAdded: learningUnit.date_added }));
             learningUnitEntity.add(new ParentFacet({ parentId: selectedTopicId }));
+            learningUnitEntity.add(
+              new LearningUnitTypeFacet({ type: LearningUnitType[learningUnit.type as keyof typeof LearningUnitType] }),
+            );
             learningUnitEntity.add(DataType.LEARNING_UNIT);
-            learningUnitEntity.add(LearningUnitType[learningUnit.type as keyof typeof LearningUnitType]);
 
             console.log('Learning Unit Entity:', learningUnitEntity);
           }
