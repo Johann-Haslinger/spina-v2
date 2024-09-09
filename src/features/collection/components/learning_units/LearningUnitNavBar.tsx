@@ -5,7 +5,6 @@ import { MouseEvent as ButtonMouseEvent, useContext } from 'react';
 import {
   IoAdd,
   IoAlbumsOutline,
-  IoArrowUpCircleOutline,
   IoBookmark,
   IoBookmarkOutline,
   IoColorWandOutline,
@@ -24,8 +23,8 @@ import { useIsBookmarked } from '../../../../common/hooks/isBookmarked';
 import { ActionRow, NavBarButton, NavigationBar } from '../../../../components';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import { useSelection } from '../../../../hooks/useSelection';
-import { displayActionTexts } from '../../../../utils/displayText';
 import { useUserData } from '../../../../hooks/useUserData';
+import { displayActionTexts } from '../../../../utils/displayText';
 import { updateLearningUnitType } from '../../functions/updateLearningUnitType';
 
 interface LearningUnitNavBarProps {
@@ -45,7 +44,7 @@ const LearningUnitNavBar = (props: EntityProps & LearningUnitTypeProps & Learnin
   const openDeleteAlert = () => lsc.stories.transitTo(Story.DELETING_NOTE_STORY);
   const openGenerateFlashcardsSheet = () => lsc.stories.transitTo(Story.GENERATING_FLASHCARDS_STORY);
   const openImproveTextSheet = () => lsc.stories.transitTo(Story.GENERATING_IMPROVED_TEXT_STORY);
-  const openAddResourceToLerningGroupSheet = () => lsc.stories.transitTo(Story.ADDING_RESOURCE_TO_LEARNING_GROUP_STORY);
+  // const openAddResourceToLerningGroupSheet = () => lsc.stories.transitTo(Story.ADDING_RESOURCE_TO_LEARNING_GROUP_STORY);
   const openAddFlashcardsSheet = () => lsc.stories.transitTo(Story.ADDING_FLASHCARDS_STORY);
   const openEditTextStyleSheet = () => lsc.stories.transitTo(Story.EDITING_TEXT_STYLE_STORY);
   const openFlashcardQuizView = () => lsc.stories.transitTo(Story.OBSERVING_FLASHCARD_QUIZ_STORY);
@@ -120,9 +119,9 @@ const LearningUnitNavBar = (props: EntityProps & LearningUnitTypeProps & Learnin
                 ? displayActionTexts(selectedLanguage).unbookmark
                 : displayActionTexts(selectedLanguage).bookmark}
             </ActionRow>
-            <ActionRow icon={<IoArrowUpCircleOutline />} onClick={openAddResourceToLerningGroupSheet}>
+            {/* <ActionRow icon={<IoArrowUpCircleOutline />} onClick={openAddResourceToLerningGroupSheet}>
               {displayActionTexts(selectedLanguage).addToLearningGroup}
-            </ActionRow>
+            </ActionRow> */}
             <ActionRow last destructive onClick={openDeleteAlert} icon={<IoTrashOutline />}>
               {displayActionTexts(selectedLanguage).delete}
             </ActionRow>

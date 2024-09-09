@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
-import { useEntities } from '@leanscope/ecs-engine';
+import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { Tags } from '@leanscope/ecs-models';
 import { motion } from 'framer-motion';
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { Fragment, useContext, useEffect, useRef, useState } from 'react';
 import {
   IoClose,
   IoEllipsisHorizontal,
@@ -276,14 +276,14 @@ const selectNavLinkText = (navLink: NavigationLink, selectedLanguage: SupportedL
 };
 
 const SidebarLink = (props: { title: NavigationLink; path: string; idx: number; isFullWidth: boolean }) => {
+  const lsc = useContext(LeanScopeClientContext);
   const { title, path, idx, isFullWidth: isHoverd } = props;
   const { selectedLanguage } = useSelectedLanguage();
   const { pathname } = useLocation();
   const { toggleSettings, isSettingVisible, toggleSidebar } = useAppState();
-  const [selectedEntities] = useEntities((e) => e.has(Tags.SELECTED));
 
   const handleClick = () => {
-    selectedEntities.forEach((e) => e.remove(Tags.SELECTED));
+    lsc.engine.entities.filter((e) => e.has(Tags.SELECTED)).forEach((e) => e.remove(Tags.SELECTED));
 
     toggleSidebar();
     if (isSettingVisible) {
