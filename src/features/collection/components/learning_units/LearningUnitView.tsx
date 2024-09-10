@@ -9,15 +9,32 @@ import {
   FileFacet,
   LearningUnitTypeProps,
   MasteryLevelFacet,
+  PriorityProps,
   QuestionFacet,
   TitleFacet,
   TitleProps,
   TypeFacet,
 } from '../../../../app/additionalFacets';
-import { AdditionalTag, DataType, LearningUnitType, LearningUnitViews } from '../../../../base/enums';
-import { BackButton, CollectionGrid, SecondaryText, Spacer, TextEditor, View } from '../../../../components';
+import {
+  AdditionalTag,
+  DataType,
+  LearningUnitPriority,
+  LearningUnitType,
+  LearningUnitViews,
+} from '../../../../base/enums';
+import { updatePriority } from '../../../../common/utilities';
+import {
+  BackButton,
+  CollectionGrid,
+  NoContentAddedHint,
+  SecondaryText,
+  Spacer,
+  TextEditor,
+  View,
+} from '../../../../components';
 import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
 import { dataTypeQuery, isChildOfQuery } from '../../../../utils/queries';
+import { useDueFlashcards } from '../../../flashcards';
 import FlashcardQuizView from '../../../study/components/FlashcardQuizView';
 import { addFileToLearningUnit } from '../../functions/addFileToLearningUnit';
 import { useFileSelector } from '../../hooks/useFileSelector';
@@ -39,9 +56,15 @@ import LearningUnitNavBar from './LearningUnitNavBar';
 import LearningUnitTitle from './LearningUnitTitle';
 import StyleActionSheet from './StyleActionSheet';
 
-const LearningUnitView = (props: TitleProps & IdentifierProps & EntityProps & LearningUnitTypeProps) => {
+const StyledSelect = styled.select<{ value: LearningUnitPriority }>`
+  ${tw`bg-secondery outline-none`}
+`;
+
+const LearningUnitView = (
+  props: TitleProps & IdentifierProps & EntityProps & LearningUnitTypeProps & PriorityProps,
+) => {
   const lsc = useContext(LeanScopeClientContext);
-  const { entity, type } = props;
+  const { entity, type, priority } = props;
   const { selectedTopicTitle } = useSelectedTopic();
   const isVisible = useIsViewVisible(entity);
   const { text, updateText } = useText(entity);
@@ -49,6 +72,8 @@ const LearningUnitView = (props: TitleProps & IdentifierProps & EntityProps & Le
   const { openFilePicker, fileInput } = useFileSelector((file) => addFileToLearningUnit(lsc, entity, file));
   const hasAttachedResources = useHastAttachedResources(entity);
   const { currentView, setCurrentView } = useCurrentView(type);
+  const hasFlashcards = useHasFlashcards(entity);
+  const { dueFlashcardEntity } = useDueFlashcards();
 
   const navigateBack = () => entity.addTag(AdditionalTag.NAVIGATE_BACK);
 
@@ -62,18 +87,40 @@ const LearningUnitView = (props: TitleProps & IdentifierProps & EntityProps & Le
         <BackButton navigateBack={navigateBack}>{selectedTopicTitle}</BackButton>
         <LearningUnitTitle {...props} />
         <Spacer size={2} />
-        <SecondaryText>{formattedDateAdded}</SecondaryText>
+        <SecondaryText>
+          {formattedDateAdded}
+          {type !== LearningUnitType.NOTE && (
+            <span>
+              ,{' '}
+              <StyledSelect
+                onChange={(e) =>
+                  updatePriority(entity, Number(e.target.value) as LearningUnitPriority, dueFlashcardEntity)
+                }
+                value={priority}
+                defaultValue={0}
+              >
+                <option value={LearningUnitPriority.ACTIVE}>Aktiv</option>
+                <option value={LearningUnitPriority.MAINTAINING}>Aufrechterhalten</option>
+                <option value={LearningUnitPriority.PAUSED}>Pausiert</option>
+              </StyledSelect>
+            </span>
+          )}
+        </SecondaryText>
         <Spacer size={6} />
         {type == LearningUnitType.MIXED && <Tabbar currentView={currentView} changeCurrentView={setCurrentView} />}
 
         {currentView == LearningUnitViews.FLASHCARDS ? (
-          <CollectionGrid columnSize="large">
-            <EntityPropsMapper
-              query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataType.FLASHCARD)}
-              get={[[QuestionFacet, AnswerFacet, MasteryLevelFacet], []]}
-              onMatch={FlashcardCell}
-            />
-          </CollectionGrid>
+          <div>
+            <CollectionGrid columnSize="large">
+              <EntityPropsMapper
+                query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataType.FLASHCARD)}
+                get={[[QuestionFacet, AnswerFacet, MasteryLevelFacet], []]}
+                onMatch={FlashcardCell}
+              />
+            </CollectionGrid>
+
+            {!hasFlashcards && <NoContentAddedHint />}
+          </div>
         ) : (
           <TextEditor placeholder="Beginne hier..." value={text} onBlur={updateText} />
         )}
@@ -134,6 +181,12 @@ const useHastAttachedResources = (entity: Entity) => {
   }, [entity, attachedResourceEntities.length]);
 
   return hasAttachedResources;
+};
+
+const useHasFlashcards = (entity: Entity) => {
+  const [flashcardEntities] = useEntities((e) => isChildOfQuery(e, entity) && e.has(DataType.FLASHCARD));
+
+  return flashcardEntities.length > 0;
 };
 
 const StyledTabbar = styled.div`

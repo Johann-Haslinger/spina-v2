@@ -26,6 +26,7 @@ import { useSchoolSubjectTopics } from '../../../hooks/useSchoolSubjectTopics';
 import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
 import { useUserData } from '../../../hooks/useUserData';
 import { displayActionTexts, displayButtonTexts, displayLabelTexts } from '../../../utils/displayText';
+import { generateDescriptionForTopic } from '../../collection/functions/generateDescriptionForTopic';
 
 const AddExamSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -88,9 +89,13 @@ const AddExamSheet = () => {
       newTopicEntity.add(new ParentFacet({ parentId: selectedSchoolSubjectId }));
       newTopicEntity.add(DataType.TOPIC);
 
+
+
       addTopic(lsc, newTopicEntity, userId);
 
       newExamEntity.add(new ParentFacet({ parentId: newTopicId }));
+
+      await generateDescriptionForTopic(newTopicEntity);
     }
 
     addExam(lsc, newExamEntity, userId);

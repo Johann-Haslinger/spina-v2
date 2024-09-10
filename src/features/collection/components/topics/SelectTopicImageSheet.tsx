@@ -112,7 +112,6 @@ const usePreviewImages = (isVisible: boolean) => {
     if (isVisible && images.length === 0 && selectedTopicTitle) {
       loadImagesFromUnsplash(selectedTopicTitle).then((images) => {
         setImages(JSON.parse(images));
-        console.log(images);
       });
     }
   }, [isVisible, selectedTopicTitle]);

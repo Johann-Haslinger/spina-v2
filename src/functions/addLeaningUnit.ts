@@ -26,18 +26,6 @@ export const addLearningUnit = async (lsc: ILeanScopeClient, learningUnitEntity:
     },
   ]);
 
-  if (type) {
-    console.log({
-      user_id: userId,
-      id,
-      parent_id,
-      date_added,
-      title,
-      type: LearningUnitType[type as LearningUnitType],
-      priority: LearningUnitPriority[LearningUnitPriority.ACTIVE],
-    });
-  }
-
   if (error) {
     console.error('Error inserting learning unit', error);
   }

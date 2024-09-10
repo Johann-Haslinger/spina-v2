@@ -1,10 +1,10 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
-import { EntityProps } from '@leanscope/ecs-engine';
-import { IdentifierProps, TextProps } from '@leanscope/ecs-models';
+import { Entity, EntityProps } from '@leanscope/ecs-engine';
+import { IdentifierFacet, IdentifierProps, TextFacet, TextProps } from '@leanscope/ecs-models';
 import { Fragment, useContext } from 'react';
 import { IoCreateOutline, IoEllipsisHorizontalCircleOutline, IoTrashOutline } from 'react-icons/io5';
 import { TitleProps } from '../../../../app/additionalFacets';
-import { AdditionalTag, Story } from '../../../../base/enums';
+import { AdditionalTag, Story, SupabaseTable } from '../../../../base/enums';
 import {
   ActionRow,
   BackButton,
@@ -21,18 +21,30 @@ import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import { displayActionTexts, displayButtonTexts } from '../../../../utils/displayText';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
-import { useText } from '../../hooks/useText';
 import LoadHomeworkTextSystem from '../../systems/LoadHomeworkTextSystem';
 import DeleteHomeworkAlert from './DeleteHomeworkAlert';
 import EditHomeworkSheet from './EditHomeworkSheet';
+import supabaseClient from '../../../../lib/supabase';
+
+const updateText = async (text: string, entity: Entity) => {
+  entity.add(new TextFacet({ text }));
+
+  const id = entity.get(IdentifierFacet)?.props.guid;
+
+  const { error } = await supabaseClient.from(SupabaseTable.HOMEWORKS).update({ text }).eq('id', id);
+
+  if (error) {
+    console.error('Error updating homework text:', error);
+  }
+};
 
 const HomeworkView = (props: EntityProps & TitleProps & TextProps & IdentifierProps) => {
   const lsc = useContext(LeanScopeClientContext);
-  const { title, entity } = props;
+  const { title, entity, text } = props;
   const isVisible = useIsViewVisible(entity);
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedTopicTitle } = useSelectedTopic();
-  const { text, updateText } = useText(entity);
+
   const daysUntilDue = useDaysUntilDue(entity);
 
   const navigateBack = () => entity.addTag(AdditionalTag.NAVIGATE_BACK);
@@ -68,7 +80,7 @@ const HomeworkView = (props: EntityProps & TitleProps & TextProps & IdentifierPr
         <Spacer size={2} />
         <SecondaryText>{daysUntilDue}</SecondaryText>
         <Spacer size={6} />
-        <TextEditor placeholder="Beginne hier..." value={text} onBlur={updateText} />
+        <TextEditor placeholder="Beginne hier..." value={text} onBlur={(e) => updateText(e, entity)} />
       </View>
 
       <DeleteHomeworkAlert />

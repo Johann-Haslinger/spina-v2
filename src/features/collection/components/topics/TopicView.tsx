@@ -1,11 +1,22 @@
 import styled from '@emotion/styled';
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { Entity, EntityProps, EntityPropsMapper } from '@leanscope/ecs-engine';
-import { DescriptionProps, IdentifierFacet, ImageProps, ParentFacet, Tags, TextFacet } from '@leanscope/ecs-models';
+import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntityComponents';
+import {
+  DescriptionProps,
+  IdentifierFacet,
+  ImageFacet,
+  ImageProps,
+  ParentFacet,
+  Tags,
+  TextFacet,
+} from '@leanscope/ecs-models';
 import { Fragment, useContext, useState } from 'react';
 import {
   IoAdd,
+  IoArchiveOutline,
   IoArrowBack,
+  IoArrowUpCircleOutline,
   IoCameraOutline,
   IoCreateOutline,
   IoEllipsisHorizontalCircleOutline,
@@ -17,11 +28,12 @@ import {
   DateAddedFacet,
   DueDateFacet,
   LearningUnitTypeFacet,
+  PriorityFacet,
   SourceFacet,
   TitleFacet,
   TitleProps,
 } from '../../../../app/additionalFacets';
-import { AdditionalTag, DataType, LearningUnitType, Story } from '../../../../base/enums';
+import { AdditionalTag, DataType, LearningUnitType, Story, SupabaseTable } from '../../../../base/enums';
 import {
   ActionRow,
   CollectionGrid,
@@ -37,6 +49,7 @@ import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import { useUserData } from '../../../../hooks/useUserData';
 import { useWindowDimensions } from '../../../../hooks/useWindowDimensions';
+import supabaseClient from '../../../../lib/supabase';
 import { displayActionTexts, displayDataTypeTexts } from '../../../../utils/displayText';
 import { dataTypeQuery, isChildOfQuery, learningUnitTypeQuery } from '../../../../utils/queries';
 import { sortEntitiesByDateAdded } from '../../../../utils/sortEntitiesByTime';
@@ -91,10 +104,37 @@ const useImageSelector = () => {
   };
 };
 
+const changeIsArchived = async (entity: Entity, value: boolean) => {
+  const id = entity.get(IdentifierFacet)?.props.guid;
+
+  if (value) {
+    entity.addTag(AdditionalTag.ARCHIVED);
+    entity.remove(ImageFacet);
+  } else {
+    entity.removeTag(AdditionalTag.ARCHIVED);
+
+    const { data, error } = await supabaseClient.from(SupabaseTable.TOPICS).select('image_url').eq('id', id).single();
+
+    if (error) {
+      console.error('Error fetching image url:', error);
+    }
+
+    if (data) {
+      const imageUrl = data.image_url;
+      entity.add(new ImageFacet({ imageSrc: imageUrl }));
+    }
+  }
+
+  const { error } = await supabaseClient.from(SupabaseTable.TOPICS).update({ is_archived: value }).eq('id', id);
+
+  if (error) {
+    console.error('Error updating archived status:', error);
+  }
+};
+
 const StyledTopAreaWrapper = styled.div<{ image: string; grid: boolean }>`
   ${tw`w-full  top-0 z-0 mt-14 xl:mt-0 xl:bg-contain bg-cover  xl:bg-fixed h-64 md:h-[16rem] xl:h-96 2xl:h-[24rem]  flex`}
   background-image: ${({ image }) => `url(${image})`};
-
 `;
 
 const StyledTopicResourcesWrapper = styled.div<{ largeShadow: boolean }>`
@@ -134,6 +174,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
   const { width } = useWindowDimensions();
   const grid = useSelectedSchoolSubjectGrid();
   const { hasChildren } = useEntityHasChildren(entity);
+  const [isArchived] = useEntityHasTags(entity, AdditionalTag.ARCHIVED);
 
   const navigateBack = () => entity.addTag(AdditionalTag.NAVIGATE_BACK);
   const openEditTopicSheet = () => lsc.stories.transitTo(Story.EDITING_TOPIC_STORY);
@@ -156,6 +197,12 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
 
       addLearningUnit(lsc, newNoteEntity, userId);
     }
+  };
+
+  const handleChangeIsArchivedClick = () => {
+    navigateBack();
+
+    setTimeout(() => changeIsArchived(entity, !isArchived), 300);
   };
 
   return (
@@ -195,14 +242,23 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
 
             <NavBarButton
               content={
-                <Fragment>
+                <div>
                   <ActionRow first onClick={openEditTopicSheet} icon={<IoCreateOutline />}>
                     {displayActionTexts(selectedLanguage).edit}
                   </ActionRow>
+                  <ActionRow
+                    onClick={handleChangeIsArchivedClick}
+                    icon={isArchived ? <IoArrowUpCircleOutline /> : <IoArchiveOutline />}
+                  >
+                    {!isArchived
+                      ? displayActionTexts(selectedLanguage).archivate
+                      : displayActionTexts(selectedLanguage).deArchivate}
+                  </ActionRow>
+
                   <ActionRow onClick={openDeleteTopicAlert} icon={<IoTrashOutline />} destructive last>
                     {displayActionTexts(selectedLanguage).delete}
                   </ActionRow>
-                </Fragment>
+                </div>
               }
             >
               <IoEllipsisHorizontalCircleOutline color={scrollY < 360 && width > 1280 ? 'white' : ''} />
@@ -270,7 +326,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
 
       <EntityPropsMapper
         query={(e) => dataTypeQuery(e, DataType.LEARNING_UNIT) && e.has(Tags.SELECTED)}
-        get={[[TitleFacet, TextFacet, IdentifierFacet, LearningUnitTypeFacet], []]}
+        get={[[TitleFacet, TextFacet, IdentifierFacet, LearningUnitTypeFacet, PriorityFacet], []]}
         onMatch={LearningUnitView}
       />
 

@@ -27,7 +27,6 @@ export const generateDescriptionForTopic = async (entity: Entity) => {
       })
       .eq('id', id);
 
-    console.log('topicDescription', topicDescription);
     if (error) {
       console.error('Error updating topic:', error);
     }

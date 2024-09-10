@@ -41,7 +41,7 @@ const EditTopicSheet = () => {
   useEffect(() => {
     const updateTopicImage = async () => {
       selectedTopicEntity?.add(new ImageFacet({ imageSrc: selectedImageEntities[0]?.get(ImageFacet)?.props.imageSrc }));
-      console.log('updating to', selectedImageEntities[0]?.get(ImageFacet)?.props.imageSrc);
+
       const { error } = await supabaseClient
         .from(SupabaseTable.TOPICS)
         .update({
@@ -75,7 +75,6 @@ const EditTopicSheet = () => {
       selectedTopicEntity?.add(new TitleFacet({ title: newTitle }));
       selectedTopicEntity?.add(new DescriptionFacet({ description: newDescription }));
 
-      console.log('updating to', selectedImageEntities[0]?.get(ImageFacet)?.props.imageSrc);
       const { error } = await supabaseClient
         .from(SupabaseTable.TOPICS)
         .update({

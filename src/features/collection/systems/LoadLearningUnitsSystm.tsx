@@ -2,9 +2,9 @@ import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
-import { DateAddedFacet, LearningUnitTypeFacet, TitleFacet } from '../../../app/additionalFacets';
+import { DateAddedFacet, LearningUnitTypeFacet, PriorityFacet, TitleFacet } from '../../../app/additionalFacets';
 import { dummyLearningUnits } from '../../../base/dummy';
-import { DataType, LearningUnitType, SupabaseTable } from '../../../base/enums';
+import { DataType, LearningUnitPriority, LearningUnitType, SupabaseTable } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 import { useSelectedTopic } from '../hooks/useSelectedTopic';
@@ -12,7 +12,7 @@ import { useSelectedTopic } from '../hooks/useSelectedTopic';
 const fetchLearningUnitsForTopic = async (topicId: string) => {
   const { data: learningUnits, error } = await supabaseClient
     .from(SupabaseTable.LEARNING_UNITS)
-    .select('title, id, date_added, type')
+    .select('title, id, date_added, type, priority')
     .eq('parent_id', topicId);
 
   if (error) {
@@ -50,11 +50,14 @@ const LoadLearningUnitsSystm = () => {
             learningUnitEntity.add(new DateAddedFacet({ dateAdded: learningUnit.date_added }));
             learningUnitEntity.add(new ParentFacet({ parentId: selectedTopicId }));
             learningUnitEntity.add(
+              new PriorityFacet({
+                priority: LearningUnitPriority[learningUnit.priority as keyof typeof LearningUnitPriority],
+              }),
+            );
+            learningUnitEntity.add(
               new LearningUnitTypeFacet({ type: LearningUnitType[learningUnit.type as keyof typeof LearningUnitType] }),
             );
             learningUnitEntity.add(DataType.LEARNING_UNIT);
-
-            console.log('Learning Unit Entity:', learningUnitEntity);
           }
         });
       }

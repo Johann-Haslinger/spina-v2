@@ -7,7 +7,7 @@ import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import { useUserData } from '../../../hooks/useUserData';
 import supabaseClient from '../../../lib/supabase';
 
-const fetchHomeworkText = async (homeworkId: string, userId: string) => {
+const fetchHomeworkText = async (homeworkId: string) => {
   const { data: text, error } = await supabaseClient
     .from(SupabaseTable.HOMEWORKS)
     .select('text')
@@ -19,41 +19,7 @@ const fetchHomeworkText = async (homeworkId: string, userId: string) => {
     return [];
   }
 
-  const { error: error2 } = await supabaseClient
-    .from(SupabaseTable.HOMEWORKS)
-    .update({ old_note_version: false, new_note_version: true, text: '' })
-    .eq(SupabaseColumn.ID, homeworkId);
-
-  if (error2) {
-    console.error('error updating homework to oldNoteVersion', error2);
-  }
-
-  const homeworkText = text?.text;
-
-  const { error: error3 } = await supabaseClient
-    .from(SupabaseTable.TEXTS)
-    .upsert([{ text: homeworkText, parent_id: homeworkId, user_id: userId }]);
-
-  if (error3) {
-    console.error('error inserting text', error3);
-  }
-
-  return homeworkText || [];
-};
-
-const fetchNoteVersion = async (homeworkId: string) => {
-  const { data: noteVersionData, error } = await supabaseClient
-    .from(SupabaseTable.HOMEWORKS)
-    .select('old_note_version')
-    .eq(SupabaseColumn.ID, homeworkId)
-    .single();
-
-  if (error) {
-    console.error('error fetching homework version', error);
-    return;
-  }
-
-  return noteVersionData?.old_note_version;
+  return text?.text;
 };
 
 const LoadHomeworkTextSystem = () => {
@@ -65,16 +31,12 @@ const LoadHomeworkTextSystem = () => {
   useEffect(() => {
     const loadHomeworkText = async () => {
       if (selectedHomeworkId) {
-        const isOldNoteVersion = shouldFetchFromSupabase && (await fetchNoteVersion(selectedHomeworkId));
+        const homeworkText = mockupData
+          ? dummyText
+          : shouldFetchFromSupabase && (await fetchHomeworkText(selectedHomeworkId));
 
-        if (isOldNoteVersion) {
-          const homeworkText = mockupData
-            ? dummyText
-            : shouldFetchFromSupabase && (await fetchHomeworkText(selectedHomeworkId, userId));
-
-          if (homeworkText) {
-            selectedHomework?.add(new TextFacet({ text: homeworkText }));
-          }
+        if (homeworkText) {
+          selectedHomework?.add(new TextFacet({ text: homeworkText }));
         }
       }
     };

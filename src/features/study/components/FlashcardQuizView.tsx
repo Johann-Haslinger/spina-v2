@@ -39,8 +39,6 @@ const fetchFlashcardsByDue = async () => {
     .select('answer, question, id, parent_id')
     .lt('due_date', new Date().toISOString());
 
-  console.log('flashcards', flashcards);
-
   if (error) {
     console.error('Error fetching flashcards:', error);
     return [];

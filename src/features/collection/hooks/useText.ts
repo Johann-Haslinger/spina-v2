@@ -46,7 +46,6 @@ export const useText = (entity: Entity) => {
       if (!parentId) return;
 
       if (entity.get(TextFacet)?.props.text) {
-        console.log('text already loaded', entity.get(TextFacet)?.props.text);
         setText(entity.get(TextFacet)?.props.text || '');
         return;
       }
@@ -54,7 +53,6 @@ export const useText = (entity: Entity) => {
       const loadedText = await fetchText(parentId, userId);
       entity.add(new TextFacet({ text: loadedText }));
       setText(loadedText);
-      console.log('loaded text', loadedText);
     };
 
     if (shouldFetchFromSupabase) {

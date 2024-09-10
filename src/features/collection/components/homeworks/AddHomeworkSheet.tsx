@@ -30,6 +30,7 @@ import { useUserData } from '../../../../hooks/useUserData';
 import { displayActionTexts, displayButtonTexts, displayLabelTexts } from '../../../../utils/displayText';
 import { useSelectedSchoolSubject } from '../../hooks/useSelectedSchoolSubject';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
+import { generateDescriptionForTopic } from '../../functions/generateDescriptionForTopic';
 
 const AddHomeworkSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -111,6 +112,8 @@ const AddHomeworkSheet = () => {
       newTopicEntity.add(new TitleFacet({ title: newTopicTitle }));
       newTopicEntity.add(new ParentFacet({ parentId: selectedSchoolSubjectId }));
       newTopicEntity.add(DataType.TOPIC);
+
+      await generateDescriptionForTopic(newTopicEntity);
 
       addTopic(lsc, newTopicEntity, userId);
 

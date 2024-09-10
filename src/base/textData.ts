@@ -239,6 +239,10 @@ export const ACTION_TEXT_DATA = {
     de: 'Thema hinzufügen',
     en: 'Add topic',
   },
+  archivate: {
+    de: 'Archivieren',
+    en: 'Archive',
+  },
   regenerate_image: {
     de: 'Bild neu generieren',
     en: 'Regenerate image',
@@ -254,6 +258,10 @@ export const ACTION_TEXT_DATA = {
   add_text: {
     de: 'Text hinzufügen',
     en: 'Add text',
+  },
+  de_archivate: {
+    de: 'De-Archivieren',
+    en: 'De-archive',
   },
 };
 
