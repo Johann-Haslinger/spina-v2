@@ -13,7 +13,7 @@ const StyledRowWrapper = styled.div`
 `;
 
 const StyledSelect = styled.select<{ value: LearningUnitPriority }>`
-  ${tw`rounded-full h-fit text-sm pl-2 py-0.5 outline-none`}
+  ${tw`rounded-lg h-fit text-sm pl-2 py-0.5 outline-none`}
   background-color: ${({ value }) => {
     switch (value) {
       case LearningUnitPriority.ACTIVE:

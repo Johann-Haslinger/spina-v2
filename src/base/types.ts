@@ -18,3 +18,17 @@ export interface CardData {
   buttonText: string;
   icon: ReactNode;
 }
+
+
+export interface Suggestion {
+  answer: string;
+  func: () => void;
+}
+
+export type ConversationMessage = {
+  role: 'gpt' | 'user';
+  message: string;
+  specialContent?: ReactNode;
+  suggestions?: Suggestion[]; 
+};
+

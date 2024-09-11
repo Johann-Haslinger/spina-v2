@@ -61,7 +61,6 @@ import LoadHomeworksSystem from '../../systems/LoadHomeworksSystem';
 import LoadLearningUnitsSystm from '../../systems/LoadLearningUnitsSystm';
 import ExerciseView from '../exercises/ExerciseView';
 import AddFlashcardSetSheet from '../flashcard-sets/AddFlashcardSetSheet';
-import GenerateResourcesFromImageSheet from '../generation/GenerateResourcesFromImageSheet';
 import AddHomeworkSheet from '../homeworks/AddHomeworkSheet';
 import HomeworkCell from '../homeworks/HomeworkCell';
 import HomeworkView from '../homeworks/HomeworkView';
@@ -69,6 +68,7 @@ import LearningUnitCell from '../learning_units/LearningUnitCell';
 import LearningUnitView from '../learning_units/LearningUnitView';
 import DeleteTopicAlert from './DeleteTopicAlert';
 import EditTopicSheet from './EditTopicSheet';
+import GenerateResourcesFromImageSheet from '../generation/GenerateResourcesFromImageSheet';
 
 const useImageSelector = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -85,6 +85,7 @@ const useImageSelector = () => {
         newImagePromptEntity.add(new SourceFacet({ source: base64 }));
         newImagePromptEntity.add(AdditionalTag.GENERATE_FROM_IMAGE_PROMPT);
 
+        console.log('newImagePromptEntity', newImagePromptEntity);
         lsc.stories.transitTo(Story.GENERATING_RESOURCES_FROM_IMAGE);
       };
       reader.readAsDataURL(file);
@@ -133,7 +134,7 @@ const changeIsArchived = async (entity: Entity, value: boolean) => {
 };
 
 const StyledTopAreaWrapper = styled.div<{ image: string; grid: boolean }>`
-  ${tw`w-full  top-0 z-0 mt-14 xl:mt-0 xl:bg-contain bg-cover  xl:bg-fixed h-64 md:h-[16rem] xl:h-96 2xl:h-[24rem]  flex`}
+  ${tw`w-full  top-0 z-0 mt-14 xl:mt-0  bg-cover  xl:bg-fixed h-64 md:h-[16rem] xl:h-96 2xl:h-[24rem]  flex`}
   background-image: ${({ image }) => `url(${image})`};
 `;
 
@@ -347,6 +348,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
 
       <DeleteTopicAlert />
       <EditTopicSheet />
+      {/* <GeneratingLearningUnitFromImageSheet /> */}
       <GenerateResourcesFromImageSheet />
       <AddResourceToLearningGroupSheet />
     </Fragment>

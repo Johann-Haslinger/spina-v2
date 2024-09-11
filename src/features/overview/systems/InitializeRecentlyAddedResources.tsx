@@ -2,8 +2,8 @@ import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
-import { DateAddedFacet, LearningUnitTypeFacet, TitleFacet } from '../../../app/additionalFacets';
-import { DataType, LearningUnitType, SupabaseTable } from '../../../base/enums';
+import { DateAddedFacet, LearningUnitTypeFacet, PriorityFacet, TitleFacet } from '../../../app/additionalFacets';
+import { DataType, LearningUnitPriority, LearningUnitType, SupabaseTable } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 
@@ -13,7 +13,7 @@ const fetchRecentlyLearningUnits = async () => {
 
   const { data: subtopics, error } = await supabaseClient
     .from(SupabaseTable.LEARNING_UNITS)
-    .select('title, id, date_added, parent_id, type')
+    .select('title, id, date_added, parent_id, type, priority')
     .gte('date_added', sevenDaysAgo);
 
   if (error) {
@@ -41,6 +41,7 @@ const InitializeRecentlyAddedResources = () => {
           newResourceEntity.add(new TitleFacet({ title: resource.title }));
           newResourceEntity.add(new DateAddedFacet({ dateAdded: resource.date_added }));
           newResourceEntity.add(new ParentFacet({ parentId: resource.parent_id }));
+          newResourceEntity.add(new PriorityFacet({ priority: LearningUnitPriority[resource.priority as keyof typeof LearningUnitPriority]  }));
           newResourceEntity.add(
             new LearningUnitTypeFacet({ type: LearningUnitType[resource.type as keyof typeof LearningUnitType] }),
           );

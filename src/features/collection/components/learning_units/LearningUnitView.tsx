@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { Entity, EntityProps, EntityPropsMapper, useEntities } from '@leanscope/ecs-engine';
-import { IdentifierFacet, IdentifierProps, ImageFacet, Tags, UrlFacet } from '@leanscope/ecs-models';
+import { IdentifierFacet, IdentifierProps, ImageFacet, Tags, TextFacet, UrlFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect, useState } from 'react';
 import tw from 'twin.macro';
 import {
@@ -67,7 +67,7 @@ const LearningUnitView = (
   const { entity, type, priority } = props;
   const { selectedTopicTitle } = useSelectedTopic();
   const isVisible = useIsViewVisible(entity);
-  const { text, updateText } = useText(entity);
+  const { text, updateText, updateValue } = useText(entity);
   const formattedDateAdded = useFormattedDateAdded(entity);
   const { openFilePicker, fileInput } = useFileSelector((file) => addFileToLearningUnit(lsc, entity, file));
   const hasAttachedResources = useHastAttachedResources(entity);
@@ -76,6 +76,10 @@ const LearningUnitView = (
   const { dueFlashcardEntity } = useDueFlashcards();
 
   const navigateBack = () => entity.addTag(AdditionalTag.NAVIGATE_BACK);
+
+  useEffect(() => {
+    updateValue(entity.get(TextFacet)?.props.text || '');
+  }, [currentView]);
 
   return (
     <div>
@@ -190,7 +194,7 @@ const useHasFlashcards = (entity: Entity) => {
 };
 
 const StyledTabbar = styled.div`
-  ${tw` mb-6 dark:bg-seconderyDark bg-tertiary w-fit rounded-full `}
+  ${tw` mb-8 dark:bg-seconderyDark bg-tertiary w-fit rounded-full `}
 `;
 
 const StyledTab = styled.button<{ active: boolean; color: string }>`

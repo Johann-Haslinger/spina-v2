@@ -23,6 +23,7 @@ export enum Story {
   OBSERVING_SPACED_REPETITION_QUIZ = 'observingSpacedRepetitionQuiz',
   OBSERVING_OVERVIEW = 'observingOverview',
   OBSERVING_TOPIC_ARCHIVE_STORY = 'observingTopicArchiveStory',
+  OBSERVING_HOMEWORKS_ARCHIVE_STORY = 'observingHomeworksArchiveStory',
 
   ADDING_FLASHCARD_SET_STORY = 'addFlashcardSetStory',
   ADDING_TOPIC_STORY = 'addTopicStory',

@@ -2,7 +2,7 @@ import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { EntityPropsMapper } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet, Tags, TextFacet } from '@leanscope/ecs-models';
 import { Fragment, useContext } from 'react';
-import { IoAdd } from 'react-icons/io5';
+import { IoAdd, IoArchiveOutline } from 'react-icons/io5';
 import { DueDateFacet, TitleFacet } from '../app/additionalFacets';
 import { DataType, Story } from '../base/enums';
 import { Kanban, NavBarButton, NavigationBar, Spacer, Title, View } from '../components';
@@ -21,6 +21,7 @@ const Homeworks = () => {
   const { updateHomeworkStatus } = useHomeworkStatus();
 
   const openAddHomeworkSheet = () => lsc.stories.transitTo(Story.ADDING_HOMEWORK_STORY);
+  const openHomeworkArchive = () => lsc.stories.transitTo(Story.OBSERVING_HOMEWORKS_ARCHIVE_STORY);
 
   return (
     <Fragment>
@@ -28,6 +29,9 @@ const Homeworks = () => {
 
       <View reducePaddingX viewType="baseView">
         <NavigationBar>
+          <NavBarButton onClick={openHomeworkArchive}>
+            <IoArchiveOutline />
+          </NavBarButton>
           <NavBarButton onClick={openAddHomeworkSheet}>
             <IoAdd />
           </NavBarButton>

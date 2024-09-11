@@ -79,5 +79,7 @@ export const useText = (entity: Entity) => {
     }
   };
 
-  return { text, updateText };
+  const updateValue = (newText: string) => setText(newText);
+
+  return { text, updateText, updateValue };
 };

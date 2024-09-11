@@ -6,12 +6,7 @@ import { COLOR_ITEMS } from '../../base/constants';
 import { useSelectedTheme } from '../../features/collection/hooks/useSelectedTheme';
 import Spacer from '../layout/Spacer';
 import TypingAnimationInnerHTML from './TypingAnimationInnerHTML';
-
-type SapientorMessage = {
-  role: 'gpt' | 'user';
-  message: string;
-  specialContent?: ReactNode;
-};
+import { ConversationMessage, Suggestion } from '../../base/types';
 
 const StyledMessageHeader = styled.div`
   ${tw`flex items-center space-y-1 space-x-3`}
@@ -35,7 +30,7 @@ const StyledMessageWrapper = styled.div`
 `;
 
 const SapientorConversationMessage = (props: {
-  message: SapientorMessage;
+  message: ConversationMessage;
   onWritingAnimationPlayed?: () => void;
   isLoading?: boolean;
   playWritingAnimation?: boolean;
@@ -43,12 +38,14 @@ const SapientorConversationMessage = (props: {
   const { message, onWritingAnimationPlayed, isLoading } = props;
   const [additionalContent, setAdditionalContent] = useState<ReactNode>(null);
   const { isDarkModeAktive: isDarkMode } = useSelectedTheme();
+  const [sugesstions, setSugesstions] = useState<Suggestion[]>([]);
 
   useEffect(() => {
     setTimeout(() => {
       setAdditionalContent(message.specialContent);
-    }, 300);
-  }, [message.specialContent]);
+      setSugesstions(message.suggestions || []);
+    }, 600);
+  }, [message]);
 
   return (
     <div>
@@ -123,8 +120,29 @@ const SapientorConversationMessage = (props: {
           {additionalContent}
         </motion.div>
       )}
+
+      <StyledSugesstionsWrapper>
+        {sugesstions.map((sugesstion, index) => (
+          <AnswerSugesstion key={index} sugesstion={sugesstion.answer} onClick={sugesstion.func} />
+        ))}
+      </StyledSugesstionsWrapper>
     </div>
   );
 };
 
 export default SapientorConversationMessage;
+
+const StyledSugesstionsWrapper = styled.div`
+  ${tw`px-4 mt-4`}
+`;
+
+const StyledSugesstionWrapper = styled.div`
+  ${tw`  border w-fit  rounded-lg py-1 md:hover:opacity-50 transition-all mt-2 px-4`}
+  color: ${COLOR_ITEMS[0].color};
+  border-color: ${COLOR_ITEMS[0].color};
+`;
+
+const AnswerSugesstion = (props: { sugesstion: string; onClick: () => void }) => {
+  const { sugesstion, onClick } = props;
+  return <StyledSugesstionWrapper onClick={onClick}>{sugesstion}</StyledSugesstionWrapper>;
+};
