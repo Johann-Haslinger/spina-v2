@@ -1,13 +1,14 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { EntityPropsMapper } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet, Tags, TextFacet } from '@leanscope/ecs-models';
-import { Fragment, useContext } from 'react';
+import { useContext } from 'react';
 import { IoAdd, IoArchiveOutline } from 'react-icons/io5';
 import { DueDateFacet, TitleFacet } from '../app/additionalFacets';
 import { DataType, Story } from '../base/enums';
 import { Kanban, NavBarButton, NavigationBar, Spacer, Title, View } from '../components';
 import { AddHomeworkSheet, HomeworkView } from '../features/collection';
 import { HomeworkKanbanCell } from '../features/homeworks';
+import HomeworkArchive from '../features/homeworks/components/HomeworkArchive';
 import { useHomeworkStatus } from '../features/homeworks/hooks/useHomeworkStatus';
 import InitializeHomeworksSystem from '../features/homeworks/systems/InitializeHomeworksSystem';
 import { useSelectedLanguage } from '../hooks/useSelectedLanguage';
@@ -24,7 +25,7 @@ const Homeworks = () => {
   const openHomeworkArchive = () => lsc.stories.transitTo(Story.OBSERVING_HOMEWORKS_ARCHIVE_STORY);
 
   return (
-    <Fragment>
+    <div>
       <InitializeHomeworksSystem />
 
       <View reducePaddingX viewType="baseView">
@@ -47,13 +48,14 @@ const Homeworks = () => {
         />
       </View>
 
+      <HomeworkArchive />
       <EntityPropsMapper
         query={(e) => dataTypeQuery(e, DataType.HOMEWORK) && e.has(Tags.SELECTED)}
         get={[[TitleFacet, DueDateFacet, ParentFacet, TextFacet, IdentifierFacet], []]}
         onMatch={HomeworkView}
       />
       <AddHomeworkSheet />
-    </Fragment>
+    </div>
   );
 };
 

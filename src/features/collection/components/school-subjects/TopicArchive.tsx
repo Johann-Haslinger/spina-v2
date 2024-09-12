@@ -16,7 +16,7 @@ import { useSelectedSchoolSubject } from '../../hooks/useSelectedSchoolSubject';
 import LoadArchivedTopicsSystem from '../../systems/LoadArchivedTopicsSystem';
 
 const StyledTopicsWrapper = styled.div`
-  ${tw`divide-y divide-primaryBorder dark:divide-primaryBorderDark`}
+  /* ${tw`divide-y divide-primaryBorder dark:divide-primaryBorderDark`} */
 `;
 
 const TopicArchive = () => {

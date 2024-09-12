@@ -631,7 +631,7 @@ export const dummyLearningUnits = [
     date_added: new Date().toISOString(),
     parent_id: v4(),
     type: 'NOTE',
-    priority: 'ACTIVE'
+    priority: 'ACTIVE',
   },
   {
     title: 'Subtraction',
@@ -639,7 +639,7 @@ export const dummyLearningUnits = [
     date_added: new Date().toISOString(),
     parent_id: v4(),
     type: 'FLASHCARD_SET',
-     priority: 'ACTIVE'
+    priority: 'ACTIVE',
   },
   {
     title: 'Multiplication',
@@ -647,6 +647,6 @@ export const dummyLearningUnits = [
     date_added: new Date().toISOString(),
     parent_id: v4(),
     type: 'MIXED',
-     priority: 'PAUSED'
+    priority: 'PAUSED',
   },
 ];

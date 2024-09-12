@@ -1,5 +1,13 @@
 import { Facet } from '@leanscope/ecs-engine';
-import { Blocktype, LearningUnitPriority, LearningUnitType, ListStyle, MessageRole, SupportedLanguage, Texttype } from '../base/enums';
+import {
+  Blocktype,
+  LearningUnitPriority,
+  LearningUnitType,
+  ListStyle,
+  MessageRole,
+  SupportedLanguage,
+  Texttype,
+} from '../base/enums';
 
 import { BlockeditorState, Resource } from '../base/types';
 

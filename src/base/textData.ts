@@ -59,6 +59,10 @@ export const HEADER_TEXT_DATA = {
     de: 'Profil',
     en: 'Profile',
   },
+  homeworks_archive: {
+    de: 'Hausaufgaben Archiv',
+    en: 'Homework Archive',
+  },
 };
 
 export const ALERT_TEXT_DATA = {

@@ -70,7 +70,6 @@
 //     suggestion.func();
 //   };
 
- 
 //   return (
 //     <div>
 //       {conversation.map((message, index) => (

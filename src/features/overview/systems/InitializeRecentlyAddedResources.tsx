@@ -41,7 +41,11 @@ const InitializeRecentlyAddedResources = () => {
           newResourceEntity.add(new TitleFacet({ title: resource.title }));
           newResourceEntity.add(new DateAddedFacet({ dateAdded: resource.date_added }));
           newResourceEntity.add(new ParentFacet({ parentId: resource.parent_id }));
-          newResourceEntity.add(new PriorityFacet({ priority: LearningUnitPriority[resource.priority as keyof typeof LearningUnitPriority]  }));
+          newResourceEntity.add(
+            new PriorityFacet({
+              priority: LearningUnitPriority[resource.priority as keyof typeof LearningUnitPriority],
+            }),
+          );
           newResourceEntity.add(
             new LearningUnitTypeFacet({ type: LearningUnitType[resource.type as keyof typeof LearningUnitType] }),
           );

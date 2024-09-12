@@ -89,8 +89,6 @@ const AddExamSheet = () => {
       newTopicEntity.add(new ParentFacet({ parentId: selectedSchoolSubjectId }));
       newTopicEntity.add(DataType.TOPIC);
 
-
-
       addTopic(lsc, newTopicEntity, userId);
 
       newExamEntity.add(new ParentFacet({ parentId: newTopicId }));

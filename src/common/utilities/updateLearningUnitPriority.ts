@@ -1,8 +1,8 @@
-import { Entity } from "@leanscope/ecs-engine";
-import { IdentifierFacet, CountFacet } from "@leanscope/ecs-models";
-import { PriorityFacet } from "../../app/additionalFacets";
-import { LearningUnitPriority, SupabaseTable } from "../../base/enums";
-import supabaseClient from "../../lib/supabase";
+import { Entity } from '@leanscope/ecs-engine';
+import { IdentifierFacet, CountFacet } from '@leanscope/ecs-models';
+import { PriorityFacet } from '../../app/additionalFacets';
+import { LearningUnitPriority, SupabaseTable } from '../../base/enums';
+import supabaseClient from '../../lib/supabase';
 
 export const updatePriority = async (
   entity: Entity,
@@ -13,7 +13,10 @@ export const updatePriority = async (
 
   const id = entity.get(IdentifierFacet)?.props.guid;
 
-  const { error } = await supabaseClient.from(SupabaseTable.LEARNING_UNITS).update({ priority: LearningUnitPriority[priority] }).eq('id', id);
+  const { error } = await supabaseClient
+    .from(SupabaseTable.LEARNING_UNITS)
+    .update({ priority: LearningUnitPriority[priority] })
+    .eq('id', id);
 
   if (error) {
     console.error('Error updating priority', error);

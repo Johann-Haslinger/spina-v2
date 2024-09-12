@@ -57,7 +57,7 @@ const Overview = () => {
                 <ActionRow first onClick={openAddHomeworkSheet} icon={<IoAdd />}>
                   {displayDataTypeTexts(selectedLanguage).homework}
                 </ActionRow>
-                <ActionRow  onClick={openAddExamSheet} icon={<IoAdd />}>
+                <ActionRow onClick={openAddExamSheet} icon={<IoAdd />}>
                   {displayDataTypeTexts(selectedLanguage).exam}
                 </ActionRow>
                 <ActionRow last onClick={openAddExamSheet} icon={<IoAdd />}>
