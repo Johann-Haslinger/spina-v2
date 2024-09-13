@@ -14,7 +14,7 @@ const ObservingBookmarkCollection = () => {
     <React.StrictMode>
       <BrowserRouter>
         <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
-          <InitializeStoriesSystem initialStory={Story.OBSERVING_BOOKMARK_COLLECTION_STORY} />
+          <InitializeStoriesSystem initialStory={Story.OBSERVING_BOOKMARKS_STORY} />
           <InitializeAppSystem mockupData />
           <ViewManagerSystem />
           <InitializeSchoolSubjectsSystem />

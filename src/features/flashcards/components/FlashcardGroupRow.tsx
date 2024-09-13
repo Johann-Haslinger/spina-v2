@@ -13,19 +13,17 @@ const StyledRowWrapper = styled.div`
 `;
 
 const StyledSelect = styled.select<{ value: LearningUnitPriority }>`
-  ${tw`rounded-lg h-fit text-sm pl-2 py-0.5 outline-none`}
+  ${tw`rounded-lg h-fit text-sm pl-1 py-0.5 outline-none`}
   background-color: ${({ value }) => {
     switch (value) {
       case LearningUnitPriority.ACTIVE:
         return COLOR_ITEMS[1].color + 40;
       case LearningUnitPriority.MAINTAINING:
         return COLOR_ITEMS[2].color + 40;
-      case LearningUnitPriority.PAUSED:
-        return 'rgb(234,234,234)';
-      default:
-        return '#FFFFFF';
+      ;
     }
   }};
+  ${({ value }) => value === LearningUnitPriority.PAUSED && tw` bg-tertiary dark:bg-tertiaryDark`}
 `;
 
 const FlashcardGroupRow = (props: TitleProps & PriorityProps & EntityProps) => {

@@ -11,7 +11,7 @@ import {
   Tags,
   TextFacet,
 } from '@leanscope/ecs-models';
-import { Fragment, useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import {
   IoAdd,
   IoArchiveOutline,
@@ -61,6 +61,7 @@ import LoadHomeworksSystem from '../../systems/LoadHomeworksSystem';
 import LoadLearningUnitsSystm from '../../systems/LoadLearningUnitsSystm';
 import ExerciseView from '../exercises/ExerciseView';
 import AddFlashcardSetSheet from '../flashcard-sets/AddFlashcardSetSheet';
+import GenerateResourcesFromImageSheet from '../generation/GenerateResourcesFromImageSheet';
 import AddHomeworkSheet from '../homeworks/AddHomeworkSheet';
 import HomeworkCell from '../homeworks/HomeworkCell';
 import HomeworkView from '../homeworks/HomeworkView';
@@ -68,7 +69,6 @@ import LearningUnitCell from '../learning_units/LearningUnitCell';
 import LearningUnitView from '../learning_units/LearningUnitView';
 import DeleteTopicAlert from './DeleteTopicAlert';
 import EditTopicSheet from './EditTopicSheet';
-import GenerateResourcesFromImageSheet from '../generation/GenerateResourcesFromImageSheet';
 
 const useImageSelector = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -156,7 +156,7 @@ const StyledImageOverlay = styled.div<{ overlay?: string }>`
 `;
 
 const StyledBackButton = styled.div`
-  ${tw` size-10  relative top-5 transition-all md:hover:scale-105 text-2xl ml-4 md:ml-20 lg:ml-32 xl:ml-60 2xl:ml-96 bg-tertiary  text-black rounded-full flex justify-center items-center`}
+  ${tw` size-10  relative top-5 transition-all md:hover:scale-105 text-2xl ml-4 md:ml-20 lg:ml-32 xl:ml-60 2xl:ml-96 dark:bg-tertiaryDark dark:text-white bg-tertiary  text-black rounded-full flex justify-center items-center`}
 `;
 
 const StyledTopicViewContainer = styled.div`
@@ -207,7 +207,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
   };
 
   return (
-    <Fragment>
+    <div>
       <LoadLearningUnitsSystm />
       <LoadHomeworksSystem />
 
@@ -351,7 +351,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
       {/* <GeneratingLearningUnitFromImageSheet /> */}
       <GenerateResourcesFromImageSheet />
       <AddResourceToLearningGroupSheet />
-    </Fragment>
+    </div>
   );
 };
 

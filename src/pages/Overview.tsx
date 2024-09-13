@@ -7,6 +7,7 @@ import { IoAdd } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { LearningUnitTypeFacet, PriorityFacet, TitleFacet } from '../app/additionalFacets';
 import { DataType, Story } from '../base/enums';
+import FlashcardQuizView from '../common/components/flashcards/FlashcardQuizView';
 import { ActionRow, NavBarButton, NavigationBar, Spacer, Title, View } from '../components';
 import { AddHomeworkSheet, HomeworkView } from '../features/collection';
 import LearningUnitView from '../features/collection/components/learning_units/LearningUnitView';
@@ -24,7 +25,6 @@ import {
   StartFlashcardSessionCard,
 } from '../features/overview';
 import FlashcarChartCard from '../features/overview/components/FlashcardChartCard';
-import FlashcardQuizView from '../features/study/components/FlashcardQuizView';
 import { useSelectedLanguage } from '../hooks/useSelectedLanguage';
 import { displayDataTypeTexts, displayHeaderTexts } from '../utils/displayText';
 import { dataTypeQuery } from '../utils/queries';

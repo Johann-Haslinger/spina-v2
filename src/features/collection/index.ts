@@ -1,4 +1,4 @@
-export { default as BookmarkCollectionCard } from './components/bookmark/BookmarkCollectionCard';
+export { default as BookmarksCell } from './components/bookmark/BookmarksCell';
 export { default as FlashcardCell } from './components/flashcard-sets/FlashcardCell';
 export { default as AddHomeworkSheet } from './components/homeworks/AddHomeworkSheet';
 export { default as HomeworkView } from './components/homeworks/HomeworkView';

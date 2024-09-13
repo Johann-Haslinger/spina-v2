@@ -1,5 +1,5 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
-import { EntityProps, EntityPropsMapper } from '@leanscope/ecs-engine';
+import { EntityProps, EntityPropsMapper, useEntities } from '@leanscope/ecs-engine';
 import { IdentifierFacet, IdentifierProps, Tags } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { motion } from 'framer-motion';
@@ -73,11 +73,10 @@ const SchoolSubjectHomeworksSection = (props: TitleProps & IdentifierProps) => {
 };
 
 const useChildHomeworksCount = (parentGuid: string) => {
-  const lsc = useContext(LeanScopeClientContext);
-
-  return lsc.engine.entities.filter(
-    (e) => dataTypeQuery(e, DataType.HOMEWORK) && e.get(RelationshipFacet)?.props.relationship === parentGuid,
-  ).length;
+  const [childHomeworkEntities] = useEntities(
+    (e) => e.get(RelationshipFacet)?.props.relationship === parentGuid && dataTypeQuery(e, DataType.HOMEWORK),
+  );
+  return childHomeworkEntities.length;
 };
 
 const StyledHomeworkContainer = styled.div`

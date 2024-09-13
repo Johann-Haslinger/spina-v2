@@ -5,7 +5,7 @@ import { CountFacet, IdentifierFacet, ParentFacet } from '@leanscope/ecs-models'
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { motion } from 'framer-motion';
 import { Fragment, useContext, useEffect, useState } from 'react';
-import { IoCheckmarkCircleOutline, IoChevronBack, IoFileTray, IoHeadset } from 'react-icons/io5';
+import { IoCheckmarkCircleOutline, IoChevronBack, IoFileTray } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { v4 } from 'uuid';
 import {
@@ -15,11 +15,17 @@ import {
   DurationFacet,
   FlashcardCountFacet,
   FlashcardPerformanceFacet,
+  MasteryLevelFacet,
   QuestionFacet,
   StreakFacet,
 } from '../../../app/additionalFacets';
+import { MAX_MASTERY_LEVEL, MIN_MASTERY_LEVEL } from '../../../base/constants';
 import { AdditionalTag, DataType, Story, SupabaseColumn, SupabaseTable } from '../../../base/enums';
 import { FlexBox, View } from '../../../components';
+import { useSeletedFlashcardGroup } from '../../../features/collection/hooks/useSelectedFlashcardGroup';
+import { useSelectedSchoolSubjectColor } from '../../../features/collection/hooks/useSelectedSchoolSubjectColor';
+import { useSelectedSubtopic } from '../../../features/collection/hooks/useSelectedSubtopic';
+import { useDueFlashcards } from '../../../features/flashcards/hooks/useDueFlashcards';
 import { useIsAnyStoryCurrent } from '../../../hooks/useIsAnyStoryCurrent';
 import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
 import { useTimer } from '../../../hooks/useTimer';
@@ -27,16 +33,12 @@ import { useUserData } from '../../../hooks/useUserData';
 import supabaseClient from '../../../lib/supabase';
 import { displayButtonTexts, displayLabelTexts } from '../../../utils/displayText';
 import { dataTypeQuery } from '../../../utils/queries';
-import { useSeletedFlashcardGroup } from '../../collection/hooks/useSelectedFlashcardGroup';
-import { useSelectedSchoolSubjectColor } from '../../collection/hooks/useSelectedSchoolSubjectColor';
-import { useSelectedSubtopic } from '../../collection/hooks/useSelectedSubtopic';
-import { useDueFlashcards } from '../../flashcards/hooks/useDueFlashcards';
-import { useSelectedLearningUnit } from '../../../common/hooks/useSelectedLearningUnit';
+import { useSelectedLearningUnit } from '../../hooks/useSelectedLearningUnit';
 
 const fetchFlashcardsByDue = async () => {
   const { data: flashcards, error } = await supabaseClient
     .from(SupabaseTable.FLASHCARDS)
-    .select('answer, question, id, parent_id')
+    .select('answer, question, id, parent_id, mastery_level')
     .lt('due_date', new Date().toISOString());
 
   if (error) {
@@ -50,6 +52,7 @@ const fetchFlashcardsByDue = async () => {
     entity.add(new QuestionFacet({ question: flashcard.question }));
     entity.add(new AnswerFacet({ answer: flashcard.answer }));
     entity.add(new ParentFacet({ parentId: flashcard.parent_id }));
+    entity.add(new MasteryLevelFacet({ masteryLevel: flashcard.mastery_level }));
     entity.add(DataType.FLASHCARD);
     return entity;
   });
@@ -140,9 +143,6 @@ const StyledBackButtonWrapper = styled.div`
 const StyledBackButtonText = styled.div`
   ${tw`text-sm`}
 `;
-const StyledTalkingModeButton = styled.div`
-  ${tw`transition-all cursor-pointer mb-4 md:hover:opacity-50 text-lg`}
-`;
 
 const StyledProgressBarWrapper = styled.div`
   ${tw`  bg-white overflow-hidden mb-4 h-fit w-full  rounded-full `}
@@ -210,12 +210,13 @@ const FlashcardQuizView = () => {
 
   const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_FLASHCARD_SET_STORY);
 
-  const updateFlashcardsDueDate = async () => {
+  const updateFlashcardsDueDateAndMasteryLevel = async () => {
     const updatedFlashcards: {
       id: string;
       user_id: string;
       due_date: string;
       parent_id: string;
+      mastery_level: number;
     }[] = [];
 
     flashcardEntities.forEach((flashcardEntity) => {
@@ -242,12 +243,32 @@ const FlashcardQuizView = () => {
         dueDate.setHours(dueDate.getHours() + 1);
       }
 
+      const masteryLevel = flashcardEntity.get(MasteryLevelFacet)?.props.masteryLevel || 0;
+      let newMasterLevel = masteryLevel;
+
+      if (masteryLevel == MAX_MASTERY_LEVEL && !flashcardEntity.has(AdditionalTag.ANSWERD_WRONG)) {
+        newMasterLevel = MAX_MASTERY_LEVEL;
+      } else if (flashcardEntity.has(AdditionalTag.REMEMBERED_EASILY)) {
+        newMasterLevel = masteryLevel + 1;
+        flashcardEntity.add(new MasteryLevelFacet({ masteryLevel: newMasterLevel }));
+      } else if (flashcardEntity.has(AdditionalTag.REMEMBERED_WITH_EFFORT)) {
+        newMasterLevel = masteryLevel + 1;
+        flashcardEntity.add(new MasteryLevelFacet({ masteryLevel: newMasterLevel }));
+      } else if (flashcardEntity.has(AdditionalTag.PARTIALLY_REMEMBERED)) {
+        newMasterLevel = masteryLevel + 1;
+        flashcardEntity.add(new MasteryLevelFacet({ masteryLevel: newMasterLevel }));
+      } else if (flashcardEntity.has(AdditionalTag.ANSWERD_WRONG)) {
+        newMasterLevel = MIN_MASTERY_LEVEL;
+        flashcardEntity.add(new MasteryLevelFacet({ masteryLevel: newMasterLevel }));
+      }
+
       if (dueDate) {
         updatedFlashcards.push({
           id,
           user_id: userId,
           due_date: dueDate.toISOString(),
           parent_id: parentId,
+          mastery_level: newMasterLevel,
         });
       }
     });
@@ -345,7 +366,7 @@ const FlashcardQuizView = () => {
     navigateBack();
     addFlashcardSession();
     updateCurrentStreak();
-    updateFlashcardsDueDate();
+    updateFlashcardsDueDateAndMasteryLevel();
   };
 
   return (
@@ -358,9 +379,6 @@ const FlashcardQuizView = () => {
               {selectedFlashcardGroupTitle || displayButtonTexts(selectedLanguage).back}
             </StyledBackButtonText>
           </StyledBackButtonWrapper>
-          <StyledTalkingModeButton>
-            <IoHeadset />
-          </StyledTalkingModeButton>
         </FlexBox>
         <StyledProgressBarWrapper>
           <StyledProgressBar
@@ -487,11 +505,15 @@ const StyledAnswerText = styled.div<{ color: string }>`
 `;
 
 const StyledNavButtonAreaWrapper = styled.div`
-  ${tw`flex w-[90%] space-x-1  md:w-2/5 text-xl md:text-2xl md:right-[30%] right-[5%] md:left-[30%] left-[5%] justify-between bg-white bg-opacity-40 p-1  rounded-xl md:rounded-2xl absolute bottom-8  `}
+  ${tw`flex w-[90%] space-x-1  md:w-2/5 text-xl md:text-2xl md:right-[30%] right-[5%] md:left-[30%] left-[5%] justify-between bg-white bg-opacity-40 p-1   rounded-xl md:rounded-2xl absolute bottom-8  `}
 `;
 
 const StyledNavButton = styled.div`
-  ${tw`w-1/5 space-y-0.5 h-16 flex justify-center flex-col items-center rounded-lg md:rounded-xl hover:opacity-50 transition-all bg-white bg-opacity-80`}
+  ${tw`w-1/5 space-y-0.5  h-fit py-2.5 flex justify-center flex-col items-center rounded-lg md:rounded-xl lg:hover:opacity-50 transition-all bg-white bg-opacity-80`}
+`;
+
+const StyledLabel = styled.div`
+  ${tw`text-xs text-seconderyText  line-clamp-1`}
 `;
 
 const FlashcardCell = (props: {
@@ -585,19 +607,19 @@ const FlashcardCell = (props: {
         <StyledNavButtonAreaWrapper>
           <StyledNavButton onClick={handleSkipClick}>
             <div>⏩</div>
-            <div tw="text-xs text-seconderyText line-clamp-1">1 h</div>
+            <StyledLabel>1 h</StyledLabel>
           </StyledNavButton>
           <StyledNavButton onClick={handleForgotClick}>
-            <div>❌</div> <div tw="text-xs text-seconderyText line-clamp-1">1 min</div>
+            <div>❌</div> <StyledLabel>1 min</StyledLabel>
           </StyledNavButton>
           <StyledNavButton onClick={handlePartiallyRememberedClick}>
-            <div>🤔</div> <div tw="text-xs text-seconderyText line-clamp-1">12 h</div>
+            <div>🤔</div> <StyledLabel>12 h</StyledLabel>
           </StyledNavButton>
           <StyledNavButton onClick={handleRememberedWithEffortClick}>
-            <div>😀</div> <div tw="text-xs text-seconderyText line-clamp-1">24 h</div>
+            <div>😀</div> <StyledLabel>24 h</StyledLabel>
           </StyledNavButton>
           <StyledNavButton onClick={handleRememberedEasilyClick}>
-            <div>👑</div> <div tw="text-xs text-seconderyText line-clamp-1">4 Tage</div>
+            <div>👑</div> <StyledLabel>4 Tage</StyledLabel>
           </StyledNavButton>
         </StyledNavButtonAreaWrapper>
       </Fragment>

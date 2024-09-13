@@ -6,13 +6,13 @@ import { Fragment } from 'react/jsx-runtime';
 import tw from 'twin.macro';
 import { COLOR_ITEMS } from '../base/constants';
 import { Story } from '../base/enums';
+import FlashcardQuizView from '../common/components/flashcards/FlashcardQuizView';
 import { NavigationBar, Spacer, Title, View } from '../components';
 import { FlashcardGroupTable, useDueFlashcardsCount } from '../features/flashcards';
 import StreakCard from '../features/flashcards/components/StreakCard';
 import LoadCurrentStreakSystem from '../features/flashcards/systems/LoadCurrentStrekSystem';
 import LoadFlashcardSessionsSystem from '../features/flashcards/systems/LoadFlashcardSessionsSystem';
 import { FlashcardChartCard, LastWeekInfoCard } from '../features/overview';
-import FlashcardQuizView from '../features/study/components/FlashcardQuizView';
 import { useSelectedLanguage } from '../hooks/useSelectedLanguage';
 import { displayHeaderTexts } from '../utils/displayText';
 

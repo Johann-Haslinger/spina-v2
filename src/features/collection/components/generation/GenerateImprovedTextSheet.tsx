@@ -1,7 +1,8 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
-import { Story } from '../../../../base/enums';
+import { Story, SupabaseTable } from '../../../../base/enums';
+import { useSelectedLearningUnit } from '../../../../common/hooks/useSelectedLearningUnit';
 import {
   FlexBox,
   GeneratingIndecator,
@@ -14,7 +15,8 @@ import SapientorConversationMessage from '../../../../components/content/Sapient
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import { displayButtonTexts } from '../../../../utils/displayText';
 import { generateImprovedText } from '../../../../utils/generateResources';
-import { useVisibleText } from '../../hooks/useVisibleText';
+import { TextFacet } from '@leanscope/ecs-models';
+import supabaseClient from '../../../../lib/supabase';
 
 const GenerateImprovedTextSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -22,16 +24,17 @@ const GenerateImprovedTextSheet = () => {
   const { selectedLanguage } = useSelectedLanguage();
   const [generatedText, setGeneratedText] = useState<string>('');
   const [isGenerating, setIsGenerating] = useState(false);
-  const { visibleText, setVisibleText } = useVisibleText();
+  const { selectedLearningUnitText, selectedLearningUnitEntity, selectedLearningUnitId } = useSelectedLearningUnit();
 
   useEffect(() => {
     const handleGenerateImprovedText = async () => {
       setIsGenerating(true);
-      if (visibleText === '') {
+      if (!selectedLearningUnitText || selectedLearningUnitText == '') {
         setGeneratedText('Bitte füge erst Text hinzu, um ihn zu verbessern.');
         setIsGenerating(false);
+        return;
       }
-      const improvedText = await generateImprovedText(visibleText);
+      const improvedText = await generateImprovedText(selectedLearningUnitText);
 
       setGeneratedText(`Passt das so für dich?<br/> <br/>
       ${improvedText}
@@ -43,22 +46,35 @@ const GenerateImprovedTextSheet = () => {
       handleGenerateImprovedText();
     } else if (!isVisible) {
       setGeneratedText('');
+      setIsGenerating(false);
     }
-  }, [isVisible, visibleText]);
+  }, [isVisible, selectedLearningUnitText]);
 
   const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_NOTE_STORY);
 
   const saveImprovedText = async () => {
     navigateBack();
+    const newText = generatedText.replace(`Passt das so für dich?<br/> <br/>`, '');
 
-    setVisibleText(generatedText.replace(`Passt das so für dich?<br/> <br/>`, ''));
+    selectedLearningUnitEntity?.add(new TextFacet({ text: newText }));
+
+    const { error } = await supabaseClient
+      .from(SupabaseTable.TEXTS)
+      .update({
+        text: newText,
+      })
+      .eq('parent_id', selectedLearningUnitId);
+
+    if (error) {
+      console.error('Error updating text', error);
+    }
   };
 
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>
       <FlexBox>
         <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
-        {generatedText !== '' && (
+        {generatedText !== '' && selectedLearningUnitText && (
           <PrimaryButton onClick={saveImprovedText}> {displayButtonTexts(selectedLanguage).save}</PrimaryButton>
         )}
       </FlexBox>

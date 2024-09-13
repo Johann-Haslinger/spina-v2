@@ -8,6 +8,9 @@ export const MEDIUM_DEVICE_WIDTH = 700;
 
 export const LARGE_DEVICE_WIDTH = 1400;
 
+export const MAX_MASTERY_LEVEL = 5;
+export const MIN_MASTERY_LEVEL = 0;
+
 export const NAV_LINKS = [
   {
     title: NavigationLink.OVERVIEW,

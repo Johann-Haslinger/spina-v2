@@ -1,7 +1,9 @@
 import styled from '@emotion/styled';
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { Entity, EntityProps, EntityPropsMapper, useEntities } from '@leanscope/ecs-engine';
+import { useEntityFacets } from '@leanscope/ecs-engine/react-api/hooks/useEntityFacets';
 import { IdentifierFacet, IdentifierProps, ImageFacet, Tags, TextFacet, UrlFacet } from '@leanscope/ecs-models';
+import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
 import tw from 'twin.macro';
 import {
@@ -21,7 +23,9 @@ import {
   LearningUnitPriority,
   LearningUnitType,
   LearningUnitViews,
+  Story,
 } from '../../../../base/enums';
+import FlashcardQuizView from '../../../../common/components/flashcards/FlashcardQuizView';
 import { updatePriority } from '../../../../common/utilities';
 import {
   BackButton,
@@ -35,7 +39,6 @@ import {
 import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
 import { dataTypeQuery, isChildOfQuery } from '../../../../utils/queries';
 import { useDueFlashcards } from '../../../flashcards';
-import FlashcardQuizView from '../../../study/components/FlashcardQuizView';
 import { addFileToLearningUnit } from '../../functions/addFileToLearningUnit';
 import { useFileSelector } from '../../hooks/useFileSelector';
 import { useFormattedDateAdded } from '../../hooks/useFormattedDateAdded';
@@ -57,7 +60,7 @@ import LearningUnitTitle from './LearningUnitTitle';
 import StyleActionSheet from './StyleActionSheet';
 
 const StyledSelect = styled.select<{ value: LearningUnitPriority }>`
-  ${tw`bg-secondery outline-none`}
+  ${tw`bg-secondery dark:bg-primaryDark  transition-all outline-none`}
 `;
 
 const LearningUnitView = (
@@ -74,12 +77,14 @@ const LearningUnitView = (
   const { currentView, setCurrentView } = useCurrentView(type);
   const hasFlashcards = useHasFlashcards(entity);
   const { dueFlashcardEntity } = useDueFlashcards();
+  const [textProps] = useEntityFacets(entity, TextFacet);
+  const isGeneratingImprovedTextViewVisible = useIsStoryCurrent(Story.GENERATING_IMPROVED_TEXT_STORY);
 
   const navigateBack = () => entity.addTag(AdditionalTag.NAVIGATE_BACK);
 
   useEffect(() => {
-    updateValue(entity.get(TextFacet)?.props.text || '');
-  }, [currentView]);
+    updateValue(textProps.text);
+  }, [currentView, isGeneratingImprovedTextViewVisible]);
 
   return (
     <div>
@@ -194,16 +199,12 @@ const useHasFlashcards = (entity: Entity) => {
 };
 
 const StyledTabbar = styled.div`
-  ${tw` mb-8 dark:bg-seconderyDark bg-tertiary w-fit rounded-full `}
+  ${tw` mb-8  transition-all dark:bg-seconderyDark bg-tertiary w-fit rounded-full `}
 `;
 
 const StyledTab = styled.button<{ active: boolean; color: string }>`
-  ${tw`text-seconderyText  w-28 rounded-full  px-3 py-1`}
-  ${({ active }) =>
-    active && tw`text-white bg-black dark:bg-white dark:text-black transition-all `} /* background-color: ${({
-    color,
-    active,
-  }) => active && color}; */
+  ${tw`text-seconderyText  transition-all w-28 rounded-full  px-3 py-1`}
+  ${({ active }) => active && tw`text-white bg-black dark:bg-white dark:text-black transition-all `}
 `;
 
 const Tabbar = (props: { currentView: LearningUnitViews; changeCurrentView: (view: LearningUnitViews) => void }) => {
