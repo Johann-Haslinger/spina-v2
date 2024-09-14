@@ -9,13 +9,13 @@ import tw from 'twin.macro';
 import {
   AnswerFacet,
   FileFacet,
+  FilePathFacet,
   LearningUnitTypeProps,
   MasteryLevelFacet,
   PriorityProps,
   QuestionFacet,
   TitleFacet,
   TitleProps,
-  TypeFacet,
 } from '../../../../app/additionalFacets';
 import {
   AdditionalTag,
@@ -37,6 +37,7 @@ import {
   View,
 } from '../../../../components';
 import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
+import { useUserData } from '../../../../hooks/useUserData';
 import { dataTypeQuery, isChildOfQuery } from '../../../../utils/queries';
 import { useDueFlashcards } from '../../../flashcards';
 import { addFileToLearningUnit } from '../../functions/addFileToLearningUnit';
@@ -46,13 +47,14 @@ import { useSelectedSchoolSubjectColor } from '../../hooks/useSelectedSchoolSubj
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
 import { useText } from '../../hooks/useText';
 import LoadFlashcardsSystem from '../../systems/LoadFlashcardsSystem';
+import LoadLearningUnitFilesSystem from '../../systems/LoadLearningUnitFilesSystem';
 import AddFlashcardsSheet from '../flashcard-sets/AddFlashcardsSheet';
 import EditFlashcardSheet from '../flashcard-sets/EditFlashcardSheet';
 import FlashcardCell from '../flashcard-sets/FlashcardCell';
 import GenerateFlashcardsSheet from '../generation/GenerateFlashcardsSheet';
 import GenerateImprovedTextSheet from '../generation/GenerateImprovedTextSheet';
 import GeneratePodcastSheet from '../generation/GeneratePodcastSheet';
-import LearningUnit from './DeleteLearningUnitAlert';
+import DeleteLearningUnitAlert from './DeleteLearningUnitAlert';
 import FileRow from './FileRow';
 import FileViewer from './FileViewer';
 import LearningUnitNavBar from './LearningUnitNavBar';
@@ -71,8 +73,9 @@ const LearningUnitView = (
   const { selectedTopicTitle } = useSelectedTopic();
   const isVisible = useIsViewVisible(entity);
   const { text, updateText, updateValue } = useText(entity);
+  const { userId } = useUserData();
   const formattedDateAdded = useFormattedDateAdded(entity);
-  const { openFilePicker, fileInput } = useFileSelector((file) => addFileToLearningUnit(lsc, entity, file));
+  const { openFilePicker, fileInput } = useFileSelector((file) => addFileToLearningUnit(lsc, entity, file, userId));
   const hasAttachedResources = useHastAttachedResources(entity);
   const { currentView, setCurrentView } = useCurrentView(type);
   const hasFlashcards = useHasFlashcards(entity);
@@ -89,6 +92,7 @@ const LearningUnitView = (
   return (
     <div>
       <LoadFlashcardsSystem />
+      <LoadLearningUnitFilesSystem />
 
       <View visible={isVisible}>
         <LearningUnitNavBar currentView={currentView} openFilePicker={openFilePicker} entity={entity} type={type} />
@@ -147,14 +151,14 @@ const LearningUnitView = (
 
         <div>
           <EntityPropsMapper
-            query={(e) => isChildOfQuery(e, entity) && e.has(FileFacet)}
-            get={[[FileFacet, TitleFacet, UrlFacet, TypeFacet], []]}
+            query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataType.FILE)}
+            get={[[FilePathFacet, TitleFacet], []]}
             onMatch={FileRow}
           />
         </div>
       </View>
 
-      <LearningUnit />
+      <DeleteLearningUnitAlert />
       <GenerateFlashcardsSheet />
       <GeneratePodcastSheet />
       <GenerateImprovedTextSheet />
@@ -169,7 +173,7 @@ const LearningUnitView = (
       />
 
       <EntityPropsMapper
-        query={(e) => isChildOfQuery(e, entity) && e.has(FileFacet) && e.hasTag(Tags.SELECTED)}
+        query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataType.FILE) && e.hasTag(Tags.SELECTED)}
         get={[[FileFacet, TitleFacet, UrlFacet], []]}
         onMatch={FileViewer}
       />

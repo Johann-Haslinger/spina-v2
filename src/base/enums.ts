@@ -166,6 +166,7 @@ export enum DataType {
   FLASHCARD_SESSION = 'flashcardSession',
   CHAPTER = 'chapter',
   LEARNING_UNIT = 'learningUnit',
+  FILE = 'file',
 }
 
 export enum SupportedLanguage {
@@ -235,6 +236,11 @@ export enum SupabaseTable {
   LEARNING_UNITS = 'learning_units',
   EXERCISE_PARTS = 'exercise_parts',
   EXERCISES = 'exercises',
+  LEARNING_UNIT_FILES = 'learning_unit_files',
+}
+
+export enum SupabaseStorageBucket {
+  LEARNING_UNIT_FILES = 'learning_unit_files',
 }
 
 export enum SupabaseColumn {

@@ -1,13 +1,13 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
-import { Entity, useEntity } from '@leanscope/ecs-engine';
-import { IdentifierFacet, ParentFacet, Tags } from '@leanscope/ecs-models';
+import { Entity } from '@leanscope/ecs-engine';
+import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { AnswerFacet, MasteryLevelFacet, QuestionFacet } from '../../../app/additionalFacets';
 import { dummyFlashcards } from '../../../base/dummy';
 import { AdditionalTag, DataType, SupabaseColumn, SupabaseTable } from '../../../base/enums';
+import { useSelectedLearningUnit } from '../../../common/hooks/useSelectedLearningUnit';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
-import { dataTypeQuery } from '../../../utils/queries';
 
 const fetchFlashcardsForFlashcardGroup = async (parentId: string) => {
   const { data: flashcards, error } = await supabaseClient
@@ -26,18 +26,15 @@ const fetchFlashcardsForFlashcardGroup = async (parentId: string) => {
 const LoadFlashcardsSystem = () => {
   const { isUsingMockupData: mockupData, isUsingSupabaseData: shouldFetchFromSupabase } = useCurrentDataSource();
   const lsc = useContext(LeanScopeClientContext);
-  const [selectedFlashcardGroupEntity] = useEntity(
-    (e) => dataTypeQuery(e, DataType.LEARNING_UNIT) && e.hasTag(Tags.SELECTED),
-  );
-  const selectedFlashcardGroupId = selectedFlashcardGroupEntity?.get(IdentifierFacet)?.props.guid;
+  const { selectedLearningUnitId } = useSelectedLearningUnit();
 
   useEffect(() => {
     const initializeFlashcardEntities = async () => {
-      if (selectedFlashcardGroupId) {
+      if (selectedLearningUnitId) {
         const flashcards = mockupData
           ? dummyFlashcards
           : shouldFetchFromSupabase
-            ? await fetchFlashcardsForFlashcardGroup(selectedFlashcardGroupId)
+            ? await fetchFlashcardsForFlashcardGroup(selectedLearningUnitId)
             : [];
 
         flashcards.forEach((flashcard) => {
@@ -52,7 +49,7 @@ const LoadFlashcardsSystem = () => {
             flashcardEntity.add(new MasteryLevelFacet({ masteryLevel: flashcard.mastery_level }));
             flashcardEntity.add(new QuestionFacet({ question: flashcard.question }));
             flashcardEntity.add(new AnswerFacet({ answer: flashcard.answer }));
-            flashcardEntity.add(new ParentFacet({ parentId: selectedFlashcardGroupId }));
+            flashcardEntity.add(new ParentFacet({ parentId: selectedLearningUnitId }));
             flashcardEntity.addTag(DataType.FLASHCARD);
 
             if (flashcard.is_bookmarked) {
@@ -64,7 +61,7 @@ const LoadFlashcardsSystem = () => {
     };
 
     initializeFlashcardEntities();
-  }, [selectedFlashcardGroupId, mockupData, shouldFetchFromSupabase]);
+  }, [selectedLearningUnitId, mockupData, shouldFetchFromSupabase]);
 
   return null;
 };

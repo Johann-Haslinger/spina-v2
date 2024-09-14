@@ -5,10 +5,10 @@ import { AdditionalTag, Story, SupabaseTable } from '../../../../base/enums';
 import { useSelectedLearningUnit } from '../../../../common/hooks/useSelectedLearningUnit';
 import { Alert, AlertButton } from '../../../../components';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
-import { displayActionTexts } from '../../../../utils/displayText';
 import supabaseClient from '../../../../lib/supabase';
+import { displayActionTexts } from '../../../../utils/displayText';
 
-const LearningUnit = () => {
+const DeleteLearningUnitAlert = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Story.DELETING_NOTE_STORY);
   const { selectedLanguage } = useSelectedLanguage();
@@ -56,4 +56,4 @@ const LearningUnit = () => {
   );
 };
 
-export default LearningUnit;
+export default DeleteLearningUnitAlert;

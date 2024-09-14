@@ -317,3 +317,13 @@ export class LearningUnitTypeFacet extends Facet<LearningUnitTypeProps> {
     super(props);
   }
 }
+
+export interface FilePathProps {
+  filePath: string;
+}
+
+export class FilePathFacet extends Facet<FilePathProps> {
+  constructor(props: FilePathProps) {
+    super(props);
+  }
+}
