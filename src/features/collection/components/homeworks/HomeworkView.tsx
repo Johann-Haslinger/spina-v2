@@ -1,10 +1,11 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { Entity, EntityProps } from '@leanscope/ecs-engine';
 import { IdentifierFacet, IdentifierProps, TextFacet, TextProps } from '@leanscope/ecs-models';
-import { Fragment, useContext } from 'react';
-import { IoCreateOutline, IoEllipsisHorizontalCircleOutline, IoTrashOutline } from 'react-icons/io5';
+import { useContext } from 'react';
+import { IoCreateOutline, IoEllipsisHorizontalCircleOutline, IoShareOutline, IoTrashOutline } from 'react-icons/io5';
 import { TitleProps } from '../../../../app/additionalFacets';
 import { AdditionalTag, Story, SupabaseTable } from '../../../../base/enums';
+import { generatePdf } from '../../../../common/utilities';
 import {
   ActionRow,
   BackButton,
@@ -19,12 +20,12 @@ import {
 import { useDaysUntilDue } from '../../../../hooks/useDaysUntilDue';
 import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
+import supabaseClient from '../../../../lib/supabase';
 import { displayActionTexts, displayButtonTexts } from '../../../../utils/displayText';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
 import LoadHomeworkTextSystem from '../../systems/LoadHomeworkTextSystem';
 import DeleteHomeworkAlert from './DeleteHomeworkAlert';
 import EditHomeworkSheet from './EditHomeworkSheet';
-import supabaseClient from '../../../../lib/supabase';
 
 const updateText = async (text: string, entity: Entity) => {
   entity.add(new TextFacet({ text }));
@@ -50,23 +51,27 @@ const HomeworkView = (props: EntityProps & TitleProps & TextProps & IdentifierPr
   const navigateBack = () => entity.addTag(AdditionalTag.NAVIGATE_BACK);
   const openEditHomeworkSheet = () => lsc.stories.transitTo(Story.EDITING_HOMEWORK_STORY);
   const openDeleteHomeworkAlert = () => lsc.stories.transitTo(Story.DELETING_HOMEWORK_STORY);
+  const exportHomework = () => generatePdf(title, text);
 
   return (
-    <Fragment>
+    <div>
       <LoadHomeworkTextSystem />
 
       <View visible={isVisible}>
         <NavigationBar>
           <NavBarButton
             content={
-              <Fragment>
+              <div>
                 <ActionRow first onClick={openEditHomeworkSheet} icon={<IoCreateOutline />}>
                   {displayActionTexts(selectedLanguage).edit}
+                </ActionRow>
+                <ActionRow icon={<IoShareOutline />} onClick={exportHomework}>
+                  Als PDF exportieren
                 </ActionRow>
                 <ActionRow onClick={openDeleteHomeworkAlert} icon={<IoTrashOutline />} destructive last>
                   {displayActionTexts(selectedLanguage).delete}
                 </ActionRow>
-              </Fragment>
+              </div>
             }
           >
             <IoEllipsisHorizontalCircleOutline />
@@ -85,7 +90,7 @@ const HomeworkView = (props: EntityProps & TitleProps & TextProps & IdentifierPr
 
       <DeleteHomeworkAlert />
       <EditHomeworkSheet />
-    </Fragment>
+    </div>
   );
 };
 

@@ -1,6 +1,6 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { Entity, EntityProps } from '@leanscope/ecs-engine';
-import { IdentifierFacet } from '@leanscope/ecs-models';
+import { IdentifierFacet, TextFacet } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { MouseEvent as ButtonMouseEvent, useContext, useState } from 'react';
 import {
@@ -14,12 +14,14 @@ import {
   IoFolderOutline,
   IoPlayOutline,
   IoReaderOutline,
+  IoShareOutline,
   IoSparklesOutline,
   IoTextOutline,
   IoTrashOutline,
 } from 'react-icons/io5';
-import { LearningUnitTypeProps } from '../../../../app/additionalFacets';
+import { LearningUnitTypeProps, TitleFacet } from '../../../../app/additionalFacets';
 import { AdditionalTag, LearningUnitType, LearningUnitViews, Story, SupabaseTable } from '../../../../base/enums';
+import { generatePdf } from '../../../../common/utilities';
 import { ActionRow, NavBarButton, NavigationBar } from '../../../../components';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import { useSelection } from '../../../../hooks/useSelection';
@@ -49,6 +51,8 @@ const LearningUnitNavBar = (props: EntityProps & LearningUnitTypeProps & Learnin
   const openAddFlashcardsSheet = () => lsc.stories.transitTo(Story.ADDING_FLASHCARDS_STORY);
   const openEditTextStyleSheet = () => lsc.stories.transitTo(Story.EDITING_TEXT_STYLE_STORY);
   const openFlashcardQuizView = () => lsc.stories.transitTo(Story.OBSERVING_FLASHCARD_QUIZ_STORY);
+  const exportLearningUnit = () =>
+    generatePdf(entity.get(TitleFacet)?.props.title || '', entity.get(TextFacet)?.props.text || '');
 
   const addText = () => {
     updateLearningUnitType(entity, userId, LearningUnitType.MIXED);
@@ -120,6 +124,7 @@ const LearningUnitNavBar = (props: EntityProps & LearningUnitTypeProps & Learnin
                 ? displayActionTexts(selectedLanguage).unbookmark
                 : displayActionTexts(selectedLanguage).bookmark}
             </ActionRow>
+            <ActionRow icon={<IoShareOutline/>} onClick={exportLearningUnit}>Exportieren</ActionRow>
             {/* <ActionRow icon={<IoArrowUpCircleOutline />} onClick={openAddResourceToLerningGroupSheet}>
               {displayActionTexts(selectedLanguage).addToLearningGroup}
             </ActionRow> */}
