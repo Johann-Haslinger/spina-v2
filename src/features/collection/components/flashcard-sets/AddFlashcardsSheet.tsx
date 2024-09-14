@@ -6,7 +6,8 @@ import { Fragment, useContext, useEffect, useState } from 'react';
 import { IoAdd, IoColorWandOutline } from 'react-icons/io5';
 import { v4 } from 'uuid';
 import { AnswerFacet, MasteryLevelFacet, QuestionFacet } from '../../../../app/additionalFacets';
-import { DataType, LearningUnitType, Story } from '../../../../base/enums';
+import { DataType, LearningUnitType, Story, SupabaseEdgeFunction } from '../../../../base/enums';
+import { useImageSelector } from '../../../../common/hooks';
 import { useSelectedLearningUnit } from '../../../../common/hooks/useSelectedLearningUnit';
 import {
   FlexBox,
@@ -23,10 +24,11 @@ import GeneratingIndecator from '../../../../components/content/GeneratingIndeca
 import { addFlashcards } from '../../../../functions/addFlashcards';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import { useUserData } from '../../../../hooks/useUserData';
+import supabaseClient from '../../../../lib/supabase';
 import { displayButtonTexts } from '../../../../utils/displayText';
 import { generateFlashCards } from '../../../../utils/generateResources';
-import PreviewFlashcard from './PreviewFlashcard';
 import { updateLearningUnitType } from '../../functions/updateLearningUnitType';
+import PreviewFlashcard from './PreviewFlashcard';
 
 type Flashcard = {
   question: string;
@@ -35,7 +37,8 @@ type Flashcard = {
 
 enum AddFlashcardsMethods {
   ADDING_FLASHCARDS_MANUALLY,
-  GENERATING_FLASHCARDS,
+  GENERATING_FLASHCARDS_FROM_TEXT,
+  GENRATING_FLASHCARDS_FROM_IMAGE,
   IMPORT_FLASHCARDS,
   DONE,
 }
@@ -50,6 +53,31 @@ const AddFlashcardsSheet = () => {
   const { userId } = useUserData();
   const [generateFlashcardsPrompt, setGenerateFlashcardsPrompt] = useState('');
   const [isGeneratingFlashcards, setIsGeneratingFlashcards] = useState(false);
+  const { openImagePicker } = useImageSelector((image) => generateFlashcardsFromImage(image));
+
+  const generateFlashcardsFromImage = async (image: string) => {
+    setIsGeneratingFlashcards(true);
+    const session = await supabaseClient.auth.getSession();
+
+    const { data: flashcardsData, error } = await supabaseClient.functions.invoke(
+      SupabaseEdgeFunction.GENERATE_FLASHCARDS,
+      {
+        headers: {
+          Authorization: `Bearer ${session.data.session?.access_token}`,
+        },
+        body: { base64_image: image },
+      },
+    );
+
+    if (error) {
+      console.error('Error generating completion:', error.message);
+    }
+
+    const generatedFlashcards: { answer: string; question: string }[] = JSON.parse(flashcardsData).cards;
+    setFlashcards(generatedFlashcards);
+    setIsGeneratingFlashcards(false);
+    setAddFlashcardsMethod(AddFlashcardsMethods.DONE);
+  };
 
   useEffect(() => {
     if (flashcards[flashcards.length - 1] && flashcards[flashcards.length - 1].answer !== '') {
@@ -112,29 +140,37 @@ const AddFlashcardsSheet = () => {
         )}
       </FlexBox>
       <Spacer />
-      {addFlashcardsMethod == undefined && (
-        <Section>
-          <SectionRow
-            onClick={() => {
-              setAddFlashcardsMethod(AddFlashcardsMethods.ADDING_FLASHCARDS_MANUALLY);
-              setFlashcards([{ question: '', answer: '' }]);
-            }}
-            role="button"
-            icon={<IoAdd />}
-          >
-            Karte hinzufügen
-          </SectionRow>
-          <SectionRow
-            last
-            onClick={() => setAddFlashcardsMethod(AddFlashcardsMethods.GENERATING_FLASHCARDS)}
-            role="button"
-            icon={<IoColorWandOutline />}
-          >
-            Karten generieren
-          </SectionRow>
-        </Section>
+      {addFlashcardsMethod == undefined && !isGeneratingFlashcards && (
+        <div>
+          <Section>
+            <SectionRow
+              last
+              onClick={() => {
+                setAddFlashcardsMethod(AddFlashcardsMethods.ADDING_FLASHCARDS_MANUALLY);
+                setFlashcards([{ question: '', answer: '' }]);
+              }}
+              role="button"
+              icon={<IoAdd />}
+            >
+              Manuell hinzufügen
+            </SectionRow>
+          </Section>
+          <Spacer size={2} />
+          <Section>
+            <SectionRow
+              onClick={() => setAddFlashcardsMethod(AddFlashcardsMethods.GENERATING_FLASHCARDS_FROM_TEXT)}
+              role="button"
+              icon={<IoAdd />}
+            >
+              Aus Text erzeugen
+            </SectionRow>
+            <SectionRow last onClick={openImagePicker} role="button" icon={<IoAdd />}>
+              Aus Bild erzeugen
+            </SectionRow>
+          </Section>
+        </div>
       )}
-      {addFlashcardsMethod == AddFlashcardsMethods.GENERATING_FLASHCARDS && !isGeneratingFlashcards && (
+      {addFlashcardsMethod == AddFlashcardsMethods.GENERATING_FLASHCARDS_FROM_TEXT && !isGeneratingFlashcards && (
         <Fragment>
           <Section>
             <SectionRow last>

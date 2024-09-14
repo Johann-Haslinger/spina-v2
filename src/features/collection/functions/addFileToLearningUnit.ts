@@ -22,7 +22,7 @@ export const addFileToLearningUnit = async (
   const parentId = entity.get(IdentifierFacet)?.props.guid;
   const id = v4();
   const cleanedFileName = uploaded.file.name.replace(/\s+/g, '_');
-  console.log("cleanedFileName", cleanedFileName)
+  console.log('cleanedFileName', cleanedFileName);
   const path = `learning_unit_${parentId}/${cleanedFileName}`;
 
   if (!parentId) return;

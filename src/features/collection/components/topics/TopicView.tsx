@@ -26,9 +26,7 @@ import tw from 'twin.macro';
 import { v4 } from 'uuid';
 import {
   DateAddedFacet,
-  DueDateFacet,
   LearningUnitTypeFacet,
-  PriorityFacet,
   SourceFacet,
   TitleFacet,
   TitleProps,
@@ -59,14 +57,11 @@ import { useSelectedSchoolSubjectGrid } from '../../hooks/useSchoolSubjectGrid';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
 import LoadHomeworksSystem from '../../systems/LoadHomeworksSystem';
 import LoadLearningUnitsSystm from '../../systems/LoadLearningUnitsSystm';
-import ExerciseView from '../exercises/ExerciseView';
 import AddFlashcardSetSheet from '../flashcard-sets/AddFlashcardSetSheet';
 import GenerateResourcesFromImageSheet from '../generation/GenerateResourcesFromImageSheet';
 import AddHomeworkSheet from '../homeworks/AddHomeworkSheet';
 import HomeworkCell from '../homeworks/HomeworkCell';
-import HomeworkView from '../homeworks/HomeworkView';
 import LearningUnitCell from '../learning_units/LearningUnitCell';
-import LearningUnitView from '../learning_units/LearningUnitView';
 import DeleteTopicAlert from './DeleteTopicAlert';
 import EditTopicSheet from './EditTopicSheet';
 
@@ -180,7 +175,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
   const navigateBack = () => entity.addTag(AdditionalTag.NAVIGATE_BACK);
   const openEditTopicSheet = () => lsc.stories.transitTo(Story.EDITING_TOPIC_STORY);
   const openDeleteTopicAlert = () => lsc.stories.transitTo(Story.DELETING_TOPIC_STORY);
-  const openAddFlashcardsSheet = () => lsc.stories.transitTo(Story.ADDING_FLASHCARD_SET_STORY);
+  const openAddFlashcardSetSheet = () => lsc.stories.transitTo(Story.ADDING_FLASHCARD_SET_STORY);
   const openAddHomeworkSheet = () => lsc.stories.transitTo(Story.ADDING_HOMEWORK_STORY);
 
   const saveNote = async () => {
@@ -226,7 +221,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
                   <ActionRow first icon={<IoAdd />} onClick={saveNote}>
                     {displayDataTypeTexts(selectedLanguage).note}
                   </ActionRow>
-                  <ActionRow icon={<IoAdd />} onClick={openAddFlashcardsSheet}>
+                  <ActionRow icon={<IoAdd />} onClick={openAddFlashcardSetSheet}>
                     {displayDataTypeTexts(selectedLanguage).flashcardSet}
                   </ActionRow>
                   <ActionRow icon={<IoAdd />} hasSpace onClick={openAddHomeworkSheet}>
@@ -325,7 +320,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
         </StyledTopicViewContainer>
       </View>
 
-      <EntityPropsMapper
+      {/* <EntityPropsMapper
         query={(e) => dataTypeQuery(e, DataType.LEARNING_UNIT) && e.has(Tags.SELECTED)}
         get={[[TitleFacet, TextFacet, IdentifierFacet, LearningUnitTypeFacet, PriorityFacet], []]}
         onMatch={LearningUnitView}
@@ -341,7 +336,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
         query={(e) => dataTypeQuery(e, DataType.EXERCISE) && e.has(Tags.SELECTED)}
         get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
         onMatch={ExerciseView}
-      />
+      /> */}
 
       <AddHomeworkSheet />
       <AddFlashcardSetSheet />

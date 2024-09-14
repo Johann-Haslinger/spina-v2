@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { EntityPropsMapper } from '@leanscope/ecs-engine';
-import { IdentifierFacet, Tags, TextFacet } from '@leanscope/ecs-models';
+import { IdentifierFacet, TextFacet } from '@leanscope/ecs-models';
 import { useContext } from 'react';
 import { IoArrowBack } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { DueDateFacet, LearningUnitTypeFacet, PriorityFacet, TitleFacet } from '../../../../app/additionalFacets';
+import { TitleFacet } from '../../../../app/additionalFacets';
 import { grid2 } from '../../../../assets';
 import { AdditionalTag, DataType, LearningUnitType, Story } from '../../../../base/enums';
 import { CollectionGrid, NavigationBar, SecondaryText, Spacer, Title, View } from '../../../../components';
@@ -14,11 +14,8 @@ import { useWindowDimensions } from '../../../../hooks/useWindowDimensions';
 import { dataTypeQuery, learningUnitTypeQuery } from '../../../../utils/queries';
 import { sortEntitiesByDateAdded } from '../../../../utils/sortEntitiesByTime';
 import InitializeBookmarkedResources from '../../systems/InitializeBookmarkedResources';
-import ExerciseView from '../exercises/ExerciseView';
 import HomeworkCell from '../homeworks/HomeworkCell';
-import HomeworkView from '../homeworks/HomeworkView';
 import LearningUnitCell from '../learning_units/LearningUnitCell';
-import LearningUnitView from '../learning_units/LearningUnitView';
 import BookmarkedFlashcardsCell from './BookmarkedFlashcardsCell';
 import BookmarkedFlashcardsView from './BookmarkedFlashcardsView';
 
@@ -129,24 +126,6 @@ const BookmarksView = () => {
           </StyledTopicResourcesWrapper>
         </StyledTopicViewContainer>
       </View>
-
-      <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataType.LEARNING_UNIT) && e.has(Tags.SELECTED)}
-        get={[[TitleFacet, TextFacet, IdentifierFacet, LearningUnitTypeFacet, PriorityFacet], []]}
-        onMatch={LearningUnitView}
-      />
-
-      <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataType.HOMEWORK) && e.has(Tags.SELECTED)}
-        get={[[TitleFacet, IdentifierFacet, TextFacet, DueDateFacet], []]}
-        onMatch={HomeworkView}
-      />
-
-      <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataType.EXERCISE) && e.has(Tags.SELECTED)}
-        get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
-        onMatch={ExerciseView}
-      />
 
       <BookmarkedFlashcardsView />
     </div>

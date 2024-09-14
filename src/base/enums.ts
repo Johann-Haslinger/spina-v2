@@ -251,7 +251,9 @@ export enum SupabaseColumn {
   PARENT_ID = 'parent_id',
   DUE_DATE = 'due_date',
 }
-
+export enum SupabaseEdgeFunction {
+  GENERATE_FLASHCARDS = 'generate-flashcards',
+}
 export enum FlashcardsNavigationState {
   OVERVIEW = 'overview',
   FLASHCARDS = 'flashcards',

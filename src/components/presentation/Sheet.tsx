@@ -30,6 +30,7 @@ const Sheet = (props: PropsWithChildren & SheetProps) => {
 
   const handleClickOutside = (e: MouseEvent) => {
     if (sheetRef.current && !sheetRef.current.contains(e.target as Node)) {
+      console.log('clikec outsiude');
       navigateBack();
     }
   };

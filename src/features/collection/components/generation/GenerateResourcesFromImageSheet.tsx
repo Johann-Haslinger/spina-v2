@@ -24,7 +24,6 @@ import { addLearningUnit } from '../../../../functions/addLeaningUnit';
 import { addText } from '../../../../functions/addText';
 import { useUserData } from '../../../../hooks/useUserData';
 import supabaseClient from '../../../../lib/supabase';
-import { getCompletion } from '../../../../utils/getCompletion';
 import { getBlockEntitiesFromText } from '../../../blockeditor/functions/getBlockEntitiesFromString';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
 import PreviewFlashcard from '../flashcard-sets/PreviewFlashcard';
@@ -151,11 +150,8 @@ const GenerateResourcesFromImageSheet = () => {
     }
 
     const generatedFlashcards: { answer: string; question: string }[] = JSON.parse(flashcardsData).cards;
-    const flashcardText = generatedFlashcards
-      .map((flashcard) => `${flashcard.question} - ${flashcard.answer}`)
-      .join('\n');
-    const newTitelInstruction = `Schreibe passend zu den folgenden Karteikarten eine Kurze Überschrift: ${flashcardText} `;
-    const newTitel = await getCompletion(newTitelInstruction);
+
+    const newTitel = 'Neuer Kartensatz';
 
     setTitle(newTitel);
     setFlashcards(generatedFlashcards);

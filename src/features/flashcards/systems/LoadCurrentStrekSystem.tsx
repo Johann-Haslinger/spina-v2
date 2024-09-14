@@ -39,7 +39,7 @@ const LoadCurrentStreakSystem = () => {
       const isStrekEntityAlreadyExisting = lsc.engine.entities.some((e) => e.has(StreakFacet));
 
       if (!isStrekEntityAlreadyExisting && currentStreak) {
-        const twoDaysAgo = new Date(new Date().setDate(new Date().getDate() - 2)).toISOString();
+        const twoDaysAgo = new Date(new Date().setDate(new Date().getDate() - 3)).toISOString();
 
         const streakEntity = new Entity();
         lsc.engine.addEntity(streakEntity);
