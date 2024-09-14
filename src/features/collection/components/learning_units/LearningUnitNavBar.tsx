@@ -1,7 +1,8 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
-import { EntityProps } from '@leanscope/ecs-engine';
+import { Entity, EntityProps } from '@leanscope/ecs-engine';
+import { IdentifierFacet } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
-import { MouseEvent as ButtonMouseEvent, useContext } from 'react';
+import { MouseEvent as ButtonMouseEvent, useContext, useState } from 'react';
 import {
   IoAdd,
   IoAlbumsOutline,
@@ -18,12 +19,12 @@ import {
   IoTrashOutline,
 } from 'react-icons/io5';
 import { LearningUnitTypeProps } from '../../../../app/additionalFacets';
-import { LearningUnitType, LearningUnitViews, Story } from '../../../../base/enums';
-import { useIsBookmarked } from '../../../../common/hooks/isBookmarked';
+import { AdditionalTag, LearningUnitType, LearningUnitViews, Story, SupabaseTable } from '../../../../base/enums';
 import { ActionRow, NavBarButton, NavigationBar } from '../../../../components';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import { useSelection } from '../../../../hooks/useSelection';
 import { useUserData } from '../../../../hooks/useUserData';
+import supabaseClient from '../../../../lib/supabase';
 import { displayActionTexts } from '../../../../utils/displayText';
 import { updateLearningUnitType } from '../../functions/updateLearningUnitType';
 
@@ -135,3 +136,31 @@ const LearningUnitNavBar = (props: EntityProps & LearningUnitTypeProps & Learnin
 };
 
 export default LearningUnitNavBar;
+
+const useIsBookmarked = (entity: Entity) => {
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
+  const toggleBookmark = async () => {
+    const newValue = !isBookmarked;
+    const id = entity.get(IdentifierFacet)?.props.guid;
+
+    setIsBookmarked(newValue);
+
+    if (newValue) {
+      entity.add(AdditionalTag.BOOKMARKED);
+    } else {
+      entity.remove(AdditionalTag.BOOKMARKED);
+    }
+
+    const { error } = await supabaseClient
+      .from(SupabaseTable.LEARNING_UNITS)
+      .update({ is_bookmarked: newValue })
+      .eq('id', id);
+
+    if (error) {
+      console.error('Error updating bookmark:', error);
+    }
+  };
+
+  return { isBookmarked, toggleBookmark };
+};

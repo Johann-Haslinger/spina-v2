@@ -14,6 +14,7 @@ export enum Story {
   OBSERVING_EXAMS_STORY = 'observingExamsStory',
   OBSERVING_PODCAST_STORY = 'observingPodcastStory',
   OBSERVING_BOOKMARKS_STORY = 'observingBookmarksStory',
+  OBSERVING_BOOKMARKED_FLASHCARDS_STORY = 'observingBookmarkedFlashcards',
   OBSERVING_BLOCKEDITOR_STORY = 'observingBlockeditorStory',
   OBSERVING_LERNING_GROUPS_STORY = 'observingLerningGroupsStory',
   OBSERVING_LERNING_GROUP_STORY = 'observingLerningGroupStory',

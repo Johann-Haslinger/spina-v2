@@ -131,7 +131,7 @@ export const dummyFlashcardSets = [
     id: v4(),
     title: 'Addition',
     date_added: new Date().toISOString(),
-    bookmarked: false,
+    is_bookmarked: false,
     parent_id: v4(),
     priority: 2,
   },
@@ -139,7 +139,7 @@ export const dummyFlashcardSets = [
     id: v4(),
     title: 'Subtraction',
     date_added: new Date().toISOString(),
-    bookmarked: false,
+    is_bookmarked: false,
     parent_id: v4(),
     priority: 0,
   },
@@ -147,7 +147,7 @@ export const dummyFlashcardSets = [
     id: v4(),
     title: 'Multiplication',
     date_added: new Date().toISOString(),
-    bookmarked: true,
+    is_bookmarked: true,
     parent_id: v4(),
     priority: 2,
   },
@@ -161,6 +161,7 @@ export const dummyFlashcards = [
     answer:
       'Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.',
     mastery_level: 1,
+    is_bookmarked: false,
   },
   {
     id: v4(),
@@ -169,15 +170,7 @@ export const dummyFlashcards = [
     answer:
       'Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.',
     mastery_level: 1,
-  },
-
-  {
-    id: v4(),
-    parent_id: v4(),
-    question: 'Lorem ipsum dolor sit amet?',
-    answer:
-      'Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.',
-    mastery_level: 1,
+    is_bookmarked: false,
   },
 
   {
@@ -187,6 +180,17 @@ export const dummyFlashcards = [
     answer:
       'Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.',
     mastery_level: 1,
+    is_bookmarked: true,
+  },
+
+  {
+    id: v4(),
+    parent_id: v4(),
+    question: 'Lorem ipsum dolor sit amet?',
+    answer:
+      'Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.',
+    mastery_level: 1,
+    is_bookmarked: false,
   },
 ];
 
@@ -225,7 +229,7 @@ export const dummySubtopics = [
     id: v4(),
     date_added: new Date().toISOString(),
     parent_id: v4(),
-    bookmarked: false,
+    is_bookmarked: false,
     priority: 1,
   },
   {
@@ -233,7 +237,7 @@ export const dummySubtopics = [
     id: v4(),
     date_added: new Date().toISOString(),
     parent_id: v4(),
-    bookmarked: true,
+    is_bookmarked: true,
     priority: 0,
   },
   {
@@ -241,7 +245,7 @@ export const dummySubtopics = [
     id: v4(),
     date_added: new Date().toISOString(),
     parent_id: v4(),
-    bookmarked: false,
+    is_bookmarked: false,
     priority: 0,
   },
 ];

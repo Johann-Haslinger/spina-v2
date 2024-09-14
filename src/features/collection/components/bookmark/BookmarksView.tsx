@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { EntityPropsMapper } from '@leanscope/ecs-engine';
 import { IdentifierFacet, Tags, TextFacet } from '@leanscope/ecs-models';
-import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext } from 'react';
 import { IoArrowBack } from 'react-icons/io5';
 import tw from 'twin.macro';
@@ -10,6 +9,7 @@ import { DueDateFacet, LearningUnitTypeFacet, PriorityFacet, TitleFacet } from '
 import { grid2 } from '../../../../assets';
 import { AdditionalTag, DataType, LearningUnitType, Story } from '../../../../base/enums';
 import { CollectionGrid, NavigationBar, SecondaryText, Spacer, Title, View } from '../../../../components';
+import { useIsAnyStoryCurrent } from '../../../../hooks/useIsAnyStoryCurrent';
 import { useWindowDimensions } from '../../../../hooks/useWindowDimensions';
 import { dataTypeQuery, learningUnitTypeQuery } from '../../../../utils/queries';
 import { sortEntitiesByDateAdded } from '../../../../utils/sortEntitiesByTime';
@@ -19,6 +19,8 @@ import HomeworkCell from '../homeworks/HomeworkCell';
 import HomeworkView from '../homeworks/HomeworkView';
 import LearningUnitCell from '../learning_units/LearningUnitCell';
 import LearningUnitView from '../learning_units/LearningUnitView';
+import BookmarkedFlashcardsCell from './BookmarkedFlashcardsCell';
+import BookmarkedFlashcardsView from './BookmarkedFlashcardsView';
 
 const StyledTopAreaWrapper = styled.div<{ image: string; grid: boolean }>`
   ${tw`w-full  top-0 z-0 mt-14 xl:mt-0  bg-cover  xl:bg-fixed h-64 md:h-[16rem] xl:h-96 2xl:h-[24rem]  flex`}
@@ -52,7 +54,10 @@ const StyledTopicViewContainer = styled.div`
 
 const BookmarksView = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Story.OBSERVING_BOOKMARKS_STORY);
+  const isVisible = useIsAnyStoryCurrent([
+    Story.OBSERVING_BOOKMARKS_STORY,
+    Story.OBSERVING_BOOKMARKED_FLASHCARDS_STORY,
+  ]);
   const { width } = useWindowDimensions();
 
   const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_COLLECTION_STORY);
@@ -102,6 +107,7 @@ const BookmarksView = () => {
             </CollectionGrid>
 
             <CollectionGrid columnSize="small">
+              <BookmarkedFlashcardsCell />
               <EntityPropsMapper
                 query={(e) =>
                   learningUnitTypeQuery(e, LearningUnitType.FLASHCARD_SET) && e.has(AdditionalTag.BOOKMARKED)
@@ -141,6 +147,8 @@ const BookmarksView = () => {
         get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
         onMatch={ExerciseView}
       />
+
+      <BookmarkedFlashcardsView />
     </div>
   );
 };

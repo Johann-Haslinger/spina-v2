@@ -4,7 +4,7 @@ import { IdentifierFacet, ParentFacet, Tags } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { AnswerFacet, MasteryLevelFacet, QuestionFacet } from '../../../app/additionalFacets';
 import { dummyFlashcards } from '../../../base/dummy';
-import { DataType, SupabaseColumn, SupabaseTable } from '../../../base/enums';
+import { AdditionalTag, DataType, SupabaseColumn, SupabaseTable } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 import { dataTypeQuery } from '../../../utils/queries';
@@ -12,7 +12,7 @@ import { dataTypeQuery } from '../../../utils/queries';
 const fetchFlashcardsForFlashcardGroup = async (parentId: string) => {
   const { data: flashcards, error } = await supabaseClient
     .from(SupabaseTable.FLASHCARDS)
-    .select('question, id, answer, mastery_level')
+    .select('question, id, answer, mastery_level, is_bookmarked')
     .eq(SupabaseColumn.PARENT_ID, parentId);
 
   if (error) {
@@ -54,6 +54,10 @@ const LoadFlashcardsSystem = () => {
             flashcardEntity.add(new AnswerFacet({ answer: flashcard.answer }));
             flashcardEntity.add(new ParentFacet({ parentId: selectedFlashcardGroupId }));
             flashcardEntity.addTag(DataType.FLASHCARD);
+
+            if (flashcard.is_bookmarked) {
+              flashcardEntity.addTag(AdditionalTag.BOOKMARKED);
+            }
           }
         });
       }

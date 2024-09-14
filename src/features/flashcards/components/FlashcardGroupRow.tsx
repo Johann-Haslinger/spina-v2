@@ -20,7 +20,6 @@ const StyledSelect = styled.select<{ value: LearningUnitPriority }>`
         return COLOR_ITEMS[1].color + 40;
       case LearningUnitPriority.MAINTAINING:
         return COLOR_ITEMS[2].color + 40;
-      ;
     }
   }};
   ${({ value }) => value === LearningUnitPriority.PAUSED && tw` bg-tertiary dark:bg-tertiaryDark`}

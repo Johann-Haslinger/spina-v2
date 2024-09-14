@@ -11,7 +11,11 @@ export const updateLearningUnitType = async (entity: Entity, userId: string, typ
 
   const { error } = await supabaseClient
     .from(SupabaseTable.LEARNING_UNITS)
-    .update({ type: LearningUnitType[type], user_id: userId, priority: LearningUnitPriority[LearningUnitPriority.ACTIVE] })
+    .update({
+      type: LearningUnitType[type],
+      user_id: userId,
+      priority: LearningUnitPriority[LearningUnitPriority.ACTIVE],
+    })
     .eq('id', id);
 
   if (error) {

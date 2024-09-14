@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
-import { EntityProps } from '@leanscope/ecs-engine';
-import { IdentifierProps } from '@leanscope/ecs-models';
+import { Entity, EntityProps } from '@leanscope/ecs-engine';
+import { IdentifierFacet, IdentifierProps } from '@leanscope/ecs-models';
 import { useContext, useState } from 'react';
 import { IoBookmark, IoBookmarkOutline, IoTrashOutline } from 'react-icons/io5';
 import tw from 'twin.macro';
@@ -28,7 +28,6 @@ import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../../lib/supabase';
 import { displayActionTexts, displayButtonTexts } from '../../../../utils/displayText';
-import { useIsBookmarked } from '../../../../common/hooks/isBookmarked';
 
 const StyledMasteryLevelText = styled.div`
   ${tw`lg:pl-10 px-4 dark:text-primaryTextDark`}
@@ -129,3 +128,31 @@ const EditFlashcardSheet = (props: QuestionProps & AnswerProps & MasteryLevelPro
 };
 
 export default EditFlashcardSheet;
+
+const useIsBookmarked = (entity: Entity) => {
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
+  const toggleBookmark = async () => {
+    const newValue = !isBookmarked;
+    const id = entity.get(IdentifierFacet)?.props.guid;
+
+    setIsBookmarked(newValue);
+
+    if (newValue) {
+      entity.add(AdditionalTag.BOOKMARKED);
+    } else {
+      entity.remove(AdditionalTag.BOOKMARKED);
+    }
+
+    const { error } = await supabaseClient
+      .from(SupabaseTable.FLASHCARDS)
+      .update({ is_bookmarked: newValue })
+      .eq('id', id);
+    console.log('update bookmark', newValue);
+    if (error) {
+      console.error('Error updating bookmark:', error);
+    }
+  };
+
+  return { isBookmarked, toggleBookmark };
+};
