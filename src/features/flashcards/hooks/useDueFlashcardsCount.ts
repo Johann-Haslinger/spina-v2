@@ -13,7 +13,7 @@ const fetchDueFlashcards = async () => {
 
   const { data, error } = await supabaseClient
     .from(SupabaseTable.FLASHCARDS)
-    .select('bookmarked')
+    .select('is_bookmarked')
     .lte('due_date', currentDateTime);
 
   if (error) {

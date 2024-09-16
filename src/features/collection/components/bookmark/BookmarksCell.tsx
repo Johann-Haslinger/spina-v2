@@ -8,7 +8,7 @@ import { Story } from '../../../../base/enums';
 
 const StyledCellWrapper = styled.div`
   ${tw`  w-full flex  cursor-pointer  items-center justify-center pr-3 text-8xl md:hover:text-9xl md:hover:scale-105  transition-all h-40`}
-  background-color: ${COLOR_ITEMS[1].backgroundColor};
+  background-color: ${COLOR_ITEMS[1].color + 90};
   color: ${COLOR_ITEMS[1].color};
 `;
 

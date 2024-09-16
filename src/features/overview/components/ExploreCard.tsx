@@ -2,11 +2,11 @@ import styled from '@emotion/styled';
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext } from 'react';
-import { IoChevronForward, IoClose, IoReader } from 'react-icons/io5';
+import { IoChevronForward, IoReader } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { dummyBase64Image } from '../../../base/dummyBase64Image';
 import { Story } from '../../../base/enums';
-import { Sheet, Spacer } from '../../../components';
+import { CloseButton, FlexBox, ScrollableBox, Sheet, Spacer } from '../../../components';
 
 const StyledCardWrapper = styled.div`
   ${tw`w-full h-[28rem]  py-4 rounded-2xl bg-[#668FE8] bg-opacity-15`}
@@ -46,12 +46,8 @@ const StyledReadMore = styled.div`
   ${tw`flex w-fit hover:opacity-50 cursor-pointer transition-all space-x-2 text-[#668FE8] items-center mt-6`}
 `;
 
-const StyledCloseButton = styled.button`
-  ${tw`text-lg mt-2 text-seconderyText dark:bg-tertiaryDark hover:opacity-50 transition-all dark:text-seconderyTextDark bg-tertiary p-2 rounded-full`}
-`;
-
 const StyledSheetTitle = styled.p`
-  ${tw`text-2xl 2xl:text-3xl xl:w-2/3 2xl:w-1/2 font-bold`}
+  ${tw`text-2xl lg:text-3xl 2xl:text-4xl xl:w-2/3  font-bold`}
 `;
 
 const ExploreCard = () => {
@@ -90,11 +86,83 @@ const ExploreCard = () => {
       </StyledCardWrapper>
 
       <Sheet visible={isSheetVisible} navigateBack={closeSheet}>
-        <StyledCloseButton onClick={closeSheet}>
-          <IoClose />
-        </StyledCloseButton>
-        <Spacer size={8} />
-        <StyledSheetTitle>🚀 Spaced Repetition und Active Recall: Die Superkräfte im Lernprozess </StyledSheetTitle>
+        <FlexBox>
+          <div />
+          <CloseButton onClick={closeSheet} />
+        </FlexBox>
+        <Spacer />
+        <ScrollableBox>
+          {' '}
+          <div tw="xl:w-2/3 lg:w-4/5 mx-auto w-full lg:pt-10 xl:pt-20">
+            <StyledSheetTitle>🚀 Spaced Repetition und Active Recall: Die Superkräfte im Lernprozess </StyledSheetTitle>
+            <Spacer />
+            <p tw=" text-seconderyText dark:text-seconderyTextDark xl:text-lg">12. Dezember 2023</p>
+            <Spacer />
+            <div tw="xl:text-lg">
+              Lernen kann manchmal wie eine unüberwindbare Herausforderung erscheinen, besonders wenn es um große Mengen
+              an Informationen geht. Aber was, wenn es Methoden gäbe, die das Lernen nicht nur effektiver, sondern auch
+              angenehmer machen könnten? Genau hier kommen Spaced Repetition und Active Recall ins Spiel – zwei
+              Superkräfte im Lernprozess, die insbesondere bei der Verwendung von Karteikarten ihre volle Wirkung
+              entfalten.
+              <br />
+              <br />
+              <b>Warum sind diese Strategien so wirkungsvoll?</b>
+              <br />
+              <br />
+              <b>1. Spaced Repetition: Die Kunst des zeitlichen Lernens</b> <br />
+              Spaced Repetition ist eine Lernmethode, bei der Informationen über einen bestimmten Zeitraum hinweg
+              wiederholt werden. Das Besondere daran ist der zunehmende Abstand zwischen den Wiederholungen. Stell dir
+              vor, du lernst heute etwas Neues. Anstatt es morgen wieder zu wiederholen, tust du es vielleicht in drei
+              Tagen, dann in einer Woche und so weiter. Dieses Vorgehen nutzt einen psychologischen Effekt namens
+              "Vergessenskurve", der besagt, dass wir Informationen mit der Zeit vergessen, es sei denn, wir wiederholen
+              sie in zunehmenden Abständen. Durch diese Methode verankern sich Informationen tiefer im
+              Langzeitgedächtnis, was zu einer nachhaltigeren Erinnerung führt.
+              <br />
+              <br />
+              <b>2. Active Recall: Aktiv statt passiv</b>
+              <br />
+              Beim Active Recall geht es darum, sich aktiv an Informationen zu erinnern, anstatt sie passiv zu
+              überfliegen. Das bedeutet, du stellst dir selbst Fragen zu dem, was du gelernt hast, und versuchst, die
+              Antworten aus dem Gedächtnis zu reproduzieren. Diese Technik fördert nicht nur die Erinnerungsfähigkeit,
+              sondern hilft auch dabei, Verbindungen zwischen verschiedenen Konzepten herzustellen. Es ist, als würdest
+              du deinem Gehirn ein Workout geben, wodurch es stärker und geschickter im Umgang mit Informationen wird.
+              <br />
+              <br />
+              <b>Karteikarten: Die perfekte Kombination</b>
+              <br />
+              Karteikarten sind ein klassisches und einfaches Werkzeug, das diese beiden Techniken perfekt vereint. Auf
+              der einen Seite der Karte steht eine Frage oder ein Schlüsselbegriff, auf der anderen die Antwort oder
+              Erklärung. Beim Durchgehen der Karten nutzt du Active Recall, um dich an die Antwort zu erinnern, und
+              Spaced Repetition, indem du die Karten in regelmäßigen, sich erhöhenden Abständen durchgehst. So wird jede
+              Lernsession zu einer effektiven Mischung aus Herausforderung und Wiederholung, was die Merkfähigkeit enorm
+              steigert.
+              <br />
+              <br />
+              <b>Für Schüler: Entdeckt das Potenzial digitaler Lernwerkzeuge</b>
+              <br />
+              In einer Welt, in der digitale Technologien zunehmend an Bedeutung gewinnen, eröffnen sich auch für das
+              Lernen neue Horizonte. Apps, die auf Spaced Repetition und Active Recall basieren, bieten eine moderne
+              Interpretation der traditionellen Karteikarten-Methode. Sie ermöglichen es euch, Lerninhalte effizient und
+              strukturiert zu wiederholen, und passen sich sogar eurem individuellen Lernfortschritt an. Diese Art des
+              Lernens ist nicht nur für das kurzfristige Pauken für Prüfungen nützlich, sondern fördert auch das
+              langfristige Behalten von Wissen.
+              <br />
+              <br />
+              Stellt euch vor, ihr habt eine App, die euch intelligent daran erinnert, was und wann ihr wiederholen
+              solltet, basierend darauf, wie gut ihr die Inhalte beim letzten Mal beherrscht habt. Dies nimmt euch die
+              Last, selbst einen Lernplan zu erstellen und sorgt für eine effizientere Nutzung eurer Lernzeit. Solche
+              Apps sind wie persönliche Trainer für euer Gehirn, die euch dabei helfen, eure Lernziele schneller und mit
+              weniger Aufwand zu erreichen. Und dass ist alles das, was mit Spina möglich ist.
+              <br />
+              <br />
+              Zusammenfassend sind Spaced Repetition und Active Recall mächtige Werkzeuge in eurem Lernarsenal. Ihre
+              Integration in moderne Lern-Apps wie Spina bringt euch nicht nur bei, wie man effektiv lernt, sondern
+              macht den Prozess auch interaktiver und ansprechender. Nutzt die Vorteile dieser Methoden und erlebt, wie
+              euer Lernen dynamischer, personalisierter und letztlich erfolgreicher wird. Probiert es aus und entdeckt,
+              wie ihr euer Lernen auf das nächste Level bringen könnt!
+            </div>
+          </div>
+        </ScrollableBox>
       </Sheet>
     </div>
   );

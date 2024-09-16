@@ -124,7 +124,11 @@ const LearningUnitNavBar = (props: EntityProps & LearningUnitTypeProps & Learnin
                 ? displayActionTexts(selectedLanguage).unbookmark
                 : displayActionTexts(selectedLanguage).bookmark}
             </ActionRow>
-            <ActionRow icon={<IoShareOutline/>} onClick={exportLearningUnit}>Exportieren</ActionRow>
+            {currentView == LearningUnitViews.NOTE && (
+              <ActionRow icon={<IoShareOutline />} onClick={exportLearningUnit}>
+                Exportieren
+              </ActionRow>
+            )}
             {/* <ActionRow icon={<IoArrowUpCircleOutline />} onClick={openAddResourceToLerningGroupSheet}>
               {displayActionTexts(selectedLanguage).addToLearningGroup}
             </ActionRow> */}

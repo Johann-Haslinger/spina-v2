@@ -1,2 +1,2 @@
 export * from './updateLearningUnitPriority';
-export * from './generatePdf'
+export * from './generatePdf';

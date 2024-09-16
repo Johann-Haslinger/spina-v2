@@ -30,7 +30,7 @@ const useFileUrl = () => {
       if (!selectedFilePath) return;
 
       const publicUrl = await fetchFileUrl(selectedFilePath);
-      console.log('publicUrl', publicUrl);
+
       setUrl(publicUrl);
     };
 

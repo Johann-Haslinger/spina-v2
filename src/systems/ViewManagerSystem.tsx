@@ -3,7 +3,6 @@ import { Tags } from '@leanscope/ecs-models';
 import { Fragment, useEffect, useState } from 'react';
 import { AdditionalTag, DataType, Story } from '../base/enums';
 
-import { MEDIUM_DEVICE_WIDTH } from '../base/constants';
 import { SucessSheet } from '../components';
 import { useAppState } from '../features/collection/hooks/useAppState';
 import { useSelectedPodcast } from '../features/collection/hooks/useSelectedPodcast';
@@ -77,7 +76,7 @@ const ViewManagerSystem = () => {
   const { backgroundColor } = useSelectedSchoolSubjectColor();
   const { isChatSheetVisible } = useCurrentSapientorConversation();
   const { isSidebarVisible } = useAppState();
-  const { width } = useWindowDimensions();
+  const { isMobile } = useWindowDimensions();
   const { selectedPodcastEntity } = useSelectedPodcast();
   const [selectedFlashcardEntity] = useEntity((e) => dataTypeQuery(e, DataType.FLASHCARD) && e.hasTag(Tags.SELECTED));
 
@@ -94,13 +93,13 @@ const ViewManagerSystem = () => {
   }, [isSheetViewVisible, selectedPodcastEntity, selectedFlashcardEntity]);
 
   useEffect(() => {
-    if (isSidebarVisible && width < MEDIUM_DEVICE_WIDTH) {
+    if (isSidebarVisible && isMobile) {
       if (isDarkMode) {
         setThemeColor('#1a1a1a');
       } else {
         setThemeColor('#ffffff');
       }
-    } else if (width < MEDIUM_DEVICE_WIDTH) {
+    } else if (isMobile) {
       if (isDarkMode) {
         setThemeColor('#000000');
       } else {
@@ -122,7 +121,7 @@ const ViewManagerSystem = () => {
   }, [isChatSheetVisible]);
 
   useEffect(() => {
-    if (isQuizViewVisible) {
+    if (isQuizViewVisible && !isDarkMode) {
       setThemeColor(backgroundColor);
     } else {
       if (isDarkMode) {

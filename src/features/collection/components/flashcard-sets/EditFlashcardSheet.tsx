@@ -148,7 +148,7 @@ const useIsBookmarked = (entity: Entity) => {
       .from(SupabaseTable.FLASHCARDS)
       .update({ is_bookmarked: newValue })
       .eq('id', id);
-    console.log('update bookmark', newValue);
+
     if (error) {
       console.error('Error updating bookmark:', error);
     }

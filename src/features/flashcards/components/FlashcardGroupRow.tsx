@@ -13,7 +13,7 @@ const StyledRowWrapper = styled.div`
 `;
 
 const StyledSelect = styled.select<{ value: LearningUnitPriority }>`
-  ${tw`rounded-lg h-fit text-sm pl-1 py-0.5 outline-none`}
+  ${tw`rounded-lg text-sm pl-1 py-1 outline-none`}
   background-color: ${({ value }) => {
     switch (value) {
       case LearningUnitPriority.ACTIVE:
@@ -33,7 +33,7 @@ const FlashcardGroupRow = (props: TitleProps & PriorityProps & EntityProps) => {
 
   return (
     <StyledRowWrapper>
-      <div tw=" hover:underline " onClick={openFlashcardGroup}>
+      <div tw=" hover:underline line-clamp-1 pr-2 " onClick={openFlashcardGroup}>
         {title}
       </div>
       <StyledSelect

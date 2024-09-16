@@ -80,7 +80,6 @@ const useImageSelector = () => {
         newImagePromptEntity.add(new SourceFacet({ source: base64 }));
         newImagePromptEntity.add(AdditionalTag.GENERATE_FROM_IMAGE_PROMPT);
 
-        console.log('newImagePromptEntity', newImagePromptEntity);
         lsc.stories.transitTo(Story.GENERATING_RESOURCES_FROM_IMAGE);
       };
       reader.readAsDataURL(file);

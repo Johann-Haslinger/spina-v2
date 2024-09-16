@@ -7,7 +7,7 @@ import { Story } from '../../../base/enums';
 import { useDueFlashcardsCount } from '../../flashcards/hooks/useDueFlashcardsCount';
 
 const StyledCardWrapper = styled.div`
-  ${tw`w-full h-[12rem] p-4 flex flex-col justify-between rounded-2xl bg-[#397A45] bg-opacity-15`}
+  ${tw`w-full h-[12rem] p-4 flex flex-col justify-between rounded-2xl bg-[#397A45] dark:bg-opacity-20 bg-opacity-15`}
 `;
 
 const StyledFlexContainer = styled.div`

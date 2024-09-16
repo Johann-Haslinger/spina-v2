@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
-import { Entity, EntityPropsMapper } from '@leanscope/ecs-engine';
+import { Entity, EntityPropsMapper, useEntities } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet, Tags, TextFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect, useState } from 'react';
 import tw from 'twin.macro';
@@ -11,15 +11,15 @@ import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 import { sortEntitiesByDateAdded } from '../../../utils/sortEntitiesByTime';
 
+import { dataTypeQuery, learningUnitTypeQuery } from '../../../utils/queries';
 import LearningUnitView from '../../collection/components/learning_units/LearningUnitView';
 import FlashcardGroupRow from './FlashcardGroupRow';
-import { dataTypeQuery, learningUnitTypeQuery } from '../../../utils/queries';
 
 enum FlashcardGroupFilter {
   ALL = -1,
-  ACTIV = LearningUnitPriority.ACTIVE,
-  MAINTAINING = LearningUnitPriority.MAINTAINING,
-  PASUED = LearningUnitPriority.PAUSED,
+  ACTIV = 1,
+  MAINTAINING = 2,
+  PASUED = 0,
 }
 
 const StyledTabBar = styled.div`
@@ -44,6 +44,9 @@ const StyledLabel = styled.div`
 
 const FlashcardGroupTable = () => {
   const [currentFilter, setCurrentFilter] = useState(FlashcardGroupFilter.ALL);
+  const [flashcardGroupEntities] = useEntities(
+    (e) => learningUnitTypeQuery(e, LearningUnitType.FLASHCARD_SET) || learningUnitTypeQuery(e, LearningUnitType.MIXED),
+  );
 
   return (
     <div tw="w-full overflow-hidden">
@@ -88,15 +91,21 @@ const FlashcardGroupTable = () => {
         </div>
       </StyledSegmentedControl>
       <div tw="min-h-96 space-y-2">
-        <EntityPropsMapper
-          query={(e) =>
-            learningUnitTypeQuery(e, LearningUnitType.FLASHCARD_SET) || learningUnitTypeQuery(e, LearningUnitType.MIXED)
-          }
-          filter={(e) => (currentFilter !== FlashcardGroupFilter.ALL ? currentFilter == e.priority.valueOf() : true)}
-          sort={sortEntitiesByDateAdded}
-          get={[[TitleFacet, PriorityFacet], []]}
-          onMatch={FlashcardGroupRow}
-        />
+        {flashcardGroupEntities
+          .filter(
+            (e) =>
+              currentFilter == FlashcardGroupFilter.ALL ||
+              currentFilter == e.get(PriorityFacet)?.props.priority.valueOf(),
+          )
+          .sort(sortEntitiesByDateAdded)
+          .map((entity, idx) => (
+            <FlashcardGroupRow
+              entity={entity}
+              title={entity.get(TitleFacet)?.props.title || ''}
+              priority={entity.get(PriorityFacet)?.props.priority || 0}
+              key={idx}
+            />
+          ))}
       </div>
 
       <EntityPropsMapper
@@ -124,7 +133,6 @@ const fetchRecentlyAddedLearningUnits = async () => {
     console.error('Error fetching recently added flashcard sets', error);
     return [];
   }
-  console.log('data', data);
 
   return data || [];
 };

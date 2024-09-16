@@ -22,7 +22,7 @@ export const addFileToLearningUnit = async (
   const parentId = entity.get(IdentifierFacet)?.props.guid;
   const id = v4();
   const cleanedFileName = uploaded.file.name.replace(/\s+/g, '_');
-  console.log('cleanedFileName', cleanedFileName);
+
   const path = `learning_unit_${parentId}/${cleanedFileName}`;
 
   if (!parentId) return;
@@ -45,11 +45,9 @@ export const addFileToLearningUnit = async (
     return;
   }
 
-  const { data, error } = await supabaseClient.storage
+  const { error } = await supabaseClient.storage
     .from(SupabaseStorageBucket.LEARNING_UNIT_FILES)
     .upload(path, uploaded.file);
-
-  console.log('data', data);
 
   if (error) {
     console.error('Upload failed:', error);
