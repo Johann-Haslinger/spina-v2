@@ -4,7 +4,7 @@ import { AdditionalTag, SupportedTheme } from '../../../base/enums';
 
 export const useSelectedTheme = () => {
   const [appStateEntity] = useEntity((e) => e.has(AdditionalTag.APP_STATE_ENTITY));
-  const [isDarkModeAktiv] = useEntityHasTags(appStateEntity, SupportedTheme.DARK);
+  const [isDarkModeActive] = useEntityHasTags(appStateEntity, SupportedTheme.DARK);
 
   const changeTheme = (theme: SupportedTheme) => {
     if (theme === SupportedTheme.DARK) {
@@ -18,5 +18,5 @@ export const useSelectedTheme = () => {
     }
   };
 
-  return { isDarkModeAktive: isDarkModeAktiv, changeTheme };
+  return { isDarkModeActive, changeTheme };
 };

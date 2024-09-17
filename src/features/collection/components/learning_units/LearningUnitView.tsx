@@ -8,7 +8,6 @@ import { useContext, useEffect, useState } from 'react';
 import tw from 'twin.macro';
 import {
   AnswerFacet,
-  FileFacet,
   FilePathFacet,
   LearningUnitTypeProps,
   MasteryLevelFacet,
@@ -174,7 +173,7 @@ const LearningUnitView = (
 
       <EntityPropsMapper
         query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataType.FILE) && e.hasTag(Tags.SELECTED)}
-        get={[[FileFacet, TitleFacet, UrlFacet], []]}
+        get={[[TitleFacet, UrlFacet, FilePathFacet], []]}
         onMatch={FileViewer}
       />
 

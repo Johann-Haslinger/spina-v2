@@ -23,9 +23,21 @@ export const addFileToLearningUnit = async (
   const id = v4();
   const cleanedFileName = uploaded.file.name.replace(/\s+/g, '_');
 
-  const path = `learning_unit_${parentId}/${cleanedFileName}`;
+  const path = `${userId}/learning_unit_${parentId}/${cleanedFileName}`;
 
   if (!parentId) return;
+
+  const { data: uploadFileData, error } = await supabaseClient.storage
+    .from(SupabaseStorageBucket.LEARNING_UNIT_FILES)
+    .upload(path, uploaded.file);
+
+  if (error) {
+    console.error('Upload failed:', error);
+    return;
+  }
+  console.log('uploadFileData', uploadFileData);
+
+  if (!uploadFileData.path) return;
 
   const newFileEntity = new Entity();
   lsc.engine.addEntity(newFileEntity);
@@ -33,24 +45,15 @@ export const addFileToLearningUnit = async (
   newFileEntity.add(new ParentFacet({ parentId: parentId }));
   newFileEntity.add(new TypeFacet({ type: uploaded.type }));
   newFileEntity.add(new TitleFacet({ title: cleanedFileName }));
-  newFileEntity.add(new FilePathFacet({ filePath: path }));
+  newFileEntity.add(new FilePathFacet({ filePath: uploadFileData?.path }));
   newFileEntity.add(DataType.FILE);
 
   const { error: insertError } = await supabaseClient
     .from(SupabaseTable.LEARNING_UNIT_FILES)
-    .insert([{ file_path: path, parent_id: parentId, id, user_id: userId, title: cleanedFileName }]);
+    .insert([{ file_path: uploadFileData?.path, parent_id: parentId, id, user_id: userId, title: cleanedFileName }]);
 
   if (insertError) {
     console.error('Error saving file metadata:', insertError);
-    return;
-  }
-
-  const { error } = await supabaseClient.storage
-    .from(SupabaseStorageBucket.LEARNING_UNIT_FILES)
-    .upload(path, uploaded.file);
-
-  if (error) {
-    console.error('Upload failed:', error);
     return;
   }
 };

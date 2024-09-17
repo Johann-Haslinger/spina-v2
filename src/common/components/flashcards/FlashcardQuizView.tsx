@@ -195,7 +195,7 @@ const FlashcardQuizView = () => {
   const { selectedFlashcardGroupTitle } = useSeletedFlashcardGroup();
   const { userId } = useUserData();
   const { dueFlashcardEntity, dueFlashcardsCount } = useDueFlashcards();
-  const { isDarkModeAktive } = useSelectedTheme();
+  const { isDarkModeActive: isDarkModeAktive } = useSelectedTheme();
 
   useEffect(() => {
     if (isVisible) {
@@ -531,7 +531,7 @@ const FlashcardCell = (props: {
   const question = flashcardEntity.get(QuestionFacet)?.props.question;
   const answer = flashcardEntity.get(AnswerFacet)?.props.answer;
   const { color } = useSelectedSchoolSubjectColor();
-  const { isDarkModeAktive } = useSelectedTheme();
+  const { isDarkModeActive: isDarkModeAktive } = useSelectedTheme();
 
   useEffect(() => {
     if (isCurrent) {

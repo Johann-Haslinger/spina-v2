@@ -18,12 +18,12 @@ import {
 } from '../../../app/additionalFacets';
 import { AdditionalTag, DataType, ResoruceStatus, SupabaseTable } from '../../../base/enums';
 import { useDaysUntilDue } from '../../../hooks/useDaysUntilDue';
+import supabaseClient from '../../../lib/supabase';
 import { dataTypeQuery } from '../../../utils/queries';
 import { sortEntitiesByDueDate } from '../../../utils/sortEntitiesByTime';
 import { useSelectedTheme } from '../../collection/hooks/useSelectedTheme';
 import InitializeExamsSystem from '../../exams/systems/InitializeExamsSystem';
 import InitializeHomeworksSystem from '../../homeworks/systems/InitializeHomeworksSystem';
-import supabaseClient from '../../../lib/supabase';
 
 const StyledCardWrapper = styled.div`
   ${tw`w-full h-fit md:h-[28rem] overflow-y-scroll p-4 pr-0 rounded-2xl bg-[#A3CB63] bg-opacity-15`}
@@ -147,7 +147,7 @@ const PendingResourceRow = (props: TitleProps & StatusProps & DueDateProps & Ent
   const lsc = useContext(LeanScopeClientContext);
   const { title, status, entity, relationship, dueDate } = props;
   const daysUntilDue = useDaysUntilDue(entity, dueDate);
-  const { isDarkModeAktive } = useSelectedTheme();
+  const { isDarkModeActive: isDarkModeAktive } = useSelectedTheme();
   const isDone = [4, 3].includes(status || 0);
   const isDisplayed = useIsDisplayed(isDone);
   const [isHovered, setIsHovered] = useState(false);

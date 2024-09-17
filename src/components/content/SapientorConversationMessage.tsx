@@ -3,10 +3,10 @@ import { motion } from 'framer-motion';
 import { ReactNode, useEffect, useState } from 'react';
 import tw from 'twin.macro';
 import { COLOR_ITEMS } from '../../base/constants';
+import { ConversationMessage, Suggestion } from '../../base/types';
 import { useSelectedTheme } from '../../features/collection/hooks/useSelectedTheme';
 import Spacer from '../layout/Spacer';
 import TypingAnimationInnerHTML from './TypingAnimationInnerHTML';
-import { ConversationMessage, Suggestion } from '../../base/types';
 
 const StyledMessageHeader = styled.div`
   ${tw`flex items-center space-y-1 space-x-3`}
@@ -37,7 +37,7 @@ const SapientorConversationMessage = (props: {
 }) => {
   const { message, onWritingAnimationPlayed, isLoading } = props;
   const [additionalContent, setAdditionalContent] = useState<ReactNode>(null);
-  const { isDarkModeAktive: isDarkMode } = useSelectedTheme();
+  const { isDarkModeActive: isDarkMode } = useSelectedTheme();
   const [sugesstions, setSugesstions] = useState<Suggestion[]>([]);
 
   useEffect(() => {

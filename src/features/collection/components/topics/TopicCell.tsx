@@ -40,7 +40,7 @@ const TopicCell = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
   const { isSidebarVisible } = useAppState();
   const { selectedLanguage } = useSelectedLanguage();
   const [isGeneratingImage] = useEntityHasTags(entity, AdditionalTag.GENERATING);
-  const { isDarkModeAktive: isDarkModeAktiv } = useSelectedTheme();
+  const { isDarkModeActive: isDarkModeAktiv } = useSelectedTheme();
 
   const handleOpenTopic = () => {
     if (!isSidebarVisible && !isGeneratingImage) {
