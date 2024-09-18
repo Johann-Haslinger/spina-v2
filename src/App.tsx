@@ -27,9 +27,9 @@ const StyledContentWrapper = styled.div`
 `;
 
 function App() {
-  const { session } = useSession();
+  const { isLoggedIn } = useSession();
 
-  return !session ? (
+  return isLoggedIn == false ? (
     <AuthUI />
   ) : (
     <StyledContentWrapper>

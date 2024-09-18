@@ -4,9 +4,11 @@ import { Tags } from '@leanscope/ecs-models';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { IoFileTray } from 'react-icons/io5';
+import Skeleton from 'react-loading-skeleton';
 import tw from 'twin.macro';
 import { DateAddedFacet, TitleFacet, TitleProps } from '../../../app/additionalFacets';
 import { DataType } from '../../../base/enums';
+import { useIsLoadingIndicatorVisible } from '../../../common/hooks/useIsLoadingIndicatorVisible';
 import { dataTypeQuery } from '../../../utils/queries';
 import { sortEntitiesByDateAdded } from '../../../utils/sortEntitiesByTime';
 import { useFormattedDateAdded } from '../../collection/hooks/useFormattedDateAdded';
@@ -30,6 +32,7 @@ const StyledInfoText = styled.div`
 
 const NewResourcesCard = () => {
   const { hasNewResources, sevenDaysAgo } = useNewResources();
+  const isLoadingIndicatorVisible = useIsLoadingIndicatorVisible();
 
   return (
     <div>
@@ -40,18 +43,29 @@ const NewResourcesCard = () => {
           <IoFileTray />
           <StyledText>Neu hinzugefügt</StyledText>
         </StyledFlexContainer>
-        {!hasNewResources && (
-          <StyledInfoText>Du hast in den letzten Tagen nichts neues mehr hinzugefügt.</StyledInfoText>
+        {!isLoadingIndicatorVisible ? (
+          <div>
+            {' '}
+            {!hasNewResources && (
+              <StyledInfoText>Du hast in den letzten Tagen nichts neues mehr hinzugefügt.</StyledInfoText>
+            )}
+            <EntityPropsMapper
+              query={(e) =>
+                new Date(e.get(DateAddedFacet)?.props.dateAdded || '') >= sevenDaysAgo &&
+                dataTypeQuery(e, DataType.LEARNING_UNIT)
+              }
+              get={[[TitleFacet, DateAddedFacet], []]}
+              sort={sortEntitiesByDateAdded}
+              onMatch={NewResourceRow}
+            />
+          </div>
+        ) : (
+          <div>
+            <NewResourceRowSkeleton />
+            <NewResourceRowSkeleton />
+            <NewResourceRowSkeleton />
+          </div>
         )}
-        <EntityPropsMapper
-          query={(e) =>
-            new Date(e.get(DateAddedFacet)?.props.dateAdded || '') >= sevenDaysAgo &&
-            dataTypeQuery(e, DataType.LEARNING_UNIT)
-          }
-          get={[[TitleFacet, DateAddedFacet], []]}
-          sort={sortEntitiesByDateAdded}
-          onMatch={NewResourceRow}
-        />
       </StyledCardWrapper>
     </div>
   );
@@ -75,7 +89,7 @@ const useNewResources = () => {
 };
 
 const StyledRowWrapper = styled(motion.div)`
-  ${tw`flex pr-4 items-center pl-2 justify-between py-1.5 border-b border-black border-opacity-5`}
+  ${tw`flex pr-4 w-full items-center pl-2 justify-between py-1.5 border-b border-black border-opacity-5`}
 `;
 
 const StyledTitle = styled.p`
@@ -107,3 +121,12 @@ const NewResourceRow = (props: TitleProps & EntityProps) => {
     </StyledRowWrapper>
   );
 };
+
+const NewResourceRowSkeleton = () => (
+  <StyledRowWrapper>
+    <div tw="w-full">
+      <Skeleton baseColor="#F0CAA9" highlightColor="#F1D8C1" borderRadius={4} tw="w-1/2 h-3" />
+      <Skeleton baseColor="#F1D8C1" highlightColor="#F2DECD" borderRadius={4} tw="w-2/3 h-3" />
+    </div>
+  </StyledRowWrapper>
+);

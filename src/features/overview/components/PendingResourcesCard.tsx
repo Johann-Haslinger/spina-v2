@@ -5,6 +5,8 @@ import { IdentifierFacet, Tags } from '@leanscope/ecs-models';
 import { motion } from 'framer-motion';
 import { useContext, useEffect, useState } from 'react';
 import { IoTime } from 'react-icons/io5';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 import tw from 'twin.macro';
 import {
   DueDateFacet,
@@ -16,7 +18,8 @@ import {
   TitleFacet,
   TitleProps,
 } from '../../../app/additionalFacets';
-import { AdditionalTag, DataType, ResoruceStatus, SupabaseTable } from '../../../base/enums';
+import { AdditionalTag, DataType, ProgressStatus, SupabaseTable } from '../../../base/enums';
+import { useIsLoadingIndicatorVisible } from '../../../common/hooks/useIsLoadingIndicatorVisible';
 import { useDaysUntilDue } from '../../../hooks/useDaysUntilDue';
 import supabaseClient from '../../../lib/supabase';
 import { dataTypeQuery } from '../../../utils/queries';
@@ -43,6 +46,7 @@ const StyledInfoText = styled.div`
 
 const PendingResourcesCard = () => {
   const { hasPendingResources } = usePendingResources();
+  const isLoadingIndicatorVisible = useIsLoadingIndicatorVisible();
   const currentDate = new Date();
   const sevenDaysAgo = new Date(currentDate);
   sevenDaysAgo.setDate(currentDate.getDate() - 7);
@@ -58,20 +62,30 @@ const PendingResourcesCard = () => {
           <StyledText>Anstehende Leistungen</StyledText>
         </StyledFlexContainer>
 
-        {!hasPendingResources && (
-          <StyledInfoText>Alles erledigt! Du hast aktuell keine anstehenden Leistungen. 🎉</StyledInfoText>
-        )}
+        {isLoadingIndicatorVisible ? (
+          <div>
+            <PendingResourceRowSkeleton />
+            <PendingResourceRowSkeleton />
+            <PendingResourceRowSkeleton />
+          </div>
+        ) : (
+          <div>
+            {!hasPendingResources && (
+              <StyledInfoText>Alles erledigt! Du hast aktuell keine anstehenden Leistungen. 🎉</StyledInfoText>
+            )}
 
-        <EntityPropsMapper
-          query={(e) =>
-            new Date(e.get(DueDateFacet)?.props.dueDate || '') >= sevenDaysAgo &&
-            ([ResoruceStatus.TODO, ResoruceStatus.IN_PROGRESS].includes(e.get(StatusFacet)?.props.status || 0) ||
-              e.has(AdditionalTag.CHANGED))
-          }
-          sort={sortEntitiesByDueDate}
-          get={[[TitleFacet, StatusFacet, DueDateFacet, RelationshipFacet], []]}
-          onMatch={PendingResourceRow}
-        />
+            <EntityPropsMapper
+              query={(e) =>
+                new Date(e.get(DueDateFacet)?.props.dueDate || '') >= sevenDaysAgo &&
+                ([ProgressStatus.TODO, ProgressStatus.IN_PROGRESS].includes(e.get(StatusFacet)?.props.status || 0) ||
+                  e.has(AdditionalTag.CHANGED))
+              }
+              sort={sortEntitiesByDueDate}
+              get={[[TitleFacet, StatusFacet, DueDateFacet, RelationshipFacet], []]}
+              onMatch={PendingResourceRow}
+            />
+          </div>
+        )}
       </StyledCardWrapper>
     </div>
   );
@@ -118,27 +132,27 @@ const StyledRowWrapper = styled(motion.div)`
 `;
 
 const StyledTitle = styled.p`
-  ${tw`line-clamp-2`}
+  ${tw`line-clamp-2 w-full`}
 `;
 
 const StyledDueDate = styled.p`
   ${tw`text-sm text-seconderyText`}
 `;
 
-const StyledSelectWrapper = styled.div<{ status: ResoruceStatus; dark: boolean }>`
+const StyledSelectWrapper = styled.div<{ status: ProgressStatus; dark: boolean }>`
   ${tw` h-6 flex text-xs dark:text-white text-black space-x-1 rounded-full px-2 py-1`}
   background-color: ${({ status, dark }) => {
-    if (status == ResoruceStatus.TODO) {
+    if (status == ProgressStatus.TODO) {
       if (dark) {
         return '#232323';
       } else {
         return '#00000010';
       }
-    } else if (status == ResoruceStatus.IN_PROGRESS) {
+    } else if (status == ProgressStatus.IN_PROGRESS) {
       return '#A3CB6360';
-    } else if (status == ResoruceStatus.DONE) {
+    } else if (status == ProgressStatus.DONE) {
       return '#A3CB63';
-    } else if (status == ResoruceStatus.MISSED) {
+    } else if (status == ProgressStatus.MISSED) {
       return 'rgba(255,59,48,0.4)';
     }
   }};
@@ -187,15 +201,30 @@ const PendingResourceRow = (props: TitleProps & StatusProps & DueDateProps & Ent
       {status && (
         <StyledSelectWrapper dark={isDarkModeAktive} status={status}>
           <StyledSelect onChange={(e) => updateStatus(entity, parseInt(e.target.value))} value={status.toString()}>
-            <option value={ResoruceStatus.TODO}>Todo</option>
-            <option value={ResoruceStatus.IN_PROGRESS}>In Arbeit</option>
-            <option value={ResoruceStatus.DONE}>Erledigt</option>
-            <option value={ResoruceStatus.MISSED}>Verfehlt</option>
+            <option value={ProgressStatus.TODO}>Todo</option>
+            <option value={ProgressStatus.IN_PROGRESS}>In Arbeit</option>
+            <option value={ProgressStatus.DONE}>Erledigt</option>
+            <option value={ProgressStatus.MISSED}>Verfehlt</option>
           </StyledSelect>
         </StyledSelectWrapper>
       )}
     </StyledRowWrapper>
   ) : null;
+};
+
+const PendingResourceRowSkeleton = () => {
+  return (
+    <StyledRowWrapper>
+      <div tw="w-full">
+        <StyledTitle>
+          <Skeleton borderRadius={4} tw="w-1/3 h-3" baseColor="#C0D89B" highlightColor="#D4E2BD" />
+        </StyledTitle>
+        <StyledDueDate>
+          <Skeleton borderRadius={4} baseColor="#D6E3C0" highlightColor="#DFE8D0" tw="w-1/2 h-3" />
+        </StyledDueDate>
+      </div>
+    </StyledRowWrapper>
+  );
 };
 
 const useIsDisplayed = (isDone: boolean) => {

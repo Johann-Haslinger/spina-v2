@@ -2,7 +2,9 @@ import styled from '@emotion/styled';
 import { useState } from 'react';
 import { IoStatsChart } from 'react-icons/io5';
 import tw from 'twin.macro';
+import { useIsLoadingIndicatorVisible } from '../../../common/hooks/useIsLoadingIndicatorVisible';
 import { useWeekInfoData } from '../../flashcards/hooks/useWeekInfoData';
+import Skeleton from 'react-loading-skeleton';
 
 const StyledCardWrapper = styled.div<{ height: string }>`
   ${tw`w-full h-fit p-4  rounded-2xl bg-[#E76542] bg-opacity-15`}
@@ -50,6 +52,7 @@ const LastWeekInfoCard = (props: CardProps) => {
   const { height } = props;
   const { totalCardCount, totalTimeSpent, flashcardPerformance } = useWeekInfoData();
   const [hoveredBar, setHoveredBar] = useState(0);
+  const isLoadingIndicatorVisible = useIsLoadingIndicatorVisible();
 
   const formatTime = (totalMinutes: number) => {
     const hours = Math.floor(totalMinutes / 60);
@@ -66,29 +69,38 @@ const LastWeekInfoCard = (props: CardProps) => {
         <StyledTitle>Letzte 7 Tage</StyledTitle>
       </StyledHeader>
 
-      <StyledSummaryText>
-        Du hast dich in den letzten 7 Tagen{' '}
-        <strong>
-          {totalCardCount} {totalCardCount == 1 ? 'Karte' : 'Karten'}
-        </strong>
-        , in <strong>{formatTime(totalTimeSpent)}</strong> abgefragt.
-      </StyledSummaryText>
+      {!isLoadingIndicatorVisible ? (
+        <div>
+          <StyledSummaryText>
+            Du hast dich in den letzten 7 Tagen{' '}
+            <strong>
+              {totalCardCount} {totalCardCount == 1 ? 'Karte' : 'Karten'}
+            </strong>
+            , in <strong>{formatTime(totalTimeSpent)}</strong> abgefragt.
+          </StyledSummaryText>
 
-      <StyledPerformanceList>
-        {[
-          { label: '⏩', value: flashcardPerformance?.skip, id: 1 },
-          { label: '❌', value: flashcardPerformance?.forgot, id: 2 },
-          { label: '🤔', value: flashcardPerformance?.partiallyRemembered, id: 3 },
-          { label: '😀', value: flashcardPerformance?.rememberedWithEffort, id: 4 },
-          { label: '👑', value: flashcardPerformance?.easilyRemembered, id: 5 },
-        ].map(({ label, value, id }) => (
-          <StyledFlexItem key={id} onMouseEnter={() => setHoveredBar(id)} onMouseLeave={() => setHoveredBar(0)}>
-            <StyledLabel>{label}</StyledLabel>
-            <StyledBar isHoverd={hoveredBar === id ? true : false} style={{ width: `${value}%` }} />
-            {true && <div>{value}%</div>}
-          </StyledFlexItem>
-        ))}
-      </StyledPerformanceList>
+          <StyledPerformanceList>
+            {[
+              { label: '⏩', value: flashcardPerformance?.skip, id: 1 },
+              { label: '❌', value: flashcardPerformance?.forgot, id: 2 },
+              { label: '🤔', value: flashcardPerformance?.partiallyRemembered, id: 3 },
+              { label: '😀', value: flashcardPerformance?.rememberedWithEffort, id: 4 },
+              { label: '👑', value: flashcardPerformance?.easilyRemembered, id: 5 },
+            ].map(({ label, value, id }) => (
+              <StyledFlexItem key={id} onMouseEnter={() => setHoveredBar(id)} onMouseLeave={() => setHoveredBar(0)}>
+                <StyledLabel>{label}</StyledLabel>
+                <StyledBar isHoverd={hoveredBar === id ? true : false} style={{ width: `${value}%` }} />
+                {true && <div>{value}%</div>}
+              </StyledFlexItem>
+            ))}
+          </StyledPerformanceList>
+        </div>
+      ) : (
+        <div tw="w-full mt-3">
+          <Skeleton baseColor="#EDB5A9" highlightColor="#EFC9C0" borderRadius={4} tw="w-full h-3" />
+          <Skeleton baseColor="#EDB5A9" highlightColor="#EFC9C0" borderRadius={4} tw="w-1/2 h-3" />
+        </div>
+      )}
     </StyledCardWrapper>
   );
 };

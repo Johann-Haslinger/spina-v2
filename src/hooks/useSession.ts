@@ -3,16 +3,19 @@ import supabaseClient from '../lib/supabase';
 
 export const useSession = () => {
   const [session, setSession] = useState<unknown>();
+  const [isLoggedIn, setIsLoggedIn] = useState<null| Boolean>(null);
 
   useEffect(() => {
     const fetchSession = async () => {
-      const session = await supabaseClient.auth.getSession();
+      const { data } = await supabaseClient.auth.getSession();
 
-      setSession(session.data.session);
+      setSession(data.session);
+      setIsLoggedIn(!!data.session);
     };
 
     supabaseClient?.auth.onAuthStateChange((_event, session) => {
       setSession(session);
+      setIsLoggedIn(!!session); 
     });
 
     fetchSession();
@@ -20,5 +23,6 @@ export const useSession = () => {
 
   return {
     session,
+    isLoggedIn,
   };
 };

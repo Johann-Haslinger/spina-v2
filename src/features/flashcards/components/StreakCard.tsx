@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { IoCheckmark, IoFlame, IoSnowOutline } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { DateUpdatedFacet, StreakFacet } from '../../../app/additionalFacets';
+import { useIsLoadingIndicatorVisible } from '../../../common/hooks/useIsLoadingIndicatorVisible';
+import Skeleton from 'react-loading-skeleton';
 
 const StyledCardWrapper = styled.div`
   ${tw`w-full h-[10rem] flex flex-col justify-between p-4 rounded-2xl  bg-[#A3CB63] bg-opacity-15`}
@@ -17,7 +19,7 @@ const StyledCardWrapper = styled.div`
 const StyledCheckbox = styled.div<{ isChecked: boolean; isFrozen: boolean }>`
   ${tw`flex items-center justify-center size-8 rounded-md text-2xl text-white bg-[#A3CB63]`}
   ${({ isChecked }) => (isChecked ? tw` bg-opacity-80` : tw` bg-opacity-40`)}
-  ${({ isFrozen }) => isFrozen && tw`bg-[#9ad0ff]`}
+  ${({ isFrozen }) => isFrozen && tw`bg-opacity-15 text-[#A3CB63]`}
 `;
 
 const StyledCheckmarksContainer = styled.div`
@@ -27,6 +29,7 @@ const StyledCheckmarksContainer = styled.div`
 const StreakCard = () => {
   const { isCurrentStreakEntityExisting, streak, streakEndIndex, streakStartIndex } = useCurrentStreak();
   const isFrozen = streakEndIndex < 5 && streakEndIndex !== 0;
+  const isLoadingIndicatorVisible = useIsLoadingIndicatorVisible();
 
   return (
     <StyledCardWrapper>
@@ -38,37 +41,46 @@ const StreakCard = () => {
           <div tw="font-bold text-sm">Aktuelle Streak</div>
         </div>
 
-        <div tw="font-medium mt-2">
-          {isFrozen ? (
-            'Deine Streak ist eingefroren. 🥶 Starte eine Lernrunde um sie fortzusetzten!'
-          ) : isCurrentStreakEntityExisting ? (
-            <p>
-              {' '}
-              Du hast bereits{' '}
-              <strong>
-                {streak} {streak == 1 ? 'Tag' : 'Tage'}
-              </strong>{' '}
-              in Folge gelernt. 🎉{' '}
-            </p>
-          ) : (
-            'Bist du bereit für eine neue Streak? 🚀'
-          )}
-        </div>
+        {!isLoadingIndicatorVisible ? (
+          <div tw="font-medium mt-2">
+            {isFrozen ? (
+              'Deine Streak ist eingefroren. 🥶 Starte eine Lernrunde um sie fortzusetzten!'
+            ) : isCurrentStreakEntityExisting ? (
+              <p>
+                {' '}
+                Du hast bereits{' '}
+                <strong>
+                  {streak} {streak == 1 ? 'Tag' : 'Tage'}
+                </strong>{' '}
+                in Folge gelernt. 🎉{' '}
+              </p>
+            ) : (
+              'Bist du bereit für eine neue Streak? 🚀'
+            )}
+          </div>
+        ) : (
+          <div tw="w-full mt-3">
+            <Skeleton baseColor="#CFE0B4" highlightColor="#DAE6C8" borderRadius={4} tw="w-full h-3" />
+            <Skeleton baseColor="#CFE0B4" highlightColor="#DAE6C8" borderRadius={4} tw="w-1/2 h-3" />
+          </div>
+        )}
       </div>
 
-      <StyledCheckmarksContainer>
-        {Array.from({ length: 7 }).map((_, index) => {
-          const isChecked = index >= streakStartIndex && index <= streakEndIndex && streak >= 1;
-          const isFrozen = index > streakEndIndex && index !== 6 && streak >= 1;
+      {!isLoadingIndicatorVisible && (
+        <StyledCheckmarksContainer>
+          {Array.from({ length: 7 }).map((_, index) => {
+            const isChecked = index >= streakStartIndex && index <= streakEndIndex && streak >= 1;
+            const isFrozen = index > streakEndIndex && index !== 6 && streak >= 1;
 
-          return (
-            <StyledCheckbox isFrozen={isFrozen} key={index} isChecked={isChecked || isFrozen}>
-              {isChecked && <IoCheckmark />}
-              {isFrozen && <IoSnowOutline />}
-            </StyledCheckbox>
-          );
-        })}{' '}
-      </StyledCheckmarksContainer>
+            return (
+              <StyledCheckbox isFrozen={isFrozen} key={index} isChecked={isChecked || isFrozen}>
+                {isChecked && <IoCheckmark />}
+                {isFrozen && <IoSnowOutline />}
+              </StyledCheckbox>
+            );
+          })}{' '}
+        </StyledCheckmarksContainer>
+      )}
     </StyledCardWrapper>
   );
 };

@@ -266,7 +266,7 @@ export enum LearningUnitPriority {
   MAINTAINING = 2,
 }
 
-export enum ResoruceStatus {
+export enum ProgressStatus {
   TODO = 1,
   IN_PROGRESS = 2,
   DONE = 3,

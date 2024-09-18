@@ -4,6 +4,7 @@ import { EntityPropsMapper } from '@leanscope/ecs-engine';
 import { DescriptionFacet, IdentifierFacet, ImageFacet, Tags, TextFacet } from '@leanscope/ecs-models';
 import { useContext } from 'react';
 import { IoAdd } from 'react-icons/io5';
+import 'react-loading-skeleton/dist/skeleton.css';
 import tw from 'twin.macro';
 import { LearningUnitTypeFacet, PriorityFacet, TitleFacet } from '../app/additionalFacets';
 import { DataType, Story } from '../base/enums';
@@ -24,7 +25,7 @@ import {
   PendingResourcesCard,
   StartFlashcardSessionCard,
 } from '../features/overview';
-import FlashcarChartCard from '../features/overview/components/FlashcardChartCard';
+import FlashcardChartCard from '../features/overview/components/FlashcardChartCard';
 import { useSelectedLanguage } from '../hooks/useSelectedLanguage';
 import { displayDataTypeTexts, displayHeaderTexts } from '../utils/displayText';
 import { dataTypeQuery } from '../utils/queries';
@@ -68,6 +69,7 @@ const Overview = () => {
         </NavigationBar>
         <Spacer size={8} />
         <Title>{displayHeaderTexts(selectedLanguage).overview}</Title>
+
         <Spacer size={4} />
         <StyledColumnsWrapper>
           <StyledColumn>
@@ -77,7 +79,7 @@ const Overview = () => {
           </StyledColumn>
           <StyledColumn>
             <StartFlashcardSessionCard />
-            <FlashcarChartCard />
+            <FlashcardChartCard />
             <NewResourcesCard />
             <StreakCard />
           </StyledColumn>

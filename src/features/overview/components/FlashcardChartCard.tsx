@@ -1,8 +1,11 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
 import { IoBarChart } from 'react-icons/io5';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 import tw from 'twin.macro';
 import { COLOR_ITEMS } from '../../../base/constants';
+import { useIsLoadingIndicatorVisible } from '../../../common/hooks/useIsLoadingIndicatorVisible';
 import { useWeekStats } from '../../flashcards/hooks/useWeekStats';
 
 const StyledCardWrapper = styled.div`
@@ -80,6 +83,7 @@ const StyledText = styled.div`
 const FlashcardChartCard = () => {
   const { weekDays, maxFlashcards, averageFlashcards, dayLabels } = useWeekStats();
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
+  const isLoadingIndicatorVisible = useIsLoadingIndicatorVisible();
 
   return (
     <StyledCardWrapper>
@@ -90,59 +94,72 @@ const FlashcardChartCard = () => {
           <StyledTitle>Abgefragte Karten</StyledTitle>
         </StyledFlexContainer>
         <StyledText>
-          Du hast dich in den letzten 7 Tagen im Durchschnitt{' '}
-          <strong>
-            {averageFlashcards} {averageFlashcards == 1 ? 'Karte' : 'Karten'}
-          </strong>{' '}
-          pro Tag abgefragt.
+          {isLoadingIndicatorVisible ? (
+            <div tw="w-full">
+              <Skeleton baseColor="#B8DAE7" highlightColor="#CAE2EB" borderRadius={4} tw="w-full h-3" />
+              <Skeleton baseColor="#B8DAE7" highlightColor="#CAE2EB" borderRadius={4} tw="w-1/2 h-3" />
+            </div>
+          ) : (
+            <div>
+              {' '}
+              Du hast dich in den letzten 7 Tagen im Durchschnitt{' '}
+              <strong>
+                {averageFlashcards} {averageFlashcards == 1 ? 'Karte' : 'Karten'}
+              </strong>{' '}
+              pro Tag abgefragt.
+            </div>
+          )}
         </StyledText>
       </StyledContainer>
-      <StyledColumnsWrapper>
-        {averageFlashcards > 0 && (
-          <StyledAverageLabelWrapper>
-            <div
-              tw="transition-all"
-              style={{
-                height: `${100 - ((selectedDay !== null ? weekDays[selectedDay] : averageFlashcards) / maxFlashcards) * 100}%`,
-              }}
-            />
-            <StyledAverageLabel>
-              <StyledCardInfo>{selectedDay !== null ? dayLabels[selectedDay] : 'Durchschnitt'}</StyledCardInfo>
-              <StyledCardCountText>
-                <span style={{ color: COLOR_ITEMS[2].color }} tw=" font-bold text-lg ">
-                  {' '}
-                  {selectedDay !== null ? weekDays[selectedDay] : averageFlashcards}{' '}
-                </span>
-                <span tw="text-xs font-semibold  text-seconderyText ">
-                  {' '}
-                  {averageFlashcards === 1 ? 'Karte' : 'Karten'}
-                </span>
-              </StyledCardCountText>
-            </StyledAverageLabel>
-          </StyledAverageLabelWrapper>
-        )}
-        {weekDays.map((count = 1, idx) => (
-          <div style={{ width: `${100 / weekDays.length}%`, height: '100%' }} key={idx}>
-            <StyledColumnContainer>
-              <StyledColumnWrapper
-                height={(count / maxFlashcards) * 100 || 0}
-                onMouseEnter={() => setSelectedDay(idx)}
-                onMouseLeave={() => setSelectedDay(null)}
-              >
-                <StyledBar isHoverd={selectedDay == idx} />
-              </StyledColumnWrapper>
-            </StyledColumnContainer>
-            <StyledColumnLabel>{dayLabels[idx] && dayLabels[idx][0] ? dayLabels[idx][0] : null}</StyledColumnLabel>
-          </div>
-        ))}
-        <StyledYLabelsWrapper>
-          <div>{maxFlashcards}</div>
-          <div>{maxFlashcards / 2}</div>
-          <div tw="relative top-2">0</div>
-        </StyledYLabelsWrapper>
-      </StyledColumnsWrapper>
 
-      {averageFlashcards > 0 && (
+      {!isLoadingIndicatorVisible && (
+        <StyledColumnsWrapper>
+          {averageFlashcards > 0 && (
+            <StyledAverageLabelWrapper>
+              <div
+                tw="transition-all"
+                style={{
+                  height: `${100 - ((selectedDay !== null ? weekDays[selectedDay] : averageFlashcards) / maxFlashcards) * 100}%`,
+                }}
+              />
+              <StyledAverageLabel>
+                <StyledCardInfo>{selectedDay !== null ? dayLabels[selectedDay] : 'Durchschnitt'}</StyledCardInfo>
+                <StyledCardCountText>
+                  <span style={{ color: COLOR_ITEMS[2].color }} tw=" font-bold text-lg ">
+                    {' '}
+                    {selectedDay !== null ? weekDays[selectedDay] : averageFlashcards}{' '}
+                  </span>
+                  <span tw="text-xs font-semibold  text-seconderyText ">
+                    {' '}
+                    {averageFlashcards === 1 ? 'Karte' : 'Karten'}
+                  </span>
+                </StyledCardCountText>
+              </StyledAverageLabel>
+            </StyledAverageLabelWrapper>
+          )}
+          {weekDays.map((count = 1, idx) => (
+            <div style={{ width: `${100 / weekDays.length}%`, height: '100%' }} key={idx}>
+              <StyledColumnContainer>
+                <StyledColumnWrapper
+                  height={(count / maxFlashcards) * 100 || 0}
+                  onMouseEnter={() => setSelectedDay(idx)}
+                  onMouseLeave={() => setSelectedDay(null)}
+                >
+                  <StyledBar isHoverd={selectedDay == idx} />
+                </StyledColumnWrapper>
+              </StyledColumnContainer>
+              <StyledColumnLabel>{dayLabels[idx] && dayLabels[idx][0] ? dayLabels[idx][0] : null}</StyledColumnLabel>
+            </div>
+          ))}
+          <StyledYLabelsWrapper>
+            <div>{maxFlashcards}</div>
+            <div>{maxFlashcards / 2}</div>
+            <div tw="relative top-2">0</div>
+          </StyledYLabelsWrapper>
+        </StyledColumnsWrapper>
+      )}
+
+      {averageFlashcards > 0 && !isLoadingIndicatorVisible && (
         <StyledAverageMarkerWrapper>
           <StyledAverageMarker
             style={{

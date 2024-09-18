@@ -2,8 +2,11 @@ import styled from '@emotion/styled';
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { useContext } from 'react';
 import { IoCopy, IoPlay } from 'react-icons/io5';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 import tw from 'twin.macro';
 import { Story } from '../../../base/enums';
+import { useIsLoadingIndicatorVisible } from '../../../common/hooks/useIsLoadingIndicatorVisible';
 import { useDueFlashcardsCount } from '../../flashcards/hooks/useDueFlashcardsCount';
 
 const StyledCardWrapper = styled.div`
@@ -31,7 +34,7 @@ const StyledIcon = styled.div`
 `;
 
 const StyledButtonText = styled.div`
-  ${tw``}
+  ${tw`w-full`}
 `;
 
 const StyledButtonTitle = styled.p`
@@ -45,6 +48,7 @@ const StyledButtonSubtitle = styled.p`
 const StartFlashcardSessionCard = () => {
   const lsc = useContext(LeanScopeClientContext);
   const dueFlashcardsCount = useDueFlashcardsCount();
+  const isLoadingIndicatorVisible = useIsLoadingIndicatorVisible();
 
   const openFlashcardQuizView = () => lsc.stories.transitTo(Story.OBSERVING_SPACED_REPETITION_QUIZ);
 
@@ -64,8 +68,17 @@ const StartFlashcardSessionCard = () => {
             <IoPlay />
           </StyledIcon>
           <StyledButtonText>
-            <StyledButtonTitle>Abfrage Starten</StyledButtonTitle>
-            <StyledButtonSubtitle>{dueFlashcardsCount} Fällige Karten</StyledButtonSubtitle>
+            {isLoadingIndicatorVisible ? (
+              <div tw="w-full">
+                <Skeleton baseColor="#8EAD92" highlightColor="#ACC2AF" borderRadius={4} tw="w-1/2 h-3" />
+                <Skeleton baseColor="#ACC2AF" highlightColor="#BCCCBE" borderRadius={4} tw="w-2/3 h-3" />
+              </div>
+            ) : (
+              <div>
+                <StyledButtonTitle>Abfrage Starten</StyledButtonTitle>
+                <StyledButtonSubtitle>{dueFlashcardsCount} fällige Karten</StyledButtonSubtitle>{' '}
+              </div>
+            )}
           </StyledButtonText>
         </StyledButtonWrapper>
       </StyledCardWrapper>

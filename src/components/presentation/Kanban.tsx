@@ -6,13 +6,13 @@ import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautif
 import tw from 'twin.macro';
 import { StatusFacet } from '../../app/additionalFacets';
 import { COLOR_ITEMS } from '../../base/constants';
-import { ResoruceStatus } from '../../base/enums';
+import { ProgressStatus } from '../../base/enums';
 
 const statusStates = {
-  [ResoruceStatus.TODO]: 'To-do',
-  [ResoruceStatus.IN_PROGRESS]: 'In Arbeit',
-  [ResoruceStatus.DONE]: 'Erledigt',
-  [ResoruceStatus.MISSED]: 'Verfehlt',
+  [ProgressStatus.TODO]: 'To-do',
+  [ProgressStatus.IN_PROGRESS]: 'In Arbeit',
+  [ProgressStatus.DONE]: 'Erledigt',
+  [ProgressStatus.MISSED]: 'Verfehlt',
 };
 
 const selectColorItemForColoumn = (statusId: string) => {
@@ -47,7 +47,7 @@ const StyledStatusWrapper = styled.div<{
 
 const KanbanColumn = (props: {
   idx: number;
-  statusId: ResoruceStatus;
+  statusId: ProgressStatus;
   statusLabel: string;
   query: (e: Entity) => boolean;
   sortingRule?: (a: Entity, b: Entity) => number;
@@ -55,7 +55,7 @@ const KanbanColumn = (props: {
 }) => {
   const { statusId, statusLabel, query, kanbanCell, sortingRule } = props;
   const [columEntities] = useEntities(
-    (e) => e.get(StatusFacet)?.props.status == (statusId as ResoruceStatus) && query(e),
+    (e) => e.get(StatusFacet)?.props.status == (statusId as ProgressStatus) && query(e),
   );
 
   const { color: backgroundColor, color } = selectColorItemForColoumn(statusId.toString());
@@ -147,7 +147,7 @@ const Kanban = (props: KanbanProps & PropsWithChildren) => {
             idx={idx}
             {...props}
             statusLabel={statusLabel}
-            statusId={Number(statusId) as ResoruceStatus}
+            statusId={Number(statusId) as ProgressStatus}
             key={status}
           />
         ))}
