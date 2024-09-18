@@ -2,10 +2,10 @@ import styled from '@emotion/styled';
 import { useEntities } from '@leanscope/ecs-engine';
 import { useEffect, useState } from 'react';
 import { IoCheckmark, IoFlame, IoSnowOutline } from 'react-icons/io5';
+import Skeleton from 'react-loading-skeleton';
 import tw from 'twin.macro';
 import { DateUpdatedFacet, StreakFacet } from '../../../app/additionalFacets';
-import { useIsLoadingIndicatorVisible } from '../../../common/hooks/useIsLoadingIndicatorVisible';
-import Skeleton from 'react-loading-skeleton';
+import { useLoadingIndicator } from '../../../common/hooks';
 
 const StyledCardWrapper = styled.div`
   ${tw`w-full h-[10rem] flex flex-col justify-between p-4 rounded-2xl  bg-[#A3CB63] bg-opacity-15`}
@@ -29,7 +29,7 @@ const StyledCheckmarksContainer = styled.div`
 const StreakCard = () => {
   const { isCurrentStreakEntityExisting, streak, streakEndIndex, streakStartIndex } = useCurrentStreak();
   const isFrozen = streakEndIndex < 5 && streakEndIndex !== 0;
-  const isLoadingIndicatorVisible = useIsLoadingIndicatorVisible();
+  const { isLoadingIndicatorVisible } = useLoadingIndicator();
 
   return (
     <StyledCardWrapper>
@@ -59,7 +59,7 @@ const StreakCard = () => {
             )}
           </div>
         ) : (
-          <div tw="w-full mt-3">
+          <div tw="w-full mt-3 dark:opacity-10 transition-all ">
             <Skeleton baseColor="#CFE0B4" highlightColor="#DAE6C8" borderRadius={4} tw="w-full h-3" />
             <Skeleton baseColor="#CFE0B4" highlightColor="#DAE6C8" borderRadius={4} tw="w-1/2 h-3" />
           </div>

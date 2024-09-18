@@ -1,6 +1,6 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { Entity } from '@leanscope/ecs-engine';
-import { IdentifierFacet, OrderFacet } from '@leanscope/ecs-models';
+import { IdentifierFacet, OrderFacet, Tags } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { TitleFacet } from '../app/additionalFacets';
 import { dummySchoolSubjects } from '../base/dummy';
@@ -8,6 +8,7 @@ import { DataType, SupabaseTable } from '../base/enums';
 import { useCurrentDataSource } from '../hooks/useCurrentDataSource';
 import supabaseClient from '../lib/supabase';
 import { dataTypeQuery } from '../utils/queries';
+import { useLoadingIndicator } from '../common/hooks';
 
 const fetchSchoolSubjects = async () => {
   const { data: schoolSubjects, error } = await supabaseClient.from(SupabaseTable.SCHOOL_SUBJECTS).select('title, id');
@@ -23,9 +24,12 @@ const fetchSchoolSubjects = async () => {
 const InitializeSchoolSubjectsSystem = () => {
   const { isUsingMockupData: mockupData, isUsingSupabaseData: shouldFetchFromSupabase } = useCurrentDataSource();
   const lsc = useContext(LeanScopeClientContext);
+  const { loadingIndicatorEntity } = useLoadingIndicator();
 
   useEffect(() => {
     const initializeSchoolSubjectEntities = async () => {
+      loadingIndicatorEntity?.add(Tags.CURRENT);
+
       const schoolSubjects = mockupData
         ? dummySchoolSubjects
         : shouldFetchFromSupabase
@@ -46,6 +50,8 @@ const InitializeSchoolSubjectsSystem = () => {
           schoolSubjectEntity.addTag(DataType.SCHOOL_SUBJECT);
         }
       });
+
+      loadingIndicatorEntity?.remove(Tags.CURRENT);
     };
 
     initializeSchoolSubjectEntities();

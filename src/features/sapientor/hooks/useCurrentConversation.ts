@@ -9,7 +9,7 @@ import { AdditionalTag, SupportedModel } from '../../../base/enums';
 export const useCurrentSapientorConversation = () => {
   const lsc = useContext(LeanScopeClientContext);
   const [currentConversationEntity] = useEntity((e) => e.hasTag(AdditionalTag.SAPIENTOR_CONVERSATION));
-  const [isQuickChatVisible] = useEntityHasTags(currentConversationEntity, AdditionalTag.QUIK_CHAT_VISIBLE);
+  const [isQuickChatVisible] = useEntityHasTags(currentConversationEntity, AdditionalTag.IS_QUICK_CHAT_VISIBLE);
   const [isChatSheetVisible] = useEntityHasTags(currentConversationEntity, AdditionalTag.CHAT_SHEET_VISIBLE);
   const [useSapientorAssistentModel] = useEntityHasTags(currentConversationEntity, SupportedModel.SAPIENTOR_ASSISTENT);
 
@@ -24,13 +24,13 @@ export const useCurrentSapientorConversation = () => {
         lsc.engine.addEntity(newConversationEntity);
         newConversationEntity.add(new IdentifierFacet({ guid: v4() }));
         newConversationEntity.add(AdditionalTag.SAPIENTOR_CONVERSATION);
-        newConversationEntity?.add(AdditionalTag.QUIK_CHAT_VISIBLE);
+        newConversationEntity?.add(AdditionalTag.IS_QUICK_CHAT_VISIBLE);
         newConversationEntity.add(SupportedModel.TURBO);
       } else {
-        currentConversationEntity.add(AdditionalTag.QUIK_CHAT_VISIBLE);
+        currentConversationEntity.add(AdditionalTag.IS_QUICK_CHAT_VISIBLE);
       }
     } else {
-      currentConversationEntity?.remove(AdditionalTag.QUIK_CHAT_VISIBLE);
+      currentConversationEntity?.remove(AdditionalTag.IS_QUICK_CHAT_VISIBLE);
     }
   };
 

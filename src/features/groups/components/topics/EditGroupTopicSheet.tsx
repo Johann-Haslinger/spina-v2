@@ -21,7 +21,7 @@ import { displayButtonTexts, displayLabelTexts } from '../../../../utils/display
 import { useSelectedGroupTopic } from '../../hooks/useSelectedGroupTopic';
 const EditGroupGroupTopicSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Story.EDETING_GROUP_TOPIC_STORY);
+  const isVisible = useIsStoryCurrent(Story.EDITING_GROUP_TOPIC_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedGroupTopicTitle, selectedGroupTopicDescription, selectedGroupTopicEntity, selectedGroupTopicId } =
     useSelectedGroupTopic();

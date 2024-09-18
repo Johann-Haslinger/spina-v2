@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
 import { IoStatsChart } from 'react-icons/io5';
-import tw from 'twin.macro';
-import { useIsLoadingIndicatorVisible } from '../../../common/hooks/useIsLoadingIndicatorVisible';
-import { useWeekInfoData } from '../../flashcards/hooks/useWeekInfoData';
 import Skeleton from 'react-loading-skeleton';
+import tw from 'twin.macro';
+import { useWeekInfoData } from '../../flashcards/hooks/useWeekInfoData';
+import { useLoadingIndicator } from '../../../common/hooks';
 
 const StyledCardWrapper = styled.div<{ height: string }>`
   ${tw`w-full h-fit p-4  rounded-2xl bg-[#E76542] bg-opacity-15`}
@@ -52,13 +52,13 @@ const LastWeekInfoCard = (props: CardProps) => {
   const { height } = props;
   const { totalCardCount, totalTimeSpent, flashcardPerformance } = useWeekInfoData();
   const [hoveredBar, setHoveredBar] = useState(0);
-  const isLoadingIndicatorVisible = useIsLoadingIndicatorVisible();
+  const { isLoadingIndicatorVisible } = useLoadingIndicator();
 
-  const formatTime = (totalMinutes: number) => {
+  function formatTime(totalMinutes: number) {
     const hours = Math.floor(totalMinutes / 60);
     const minutes = totalMinutes % 60;
     return `${hours} h und ${minutes} min`;
-  };
+  }
 
   return (
     <StyledCardWrapper height={height}>
@@ -96,7 +96,7 @@ const LastWeekInfoCard = (props: CardProps) => {
           </StyledPerformanceList>
         </div>
       ) : (
-        <div tw="w-full mt-3">
+        <div tw="w-full dark:opacity-10 transition-all mt-3">
           <Skeleton baseColor="#EDB5A9" highlightColor="#EFC9C0" borderRadius={4} tw="w-full h-3" />
           <Skeleton baseColor="#EDB5A9" highlightColor="#EFC9C0" borderRadius={4} tw="w-1/2 h-3" />
         </div>

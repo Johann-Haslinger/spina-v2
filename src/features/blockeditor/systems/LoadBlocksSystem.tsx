@@ -56,7 +56,7 @@ const LoadBlocksSystem = () => {
   const { selectedHomeworkText } = useSelectedHomework();
   const { selectedNoteText } = useSelectedNote();
   const { selectedSubtopicText } = useSelectedSubtopic();
-  const [isGroupBlockeditor] = useEntityHasTags(blockeditorEntity, AdditionalTag.GROUP_BLOCKEDITOR);
+  const [isGroupBlockeditor] = useEntityHasTags(blockeditorEntity, AdditionalTag.GROUP_BLOCK_EDITOR);
 
   const { userId } = useUserData();
 

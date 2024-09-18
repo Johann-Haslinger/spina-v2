@@ -21,7 +21,7 @@ import { useSelectedGroupHomework } from '../../hooks/useSelectedGroupHomework';
 
 const EditGroupHomeworkSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const isVisible = useIsStoryCurrent(Story.EDETING_GROUP_HOMEWORK_STORY);
+  const isVisible = useIsStoryCurrent(Story.EDITING_GROUP_HOMEWORK_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const {
     selectedGroupHomeworkTitle,

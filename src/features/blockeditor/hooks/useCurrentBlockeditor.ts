@@ -8,7 +8,7 @@ export const useCurrentBlockeditor = () => {
 
   const blockeditorId = currentBlockeditorEntity?.get(IdentifierFacet)?.props.guid || '';
   const blockeditorState = currentBlockeditorEntity?.get(BlockeditorStateFacet)?.props.blockeditorState || 'edit';
-  const isGroupBlockeditor = currentBlockeditorEntity?.has(AdditionalTag.GROUP_BLOCKEDITOR) || false;
+  const isGroupBlockeditor = currentBlockeditorEntity?.has(AdditionalTag.GROUP_BLOCK_EDITOR) || false;
 
   return {
     blockeditorState,

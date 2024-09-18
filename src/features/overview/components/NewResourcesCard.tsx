@@ -8,7 +8,7 @@ import Skeleton from 'react-loading-skeleton';
 import tw from 'twin.macro';
 import { DateAddedFacet, TitleFacet, TitleProps } from '../../../app/additionalFacets';
 import { DataType } from '../../../base/enums';
-import { useIsLoadingIndicatorVisible } from '../../../common/hooks/useIsLoadingIndicatorVisible';
+import { useLoadingIndicator } from '../../../common/hooks';
 import { dataTypeQuery } from '../../../utils/queries';
 import { sortEntitiesByDateAdded } from '../../../utils/sortEntitiesByTime';
 import { useFormattedDateAdded } from '../../collection/hooks/useFormattedDateAdded';
@@ -32,8 +32,7 @@ const StyledInfoText = styled.div`
 
 const NewResourcesCard = () => {
   const { hasNewResources, sevenDaysAgo } = useNewResources();
-  const isLoadingIndicatorVisible = useIsLoadingIndicatorVisible();
-
+  const { isLoadingIndicatorVisible } = useLoadingIndicator();
   return (
     <div>
       <InitializeRecentlyAddedResources />
@@ -60,7 +59,7 @@ const NewResourcesCard = () => {
             />
           </div>
         ) : (
-          <div>
+          <div tw="dark:opacity-10 transition-all">
             <NewResourceRowSkeleton />
             <NewResourceRowSkeleton />
             <NewResourceRowSkeleton />

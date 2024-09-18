@@ -6,7 +6,7 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import tw from 'twin.macro';
 import { Story } from '../../../base/enums';
-import { useIsLoadingIndicatorVisible } from '../../../common/hooks/useIsLoadingIndicatorVisible';
+import { useLoadingIndicator } from '../../../common/hooks';
 import { useDueFlashcardsCount } from '../../flashcards/hooks/useDueFlashcardsCount';
 
 const StyledCardWrapper = styled.div`
@@ -48,7 +48,7 @@ const StyledButtonSubtitle = styled.p`
 const StartFlashcardSessionCard = () => {
   const lsc = useContext(LeanScopeClientContext);
   const dueFlashcardsCount = useDueFlashcardsCount();
-  const isLoadingIndicatorVisible = useIsLoadingIndicatorVisible();
+  const { isLoadingIndicatorVisible } = useLoadingIndicator();
 
   const openFlashcardQuizView = () => lsc.stories.transitTo(Story.OBSERVING_SPACED_REPETITION_QUIZ);
 
@@ -69,7 +69,7 @@ const StartFlashcardSessionCard = () => {
           </StyledIcon>
           <StyledButtonText>
             {isLoadingIndicatorVisible ? (
-              <div tw="w-full">
+              <div tw="w-full dark:opacity-10 transition-all">
                 <Skeleton baseColor="#8EAD92" highlightColor="#ACC2AF" borderRadius={4} tw="w-1/2 h-3" />
                 <Skeleton baseColor="#ACC2AF" highlightColor="#BCCCBE" borderRadius={4} tw="w-2/3 h-3" />
               </div>

@@ -19,7 +19,7 @@ import {
   TitleProps,
 } from '../../../app/additionalFacets';
 import { AdditionalTag, DataType, ProgressStatus, SupabaseTable } from '../../../base/enums';
-import { useIsLoadingIndicatorVisible } from '../../../common/hooks/useIsLoadingIndicatorVisible';
+import { useLoadingIndicator } from '../../../common/hooks';
 import { useDaysUntilDue } from '../../../hooks/useDaysUntilDue';
 import supabaseClient from '../../../lib/supabase';
 import { dataTypeQuery } from '../../../utils/queries';
@@ -46,7 +46,7 @@ const StyledInfoText = styled.div`
 
 const PendingResourcesCard = () => {
   const { hasPendingResources } = usePendingResources();
-  const isLoadingIndicatorVisible = useIsLoadingIndicatorVisible();
+  const { isLoadingIndicatorVisible } = useLoadingIndicator();
   const currentDate = new Date();
   const sevenDaysAgo = new Date(currentDate);
   sevenDaysAgo.setDate(currentDate.getDate() - 7);
@@ -215,7 +215,7 @@ const PendingResourceRow = (props: TitleProps & StatusProps & DueDateProps & Ent
 const PendingResourceRowSkeleton = () => {
   return (
     <StyledRowWrapper>
-      <div tw="w-full">
+      <div tw="w-full dark:opacity-10 transition-all">
         <StyledTitle>
           <Skeleton borderRadius={4} tw="w-1/3 h-3" baseColor="#C0D89B" highlightColor="#D4E2BD" />
         </StyledTitle>

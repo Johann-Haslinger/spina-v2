@@ -5,8 +5,8 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import tw from 'twin.macro';
 import { COLOR_ITEMS } from '../../../base/constants';
-import { useIsLoadingIndicatorVisible } from '../../../common/hooks/useIsLoadingIndicatorVisible';
 import { useWeekStats } from '../../flashcards/hooks/useWeekStats';
+import { useLoadingIndicator } from '../../../common/hooks';
 
 const StyledCardWrapper = styled.div`
   ${tw`w-full pr-5 h-[28rem] p-4 text-[#6EBED9] rounded-2xl bg-[#6EBED9] bg-opacity-15`}
@@ -83,7 +83,7 @@ const StyledText = styled.div`
 const FlashcardChartCard = () => {
   const { weekDays, maxFlashcards, averageFlashcards, dayLabels } = useWeekStats();
   const [selectedDay, setSelectedDay] = useState<number | null>(null);
-  const isLoadingIndicatorVisible = useIsLoadingIndicatorVisible();
+  const { isLoadingIndicatorVisible } = useLoadingIndicator();
 
   return (
     <StyledCardWrapper>
@@ -95,7 +95,7 @@ const FlashcardChartCard = () => {
         </StyledFlexContainer>
         <StyledText>
           {isLoadingIndicatorVisible ? (
-            <div tw="w-full">
+            <div tw="w-full dark:opacity-10 transition-all">
               <Skeleton baseColor="#B8DAE7" highlightColor="#CAE2EB" borderRadius={4} tw="w-full h-3" />
               <Skeleton baseColor="#B8DAE7" highlightColor="#CAE2EB" borderRadius={4} tw="w-1/2 h-3" />
             </div>

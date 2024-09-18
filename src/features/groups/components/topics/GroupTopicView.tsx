@@ -39,7 +39,7 @@ const GroupTopicView = (props: TitleProps & EntityProps & DescriptionProps) => {
   const { hasChildren } = useEntityHasChildren(entity);
 
   const navigateBack = () => entity.addTag(AdditionalTag.NAVIGATE_BACK);
-  const openEditTopicSheet = () => lsc.stories.transitTo(Story.EDETING_GROUP_TOPIC_STORY);
+  const openEditTopicSheet = () => lsc.stories.transitTo(Story.EDITING_GROUP_TOPIC_STORY);
   const openDeleteTopicAlert = () => lsc.stories.transitTo(Story.DELETING_GROUP_TOPIC_STORY);
 
   return (

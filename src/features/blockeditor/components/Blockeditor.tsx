@@ -59,7 +59,7 @@ const Blockeditor = (props: BlockeditorProps) => {
   const { selectedLanguage } = useSelectedLanguage();
   const { blockeditorState, blockeditorEntity, blockeditorId } = useCurrentBlockeditor();
   const { blocksAreaRef, addBlockAreaRef } = useClickOutsideBlockEditorHandler();
-  const [isGroupBlockeditor] = useEntityHasTags(blockeditorEntity, AdditionalTag.GROUP_BLOCKEDITOR);
+  const [isGroupBlockeditor] = useEntityHasTags(blockeditorEntity, AdditionalTag.GROUP_BLOCK_EDITOR);
 
   const openImproveTextSheet = () => lsc.stories.transitTo(Story.GENERATING_IMPROVED_TEXT_STORY);
 

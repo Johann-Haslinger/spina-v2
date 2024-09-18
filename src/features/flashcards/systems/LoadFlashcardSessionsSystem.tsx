@@ -1,6 +1,6 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { Entity } from '@leanscope/ecs-engine';
-import { IdentifierFacet } from '@leanscope/ecs-models';
+import { IdentifierFacet, Tags } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import {
   DateAddedFacet,
@@ -10,6 +10,7 @@ import {
 } from '../../../app/additionalFacets';
 import { dummyFlashcardSessions } from '../../../base/dummy';
 import { DataType, SupabaseTable } from '../../../base/enums';
+import { useLoadingIndicator } from '../../../common/hooks';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 
@@ -33,9 +34,12 @@ const fetchFlashcardSessions = async () => {
 const LoadFlashcardSessionsSystem = () => {
   const lsc = useContext(LeanScopeClientContext);
   const { isUsingMockupData, isUsingSupabaseData } = useCurrentDataSource();
+  const { loadingIndicatorEntity } = useLoadingIndicator();
 
   useEffect(() => {
     const initializeFlashcardSessionEntities = async () => {
+      loadingIndicatorEntity?.add(Tags.CURRENT);
+
       const flashcardSessions = isUsingMockupData
         ? dummyFlashcardSessions
         : isUsingSupabaseData
@@ -72,6 +76,7 @@ const LoadFlashcardSessionsSystem = () => {
           flashcardSessionEntity.addTag(DataType.FLASHCARD_SESSION);
         }
       });
+      loadingIndicatorEntity?.remove(Tags.CURRENT);
     };
 
     initializeFlashcardSessionEntities();

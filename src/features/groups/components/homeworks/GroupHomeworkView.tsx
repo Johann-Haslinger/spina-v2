@@ -24,7 +24,7 @@ const GroupHomeworkView = (props: EntityProps & TitleProps & IdentifierProps) =>
   const { selectedGroupTopicTitle } = useSelectedGroupTopic();
 
   const navigateBack = () => entity.addTag(AdditionalTag.NAVIGATE_BACK);
-  const openEditGroupHomeworkSheet = () => lsc.stories.transitTo(Story.EDETING_GROUP_HOMEWORK_STORY);
+  const openEditGroupHomeworkSheet = () => lsc.stories.transitTo(Story.EDITING_GROUP_HOMEWORK_STORY);
   const openDeleteGroupHomeworkAlert = () => lsc.stories.transitTo(Story.DELETING_GROUP_HOMEWORK_STORY);
 
   return (

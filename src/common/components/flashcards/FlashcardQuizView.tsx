@@ -238,7 +238,7 @@ const FlashcardQuizView = () => {
       } else if (flashcardEntity.has(AdditionalTag.PARTIALLY_REMEMBERED)) {
         dueDate = new Date();
         dueDate.setHours(dueDate.getHours() + 12);
-      } else if (flashcardEntity.has(AdditionalTag.ANSWERD_WRONG)) {
+      } else if (flashcardEntity.has(AdditionalTag.INCORRECT_ANSWER)) {
         dueDate = new Date();
       } else if (flashcardEntity.has(AdditionalTag.SKIP)) {
         dueDate = new Date();
@@ -248,7 +248,7 @@ const FlashcardQuizView = () => {
       const masteryLevel = flashcardEntity.get(MasteryLevelFacet)?.props.masteryLevel || 0;
       let newMasterLevel = masteryLevel;
 
-      if (masteryLevel == MAX_MASTERY_LEVEL && !flashcardEntity.has(AdditionalTag.ANSWERD_WRONG)) {
+      if (masteryLevel == MAX_MASTERY_LEVEL && !flashcardEntity.has(AdditionalTag.INCORRECT_ANSWER)) {
         newMasterLevel = MAX_MASTERY_LEVEL;
       } else if (flashcardEntity.has(AdditionalTag.REMEMBERED_EASILY)) {
         newMasterLevel = masteryLevel + 1;
@@ -259,7 +259,7 @@ const FlashcardQuizView = () => {
       } else if (flashcardEntity.has(AdditionalTag.PARTIALLY_REMEMBERED)) {
         newMasterLevel = masteryLevel + 1;
         flashcardEntity.add(new MasteryLevelFacet({ masteryLevel: newMasterLevel }));
-      } else if (flashcardEntity.has(AdditionalTag.ANSWERD_WRONG)) {
+      } else if (flashcardEntity.has(AdditionalTag.INCORRECT_ANSWER)) {
         newMasterLevel = MIN_MASTERY_LEVEL;
         flashcardEntity.add(new MasteryLevelFacet({ masteryLevel: newMasterLevel }));
       }
@@ -435,8 +435,8 @@ const FlashcardQuizEndCard = (props: { elapsedTime: number }) => {
   const { elapsedTime } = props;
   const { color: accentColor } = useSelectedSchoolSubjectColor();
   const [isFlipped, setIsFlipped] = useState(false);
-  const [rightAnswerdFlashcards] = useEntities((e) => e.has(AdditionalTag.ANSWERD_RIGHT));
-  const [wrongAnswerdFlashcards] = useEntities((e) => e.has(AdditionalTag.ANSWERD_WRONG));
+  const [rightAnswerdFlashcards] = useEntities((e) => e.has(AdditionalTag.CORRECT_ANSWER));
+  const [wrongAnswerdFlashcards] = useEntities((e) => e.has(AdditionalTag.INCORRECT_ANSWER));
 
   const rightAnswerdFlashcardsCount = rightAnswerdFlashcards.length;
   const wrongAnswerdFlashcardsCount = wrongAnswerdFlashcards.length;

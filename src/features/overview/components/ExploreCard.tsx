@@ -3,12 +3,12 @@ import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext } from 'react';
 import { IoChevronForward, IoReader } from 'react-icons/io5';
+import Skeleton from 'react-loading-skeleton';
 import tw from 'twin.macro';
 import { dummyBase64Image } from '../../../base/dummyBase64Image';
 import { Story } from '../../../base/enums';
-import { useIsLoadingIndicatorVisible } from '../../../common/hooks/useIsLoadingIndicatorVisible';
 import { CloseButton, FlexBox, ScrollableBox, Sheet, Spacer } from '../../../components';
-import Skeleton from 'react-loading-skeleton';
+import { useLoadingIndicator } from '../../../common/hooks';
 
 const StyledCardWrapper = styled.div`
   ${tw`w-full h-[28rem]  py-4 rounded-2xl bg-[#668FE8] bg-opacity-15`}
@@ -55,7 +55,7 @@ const StyledSheetTitle = styled.p`
 const ExploreCard = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isSheetVisible = useIsStoryCurrent(Story.READING_ARTICLE);
-  const isLoadingIndicatorVisible = useIsLoadingIndicatorVisible();
+  const { isLoadingIndicatorVisible } = useLoadingIndicator();
 
   const openSheet = () => lsc.stories.transitTo(Story.READING_ARTICLE);
   const closeSheet = () => lsc.stories.transitTo(Story.OBSERVING_OVERVIEW);
@@ -91,14 +91,14 @@ const ExploreCard = () => {
             </StyledContentContainer>
           </div>
         ) : (
-          <div tw="w-full p-4 ">
-          <Skeleton baseColor="#A8BEEC" highlightColor="#C2D0EE" borderRadius={4} tw="w-1/3 h-3" />
-          <Skeleton baseColor="#A8BEEC" highlightColor="#C2D0EE" borderRadius={4} tw="w-1/2 h-3" />
+          <div tw="w-full dark:opacity-10 transition-all p-4 ">
+            <Skeleton baseColor="#A8BEEC" highlightColor="#C2D0EE" borderRadius={4} tw="w-1/3 h-3" />
+            <Skeleton baseColor="#A8BEEC" highlightColor="#C2D0EE" borderRadius={4} tw="w-1/2 h-3" />
 
-          <Skeleton baseColor="#C2D0EE" highlightColor="#CFDAF0" borderRadius={4} tw="w-4/5 h-3 mt-4" />
-          <Skeleton baseColor="#C2D0EE" highlightColor="#CFDAF0" borderRadius={4} tw="w-4/5 h-3" />
-          {/* <Skeleton baseColor="#C2D0EE" highlightColor="#CFDAF0" borderRadius={4} tw="w-3/5 h-3" /> */}
-        </div>
+            <Skeleton baseColor="#C2D0EE" highlightColor="#CFDAF0" borderRadius={4} tw="w-4/5 h-3 mt-4" />
+            <Skeleton baseColor="#C2D0EE" highlightColor="#CFDAF0" borderRadius={4} tw="w-4/5 h-3" />
+            {/* <Skeleton baseColor="#C2D0EE" highlightColor="#CFDAF0" borderRadius={4} tw="w-3/5 h-3" /> */}
+          </div>
         )}
       </StyledCardWrapper>
 

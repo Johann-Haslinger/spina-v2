@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import tw from 'twin.macro';
 import { DateAddedFacet, SourceFacet, TitleFacet } from './app/additionalFacets';
 import { DataType, NavigationLink, Story } from './base/enums';
+import { InitializeLoadingIndicatorSystem } from './common/systems';
 import { Sidebar } from './components';
 import TabBar from './components/navigation/TabBar';
 import { AuthUI } from './features/auth-ui';
@@ -38,6 +39,7 @@ function App() {
       <InitializeAppSystem />
       <ViewManagerSystem />
       <InitializeSchoolSubjectsSystem />
+      <InitializeLoadingIndicatorSystem />
 
       <BrowserRouter>
         <Sidebar />
@@ -61,8 +63,6 @@ function App() {
         get={[[TitleFacet, DateAddedFacet, SourceFacet], []]}
         onMatch={PodcastSheet}
       />
-
-      {/* <SapientorIcon /> */}
     </StyledContentWrapper>
   );
 }
