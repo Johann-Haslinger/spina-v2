@@ -1,87 +1,74 @@
 import styled from '@emotion/styled';
-import React, { PropsWithChildren, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import tw from 'twin.macro';
 
-type size = 'small' | 'medium' | 'large';
+type Size = 'small' | 'medium' | 'large';
 
-const StyledTitle = styled.div<{ size: size; placeholderStyle: boolean }>`
-  ${tw` line-clamp-2 dark:text-white min-h-10 outline-none transition-all text-primatyText font-bold`}
+const StyledTextArea = styled.textarea<{ size: Size; placeholderStyle: boolean }>`
+  ${tw`dark:text-white w-full bg-white bg-opacity-0 min-h-10 outline-none transition-all font-bold resize-none overflow-hidden`}
   ${({ size }) => size === 'small' && tw`text-2xl`}
   ${({ size }) => size === 'medium' && tw`text-3xl`}
   ${({ size }) => size === 'large' && tw`md:text-4xl text-3xl`}
   ${({ placeholderStyle }) =>
-    placeholderStyle && tw`text-placeholderText text-opacity-70 dark:text-placeholderTextDark `}
+    placeholderStyle && tw`text-placeholderText text-opacity-70 dark:text-placeholderTextDark`}
 `;
 
 interface TitleProps {
   color?: string;
-  size?: size;
+  size?: Size;
   editable?: boolean;
   onBlur?: (value: string) => void;
 }
 
-const Title = (props: PropsWithChildren & TitleProps) => {
-  const { color, children, size = 'medium', editable, onBlur } = props;
+const Title: React.FC<React.PropsWithChildren<TitleProps>> = ({
+  children = '',
+  size = 'medium',
+  editable = false,
+  onBlur,
+}) => {
   const [isFocused, setIsFocused] = useState(false);
-  const titleRef = useRef<HTMLDivElement>(null);
+  const [text, setText] = useState(children as string);
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
 
   useEffect(() => {
-    if (children?.toString().length == 0 && titleRef.current) {
-      setIsFocused(true);
-      titleRef.current.focus();
+    if (textAreaRef.current) {
+      textAreaRef.current.style.height = 'auto';
+      textAreaRef.current.style.height = `${textAreaRef.current.scrollHeight}px`;
     }
-  }, []);
+  }, [text]);
 
   useEffect(() => {
-    if (!children && !isFocused && titleRef.current) {
-      titleRef.current.textContent = 'Title';
-    } else if (!children && isFocused && titleRef.current) {
-      titleRef.current.textContent = '';
-    } else if (children && titleRef.current) {
-      titleRef.current.textContent = children as string;
+    if (children == '' || !children) {
+      textAreaRef.current?.focus();
     }
-  }, [children, isFocused]);
+  }, [children]);
 
-  useEffect(() => {
-    if (titleRef.current) {
-      titleRef.current.textContent = titleRef.current.innerText;
+  const handleBlur = () => {
+    if (onBlur) {
+      onBlur(text);
     }
-  }, [titleRef.current?.innerHTML]);
-
-  const handleBlur = (e: React.FocusEvent<HTMLDivElement>) => {
-    onBlur && onBlur(e.currentTarget.textContent || '');
     setIsFocused(false);
   };
 
-  const handlePaste = async (e: React.ClipboardEvent<HTMLParagraphElement>) => {
-    e.preventDefault();
-    const text = e.clipboardData.getData('text/html')
-      ? e.clipboardData.getData('text/html')
-      : e.clipboardData.getData('text/plain');
-
-    if (titleRef.current) {
-      titleRef.current.textContent = titleRef.current.textContent + text;
-    }
-  };
-
-  return (
-    <StyledTitle
-      onKeyPress={(e) => {
-        if (e.key === 'Enter' || e.metaKey) {
+  return editable ? (
+    <StyledTextArea
+      ref={textAreaRef}
+      value={text}
+      placeholder={'Titel'}
+      onChange={(e) => setText(e.target.value)}
+      onBlur={handleBlur}
+      onFocus={() => setIsFocused(true)}
+      placeholderStyle={!text && !isFocused}
+      size={size}
+      rows={1}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
           e.preventDefault();
         }
       }}
-      onPaste={(e) => handlePaste(e)}
-      onClick={() => setIsFocused(true)}
-      ref={titleRef}
-      placeholderStyle={!children && !isFocused}
-      contentEditable={editable}
-      onBlur={handleBlur}
-      size={size}
-      style={{
-        color: color,
-      }}
     />
+  ) : (
+    <div tw="line-clamp-2 text-3xl font-bold">{children}</div>
   );
 };
 
