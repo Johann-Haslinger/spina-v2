@@ -22,6 +22,7 @@ import {
   IoEllipsisHorizontalCircleOutline,
   IoTrashOutline,
 } from 'react-icons/io5';
+import Skeleton from 'react-loading-skeleton';
 import tw from 'twin.macro';
 import { v4 } from 'uuid';
 import {
@@ -32,6 +33,7 @@ import {
   TitleProps,
 } from '../../../../app/additionalFacets';
 import { AdditionalTag, DataType, LearningUnitType, Story, SupabaseTable } from '../../../../base/enums';
+import { useLoadingIndicator } from '../../../../common/hooks';
 import {
   ActionRow,
   CollectionGrid,
@@ -54,9 +56,10 @@ import { sortEntitiesByDateAdded } from '../../../../utils/sortEntitiesByTime';
 import AddResourceToLearningGroupSheet from '../../../groups/components/AddResourceToLearningGroupSheet';
 import { useEntityHasChildren } from '../../hooks/useEntityHasChildren';
 import { useSelectedSchoolSubjectGrid } from '../../hooks/useSchoolSubjectGrid';
+import { useSelectedSchoolSubjectColor } from '../../hooks/useSelectedSchoolSubjectColor';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
 import LoadHomeworksSystem from '../../systems/LoadHomeworksSystem';
-import LoadLearningUnitsSystm from '../../systems/LoadLearningUnitsSystm';
+import LoadLearningUnitsSystem from '../../systems/LoadLearningUnitsSystem';
 import AddFlashcardSetSheet from '../flashcard-sets/AddFlashcardSetSheet';
 import GenerateResourcesFromImageSheet from '../generation/GenerateResourcesFromImageSheet';
 import AddHomeworkSheet from '../homeworks/AddHomeworkSheet';
@@ -170,6 +173,8 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
   const grid = useSelectedSchoolSubjectGrid();
   const { hasChildren } = useEntityHasChildren(entity);
   const [isArchived] = useEntityHasTags(entity, AdditionalTag.ARCHIVED);
+  const { isLoadingIndicatorVisible } = useLoadingIndicator();
+  const { color, backgroundColor } = useSelectedSchoolSubjectColor();
 
   const navigateBack = () => entity.addTag(AdditionalTag.NAVIGATE_BACK);
   const openEditTopicSheet = () => lsc.stories.transitTo(Story.EDITING_TOPIC_STORY);
@@ -202,7 +207,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
 
   return (
     <div>
-      <LoadLearningUnitsSystm />
+      <LoadLearningUnitsSystem />
       <LoadHomeworksSystem />
 
       <View hidePadding visible={isVisible}>
@@ -274,47 +279,59 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
               {(description || !hasChildren) && <Spacer size={2} />}
               <div tw="md:w-4/5 ">
                 <SecondaryText>
-                  {hasChildren ? description : "Drücke auf das Plus Symbol, um etwas zu '" + title + "' hinzuzufügen."}
+                  {isLoadingIndicatorVisible ? (
+                    <div tw="w-full opacity-15">
+                      <Skeleton borderRadius={4} tw="w-full h-3" baseColor={color} highlightColor={backgroundColor} />
+                      <Skeleton borderRadius={4} tw="w-1/2 h-3" baseColor={color} highlightColor={backgroundColor} />
+                    </div>
+                  ) : hasChildren ? (
+                    description
+                  ) : (
+                    "Drücke auf das Plus Symbol, um etwas zu '" + title + "' hinzuzufügen."
+                  )}
                 </SecondaryText>
               </div>
               <Spacer size={8} />
             </div>
+            {!isLoadingIndicatorVisible && (
+              <div>
+                <CollectionGrid columnSize="small">
+                  <EntityPropsMapper
+                    query={(e) => learningUnitTypeQuery(e, LearningUnitType.MIXED) && isChildOfQuery(e, entity)}
+                    sort={(a, b) => sortEntitiesByDateAdded(a, b)}
+                    get={[[TitleFacet], []]}
+                    onMatch={LearningUnitCell}
+                  />
+                </CollectionGrid>
 
-            <CollectionGrid columnSize="small">
-              <EntityPropsMapper
-                query={(e) => learningUnitTypeQuery(e, LearningUnitType.MIXED) && isChildOfQuery(e, entity)}
-                sort={(a, b) => sortEntitiesByDateAdded(a, b)}
-                get={[[TitleFacet], []]}
-                onMatch={LearningUnitCell}
-              />
-            </CollectionGrid>
+                <CollectionGrid columnSize="small">
+                  <EntityPropsMapper
+                    query={(e) => learningUnitTypeQuery(e, LearningUnitType.NOTE) && isChildOfQuery(e, entity)}
+                    sort={(a, b) => sortEntitiesByDateAdded(a, b)}
+                    get={[[TitleFacet], []]}
+                    onMatch={LearningUnitCell}
+                  />
+                </CollectionGrid>
 
-            <CollectionGrid columnSize="small">
-              <EntityPropsMapper
-                query={(e) => learningUnitTypeQuery(e, LearningUnitType.NOTE) && isChildOfQuery(e, entity)}
-                sort={(a, b) => sortEntitiesByDateAdded(a, b)}
-                get={[[TitleFacet], []]}
-                onMatch={LearningUnitCell}
-              />
-            </CollectionGrid>
+                <CollectionGrid columnSize="small">
+                  <EntityPropsMapper
+                    query={(e) => learningUnitTypeQuery(e, LearningUnitType.FLASHCARD_SET) && isChildOfQuery(e, entity)}
+                    get={[[TitleFacet, IdentifierFacet], []]}
+                    sort={(a, b) => sortEntitiesByDateAdded(a, b)}
+                    onMatch={LearningUnitCell}
+                  />
+                </CollectionGrid>
 
-            <CollectionGrid columnSize="small">
-              <EntityPropsMapper
-                query={(e) => learningUnitTypeQuery(e, LearningUnitType.FLASHCARD_SET) && isChildOfQuery(e, entity)}
-                get={[[TitleFacet, IdentifierFacet], []]}
-                sort={(a, b) => sortEntitiesByDateAdded(a, b)}
-                onMatch={LearningUnitCell}
-              />
-            </CollectionGrid>
-
-            <CollectionGrid columnSize="small">
-              <EntityPropsMapper
-                query={(e) => dataTypeQuery(e, DataType.HOMEWORK) && isChildOfQuery(e, entity)}
-                get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
-                sort={(a, b) => sortEntitiesByDateAdded(a, b)}
-                onMatch={HomeworkCell}
-              />
-            </CollectionGrid>
+                <CollectionGrid columnSize="small">
+                  <EntityPropsMapper
+                    query={(e) => dataTypeQuery(e, DataType.HOMEWORK) && isChildOfQuery(e, entity)}
+                    get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
+                    sort={(a, b) => sortEntitiesByDateAdded(a, b)}
+                    onMatch={HomeworkCell}
+                  />
+                </CollectionGrid>
+              </div>
+            )}
           </StyledTopicResourcesWrapper>
         </StyledTopicViewContainer>
       </View>

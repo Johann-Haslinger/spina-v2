@@ -23,7 +23,7 @@ const fetchLearningUnitsForTopic = async (topicId: string) => {
   return learningUnits || [];
 };
 
-const LoadLearningUnitsSystm = () => {
+const LoadLearningUnitsSystem = () => {
   const lsc = useContext(LeanScopeClientContext);
   const { isUsingMockupData, isUsingSupabaseData } = useCurrentDataSource();
   const { selectedTopicId } = useSelectedTopic();
@@ -69,4 +69,4 @@ const LoadLearningUnitsSystm = () => {
   return null;
 };
 
-export default LoadLearningUnitsSystm;
+export default LoadLearningUnitsSystem;

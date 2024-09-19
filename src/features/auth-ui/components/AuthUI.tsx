@@ -5,7 +5,7 @@ import tw from 'twin.macro';
 import supabaseClient from '../../../lib/supabase';
 
 const StyledAuthWrapper = styled.div`
-  ${tw`flex h-full w-full justify-center items-center`}
+  ${tw`flex  h-screen w-screen justify-center items-center`}
 `;
 
 function AuthUI() {
@@ -19,8 +19,8 @@ function AuthUI() {
           variables: {
             default: {
               colors: {
-                brand: '#B9A0FF',
-                brandAccent: '#B9A0FF',
+                brand: 'black',
+                brandAccent: 'black',
               },
             },
           },

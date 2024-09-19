@@ -99,7 +99,10 @@ const usePendingResources = () => {
   sevenDaysAgo.setDate(currentDate.getDate() - 7);
 
   const [pendingResourceEntities] = useEntities(
-    (e) => new Date(e.get(DueDateFacet)?.props.dueDate || '') >= sevenDaysAgo,
+    (e) =>
+      new Date(e.get(DueDateFacet)?.props.dueDate || '') >= sevenDaysAgo &&
+      ([ProgressStatus.TODO, ProgressStatus.IN_PROGRESS].includes(e.get(StatusFacet)?.props.status || 0) ||
+        e.has(AdditionalTag.CHANGED)),
   );
 
   const hasPendingResources = pendingResourceEntities.length > 0;

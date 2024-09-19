@@ -31,7 +31,9 @@ function App() {
   const { isLoggedIn } = useSession();
 
   return isLoggedIn == false ? (
-    <AuthUI />
+    <div>
+      <AuthUI />
+    </div>
   ) : (
     <StyledContentWrapper>
       <InitializeUserSystem />
