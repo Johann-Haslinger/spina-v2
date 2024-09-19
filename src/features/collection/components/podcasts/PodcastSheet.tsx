@@ -12,7 +12,7 @@ import { useSelectedSchoolSubjectColor } from '../../hooks/useSelectedSchoolSubj
 import LoadPodcastAudioSystem from '../../systems/LoadPodcastAudioSystem';
 
 const StyledPodcastPlayerWrapper = styled.div`
-  ${tw`h-full   text-primatyText dark:text-primaryTextDark px-4 lg:px-12 w-full`}
+  ${tw`h-full   text-primary-text dark:text-primary-text-dark px-4 lg:px-12 w-full`}
 `;
 
 const StyledPodcastIconContainer = styled.div`

@@ -15,7 +15,7 @@ const StyledBlockWrapper = styled.div<{
   ${tw` px-2 mb-0.5 rounded-md w-full  flex h-fit `}
   ${({ isPressed }) =>
     isPressed
-      ? tw`bg-primaryColor  bg-opacity-10 dark:bg-opacity-100 dark:bg-seconderyDark   z-40  select-none `
+      ? tw`bg-primary-color  bg-opacity-10 dark:bg-opacity-100 dark:bg-secondary-dark   z-40  select-none `
       : tw`border-white`};
   ${({ paddingY }) => (!paddingY ? tw`py-0.5 min-h-[36px]` : tw`py-2 min-h-[40px]`)};
 `;
@@ -33,7 +33,7 @@ const StyledSelectionIndicator = styled.div<{ isVisible: boolean }>`
   ${tw`w-3 h-3  select-none rounded-full border `}
   ${({ isVisible }) =>
     isVisible
-      ? tw` border-primaryColor dark:border-white dark:bg-white bg-primaryColor`
+      ? tw` border-primary-color dark:border-white dark:bg-white bg-primary-color`
       : tw`dark:border-white border-[rgb(212,212,212)]`}
 `;
 

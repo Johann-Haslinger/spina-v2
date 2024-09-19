@@ -4,12 +4,12 @@ import { useEffect, useRef, useState } from 'react';
 import tw from 'twin.macro';
 
 const StyledTextEditorWrapper = styled.div<{ isHidden: boolean }>`
-  ${tw`w-full dark:text-primaryTextDark transition-all text-base outline-none pb-20 h-full`}
+  ${tw`w-full dark:text-primary-text-dark transition-all text-base outline-none pb-20 h-full`}
   ${({ isHidden }) => isHidden && tw`hidden`}
 `;
 
 const StyledPlaceholder = styled.div`
-  ${tw`text-seconderyText opacity-70`}
+  ${tw`text-secondary-text opacity-70`}
 `;
 
 const TextEditor = (props: { onBlur?: (newValue: string) => void; value?: string; placeholder?: string }) => {

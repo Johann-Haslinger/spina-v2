@@ -15,12 +15,12 @@ const StyledPromptBoxContainer = styled.div`
 `;
 
 const StyledPromptBoxWrapper = styled.div<{ isChatSheetVisible: boolean }>`
-  ${tw`h-fit pl-4   bg-tertiary dark:bg-tertiaryDark  rounded-3xl `}
+  ${tw`h-fit pl-4   bg-tertiary dark:bg-tertiary-dark  rounded-3xl `}
   ${({ isChatSheetVisible }) => (isChatSheetVisible ? tw` w-[90%]  pr-1.5 py-1` : tw`w-full pr-1`)}
 `;
 
 const StyledPromptInput = styled.input`
-  ${tw`h-8 pr-4 w-[90%] placeholder:text-seconderyText placeholder:text-opacity-50 dark:text-white dark:placeholder:text-seconderyTextDark bg-white bg-opacity-0 outline-none`}
+  ${tw`h-8 pr-4 w-[90%] placeholder:text-secondary-text placeholder:text-opacity-50 dark:text-white dark:placeholder:text-secondary-text-dark bg-white bg-opacity-0 outline-none`}
 `;
 
 const StyledSubmitButton = styled.button<{ active: boolean }>`
@@ -36,7 +36,7 @@ const StyledSelectedImage = styled.img`
 `;
 
 const StyledStyledCancelButton = styled.button`
-  ${tw`bg-black relative right-3.5 bottom-2 text-seconderyText dark:text-seconderyTextDark rounded-full p-1 text-sm  hover:opacity-50 transition-all`}
+  ${tw`bg-black relative right-3.5 bottom-2 text-secondary-text dark:text-secondary-text-dark rounded-full p-1 text-sm  hover:opacity-50 transition-all`}
 `;
 
 const StyledImageContainer = styled.div`

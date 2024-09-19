@@ -25,7 +25,7 @@ const StyledTopAreaWrapper = styled.div<{ image: string; grid: boolean }>`
 `;
 
 const StyledTopicResourcesWrapper = styled.div<{ largeShadow: boolean }>`
-  ${tw` px-4  md:px-20 h-fit min-h-screen     pt-10 pb-40  dark:bg-primaryDark transition-all   bg-primary  lg:px-32 xl:px-60 2xl:px-96 w-full`}
+  ${tw` px-4  md:px-20 h-fit min-h-screen     pt-10 pb-40  dark:bg-primary-dark transition-all   bg-primary  lg:px-32 xl:px-60 2xl:px-96 w-full`}
   ${({ largeShadow }) =>
     largeShadow
       ? tw`shadow-[0px_0px_60px_0px_rgba(0, 0, 0, 0.6)] xl:shadow-[0px_0px_60px_0px_rgba(0, 0, 0, 0.5)] `
@@ -33,7 +33,7 @@ const StyledTopicResourcesWrapper = styled.div<{ largeShadow: boolean }>`
 `;
 
 const StyledNavbarBackground = styled.div`
-  ${tw`w-full xl:h-0 h-14 bg-primary  absolute top-0 left-0 dark:bg-primaryDark`}
+  ${tw`w-full xl:h-0 h-14 bg-primary  absolute top-0 left-0 dark:bg-primary-dark`}
 `;
 
 const StyledImageOverlay = styled.div<{ overlay?: string }>`
@@ -42,7 +42,7 @@ const StyledImageOverlay = styled.div<{ overlay?: string }>`
 `;
 
 const StyledBackButton = styled.div`
-  ${tw` size-10  relative top-5 transition-all md:hover:scale-105 text-2xl ml-4 md:ml-20 lg:ml-32 xl:ml-60 2xl:ml-96 dark:bg-tertiaryDark dark:text-white bg-tertiary  text-black rounded-full flex justify-center items-center`}
+  ${tw` size-10  relative top-5 transition-all md:hover:scale-105 text-2xl ml-4 md:ml-20 lg:ml-32 xl:ml-60 2xl:ml-96 dark:bg-tertiary-dark dark:text-white bg-tertiary  text-black rounded-full flex justify-center items-center`}
 `;
 
 const StyledTopicViewContainer = styled.div`

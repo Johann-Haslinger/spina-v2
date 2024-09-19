@@ -8,7 +8,7 @@ const StyledSubtopicCellWrapper = styled.div`
 `;
 
 const StyledSubtopicCellContainer = styled.div`
-  ${tw`w-full  cursor-pointer  space-x-1   p-1  items-center  flex  rounded-lg  h-32 transition-all md:hover:scale-105 bg-tertiary dark:bg-tertiaryDark `}
+  ${tw`w-full  cursor-pointer  space-x-1   p-1  items-center  flex  rounded-lg  h-32 transition-all md:hover:scale-105 bg-tertiary dark:bg-tertiary-dark `}
 `;
 
 const StyledSubtopicCellItem = styled.div<{ backgroundColor: string }>`
@@ -17,11 +17,11 @@ const StyledSubtopicCellItem = styled.div<{ backgroundColor: string }>`
 `;
 
 const StyledSubtopicCellTitle = styled.p`
-  ${tw`mt-2 text-sm   line-clamp-2  dark:text-primaryTextDark `}
+  ${tw`mt-2 text-sm   line-clamp-2  dark:text-primary-text-dark `}
 `;
 
 const StyledResourceTypeText = styled.p`
-  ${tw`text-sm  text-seconderyText dark:text-seconderyTextDark `}
+  ${tw`text-sm  text-secondary-text dark:text-secondary-text-dark `}
 `;
 
 const CardWrapper = tw.div`

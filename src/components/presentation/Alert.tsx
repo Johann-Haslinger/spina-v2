@@ -7,7 +7,7 @@ import { useSelectedLanguage } from '../../hooks/useSelectedLanguage';
 import { displayAlertTexts } from '../../utils/displayText';
 
 const StyledAlertWrapper = styled.div`
-  ${tw`bg-white dark:bg-seconderyDark overflow-hidden  text-primatyText dark:text-primaryTextDark w-10/12 md:w-64 mx-auto mt-72  backdrop-blur-lg bg-opacity-90 rounded-lg `}
+  ${tw`bg-white dark:bg-secondary-dark overflow-hidden  text-primary-text dark:text-primary-text-dark w-10/12 md:w-64 mx-auto mt-72  backdrop-blur-lg bg-opacity-90 rounded-lg `}
 `;
 
 const StyledAlertTitle = styled.div`
@@ -19,7 +19,7 @@ const StyledAlertSubTitle = styled.div`
 `;
 
 const StyledButtonWrapper = styled.div`
-  ${tw`border-primaryBorder divide-x divide-primaryBorder dark:divide-primaryBorderDark dark:border-primaryBorderDark border-t flex`}
+  ${tw`border-primary-border divide-x divide-primary-border dark:divide-primary-border-dark dark:border-primary-border-dark border-t flex`}
 `;
 
 interface AlertProps {

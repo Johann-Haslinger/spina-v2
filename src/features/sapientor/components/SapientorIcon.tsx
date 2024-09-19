@@ -60,7 +60,7 @@ const useQuickChat = () => {
 };
 
 const StyledIconWrapper = styled.div`
-  ${tw` overflow-hidden  pt-4 z-50 m-4 md:m-6 xl:m-8  bg-tertiary dark:bg-tertiaryDark transition-all hover:scale-105 rounded-xl size-20`}
+  ${tw` overflow-hidden  pt-4 z-50 m-4 md:m-6 xl:m-8  bg-tertiary dark:bg-tertiary-dark transition-all hover:scale-105 rounded-xl size-20`}
 `;
 
 const StyledSapientorOutline = styled.div`

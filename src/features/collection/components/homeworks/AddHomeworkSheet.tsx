@@ -36,7 +36,7 @@ const AddHomeworkSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Story.ADDING_HOMEWORK_STORY);
   const { selectedLanguage } = useSelectedLanguage();
-  const schooolSubjectEntities = useSchoolSubjectEntities();
+  const schoolSubjectEntities = useSchoolSubjectEntities();
   const { selectedTopicId: openTopicId } = useSelectedTopic();
   const { selectedSchoolSubjectId: openSchoolSubjectId } = useSelectedSchoolSubject();
   const [selectedSchoolSubjectId, setSelectedSchoolSubjectId] = useState<string>('');
@@ -130,7 +130,7 @@ const AddHomeworkSheet = () => {
       <FlexBox>
         <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
 
-        {newHomework.title && newHomework.dueDate && schooolSubjectEntities.length !== 0 && (
+        {newHomework.title && newHomework.dueDate && schoolSubjectEntities.length !== 0 && (
           <PrimaryButton onClick={saveHomework}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
         )}
       </FlexBox>
@@ -160,7 +160,7 @@ const AddHomeworkSheet = () => {
               <p>{displayLabelTexts(selectedLanguage).schoolSubject}</p>
               <SelectInput value={selectedSchoolSubjectId} onChange={(e) => setSelectedSchoolSubjectId(e.target.value)}>
                 <option value="">{displayLabelTexts(selectedLanguage).select}</option>
-                {schooolSubjectEntities.map((entity, idx) => {
+                {schoolSubjectEntities.map((entity, idx) => {
                   const schoolSubjectId = entity.get(IdentifierFacet)?.props.guid;
                   const schoolSubjectTitle = entity.get(TitleFacet)?.props.title;
                   return (

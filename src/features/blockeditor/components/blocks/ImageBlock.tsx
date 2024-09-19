@@ -7,7 +7,7 @@ import tw from 'twin.macro';
 import BlockOutline from './BlockOutline';
 
 const StyledImageWrapper = styled.div`
-  ${tw`w-full rounded-lg bg-tertiary dark:bg-seconderyDark flex justify-center`}
+  ${tw`w-full rounded-lg bg-tertiary dark:bg-secondary-dark flex justify-center`}
 `;
 
 const StyledImage = styled.img<{ size: SizeTypes; fit: FitTypes }>`

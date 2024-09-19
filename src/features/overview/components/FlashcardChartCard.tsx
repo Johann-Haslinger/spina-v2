@@ -5,8 +5,8 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import tw from 'twin.macro';
 import { COLOR_ITEMS } from '../../../base/constants';
-import { useWeekStats } from '../../flashcards/hooks/useWeekStats';
 import { useLoadingIndicator } from '../../../common/hooks';
+import { useWeekStats } from '../../flashcards/hooks/useWeekStats';
 
 const StyledCardWrapper = styled.div`
   ${tw`w-full pr-5 h-[28rem] p-4 text-[#6EBED9] rounded-2xl bg-[#6EBED9] bg-opacity-15`}
@@ -23,7 +23,7 @@ const StyledBar = styled.div<{ isHoverd?: boolean }>`
 `;
 
 const StyledColumnLabel = styled.div`
-  ${tw` pt-2 font-semibold text-seconderyText opacity-100 mx-auto flex justify-center w-2 text-center text-xs`}
+  ${tw` pt-2 font-semibold text-secondary-text opacity-100 mx-auto flex justify-center w-2 text-center text-xs`}
 `;
 
 const StyledAverageMarker = styled.div`
@@ -36,7 +36,7 @@ const StyledColumnsWrapper = styled.div`
 `;
 
 const StyledYLabelsWrapper = styled.div`
-  ${tw`flex flex-col font-semibold text-seconderyText text-xs pl-1 bottom-2 relative left-1  text-center justify-between`}
+  ${tw`flex flex-col font-semibold text-secondary-text text-xs pl-1 bottom-2 relative left-1  text-center justify-between`}
 `;
 
 const StyledAverageLabelWrapper = styled.div`
@@ -52,7 +52,7 @@ const StyledCardCountText = styled.div`
 `;
 
 const StyledCardInfo = styled.div`
-  ${tw`text-xs text-seconderyText font-semibold text-opacity-100 relative bottom-1.5`}
+  ${tw`text-xs text-secondary-text font-semibold text-opacity-100 relative bottom-1.5`}
 `;
 
 const StyledAverageMarkerWrapper = styled.div`
@@ -129,7 +129,7 @@ const FlashcardChartCard = () => {
                     {' '}
                     {selectedDay !== null ? weekDays[selectedDay] : averageFlashcards}{' '}
                   </span>
-                  <span tw="text-xs font-semibold  text-seconderyText ">
+                  <span tw="text-xs font-semibold  text-secondary-text ">
                     {' '}
                     {averageFlashcards === 1 ? 'Karte' : 'Karten'}
                   </span>

@@ -27,13 +27,13 @@ const StyledTabBar = styled.div`
 `;
 
 const StyledTabLabel = styled.div<{ isActive: boolean }>`
-  ${tw`text-seconderyText hover:text-black dark:hover:text-white dark:text-seconderyTextDark  cursor-pointer`}
+  ${tw`text-secondary-text hover:text-black dark:hover:text-white dark:text-secondary-text-dark  cursor-pointer`}
   ${({ isActive }) =>
-    isActive && tw`border-b text-primary dark:text-primaryTextDark border-primary dark:border-primaryTextDark`};
+    isActive && tw`border-b text-primary dark:text-primary-text-dark border-primary dark:border-primary-text-dark`};
 `;
 
 const StyledSegmentedControl = styled.div`
-  ${tw`flex my-6 px-4 bg-tertiary dark:bg-seconderyDark transition-all  py-2 rounded-lg justify-between`}
+  ${tw`flex my-6 px-4 bg-tertiary dark:bg-secondary-dark transition-all  py-2 rounded-lg justify-between`}
 `;
 const StyledLabel = styled.div`
   ${tw`text-sm flex justify-center`}

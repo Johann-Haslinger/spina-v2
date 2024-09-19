@@ -24,7 +24,7 @@ import { useSelectedGroupNote } from '../hooks/useSelectedGroupNote';
 import { useSelectedGroupSubtopic } from '../hooks/useSelectedGroupSubtopic';
 
 const StyledMoreButtonWrapper = styled.div`
-  ${tw`text-seconderyText text-opacity-50`}
+  ${tw`text-secondary-text text-opacity-50`}
 `;
 
 const fetchTopicsForSchoolSubject = async (subjectId: string) => {

@@ -92,7 +92,7 @@ const useStyleUpdater = (isVisible: boolean, hasSelection: boolean) => {
 };
 
 const StyledActionSheetWrapper = styled(motion.div)`
-  ${tw`bg-[rgb(244,244,244)] mt-2  dark:bg-seconderyDark fixed top-12 md:right-24 right-4 w-48 dark:shadow-[0px_0px_60px_0px_rgba(255, 255, 255, 0.05)] shadow-[0px_0px_60px_0px_rgba(0,0,0,0.13)] text-primatyText dark:text-primaryTextDark  backdrop-blur-2xl rounded-xl`}
+  ${tw`bg-[rgb(244,244,244)] mt-2  dark:bg-secondary-dark fixed top-12 md:right-24 right-4 w-48 dark:shadow-[0px_0px_60px_0px_rgba(255, 255, 255, 0.05)] shadow-[0px_0px_60px_0px_rgba(0,0,0,0.13)] text-primary-text dark:text-primary-text-dark  backdrop-blur-2xl rounded-xl`}
 `;
 
 const ColorButton = styled.button`
@@ -100,7 +100,7 @@ const ColorButton = styled.button`
 `;
 
 const ButtonContainer = styled.div`
-  ${tw`flex flex-wrap justify-between p-3 border-b dark:border-primaryBorderDark border-primaryBorder`}
+  ${tw`flex flex-wrap justify-between p-3 border-b dark:border-primary-border-dark border-primary-border`}
 `;
 
 const StyleOptionsContainer = styled.div`
@@ -108,8 +108,8 @@ const StyleOptionsContainer = styled.div`
 `;
 
 const StyledTextOptionButton = styled.button<{ isCurrent: boolean }>`
-  ${tw`px-2 w-1/3 text-lg py-1 rounded text-seconderyText border-primaryBorder dark:border-primaryBorderDark dark:text-primaryTextDark`}
-  ${({ isCurrent }) => isCurrent && tw`text-primaryColor border-primaryColor`}
+  ${tw`px-2 w-1/3 text-lg py-1 rounded text-secondary-text border-primary-border dark:border-primary-border-dark dark:text-primary-text-dark`}
+  ${({ isCurrent }) => isCurrent && tw`text-primary-color border-primary-color`}
 `;
 
 const StyleActionSheet = () => {

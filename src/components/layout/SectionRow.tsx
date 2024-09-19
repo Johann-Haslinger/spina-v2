@@ -9,17 +9,17 @@ const StyledSectionRowWrapper = styled.div<{ role: Role }>`
   ${({ role }) => role === 'destructive' && tw` text-red-500   cursor-pointer md:hover:opacity-50 transition-all`}
   ${({ role }) =>
     role === 'button' &&
-    tw`text-primaryColor cursor-pointer dark:text-primaryTextDark md:hover:opacity-50 transition-all `}
+    tw`text-primary-color cursor-pointer dark:text-primary-text-dark md:hover:opacity-50 transition-all `}
 `;
 
 const StyledIconWrapper = styled.div<{ role: Role }>`
-  ${tw`text-xl  dark:text-white text-primaryColor ml-3`}
+  ${tw`text-xl  dark:text-white text-primary-color ml-3`}
   ${({ role }) => role === 'destructive' && tw` !text-red-500`}
 `;
 
 const StyledSectionRowContent = styled.div<{ last: boolean }>`
   ${tw`flex w-full ml-3 px-2 py-2 h-fit justify-between pr-3`}
-  ${({ last }) => !last && tw` border-b-[0.5px] transition-all border-primaryBorder dark:border-primaryBorderDark`}
+  ${({ last }) => !last && tw` border-b-[0.5px] transition-all border-primary-border dark:border-primary-border-dark`}
 `;
 
 interface SectionRowProps {

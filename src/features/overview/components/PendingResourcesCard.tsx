@@ -139,7 +139,7 @@ const StyledTitle = styled.p`
 `;
 
 const StyledDueDate = styled.p`
-  ${tw`text-sm text-seconderyText`}
+  ${tw`text-sm text-secondary-text`}
 `;
 
 const StyledSelectWrapper = styled.div<{ status: ProgressStatus; dark: boolean }>`

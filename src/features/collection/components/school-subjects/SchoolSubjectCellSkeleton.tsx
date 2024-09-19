@@ -4,7 +4,7 @@ import tw from 'twin.macro';
 import { useSelectedTheme } from '../../hooks/useSelectedTheme';
 
 const StyledCellWrapper = styled.div`
-  ${tw`  w-full    bg-tertiary dark:bg-seconderyDark  opacity-70 dark:opacity-40 transition-all h-40`}
+  ${tw`  w-full    bg-tertiary dark:bg-secondary-dark  opacity-70 dark:opacity-40 transition-all h-40`}
 `;
 
 const SchoolSubjectCellSkeleton = () => {

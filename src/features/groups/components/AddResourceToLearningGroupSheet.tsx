@@ -22,7 +22,7 @@ import { useSelectedNote } from '../../collection/hooks/useSelectedNote';
 import { useSelectedSubtopic } from '../../collection/hooks/useSelectedSubtopic';
 
 const StyledMoreButtonWrapper = styled.div`
-  ${tw`text-seconderyText text-opacity-50`}
+  ${tw`text-secondary-text text-opacity-50`}
 `;
 
 const fetchLearningGroups = async () => {

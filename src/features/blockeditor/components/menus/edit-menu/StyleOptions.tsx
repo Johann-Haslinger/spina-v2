@@ -25,11 +25,11 @@ const StyledMoreButton = styled.div`
 `;
 
 const StyledOptionRowWarpper = styled.div`
-  ${tw`flex w-full space-x-1  overflow-x-scroll  py-3 items-center justify-between border-t border-opacity-50 dark:border-opacity-50 border-primaryBorder dark:border-primaryBorderDark   `}
+  ${tw`flex w-full space-x-1  overflow-x-scroll  py-3 items-center justify-between border-t border-opacity-50 dark:border-opacity-50 border-primary-border dark:border-primary-border-dark   `}
 `;
 
 const StyledMoreOptionSheetWrapper = styled.div`
-  ${tw`bg-white relative right-4 dark:bg-seconderyDark pt-2 h-44  ml-2 rounded-xl px-4 md:w-[32rem]  w-11/12   shadow-[0_0px_40px_1px_rgba(0,0,0,0.12)]`}
+  ${tw`bg-white relative right-4 dark:bg-secondary-dark pt-2 h-44  ml-2 rounded-xl px-4 md:w-[32rem]  w-11/12   shadow-[0_0px_40px_1px_rgba(0,0,0,0.12)]`}
 `;
 
 const StyledBackIcon = styled.div`
@@ -41,14 +41,14 @@ const StyledFurtherOptionRowWrapper = styled.div`
 `;
 
 const StyledSecondFurtherOptionRowWrapper = styled.div`
-  ${tw`flex w-full  overflow-x-scroll  py-1.5 border-t dark:border-primaryBorderDark  border-primaryBorder  dark:border-opacity-50  border-opacity-50  justify-between `}
+  ${tw`flex w-full  overflow-x-scroll  py-1.5 border-t dark:border-primary-border-dark  border-primary-border  dark:border-opacity-50  border-opacity-50  justify-between `}
 `;
 
 const StyledOptionWrapper = styled.div<{ isSelected: boolean }>`
   ${tw`py-2 items-center rounded-lg text-sm px-4 w-full flex border justify-center `}
   ${({ isSelected }) =>
     isSelected
-      ? tw`text-primaryColor  bg-primaryColor bg-opacity-10 border-primaryColor`
+      ? tw`text-primary-color  bg-primary-color bg-opacity-10 border-primary-color`
       : tw` border-white border-opacity-0`}
 `;
 

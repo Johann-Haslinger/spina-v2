@@ -1,15 +1,15 @@
 import styled from '@emotion/styled';
+import { IoHeadset } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { useSelectedLanguage } from '../../hooks/useSelectedLanguage';
 import { displayAlertTexts, displayDataTypeTexts } from '../../utils/displayText';
-import { IoHeadset } from 'react-icons/io5';
 
 const StyledPOdcastCellWrapper = styled.div`
   ${tw`pb-4 min-h-48 `}
 `;
 
 const StyledPOdcastCellContainer = styled.div`
-  ${tw`w-full  space-x-1 cursor-pointer   p-1  items-center  flex  rounded-lg  h-32 transition-all md:hover:scale-105 bg-tertiary dark:bg-tertiaryDark `}
+  ${tw`w-full  space-x-1 cursor-pointer   p-1  items-center  flex  rounded-lg  h-32 transition-all md:hover:scale-105 bg-tertiary dark:bg-tertiary-dark `}
 `;
 
 const StyledPOdcastCellItem = styled.div<{ backgroundColor: string }>`
@@ -18,11 +18,11 @@ const StyledPOdcastCellItem = styled.div<{ backgroundColor: string }>`
 `;
 
 const StyledPOdcastCellTitle = styled.p`
-  ${tw`mt-2 text-sm   line-clamp-2  dark:text-primaryTextDark `}
+  ${tw`mt-2 text-sm   line-clamp-2  dark:text-primary-text-dark `}
 `;
 
 const StyledResourceTypeText = styled.p`
-  ${tw`text-sm  text-seconderyText dark:text-seconderyTextDark `}
+  ${tw`text-sm  text-secondary-text dark:text-secondary-text-dark `}
 `;
 
 const PodcastThumbNail = (props: { color: string; title: string; onClick?: () => void; type?: string }) => {

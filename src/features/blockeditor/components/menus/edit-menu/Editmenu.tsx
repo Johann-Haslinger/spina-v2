@@ -56,7 +56,7 @@ const StyledMenuContainer = styled.div`
 `;
 
 const StyledMenuWrapper = styled.div`
-  ${tw`bg-primary dark:bg-tertiaryDark bg-opacity-90 backdrop-blur-xl flex-auto mx-auto h-20   rounded-lg pr-1 flex    w-11/12 md:w-[30rem]  dark:shadow-[0px_0px_60px_0px_rgba(255, 255, 255, 0.13)] shadow-[0_0px_40px_1px_rgba(0,0,0,0.12)]`}
+  ${tw`bg-primary dark:bg-tertiary-dark bg-opacity-90 backdrop-blur-xl flex-auto mx-auto h-20   rounded-lg pr-1 flex    w-11/12 md:w-[30rem]  dark:shadow-[0px_0px_60px_0px_rgba(255, 255, 255, 0.13)] shadow-[0_0px_40px_1px_rgba(0,0,0,0.12)]`}
 `;
 
 const groupSelectedBlocks = (lsc: ILeanScopeClient, userId: string) => {

@@ -61,7 +61,7 @@ import LearningUnitTitle from './LearningUnitTitle';
 import StyleActionSheet from './StyleActionSheet';
 
 const StyledSelect = styled.select<{ value: LearningUnitPriority }>`
-  ${tw`bg-secondery dark:bg-primaryDark  transition-all outline-none`}
+  ${tw`bg-secondary dark:bg-primary-dark  transition-all outline-none`}
 `;
 
 const LearningUnitView = (
@@ -202,11 +202,11 @@ const useHasFlashcards = (entity: Entity) => {
 };
 
 const StyledTabbar = styled.div`
-  ${tw` mb-8  transition-all dark:bg-seconderyDark bg-tertiary w-fit rounded-full `}
+  ${tw` mb-8  transition-all dark:bg-secondary-dark bg-tertiary w-fit rounded-full `}
 `;
 
 const StyledTab = styled.button<{ active: boolean; color: string }>`
-  ${tw`text-seconderyText  transition-all w-28 rounded-full  px-3 py-1`}
+  ${tw`text-secondary-text  transition-all w-28 rounded-full  px-3 py-1`}
   ${({ active }) => active && tw`text-white bg-black dark:bg-white dark:text-black transition-all `}
 `;
 

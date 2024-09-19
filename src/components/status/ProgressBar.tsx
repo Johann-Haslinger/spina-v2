@@ -2,13 +2,13 @@ import styled from '@emotion/styled';
 import tw from 'twin.macro';
 
 const StyledProgressBarWrapper = styled.div`
-  ${tw`flex items-center w-full  rounded-full bg-secondery dark:bg-primaryDark  `}
+  ${tw`flex items-center w-full  rounded-full bg-secondary dark:bg-primary-dark  `}
 `;
 
 const StyledProgressBar = styled.div<{
   width: string;
 }>`
-  ${tw` h-0.5 bg-primaryColor  rounded-full`}
+  ${tw` h-0.5 bg-primary-color  rounded-full`}
 
   width: ${(props) => props.width};
 `;

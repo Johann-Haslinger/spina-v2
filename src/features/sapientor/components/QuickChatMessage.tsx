@@ -8,7 +8,7 @@ import { COLOR_ITEMS } from '../../../base/constants';
 import { MessageRole } from '../../../base/enums';
 
 const StyledMessageContentWrapper = styled.div<{ role: MessageRole }>`
-  ${tw` ml-8   mb-1 w-72  bg-tertiary dark:text-primaryTextDark  dark:bg-seconderyDark pb-3 transition-all rounded-xl p-2 `}
+  ${tw` ml-8   mb-1 w-72  bg-tertiary dark:text-primary-text-dark  dark:bg-secondary-dark pb-3 transition-all rounded-xl p-2 `}
   ${({ role }) => (role == MessageRole.USER ? tw`rounded-bl-none ` : tw`rounded-br-none  `)}
 `;
 

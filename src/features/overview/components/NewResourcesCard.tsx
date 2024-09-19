@@ -92,11 +92,11 @@ const StyledRowWrapper = styled(motion.div)`
 `;
 
 const StyledTitle = styled.p`
-  ${tw`line-clamp-2 text-primary dark:text-primaryTextDark`}
+  ${tw`line-clamp-2 text-primary dark:text-primary-text-dark`}
 `;
 
 const StyledDueDate = styled.p`
-  ${tw`text-sm text-seconderyText`}
+  ${tw`text-sm text-secondary-text`}
 `;
 
 const NewResourceRow = (props: TitleProps & EntityProps) => {

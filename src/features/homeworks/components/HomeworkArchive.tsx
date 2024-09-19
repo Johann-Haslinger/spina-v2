@@ -1,3 +1,4 @@
+import styled from '@emotion/styled/macro';
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { EntityProps, EntityPropsMapper, useEntities } from '@leanscope/ecs-engine';
 import { IdentifierFacet, IdentifierProps, Tags } from '@leanscope/ecs-models';
@@ -5,6 +6,7 @@ import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { motion } from 'framer-motion';
 import { useContext, useState } from 'react';
 import { IoChevronForward, IoHomeOutline } from 'react-icons/io5';
+import tw from 'twin.macro';
 import { RelationshipFacet, TitleFacet, TitleProps } from '../../../app/additionalFacets';
 import { DataType, Story } from '../../../base/enums';
 import { BackButton, NavigationBar, SecondaryText, Spacer, Title, View } from '../../../components';
@@ -14,8 +16,6 @@ import { dataTypeQuery } from '../../../utils/queries';
 import { sortEntitiesByDateAdded } from '../../../utils/sortEntitiesByTime';
 import { useFormattedDateAdded } from '../../collection/hooks/useFormattedDateAdded';
 import InitializeHomeworksForArchiveSystem from '../systems/InitializeHomeworksForArchiveSystem';
-import styled from '@emotion/styled/macro';
-import tw from 'twin.macro';
 
 const HomeworkArchive = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -88,17 +88,17 @@ const StyledMotionContainer = styled(motion.div)`
 `;
 
 const StyledIconContainer = styled.div`
-  ${tw`text-xl text-primaryColor`}
+  ${tw`text-xl text-primary-color`}
 `;
 
 const StyledTitleContainer = styled.div``;
 
 const StyledDateText = styled.p`
-  ${tw`text-seconderyText`}
+  ${tw`text-secondary-text`}
 `;
 
 const StyledForwardIcon = styled.div`
-  ${tw`text-xl text-seconderyText opacity-70`}
+  ${tw`text-xl text-secondary-text opacity-70`}
 `;
 
 const ArchivedHomeworkCell = (props: EntityProps & TitleProps) => {

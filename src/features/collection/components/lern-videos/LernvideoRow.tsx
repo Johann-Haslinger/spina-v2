@@ -13,7 +13,7 @@ import { useSelectedSchoolSubjectColor } from '../../hooks/useSelectedSchoolSubj
 import DeleteLernvideoAlert from './DeleteLernvideoAlert';
 
 const StyledLernvideoRowWrapper = styled.div`
-  ${tw`hover:bg-tertiary cursor-pointer items-center flex space-x-4 rounded-lg transition-all  md:hover:dark:bg-seconderyDark p-2`}
+  ${tw`hover:bg-tertiary cursor-pointer items-center flex space-x-4 rounded-lg transition-all  md:hover:dark:bg-secondary-dark p-2`}
 `;
 
 const StyledLernvideoIcon = styled.div<{ color: string }>`
@@ -24,7 +24,7 @@ const StyledLernvideoTitle = styled.p`
   ${tw`font-semibold line-clamp-1`}
 `;
 const StyledLernvideoSubtitle = styled.p`
-  ${tw`text-sm text-seconderyText dark:text-seconderyTextDark line-clamp-1`}
+  ${tw`text-sm text-secondary-text dark:text-secondary-text-dark line-clamp-1`}
 `;
 const StyledLernvideoActionsWrapper = styled.div`
   ${tw`flex space-y-2 justify-end  pr-2`}

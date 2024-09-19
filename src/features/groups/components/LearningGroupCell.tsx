@@ -21,10 +21,10 @@ const StyledLearningGroupCellWrapper = styled.div<{
 `;
 
 const StyledLearningGroupTitle = styled.p`
-  ${tw`mt-4 dark:text-white text-primatyText font-bold text-xl line-clamp-2 `}
+  ${tw`mt-4 dark:text-white text-primary-text font-bold text-xl line-clamp-2 `}
 `;
 const StyledLearningGroupDescription = styled.p`
-  ${tw` text-seconderyText line-clamp-2 mt-1`}
+  ${tw` text-secondary-text line-clamp-2 mt-1`}
 `;
 
 const LearningGroupCell = (props: TitleProps & ColorProps & DescriptionProps & EntityProps) => {

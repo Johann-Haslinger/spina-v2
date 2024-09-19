@@ -17,7 +17,7 @@ import Blockeditor from '../Blockeditor';
 import BlockOutline from './BlockOutline';
 
 const StyledPageIconWrapper = styled.div<{ disabeld?: boolean }>`
-  ${tw`h-10 w-[34px] ml-1.5 bg-white dark:bg-tertiaryDark rounded-sm shadow mr-3 mt-0.5  border-[rgb(245,245,245)]`}
+  ${tw`h-10 w-[34px] ml-1.5 bg-white dark:bg-tertiary-dark rounded-sm shadow mr-3 mt-0.5  border-[rgb(245,245,245)]`}
   ${({ disabeld }) => !disabeld && tw` md:hover:scale-110 transition-all`}
 `;
 
@@ -36,7 +36,7 @@ const StyledTitleWrapper = styled.div`
 `;
 
 const StyledSubtitleWrapper = styled.div`
-  ${tw`text-sm   relative bottom-0.5 text-seconderyText dark:text-seconderyTextDark`}
+  ${tw`text-sm   relative bottom-0.5 text-secondary-text dark:text-secondary-text-dark`}
 `;
 
 const StyledContentWrapper = styled.div`

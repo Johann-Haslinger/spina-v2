@@ -10,7 +10,7 @@ import FlexBox from '../layout/FlexBox';
 import Sheet from '../presentation/Sheet';
 
 const StyledDoneIcon = styled.div`
-  ${tw` w-full h-full items-center flex justify-center text-primaryColor lg:text-[11rem] text-9xl pb-20`}
+  ${tw` w-full h-full items-center flex justify-center text-primary-color lg:text-[11rem] text-9xl pb-20`}
 `;
 
 const SucessSheet = () => {

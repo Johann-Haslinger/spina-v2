@@ -17,7 +17,7 @@ import { getHighestOrder } from '../../functions/orderHelper';
 import { useCurrentBlockeditor } from '../../hooks/useCurrentBlockeditor';
 
 const StyledCreateMenuWrapper = styled.div`
-  ${tw`bg-white bg-opacity-90 backdrop-blur-xl dark:bg-seconderyDark h-20 overflow-y-clip  rounded-lg pr-1 flex  md:overflow-hidden  w-11/12 md:w-[30rem]  shadow-[0_0px_40px_1px_rgba(0,0,0,0.12)]`}
+  ${tw`bg-white bg-opacity-90 backdrop-blur-xl dark:bg-secondary-dark h-20 overflow-y-clip  rounded-lg pr-1 flex  md:overflow-hidden  w-11/12 md:w-[30rem]  shadow-[0_0px_40px_1px_rgba(0,0,0,0.12)]`}
 `;
 
 const StyledCreateMenuContainer = styled.div`

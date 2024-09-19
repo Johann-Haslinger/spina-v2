@@ -14,7 +14,7 @@ import { useSelectedSchoolSubjectColor } from '../../hooks/useSelectedSchoolSubj
 import DeletePodcastAlert from './DeletePodcastAlert';
 
 const StyledPodcastRowWrapper = styled.div`
-  ${tw`hover:bg-tertiary dark:hover:bg-seconderyDark cursor-pointer items-center flex space-x-4 rounded-lg transition-all  md:hover:dark:bg-seconderyDark p-2`}
+  ${tw`hover:bg-tertiary dark:hover:bg-secondary-dark cursor-pointer items-center flex space-x-4 rounded-lg transition-all  md:hover:dark:bg-secondary-dark p-2`}
 `;
 
 const StyledPodcastIcon = styled.div<{ color: string }>`
@@ -25,7 +25,7 @@ const StyledPodcastTitle = styled.p`
   ${tw`font-semibold line-clamp-1`}
 `;
 const StyledPodcastSubtitle = styled.p`
-  ${tw`text-sm text-seconderyText dark:text-seconderyTextDark line-clamp-1`}
+  ${tw`text-sm text-secondary-text dark:text-secondary-text-dark line-clamp-1`}
 `;
 const StyledPodcastActionsWrapper = styled.div`
   ${tw`flex space-y-2 justify-end  pr-2`}

@@ -134,7 +134,7 @@ const useFlashcardQuizEntities = () => {
 };
 
 const StyledStatusBarWrapper = styled.div`
-  ${tw` px-4 z-20 md:px-20 dark:text-seconderyTextDark text-white absolute left-0 top-14 lg:top-20 w-full `}
+  ${tw` px-4 z-20 md:px-20 dark:text-secondary-text-dark text-white absolute left-0 top-14 lg:top-20 w-full `}
 `;
 
 const StyledBackButtonWrapper = styled.div`
@@ -146,13 +146,13 @@ const StyledBackButtonText = styled.div`
 `;
 
 const StyledProgressBarWrapper = styled.div`
-  ${tw`  bg-white overflow-hidden mb-4 h-fit dark:bg-seconderyDark dark:bg-opacity-50 w-full  rounded-full `}
+  ${tw`  bg-white overflow-hidden mb-4 h-fit dark:bg-secondary-dark dark:bg-opacity-50 w-full  rounded-full `}
 `;
 const StyledProgressBar = styled.div<{
   width?: number;
   backgroundColor: string;
 }>`
-  ${tw`transition-all bg-white dark:!bg-tertiaryDark  h-1 rounded-full`}
+  ${tw`transition-all bg-white dark:!bg-tertiary-dark  h-1 rounded-full`}
   width: ${(props) => props.width || 1}%;
   background-color: ${(props) => props.backgroundColor};
 `;
@@ -493,7 +493,7 @@ const StyledFlashcardCellContainer = styled.div`
 `;
 
 const StyledFlashcardWrapper = styled.div`
-  ${tw`bg-white dark:bg-tertiaryDark dark:text-white   mx-auto pb-12  cursor-pointer flex items-center  w-11/12 md:w-8/12 lg:w-1/2 h-60  p-4 rounded-2xl`}
+  ${tw`bg-white dark:bg-tertiary-dark dark:text-white   mx-auto pb-12  cursor-pointer flex items-center  w-11/12 md:w-8/12 lg:w-1/2 h-60  p-4 rounded-2xl`}
 `;
 
 const StyledQuestionText = styled.div<{ color: string }>`
@@ -507,15 +507,15 @@ const StyledAnswerText = styled.div<{ color: string }>`
 `;
 
 const StyledNavButtonAreaWrapper = styled.div`
-  ${tw`flex w-[90%] space-x-1  md:w-2/5 text-xl md:text-2xl md:right-[30%] right-[5%] md:left-[30%] left-[5%] justify-between dark:bg-seconderyDark bg-white dark:bg-opacity-100 bg-opacity-40 p-1   rounded-xl md:rounded-2xl absolute bottom-8  `}
+  ${tw`flex w-[90%] space-x-1  md:w-2/5 text-xl md:text-2xl md:right-[30%] right-[5%] md:left-[30%] left-[5%] justify-between dark:bg-secondary-dark bg-white dark:bg-opacity-100 bg-opacity-40 p-1   rounded-xl md:rounded-2xl absolute bottom-8  `}
 `;
 
 const StyledNavButton = styled.div`
-  ${tw`w-1/5 space-y-0.5  h-fit py-2.5 flex justify-center flex-col items-center rounded-lg md:rounded-xl lg:hover:opacity-50 transition-all dark:bg-tertiaryDark bg-white bg-opacity-80`}
+  ${tw`w-1/5 space-y-0.5  h-fit py-2.5 flex justify-center flex-col items-center rounded-lg md:rounded-xl lg:hover:opacity-50 transition-all dark:bg-tertiary-dark bg-white bg-opacity-80`}
 `;
 
 const StyledLabel = styled.div`
-  ${tw`text-xs dark:text-seconderyTextDark text-seconderyText  line-clamp-1`}
+  ${tw`text-xs dark:text-secondary-text-dark text-secondary-text  line-clamp-1`}
 `;
 
 const FlashcardCell = (props: {

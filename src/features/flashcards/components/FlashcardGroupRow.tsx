@@ -22,7 +22,7 @@ const StyledSelect = styled.select<{ value: LearningUnitPriority }>`
         return COLOR_ITEMS[2].color + 40;
     }
   }};
-  ${({ value }) => value === LearningUnitPriority.PAUSED && tw` bg-tertiary dark:bg-tertiaryDark`}
+  ${({ value }) => value === LearningUnitPriority.PAUSED && tw` bg-tertiary dark:bg-tertiary-dark`}
 `;
 
 const FlashcardGroupRow = (props: TitleProps & PriorityProps & EntityProps) => {

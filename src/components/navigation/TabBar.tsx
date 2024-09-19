@@ -30,11 +30,11 @@ const TABS = [
   },
 ];
 
-const StyledTabBarContainer = tw.div`md:hidden fixed left-0  pt-4   bg-secondery bg-opacity-70 dark:bg-opacity-60 dark:bg-primaryDark  backdrop-blur-2xl  bottom-0 flex justify-between w-screen `;
+const StyledTabBarContainer = tw.div`md:hidden fixed left-0  pt-4   bg-secondary bg-opacity-70 dark:bg-opacity-60 dark:bg-primary-dark  backdrop-blur-2xl  bottom-0 flex justify-between w-screen `;
 
 const StyledTabWrapper = styled(NavLink)<{ active: string }>`
   ${tw`w-full  pb-7  `}
-  ${({ active }) => (active == 'true' ? tw`text-primaryColor` : tw`text-[#A2A2A2] dark:text-opacity-70`)}
+  ${({ active }) => (active == 'true' ? tw`text-primary-color` : tw`text-[#A2A2A2] dark:text-opacity-70`)}
 `;
 
 const TabBar = () => {

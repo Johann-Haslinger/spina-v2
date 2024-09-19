@@ -8,7 +8,7 @@ const StyledActionRowWrapper = styled.div<{
   last?: boolean;
   hasSpace?: boolean;
 }>`
-  ${tw`flex pl-6 justify-between p-2 w-full cursor-pointer dark:hover:bg-[rgb(27,27,27)] md:hover:bg-[rgb(235,232,233)] border-primaryBorder dark:border-primaryBorderDark `}
+  ${tw`flex pl-6 justify-between p-2 w-full cursor-pointer dark:hover:bg-[rgb(27,27,27)] md:hover:bg-[rgb(235,232,233)] border-primary-border dark:border-primary-border-dark `}
   ${({ destructive }) => destructive && tw`text-[#FF3B30]`};
   ${({ first }) => first && tw`rounded-t-lg pt-3`};
   ${({ last }) => (last ? tw`rounded-b-lg` : tw`border-b`)};

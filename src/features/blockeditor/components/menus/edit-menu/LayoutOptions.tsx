@@ -17,8 +17,8 @@ const StyledLayoutOptionButtonWrapper = styled.div<{ isActive: boolean }>`
   ${tw`text-sm pt-4 rounded-md border transition-all w-1/2 py-2 px-4`}
   ${({ isActive }) =>
     isActive
-      ? tw`bg-primaryColor bg-opacity-10 dark:bg-opacity-30 text-primaryColor border-primaryColor`
-      : tw`bg-secondery dark:bg-tertiaryDark md:hover:opacity-50  dark:text-seconderyTextDark text-seconderyText border-white border-opacity-0`}
+      ? tw`bg-primary-color bg-opacity-10 dark:bg-opacity-30 text-primary-color border-primary-color`
+      : tw`bg-secondary dark:bg-tertiary-dark md:hover:opacity-50  dark:text-secondary-text-dark text-secondary-text border-white border-opacity-0`}
 `;
 
 const StyledOptionIconWrapper = styled.div`
@@ -38,7 +38,7 @@ const StyledOptionWrapper = styled.div`
 `;
 
 const StyledLayoutTextWrapper = styled.p`
-  ${tw`text-sm w-full text-center text-seconderyText dark:text-seconderyTextDark`}
+  ${tw`text-sm w-full text-center text-secondary-text dark:text-secondary-text-dark`}
 `;
 
 const StyledOptionButtonsWrapper = styled.div`

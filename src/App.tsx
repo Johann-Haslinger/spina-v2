@@ -24,7 +24,7 @@ import { formatNavLinkAsPath } from './utils/formatNavLinkAsPath';
 import { dataTypeQuery } from './utils/queries';
 
 const StyledContentWrapper = styled.div`
-  ${tw`w-screen h-screen bg-primary dark:bg-primaryDark`}
+  ${tw`w-screen h-screen bg-primary dark:bg-primary-dark`}
 `;
 
 function App() {

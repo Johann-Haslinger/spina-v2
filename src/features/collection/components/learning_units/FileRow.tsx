@@ -60,7 +60,7 @@ const downloadFile = async (title: string, filePath: string) => {
 };
 
 const StyledRowWrapper = styled(motion.div)<{ isContextMenuOpen: boolean }>`
-  ${tw`flex scale-100 space-x-4 pr-4 mb-2 hover:scale-105 transition-all items-center pl-2 justify-between py-3 dark:bg-seconderyDark bg-tertiary bg-opacity-50 rounded-xl border-black border-opacity-5`}
+  ${tw`flex scale-100 space-x-4 pr-4 mb-2 hover:scale-105 transition-all items-center pl-2 justify-between py-3 dark:bg-secondary-dark bg-tertiary bg-opacity-50 rounded-xl border-black border-opacity-5`}
   ${({ isContextMenuOpen }) => isContextMenuOpen && tw`scale-105 `}
 `;
 
@@ -69,11 +69,11 @@ const StyledTitle = styled.p`
 `;
 
 const StyledDueDate = styled.p`
-  ${tw`text-sm text-seconderyText`}
+  ${tw`text-sm text-secondary-text`}
 `;
 
 const StyledIcon = styled.div<{ isActive: boolean }>`
-  ${tw`text-2xl text-seconderyText dark:text-seconderyTextDark pr-1 cursor-pointer hover:opacity-60`}
+  ${tw`text-2xl text-secondary-text dark:text-secondary-text-dark pr-1 cursor-pointer hover:opacity-60`}
   ${({ isActive }) => isActive && tw`opacity-60`}
 `;
 
@@ -90,7 +90,7 @@ const FileRow = (props: TitleProps & FilePathProps & EntityProps) => {
     <div>
       <StyledRowWrapper isContextMenuOpen={isContextMenuOpen} key={entity.id}>
         <div onClick={openFile} tw="flex w-full cursor-pointer items-center space-x-6 pl-4 ">
-          <div tw="text-2xl text-primaryColor">
+          <div tw="text-2xl text-primary-color">
             {' '}
             {filePath.endsWith('.png') ? <IoImageOutline /> : <IoDocumentOutline />}
           </div>

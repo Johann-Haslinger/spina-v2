@@ -31,7 +31,7 @@ const StyledTopicTitle = styled.p`
   ${tw`mt-4 dark:text-white text-black font-semibold text-xl line-clamp-2 `}
 `;
 const StyledTopicDescription = styled.p`
-  ${tw` text-seconderyText text-base w-5/6 font-normal line-clamp-2 mt-1`}
+  ${tw` text-secondary-text text-base w-5/6 font-normal line-clamp-2 mt-1`}
 `;
 
 const TopicCell = (props: TitleProps & EntityProps & DescriptionProps & ImageProps) => {

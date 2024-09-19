@@ -86,7 +86,7 @@ const InitializeRelatedResourcesSystem = (props: { relatedResources: Resource[] 
 };
 
 const StyledRelatedResourcesWrapper = styled.div`
-  ${tw`border-t dark:border-opacity-50 border-opacity-50 flex w-[95%] mx-8 overflow-x-scroll dark:border-primaryBorderDark border-primaryBorder mt-6 pt-4 `}
+  ${tw`border-t dark:border-opacity-50 border-opacity-50 flex w-[95%] mx-8 overflow-x-scroll dark:border-primary-border-dark border-primary-border mt-6 pt-4 `}
 `;
 
 const StyledContainer = styled.div`

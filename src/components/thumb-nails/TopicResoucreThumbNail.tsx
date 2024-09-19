@@ -9,7 +9,7 @@ const StyledTopictCellWrapper = styled.div`
 `;
 
 const StyledTopictCellContainer = styled.div`
-  ${tw`w-full  space-x-1 cursor-pointer   p-1  items-center  flex  rounded-lg  h-24 transition-all md:hover:scale-105 bg-tertiary dark:bg-tertiaryDark `}
+  ${tw`w-full  space-x-1 cursor-pointer   p-1  items-center  flex  rounded-lg  h-24 transition-all md:hover:scale-105 bg-tertiary dark:bg-tertiary-dark `}
 `;
 
 const StyledTopictCellItem = styled.div<{ backgroundColor: string }>`
@@ -19,11 +19,11 @@ const StyledTopictCellItem = styled.div<{ backgroundColor: string }>`
 `;
 
 const StyledTopictCellTitle = styled.p`
-  ${tw`mt-2 text-sm w-full    line-clamp-2  dark:text-primaryTextDark `}
+  ${tw`mt-2 text-sm w-full    line-clamp-2  dark:text-primary-text-dark `}
 `;
 
 const StyledResourceTypeText = styled.p`
-  ${tw`text-sm  text-seconderyText dark:text-seconderyTextDark `}
+  ${tw`text-sm  text-secondary-text dark:text-secondary-text-dark `}
 `;
 
 const TopicResoucreThumbNail = (props: { color: string; title: string; onClick?: () => void; type?: string }) => {

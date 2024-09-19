@@ -5,7 +5,7 @@ import { ViSidebar, ViSidebarDark } from '../../assets/icons';
 import { useAppState } from '../../features/collection/hooks/useAppState';
 
 const StyledNavBarWrapper = styled.div`
-  ${tw`flex fixed px-4 md:!bg-opacity-0  bg-primary dark:bg-primaryDark md:dark:bg-opacity-0   z-[100] transition-all    md:px-6 items-center top-0 dark:text-white text-primatyText left-0 w-full justify-between   h-14 `}
+  ${tw`flex fixed px-4 md:!bg-opacity-0  bg-primary dark:bg-primary-dark md:dark:bg-opacity-0   z-[100] transition-all    md:px-6 items-center top-0 dark:text-white text-primary-text left-0 w-full justify-between   h-14 `}
 `;
 
 const ToolIconWrapper = styled.div`

@@ -30,18 +30,18 @@ import { displayAlertTexts, displayButtonTexts, displayHeaderTexts } from '../..
 import NavigationLinkIcon from './NavigationLinkIcon';
 
 const StyledSelectedPodcasrCellWrapper = styled.div<{ visible: boolean }>`
-  ${tw`flex mx-1 w-[226px] cursor-pointer  md:hover:bg-primary dark:hover:bg-tertiaryDark   absolute bottom-14 my-2 dark:text-white  overflow-hidden py-1 transition-all  rounded-xl space-x-4 items-center`}
+  ${tw`flex mx-1 w-[226px] cursor-pointer  md:hover:bg-primary dark:hover:bg-tertiary-dark   absolute bottom-14 my-2 dark:text-white  overflow-hidden py-1 transition-all  rounded-xl space-x-4 items-center`}
   ${({ visible }) => !visible && tw`hidden`}
 `;
 
 const StyledSelectedPodcastIcon = styled.div`
-  ${tw`text-2xl text-primaryColor dark:text-white md:hover:scale-110 bg-primary dark:bg-tertiaryDark transition-all font-black mx-1 size-10 rounded-lg flex items-center justify-center`}
+  ${tw`text-2xl text-primary-color dark:text-white md:hover:scale-110 bg-primary dark:bg-tertiary-dark transition-all font-black mx-1 size-10 rounded-lg flex items-center justify-center`}
 `;
 const StyledPodcastTitle = styled.div`
   ${tw`text-sm pr-2 line-clamp-1 font-semibold`}
 `;
 const StyledPodcastSubtitile = styled.div`
-  ${tw`text-sm line-clamp-1 text-seconderyText`}
+  ${tw`text-sm line-clamp-1 text-secondary-text`}
 `;
 
 const SelectedPodcastCell = (props: { isFullWidth: boolean }) => {
@@ -71,11 +71,11 @@ const SelectedPodcastCell = (props: { isFullWidth: boolean }) => {
 };
 
 const StyledSettingsMenuWrapper = styled.div`
-  ${tw` px-2 py-2 dark:text-primaryTextDark md:w-56 w-full h-52 bg-primary dark:bg-tertiaryDark rounded-lg`}
+  ${tw` px-2 py-2 dark:text-primary-text-dark md:w-56 w-full h-52 bg-primary dark:bg-tertiary-dark rounded-lg`}
 `;
 
 const StyledEmailText = styled.div`
-  ${tw`w-full px-1 py-3  text-seconderyText dark:text-seconderyTextDark`}
+  ${tw`w-full px-1 py-3  text-secondary-text dark:text-secondary-text-dark`}
 `;
 
 const StyledHelpText = styled.div`
@@ -92,11 +92,11 @@ const StyledSettingsMenuIcon = styled.div`
   ${tw`text-base mr-3`}
 `;
 const StyledSettingsDivider = styled.div`
-  ${tw`w-full h-0.5 dark:border-primaryBorderDark border-primaryBorder border-b `}
+  ${tw`w-full h-0.5 dark:border-primary-border-dark border-primary-border border-b `}
 `;
 const StyledSettingsWrapper = styled.div<{ isHoverd: boolean }>`
-  ${tw`flex w-full ml-3  md:mb-3 md:w-[226px] pr-4 justify-between cursor-pointer  md:hover:bg-primary dark:hover:bg-tertiaryDark  mx-1  my-2 dark:text-white  overflow-hidden py-1 transition-all  rounded-xl space-x-4 items-center`}
-  ${({ isHoverd }) => isHoverd && tw`bg-black bg-opacity-[3%] dark:bg-tertiaryDark`}
+  ${tw`flex w-full ml-3  md:mb-3 md:w-[226px] pr-4 justify-between cursor-pointer  md:hover:bg-primary dark:hover:bg-tertiary-dark  mx-1  my-2 dark:text-white  overflow-hidden py-1 transition-all  rounded-xl space-x-4 items-center`}
+  ${({ isHoverd }) => isHoverd && tw`bg-black bg-opacity-[3%] dark:bg-tertiary-dark`}
 `;
 
 const StyledLinkSpacer = styled.div`
@@ -246,8 +246,8 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
 };
 
 const StyledSidebarLinkWrapper = styled.div<{ isCurrent: boolean }>`
-  ${tw`flex my-1.5 dark:text-white md:hover:bg-secondery dark:hover:bg-tertiaryDark overflow-hidden py-3 transition-all px-2 rounded-lg space-x-4 items-center`}
-  ${({ isCurrent }) => isCurrent && tw`bg-black bg-opacity-[3%] dark:bg-tertiaryDark`}
+  ${tw`flex my-1.5 dark:text-white md:hover:bg-secondary dark:hover:bg-tertiary-dark overflow-hidden py-3 transition-all px-2 rounded-lg space-x-4 items-center`}
+  ${({ isCurrent }) => isCurrent && tw`bg-black bg-opacity-[3%] dark:bg-tertiary-dark`}
 `;
 const StyledNavLinkIcon = styled.div<{ color: string }>`
   ${tw`text-2xl opacity-80 dark:text-white  dark:opacity-100 transition-all  px-2 rounded-lg  `}
@@ -307,10 +307,10 @@ const SidebarLink = (props: { title: NavigationLink; path: string; idx: number; 
 };
 
 const StyledSpinaIcon = styled.div`
-  ${tw` flex w-[54px] justify-center text-3xl dark:text-primaryTextDark h-5 md:hover:scale-90 transition-all  mb-12  scale-75`}
+  ${tw` flex w-[54px] justify-center text-3xl dark:text-primary-text-dark h-5 md:hover:scale-90 transition-all  mb-12  scale-75`}
 `;
 const StyledSidebarWrapper = styled.div<{ isFullWidth: boolean }>`
-  ${tw`h-full md:rounded-xl pt-6 bg-white dark:bg-seconderyDark  transition-all  px-2 backdrop-blur-2xl bg-opacity-95  `}
+  ${tw`h-full md:rounded-xl pt-6 bg-white dark:bg-secondary-dark  transition-all  px-2 backdrop-blur-2xl bg-opacity-95  `}
 `;
 
 const Sidebar = () => {

@@ -10,7 +10,7 @@ const StyledTextArea = styled.textarea<{ size: Size; placeholderStyle: boolean }
   ${({ size }) => size === 'medium' && tw`text-3xl`}
   ${({ size }) => size === 'large' && tw`md:text-4xl text-3xl`}
   ${({ placeholderStyle }) =>
-    placeholderStyle && tw`text-placeholderText text-opacity-70 dark:text-placeholderTextDark`}
+    placeholderStyle && tw`text-placeholder-text text-opacity-70 dark:text-placeholder-text-dark`}
 `;
 
 interface TitleProps {

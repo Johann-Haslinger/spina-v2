@@ -26,7 +26,7 @@ const StyledBackIcon = styled.div`
 `;
 
 const StyledFurtherOptionSheetWrapper = styled.div<{ isLarge?: boolean }>`
-  ${tw`bg-white pt-2 dark:bg-seconderyDark mx-auto z-40 rounded-xl md:w-[31rem] px-4 w-11/12 shadow-[0_0px_40px_1px_rgba(0,0,0,0.12)] `}
+  ${tw`bg-white pt-2 dark:bg-secondary-dark mx-auto z-40 rounded-xl md:w-[31rem] px-4 w-11/12 shadow-[0_0px_40px_1px_rgba(0,0,0,0.12)] `}
   ${({ isLarge }) => isLarge && tw`h-60`}
 `;
 

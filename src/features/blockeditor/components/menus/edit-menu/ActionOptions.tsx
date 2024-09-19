@@ -25,7 +25,7 @@ const StyledOptionWrapper = styled.div`
 `;
 
 const StyledOptionIconWrapper = styled.p`
-  ${tw`text-lg text-primaryColor`}
+  ${tw`text-lg text-primary-color`}
 `;
 
 interface ActionOptionsProps {

@@ -35,7 +35,7 @@ const useDisplayLoadingAnimation = () => {
 };
 
 const StyledCloseButtonWrapper = styled.div`
-  ${tw`p-1 mr-2 transition-all md:hover:opacity-50 relative left-2 dark:bg-tertiaryDark dark:text-seconderyTextDark bg-tertiary rounded-full text-lg text-seconderyTextDark`}
+  ${tw`p-1 mr-2 transition-all md:hover:opacity-50 relative left-2 dark:bg-tertiary-dark dark:text-secondary-text-dark bg-tertiary rounded-full text-lg text-secondary-text-dark`}
 `;
 const StyledPromptTextBoxWrapper = styled.div`
   ${tw`absolute h-fit w-[90%] md:w-[40%] overflow-hidden pl-12   md:ml-[10%] bottom-2 md:bottom-12 lg:bottom-12 `}
@@ -45,7 +45,7 @@ const StyledContentWrapper = styled.div`
   ${tw`  overflow-x-hidden pt-2 w-full overflow-y-scroll h-[90%] `}
 `;
 const StyledSegmentedControlWrapper = styled.div`
-  ${tw` flex rounded-full p-0.5 bg-tertiary dark:bg-tertiaryDark w-56  h-10`}
+  ${tw` flex rounded-full p-0.5 bg-tertiary dark:bg-tertiary-dark w-56  h-10`}
 `;
 
 const StyledSegmentedControlCell = styled.div<{ active: boolean }>`

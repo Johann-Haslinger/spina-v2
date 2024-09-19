@@ -30,7 +30,7 @@ import supabaseClient from '../../../../lib/supabase';
 import { displayActionTexts, displayButtonTexts } from '../../../../utils/displayText';
 
 const StyledMasteryLevelText = styled.div`
-  ${tw`lg:pl-10 px-4 dark:text-primaryTextDark`}
+  ${tw`lg:pl-10 px-4 dark:text-primary-text-dark`}
 `;
 
 const EditFlashcardSheet = (props: QuestionProps & AnswerProps & MasteryLevelProps & EntityProps & IdentifierProps) => {

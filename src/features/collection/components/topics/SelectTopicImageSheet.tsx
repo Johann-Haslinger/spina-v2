@@ -53,7 +53,7 @@ const SelectTopicImageSheet = () => {
       <Spacer />
       <ScrollableBox>
         <Section>
-          <SectionRow last icon={<IoSearchOutline tw="text-seconderyText opacity-70" />}>
+          <SectionRow last icon={<IoSearchOutline tw="text-secondary-text opacity-70" />}>
             <TextInput placeholder="Bild suchen..." />
           </SectionRow>
         </Section>
@@ -94,7 +94,7 @@ const PreviewImage = (props: { image: PreviewImage }) => {
         alt={image.description}
         tw="h-40 hover:scale-105 object-cover w-full rounded-xl"
       />
-      <div tw="text-sm text-seconderyText">
+      <div tw="text-sm text-secondary-text">
         by{' '}
         <a tw="hover:underline" href={image.creator.profileUrl} target="_blank" rel="noopener noreferrer">
           {image.creator.name}

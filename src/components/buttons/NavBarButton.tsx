@@ -8,8 +8,8 @@ const StyledNavBarButton = styled.div<{ isPressed: boolean; blocked: boolean }>`
   ${({ isPressed }) => isPressed && tw`opacity-50`}
   ${({ blocked }) =>
     blocked
-      ? tw` text-seconderyText dark:text-seconderyTextDark cursor-not-allowed`
-      : tw`md:hover:opacity-50 text-primaryColor dark:text-primaryTextDark cursor-pointer `}
+      ? tw` text-secondary-text dark:text-secondary-text-dark cursor-not-allowed`
+      : tw`md:hover:opacity-50 text-primary-color dark:text-primary-text-dark cursor-pointer `}
 `;
 
 interface NavBarButtonProps {

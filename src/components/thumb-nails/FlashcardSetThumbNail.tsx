@@ -8,7 +8,7 @@ const CardContainer = tw.div`
   `;
 
 const CardWrapper = tw.div`
-cursor-pointer   w-full p-0.5 flex flex-wrap rounded-lg h-32 transition-all md:hover:scale-105 bg-tertiary dark:bg-tertiaryDark 
+cursor-pointer   w-full p-0.5 flex flex-wrap rounded-lg h-32 transition-all md:hover:scale-105 bg-tertiary dark:bg-tertiary-dark 
   `;
 
 const CardItem = tw.div`
@@ -21,11 +21,11 @@ const StyledCardContent = styled.div<{ color: string }>`
 `;
 
 const StyledCellTitle = styled.p`
-  ${tw`mt-2 text-sm   line-clamp-2  dark:text-primaryTextDark `}
+  ${tw`mt-2 text-sm   line-clamp-2  dark:text-primary-text-dark `}
 `;
 
 const StyledResourceTypeText = styled.p`
-  ${tw`text-sm  text-seconderyText dark:text-seconderyTextDark `}
+  ${tw`text-sm  text-secondary-text dark:text-secondary-text-dark `}
 `;
 
 const FlashcardSetThumbNail = (props: { color: string; title: string; onClick?: () => void }) => {

@@ -7,8 +7,8 @@ import Skeleton from 'react-loading-skeleton';
 import tw from 'twin.macro';
 import { dummyBase64Image } from '../../../base/dummyBase64Image';
 import { Story } from '../../../base/enums';
-import { CloseButton, FlexBox, ScrollableBox, Sheet, Spacer } from '../../../components';
 import { useLoadingIndicator } from '../../../common/hooks';
+import { CloseButton, FlexBox, ScrollableBox, Sheet, Spacer } from '../../../components';
 
 const StyledCardWrapper = styled.div`
   ${tw`w-full h-[28rem]  py-4 rounded-2xl bg-[#668FE8] bg-opacity-15`}
@@ -41,7 +41,7 @@ const StyledTitle = styled.p`
 `;
 
 const StyledDescription = styled.p`
-  ${tw`text-seconderyText line-clamp-2 mt-2`}
+  ${tw`text-secondary-text line-clamp-2 mt-2`}
 `;
 
 const StyledReadMore = styled.div`
@@ -113,7 +113,7 @@ const ExploreCard = () => {
           <div tw="xl:w-2/3 lg:w-4/5 mx-auto w-full lg:pt-10 xl:pt-20">
             <StyledSheetTitle>🚀 Spaced Repetition und Active Recall: Die Superkräfte im Lernprozess </StyledSheetTitle>
             <Spacer />
-            <p tw=" text-seconderyText dark:text-seconderyTextDark xl:text-lg">12. Dezember 2023</p>
+            <p tw=" text-secondary-text dark:text-secondary-text-dark xl:text-lg">12. Dezember 2023</p>
             <Spacer />
             <div tw="xl:text-lg">
               Lernen kann manchmal wie eine unüberwindbare Herausforderung erscheinen, besonders wenn es um große Mengen

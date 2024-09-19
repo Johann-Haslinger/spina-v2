@@ -16,7 +16,7 @@ import { useSelectedSchoolSubject } from '../../hooks/useSelectedSchoolSubject';
 import LoadArchivedTopicsSystem from '../../systems/LoadArchivedTopicsSystem';
 
 const StyledTopicsWrapper = styled.div`
-  /* ${tw`divide-y divide-primaryBorder dark:divide-primaryBorderDark`} */
+  /* ${tw`divide-y divide-primary-border dark:divide-primary-border-dark`} */
 `;
 
 const TopicArchive = () => {
@@ -94,16 +94,16 @@ const ArchivedTopicCell = (props: TitleProps & EntityProps & DateAddedProps) => 
         }}
         tw="flex items-center space-x-4 "
       >
-        <div tw="text-xl text-primaryColor">
+        <div tw="text-xl text-primary-color">
           <IoBookOutline />
         </div>
         <div>
           <p>{title}</p>
-          <p tw="text-seconderyText">{forattedDatedAdded}</p>
+          <p tw="text-secondary-text">{forattedDatedAdded}</p>
         </div>
       </motion.div>
 
-      <div tw="text-xl text-seconderyText opacity-70">
+      <div tw="text-xl text-secondary-text opacity-70">
         <IoChevronForward />
       </div>
     </div>
