@@ -134,8 +134,8 @@ const StyleActionSheet = () => {
   useClickOutside(refOne, navigateBack, isVisible);
 
   useEffect(() => {
-    if (!hasSelection) navigateBack();
-  }, [hasSelection]);
+    if (!hasSelection && isVisible) navigateBack();
+  }, [hasSelection, isVisible]);
 
   return (
     <StyledActionSheetWrapper
