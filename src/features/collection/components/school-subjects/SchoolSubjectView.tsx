@@ -66,7 +66,6 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
             Array.from({ length: 3 }).map((_, index) => <TopicCellSkeleton key={index} />)
           )}
         </CollectionGrid>
-        <Spacer size={20} />
       </View>
 
       <TopicArchive />

@@ -131,7 +131,7 @@ const changeIsArchived = async (entity: Entity, value: boolean) => {
 };
 
 const StyledTopAreaWrapper = styled.div<{ image: string; grid: boolean }>`
-  ${tw`w-full  top-0 z-0 mt-14 xl:mt-0  bg-cover  xl:bg-fixed h-64 md:h-[16rem] xl:h-96 2xl:h-[24rem]  flex`}
+  ${tw`w-full  top-0 z-0 mt-14 xl:mt-0  bg-cover  xl:bg-fixed h-48 md:h-[16rem] xl:h-72 2xl:h-80  flex`}
   background-image: ${({ image }) => `url(${image})`};
 `;
 
@@ -144,7 +144,7 @@ const StyledTopicResourcesWrapper = styled.div<{ largeShadow: boolean }>`
 `;
 
 const StyledNavbarBackground = styled.div`
-  ${tw`w-full xl:h-0 h-14 bg-primary  absolute top-0 left-0 dark:bg-primaryDark`}
+  ${tw`w-full xl:h-0 h-14 bg-primary z-[50] absolute top-0 left-0 dark:bg-primaryDark`}
 `;
 
 const StyledImageOverlay = styled.div<{ overlay?: string }>`
