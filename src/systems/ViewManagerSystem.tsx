@@ -65,6 +65,7 @@ const ViewManagerSystem = () => {
     Story.CLONING_RESOURCE_FROM_GROUP_STORY,
     Story.SUCCESS_STORY,
     Story.READING_ARTICLE,
+    Story.SELECTING_IMAGE_FOR_TOPIC_STORY,
   ]);
   const isQuizViewVisible = useIsAnyStoryCurrent([
     Story.OBSERVING_FLASHCARD_QUIZ_STORY,

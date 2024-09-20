@@ -241,6 +241,7 @@ export enum SupabaseTable {
 
 export enum SupabaseStorageBucket {
   LEARNING_UNIT_FILES = 'learning_unit_files',
+  TOPIC_IMAGES = 'topic_images',
 }
 
 export enum SupabaseColumn {

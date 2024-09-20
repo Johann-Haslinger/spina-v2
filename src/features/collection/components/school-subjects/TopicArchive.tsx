@@ -35,7 +35,7 @@ const TopicArchive = () => {
         <NavigationBar />
         <BackButton navigateBack={navigateBack} />
         <Title>Archiv</Title>
-        <Spacer size={6} />
+        <Spacer />
         {!hasArchivedTopics && <NoContentAddedHint />}
         <StyledTopicsWrapper>
           <EntityPropsMapper

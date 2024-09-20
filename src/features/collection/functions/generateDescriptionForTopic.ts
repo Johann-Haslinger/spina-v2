@@ -35,7 +35,7 @@ export const generateDescriptionForTopic = async (entity: Entity) => {
   //   const imageContent = await getCompletion(imageContentPrompt);
   //   console.log('imageContent', imageContent);
 
-  //   const generatingImagePrompt = `${imageContent}, im expressionistischen Stil mit freundlichen, passenden Farben. Das Bild muss gemalt aussehen.`;
+  //   const generatingImagePrompt = `${imageContent},e`;
 
   //   topicImage = await getImageFromText(generatingImagePrompt);
   //   console.log('topicImage', topicImage);

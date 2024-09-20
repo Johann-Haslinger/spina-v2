@@ -4,21 +4,12 @@ import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ImageFacet } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
-import { IoSearchOutline } from 'react-icons/io5';
+import { IoRemoveCircle } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { Story } from '../../../../base/enums';
-import {
-  FlexBox,
-  ScrollableBox,
-  SecondaryButton,
-  Section,
-  SectionRow,
-  Sheet,
-  Spacer,
-  TextInput,
-} from '../../../../components';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
-import { displayButtonTexts } from '../../../../utils/displayText';
+import { Story, SupabaseStorageBucket } from '../../../../base/enums';
+import { CloseButton, FlexBox, ScrollableBox, Section, SectionRow, Sheet, Spacer } from '../../../../components';
+import supabaseClient from '../../../../lib/supabase';
+import { getCompletion } from '../../../../utils/getCompletion';
 import { loadImagesFromUnsplash } from '../../../../utils/loadImagesFromUnsplash';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
 
@@ -34,35 +25,101 @@ interface PreviewImage {
   creator: UnsplashUser;
 }
 
+const TOPIC_IMAGES = [
+  '0_topic_mathematics.png',
+  '1_topic_astronomy.png',
+  '2_topic_biology.png',
+  '3_topic_chemistry.png',
+  '4_topic_history.png',
+  '5_topic_geography.png',
+  '6_topic_music.png',
+  '7_topic_literature.png',
+  '8_topic_computer science.png',
+  '10_topic_globalization.png',
+  '11_topic_botany.png',
+  '12_topic_philosophy.png',
+  '13_topic_sports.png',
+  '14_topic_law.png',
+  '15_topic_microbiology.png',
+  '16_topic_economics.png',
+  '17_topic_theater.png',
+  '18_topic_art.png',
+];
+
+const useTopicImageURLs = () => {
+  const [imageURLs, setImageURLs] = useState<string[]>([]);
+
+  useEffect(() => {
+    const loadPublicURLs = async () => {
+      setImageURLs([]);
+
+      TOPIC_IMAGES.forEach((image) => {
+        const { data } = supabaseClient.storage.from(SupabaseStorageBucket.TOPIC_IMAGES).getPublicUrl(image);
+        setImageURLs((prev) => [...prev, data.publicUrl]);
+      });
+    };
+
+    loadPublicURLs();
+  }, []);
+
+  return imageURLs;
+};
+
 const SelectTopicImageSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Story.SELECTING_IMAGE_FOR_TOPIC_STORY);
-  const { selectedLanguage } = useSelectedLanguage();
-  const images = usePreviewImages(isVisible);
+  const topicImageURLs = useTopicImageURLs();
+  const unsplashImages = useUnsplashImages(isVisible);
 
   const navigateBack = () => lsc.stories.transitTo(Story.EDITING_TOPIC_STORY);
+
+  const handleImageSelect = (url: string) => {
+    const selectedImageEntity = new Entity();
+    lsc.engine.addEntity(selectedImageEntity);
+    selectedImageEntity.add(new IdentifierFacet({ guid: 'selectedImage' }));
+    selectedImageEntity.add(new ImageFacet({ imageSrc: url }));
+
+    lsc.stories.transitTo(Story.EDITING_TOPIC_STORY);
+  };
 
   return (
     <Sheet navigateBack={navigateBack} visible={isVisible}>
       <FlexBox>
-        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
-        {/* {(newTitle !== selectedTopicTitle || newDescription !== selectedTopicDescription) && (
-            <PrimaryButton onClick={updateTopic}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
-          )} */}
+        <div />
+        <CloseButton onClick={navigateBack} />
       </FlexBox>
       <Spacer />
       <ScrollableBox>
-        <Section>
-          <SectionRow last icon={<IoSearchOutline tw="text-secondary-text opacity-70" />}>
-            <TextInput placeholder="Bild suchen..." />
-          </SectionRow>
-        </Section>
-
-        <div tw="grid md:grid-cols-4 mt-8 grid-cols-1 col-span-4 gap-2">
-          {images.map((image, index) => (
-            <PreviewImage key={index} image={image as PreviewImage} />
+        {unsplashImages.length > 0 && (
+          <div tw="w-full overflow-hidden">
+            <p tw="text-2xl font-semibold mb-4 ">Vorschläge</p>
+            <div tw="flex w-full rounded-xl  overflow-x-scroll">
+              <div tw="w-fit space-x-2 flex">
+                {unsplashImages.map((image, index) => (
+                  <UnsplashImage key={index} image={image as PreviewImage} />
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+        <p tw="text-2xl  font-semibold mt-6 mb-4">Abstrakt</p>
+        <div tw="grid md:grid-cols-4 grid-cols-1 col-span-4 gap-2">
+          {topicImageURLs.map((imageURL, index) => (
+            <img
+              onClick={() => handleImageSelect(imageURL)}
+              key={index}
+              src={imageURL}
+              alt={`Topic Image ${index}`}
+              tw="h-40 hover:scale-105  hover:object-top object-center transition-all object-cover w-full rounded-xl"
+            />
           ))}
         </div>
+        <Spacer size={8} />
+        <Section>
+          <SectionRow onClick={() => handleImageSelect('')} last role="destructive" icon={<IoRemoveCircle />}>
+            Bild entfernen
+          </SectionRow>
+        </Section>
       </ScrollableBox>
     </Sheet>
   );
@@ -71,9 +128,9 @@ const SelectTopicImageSheet = () => {
 export default SelectTopicImageSheet;
 
 const StyledImageWrapper = styled.div`
-  ${tw` w-full pb-4 px-2 space-y-4`}
+  ${tw` w-60`}
 `;
-const PreviewImage = (props: { image: PreviewImage }) => {
+const UnsplashImage = (props: { image: PreviewImage }) => {
   const lsc = useContext(LeanScopeClientContext);
   const { image } = props;
 
@@ -92,9 +149,9 @@ const PreviewImage = (props: { image: PreviewImage }) => {
         onClick={handleImageSelect}
         src={image.url}
         alt={image.description}
-        tw="h-40 hover:scale-105 object-cover w-full rounded-xl"
+        tw="h-40 hover:scale-105 object-cover w-full transition-all rounded-xl"
       />
-      <div tw="text-sm text-secondary-text">
+      <div tw="text-xs mt-2 text-secondary-text">
         by{' '}
         <a tw="hover:underline" href={image.creator.profileUrl} target="_blank" rel="noopener noreferrer">
           {image.creator.name}
@@ -104,16 +161,26 @@ const PreviewImage = (props: { image: PreviewImage }) => {
   );
 };
 
-const usePreviewImages = (isVisible: boolean) => {
+const useUnsplashImages = (isVisible: boolean) => {
   const { selectedTopicTitle } = useSelectedTopic();
   const [images, setImages] = useState<PreviewImage[]>([]);
 
   useEffect(() => {
-    if (isVisible && images.length === 0 && selectedTopicTitle) {
-      loadImagesFromUnsplash(selectedTopicTitle).then((images) => {
-        setImages(JSON.parse(images));
-      });
-    }
+    const fetchImages = async () => {
+      if (images.length > 0) return;
+
+      if (isVisible && images.length === 0 && selectedTopicTitle) {
+        const searchQueryPrompt = `Erstelle eine Unsplash-Suchanfrage für das um ein passendes Bild für das Thema "${selectedTopicTitle}" zu finden. Die Anfrage soll nicht länger als 3 Wörter sein und auf Unsplash vorhandene Bilder liefern.`;
+        console.log('searchQueryPrompt', searchQueryPrompt);
+        const searchQuery = await getCompletion(searchQueryPrompt);
+        console.log('searchQuery', searchQuery);
+        loadImagesFromUnsplash(searchQuery).then((images) => {
+          setImages(JSON.parse(images));
+        });
+      }
+    };
+
+    fetchImages();
   }, [isVisible, selectedTopicTitle]);
 
   return images;

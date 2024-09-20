@@ -130,9 +130,10 @@ const changeIsArchived = async (entity: Entity, value: boolean) => {
   }
 };
 
-const StyledTopAreaWrapper = styled.div<{ image: string; grid: boolean }>`
-  ${tw`w-full  top-0 z-0 mt-14 xl:mt-0  bg-cover  xl:bg-fixed h-48 md:h-[16rem] xl:h-72 2xl:h-80  flex`}
+const StyledTopAreaWrapper = styled.div<{ image: string; grid: boolean; containImage: boolean }>`
+  ${tw`w-full bg-center top-0 z-0 mt-14 xl:mt-0  h-48 md:h-[16rem] xl:h-72 2xl:h-80  flex`}
   background-image: ${({ image }) => `url(${image})`};
+  ${({ containImage }) => !containImage && tw`bg-cover`}
 `;
 
 const StyledTopicResourcesWrapper = styled.div<{ largeShadow: boolean }>`
@@ -205,6 +206,8 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
     setTimeout(() => changeIsArchived(entity, !isArchived), 300);
   };
 
+  const containImage = imageSrc?.startsWith('https://bnveuhstbhqhfinemehx') || false;
+
   return (
     <div>
       <LoadLearningUnitsSystem />
@@ -264,7 +267,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
               <IoEllipsisHorizontalCircleOutline color={scrollY < 360 && width > 1280 ? 'white' : ''} />
             </NavBarButton>
           </NavigationBar>
-          <StyledTopAreaWrapper grid={!imageSrc} image={imageSrc || grid}>
+          <StyledTopAreaWrapper containImage={containImage} grid={!imageSrc} image={imageSrc || grid}>
             <StyledImageOverlay overlay={imageSrc}>
               <StyledBackButton onClick={navigateBack}>
                 <IoArrowBack />
