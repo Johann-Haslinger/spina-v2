@@ -16,6 +16,8 @@ import InitializeRecentlyAddedResources from '../systems/InitializeRecentlyAdded
 
 const StyledCardWrapper = styled.div`
   ${tw`w-full h-fit md:h-[28rem] overflow-y-scroll pr-0 p-4  rounded-2xl bg-[#EF9D4A] bg-opacity-15`}
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 `;
 
 const StyledFlexContainer = styled.div`

@@ -30,6 +30,9 @@ import InitializeHomeworksSystem from '../../homeworks/systems/InitializeHomewor
 
 const StyledCardWrapper = styled.div`
   ${tw`w-full h-fit md:h-[28rem] overflow-y-scroll p-4 pr-0 rounded-2xl bg-[#A3CB63] bg-opacity-15`}
+
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 `;
 
 const StyledFlexContainer = styled.div`

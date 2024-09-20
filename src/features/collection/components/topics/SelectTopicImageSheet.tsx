@@ -65,6 +65,12 @@ const useTopicImageURLs = () => {
   return imageURLs;
 };
 
+const StyledUnsplashImageRow = styled.div`
+  ${tw`flex w-full rounded-xl  overflow-x-scroll`}
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+`;
+
 const SelectTopicImageSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Story.SELECTING_IMAGE_FOR_TOPIC_STORY);
@@ -93,13 +99,13 @@ const SelectTopicImageSheet = () => {
         {unsplashImages.length > 0 && (
           <div tw="w-full overflow-hidden">
             <p tw="text-2xl font-semibold mb-4 ">Vorschläge</p>
-            <div tw="flex w-full rounded-xl  overflow-x-scroll">
+            <StyledUnsplashImageRow>
               <div tw="w-fit space-x-2 flex">
                 {unsplashImages.map((image, index) => (
                   <UnsplashImage key={index} image={image as PreviewImage} />
                 ))}
               </div>
-            </div>
+            </StyledUnsplashImageRow>
           </div>
         )}
         <p tw="text-2xl  font-semibold mt-6 mb-4">Abstrakt</p>

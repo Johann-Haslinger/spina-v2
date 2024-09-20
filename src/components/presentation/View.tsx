@@ -11,6 +11,8 @@ const StyledViewContainer = styled.div<{ backgroundColor?: string }>`
 
 const StyledViewWrapper = styled.div`
   ${tw`w-full h-full  overflow-y-scroll`}
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 `;
 
 const StyledViewContent = styled.div<{

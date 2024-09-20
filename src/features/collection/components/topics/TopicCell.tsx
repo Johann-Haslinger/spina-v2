@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import { EntityProps } from '@leanscope/ecs-engine';
 import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntityComponents';
 import { DescriptionProps, ImageProps, Tags } from '@leanscope/ecs-models';
-import { motion } from 'framer-motion';
 import { IoBook } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { TitleProps } from '../../../../app/additionalFacets';
@@ -17,12 +16,12 @@ const StyledTopicCellContainer = styled.div`
   ${tw`w-full h-fit pb-6`}
 `;
 
-const StyledTopicCellWrapper = styled(motion.div)<{
+const StyledTopicCellWrapper = styled.div<{
   color: string;
   backgroundColor: string;
   image: string;
 }>`
-  ${tw`w-full rounded-xl justify-center transition-all  bg-cover h-40 overflow-hidden flex  items-center text-7xl font-bold`}
+  ${tw`w-full rounded-xl justify-center bg-center hover:scale-105 transition-all hover:bg-top bg-cover h-40 overflow-hidden flex  items-center text-7xl font-bold`}
   background-color: ${({ backgroundColor }) => backgroundColor};
   color: ${({ color }) => color};
   background-image: ${({ image }) => `url(${image})`};
@@ -52,8 +51,6 @@ const TopicCell = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
   return (
     <StyledTopicCellContainer>
       <StyledTopicCellWrapper
-        initial={{ backgroundPosition: 'center' }}
-        whileHover={{ scale: 1.05, backgroundPosition: 'top', transition: { duration: 0.3, type: 'tween' } }}
         onClick={handleOpenTopic}
         image={imageSrc || ''}
         color={accentColor}

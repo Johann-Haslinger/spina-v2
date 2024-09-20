@@ -5,7 +5,11 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: white;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
+
+
 
 @tailwind base;
 @tailwind components;
