@@ -11,9 +11,9 @@ const StyledCardWrapper = styled.div<{ height: string }>`
   ${({ height }) => (height === '24rem' ? tw`md:h-[23rem]` : tw`md:h-[17.25rem]`)}
 `;
 
-const StyledBar = styled.div<{ isHoverd: boolean }>`
+const StyledBar = styled.div<{ isHovered: boolean }>`
   ${tw` transition-all mr-auto bg-[#E76542] rounded-r h-3 ml-4  opacity-60 `}
-  ${({ isHoverd }) => isHoverd && tw`opacity-100`}
+  ${({ isHovered }) => isHovered && tw`opacity-100`}
 `;
 
 const StyledHeader = styled.div`
@@ -33,11 +33,11 @@ const StyledSummaryText = styled.div`
 `;
 
 const StyledPerformanceList = styled.div`
-  ${tw` text-[#E76542] mt-2 space-y-1`}
+  ${tw` text-[#E76542] mt-6 space-y-1`}
 `;
 
 const StyledFlexItem = styled.div`
-  ${tw`items-center  flex justify-between`}
+  ${tw`items-center flex justify-between`}
 `;
 
 const StyledLabel = styled.div`
@@ -89,8 +89,8 @@ const LastWeekInfoCard = (props: CardProps) => {
             ].map(({ label, value, id }) => (
               <StyledFlexItem key={id} onMouseEnter={() => setHoveredBar(id)} onMouseLeave={() => setHoveredBar(0)}>
                 <StyledLabel>{label}</StyledLabel>
-                <StyledBar isHoverd={hoveredBar === id ? true : false} style={{ width: `${value}%` }} />
-                {true && <div>{value}%</div>}
+                <StyledBar isHovered={hoveredBar === id ? true : false} style={{ width: `${value}%` }} />
+                {true && <div>{" "}{value}%</div>}
               </StyledFlexItem>
             ))}
           </StyledPerformanceList>

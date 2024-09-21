@@ -16,9 +16,9 @@ const StyledColumnContainer = styled.div`
   ${tw`flex items-end h-full flex-col border-white border-opacity-20 `}
 `;
 
-const StyledBar = styled.div<{ isHoverd?: boolean }>`
+const StyledBar = styled.div<{ isHovered?: boolean }>`
   ${tw`bg-[rgb(56,121,246)] opacity-60 backdrop-blur-lg  h-full transition-all w-1/2 mx-auto rounded-t-md `}
-  ${({ isHoverd }) => isHoverd && tw`opacity-100`}
+  ${({ isHovered }) => isHovered && tw`opacity-100`}
   background-color: ${COLOR_ITEMS[2].color};
 `;
 
@@ -40,7 +40,7 @@ const StyledYLabelsWrapper = styled.div`
 `;
 
 const StyledAverageLabelWrapper = styled.div`
-  ${tw` w-36 h-72`}
+  ${tw` w-36 z-0 h-72`}
 `;
 
 const StyledAverageLabel = styled.div`
@@ -60,7 +60,7 @@ const StyledAverageMarkerWrapper = styled.div`
 `;
 
 const StyledColumnWrapper = styled.div<{ height: number }>`
-  ${tw`mt-auto w-full`}
+  ${tw`mt-auto z-10 w-full`}
   height: ${({ height }) => (height > 0 ? height + 3 : 0)}%;
 `;
 
@@ -145,7 +145,7 @@ const FlashcardChartCard = () => {
                   onMouseEnter={() => setSelectedDay(idx)}
                   onMouseLeave={() => setSelectedDay(null)}
                 >
-                  <StyledBar isHoverd={selectedDay == idx} />
+                  <StyledBar isHovered={selectedDay == idx} />
                 </StyledColumnWrapper>
               </StyledColumnContainer>
               <StyledColumnLabel>{dayLabels[idx] && dayLabels[idx][0] ? dayLabels[idx][0] : null}</StyledColumnLabel>

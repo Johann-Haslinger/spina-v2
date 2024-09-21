@@ -207,21 +207,24 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
   };
 
   const containImage = imageSrc?.startsWith('https://bnveuhstbhqhfinemehx') || false;
+  const iconColor = scrollY < 270 && width > 1280 ? 'white' : '';
 
   return (
     <div>
       <LoadLearningUnitsSystem />
       <LoadHomeworksSystem />
 
-      <View hidePadding visible={isVisible}>
-        <StyledTopicViewContainer
-          onScroll={(e) => {
-            const scrollY = e.currentTarget.scrollTop;
-            setScrollY(scrollY);
-          }}
-        >
+      <View
+        handleScroll={(e) => {
+          const scrollY = e.currentTarget.scrollTop;
+          setScrollY(scrollY);
+        }}
+        hidePadding
+        visible={isVisible}
+      >
+        <StyledTopicViewContainer>
           <StyledNavbarBackground />
-          <NavigationBar white={scrollY < 360 && width > 1280} tw="bg-black">
+          <NavigationBar white={iconColor == 'white'} tw="bg-black">
             <NavBarButton
               content={
                 <div>
@@ -239,8 +242,9 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
                   </ActionRow>
                 </div>
               }
+              color={iconColor}
             >
-              <IoAdd color={scrollY < 360 && width > 1280 ? 'white' : ''} />
+              <IoAdd />
             </NavBarButton>
 
             <NavBarButton
@@ -263,8 +267,9 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
                   </ActionRow>
                 </div>
               }
+              color={iconColor}
             >
-              <IoEllipsisHorizontalCircleOutline color={scrollY < 360 && width > 1280 ? 'white' : ''} />
+              <IoEllipsisHorizontalCircleOutline />
             </NavBarButton>
           </NavigationBar>
           <StyledTopAreaWrapper containImage={containImage} grid={!imageSrc} image={imageSrc || grid}>
@@ -278,7 +283,9 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
           <StyledTopicResourcesWrapper largeShadow={imageSrc ? true : false}>
             <div tw="h-fit w-full">
               <Spacer />
-              <Title>{title}</Title>
+              <Title>
+                {title}
+              </Title>
               {(description || !hasChildren) && <Spacer size={2} />}
               <div tw="md:w-4/5 ">
                 <SecondaryText>

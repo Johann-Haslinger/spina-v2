@@ -10,7 +10,7 @@ const StyledViewContainer = styled.div<{ backgroundColor?: string }>`
 `;
 
 const StyledViewWrapper = styled.div`
-  ${tw`w-full h-full  overflow-y-scroll`}
+  ${tw`w-full h-full overflow-y-scroll`}
   -ms-overflow-style: none;
   scrollbar-width: none;
 `;
@@ -33,7 +33,7 @@ interface ViewProps {
   overlaySidebar?: boolean;
   backgroundColor?: string;
   hidePadding?: boolean;
-  onScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
+  handleScroll?: (e: React.UIEvent<HTMLDivElement>) => void;
 }
 const View = (props: ViewProps & PropsWithChildren) => {
   const [isDisplayed, setIsDisplayed] = useState(false);
@@ -45,7 +45,8 @@ const View = (props: ViewProps & PropsWithChildren) => {
     overlaySidebar,
     backgroundColor,
     hidePadding = false,
-    onScroll,
+
+    handleScroll,
   } = props;
 
   useEffect(() => {
@@ -99,7 +100,7 @@ const View = (props: ViewProps & PropsWithChildren) => {
           }}
         >
           <StyledViewContainer backgroundColor={backgroundColor}>
-            <StyledViewWrapper onScroll={onScroll}>
+            <StyledViewWrapper onScroll={handleScroll}>
               <StyledViewContent
                 hidePadding={hidePadding}
                 isOverlayView={viewType == 'overlayView'}

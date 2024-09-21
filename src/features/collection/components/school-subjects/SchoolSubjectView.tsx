@@ -49,7 +49,8 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
 
         <BackButton navigateBack={navigateBack}>{displayHeaderTexts(selectedLanguage).collection}</BackButton>
         <Title>{title}</Title>
-        <Spacer size={6} />
+        <Spacer />
+
         {!hasTopics && !isLoadingIndicatorVisible && <NoContentAddedHint />}
 
         <CollectionGrid gapSize="large" columnSize="large">

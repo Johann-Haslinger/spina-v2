@@ -9,7 +9,7 @@ import { useSelectedSchoolSubjectColor } from '../../hooks/useSelectedSchoolSubj
 const StyledFlashcardCellWrapper = styled.div<{
   backgroundColor: string;
 }>`
-  ${tw`w-full cursor-pointer bg-tertiary h-40 dark:bg-tertiary-dark dark:text-white  rounded-lg p-3 transition-all md:hover:scale-105`}
+  ${tw`w-full cursor-pointer bg-tertiary h-40 dark:bg-tertiary-dark dark:text-white  rounded-lg px-4 py-3 transition-all md:hover:scale-105`}
 `;
 
 const StyledTextWrapper = styled.div`
@@ -17,10 +17,10 @@ const StyledTextWrapper = styled.div`
 `;
 
 const StyledQuestionText = styled.div`
-  ${tw`text-lg font-semibold line-clamp-2`}
+  ${tw`font-semibold line-clamp-2`}
 `;
 const StyledAnswerText = styled.div`
-  ${tw` line-clamp-2  transition-all text-secondary-text dark:text-secondary-text-dark mb-3 h-12`}
+  ${tw` line-clamp-2 mt-1 transition-all text-secondary-text dark:text-secondary-text-dark mb-3 h-12`}
 `;
 
 const StyledProgressBarWrapper = styled.div`

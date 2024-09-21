@@ -123,6 +123,7 @@ const LearningUnitView = (
 
         {currentView == LearningUnitViews.FLASHCARDS ? (
           <div>
+            <Spacer size={2} />
             <CollectionGrid columnSize="large">
               <EntityPropsMapper
                 query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataType.FLASHCARD)}
@@ -136,7 +137,7 @@ const LearningUnitView = (
         ) : (
           <TextEditor placeholder="Beginne hier..." value={text} onBlur={updateText} />
         )}
-
+        <Spacer />
         {hasAttachedResources && (
           <div>
             <Spacer size={6} />
@@ -205,7 +206,7 @@ const StyledTabbar = styled.div`
   ${tw` mb-8  transition-all dark:bg-secondary-dark bg-tertiary w-fit rounded-full `}
 `;
 
-const StyledTab = styled.button<{ active: boolean; color: string }>`
+const StyledTab = styled.button<{ active: boolean }>`
   ${tw`text-secondary-text  transition-all w-28 rounded-full  px-3 py-1`}
   ${({ active }) => active && tw`text-white bg-black dark:bg-white dark:text-black transition-all `}
 `;
@@ -217,14 +218,14 @@ const Tabbar = (props: { currentView: LearningUnitViews; changeCurrentView: (vie
   return (
     <StyledTabbar>
       <StyledTab
-        color={color}
+        customColor={color}
         active={currentView == LearningUnitViews.NOTE}
         onClick={() => changeCurrentView(LearningUnitViews.NOTE)}
       >
         Notiz
       </StyledTab>
       <StyledTab
-        color={color}
+        customColor={color}
         active={currentView == LearningUnitViews.FLASHCARDS}
         onClick={() => changeCurrentView(LearningUnitViews.FLASHCARDS)}
       >
