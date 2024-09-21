@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity, EntityProps, EntityPropsMapper } from '@leanscope/ecs-engine';
 import { IdentifierFacet, Tags, TextProps } from '@leanscope/ecs-models';
 import { motion } from 'framer-motion';

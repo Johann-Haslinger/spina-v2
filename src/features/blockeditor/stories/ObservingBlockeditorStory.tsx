@@ -1,4 +1,4 @@
-import { LeanScopeClient, LeanScopeClientApp } from '@leanscope/api-client/node';
+import { LeanScopeClient, LeanScopeClientApp } from '@leanscope/api-client/browser';
 import React from 'react';
 import { Story } from '../../../base/enums';
 import InitializeSchoolSubjectsSystem from '../../../systems/InitializeSchoolSubjectsSystem';
@@ -11,11 +11,22 @@ import InitializeAppSystem from '../../../systems/InitializeAppSystem';
 import { Settings } from '../../settings';
 import Blockeditor from '../components/Blockeditor';
 import InitializeBlockeditorSystem from '../systems/InitializeBlockeditorSystem';
+import { LocalDataMode } from '@leanscope/api-client';
+import { VITE_SUPABASE_URL, VITE_SUPABASE_KEY } from '../../../environment';
 
 const ObservingBlockeditorStory = () => {
   return (
     <React.StrictMode>
-      <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
+      <LeanScopeClientApp
+        leanScopeClient={
+          new LeanScopeClient({
+            supabaseUrl: VITE_SUPABASE_URL,
+            supabaseKey: VITE_SUPABASE_KEY,
+            serverUrl: 'http://localhost:3000',
+            localDataMode: 'ONLINE-READ-ONLY' as LocalDataMode,
+          })
+        }
+      >
         <BrowserRouter>
           <InitializeStoriesSystem initialStory={Story.OBSERVING_FLASHCARD_QUIZ_STORY} />
           <InitializeAppSystem mockupData />

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity, EntityProps } from '@leanscope/ecs-engine';
 import { IdentifierFacet, IdentifierProps } from '@leanscope/ecs-models';
 import { useContext, useState } from 'react';

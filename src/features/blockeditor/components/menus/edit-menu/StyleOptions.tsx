@@ -1,8 +1,7 @@
 import styled from '@emotion/styled';
+import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { ILeanScopeClient } from '@leanscope/api-client/interfaces';
-import { LeanScopeClientContext } from '@leanscope/api-client/node';
-import { useEntities } from '@leanscope/ecs-engine';
-import { useEntityFacets } from '@leanscope/ecs-engine/react-api/hooks/useEntityFacets';
+import { useEntities, useEntityComponents } from '@leanscope/ecs-engine';
 import { IdentifierFacet, Tags } from '@leanscope/ecs-models';
 import { motion } from 'framer-motion';
 import { Fragment, useContext, useEffect, useState } from 'react';
@@ -55,9 +54,9 @@ const StyledOptionWrapper = styled.div<{ isSelected: boolean }>`
 const useSelectedBlockTypes = () => {
   const [selectedBlocks] = useEntities((e) => e.has(DataType.BLOCK) && e.has(Tags.SELECTED));
   const firstSelectedBlockEntity = selectedBlocks[0];
-  const [textTypeProps, blocktypeProps] = useEntityFacets(firstSelectedBlockEntity, TexttypeFacet, BlocktypeFacet);
-  const firstSelectedBlockTextType = textTypeProps?.texttype;
-  const firstSelectedBlockType = blocktypeProps?.blocktype;
+  const [textTypeFacet, blocktypeFacet] = useEntityComponents(firstSelectedBlockEntity, TexttypeFacet, BlocktypeFacet);
+  const firstSelectedBlockTextType = textTypeFacet?.props.texttype;
+  const firstSelectedBlockType = blocktypeFacet?.props.blocktype;
   const [currentTextType, setCurrentTextType] = useState<Texttype | null>(null);
   const [currentBlockType, setCurrentBlockType] = useState<Blocktype | null>(null);
 

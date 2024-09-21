@@ -1,6 +1,5 @@
 import styled from '@emotion/styled/macro';
-import { Entity, EntityProps } from '@leanscope/ecs-engine';
-import { useEntityFacets } from '@leanscope/ecs-engine/react-api/hooks/useEntityFacets';
+import { Entity, EntityProps, useEntityComponents } from '@leanscope/ecs-engine';
 import { FloatOrderProps, IdentifierFacet } from '@leanscope/ecs-models';
 import { useEffect, useRef } from 'react';
 import { IoCheckmarkCircle, IoCloseCircle, IoEllipseOutline } from 'react-icons/io5';
@@ -65,8 +64,8 @@ const StyledTexteditorWrapper = styled.div`
 const TodoBlock = (props: EntityProps & FloatOrderProps) => {
   const { entity, index } = props;
   const { handleClick } = useTodoClickHandler(entity);
-  const [todoStateProps] = useEntityFacets(entity, TodoStateFacet);
-  const todoState = todoStateProps?.todoState || 0;
+  const [todoStateFacet] = useEntityComponents(entity, TodoStateFacet);
+  const todoState = todoStateFacet?.props.todoState || 0;
 
   return (
     <BlockOutline index={index || 0} blockEntity={entity}>

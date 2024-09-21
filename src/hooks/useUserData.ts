@@ -1,5 +1,4 @@
-import { useEntity } from '@leanscope/ecs-engine';
-import { useEntityFacets } from '@leanscope/ecs-engine/react-api/hooks/useEntityFacets';
+import { useEntity, useEntityComponents } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ImageFacet, NameFacet } from '@leanscope/ecs-models';
 import { EmailFacet, UserSessionFacet } from '../app/additionalFacets';
 import supabaseClient from '../lib/supabase';
@@ -13,8 +12,8 @@ export const useUserData = () => {
   const userEmail = userEntity?.get(EmailFacet)?.props.email;
   const userName = userEntity?.get(NameFacet)?.props.firstName;
   const profilePicture = userEntity?.get(ImageFacet)?.props.imageSrc;
-  const [sessionProps] = useEntityFacets(userEntity, UserSessionFacet);
-  const session = sessionProps?.session;
+  const [sessionFacet] = useEntityComponents(userEntity, UserSessionFacet);
+  const session = sessionFacet?.props.session;
 
   const signOut = async () => {
     await supabaseClient.auth.signOut();

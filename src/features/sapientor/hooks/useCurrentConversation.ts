@@ -1,6 +1,5 @@
-import { LeanScopeClientContext } from '@leanscope/api-client/node';
-import { Entity, useEntity } from '@leanscope/ecs-engine';
-import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntityComponents';
+import { LeanScopeClientContext } from '@leanscope/api-client/browser';
+import { Entity, useEntity, useEntityHasTags } from '@leanscope/ecs-engine';
 import { IdentifierFacet } from '@leanscope/ecs-models';
 import { useContext } from 'react';
 import { v4 } from 'uuid';

@@ -1,5 +1,4 @@
-import { useEntity } from '@leanscope/ecs-engine';
-import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntityComponents';
+import { useEntity, useEntityHasTags } from '@leanscope/ecs-engine';
 import { IdentifierFacet, Tags } from '@leanscope/ecs-models';
 import { useEffect, useState } from 'react';
 

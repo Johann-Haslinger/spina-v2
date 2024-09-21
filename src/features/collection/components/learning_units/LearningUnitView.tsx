@@ -1,7 +1,5 @@
 import styled from '@emotion/styled';
-import { LeanScopeClientContext } from '@leanscope/api-client/node';
-import { Entity, EntityProps, EntityPropsMapper, useEntities } from '@leanscope/ecs-engine';
-import { useEntityFacets } from '@leanscope/ecs-engine/react-api/hooks/useEntityFacets';
+import { Entity, EntityProps, EntityPropsMapper, useEntities, useEntityComponents } from '@leanscope/ecs-engine';
 import { IdentifierFacet, IdentifierProps, ImageFacet, Tags, TextFacet, UrlFacet } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
@@ -59,6 +57,7 @@ import FileViewer from './FileViewer';
 import LearningUnitNavBar from './LearningUnitNavBar';
 import LearningUnitTitle from './LearningUnitTitle';
 import StyleActionSheet from './StyleActionSheet';
+import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 
 const StyledSelect = styled.select<{ value: LearningUnitPriority }>`
   ${tw`bg-secondary dark:bg-primary-dark  transition-all outline-none`}
@@ -79,13 +78,13 @@ const LearningUnitView = (
   const { currentView, setCurrentView } = useCurrentView(type);
   const hasFlashcards = useHasFlashcards(entity);
   const { dueFlashcardEntity } = useDueFlashcards();
-  const [textProps] = useEntityFacets(entity, TextFacet);
+  const [textFacet] = useEntityComponents(entity, TextFacet);
   const isGeneratingImprovedTextViewVisible = useIsStoryCurrent(Story.GENERATING_IMPROVED_TEXT_STORY);
 
   const navigateBack = () => entity.addTag(AdditionalTag.NAVIGATE_BACK);
 
   useEffect(() => {
-    updateValue(textProps.text);
+    updateValue(textFacet?.props.text || '');
   }, [currentView, isGeneratingImprovedTextViewVisible]);
 
   return (
@@ -218,14 +217,14 @@ const Tabbar = (props: { currentView: LearningUnitViews; changeCurrentView: (vie
   return (
     <StyledTabbar>
       <StyledTab
-        customColor={color}
+        color={color}
         active={currentView == LearningUnitViews.NOTE}
         onClick={() => changeCurrentView(LearningUnitViews.NOTE)}
       >
         Notiz
       </StyledTab>
       <StyledTab
-        customColor={color}
+        color={color}
         active={currentView == LearningUnitViews.FLASHCARDS}
         onClick={() => changeCurrentView(LearningUnitViews.FLASHCARDS)}
       >

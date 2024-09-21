@@ -1,4 +1,4 @@
-import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity } from '@leanscope/ecs-engine';
 import { useContext, useEffect } from 'react';
 import { SelectedLanguageFacet } from '../app/additionalFacets';

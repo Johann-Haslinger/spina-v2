@@ -1,11 +1,10 @@
-import { Entity } from '@leanscope/ecs-engine';
-import { useEntityFacets } from '@leanscope/ecs-engine/react-api/hooks/useEntityFacets';
+import { Entity, useEntityComponents } from '@leanscope/ecs-engine';
 import { useEffect, useState } from 'react';
 import { DueDateFacet } from '../app/additionalFacets';
 
 export const useDaysUntilDue = (entity: Entity, dueDateValue?: string) => {
-  const [dueDateProps] = useEntityFacets(entity, DueDateFacet);
-  const dueDate = dueDateValue ? dueDateValue : dueDateProps?.dueDate;
+  const [dueDateFacet] = useEntityComponents(entity, DueDateFacet);
+  const dueDate = dueDateValue ? dueDateValue : dueDateFacet?.props.dueDate;
   const [daysUntilDue, setDaysUntilDue] = useState<string>('');
 
   useEffect(() => {

@@ -1,5 +1,5 @@
 import styled from '@emotion/styled/macro';
-import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity } from '@leanscope/ecs-engine';
 import { FloatOrderFacet, IdentifierFacet, ImageFacet, ParentFacet, TextFacet } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';

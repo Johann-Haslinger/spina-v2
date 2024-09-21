@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
-import { Entity } from '@leanscope/ecs-engine';
-import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntityComponents';
+import { Entity, useEntityHasTags } from '@leanscope/ecs-engine';
 import { IdentifierFacet, Tags } from '@leanscope/ecs-models';
 import React, { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { Draggable, DraggableProvided } from 'react-beautiful-dnd';

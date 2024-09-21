@@ -1,5 +1,5 @@
+import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { ILeanScopeClient } from '@leanscope/api-client/interfaces';
-import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { useEntities } from '@leanscope/ecs-engine';
 import { FloatOrderFacet, IdentifierFacet, Tags } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';

@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
-import { LeanScopeClientContext } from '@leanscope/api-client/node';
-import { Entity, EntityProps, EntityPropsMapper } from '@leanscope/ecs-engine';
-import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntityComponents';
+import { LeanScopeClientContext } from '@leanscope/api-client/browser';
+import { Entity, EntityProps, EntityPropsMapper, useEntityHasTags } from '@leanscope/ecs-engine';
 import {
   DescriptionProps,
   IdentifierFacet,
@@ -283,9 +282,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
           <StyledTopicResourcesWrapper largeShadow={imageSrc ? true : false}>
             <div tw="h-fit w-full">
               <Spacer />
-              <Title>
-                {title}
-              </Title>
+              <Title>{title}</Title>
               {(description || !hasChildren) && <Spacer size={2} />}
               <div tw="md:w-4/5 ">
                 <SecondaryText>

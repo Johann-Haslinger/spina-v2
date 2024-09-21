@@ -1,14 +1,6 @@
 import { ILeanScopeClient } from '@leanscope/api-client/interfaces';
 import { Entity } from '@leanscope/ecs-engine';
-import {
-  FloatOrderFacet,
-  IdentifierFacet,
-  ImageFacet,
-  ImageFitFacet,
-  ImageSizeFacet,
-  ParentFacet,
-  TextFacet,
-} from '@leanscope/ecs-models';
+import { FloatOrderFacet, IdentifierFacet, ImageFacet, ParentFacet, TextFacet } from '@leanscope/ecs-models';
 import { BlocktypeFacet, ListStyleFacet, TexttypeFacet, TodoStateFacet } from '../app/additionalFacets';
 import { SupabaseTable } from '../base/enums';
 import supabaseClient from '../lib/supabase';
@@ -29,8 +21,8 @@ export const addBlocks = async (lsc: ILeanScopeClient, blockEntities: Entity[], 
       list_style: blockEntity.get(ListStyleFacet)?.props.listStyle,
       text_type: blockEntity.get(TexttypeFacet)?.props.texttype,
       content: blockEntity.get(TextFacet)?.props.text,
-      fit: blockEntity.get(ImageFitFacet)?.props.fit,
-      size: blockEntity.get(ImageSizeFacet)?.props.size,
+      // fit: blockEntity.get(ImageFitFacet)?.props.fit,
+      // size: blockEntity.get(ImageSizeFacet)?.props.size,
       image_url: blockEntity.get(ImageFacet)?.props.imageSrc,
     })),
   );

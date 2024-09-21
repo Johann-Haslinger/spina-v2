@@ -1,4 +1,4 @@
-import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { EntityProps } from '@leanscope/ecs-engine';
 import { IdentifierProps, TextFacet, TextProps } from '@leanscope/ecs-models';
 import { useContext } from 'react';

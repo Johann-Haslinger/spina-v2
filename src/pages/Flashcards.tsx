@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { useContext } from 'react';
 import { IoPlay } from 'react-icons/io5';
 import { Fragment } from 'react/jsx-runtime';

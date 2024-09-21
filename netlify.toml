@@ -1,7 +1,8 @@
 # Build-Einstellungen
 [build]
-  command = "npm run build"  # Der Befehl zum Erstellen deiner Anwendung
-  publish = "build"         # Das Verzeichnis, das veröffentlicht werden soll
+  publish = "dist"
+  command = "npm run build"
+
 
 # Umleitungen (optional)
 [[redirects]]

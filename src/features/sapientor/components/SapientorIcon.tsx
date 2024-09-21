@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
-import { LeanScopeClientContext } from '@leanscope/api-client/node';
-import { useEntities } from '@leanscope/ecs-engine';
-import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntityComponents';
+import { LeanScopeClientContext } from '@leanscope/api-client/browser';
+import { useEntities, useEntityHasTags } from '@leanscope/ecs-engine';
 import { motion } from 'framer-motion';
 import { useContext, useEffect, useRef } from 'react';
 import tw from 'twin.macro';

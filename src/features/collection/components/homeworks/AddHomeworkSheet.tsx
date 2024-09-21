@@ -1,4 +1,4 @@
-import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity } from '@leanscope/ecs-engine';
 import { DescriptionFacet, IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
@@ -28,9 +28,9 @@ import { useSchoolSubjectTopics } from '../../../../hooks/useSchoolSubjectTopics
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import { useUserData } from '../../../../hooks/useUserData';
 import { displayActionTexts, displayButtonTexts, displayLabelTexts } from '../../../../utils/displayText';
+import { generateDescriptionForTopic } from '../../functions/generateDescriptionForTopic';
 import { useSelectedSchoolSubject } from '../../hooks/useSelectedSchoolSubject';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
-import { generateDescriptionForTopic } from '../../functions/generateDescriptionForTopic';
 
 const AddHomeworkSheet = () => {
   const lsc = useContext(LeanScopeClientContext);

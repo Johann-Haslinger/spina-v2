@@ -1,12 +1,10 @@
-import { Entity } from '@leanscope/ecs-engine';
-import { useEntityFacets } from '@leanscope/ecs-engine/react-api/hooks/useEntityFacets';
+import { Entity, useEntityComponents, useEntityHasTags } from '@leanscope/ecs-engine';
 import { IdentifierFacet, Tags, TextFacet } from '@leanscope/ecs-models';
 import { useEffect, useState } from 'react';
 import { SupabaseColumn, SupabaseTable } from '../../../base/enums';
 import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import { useUserData } from '../../../hooks/useUserData';
 import supabaseClient from '../../../lib/supabase';
-import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntityComponents';
 
 const fetchText = async (parentId: string, userId: string) => {
   const { data: textData, error } = await supabaseClient
@@ -36,10 +34,10 @@ const fetchText = async (parentId: string, userId: string) => {
 export const useText = (entity: Entity) => {
   const parentId = entity.get(IdentifierFacet)?.props.guid;
   const { userId } = useUserData();
-  const [textProps] = useEntityFacets(entity, TextFacet);
+  const [textFacet] = useEntityComponents(entity, TextFacet);
   const [isEntitySelected] = useEntityHasTags(entity, Tags.SELECTED);
   const { isUsingSupabaseData: shouldFetchFromSupabase, isUsingMockupData: mockupData } = useCurrentDataSource();
-  const [text, setText] = useState(textProps?.text || '');
+  const [text, setText] = useState(textFacet?.props.text || '');
 
   useEffect(() => {
     const loadText = async () => {
