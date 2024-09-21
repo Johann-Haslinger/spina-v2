@@ -65,12 +65,6 @@ const useTopicImageURLs = () => {
   return imageURLs;
 };
 
-const StyledUnsplashImageRow = styled.div`
-  ${tw`flex w-full rounded-xl  overflow-x-scroll`}
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-`;
-
 const SelectTopicImageSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Story.SELECTING_IMAGE_FOR_TOPIC_STORY);
@@ -99,13 +93,11 @@ const SelectTopicImageSheet = () => {
         {unsplashImages.length > 0 && (
           <div tw="w-full overflow-hidden">
             <p tw="text-2xl font-semibold mb-4 ">Vorschläge</p>
-            <StyledUnsplashImageRow>
-              <div tw="w-fit space-x-2 flex">
-                {unsplashImages.map((image, index) => (
-                  <UnsplashImage key={index} image={image as PreviewImage} />
-                ))}
-              </div>
-            </StyledUnsplashImageRow>
+            <div tw="grid md:grid-cols-4 grid-cols-1 col-span-4 gap-2">
+              {unsplashImages.map((image, index) => (
+                <UnsplashImage key={index} image={image as PreviewImage} />
+              ))}
+            </div>
           </div>
         )}
         <p tw="text-2xl  font-semibold mt-6 mb-4">Abstrakt</p>
@@ -134,7 +126,7 @@ const SelectTopicImageSheet = () => {
 export default SelectTopicImageSheet;
 
 const StyledImageWrapper = styled.div`
-  ${tw` w-60`}
+  ${tw``}
 `;
 const UnsplashImage = (props: { image: PreviewImage }) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -155,9 +147,9 @@ const UnsplashImage = (props: { image: PreviewImage }) => {
         onClick={handleImageSelect}
         src={image.url}
         alt={image.description}
-        tw="h-40 hover:scale-105 object-cover w-full transition-all rounded-xl"
+        tw="h-40 hover:scale-105  hover:object-top object-center transition-all object-cover w-full rounded-xl"
       />
-      <div tw="text-xs mt-2 text-secondary-text">
+      <div tw="text-xs my-2 text-secondary-text">
         by{' '}
         <a tw="hover:underline" href={image.creator.profileUrl} target="_blank" rel="noopener noreferrer">
           {image.creator.name}

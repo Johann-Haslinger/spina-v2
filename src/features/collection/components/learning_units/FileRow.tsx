@@ -92,7 +92,11 @@ const FileRow = (props: TitleProps & FilePathProps & EntityProps) => {
         <div onClick={openFile} tw="flex w-full cursor-pointer items-center space-x-6 pl-4 ">
           <div tw="text-2xl text-primary-color">
             {' '}
-            {filePath.endsWith('.png') ? <IoImageOutline /> : <IoDocumentOutline />}
+            {filePath.includes('.png') || filePath.includes('.jpeg') || filePath.includes('.jpg') ? (
+              <IoImageOutline />
+            ) : (
+              <IoDocumentOutline />
+            )}
           </div>
           <div>
             <StyledTitle>{title}</StyledTitle>
