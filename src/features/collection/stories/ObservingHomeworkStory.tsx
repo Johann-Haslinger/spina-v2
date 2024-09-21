@@ -1,10 +1,13 @@
-import { LeanScopeClient, LeanScopeClientApp } from '@leanscope/api-client/node';
+import { LocalDataMode } from '@leanscope/api-client';
+import { LeanScopeClient, LeanScopeClientApp } from '@leanscope/api-client/browser';
 import { EntityCreator } from '@leanscope/ecs-engine';
+import { customFacetBuildersMap } from '@leanscope/ecs-generation';
 import { DescriptionFacet, IdentifierFacet, OrderFacet, ParentFacet, Tags } from '@leanscope/ecs-models';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { DueDateFacet, TitleFacet } from '../../../app/additionalFacets';
 import { DataType, Story } from '../../../base/enums';
+import { VITE_SUPABASE_KEY, VITE_SUPABASE_URL } from '../../../environment';
 import Collection from '../../../pages/Collection';
 import InitializeAppSystem from '../../../systems/InitializeAppSystem';
 import InitializeSchoolSubjectsSystem from '../../../systems/InitializeSchoolSubjectsSystem';
@@ -14,7 +17,19 @@ import ViewManagerSystem from '../../../systems/ViewManagerSystem';
 const ObservingHomeworkStory = () => {
   return (
     <React.StrictMode>
-      <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
+      <LeanScopeClientApp
+        leanScopeClient={
+          new LeanScopeClient(
+            {
+              supabaseUrl: VITE_SUPABASE_URL,
+              supabaseKey: VITE_SUPABASE_KEY,
+              serverUrl: 'http://localhost:3000',
+              localDataMode: 'ONLINE-READ-ONLY' as LocalDataMode,
+            },
+            customFacetBuildersMap,
+          )
+        }
+      >
         <BrowserRouter>
           <EntityCreator
             facets={[

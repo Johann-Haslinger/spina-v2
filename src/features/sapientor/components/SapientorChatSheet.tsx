@@ -4,7 +4,7 @@ import { TextFacet } from '@leanscope/ecs-models';
 import { IoBulb, IoClose, IoFlash } from 'react-icons/io5';
 import tw from 'twin.macro';
 
-import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntityComponents';
+import { useEntityHasTags } from '@leanscope/ecs-engine';
 import { useEffect, useState } from 'react';
 import { MessageRoleFacet, RelatedResourcesFacet } from '../../../app/additionalFacets';
 import { COLOR_ITEMS } from '../../../base/constants';

@@ -1,6 +1,5 @@
 import styled from '@emotion/styled/macro';
-import { Entity, EntityProps } from '@leanscope/ecs-engine';
-import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntityComponents';
+import { Entity, EntityProps, useEntityHasTags } from '@leanscope/ecs-engine';
 import { OrderFacet, OrderProps, Tags } from '@leanscope/ecs-models';
 import { IoChevronForward, IoChevronUp } from 'react-icons/io5';
 import tw from 'twin.macro';

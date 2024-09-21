@@ -1,5 +1,5 @@
 import styled from '@emotion/styled/macro';
-import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { EntityProps, EntityPropsMapper, useEntities } from '@leanscope/ecs-engine';
 import { IdentifierFacet, IdentifierProps, Tags } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';

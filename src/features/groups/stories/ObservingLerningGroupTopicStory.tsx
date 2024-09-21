@@ -1,4 +1,4 @@
-import { LeanScopeClient, LeanScopeClientApp } from '@leanscope/api-client/node';
+import { LeanScopeClient, LeanScopeClientApp } from '@leanscope/api-client/browser';
 import { EntityCreator } from '@leanscope/ecs-engine';
 import { ColorFacet, DescriptionFacet, IdentifierFacet, OrderFacet, ParentFacet, Tags } from '@leanscope/ecs-models';
 import React from 'react';
@@ -13,12 +13,27 @@ import InitializeSchoolSubjectsSystem from '../../../systems/InitializeSchoolSub
 import InitializeStoriesSystem from '../../../systems/InitializeStoriesSystem';
 import ViewManagerSystem from '../../../systems/ViewManagerSystem';
 import { Settings } from '../../settings';
+import { LocalDataMode } from '@leanscope/api-client';
+import { customFacetBuildersMap } from '@leanscope/ecs-generation';
+import { VITE_SUPABASE_URL, VITE_SUPABASE_KEY } from '../../../environment';
 
 const ObservingLerningGroupTopicStory = () => {
   return (
     <React.StrictMode>
       <BrowserRouter>
-        <LeanScopeClientApp leanScopeClient={new LeanScopeClient()}>
+        <LeanScopeClientApp
+          leanScopeClient={
+            new LeanScopeClient(
+              {
+                supabaseUrl: VITE_SUPABASE_URL,
+                supabaseKey: VITE_SUPABASE_KEY,
+                serverUrl: 'http://localhost:3000',
+                localDataMode: 'ONLINE-READ-ONLY' as LocalDataMode,
+              },
+              customFacetBuildersMap,
+            )
+          }
+        >
           <EntityCreator
             facets={[
               new TitleFacet({ title: 'Lern Gruppe' }),

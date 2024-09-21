@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
-import { Entity } from '@leanscope/ecs-engine';
-import { useEntityFacets } from '@leanscope/ecs-engine/react-api/hooks/useEntityFacets';
+import { Entity, useEntityComponents } from '@leanscope/ecs-engine';
 import { Tags } from '@leanscope/ecs-models';
 import { motion } from 'framer-motion';
 import tw from 'twin.macro';
@@ -30,10 +29,10 @@ const StyledExamCellSubtitle = styled.div`
 const ExamKanbanCell = (pops: { entity: Entity; backgroundColor: string; color: string }) => {
   const { entity, backgroundColor, color } = pops;
 
-  const [titleProps, relationShipProps] = useEntityFacets(entity, TitleFacet, RelationshipFacet);
+  const [titleFacet, relationShipFacet] = useEntityComponents(entity, TitleFacet, RelationshipFacet);
   const daysUntilDue = useDaysUntilDue(entity);
-  const title = titleProps?.title || 'No Title';
-  const relatedSchoolSubjectId = relationShipProps?.relationship;
+  const title = titleFacet?.props.title || 'No Title';
+  const relatedSchoolSubjectId = relationShipFacet?.props.relationship || '';
   const { schoolSubjectTitle } = useSchoolSubject(relatedSchoolSubjectId);
   const { isDarkModeActive: isDarkMode } = useSelectedTheme();
 

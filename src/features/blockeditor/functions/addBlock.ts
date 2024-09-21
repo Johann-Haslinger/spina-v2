@@ -1,14 +1,6 @@
 import { ILeanScopeClient } from '@leanscope/api-client/interfaces';
 import { Entity } from '@leanscope/ecs-engine';
-import {
-  FloatOrderFacet,
-  IdentifierFacet,
-  ImageFacet,
-  ImageFitFacet,
-  ImageSizeFacet,
-  ParentFacet,
-  TextFacet,
-} from '@leanscope/ecs-models';
+import { FloatOrderFacet, IdentifierFacet, ImageFacet, ParentFacet, TextFacet } from '@leanscope/ecs-models';
 import { BlocktypeFacet, ListStyleFacet, TexttypeFacet, TodoStateFacet } from '../../../app/additionalFacets';
 import { SupabaseTable } from '../../../base/enums';
 import supabaseClient from '../../../lib/supabase';
@@ -22,8 +14,8 @@ export const addBlock = async (lsc: ILeanScopeClient, newBlockEntity: Entity, us
   const order = newBlockEntity.get(FloatOrderFacet)?.props.index;
   const parentId = newBlockEntity.get(ParentFacet)?.props.parentId;
   const imageUrl = newBlockEntity.get(ImageFacet)?.props.imageSrc;
-  const size = newBlockEntity.get(ImageSizeFacet)?.props.size;
-  const fit = newBlockEntity.get(ImageFitFacet)?.props.fit;
+  // const size = newBlockEntity.get(ImageSizeFacet)?.props.size;
+  // const fit = newBlockEntity.get(ImageFitFacet)?.props.fit;
   const content = newBlockEntity.get(TextFacet)?.props.text;
   const textType = newBlockEntity.get(TexttypeFacet)?.props.texttype;
   const listStyle = newBlockEntity.get(ListStyleFacet)?.props.listStyle;
@@ -35,7 +27,7 @@ export const addBlock = async (lsc: ILeanScopeClient, newBlockEntity: Entity, us
     order,
     parent_id: parentId,
     image_url: imageUrl,
-    size,
+    // size,
     fit,
     content,
     text_type: textType,

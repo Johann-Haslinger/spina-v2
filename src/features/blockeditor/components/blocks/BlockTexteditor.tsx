@@ -1,8 +1,7 @@
 import styled from '@emotion/styled';
+import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { ILeanScopeClient } from '@leanscope/api-client/interfaces';
-import { LeanScopeClientContext } from '@leanscope/api-client/node';
-import { Entity, EntityProps } from '@leanscope/ecs-engine';
-import { useEntityFacets } from '@leanscope/ecs-engine/react-api/hooks/useEntityFacets';
+import { Entity, EntityProps, useEntityComponents } from '@leanscope/ecs-engine';
 import { FloatOrderFacet, IdentifierFacet, ParentFacet, TextFacet } from '@leanscope/ecs-models';
 import { FormEvent, Fragment, RefObject, useContext, useState } from 'react';
 import tw from 'twin.macro';
@@ -273,8 +272,8 @@ const BlockTexteditor = (props: EntityProps) => {
   const { entity } = props;
   const text = entity.get(TextFacet)?.props.text || '';
   const parentId = entity.get(ParentFacet)?.props.parentId || '';
-  const [texttypeProps] = useEntityFacets(entity, TexttypeFacet);
-  const texttype = texttypeProps?.texttype || Texttype.NORMAL;
+  const [texttypeProps] = useEntityComponents(entity, TexttypeFacet);
+  const texttype = texttypeProps?.props.texttype || Texttype.NORMAL;
   const { blockeditorState, blockeditorEntity, isGroupBlockeditor } = useCurrentBlockeditor();
   const { userId } = useUserData();
   const [initinalBlocktext] = useState<string>(text);

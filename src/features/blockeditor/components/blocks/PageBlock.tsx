@@ -1,7 +1,6 @@
 import styled from '@emotion/styled';
-import { LeanScopeClientContext } from '@leanscope/api-client/node';
-import { EntityProps, useEntity } from '@leanscope/ecs-engine';
-import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntityComponents';
+import { LeanScopeClientContext } from '@leanscope/api-client/browser';
+import { EntityProps, useEntity, useEntityHasTags } from '@leanscope/ecs-engine';
 import { FloatOrderProps, IdentifierFacet, ParentFacet, Tags, TextFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { Fragment } from 'react/jsx-runtime';

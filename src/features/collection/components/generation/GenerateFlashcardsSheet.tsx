@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
@@ -25,8 +25,8 @@ import { displayButtonTexts } from '../../../../utils/displayText';
 import { generateFlashCards } from '../../../../utils/generateResources';
 
 import { useSelectedLearningUnit } from '../../../../common/hooks/useSelectedLearningUnit';
-import PreviewFlashcard from '../flashcard-sets/PreviewFlashcard';
 import { updateLearningUnitType } from '../../functions/updateLearningUnitType';
+import PreviewFlashcard from '../flashcard-sets/PreviewFlashcard';
 
 type Flashcard = {
   question: string;

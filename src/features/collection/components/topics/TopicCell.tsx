@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
-import { EntityProps } from '@leanscope/ecs-engine';
-import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntityComponents';
+import { EntityProps, useEntityHasTags } from '@leanscope/ecs-engine';
 import { DescriptionProps, ImageProps, Tags } from '@leanscope/ecs-models';
 import { IoBook } from 'react-icons/io5';
 import tw from 'twin.macro';

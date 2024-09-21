@@ -1,15 +1,6 @@
-import { LeanScopeClientContext } from '@leanscope/api-client/node';
-import { Entity } from '@leanscope/ecs-engine';
-import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntityComponents';
-import {
-  FloatOrderFacet,
-  IdentifierFacet,
-  ImageFacet,
-  ImageFitFacet,
-  ImageSizeFacet,
-  ParentFacet,
-  TextFacet,
-} from '@leanscope/ecs-models';
+import { LeanScopeClientContext } from '@leanscope/api-client/browser';
+import { Entity, useEntityHasTags } from '@leanscope/ecs-engine';
+import { FloatOrderFacet, IdentifierFacet, ImageFacet, ParentFacet, TextFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { BlocktypeFacet, TexttypeFacet } from '../../../app/additionalFacets';
 import { dummyBlocks } from '../../../base/dummy';
@@ -95,8 +86,8 @@ const LoadBlocksSystem = () => {
             newBlockEntity.add(new TextFacet({ text: block.content }));
             newBlockEntity.add(new FloatOrderFacet({ index: block.order || 0 }));
             newBlockEntity.add(new ImageFacet({ imageSrc: block.image_url || '' }));
-            newBlockEntity.add(new ImageSizeFacet({ size: block.size || '' }));
-            newBlockEntity.add(new ImageFitFacet({ fit: block.fit || '' }));
+            // newBlockEntity.add(new ImageSizeFacet({ size: block.size || '' }));
+            // newBlockEntity.add(new ImageFitFacet({ fit: block.fit || '' }));
             newBlockEntity.add(isGroupBlockeditor ? DataType.GROUP_BLOCK : DataType.BLOCK);
           }
         });

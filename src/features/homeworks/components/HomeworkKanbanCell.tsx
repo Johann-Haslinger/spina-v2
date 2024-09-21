@@ -1,6 +1,5 @@
 import styled from '@emotion/styled';
-import { Entity } from '@leanscope/ecs-engine';
-import { useEntityFacets } from '@leanscope/ecs-engine/react-api/hooks/useEntityFacets';
+import { Entity, useEntityComponents } from '@leanscope/ecs-engine';
 import { Tags } from '@leanscope/ecs-models';
 import { motion } from 'framer-motion';
 import tw from 'twin.macro';
@@ -31,10 +30,10 @@ const StyledHomeworkCellSubtitle = styled.div`
 const HomeworkKanbanCell = (props: { entity: Entity; backgroundColor: string; color: string }) => {
   const { entity, backgroundColor } = props;
   const { selectedLanguage } = useSelectedLanguage();
-  const [titleProps, relationShipProps] = useEntityFacets(entity, TitleFacet, RelationshipFacet);
+  const [titleFacet, relationShipFacet] = useEntityComponents(entity, TitleFacet, RelationshipFacet);
   const daysUntilDue = useDaysUntilDue(entity);
-  const title = titleProps?.title || displayAlertTexts(selectedLanguage).noTitle;
-  const relatedSchoolSubjectId = relationShipProps?.relationship;
+  const title = titleFacet?.props.title || displayAlertTexts(selectedLanguage).noTitle;
+  const relatedSchoolSubjectId = relationShipFacet?.props.relationship || '';
   const { schoolSubjectTitle } = useSchoolSubject(relatedSchoolSubjectId);
   const { isDarkModeActive: isDarkMode } = useSelectedTheme();
 

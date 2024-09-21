@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { useContext } from 'react';
 import { IoHeadset } from 'react-icons/io5';
 import tw from 'twin.macro';

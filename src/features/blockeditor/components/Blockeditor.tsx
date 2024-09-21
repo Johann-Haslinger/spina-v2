@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
-import { LeanScopeClientContext } from '@leanscope/api-client/node';
-import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntityComponents';
+import { LeanScopeClientContext } from '@leanscope/api-client/browser';
+import { useEntityHasTags } from '@leanscope/ecs-engine';
 import React, { Fragment, useContext } from 'react';
 import { IoAdd, IoColorWandOutline, IoEllipsisHorizontalCircleOutline, IoSparklesOutline } from 'react-icons/io5';
 import tw from 'twin.macro';

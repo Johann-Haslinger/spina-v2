@@ -2,7 +2,7 @@ import { EntityProps } from '@leanscope/ecs-engine';
 import { FloatOrderProps } from '@leanscope/ecs-models';
 import { BlocktypeProps } from '../../../app/additionalFacets';
 import { Blocktype } from '../../../base/enums';
-import { DividerBlock, ImageBlock, ListBlock, TextBlock, TodoBlock } from './blocks';
+import { DividerBlock, ListBlock, TextBlock, TodoBlock } from './blocks';
 import PageBlock from './blocks/PageBlock';
 
 const BlockRenderer = (props: BlocktypeProps & FloatOrderProps & EntityProps) => {
@@ -17,8 +17,8 @@ const BlockRenderer = (props: BlocktypeProps & FloatOrderProps & EntityProps) =>
       return <ListBlock {...props} />;
     case Blocktype.DIVIDER:
       return <DividerBlock {...props} />;
-    case Blocktype.IMAGE:
-      return <ImageBlock {...props} />;
+    // case Blocktype.IMAGE:
+    //   return <ImageBlock {...props} />;
     case Blocktype.PAGE:
       return <PageBlock {...props} />;
     default:

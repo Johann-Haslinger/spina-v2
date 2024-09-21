@@ -1,4 +1,4 @@
-import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
@@ -18,13 +18,13 @@ import {
   Spacer,
   TextInput,
 } from '../../../../components';
+import { addLearningUnit } from '../../../../functions/addLeaningUnit';
 import { useSchoolSubjectEntities } from '../../../../hooks/useSchoolSubjects';
 import { useSchoolSubjectTopics } from '../../../../hooks/useSchoolSubjectTopics';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
+import { useUserData } from '../../../../hooks/useUserData';
 import { displayAlertTexts, displayButtonTexts, displayLabelTexts } from '../../../../utils/displayText';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
-import { addLearningUnit } from '../../../../functions/addLeaningUnit';
-import { useUserData } from '../../../../hooks/useUserData';
 
 const AddFlashcardSetSheet = () => {
   const lsc = useContext(LeanScopeClientContext);

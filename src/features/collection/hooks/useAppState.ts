@@ -1,6 +1,5 @@
-import { LeanScopeClientContext } from '@leanscope/api-client/node';
-import { useEntity } from '@leanscope/ecs-engine';
-import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntityComponents';
+import { LeanScopeClientContext } from '@leanscope/api-client/browser';
+import { useEntity, useEntityHasTags } from '@leanscope/ecs-engine';
 import { useContext } from 'react';
 import { AdditionalTag, Story } from '../../../base/enums';
 

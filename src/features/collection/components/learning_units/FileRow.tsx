@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
+import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { ILeanScopeClient } from '@leanscope/api-client/interfaces';
-import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { Entity, EntityProps } from '@leanscope/ecs-engine';
 import { Tags } from '@leanscope/ecs-models';
 import saveAs from 'file-saver';

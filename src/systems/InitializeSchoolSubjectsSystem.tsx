@@ -1,14 +1,14 @@
-import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, OrderFacet, Tags } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { TitleFacet } from '../app/additionalFacets';
 import { dummySchoolSubjects } from '../base/dummy';
 import { DataType, SupabaseTable } from '../base/enums';
+import { useLoadingIndicator } from '../common/hooks';
 import { useCurrentDataSource } from '../hooks/useCurrentDataSource';
 import supabaseClient from '../lib/supabase';
 import { dataTypeQuery } from '../utils/queries';
-import { useLoadingIndicator } from '../common/hooks';
 
 const fetchSchoolSubjects = async () => {
   const { data: schoolSubjects, error } = await supabaseClient.from(SupabaseTable.SCHOOL_SUBJECTS).select('title, id');

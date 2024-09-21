@@ -1,4 +1,4 @@
-import { LeanScopeClientContext } from '@leanscope/api-client/node';
+import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { EntityPropsMapper, useEntities } from '@leanscope/ecs-engine';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { Fragment, useContext } from 'react';
