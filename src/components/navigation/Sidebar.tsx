@@ -6,12 +6,12 @@ import { Fragment, useContext, useEffect, useRef, useState } from 'react';
 import {
   IoClose,
   IoEllipsisHorizontal,
+  IoHelpCircleOutline,
   IoLogInOutline,
   IoLogOutOutline,
   IoMoon,
   IoPause,
   IoPerson,
-  IoPersonCircleOutline,
   IoPlay,
   IoSettingsOutline,
 } from 'react-icons/io5';
@@ -71,7 +71,7 @@ const SelectedPodcastCell = (props: { isFullWidth: boolean }) => {
 };
 
 const StyledSettingsMenuWrapper = styled.div`
-  ${tw` px-2 py-2 dark:text-primary-text-dark md:w-56 w-full h-52 bg-primary dark:bg-tertiary-dark rounded-lg`}
+  ${tw` px-2  dark:text-primary-text-dark md:w-56 w-full h-48 bg-primary dark:bg-tertiary-dark rounded-lg`}
 `;
 
 const StyledEmailText = styled.div`
@@ -178,7 +178,7 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
           opacity: 0,
         }}
         animate={{
-          bottom: isSettingsQuickMenuVisible ? (isMobile ? 100 : 65) : 55,
+          bottom: isSettingsQuickMenuVisible ? (isMobile ? 100 : 70) : 55,
           opacity: isSettingsQuickMenuVisible ? 1 : 0,
         }}
       >
@@ -194,15 +194,15 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
 
           <StyledHelpText onClick={toggleProfile}>
             <StyledSettingsMenuIcon>
-              <IoPersonCircleOutline />
-            </StyledSettingsMenuIcon>
-            {displayHeaderTexts(selectedLanguage).profile}
-          </StyledHelpText>
-          <StyledSettingsText onClick={toggleSettings}>
-            <StyledSettingsMenuIcon>
               <IoSettingsOutline />
             </StyledSettingsMenuIcon>
             {displayHeaderTexts(selectedLanguage).settings}
+          </StyledHelpText>
+          <StyledSettingsText onClick={toggleSettings}>
+            <StyledSettingsMenuIcon>
+              <IoHelpCircleOutline />
+            </StyledSettingsMenuIcon>
+            Hilfe
           </StyledSettingsText>
           <StyledSettingsDivider />
           <StyledAccountStatusText onClick={() => signedIn && signOut()}>

@@ -89,6 +89,7 @@ export const displayActionTexts = (selectedLanguage: SupportedLanguage) => {
     addText: ACTION_TEXT_DATA.add_text[selectedLanguage],
     archivate: ACTION_TEXT_DATA.archivate[selectedLanguage],
     deArchivate: ACTION_TEXT_DATA.de_archivate[selectedLanguage],
+    addImage: ACTION_TEXT_DATA.add_image[selectedLanguage],
   };
 };
 

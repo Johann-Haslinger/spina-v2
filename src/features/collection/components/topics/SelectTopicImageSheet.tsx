@@ -65,61 +65,68 @@ const useTopicImageURLs = () => {
   return imageURLs;
 };
 
-const SelectTopicImageSheet = () => {
+const SelectTopicImageSheet = (props: { parentStory: Story; topicTitle?: string }) => {
+  const { topicTitle, parentStory } = props;
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Story.SELECTING_IMAGE_FOR_TOPIC_STORY);
   const topicImageURLs = useTopicImageURLs();
-  const unsplashImages = useUnsplashImages(isVisible);
+  const unsplashImages = useUnsplashImages(isVisible, topicTitle);
 
-  const navigateBack = () => lsc.stories.transitTo(Story.EDITING_TOPIC_STORY);
+  const navigateBack = () => lsc.stories.transitTo(parentStory);
 
-  const handleImageSelect = (url: string) => {
+  const handleImageSelect = (url: string, parentStory: Story) => {
     const selectedImageEntity = new Entity();
     lsc.engine.addEntity(selectedImageEntity);
     selectedImageEntity.add(new IdentifierFacet({ guid: 'selectedImage' }));
     selectedImageEntity.add(new ImageFacet({ imageSrc: url }));
-
-    lsc.stories.transitTo(Story.EDITING_TOPIC_STORY);
+    lsc.stories.transitTo(parentStory);
   };
 
   return (
-    <Sheet navigateBack={navigateBack} visible={isVisible}>
-      <FlexBox>
-        <div />
-        <CloseButton onClick={navigateBack} />
-      </FlexBox>
-      <Spacer />
-      <ScrollableBox>
-        {unsplashImages.length > 0 && (
-          <div tw="w-full overflow-hidden">
-            <p tw="text-2xl font-semibold mb-4 ">Vorschläge</p>
-            <div tw="grid md:grid-cols-4 grid-cols-1 col-span-4 gap-2">
-              {unsplashImages.map((image, index) => (
-                <UnsplashImage key={index} image={image as PreviewImage} />
-              ))}
+    parentStory && (
+      <Sheet navigateBack={navigateBack} visible={isVisible}>
+        <FlexBox>
+          <div />
+          <CloseButton onClick={navigateBack} />
+        </FlexBox>
+        <Spacer />
+        <ScrollableBox>
+          {unsplashImages.length > 0 && (
+            <div tw="w-full overflow-hidden">
+              <p tw="text-2xl font-semibold mb-4 ">Vorschläge</p>
+              <div tw="grid md:grid-cols-4 grid-cols-1 col-span-4 gap-2">
+                {unsplashImages.map((image, index) => (
+                  <UnsplashImage parentStory={parentStory} key={index} image={image as PreviewImage} />
+                ))}
+              </div>
             </div>
+          )}
+          <p tw="text-2xl  font-semibold mt-6 mb-4">Abstrakt</p>
+          <div tw="grid md:grid-cols-4 grid-cols-1 col-span-4 gap-2">
+            {topicImageURLs.map((imageURL, index) => (
+              <img
+                onClick={() => handleImageSelect(imageURL, parentStory)}
+                key={index}
+                src={imageURL}
+                alt={`Topic Image ${index}`}
+                tw="h-40 hover:scale-105  hover:object-top object-center transition-all object-cover w-full rounded-xl"
+              />
+            ))}
           </div>
-        )}
-        <p tw="text-2xl  font-semibold mt-6 mb-4">Abstrakt</p>
-        <div tw="grid md:grid-cols-4 grid-cols-1 col-span-4 gap-2">
-          {topicImageURLs.map((imageURL, index) => (
-            <img
-              onClick={() => handleImageSelect(imageURL)}
-              key={index}
-              src={imageURL}
-              alt={`Topic Image ${index}`}
-              tw="h-40 hover:scale-105  hover:object-top object-center transition-all object-cover w-full rounded-xl"
-            />
-          ))}
-        </div>
-        <Spacer size={8} />
-        <Section>
-          <SectionRow onClick={() => handleImageSelect('')} last role="destructive" icon={<IoRemoveCircle />}>
-            Bild entfernen
-          </SectionRow>
-        </Section>
-      </ScrollableBox>
-    </Sheet>
+          <Spacer size={8} />
+          <Section>
+            <SectionRow
+              onClick={() => handleImageSelect('', parentStory)}
+              last
+              role="destructive"
+              icon={<IoRemoveCircle />}
+            >
+              Bild entfernen
+            </SectionRow>
+          </Section>
+        </ScrollableBox>
+      </Sheet>
+    )
   );
 };
 
@@ -128,9 +135,9 @@ export default SelectTopicImageSheet;
 const StyledImageWrapper = styled.div`
   ${tw``}
 `;
-const UnsplashImage = (props: { image: PreviewImage }) => {
+const UnsplashImage = (props: { image: PreviewImage; parentStory: Story }) => {
   const lsc = useContext(LeanScopeClientContext);
-  const { image } = props;
+  const { image, parentStory } = props;
 
   const handleImageSelect = () => {
     const selectedImageEntity = new Entity();
@@ -138,7 +145,7 @@ const UnsplashImage = (props: { image: PreviewImage }) => {
     selectedImageEntity.add(new IdentifierFacet({ guid: 'selectedImage' }));
     selectedImageEntity.add(new ImageFacet({ imageSrc: image.url }));
 
-    lsc.stories.transitTo(Story.EDITING_TOPIC_STORY);
+    lsc.stories.transitTo(parentStory);
   };
 
   return (
@@ -147,7 +154,7 @@ const UnsplashImage = (props: { image: PreviewImage }) => {
         onClick={handleImageSelect}
         src={image.url}
         alt={image.description}
-        tw="h-40 hover:scale-105  hover:object-top object-center transition-all object-cover w-full rounded-xl"
+        tw="h-40 hover:scale-105 object-center transition-all object-cover w-full rounded-xl"
       />
       <div tw="text-xs my-2 text-secondary-text">
         by{' '}
@@ -159,19 +166,21 @@ const UnsplashImage = (props: { image: PreviewImage }) => {
   );
 };
 
-const useUnsplashImages = (isVisible: boolean) => {
+const useUnsplashImages = (isVisible: boolean, topicTitle?: string) => {
   const { selectedTopicTitle } = useSelectedTopic();
   const [images, setImages] = useState<PreviewImage[]>([]);
+
+  useEffect(() => {
+    setImages([]);
+  }, [selectedTopicTitle, topicTitle]);
 
   useEffect(() => {
     const fetchImages = async () => {
       if (images.length > 0) return;
 
-      if (isVisible && images.length === 0 && selectedTopicTitle) {
-        const searchQueryPrompt = `Erstelle eine Unsplash-Suchanfrage für das um ein passendes Bild für das Thema "${selectedTopicTitle}" zu finden. Die Anfrage soll nicht länger als 3 Wörter sein und auf Unsplash vorhandene Bilder liefern.`;
-        console.log('searchQueryPrompt', searchQueryPrompt);
+      if (isVisible && images.length === 0 && (selectedTopicTitle || topicTitle)) {
+        const searchQueryPrompt = `Erstelle eine Unsplash-Suchanfrage für das um ein passendes Bild für das Thema "${topicTitle || selectedTopicTitle}" zu finden. Die Anfrage soll nicht länger als 3 Wörter sein und auf Unsplash vorhandene Bilder liefern.`;
         const searchQuery = await getCompletion(searchQueryPrompt);
-        console.log('searchQuery', searchQuery);
         loadImagesFromUnsplash(searchQuery).then((images) => {
           setImages(JSON.parse(images));
         });
@@ -179,7 +188,7 @@ const useUnsplashImages = (isVisible: boolean) => {
     };
 
     fetchImages();
-  }, [isVisible, selectedTopicTitle]);
+  }, [isVisible, selectedTopicTitle, topicTitle]);
 
   return images;
 };

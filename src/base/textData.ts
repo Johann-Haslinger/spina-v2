@@ -199,6 +199,10 @@ export const ACTION_TEXT_DATA = {
     de: 'Merken',
     en: 'Set bookmark',
   },
+  add_image: {
+    de: 'Bild hinzufügen',
+    en: 'Add image',
+  },
   generate_learn_video: {
     de: 'Lernvideo generieren',
     en: 'Generate video',

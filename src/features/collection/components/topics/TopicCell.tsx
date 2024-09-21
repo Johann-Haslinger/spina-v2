@@ -21,7 +21,7 @@ const StyledTopicCellWrapper = styled.div<{
   backgroundColor: string;
   image: string;
 }>`
-  ${tw`w-full rounded-xl justify-center bg-center hover:scale-105 transition-all hover:bg-top bg-cover h-40 overflow-hidden flex  items-center text-7xl font-bold`}
+  ${tw`w-full rounded-xl justify-center bg-center hover:scale-105 transition-all bg-cover h-40 overflow-hidden flex  items-center text-7xl font-bold`}
   background-color: ${({ backgroundColor }) => backgroundColor};
   color: ${({ color }) => color};
   background-image: ${({ image }) => `url(${image})`};

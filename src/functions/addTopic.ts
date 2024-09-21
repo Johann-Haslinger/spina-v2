@@ -11,6 +11,8 @@ export const addTopic = async (lsc: ILeanScopeClient, topicEntity: Entity, userI
   const topicId = topicEntity.get(IdentifierFacet)?.props.guid;
   const parentId = topicEntity.get(ParentFacet)?.props.parentId;
   const title = topicEntity.get(TitleFacet)?.props.title;
+  const topicImage = topicEntity.get(ImageFacet)?.props.imageSrc;
+  const topicDescription = topicEntity.get(DescriptionFacet)?.props.description;
 
   const { error } = await supabaseClient.from(SupabaseTable.TOPICS).insert([
     {
@@ -18,8 +20,8 @@ export const addTopic = async (lsc: ILeanScopeClient, topicEntity: Entity, userI
       parent_id: parentId,
       title: title,
       user_id: userId,
-      description: topicEntity.get(DescriptionFacet)?.props.description,
-      image_url: topicEntity.get(ImageFacet)?.props.imageSrc,
+      description: topicDescription,
+      image_url: topicImage,
     },
   ]);
 

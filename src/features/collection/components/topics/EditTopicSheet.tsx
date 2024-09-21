@@ -1,13 +1,11 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/node';
 import { useEntities } from '@leanscope/ecs-engine';
-import { useEntityHasTags } from '@leanscope/ecs-engine/react-api/hooks/useEntityComponents';
 import { DescriptionFacet, IdentifierFacet, ImageFacet } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
 import { IoCreateOutline } from 'react-icons/io5';
-import tw from 'twin.macro';
 import { TitleFacet } from '../../../../app/additionalFacets';
-import { AdditionalTag, Story, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
+import { Story, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
 import {
   FlexBox,
   PrimaryButton,
@@ -25,8 +23,6 @@ import { displayActionTexts, displayButtonTexts, displayLabelTexts } from '../..
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
 import SelectTopicImageSheet from './SelectTopicImageSheet';
 
-const StyledPreviewImage = tw.img`h-40 w-80 object-cover rounded-2xl`;
-
 const EditTopicSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Story.EDITING_TOPIC_STORY);
@@ -34,7 +30,6 @@ const EditTopicSheet = () => {
   const { selectedTopicTitle, selectedTopicDescription, selectedTopicEntity, selectedTopicId } = useSelectedTopic();
   const [newTitle, setNewTitle] = useState(selectedTopicTitle);
   const [newDescription, setNewDescription] = useState(selectedTopicDescription);
-  const [isGeneratingImage] = useEntityHasTags(selectedTopicEntity, AdditionalTag.GENERATING);
   const [selectedImageEntities] = useEntities((e) => e.get(IdentifierFacet)?.props.guid === 'selectedImage');
   const selectedImageSrc = selectedImageEntities[0]?.get(ImageFacet)?.props.imageSrc;
 
@@ -117,19 +112,16 @@ const EditTopicSheet = () => {
           </SectionRow>
         </Section>
         <Spacer size={2} />
-        {!isGeneratingImage && (
-          <Section>
-            <SectionRow last role="button" onClick={openImageSelectorSheet} icon={<IoCreateOutline />}>
-              {displayActionTexts(selectedLanguage).editImage}
-            </SectionRow>
-          </Section>
-        )}
+        <Section>
+          <SectionRow last role="button" onClick={openImageSelectorSheet} icon={<IoCreateOutline />}>
+            {displayActionTexts(selectedLanguage).editImage}
+          </SectionRow>
+        </Section>
 
         <Spacer />
-        {selectedImageSrc && <StyledPreviewImage src={selectedImageSrc} alt="selected topic" />}
       </Sheet>
 
-      <SelectTopicImageSheet />
+      <SelectTopicImageSheet parentStory={Story.EDITING_TOPIC_STORY} />
     </div>
   );
 };
