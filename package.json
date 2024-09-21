@@ -23,7 +23,7 @@
     "@leanscope/ecs-generation": "^0.1.84",
     "@leanscope/ecs-models": "^0.2.43",
     "@leanscope/inspection": "^0.1.2",
-    "@leanscope/storyboarding": "^0.1.89",
+    "@leanscope/storyboarding": "0.1.98",
     "@supabase/auth-ui-react": "^0.4.7",
     "@supabase/auth-ui-shared": "^0.1.8",
     "@types/dompurify": "^3.0.5",
