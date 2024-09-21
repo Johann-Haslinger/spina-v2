@@ -218,14 +218,14 @@ const Tabbar = (props: { currentView: LearningUnitViews; changeCurrentView: (vie
   return (
     <StyledTabbar>
       <StyledTab
-        customColor={color}
+        color={color}
         active={currentView == LearningUnitViews.NOTE}
         onClick={() => changeCurrentView(LearningUnitViews.NOTE)}
       >
         Notiz
       </StyledTab>
       <StyledTab
-        customColor={color}
+        color={color}
         active={currentView == LearningUnitViews.FLASHCARDS}
         onClick={() => changeCurrentView(LearningUnitViews.FLASHCARDS)}
       >
