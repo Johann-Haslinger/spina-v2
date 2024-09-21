@@ -59,7 +59,6 @@ const AddTopicSheet = () => {
       newTopicEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
       newTopicEntity.add(new ImageFacet({ imageSrc: selectedImageSrc }));
       newTopicEntity.add(DataType.TOPIC);
-      // newTopicEntity.add(AdditionalTags.GENERATING);
       navigateBack();
 
       await generateDescriptionForTopic(newTopicEntity);
@@ -113,7 +112,7 @@ const AddTopicSheet = () => {
         <Spacer />
       </Sheet>
 
-      <SelectTopicImageSheet parentStory={Story.ADDING_TOPIC_STORY} topicTitle={title} />
+      <SelectTopicImageSheet topicTitle={title} />
     </div>
   );
 };

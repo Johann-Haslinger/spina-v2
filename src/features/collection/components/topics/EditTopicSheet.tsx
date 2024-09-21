@@ -21,7 +21,6 @@ import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../../lib/supabase';
 import { displayActionTexts, displayButtonTexts, displayLabelTexts } from '../../../../utils/displayText';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
-import SelectTopicImageSheet from './SelectTopicImageSheet';
 
 const EditTopicSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -120,8 +119,6 @@ const EditTopicSheet = () => {
 
         <Spacer />
       </Sheet>
-
-      <SelectTopicImageSheet parentStory={Story.EDITING_TOPIC_STORY} />
     </div>
   );
 };

@@ -65,12 +65,14 @@ const useTopicImageURLs = () => {
   return imageURLs;
 };
 
-const SelectTopicImageSheet = (props: { parentStory: Story; topicTitle?: string }) => {
-  const { topicTitle, parentStory } = props;
+const SelectTopicImageSheet = (props: { topicTitle?: string }) => {
+  const { topicTitle } = props;
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Story.SELECTING_IMAGE_FOR_TOPIC_STORY);
   const topicImageURLs = useTopicImageURLs();
   const unsplashImages = useUnsplashImages(isVisible, topicTitle);
+  const { selectedTopicEntity } = useSelectedTopic();
+  const parentStory = selectedTopicEntity ? Story.EDITING_TOPIC_STORY : Story.ADDING_TOPIC_STORY;
 
   const navigateBack = () => lsc.stories.transitTo(parentStory);
 
