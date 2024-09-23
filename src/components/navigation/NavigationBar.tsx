@@ -71,7 +71,7 @@ const ProfileButton = () => {
   const openSettings = () => lsc.stories.transitTo(Story.OBSERVING_SETTINGS_STORY);
 
   return !profilePicture ? (
-    <div tw="text-4xl text-secondary-text dark:text-secondary-text-dark">
+    <div onClick={openSettings} tw="text-4xl text-secondary-text dark:text-secondary-text-dark">
       <IoPersonCircle />
     </div>
   ) : (
