@@ -13,7 +13,7 @@ import InitializeAppSystem from '../../../systems/InitializeAppSystem';
 import InitializeSchoolSubjectsSystem from '../../../systems/InitializeSchoolSubjectsSystem';
 import InitializeStoriesSystem from '../../../systems/InitializeStoriesSystem';
 import ViewManagerSystem from '../../../systems/ViewManagerSystem';
-import { Settings } from '../../settings';
+import { SettingsOverview as Settings } from '../../settings';
 import LoadTopicsSystem from '../systems/LoadTopicsSystem';
 
 const ObservingExerciseStory = () => {

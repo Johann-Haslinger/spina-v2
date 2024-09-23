@@ -8,7 +8,7 @@ import ViewManagerSystem from '../../../systems/ViewManagerSystem';
 import { BrowserRouter } from 'react-router-dom';
 import { Sidebar, View } from '../../../components';
 import InitializeAppSystem from '../../../systems/InitializeAppSystem';
-import { Settings } from '../../settings';
+import { SettingsOverview as Settings } from '../../settings';
 import Blockeditor from '../components/Blockeditor';
 import InitializeBlockeditorSystem from '../systems/InitializeBlockeditorSystem';
 import { LocalDataMode } from '@leanscope/api-client';

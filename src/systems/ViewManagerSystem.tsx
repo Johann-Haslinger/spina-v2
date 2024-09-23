@@ -15,8 +15,10 @@ import { dataTypeQuery } from '../utils/queries';
 
 const ViewManagerSystem = () => {
   const isSheetViewVisible = useIsAnyStoryCurrent([
-    Story.OBSERVING_SETTINGS_STORY,
+    Story.OBSERVING_SETTINGS_OVERVIEW_STORY,
     Story.OBSERVING_PODCAST_STORY,
+    Story.OBSERVING_SETTINGS_OVERVIEW_STORY,
+    Story.OBSERVING_PROFILE_SETTINGS_STORY,
 
     Story.ADDING_HOMEWORK_STORY,
     Story.ADDING_TOPIC_STORY,
@@ -52,6 +54,7 @@ const ViewManagerSystem = () => {
     Story.DELETING_GROUP_NOTE_STORY,
     Story.DELETING_BLOCKS_STORY,
     Story.DELETING_EXAM_STORY,
+    Story.DELETING_ACCOUNT_STORY,
 
     Story.GENERATING_FLASHCARDS_STORY,
     Story.GENERATING_PODCAST_STORY,

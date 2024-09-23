@@ -10,7 +10,6 @@ import { Sidebar } from './components';
 import TabBar from './components/navigation/TabBar';
 import { AuthUI } from './features/auth-ui';
 import PodcastSheet from './features/collection/components/podcasts/PodcastSheet';
-import { Profile, Settings } from './features/settings';
 import { useSession } from './hooks/useSession';
 import { Collection, Exams, Flashcards, Groups, Homeworks, Overview } from './pages/Index';
 import {
@@ -22,6 +21,7 @@ import {
 } from './systems';
 import { formatNavLinkAsPath } from './utils/formatNavLinkAsPath';
 import { dataTypeQuery } from './utils/queries';
+import { SettingsOverview } from './features/settings';
 
 const StyledContentWrapper = styled.div`
   ${tw`w-screen h-screen bg-primary dark:bg-primary-dark`}
@@ -55,8 +55,7 @@ function App() {
           <Route path={formatNavLinkAsPath(NavigationLink.FLASHCARDS)} element={<Flashcards />} />
         </Routes>
 
-        <Settings />
-        <Profile />
+        <SettingsOverview />
         <TabBar />
       </BrowserRouter>
 

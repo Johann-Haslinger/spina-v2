@@ -15,7 +15,7 @@ export const useAppState = () => {
       appStateEntity?.remove(AdditionalTag.SETTING_VISIBLE);
       lsc.stories.transitTo(Story.OBSERVING_COLLECTION_STORY);
     } else {
-      lsc.stories.transitTo(Story.OBSERVING_SETTINGS_STORY);
+      lsc.stories.transitTo(Story.OBSERVING_SETTINGS_OVERVIEW_STORY);
       appStateEntity?.add(AdditionalTag.SETTING_VISIBLE);
     }
   };

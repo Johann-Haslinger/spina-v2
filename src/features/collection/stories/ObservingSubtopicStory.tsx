@@ -1,23 +1,23 @@
+import { LocalDataMode } from '@leanscope/api-client';
 import { LeanScopeClient, LeanScopeClientApp } from '@leanscope/api-client/browser';
 import { EntityCreator, EntityPropsMapper } from '@leanscope/ecs-engine';
+import { customFacetBuildersMap } from '@leanscope/ecs-generation';
 import { DescriptionFacet, IdentifierFacet, OrderFacet, ParentFacet, Tags } from '@leanscope/ecs-models';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { DateAddedFacet, SourceFacet, TitleFacet } from '../../../app/additionalFacets';
 import { DataType, Story } from '../../../base/enums';
 import { Sidebar } from '../../../components';
+import { VITE_SUPABASE_KEY, VITE_SUPABASE_URL } from '../../../environment';
 import Collection from '../../../pages/Collection';
 import InitializeAppSystem from '../../../systems/InitializeAppSystem';
 import InitializeSchoolSubjectsSystem from '../../../systems/InitializeSchoolSubjectsSystem';
 import InitializeStoriesSystem from '../../../systems/InitializeStoriesSystem';
 import ViewManagerSystem from '../../../systems/ViewManagerSystem';
 import { dataTypeQuery } from '../../../utils/queries';
-import { Settings } from '../../settings';
+import { SettingsOverview as Settings } from '../../settings';
 import PodcastSheet from '../components/podcasts/PodcastSheet';
 import LoadTopicsSystem from '../systems/LoadTopicsSystem';
-import { LocalDataMode } from '@leanscope/api-client';
-import { customFacetBuildersMap } from '@leanscope/ecs-generation';
-import { VITE_SUPABASE_URL, VITE_SUPABASE_KEY } from '../../../environment';
 
 const ObservingSubtopicStory = () => {
   return (

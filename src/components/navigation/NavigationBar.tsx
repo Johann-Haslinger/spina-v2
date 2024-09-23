@@ -68,7 +68,7 @@ const ProfileButton = () => {
   const lsc = useContext(LeanScopeClientContext);
   const { profilePicture } = useUserData();
 
-  const openSettings = () => lsc.stories.transitTo(Story.OBSERVING_SETTINGS_STORY);
+  const openSettings = () => lsc.stories.transitTo(Story.OBSERVING_SETTINGS_OVERVIEW_STORY);
 
   return !profilePicture ? (
     <div onClick={openSettings} tw="text-4xl text-secondary-text dark:text-secondary-text-dark">

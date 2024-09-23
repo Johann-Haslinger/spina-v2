@@ -1,5 +1,4 @@
 export enum Story {
-  OBSERVING_SETTINGS_STORY = 'observingSettingsStory',
   OBSERVING_COLLECTION_STORY = 'observingCollectionStory',
   OBSERVING_SCHOOL_SUBJECT_STORY = 'observingSchoolSubjectStory',
   OBSERVING_TOPIC_STORY = 'observingTopicStory',
@@ -25,6 +24,9 @@ export enum Story {
   OBSERVING_OVERVIEW = 'observingOverview',
   OBSERVING_TOPIC_ARCHIVE_STORY = 'observingTopicArchiveStory',
   OBSERVING_HOMEWORKS_ARCHIVE_STORY = 'observingHomeworksArchiveStory',
+  OBSERVING_SETTINGS_OVERVIEW_STORY = 'observingSettingsStory',
+  OBSERVING_PROFILE_SETTINGS_STORY = 'observingProfileSettingsStory',
+  OBSERVING_GENERAL_SETTINGS_STORY = 'observingGeneralSettingsStory',
 
   ADDING_FLASHCARD_SET_STORY = 'addFlashcardSetStory',
   ADDING_TOPIC_STORY = 'addTopicStory',
@@ -69,6 +71,7 @@ export enum Story {
   DELETING_GROUP_NOTE_STORY = 'deleteGroupNoteStory',
   DELETING_GROUP_HOMEWORK_STORY = 'deleteGroupHomeworkStory',
   DELETING_GROUP_FLASHCARD_SET_STORY = 'deleteGroupFlashcardSetStory',
+  DELETING_ACCOUNT_STORY = 'deleteAccountStory',
 
   GENERATING_IMPROVED_TEXT_STORY = 'generateImprovedFlashcardsStory',
   GENERATING_FLASHCARDS_STORY = 'generateFlashcardsStory',
