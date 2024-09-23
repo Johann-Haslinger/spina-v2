@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Tags } from '@leanscope/ecs-models';
 import { useContext } from 'react';
-import { IoCopy, IoGrid, IoHome, IoPersonCircle } from 'react-icons/io5';
+import { IoCopy, IoGrid, IoHome } from 'react-icons/io5';
 import { NavLink, useLocation } from 'react-router-dom';
 import tw from 'twin.macro';
 import { AdditionalTag } from '../../base/enums';
@@ -23,11 +23,11 @@ const TABS = [
     icon: <IoGrid />,
     title: 'Sammlung',
   },
-  {
-    link: '/Profile',
-    icon: <IoPersonCircle />,
-    title: 'Du',
-  },
+  // {
+  //   link: '/Profile',
+  //   icon: <IoPersonCircle />,
+  //   title: 'Du',
+  // },
 ];
 
 const StyledTabBarContainer = tw.div`md:hidden fixed left-0  pt-4   bg-secondary bg-opacity-70 dark:bg-opacity-60 dark:bg-primary-dark  backdrop-blur-2xl  bottom-0 flex justify-between w-screen `;

@@ -246,7 +246,7 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
 };
 
 const StyledSidebarLinkWrapper = styled.div<{ isCurrent: boolean }>`
-  ${tw`flex my-1.5 dark:text-white md:hover:bg-secondary dark:hover:bg-tertiary-dark overflow-hidden py-3 transition-all px-2 rounded-lg space-x-4 items-center`}
+  ${tw`flex my-1.5  dark:text-white md:hover:bg-secondary dark:hover:bg-tertiary-dark overflow-hidden py-3 transition-all px-2 rounded-lg space-x-4 items-center`}
   ${({ isCurrent }) => isCurrent && tw`bg-black bg-opacity-[3%] dark:bg-tertiary-dark`}
 `;
 const StyledNavLinkIcon = styled.div<{ color: string }>`
