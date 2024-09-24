@@ -1,2 +1,2 @@
-export { default as ProfileSettings } from './components/ProfileSettings';
-export { default as SettingsOverview } from './components/SettingsOverview';
+export { default as ProfileSettingsSheet } from './components/ProfileSettingsSheet';
+export { default as SettingsOverviewSheet } from './components/SettingsOverviewSheet';

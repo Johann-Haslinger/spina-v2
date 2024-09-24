@@ -10,7 +10,7 @@ import DeleteAccountAlert from './DeleteAccountAlert';
 
 const StyledSecondaryText = tw.p`text-sm text-secondary-text`;
 
-const ProfileSettings = () => {
+const ProfileSettingsSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Story.OBSERVING_PROFILE_SETTINGS_STORY);
 
@@ -49,4 +49,4 @@ const ProfileSettings = () => {
   );
 };
 
-export default ProfileSettings;
+export default ProfileSettingsSheet;

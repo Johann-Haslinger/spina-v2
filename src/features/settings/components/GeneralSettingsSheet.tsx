@@ -8,7 +8,7 @@ import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
 import { displayLabelTexts } from '../../../utils/displayText';
 import { useSelectedTheme } from '../../collection/hooks/useSelectedTheme';
 
-const GeneralSettings = () => {
+const GeneralSettingsSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Story.OBSERVING_GENERAL_SETTINGS_STORY);
   const { selectedLanguage } = useSelectedLanguage();
@@ -41,4 +41,4 @@ const GeneralSettings = () => {
   );
 };
 
-export default GeneralSettings;
+export default GeneralSettingsSheet;

@@ -14,7 +14,7 @@ import InitializeAppSystem from '../../../systems/InitializeAppSystem';
 import InitializeSchoolSubjectsSystem from '../../../systems/InitializeSchoolSubjectsSystem';
 import InitializeStoriesSystem from '../../../systems/InitializeStoriesSystem';
 import ViewManagerSystem from '../../../systems/ViewManagerSystem';
-import { SettingsOverview as Settings } from '../../settings';
+import { SettingsOverviewSheet as Settings } from '../../settings';
 import LoadTopicsSystem from '../systems/LoadTopicsSystem';
 
 const ObservingNoteStory = () => {

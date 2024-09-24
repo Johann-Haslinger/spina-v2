@@ -2,10 +2,10 @@ import styled from '@emotion/styled';
 import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Tags } from '@leanscope/ecs-models';
 import { useContext } from 'react';
-import { IoCopy, IoGrid, IoHome } from 'react-icons/io5';
+import { IoCopy, IoGrid, IoHome, IoPersonCircle } from 'react-icons/io5';
 import { NavLink, useLocation } from 'react-router-dom';
 import tw from 'twin.macro';
-import { AdditionalTag } from '../../base/enums';
+import { AdditionalTag, Story } from '../../base/enums';
 
 const TABS = [
   {
@@ -37,12 +37,18 @@ const StyledTabWrapper = styled(NavLink)<{ active: string }>`
   ${({ active }) => (active == 'true' ? tw`text-primary-color` : tw`text-[#A2A2A2] dark:text-opacity-70`)}
 `;
 
+const StyledProfileButton = styled.div`
+  ${tw`w-full pb-7 text-[#A2A2A2] dark:text-opacity-70`}
+`;
+
 const TabBar = () => {
   const lsc = useContext(LeanScopeClientContext);
   const location = useLocation();
 
   const handleTabClick = () =>
     lsc.engine.entities.filter((e) => e.has(Tags.SELECTED)).forEach((e) => e.add(AdditionalTag.NAVIGATE_BACK));
+  const openSettings = () => lsc.stories.transitTo(Story.OBSERVING_SETTINGS_OVERVIEW_STORY);
+
   return (
     <StyledTabBarContainer>
       {TABS.map((tab, idx) => {
@@ -58,6 +64,13 @@ const TabBar = () => {
           </StyledTabWrapper>
         );
       })}
+      <StyledProfileButton onClick={openSettings}>
+        <div tw="pb-0.5 flex justify-center text-[1.6rem]">
+          {' '}
+          <IoPersonCircle />
+        </div>
+        <p tw=" text-[0.6rem] text-center">Du</p>
+      </StyledProfileButton>
     </StyledTabBarContainer>
   );
 };

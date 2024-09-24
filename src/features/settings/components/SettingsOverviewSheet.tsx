@@ -2,22 +2,19 @@ import styled from '@emotion/styled';
 import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { PropsWithChildren, ReactNode, useContext } from 'react';
-import {
-  IoChevronForward,
-  IoCreateOutline,
-  IoGridOutline,
-  IoInformationCircleOutline,
-  IoPersonCircle,
-} from 'react-icons/io5';
+import { IoChevronForward, IoCreate, IoGrid, IoInformationCircle, IoPersonCircle, IoServer } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { COLOR_ITEMS } from '../../../base/constants';
 import { Story } from '../../../base/enums';
 import { CloseButton, FlexBox, Section, SectionRow, Sheet, Spacer } from '../../../components';
 import { useUserData } from '../../../hooks/useUserData';
-import GeneralSettings from './GeneralSettings';
-import ProfileSettings from './ProfileSettings';
+import GeneralSettingsSheet from './GeneralSettingsSheet';
+import ProfileSettingsSheet from './ProfileSettingsSheet';
+import HelpAreaSheet from './HelpAreaSheet';
+import SchoolSubjectSettingsSheet from './SchoolSubjectSettingsSheet';
+import DataSettingsSheet from './DataSettingsSheet';
 
-const SettingsOverview = () => {
+const SettingsOverviewSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Story.OBSERVING_SETTINGS_OVERVIEW_STORY);
   const { profilePicture, userEmail } = useUserData();
@@ -25,6 +22,9 @@ const SettingsOverview = () => {
   const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_COLLECTION_STORY);
   const openProfileSettings = () => lsc.stories.transitTo(Story.OBSERVING_PROFILE_SETTINGS_STORY);
   const openGeneralSettings = () => lsc.stories.transitTo(Story.OBSERVING_GENERAL_SETTINGS_STORY);
+  const openSchoolSubjectSettings = () => lsc.stories.transitTo(Story.OBSERVING_SCHOOL_SUBJECT_SETTINGS_STORY);
+  const openDataSettings = () => lsc.stories.transitTo(Story.OBSERVING_DATA_SETTINGS_STORY);
+  const openHelpArea = () => lsc.stories.transitTo(Story.OBSERVING_HELP_AREA_STORY);
 
   return (
     <div>
@@ -66,28 +66,34 @@ const SettingsOverview = () => {
         </Section>
         <Spacer size={2} />
         <Section>
-          <SettingsLink icon={<IoCreateOutline />} color={COLOR_ITEMS[1].color} onClick={openGeneralSettings}>
+          <SettingsLink icon={<IoCreate />} color={COLOR_ITEMS[1].color} onClick={openGeneralSettings}>
             Allgemein
           </SettingsLink>
-          <SettingsLink isLast icon={<IoGridOutline />} color={COLOR_ITEMS[2].color} onClick={() => {}}>
+          <SettingsLink isLast icon={<IoGrid />} color={COLOR_ITEMS[2].color} onClick={openSchoolSubjectSettings}>
             Schulfächer
           </SettingsLink>
         </Section>
         <Spacer size={2} />
         <Section>
-          <SettingsLink isLast icon={<IoInformationCircleOutline />} color={COLOR_ITEMS[3].color} onClick={() => {}}>
+          <SettingsLink icon={<IoServer />} color={COLOR_ITEMS[3].color} onClick={openDataSettings}>
+            Speicher und Daten
+          </SettingsLink>
+          <SettingsLink isLast icon={<IoInformationCircle />} color={COLOR_ITEMS[4].color} onClick={openHelpArea}>
             Hilfe
           </SettingsLink>
         </Section>
       </Sheet>
 
-      <ProfileSettings />
-      <GeneralSettings />
+      <ProfileSettingsSheet />
+      <GeneralSettingsSheet />
+      <HelpAreaSheet />
+      <SchoolSubjectSettingsSheet />
+      <DataSettingsSheet />
     </div>
   );
 };
 
-export default SettingsOverview;
+export default SettingsOverviewSheet;
 
 const SettingsLink = (
   props: { icon: ReactNode; color: string; onClick: () => void; isLast?: boolean } & PropsWithChildren,

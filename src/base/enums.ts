@@ -27,6 +27,9 @@ export enum Story {
   OBSERVING_SETTINGS_OVERVIEW_STORY = 'observingSettingsStory',
   OBSERVING_PROFILE_SETTINGS_STORY = 'observingProfileSettingsStory',
   OBSERVING_GENERAL_SETTINGS_STORY = 'observingGeneralSettingsStory',
+  OBSERVING_SCHOOL_SUBJECT_SETTINGS_STORY = 'observingSchoolSubjectSettingsStory',
+  OBSERVING_DATA_SETTINGS_STORY = 'observingDataSettingsStory',
+  OBSERVING_HELP_AREA_STORY = 'observingHelpAreaStory',
 
   ADDING_FLASHCARD_SET_STORY = 'addFlashcardSetStory',
   ADDING_TOPIC_STORY = 'addTopicStory',

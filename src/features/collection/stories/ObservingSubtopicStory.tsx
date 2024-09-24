@@ -15,7 +15,7 @@ import InitializeSchoolSubjectsSystem from '../../../systems/InitializeSchoolSub
 import InitializeStoriesSystem from '../../../systems/InitializeStoriesSystem';
 import ViewManagerSystem from '../../../systems/ViewManagerSystem';
 import { dataTypeQuery } from '../../../utils/queries';
-import { SettingsOverview as Settings } from '../../settings';
+import { SettingsOverviewSheet as Settings } from '../../settings';
 import PodcastSheet from '../components/podcasts/PodcastSheet';
 import LoadTopicsSystem from '../systems/LoadTopicsSystem';
 

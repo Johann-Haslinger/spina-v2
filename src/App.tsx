@@ -21,7 +21,7 @@ import {
 } from './systems';
 import { formatNavLinkAsPath } from './utils/formatNavLinkAsPath';
 import { dataTypeQuery } from './utils/queries';
-import { SettingsOverview } from './features/settings';
+import { SettingsOverviewSheet } from './features/settings';
 
 const StyledContentWrapper = styled.div`
   ${tw`w-screen h-screen bg-primary dark:bg-primary-dark`}
@@ -55,7 +55,7 @@ function App() {
           <Route path={formatNavLinkAsPath(NavigationLink.FLASHCARDS)} element={<Flashcards />} />
         </Routes>
 
-        <SettingsOverview />
+        <SettingsOverviewSheet />
         <TabBar />
       </BrowserRouter>
 
