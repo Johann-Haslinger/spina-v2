@@ -116,7 +116,7 @@ const NewResourceRow = (props: TitleProps & EntityProps) => {
         }}
         onClick={openResource}
       >
-        <StyledTitle>{title}</StyledTitle>
+        <StyledTitle>{title || "Kein Titel"}</StyledTitle>
         <StyledDueDate>{formattedDateAdded}</StyledDueDate>
       </motion.div>
     </StyledRowWrapper>

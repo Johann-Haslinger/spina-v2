@@ -12,7 +12,7 @@ const StyledSecondaryText = styled.div`
 `;
 
 const StyledTextArea = styled.textarea`
-  ${tw`w-full outline-none p-4 px-6 placeholder:text-placeholder-text bg-white rounded-lg h-60 mt-4`}
+  ${tw`w-full outline-none p-4 px-6 placeholder:text-placeholder-text dark:bg-tertiary-dark dark:placeholder:text-placeholder-text-dark bg-white rounded-lg h-60 mt-4`}
 `;
 
 const StyledSentMessage = styled.div`
@@ -24,7 +24,7 @@ const StyledIconWrapper = styled(IoCheckmarkCircleOutline)`
 `;
 
 const StyledSubmitButton = styled.button`
-  ${tw`flex bg-primary-color text-primary-color bg-opacity-20 mt-5 py-1.5 px-4 rounded-full hover:opacity-50 transition duration-300`}
+  ${tw`flex bg-primary-color text-primary-color dark:bg-opacity-10 bg-opacity-20 mt-5 py-1.5 px-4 rounded-full hover:opacity-50 transition duration-300`}
 `;
 
 const StyledSendIcon = styled(IoSend)`
