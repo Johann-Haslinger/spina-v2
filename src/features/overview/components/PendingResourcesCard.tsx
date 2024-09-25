@@ -198,7 +198,7 @@ const PendingResourceRow = (props: TitleProps & StatusProps & DueDateProps & Ent
         }}
         onClick={openResource}
       >
-        <StyledTitle>{title}</StyledTitle>
+        <StyledTitle>{title || 'Kein Titel'}</StyledTitle>
         <StyledDueDate>
           {relatedSchoolSubjectTitle}
           {relatedSchoolSubjectTitle && ','} {daysUntilDue}

@@ -1,15 +1,59 @@
 import styled from '@emotion/styled';
-import { EntityProps, useEntity } from '@leanscope/ecs-engine';
+import { Entity, EntityProps, useEntity } from '@leanscope/ecs-engine';
 import { Tags } from '@leanscope/ecs-models';
 import { motion } from 'framer-motion';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
+import { IoArrowDownCircleOutline, IoChevronBack, IoEllipsisHorizontalCircleOutline, IoShareOutline, IoTrashOutline } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { FilePathFacet, FilePathProps, TitleProps } from '../../../../app/additionalFacets';
-import { AdditionalTag, DataType, SupabaseStorageBucket } from '../../../../base/enums';
+import { AdditionalTag, DataType, SupabaseStorageBucket, SupabaseTable } from '../../../../base/enums';
+import { ActionRow, NavBarButton } from '../../../../components';
 import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
 import supabaseClient from '../../../../lib/supabase';
 import { dataTypeQuery } from '../../../../utils/queries';
 import { useSelectedTheme } from '../../hooks/useSelectedTheme';
+import { ILeanScopeClient } from '@leanscope/api-client';
+import saveAs from 'file-saver';
+import { LeanScopeClientContext } from '@leanscope/api-client/browser';
+
+const deleteFile = async (lsc: ILeanScopeClient, entity: Entity) => {
+  const filePath = entity.get(FilePathFacet)?.props.filePath;
+  lsc.engine.removeEntity(entity);
+
+  if (!filePath) {
+    console.error('File path not found');
+    return;
+  }
+
+  const { error: storageDeleteError } = await supabaseClient.storage
+    .from(SupabaseStorageBucket.LEARNING_UNIT_FILES)
+    .remove([filePath]);
+
+  if (storageDeleteError) {
+    console.error('Error deleting file:', storageDeleteError);
+  }
+  const { error: tableDeleteError } = await supabaseClient
+    .from(SupabaseTable.LEARNING_UNIT_FILES)
+    .delete()
+    .eq('file_path', filePath);
+
+  if (tableDeleteError) {
+    console.error('Error deleting file from table:', tableDeleteError);
+  }
+};
+
+const downloadFile = async (title: string, filePath: string) => {
+  const { data, error } = await supabaseClient.storage
+    .from(SupabaseStorageBucket.LEARNING_UNIT_FILES)
+    .createSignedUrl(filePath, 60 * 60);
+
+  if (error) {
+    console.error('Error fetching signed URL:', error);
+    return '';
+  }
+
+  saveAs(data.signedUrl, title);
+};
 
 const fetchFileUrl = async (filePath: string) => {
   console.log('filePath', filePath);
@@ -53,7 +97,9 @@ const useFileUrl = () => {
 
   return url;
 };
+
 const FileViewer = (props: EntityProps & TitleProps & FilePathProps) => {
+  const lsc = useContext(LeanScopeClientContext);
   const { entity, title, filePath } = props;
   const isVisible = useIsViewVisible(entity);
   const { isDarkModeActive } = useSelectedTheme();
@@ -62,12 +108,32 @@ const FileViewer = (props: EntityProps & TitleProps & FilePathProps) => {
   const [isLoaded, setIsLoaded] = useState(false);
 
   const navigateBack = () => entity.add(AdditionalTag.NAVIGATE_BACK);
+  const handleDownload = () => downloadFile(title, filePath);
+  const handleDelete = () => deleteFile(lsc, entity);
+
 
   useOutsideClick(viewerRef, navigateBack);
 
   const isFileViewerVisible = isVisible && isLoaded;
   const isDisplayedAsImage = title.endsWith('.png') || title.endsWith('.jpg') || title.endsWith('.jpeg');
   const isDisplayedAsDocument = title.endsWith('.pdf') || title.endsWith('.docx');
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'Teile diese Datei',
+          text: 'Schau dir diese Datei an!',
+          url: url,
+        });
+        console.log('Datei wurde erfolgreich geteilt');
+      } catch (error) {
+        console.error('Fehler beim Teilen', error);
+      }
+    } else {
+      alert('Teilen wird auf diesem Gerät nicht unterstützt.');
+    }
+  };
 
   return filePath ? (
     <div>
@@ -91,24 +157,47 @@ const FileViewer = (props: EntityProps & TitleProps & FilePathProps) => {
             }}
             transition={{ type: 'tween', duration: 0.2 }}
           >
-            {isDisplayedAsImage && <img onLoad={() => setIsLoaded(true)} src={url} alt={title} />}
+            <div tw="p-4 flex justify-between">
+              <div
+                tw="cursor-pointer text-2xl flex space-x-2 items-center dark:text-white text-primary-color"
+                onClick={navigateBack}
+              >
+                <IoChevronBack />
+                <p tw="text-sm">Zurück</p>
+              </div>
+              <div tw="flex h-fit space-x-4 lg:space-x-8 items-center ">
+                <NavBarButton onClick={handleShare}>
+                  <IoShareOutline />
+                </NavBarButton>
+                <NavBarButton
+                  content={
+                    <div>
+                      <ActionRow onClick={handleDownload} icon={<IoArrowDownCircleOutline />}>
+                        Herunterladen
+                      </ActionRow>
+                      <ActionRow last onClick={handleDelete} destructive icon={<IoTrashOutline />}>
+                        Löschen
+                      </ActionRow>
+                    </div>
+                  }
+                >
+                  <IoEllipsisHorizontalCircleOutline />
+                </NavBarButton>
+              </div>
+            </div>
 
-            {title.endsWith('.pdf') && (
-              <iframe
-                onLoad={() => setIsLoaded(true)}
-                src={url}
-                title={title}
-                style={{ width: '100%', height: '100%' }}
-              />
-            )}
-            {title.endsWith('.docx') && (
-              <iframe
-                onLoad={() => setIsLoaded(true)}
-                src={`https://view.officeapps.live.com/op/embed.aspx?src=${encodeURIComponent(url)}`}
-                title={title}
-                style={{ width: '100%', height: '100%' }}
-              />
-            )}
+            <div tw="w-full h-full flex justify-center items-center ">
+              {isDisplayedAsImage && <img onLoad={() => setIsLoaded(true)} src={url} alt={title} />}
+
+              {title.endsWith('.pdf') && (
+                <iframe
+                  onLoad={() => setIsLoaded(true)}
+                  src={url}
+                  title={title}
+                  style={{ width: '100%', height: '100%' }}
+                />
+              )}
+            </div>
           </Viewer>
         </div>
       )}
@@ -121,9 +210,7 @@ const Overlay = styled(motion.div)`
 `;
 
 const Viewer = styled(motion.div)<{ isDisplayedAsDocument?: boolean }>`
-  ${tw` flex justify-center items-center bg-white box-border`}
-  ${({ isDisplayedAsDocument }) => (isDisplayedAsDocument ? tw`w-2/3 h-[90%]` : tw`w-fit h-fit`)}
- 
+  ${tw`  h-screen w-screen  bg-white dark:bg-black`}
 
   img {
     ${tw`max-w-full max-h-full`}
