@@ -106,7 +106,7 @@ const StyledContainer = styled.div`
   ${tw`w-screen overflow-hidden h-screen`}
 `;
 const StyledHeader = styled.div`
-  ${tw`p-4 border-b border-primary-border dark:border-primary-border-dark w-screen xl:absolute bg-primary flex justify-between`}
+  ${tw`p-4 border-b z-10 h-14 items-center border-primary-border dark:border-primary-border-dark w-screen absolute bg-primary flex justify-between`}
 `;
 const StyledBackButton = styled.div`
   ${tw`cursor-pointer text-2xl flex space-x-2 items-center dark:text-white text-primary-color`}
@@ -115,13 +115,13 @@ const StyledNavBar = styled.div`
   ${tw`flex h-fit space-x-4 lg:space-x-8 items-center`}
 `;
 const StyledContentContainer = styled.div`
-  ${tw`w-full h-full bg-white flex justify-center items-center`}
+  ${tw`w-full pt-14 z-0 h-full bg-white flex justify-center items-center`}
 `;
 const StyledImage = styled.img`
-  ${tw`border xl:border-0 rounded xl:rounded-none shadow border-primary-border dark:border-primary-border-dark`}
+  ${tw`border shadow xl:border-0 rounded xl:rounded-none  border-primary-border dark:border-primary-border-dark`}
 `;
 const StyledIframe = styled.iframe`
-  ${tw`border xl:border-0 rounded xl:rounded-none shadow border-primary-border dark:border-primary-border-dark`}
+  ${tw`border xl:border-0 shadow rounded xl:rounded-none  border-primary-border dark:border-primary-border-dark`}
 `;
 
 const FileViewer = (props: EntityProps & TitleProps & FilePathProps) => {
