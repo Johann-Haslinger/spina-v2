@@ -1,9 +1,18 @@
 import styled from '@emotion/styled';
+import { ILeanScopeClient } from '@leanscope/api-client';
+import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity, EntityProps, useEntity } from '@leanscope/ecs-engine';
 import { Tags } from '@leanscope/ecs-models';
+import saveAs from 'file-saver';
 import { motion } from 'framer-motion';
 import { useContext, useEffect, useRef, useState } from 'react';
-import { IoArrowDownCircleOutline, IoChevronBack, IoEllipsisHorizontalCircleOutline, IoShareOutline, IoTrashOutline } from 'react-icons/io5';
+import {
+  IoArrowDownCircleOutline,
+  IoChevronBack,
+  IoEllipsisHorizontalCircleOutline,
+  IoShareOutline,
+  IoTrashOutline,
+} from 'react-icons/io5';
 import tw from 'twin.macro';
 import { FilePathFacet, FilePathProps, TitleProps } from '../../../../app/additionalFacets';
 import { AdditionalTag, DataType, SupabaseStorageBucket, SupabaseTable } from '../../../../base/enums';
@@ -12,9 +21,6 @@ import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
 import supabaseClient from '../../../../lib/supabase';
 import { dataTypeQuery } from '../../../../utils/queries';
 import { useSelectedTheme } from '../../hooks/useSelectedTheme';
-import { ILeanScopeClient } from '@leanscope/api-client';
-import saveAs from 'file-saver';
-import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 
 const deleteFile = async (lsc: ILeanScopeClient, entity: Entity) => {
   const filePath = entity.get(FilePathFacet)?.props.filePath;
@@ -111,7 +117,6 @@ const FileViewer = (props: EntityProps & TitleProps & FilePathProps) => {
   const handleDownload = () => downloadFile(title, filePath);
   const handleDelete = () => deleteFile(lsc, entity);
 
-
   useOutsideClick(viewerRef, navigateBack);
 
   const isFileViewerVisible = isVisible && isLoaded;
@@ -119,12 +124,17 @@ const FileViewer = (props: EntityProps & TitleProps & FilePathProps) => {
   const isDisplayedAsDocument = title.endsWith('.pdf') || title.endsWith('.docx');
 
   const handleShare = async () => {
+    if (!url) return;
     if (navigator.share) {
       try {
+        const response = await fetch(url);
+        const blob = await response.blob();
+        const file = new File([blob], title, { type: blob.type });
+
         await navigator.share({
           title: 'Teile diese Datei',
           text: 'Schau dir diese Datei an!',
-          url: url,
+          files: [file],
         });
         console.log('Datei wurde erfolgreich geteilt');
       } catch (error) {
@@ -157,7 +167,7 @@ const FileViewer = (props: EntityProps & TitleProps & FilePathProps) => {
             }}
             transition={{ type: 'tween', duration: 0.2 }}
           >
-            <div tw="p-4 flex justify-between">
+            <div tw="p-4 w-screen absolute bg-primary flex justify-between">
               <div
                 tw="cursor-pointer text-2xl flex space-x-2 items-center dark:text-white text-primary-color"
                 onClick={navigateBack}
@@ -210,7 +220,7 @@ const Overlay = styled(motion.div)`
 `;
 
 const Viewer = styled(motion.div)<{ isDisplayedAsDocument?: boolean }>`
-  ${tw`  h-screen w-screen  bg-white dark:bg-black`}
+  ${tw`  h-screen w-screen  bg-primary dark:bg-black`}
 
   img {
     ${tw`max-w-full max-h-full`}
