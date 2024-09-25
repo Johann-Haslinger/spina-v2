@@ -49,8 +49,30 @@ const NavigationBar = (props: NavBarProps) => {
       </StyledLeftSideWrapper>
 
       <ToolIconWrapper>{children}</ToolIconWrapper>
+      {/* {isMobile && <ProfileButton />} */}
     </StyledNavBarWrapper>
   );
 };
 
 export default NavigationBar;
+
+// const ProfileButton = () => {
+//   const lsc = useContext(LeanScopeClientContext);
+//   const { profilePicture } = useUserData();
+
+//   const openSettings = () => lsc.stories.transitTo(Story.OBSERVING_SETTINGS_OVERVIEW_STORY);
+
+//   return !profilePicture ? (
+//     <div onClick={openSettings} tw="text-4xl text-secondary-text dark:text-secondary-text-dark">
+//       <IoPersonCircle />
+//     </div>
+//   ) : (
+//     <div
+//       style={{
+//         backgroundImage: `url(${profilePicture})`,
+//       }}
+//       onClick={openSettings}
+//       tw="size-8 bg-cover dark:bg-white rounded-full bg-black"
+//     />
+//   );
+// };

@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import { IoCopy, IoGrid, IoHome, IoPersonCircle } from 'react-icons/io5';
 import { NavLink, useLocation } from 'react-router-dom';
 import tw from 'twin.macro';
-import { AdditionalTag } from '../../base/enums';
+import { AdditionalTag, Story } from '../../base/enums';
 
 const TABS = [
   {
@@ -23,18 +23,22 @@ const TABS = [
     icon: <IoGrid />,
     title: 'Sammlung',
   },
-  {
-    link: '/Profile',
-    icon: <IoPersonCircle />,
-    title: 'Du',
-  },
+  // {
+  //   link: '/Profile',
+  //   icon: <IoPersonCircle />,
+  //   title: 'Du',
+  // },
 ];
 
-const StyledTabBarContainer = tw.div`md:hidden fixed left-0  pt-4   bg-secondary bg-opacity-70 dark:bg-opacity-60 dark:bg-primary-dark  backdrop-blur-2xl  bottom-0 flex justify-between w-screen `;
+const StyledTabBarContainer = tw.div`md:hidden fixed left-0  pt-4   bg-secondary bg-opacity-80 dark:bg-opacity-60 dark:bg-primary-dark  backdrop-blur-2xl  bottom-0 flex justify-between w-screen `;
 
 const StyledTabWrapper = styled(NavLink)<{ active: string }>`
   ${tw`w-full  pb-7  `}
   ${({ active }) => (active == 'true' ? tw`text-primary-color` : tw`text-[#A2A2A2] dark:text-opacity-70`)}
+`;
+
+const StyledProfileButton = styled.div`
+  ${tw`w-full pb-7 text-[#A2A2A2] dark:text-opacity-70`}
 `;
 
 const TabBar = () => {
@@ -43,6 +47,8 @@ const TabBar = () => {
 
   const handleTabClick = () =>
     lsc.engine.entities.filter((e) => e.has(Tags.SELECTED)).forEach((e) => e.add(AdditionalTag.NAVIGATE_BACK));
+  const openSettings = () => lsc.stories.transitTo(Story.OBSERVING_SETTINGS_OVERVIEW_STORY);
+
   return (
     <StyledTabBarContainer>
       {TABS.map((tab, idx) => {
@@ -58,6 +64,13 @@ const TabBar = () => {
           </StyledTabWrapper>
         );
       })}
+      <StyledProfileButton onClick={openSettings}>
+        <div tw="pb-0.5 flex justify-center text-[1.6rem]">
+          {' '}
+          <IoPersonCircle />
+        </div>
+        <p tw=" text-[0.6rem] text-center">Du</p>
+      </StyledProfileButton>
     </StyledTabBarContainer>
   );
 };

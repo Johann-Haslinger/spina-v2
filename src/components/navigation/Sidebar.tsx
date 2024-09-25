@@ -19,7 +19,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import tw from 'twin.macro';
 import { ViSpina } from '../../assets/icons';
 import { COLOR_ITEMS, MEDIUM_DEVICE_WIDTH, NAV_LINKS } from '../../base/constants';
-import { NavigationLink, SupportedLanguage, SupportedTheme } from '../../base/enums';
+import { NavigationLink, Story, SupportedLanguage, SupportedTheme } from '../../base/enums';
 import { useAppState } from '../../features/collection/hooks/useAppState';
 import { usePlayingPodcast } from '../../features/collection/hooks/usePlayingPodcast';
 import { useSelectedTheme } from '../../features/collection/hooks/useSelectedTheme';
@@ -128,15 +128,18 @@ const StyledProfilePicture = styled.img`
 `;
 
 const SettingsLink = (props: { isFullWidth: boolean }) => {
+  const lsc = useContext(LeanScopeClientContext);
   const { isFullWidth } = props;
   const { color } = COLOR_ITEMS[3];
-  const { toggleSettings, toggleProfile } = useAppState();
   const { selectedLanguage } = useSelectedLanguage();
   const { userEmail, signedIn, signOut, userName, profilePicture } = useUserData();
   const [isSettingsQuickMenuVisible, setIsSettingsQuickMenuVisible] = useState(false);
   const settingsQuickMenuRef = useRef<HTMLDivElement>(null);
   const { width } = useWindowDimensions();
   const isMobile = width < MEDIUM_DEVICE_WIDTH;
+
+  const openSettings = () => lsc.stories.transitTo(Story.OBSERVING_SETTINGS_OVERVIEW_STORY);
+  const openContactForm = () => lsc.stories.transitTo(Story.OBSERVING_REPORT_PROBLEM_STORY);
 
   useEffect(() => {
     document.addEventListener('click', handleClickOutside, true);
@@ -145,12 +148,8 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
     };
   }, [isSettingsQuickMenuVisible]);
 
-  const handleClickOutside = (e: MouseEvent) => {
-    if (
-      isSettingsQuickMenuVisible &&
-      settingsQuickMenuRef.current &&
-      !settingsQuickMenuRef.current.contains(e.target as Node)
-    ) {
+  const handleClickOutside = () => {
+    if (isSettingsQuickMenuVisible) {
       setIsSettingsQuickMenuVisible(false);
     }
   };
@@ -185,24 +184,18 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
         <StyledSettingsMenuWrapper>
           <StyledEmailText>{userEmail}</StyledEmailText>
           <StyledSettingsDivider />
-          {/* <StyledHelpText>
-            <StyledSettingsMenuIcon>
-              <IoHelpOutline />
-            </StyledSettingsMenuIcon>
-            {displayHeaderTexts(selectedLanguage).whatToDo}
-          </StyledHelpText> */}
 
-          <StyledHelpText onClick={toggleProfile}>
+          <StyledHelpText onClick={openSettings}>
             <StyledSettingsMenuIcon>
               <IoSettingsOutline />
             </StyledSettingsMenuIcon>
             {displayHeaderTexts(selectedLanguage).settings}
           </StyledHelpText>
-          <StyledSettingsText onClick={toggleSettings}>
+          <StyledSettingsText onClick={openContactForm}>
             <StyledSettingsMenuIcon>
               <IoHelpCircleOutline />
             </StyledSettingsMenuIcon>
-            Hilfe
+            Problem melden
           </StyledSettingsText>
           <StyledSettingsDivider />
           <StyledAccountStatusText onClick={() => signedIn && signOut()}>
@@ -246,7 +239,7 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
 };
 
 const StyledSidebarLinkWrapper = styled.div<{ isCurrent: boolean }>`
-  ${tw`flex my-1.5 dark:text-white md:hover:bg-secondary dark:hover:bg-tertiary-dark overflow-hidden py-3 transition-all px-2 rounded-lg space-x-4 items-center`}
+  ${tw`flex my-1.5  dark:text-white md:hover:bg-secondary dark:hover:bg-tertiary-dark overflow-hidden py-3 transition-all px-2 rounded-lg space-x-4 items-center`}
   ${({ isCurrent }) => isCurrent && tw`bg-black bg-opacity-[3%] dark:bg-tertiary-dark`}
 `;
 const StyledNavLinkIcon = styled.div<{ color: string }>`

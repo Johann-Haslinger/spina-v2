@@ -30,3 +30,7 @@ export type ConversationMessage = {
   specialContent?: ReactNode;
   suggestions?: Suggestion[];
 };
+
+export type SchoolSubject = {
+  name: string;
+};

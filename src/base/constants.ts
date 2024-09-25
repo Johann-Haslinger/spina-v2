@@ -32,11 +32,6 @@ export const NAV_LINKS = [
     title: NavigationLink.COLLECTION,
     path: formatNavLinkAsPath(NavigationLink.COLLECTION),
   },
-
-  // {
-  //   title: NavigationLinks.GROUPS,
-  //   path: formatNavLinkAsPath(NavigationLinks.GROUPS),
-  // },
 ];
 
 export const COLORS = [
@@ -94,13 +89,6 @@ export const COLOR_ITEMS: {
     name: 'dark green',
     backgroundColor: '#97B79D',
   },
-
-  // {
-  //   color: '#E76542',
-  //   accentColor: '#FFCC00',
-  //   name: 'yellow',
-  //   backgroundColor: '#FAE07A',
-  // },
   {
     color: '#039FC4',
     name: 'blue',
@@ -111,4 +99,30 @@ export const COLOR_ITEMS: {
     name: 'navy',
     backgroundColor: '#959EC4',
   },
+];
+
+export const SCHOOL_SUBJECTS: string[] = [
+  'Deutsch',
+  'Englisch',
+  'Französisch',
+  'Spanisch',
+  'Latein',
+  'Mathematik',
+  'Biologie',
+  'Chemie',
+  'Physik',
+  'Geschichte',
+  'Geographie',
+  'Sozialkunde',
+  'Kunst',
+  'Musik',
+  'Literatur',
+  'Sport',
+  'Ethik',
+  'Religion',
+  'Informatik',
+  'Technik',
+  'Darstellendes Spiel',
+  'Wirtschaftslehre',
+  'Italienisch',
 ];

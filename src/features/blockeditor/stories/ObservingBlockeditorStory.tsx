@@ -5,14 +5,14 @@ import InitializeSchoolSubjectsSystem from '../../../systems/InitializeSchoolSub
 import InitializeStoriesSystem from '../../../systems/InitializeStoriesSystem';
 import ViewManagerSystem from '../../../systems/ViewManagerSystem';
 
+import { LocalDataMode } from '@leanscope/api-client';
 import { BrowserRouter } from 'react-router-dom';
 import { Sidebar, View } from '../../../components';
+import { VITE_SUPABASE_KEY, VITE_SUPABASE_URL } from '../../../environment';
 import InitializeAppSystem from '../../../systems/InitializeAppSystem';
-import { Settings } from '../../settings';
+import { SettingsOverviewSheet as Settings } from '../../settings';
 import Blockeditor from '../components/Blockeditor';
 import InitializeBlockeditorSystem from '../systems/InitializeBlockeditorSystem';
-import { LocalDataMode } from '@leanscope/api-client';
-import { VITE_SUPABASE_URL, VITE_SUPABASE_KEY } from '../../../environment';
 
 const ObservingBlockeditorStory = () => {
   return (
