@@ -1,3 +1,4 @@
+import styled from '@emotion/styled';
 import { ILeanScopeClient } from '@leanscope/api-client';
 import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity, EntityProps, useEntity } from '@leanscope/ecs-engine';
@@ -11,6 +12,7 @@ import {
   IoShareOutline,
   IoTrashOutline,
 } from 'react-icons/io5';
+import tw from 'twin.macro';
 import { FilePathFacet, FilePathProps, TitleProps } from '../../../../app/additionalFacets';
 import { AdditionalTag, DataType, SupabaseStorageBucket, SupabaseTable } from '../../../../base/enums';
 import { ActionRow, NavBarButton, View } from '../../../../components';
@@ -100,6 +102,28 @@ const useFileUrl = () => {
   return url;
 };
 
+const StyledContainer = styled.div`
+  ${tw`w-screen overflow-hidden h-screen`}
+`;
+const StyledHeader = styled.div`
+  ${tw`p-4 border-b border-primary-border dark:border-primary-border-dark w-screen xl:absolute bg-primary flex justify-between`}
+`;
+const StyledBackButton = styled.div`
+  ${tw`cursor-pointer text-2xl flex space-x-2 items-center dark:text-white text-primary-color`}
+`;
+const StyledNavBar = styled.div`
+  ${tw`flex h-fit space-x-4 lg:space-x-8 items-center`}
+`;
+const StyledContentContainer = styled.div`
+  ${tw`w-full h-full bg-white flex justify-center items-center`}
+`;
+const StyledImage = styled.img`
+  ${tw`border xl:border-0 rounded xl:rounded-none shadow border-primary-border dark:border-primary-border-dark`}
+`;
+const StyledIframe = styled.iframe`
+  ${tw`border xl:border-0 rounded xl:rounded-none shadow border-primary-border dark:border-primary-border-dark`}
+`;
+
 const FileViewer = (props: EntityProps & TitleProps & FilePathProps) => {
   const lsc = useContext(LeanScopeClientContext);
   const { entity, title, filePath } = props;
@@ -140,16 +164,13 @@ const FileViewer = (props: EntityProps & TitleProps & FilePathProps) => {
 
   return (
     <View hidePadding visible={isVisible}>
-      <div tw="w-screen overflow-hidden h-screen">
-        <div tw="p-4 border-b border-primary-border dark:border-primary-border-dark w-screen xl:absolute bg-primary flex justify-between">
-          <div
-            tw="cursor-pointer text-2xl flex space-x-2 items-center dark:text-white text-primary-color"
-            onClick={navigateBack}
-          >
+      <StyledContainer>
+        <StyledHeader>
+          <StyledBackButton onClick={navigateBack}>
             <IoChevronBack />
             <p tw="text-sm">Zurück</p>
-          </div>
-          <div tw="flex h-fit space-x-4 lg:space-x-8 items-center ">
+          </StyledBackButton>
+          <StyledNavBar>
             <NavBarButton onClick={handleShare}>
               <IoShareOutline />
             </NavBarButton>
@@ -167,15 +188,15 @@ const FileViewer = (props: EntityProps & TitleProps & FilePathProps) => {
             >
               <IoEllipsisHorizontalCircleOutline />
             </NavBarButton>
-          </div>
-        </div>
+          </StyledNavBar>
+        </StyledHeader>
 
-        <div tw="w-full h-full bg-white flex justify-center items-center ">
-          {isDisplayedAsImage && <img src={url} alt={title} />}
+        <StyledContentContainer>
+          {isDisplayedAsImage && <StyledImage src={url} alt={title} />}
 
-          {title.endsWith('.pdf') && <iframe src={url} title={title} style={{ width: '100%', height: '100%' }} />}
-        </div>
-      </div>
+          {title.endsWith('.pdf') && <StyledIframe src={url} title={title} style={{ width: '100%', height: '100%' }} />}
+        </StyledContentContainer>
+      </StyledContainer>
     </View>
   );
 };
