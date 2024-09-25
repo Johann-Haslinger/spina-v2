@@ -97,11 +97,11 @@ const SchoolSubjectSettingsSheet = () => {
             />
           ))}
         </Section>
-        <Spacer />
+        <Spacer size={2} />
         <Section>
           {findMissingSubjects().map((subject, idx) => (
             <SectionRow
-              icon={<IoAddCircle />}
+              icon={<IoAddCircle color="#3b82f6" />}
               key={idx}
               last={idx == findMissingSubjects().length - 1}
               onClick={() => handleAddSubject(subject)}

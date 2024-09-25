@@ -1,23 +1,20 @@
-import styled from '@emotion/styled/macro';
+import styled from '@emotion/styled';
 import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { EntityProps, EntityPropsMapper } from '@leanscope/ecs-engine';
 import { Tags } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { motion } from 'framer-motion';
 import { useContext, useState } from 'react';
-import { IoBookOutline, IoChevronForward } from 'react-icons/io5';
+import { IoBookOutline } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { DateAddedFacet, DateAddedProps, TitleFacet, TitleProps } from '../../../../app/additionalFacets';
 import { AdditionalTag, DataType, Story } from '../../../../base/enums';
+import { ShowMoreButton } from '../../../../common/components/buttons';
 import { BackButton, NavigationBar, NoContentAddedHint, Spacer, Title, View } from '../../../../components';
 import { isChildOfQuery } from '../../../../utils/queries';
 import { sortEntitiesByDateAdded } from '../../../../utils/sortEntitiesByTime';
 import { useSelectedSchoolSubject } from '../../hooks/useSelectedSchoolSubject';
 import LoadArchivedTopicsSystem from '../../systems/LoadArchivedTopicsSystem';
-
-const StyledTopicsWrapper = styled.div`
-  /* ${tw`divide-y divide-primary-border dark:divide-primary-border-dark`} */
-`;
 
 const TopicArchive = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -37,7 +34,7 @@ const TopicArchive = () => {
         <Title>Archiv</Title>
         <Spacer />
         {!hasArchivedTopics && <NoContentAddedHint />}
-        <StyledTopicsWrapper>
+        <div>
           <EntityPropsMapper
             query={(e) =>
               e.hasTag(DataType.TOPIC) &&
@@ -48,7 +45,7 @@ const TopicArchive = () => {
             sort={sortEntitiesByDateAdded}
             onMatch={ArchivedTopicCell}
           />
-        </StyledTopicsWrapper>
+        </div>
       </View>
     </div>
   );
@@ -69,11 +66,27 @@ const useArchivedTopics = () => {
   return { archivedTopicEntities, hasArchivedTopics };
 };
 
+const StyledArchivedTopicCell = styled.div`
+  ${tw`flex cursor-pointer justify-between w-full py-2 items-center`}
+`;
+
+const StyledMotionDiv = styled(motion.div)`
+  ${tw`flex items-center space-x-4`}
+`;
+
+const StyledIconWrapper = styled.div`
+  ${tw`text-xl text-primary-color`}
+`;
+
+const StyledDateText = styled.p`
+  ${tw`text-secondary-text`}
+`;
+
 const ArchivedTopicCell = (props: TitleProps & EntityProps & DateAddedProps) => {
   const { title, entity, dateAdded } = props;
   const [isHovered, setIsHovered] = useState(false);
 
-  const forattedDatedAdded = new Date(dateAdded).toLocaleDateString('de-DE', {
+  const formattedDateAdded = new Date(dateAdded).toLocaleDateString('de-DE', {
     year: 'numeric',
     month: 'long',
     day: 'numeric',
@@ -82,30 +95,26 @@ const ArchivedTopicCell = (props: TitleProps & EntityProps & DateAddedProps) => 
   const openTopic = () => entity.addTag(Tags.SELECTED);
 
   return (
-    <div
+    <StyledArchivedTopicCell
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
-      tw="flex cursor-pointer justify-between w-full py-2 items-center"
       onClick={openTopic}
     >
-      <motion.div
+      <StyledMotionDiv
         animate={{
           x: isHovered ? 15 : 0,
         }}
-        tw="flex items-center space-x-4 "
       >
-        <div tw="text-xl text-primary-color">
+        <StyledIconWrapper>
           <IoBookOutline />
-        </div>
+        </StyledIconWrapper>
         <div>
           <p>{title}</p>
-          <p tw="text-secondary-text">{forattedDatedAdded}</p>
+          <StyledDateText>{formattedDateAdded}</StyledDateText>
         </div>
-      </motion.div>
+      </StyledMotionDiv>
 
-      <div tw="text-xl text-secondary-text opacity-70">
-        <IoChevronForward />
-      </div>
-    </div>
+      <ShowMoreButton />
+    </StyledArchivedTopicCell>
   );
 };
