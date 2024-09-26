@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { IoBarChart } from 'react-icons/io5';
 import Skeleton from 'react-loading-skeleton';
@@ -26,8 +27,8 @@ const StyledColumnLabel = styled.div`
   ${tw` pt-2 font-semibold text-secondary-text opacity-100 mx-auto flex justify-center w-2 text-center text-xs`}
 `;
 
-const StyledAverageMarker = styled.div`
-  ${tw` opacity-100 transition-all  relative border-t-4 rounded w-full`}
+const StyledAverageMarker = styled(motion.div)`
+  ${tw` opacity-100 relative border-t-4 rounded w-full`}
   border-color: ${COLOR_ITEMS[2].color};
 `;
 
@@ -116,9 +117,10 @@ const FlashcardChartCard = () => {
         <StyledColumnsWrapper>
           {averageFlashcards > 0 && (
             <StyledAverageLabelWrapper>
-              <div
-                tw="transition-all"
-                style={{
+              <motion.div
+                initial={{ height: '100%' }}
+                transition={{ type: 'tween' }}
+                animate={{
                   height: `${100 - ((selectedDay !== null ? weekDays[selectedDay] : averageFlashcards) / maxFlashcards) * 100}%`,
                 }}
               />
@@ -162,7 +164,8 @@ const FlashcardChartCard = () => {
       {averageFlashcards > 0 && !isLoadingIndicatorVisible && (
         <StyledAverageMarkerWrapper>
           <StyledAverageMarker
-            style={{
+            transition={{ type: 'tween' }}
+            animate={{
               bottom: `${288 / (maxFlashcards / (selectedDay !== null ? weekDays[selectedDay] : averageFlashcards))}px`,
             }}
           />
