@@ -90,7 +90,7 @@ const LastWeekInfoCard = (props: CardProps) => {
               <StyledFlexItem key={id} onMouseEnter={() => setHoveredBar(id)} onMouseLeave={() => setHoveredBar(0)}>
                 <StyledLabel>{label}</StyledLabel>
                 <StyledBar isHovered={hoveredBar === id ? true : false} style={{ width: `${value}%` }} />
-                {true && <div> {value}%</div>}
+                {true && <div tw="ml-2"> {value}%</div>}
               </StyledFlexItem>
             ))}
           </StyledPerformanceList>
