@@ -409,7 +409,7 @@ const StyledFlashcardQuizEndCardWrapper = styled.div`
 `;
 
 const StyledDoneIcon = styled.div<{ color: string }>`
-  ${tw`text-8xl dark:opacity-60 mx-auto mt-8`}
+  ${tw`text-8xl dark:opacity-60 mx-auto mt-4`}
   color: ${(props) => props.color};
 `;
 

@@ -5,7 +5,7 @@ import tw from 'twin.macro';
 import supabaseClient from '../../../lib/supabase';
 
 const StyledAuthWrapper = styled.div`
-  ${tw`flex  h-screen w-screen justify-center items-center`}
+  ${tw`flex bg-secondary  h-screen w-screen justify-center items-center`}
 `;
 
 function AuthUI() {
