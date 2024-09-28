@@ -130,7 +130,7 @@ const ViewManagerSystem = () => {
   }, [isChatSheetVisible]);
 
   useEffect(() => {
-    if (isQuizViewVisible && !isDarkModeActive && backgroundColorDark) {
+    if (isQuizViewVisible && backgroundColorDark) {
       setThemeColor(isDarkModeActive ? backgroundColorDark : backgroundColor);
     } else {
       if (isDarkModeActive) {
