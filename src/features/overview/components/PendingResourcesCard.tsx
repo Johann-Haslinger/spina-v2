@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { LeanScopeClientContext } from '@leanscope/api-client/browser';
-import { Entity, EntityProps, EntityPropsMapper, useEntities } from '@leanscope/ecs-engine';
+import { Entity, EntityProps, useEntities } from '@leanscope/ecs-engine';
 import { IdentifierFacet, Tags } from '@leanscope/ecs-models';
 import { motion } from 'framer-motion';
 import { useContext, useEffect, useState } from 'react';
@@ -50,6 +50,12 @@ const StyledInfoText = styled.div`
 const PendingResourcesCard = () => {
   const { hasPendingResources } = usePendingResources();
   const { isLoadingIndicatorVisible } = useLoadingIndicator();
+  const [pendingResourceEntities] = useEntities(
+    (e) =>
+      new Date(e.get(DueDateFacet)?.props.dueDate || '') >= sevenDaysAgo &&
+      ([ProgressStatus.TODO, ProgressStatus.IN_PROGRESS].includes(e.get(StatusFacet)?.props.status || 0) ||
+        e.has(AdditionalTag.CHANGED)),
+  );
   const currentDate = new Date();
   const sevenDaysAgo = new Date(currentDate);
   sevenDaysAgo.setDate(currentDate.getDate() - 7);
@@ -77,16 +83,18 @@ const PendingResourcesCard = () => {
               <StyledInfoText>Alles erledigt! Du hast aktuell keine anstehenden Leistungen. 🎉</StyledInfoText>
             )}
 
-            <EntityPropsMapper
-              query={(e) =>
-                new Date(e.get(DueDateFacet)?.props.dueDate || '') >= sevenDaysAgo &&
-                ([ProgressStatus.TODO, ProgressStatus.IN_PROGRESS].includes(e.get(StatusFacet)?.props.status || 0) ||
-                  e.has(AdditionalTag.CHANGED))
-              }
-              sort={sortEntitiesByDueDate}
-              get={[[TitleFacet, StatusFacet, DueDateFacet, RelationshipFacet], []]}
-              onMatch={PendingResourceRow}
-            />
+            {[...pendingResourceEntities].sort(sortEntitiesByDueDate).map((entity) => (
+              <PendingResourceRow
+                key={entity.get(IdentifierFacet)?.props.guid || entity.id}
+                title={entity.get(TitleFacet)?.props.title || ''}
+                status={entity.get(StatusFacet)?.props.status || 0}
+                dueDate={entity.get(DueDateFacet)?.props.dueDate || ''}
+                entity={entity}
+                relationship={entity.get(RelationshipFacet)?.props.relationship || ''}
+              />
+            ))}
+
+            {}
           </div>
         )}
       </StyledCardWrapper>
@@ -184,7 +192,6 @@ const PendingResourceRow = (props: TitleProps & StatusProps & DueDateProps & Ent
 
   return isDisplayed ? (
     <StyledRowWrapper
-      key={entity.id}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       animate={{
@@ -215,7 +222,9 @@ const PendingResourceRow = (props: TitleProps & StatusProps & DueDateProps & Ent
         </StyledSelectWrapper>
       )}
     </StyledRowWrapper>
-  ) : null;
+  ) : (
+    <div />
+  );
 };
 
 const PendingResourceRowSkeleton = () => {

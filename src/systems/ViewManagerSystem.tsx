@@ -79,10 +79,10 @@ const ViewManagerSystem = () => {
     Story.OBSERVING_FLASHCARD_QUIZ_STORY,
     Story.OBSERVING_SPACED_REPETITION_QUIZ,
   ]);
-  const { isDarkModeActive: isDarkMode } = useSelectedTheme();
+  const { isDarkModeActive } = useSelectedTheme();
   const [closingVews] = useEntities((e) => e.hasTag(Tags.SELECTED) && e.hasTag(AdditionalTag.NAVIGATE_BACK));
   const [themeColor, setThemeColor] = useState('#F5F5F5');
-  const { backgroundColor } = useSelectedSchoolSubjectColor();
+  const { backgroundColor, backgroundColorDark } = useSelectedSchoolSubjectColor();
   const { isChatSheetVisible } = useCurrentSapientorConversation();
   const { isSidebarVisible } = useAppState();
   const { isMobile } = useWindowDimensions();
@@ -91,11 +91,11 @@ const ViewManagerSystem = () => {
 
   useEffect(() => {
     if (isSheetViewVisible || selectedPodcastEntity || selectedFlashcardEntity) {
-      if (!isDarkMode) {
+      if (!isDarkModeActive) {
         setThemeColor('rgb(214,214,214)');
       }
     } else {
-      if (!isDarkMode) {
+      if (!isDarkModeActive) {
         setThemeColor('#F5F5F5');
       }
     }
@@ -103,13 +103,13 @@ const ViewManagerSystem = () => {
 
   useEffect(() => {
     if (isSidebarVisible && isMobile) {
-      if (isDarkMode) {
+      if (isDarkModeActive) {
         setThemeColor('#1a1a1a');
       } else {
         setThemeColor('#ffffff');
       }
     } else if (isMobile) {
-      if (isDarkMode) {
+      if (isDarkModeActive) {
         setThemeColor('#000000');
       } else {
         setThemeColor('#F5F5F5');
@@ -119,21 +119,21 @@ const ViewManagerSystem = () => {
 
   useEffect(() => {
     if (isChatSheetVisible) {
-      if (!isDarkMode) {
+      if (!isDarkModeActive) {
         setThemeColor('rgb(214,214,214)');
       }
     } else {
-      if (!isDarkMode) {
+      if (!isDarkModeActive) {
         setThemeColor('#F5F5F5');
       }
     }
   }, [isChatSheetVisible]);
 
   useEffect(() => {
-    if (isQuizViewVisible && !isDarkMode) {
-      setThemeColor(backgroundColor);
+    if (isQuizViewVisible && !isDarkModeActive && backgroundColorDark) {
+      setThemeColor(isDarkModeActive ? backgroundColorDark : backgroundColor);
     } else {
-      if (isDarkMode) {
+      if (isDarkModeActive) {
         setThemeColor('#000000');
       } else {
         setThemeColor('#F5F5F5');
@@ -142,14 +142,14 @@ const ViewManagerSystem = () => {
   }, [isQuizViewVisible]);
 
   useEffect(() => {
-    if (isDarkMode) {
+    if (isDarkModeActive) {
       document.body.classList.add('dark');
       setThemeColor('#000000');
     } else {
       document.body.classList.remove('dark');
       setThemeColor('#F5F5F5');
     }
-  }, [isDarkMode]);
+  }, [isDarkModeActive]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -162,11 +162,11 @@ const ViewManagerSystem = () => {
 
   useEffect(() => {
     if (isSheetViewVisible) {
-      if (!isDarkMode) {
+      if (!isDarkModeActive) {
         setThemeColor('rgb(214,214,214)');
       }
     } else {
-      if (!isDarkMode) {
+      if (!isDarkModeActive) {
         setThemeColor('#F5F5F5');
       }
     }

@@ -50,54 +50,64 @@ export const COLOR_ITEMS: {
   color: string;
   name?: string;
   backgroundColor: string;
+  backgroundColorDark?: string;
 }[] = [
   {
     color: '#668FE8',
     name: 'lavendar',
     backgroundColor: '#ADC1EE',
+    backgroundColorDark: '#0F1523',
   },
   {
     color: '#A3CB63',
     name: 'green',
     backgroundColor: '#CBE0AB',
+    backgroundColorDark: '#181E0F',
   },
   {
     color: '#6EBED9',
     name: 'light blue',
     backgroundColor: '#B1D9E7',
+    backgroundColorDark: '#111D21',
   },
 
   {
     color: '#EF9D4A',
     name: 'orange',
     backgroundColor: '#F2C99F',
+    backgroundColorDark: '#24180B',
   },
 
   {
     color: '#E76542',
     name: 'red',
     backgroundColor: '#EEAD9B',
+    backgroundColorDark: '#000000',
   },
 
   {
     color: '#BF3039',
     name: 'camin',
     backgroundColor: '#DA9297',
+    backgroundColorDark: '#260A0B',
   },
   {
     color: '#397A45',
     name: 'dark green',
     backgroundColor: '#97B79D',
+    backgroundColorDark: '#0B180E',
   },
   {
     color: '#039FC4',
     name: 'blue',
     backgroundColor: '#7CCADC',
+    backgroundColorDark: '#012027',
   },
   {
     color: '#364893',
     name: 'navy',
     backgroundColor: '#959EC4',
+    backgroundColorDark: '#0B0E1D',
   },
 ];
 

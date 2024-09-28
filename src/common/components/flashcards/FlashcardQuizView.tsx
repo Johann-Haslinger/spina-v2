@@ -120,13 +120,13 @@ const StyledBackButtonText = styled.div`
 `;
 
 const StyledProgressBarWrapper = styled.div`
-  ${tw`  bg-white overflow-hidden mb-4 h-fit dark:bg-secondary-dark dark:bg-opacity-50 w-full  rounded-full `}
+  ${tw`  bg-white overflow-hidden mb-4 h-fit dark:bg-opacity-5 w-full  rounded-full `}
 `;
 const StyledProgressBar = styled.div<{
   width?: number;
   backgroundColor: string;
 }>`
-  ${tw`transition-all bg-white dark:!bg-tertiary-dark  h-1 rounded-full`}
+  ${tw`transition-all bg-white h-1 rounded-full`}
   width: ${(props) => props.width || 1}%;
   background-color: ${(props) => props.backgroundColor};
 `;
@@ -156,7 +156,7 @@ const formatElapsedTime = (timeInSeconds: number) => {
 
 const FlashcardQuizView = () => {
   const lsc = useContext(LeanScopeClientContext);
-  const { backgroundColor, color } = useSelectedSchoolSubjectColor();
+  const { backgroundColor, color, backgroundColorDark } = useSelectedSchoolSubjectColor();
   const isVisible = useIsAnyStoryCurrent([
     Story.OBSERVING_FLASHCARD_QUIZ_STORY,
     Story.OBSERVING_BOOKMARKED_FLASHCARD_GROUP_QUIZ_STORY,
@@ -169,7 +169,7 @@ const FlashcardQuizView = () => {
   const { selectedFlashcardGroupTitle } = useSeletedFlashcardGroup();
   const { userId } = useUserData();
   const { dueFlashcardEntity, dueFlashcardsCount } = useDueFlashcards();
-  const { isDarkModeActive: isDarkModeAktive } = useSelectedTheme();
+  const { isDarkModeActive } = useSelectedTheme();
 
   useEffect(() => {
     if (isVisible) {
@@ -198,7 +198,7 @@ const FlashcardQuizView = () => {
     flashcardEntities.forEach((flashcardEntity) => {
       const id = flashcardEntity.get(IdentifierFacet)?.props.guid;
       const parentId = flashcardEntity.get(ParentFacet)?.props.parentId || '';
-
+      console.log('update mastery level id', id);
       if (!id) return;
 
       let dueDate: Date | null = null;
@@ -212,7 +212,7 @@ const FlashcardQuizView = () => {
       } else if (flashcardEntity.has(AdditionalTag.PARTIALLY_REMEMBERED)) {
         dueDate = new Date();
         dueDate.setHours(dueDate.getHours() + 12);
-      } else if (flashcardEntity.has(AdditionalTag.INCORRECT_ANSWER)) {
+      } else if (flashcardEntity.has(AdditionalTag.FORGOT)) {
         dueDate = new Date();
       } else if (flashcardEntity.has(AdditionalTag.SKIP)) {
         dueDate = new Date();
@@ -222,7 +222,7 @@ const FlashcardQuizView = () => {
       const masteryLevel = flashcardEntity.get(MasteryLevelFacet)?.props.masteryLevel || 0;
       let newMasterLevel = masteryLevel;
 
-      if (masteryLevel == MAX_MASTERY_LEVEL && !flashcardEntity.has(AdditionalTag.INCORRECT_ANSWER)) {
+      if (masteryLevel == MAX_MASTERY_LEVEL && !flashcardEntity.has(AdditionalTag.FORGOT)) {
         newMasterLevel = MAX_MASTERY_LEVEL;
       } else if (flashcardEntity.has(AdditionalTag.REMEMBERED_EASILY)) {
         newMasterLevel = masteryLevel + 1;
@@ -233,10 +233,16 @@ const FlashcardQuizView = () => {
       } else if (flashcardEntity.has(AdditionalTag.PARTIALLY_REMEMBERED)) {
         newMasterLevel = masteryLevel + 1;
         flashcardEntity.add(new MasteryLevelFacet({ masteryLevel: newMasterLevel }));
-      } else if (flashcardEntity.has(AdditionalTag.INCORRECT_ANSWER)) {
+      } else if (flashcardEntity.has(AdditionalTag.FORGOT)) {
         newMasterLevel = MIN_MASTERY_LEVEL;
         flashcardEntity.add(new MasteryLevelFacet({ masteryLevel: newMasterLevel }));
+      } else {
+        newMasterLevel = 0; 
       }
+      console.log('newMasterLevel', newMasterLevel);
+      lsc.engine.entities
+        .find((e) => e.get(IdentifierFacet)?.props.guid === id)
+        ?.add(new MasteryLevelFacet({ masteryLevel: newMasterLevel }));
 
       if (dueDate) {
         updatedFlashcards.push({
@@ -346,7 +352,7 @@ const FlashcardQuizView = () => {
   };
 
   return (
-    <View backgroundColor={isDarkModeAktive ? 'black' : backgroundColor} overlaySidebar visible={isVisible}>
+    <View backgroundColor={isDarkModeActive ? backgroundColorDark : backgroundColor} overlaySidebar visible={isVisible}>
       <StyledStatusBarWrapper>
         <FlexBox>
           <StyledBackButtonWrapper onClick={handleBackButtonClick}>
@@ -358,7 +364,7 @@ const FlashcardQuizView = () => {
         </FlexBox>
         <StyledProgressBarWrapper>
           <StyledProgressBar
-            backgroundColor={color}
+            backgroundColor={isDarkModeActive ? color + 26 : color}
             width={((currentFlashcardIndex || 0) / (flashcardEntities.length || 1)) * 100 + 1}
           />
         </StyledProgressBarWrapper>
@@ -403,12 +409,12 @@ const StyledFlashcardQuizEndCardWrapper = styled.div`
 `;
 
 const StyledDoneIcon = styled.div<{ color: string }>`
-  ${tw`text-8xl mx-auto mt-8`}
+  ${tw`text-8xl dark:opacity-60 mx-auto mt-8`}
   color: ${(props) => props.color};
 `;
 
 const StyledBar = styled.div<{ isHovered: boolean; backgroundColor: string }>`
-  ${tw` transition-all mr-auto rounded-r h-3 ml-4 opacity-60  `}
+  ${tw` transition-all mr-auto rounded-r h-3 ml-4 opacity-60 dark:opacity-20  `}
   ${({ isHovered }) => isHovered && tw`opacity-100`}
   background-color: ${(props) => props.backgroundColor};
 `;
@@ -431,6 +437,7 @@ const FlashcardQuizEndCard = (props: { elapsedTime: number; flashcardEntities: r
   const [hoveredBar, setHoveredBar] = useState(0);
   const { flashcardPerformance, totalCardCount } = useFlashcardSessionPerformance(flashcardEntities);
   const { color } = useSelectedSchoolSubjectColor();
+  const { isDarkModeActive } = useSelectedTheme();
 
   return (
     <StyledFlashcardQuizEndCardWrapper>
@@ -455,14 +462,6 @@ const FlashcardQuizEndCard = (props: { elapsedTime: number; flashcardEntities: r
               </StyledDoneIcon>
             ) : (
               <div tw="scale-x-[-1] w-full px-4 mx-auto ">
-                {/* <StyledSummaryText>
-                  Du hast dich insgesamt {" "} 
-                  <strong>
-                    {totalCardCount} {totalCardCount == 1 ? 'Karte' : 'Karten'}
-                  </strong>
-                  , in <strong>{formatElapsedTime(elapsedTime)}</strong> abgefragt.
-                </StyledSummaryText> */}
-
                 <StyledPerformanceList color={color}>
                   {[
                     { label: '⏩', value: flashcardPerformance?.skip, id: 1 },
@@ -482,12 +481,17 @@ const FlashcardQuizEndCard = (props: { elapsedTime: number; flashcardEntities: r
                         isHovered={hoveredBar === id ? true : false}
                         style={{ width: `${value}%` }}
                       />
-                      {true && <div tw=" ml-4"> {value}%</div>}
+                      {true && (
+                        <div style={{ opacity: isDarkModeActive ? 0.7 : 1 }} tw=" ml-4">
+                          {' '}
+                          {value}%
+                        </div>
+                      )}
                     </StyledFlexItem>
                   ))}
                   <StyledFlexItem>
                     <StyledLabel2>ℹ️</StyledLabel2>
-                    <p tw=" ml-4 font-semibold">
+                    <p style={{ opacity: isDarkModeActive ? 0.7 : 1 }} tw=" ml-4 font-semibold">
                       {totalCardCount} Karten in {formatElapsedTime(elapsedTime)}
                     </p>
                   </StyledFlexItem>
@@ -535,26 +539,28 @@ const StyledFlashcardCellContainer = styled.div`
   ${tw`  absolute top-0 right-0  left-0 flex justify-center items-center h-full w-full `}
 `;
 
-const StyledFlashcardWrapper = styled.div`
-  ${tw`bg-white dark:bg-tertiary-dark dark:text-white   mx-auto pb-12  cursor-pointer flex items-center  w-11/12 md:w-8/12 xl:w-2/5 2xl:w-1/3 lg:w-1/2 h-60  p-4 rounded-2xl`}
+const StyledFlashcardWrapper = styled.div<{ backgroundColor?: string }>`
+  ${tw`bg-white overflow-y-scroll dark:text-white  dark:bg-opacity-5 mx-auto py-16  cursor-pointer flex items-center  w-11/12 md:w-8/12 xl:w-2/5 2xl:w-1/3 lg:w-1/2 h-60  p-4 rounded-2xl`}/* background-color: ${(
+    props,
+  ) => (props.backgroundColor ? props.backgroundColor + 10 : '')}; */
 `;
 
 const StyledQuestionText = styled.div<{ color: string }>`
-  ${tw`text-lg text-center mx-auto w-fit font-bold `}
+  ${tw`text-lg py-4 text-center mx-auto w-fit font-bold `}
   color: ${(props) => props.color};
 `;
 
 const StyledAnswerText = styled.div<{ color: string }>`
-  ${tw`text-lg text-center mx-auto w-fit scale-x-[-1]  `}
+  ${tw`text-lg py-4 text-center mx-auto w-fit scale-x-[-1]  `}
   color: ${(props) => props.color};
 `;
 
 const StyledNavButtonAreaWrapper = styled.div`
-  ${tw`flex w-[90%] space-x-1  xl:w-1/3 md:w-2/5 text-xl md:text-2xl xl:left-1/3 md:left-[30%] left-[5%] justify-between dark:bg-secondary-dark bg-white dark:bg-opacity-100 bg-opacity-40 p-1   rounded-xl md:rounded-2xl absolute bottom-8  `}
+  ${tw`flex w-[90%] space-x-1  xl:w-1/3 md:w-2/5 text-xl md:text-2xl xl:left-1/3 md:left-[30%] left-[5%] justify-between dark:bg-opacity-5 bg-white  bg-opacity-40 p-1   rounded-xl md:rounded-2xl absolute bottom-8  `}
 `;
 
 const StyledNavButton = styled.div`
-  ${tw`w-1/5 space-y-0.5  h-fit py-2.5 flex justify-center flex-col items-center rounded-lg md:rounded-xl lg:hover:opacity-70 transition-all dark:bg-tertiary-dark bg-white bg-opacity-80`}
+  ${tw`w-1/5 space-y-0.5  h-fit py-2.5 flex justify-center flex-col items-center rounded-lg md:rounded-xl lg:hover:opacity-70 transition-all dark:bg-opacity-5 bg-white bg-opacity-80`}
 `;
 
 const StyledLabel = styled.div`
@@ -574,7 +580,7 @@ const FlashcardCell = (props: {
   const question = flashcardEntity.get(QuestionFacet)?.props.question;
   const answer = flashcardEntity.get(AnswerFacet)?.props.answer;
   const { color } = useSelectedSchoolSubjectColor();
-  const { isDarkModeActive: isDarkModeAktive } = useSelectedTheme();
+  const { isDarkModeActive } = useSelectedTheme();
 
   useKeyEvents((event) => {
     if (event.key === ' ') {
@@ -645,11 +651,11 @@ const FlashcardCell = (props: {
               }}
               onClick={() => setIsFlipped((prev) => !prev)}
             >
-              <StyledFlashcardWrapper>
+              <StyledFlashcardWrapper backgroundColor={isDarkModeActive ? color : ''}>
                 {isFlipped ? (
-                  <StyledAnswerText color={isDarkModeAktive ? 'white' : color}>{answer}</StyledAnswerText>
+                  <StyledAnswerText color={isDarkModeActive ? 'white' : color}>{answer}</StyledAnswerText>
                 ) : (
-                  <StyledQuestionText color={isDarkModeAktive ? 'white' : color}>{question}</StyledQuestionText>
+                  <StyledQuestionText color={isDarkModeActive ? 'white' : color}>{question}</StyledQuestionText>
                 )}
               </StyledFlashcardWrapper>
             </motion.div>
