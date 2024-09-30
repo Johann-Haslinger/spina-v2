@@ -10,7 +10,7 @@ import { useLoadingIndicator } from '../../../common/hooks';
 import { useWeekStats } from '../../flashcards/hooks/useWeekStats';
 
 const StyledCardWrapper = styled.div`
-  ${tw`w-full pr-5 h-[28rem] p-4 text-[#6EBED9] rounded-2xl bg-[#6EBED9] bg-opacity-15`}
+  ${tw`w-full scale-100 relative pr-5 h-[28rem] p-4 text-[#6EBED9] rounded-2xl bg-[#6EBED9] bg-opacity-15`}
 `;
 
 const StyledColumnContainer = styled.div`
@@ -61,7 +61,7 @@ const StyledAverageMarkerWrapper = styled.div`
 `;
 
 const StyledColumnWrapper = styled.div<{ height: number }>`
-  ${tw`mt-auto z-10 w-full`}
+  ${tw`mt-auto z-[5] w-full`}
   height: ${({ height }) => (height > 0 ? height + 3 : 0)}%;
 `;
 

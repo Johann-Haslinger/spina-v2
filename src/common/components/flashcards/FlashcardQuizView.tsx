@@ -126,9 +126,9 @@ const StyledProgressBar = styled.div<{
   width?: number;
   backgroundColor: string;
 }>`
-  ${tw`transition-all bg-white h-1 rounded-full`}
+  ${tw`transition-all bg-opacity-10 bg-white h-1 rounded-full`}
   width: ${(props) => props.width || 1}%;
-  background-color: ${(props) => props.backgroundColor};
+ 
 `;
 
 const StyledFlashcardsStatusWrapper = styled.div`

@@ -33,7 +33,7 @@ const StyledSummaryText = styled.div`
 `;
 
 const StyledPerformanceList = styled.div`
-  ${tw` text-[#E76542] mt-6 space-y-1`}
+  ${tw` text-[#E76542] mt-2 space-y-1`}
 `;
 
 const StyledFlexItem = styled.div`
