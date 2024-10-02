@@ -294,7 +294,7 @@ const GenerateResourcesFromImageSheet = () => {
         specialContent: (
           <div className="px-4">
             {generatedFlashcards.map((flashcard, idx) => (
-              <PreviewFlashcard updateFlashcard={() => {}} key={idx} flashcard={flashcard} />
+              <PreviewFlashcard  updateFlashcard={() => {}} key={idx} flashcard={flashcard} />
             ))}
           </div>
         ),

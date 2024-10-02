@@ -11,12 +11,12 @@ type Flashcard = {
 const PreviewFlashcard = (props: {
   flashcard: Flashcard;
   updateFlashcard: (flashcard: Flashcard) => void;
-  isFocused: boolean;
+  isFocused?: boolean;
 }) => {
   const { flashcard, isFocused } = props;
   const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  useInputFocus(inputRef, isFocused);
+  useInputFocus(inputRef, isFocused == true);
 
   return (
     <Fragment>
