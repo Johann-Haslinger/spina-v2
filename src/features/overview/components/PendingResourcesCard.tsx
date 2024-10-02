@@ -78,24 +78,26 @@ const PendingResourcesCard = () => {
             <PendingResourceRowSkeleton />
           </div>
         ) : (
-          <div>
-            {!hasPendingResources && (
-              <StyledInfoText>Alles erledigt! Du hast aktuell keine anstehenden Leistungen. 🎉</StyledInfoText>
-            )}
+          isLoadingIndicatorVisible == false && (
+            <div>
+              {!hasPendingResources && (
+                <StyledInfoText>Alles erledigt! Du hast aktuell keine anstehenden Leistungen. 🎉</StyledInfoText>
+              )}
 
-            {[...pendingResourceEntities].sort(sortEntitiesByDueDate).map((entity) => (
-              <PendingResourceRow
-                key={entity.get(IdentifierFacet)?.props.guid || entity.id}
-                title={entity.get(TitleFacet)?.props.title || ''}
-                status={entity.get(StatusFacet)?.props.status || 0}
-                dueDate={entity.get(DueDateFacet)?.props.dueDate || ''}
-                entity={entity}
-                relationship={entity.get(RelationshipFacet)?.props.relationship || ''}
-              />
-            ))}
+              {[...pendingResourceEntities].sort(sortEntitiesByDueDate).map((entity) => (
+                <PendingResourceRow
+                  key={entity.get(IdentifierFacet)?.props.guid || entity.id}
+                  title={entity.get(TitleFacet)?.props.title || ''}
+                  status={entity.get(StatusFacet)?.props.status || 0}
+                  dueDate={entity.get(DueDateFacet)?.props.dueDate || ''}
+                  entity={entity}
+                  relationship={entity.get(RelationshipFacet)?.props.relationship || ''}
+                />
+              ))}
 
-            {}
-          </div>
+              {}
+            </div>
+          )
         )}
       </StyledCardWrapper>
     </div>
