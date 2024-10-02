@@ -3,10 +3,12 @@ import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { EmailFacet } from '../app/additionalFacets';
+import { useCurrentDataSource } from '../hooks/useCurrentDataSource';
 import supabaseClient from '../lib/supabase';
 
 const InitializeUserSystem = () => {
   const lsc = useContext(LeanScopeClientContext);
+  const { isUsingSupabaseData } = useCurrentDataSource();
 
   useEffect(() => {
     const userEntity = new Entity();
@@ -18,32 +20,18 @@ const InitializeUserSystem = () => {
       const userEmail = user.data.user?.email;
       const userId = user.data.user?.id;
 
-      // const { data, error } = await supabaseClient
-      //   .from(SupabaseTable.PROFILES)
-      //   .select('user_name, profile_picture')
-      //   .eq('user_id', userId)
-      //   .single();
-
-      // if (error) {
-      //   console.error('Error fetching user data', error);
-      // }
-
-      // if (data) {
-      //   const { user_name, profile_picture } = data;
-      //   userEntity.add(new NameFacet({ firstName: user_name }));
-      //   userEntity.add(new ImageFacet({ imageSrc: profile_picture }));
-      // }
-
       userEntity.add(new IdentifierFacet({ guid: 'user', displayName: userId || '' }));
       userEntity.add(new EmailFacet({ email: userEmail || '' }));
     };
 
-    fetchUserData();
+    if (isUsingSupabaseData) {
+      fetchUserData();
+    }
 
     return () => {
       lsc.engine.removeEntity(userEntity);
     };
-  }, []);
+  }, [isUsingSupabaseData]);
 
   return null;
 };

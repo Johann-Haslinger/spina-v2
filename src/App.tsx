@@ -10,7 +10,7 @@ import { Sidebar } from './components';
 import TabBar from './components/navigation/TabBar';
 import { AuthUI } from './features/auth-ui';
 import PodcastSheet from './features/collection/components/podcasts/PodcastSheet';
-import { useSession } from './hooks/useSession';
+import { SettingsOverviewSheet } from './features/settings';
 import { Collection, Exams, Flashcards, Groups, Homeworks, Overview } from './pages/Index';
 import {
   InitializeAppSystem,
@@ -21,20 +21,13 @@ import {
 } from './systems';
 import { formatNavLinkAsPath } from './utils/formatNavLinkAsPath';
 import { dataTypeQuery } from './utils/queries';
-import { SettingsOverviewSheet } from './features/settings';
 
 const StyledContentWrapper = styled.div`
   ${tw`w-screen h-screen bg-primary dark:bg-primary-dark`}
 `;
 
 function App() {
-  const { isLoggedIn } = useSession();
-
-  return isLoggedIn == false ? (
-    <div>
-      <AuthUI />
-    </div>
-  ) : (
+  return (
     <StyledContentWrapper>
       <InitializeUserSystem />
       <InitializeStoriesSystem initialStory={Story.OBSERVING_COLLECTION_STORY} />
@@ -42,7 +35,6 @@ function App() {
       <ViewManagerSystem />
       <InitializeSchoolSubjectsSystem />
       <InitializeLoadingIndicatorSystem />
-
       <BrowserRouter>
         <Sidebar />
         <Routes>
@@ -58,15 +50,14 @@ function App() {
         <SettingsOverviewSheet />
         <TabBar />
       </BrowserRouter>
-
       <EntityPropsMapper
         query={(e) => dataTypeQuery(e, DataType.PODCAST) && e.has(Tags.SELECTED)}
         get={[[TitleFacet, DateAddedFacet, SourceFacet], []]}
         onMatch={PodcastSheet}
-      />
+      />{' '}
+      <AuthUI />
     </StyledContentWrapper>
   );
 }
-2;
 
 export default App;

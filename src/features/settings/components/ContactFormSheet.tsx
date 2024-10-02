@@ -16,7 +16,7 @@ const StyledTextArea = styled.textarea`
 `;
 
 const StyledSentMessage = styled.div`
-  ${tw`text-primary mt-5 space-x-2 flex items-center`}
+  ${tw`text-primary dark:text-white mt-5 space-x-2 flex items-center`}
 `;
 
 const StyledIconWrapper = styled(IoCheckmarkCircleOutline)`

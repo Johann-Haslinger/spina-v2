@@ -128,7 +128,6 @@ const StyledProgressBar = styled.div<{
 }>`
   ${tw`transition-all bg-opacity-10 bg-white h-1 rounded-full`}
   width: ${(props) => props.width || 1}%;
- 
 `;
 
 const StyledFlashcardsStatusWrapper = styled.div`
@@ -237,7 +236,7 @@ const FlashcardQuizView = () => {
         newMasterLevel = MIN_MASTERY_LEVEL;
         flashcardEntity.add(new MasteryLevelFacet({ masteryLevel: newMasterLevel }));
       } else {
-        newMasterLevel = 0; 
+        newMasterLevel = 0;
       }
       console.log('newMasterLevel', newMasterLevel);
       lsc.engine.entities
