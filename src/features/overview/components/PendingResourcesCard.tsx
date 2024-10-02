@@ -84,16 +84,19 @@ const PendingResourcesCard = () => {
                 <StyledInfoText>Alles erledigt! Du hast aktuell keine anstehenden Leistungen. 🎉</StyledInfoText>
               )}
 
-              {[...pendingResourceEntities].sort(sortEntitiesByDueDate).map((entity) => (
-                <PendingResourceRow
-                  key={entity.get(IdentifierFacet)?.props.guid || entity.id}
-                  title={entity.get(TitleFacet)?.props.title || ''}
-                  status={entity.get(StatusFacet)?.props.status || 0}
-                  dueDate={entity.get(DueDateFacet)?.props.dueDate || ''}
-                  entity={entity}
-                  relationship={entity.get(RelationshipFacet)?.props.relationship || ''}
-                />
-              ))}
+              {[...pendingResourceEntities]
+                .filter((e) => ![4, 3].includes(e.get(StatusFacet)?.props.status || 0))
+                .sort(sortEntitiesByDueDate)
+                .map((entity) => (
+                  <PendingResourceRow
+                    key={entity.get(IdentifierFacet)?.props.guid || entity.id}
+                    title={entity.get(TitleFacet)?.props.title || ''}
+                    status={entity.get(StatusFacet)?.props.status || 0}
+                    dueDate={entity.get(DueDateFacet)?.props.dueDate || ''}
+                    entity={entity}
+                    relationship={entity.get(RelationshipFacet)?.props.relationship || ''}
+                  />
+                ))}
 
               {}
             </div>
@@ -178,10 +181,19 @@ const PendingResourceRow = (props: TitleProps & StatusProps & DueDateProps & Ent
   const { title, status, entity, relationship, dueDate } = props;
   const daysUntilDue = useDaysUntilDue(entity, dueDate);
   const { isDarkModeActive: isDarkModeAktive } = useSelectedTheme();
-  const isDone = [4, 3].includes(status || 0);
-  const isDisplayed = useIsDisplayed(isDone);
   const [isHovered, setIsHovered] = useState(false);
   const [relatedSchoolSubjectTitle, setRelatedSchoolSubjectTitle] = useState<string | null>(null);
+  const [currentStatus, setCurrentStatus] = useState(status);
+  const isDone = [4, 3].includes(currentStatus || 0);
+
+  useEffect(() => {
+    if (currentStatus == status) return;
+    const timeoutId = setTimeout(() => {
+      updateStatus(entity, currentStatus);
+    }, 250);
+
+    return () => clearTimeout(timeoutId);
+  }, [currentStatus]);
 
   useEffect(() => {
     if (relationship) {
@@ -192,7 +204,7 @@ const PendingResourceRow = (props: TitleProps & StatusProps & DueDateProps & Ent
 
   const openResource = () => entity.add(Tags.SELECTED);
 
-  return isDisplayed ? (
+  return (
     <StyledRowWrapper
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -215,7 +227,7 @@ const PendingResourceRow = (props: TitleProps & StatusProps & DueDateProps & Ent
       </motion.div>
       {status && (
         <StyledSelectWrapper dark={isDarkModeAktive} status={status}>
-          <StyledSelect onChange={(e) => updateStatus(entity, parseInt(e.target.value))} value={status.toString()}>
+          <StyledSelect onChange={(e) => setCurrentStatus(parseInt(e.target.value))} value={status.toString()}>
             <option value={ProgressStatus.TODO}>Todo</option>
             <option value={ProgressStatus.IN_PROGRESS}>In Arbeit</option>
             <option value={ProgressStatus.DONE}>Erledigt</option>
@@ -224,8 +236,6 @@ const PendingResourceRow = (props: TitleProps & StatusProps & DueDateProps & Ent
         </StyledSelectWrapper>
       )}
     </StyledRowWrapper>
-  ) : (
-    <div />
   );
 };
 
@@ -242,18 +252,4 @@ const PendingResourceRowSkeleton = () => {
       </div>
     </StyledRowWrapper>
   );
-};
-
-const useIsDisplayed = (isDone: boolean) => {
-  const [isDisplayed, setIsDisplayed] = useState(true);
-
-  useEffect(() => {
-    if (isDone) {
-      setTimeout(() => {
-        setIsDisplayed(false);
-      }, 400);
-    }
-  }, [isDone]);
-
-  return isDisplayed;
 };

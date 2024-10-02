@@ -41,7 +41,8 @@ const fetchFlashcardsByDue = async () => {
   const { data: flashcards, error } = await supabaseClient
     .from(SupabaseTable.FLASHCARDS)
     .select('answer, question, id, parent_id, mastery_level')
-    .lt('due_date', new Date().toISOString());
+    .lt('due_date', new Date().toISOString())
+    .limit(30);
 
   if (error) {
     console.error('Error fetching flashcards:', error);
@@ -126,8 +127,9 @@ const StyledProgressBar = styled.div<{
   width?: number;
   backgroundColor: string;
 }>`
-  ${tw`transition-all bg-opacity-10 bg-white h-1 rounded-full`}
+  ${tw`transition-all dark:bg-opacity-10 dark:bg-white h-1 rounded-full`}
   width: ${(props) => props.width || 1}%;
+  background-color: ${(props) => props.backgroundColor};
 `;
 
 const StyledFlashcardsStatusWrapper = styled.div`
