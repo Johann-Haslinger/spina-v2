@@ -2,11 +2,12 @@ import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
-import { Fragment, useContext, useState } from 'react';
+import { Fragment, useContext, useRef, useState } from 'react';
 import { IoCheckmarkCircle, IoEllipseOutline } from 'react-icons/io5';
 import { v4 } from 'uuid';
 import { DateAddedFacet, LearningUnitTypeFacet, TitleFacet } from '../../../../app/additionalFacets';
 import { DataType, LearningUnitType, Story } from '../../../../base/enums';
+import { useInputFocus } from '../../../../common/hooks';
 import {
   FlexBox,
   PrimaryButton,
@@ -32,7 +33,7 @@ const AddFlashcardSetSheet = () => {
   const [selectedSchoolSubjectId, setSelectedSchoolSubjectId] = useState<string>('');
   const { selectedLanguage } = useSelectedLanguage();
   const { selectedTopicId } = useSelectedTopic();
-  const schooolSubjectEntities = useSchoolSubjectEntities();
+  const schoolSubjectEntities = useSchoolSubjectEntities();
   const inCollectionVisible = location.pathname.includes('/collection');
   const { schoolSubjectTopics, hasSchoolSubjectTopics } = useSchoolSubjectTopics(selectedSchoolSubjectId);
   const [newFlashcardSet, setNewFlashcardSet] = useState({
@@ -40,6 +41,9 @@ const AddFlashcardSetSheet = () => {
     parent: '',
   });
   const { userId } = useUserData();
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useInputFocus(inputRef, isVisible);
 
   const saveFlashcardSet = async () => {
     navigateBack();
@@ -71,6 +75,7 @@ const AddFlashcardSetSheet = () => {
       <Section>
         <SectionRow last={inCollectionVisible}>
           <TextInput
+            ref={inputRef}
             value={newFlashcardSet.title}
             onChange={(e) => setNewFlashcardSet({ ...newFlashcardSet, title: e.target.value })}
             placeholder={displayLabelTexts(selectedLanguage).title}
@@ -82,7 +87,7 @@ const AddFlashcardSetSheet = () => {
               <p>{displayLabelTexts(selectedLanguage).schoolSubject}</p>
               <SelectInput value={selectedSchoolSubjectId} onChange={(e) => setSelectedSchoolSubjectId(e.target.value)}>
                 <option value="">{displayLabelTexts(selectedLanguage).select}</option>
-                {schooolSubjectEntities.map((entity, idx) => {
+                {schoolSubjectEntities.map((entity, idx) => {
                   const schoolSubjectId = entity.get(IdentifierFacet)?.props.guid;
                   const schoolSubjectTitle = entity.get(TitleFacet)?.props.title;
                   return (
