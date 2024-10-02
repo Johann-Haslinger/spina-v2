@@ -41,8 +41,13 @@ const GenerateFlashcardsSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
   const isVisible = useIsStoryCurrent(Story.GENERATING_FLASHCARDS_STORY);
   const [generatedFlashcards, setGeneratedFlashcards] = useState<Flashcard[]>([]);
-  const { selectedLearningUnitText, selectedLearningUnitId, selectedLearningUnitType, selectedLearningUnitEntity } =
-    useSelectedLearningUnit();
+  const {
+    selectedLearningUnitText,
+    selectedLearningUnitId,
+    selectedLearningUnitType,
+    selectedLearningUnitEntity,
+    selectedLearningUnitTitle,
+  } = useSelectedLearningUnit();
   const { selectedLanguage } = useSelectedLanguage();
   const [isGenerating, setIsGenerating] = useState(false);
   const { userId } = useUserData();
@@ -57,7 +62,7 @@ const GenerateFlashcardsSheet = () => {
         return;
       }
       setIsGenerating(true);
-      const flashcards = await generateFlashCards(selectedLearningUnitText || '');
+      const flashcards = await generateFlashCards(`${selectedLearningUnitTitle}: ${selectedLearningUnitText}`);
       setIsGenerating(false);
       setMessage('Passen die Karteikarten so für dich?<br/> <br/> ');
       setTimeout(() => {

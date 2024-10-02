@@ -33,7 +33,7 @@ const StyledSummaryText = styled.div`
 `;
 
 const StyledPerformanceList = styled.div`
-  ${tw` text-[#E76542] mt-6 space-y-1`}
+  ${tw` text-[#E76542] mt-2 space-y-1`}
 `;
 
 const StyledFlexItem = styled.div`
@@ -90,7 +90,7 @@ const LastWeekInfoCard = (props: CardProps) => {
               <StyledFlexItem key={id} onMouseEnter={() => setHoveredBar(id)} onMouseLeave={() => setHoveredBar(0)}>
                 <StyledLabel>{label}</StyledLabel>
                 <StyledBar isHovered={hoveredBar === id ? true : false} style={{ width: `${value}%` }} />
-                {true && <div> {value}%</div>}
+                {true && <div tw="ml-2"> {value}%</div>}
               </StyledFlexItem>
             ))}
           </StyledPerformanceList>

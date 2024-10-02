@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { IoBarChart } from 'react-icons/io5';
 import Skeleton from 'react-loading-skeleton';
@@ -9,7 +10,7 @@ import { useLoadingIndicator } from '../../../common/hooks';
 import { useWeekStats } from '../../flashcards/hooks/useWeekStats';
 
 const StyledCardWrapper = styled.div`
-  ${tw`w-full pr-5 h-[28rem] p-4 text-[#6EBED9] rounded-2xl bg-[#6EBED9] bg-opacity-15`}
+  ${tw`w-full scale-100 relative pr-5 h-[28rem] p-4 text-[#6EBED9] rounded-2xl bg-[#6EBED9] bg-opacity-15`}
 `;
 
 const StyledColumnContainer = styled.div`
@@ -26,8 +27,8 @@ const StyledColumnLabel = styled.div`
   ${tw` pt-2 font-semibold text-secondary-text opacity-100 mx-auto flex justify-center w-2 text-center text-xs`}
 `;
 
-const StyledAverageMarker = styled.div`
-  ${tw` opacity-100 transition-all  relative border-t-4 rounded w-full`}
+const StyledAverageMarker = styled(motion.div)`
+  ${tw` opacity-100 relative border-t-4 rounded w-full`}
   border-color: ${COLOR_ITEMS[2].color};
 `;
 
@@ -60,7 +61,7 @@ const StyledAverageMarkerWrapper = styled.div`
 `;
 
 const StyledColumnWrapper = styled.div<{ height: number }>`
-  ${tw`mt-auto z-10 w-full`}
+  ${tw`mt-auto z-[5] w-full`}
   height: ${({ height }) => (height > 0 ? height + 3 : 0)}%;
 `;
 
@@ -116,9 +117,10 @@ const FlashcardChartCard = () => {
         <StyledColumnsWrapper>
           {averageFlashcards > 0 && (
             <StyledAverageLabelWrapper>
-              <div
-                tw="transition-all"
-                style={{
+              <motion.div
+                initial={{ height: '100%' }}
+                transition={{ type: 'tween' }}
+                animate={{
                   height: `${100 - ((selectedDay !== null ? weekDays[selectedDay] : averageFlashcards) / maxFlashcards) * 100}%`,
                 }}
               />
@@ -162,7 +164,8 @@ const FlashcardChartCard = () => {
       {averageFlashcards > 0 && !isLoadingIndicatorVisible && (
         <StyledAverageMarkerWrapper>
           <StyledAverageMarker
-            style={{
+            transition={{ type: 'tween' }}
+            animate={{
               bottom: `${288 / (maxFlashcards / (selectedDay !== null ? weekDays[selectedDay] : averageFlashcards))}px`,
             }}
           />

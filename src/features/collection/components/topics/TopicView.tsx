@@ -51,7 +51,7 @@ import { useWindowDimensions } from '../../../../hooks/useWindowDimensions';
 import supabaseClient from '../../../../lib/supabase';
 import { displayActionTexts, displayDataTypeTexts } from '../../../../utils/displayText';
 import { dataTypeQuery, isChildOfQuery, learningUnitTypeQuery } from '../../../../utils/queries';
-import { sortEntitiesByDateAdded } from '../../../../utils/sortEntitiesByTime';
+import { sortEntitiesByDateAdded, sortEntitiesByDueDate } from '../../../../utils/sortEntitiesByTime';
 import AddResourceToLearningGroupSheet from '../../../groups/components/AddResourceToLearningGroupSheet';
 import { useEntityHasChildren } from '../../hooks/useEntityHasChildren';
 import { useSelectedSchoolSubjectGrid } from '../../hooks/useSchoolSubjectGrid';
@@ -333,7 +333,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
                   <EntityPropsMapper
                     query={(e) => dataTypeQuery(e, DataType.HOMEWORK) && isChildOfQuery(e, entity)}
                     get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
-                    sort={(a, b) => sortEntitiesByDateAdded(a, b)}
+                    sort={(a, b) => sortEntitiesByDueDate(a, b)}
                     onMatch={HomeworkCell}
                   />
                 </CollectionGrid>

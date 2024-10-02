@@ -79,6 +79,7 @@ const AddHomeworkSheet = () => {
 
   const saveHomework = async () => {
     const newHomeworkId = v4();
+    const newTopicId = v4();
 
     const { title, dueDate, parent, description } = newHomework;
     const newHomeworkEntity = new Entity();
@@ -86,7 +87,7 @@ const AddHomeworkSheet = () => {
     newHomeworkEntity.add(new IdentifierFacet({ guid: newHomeworkId }));
     newHomeworkEntity.add(
       new ParentFacet({
-        parentId: openTopicId || parent,
+        parentId: openTopicId || parent == 'newTopic' ? newTopicId : parent,
       }),
     );
     newHomeworkEntity.add(new TitleFacet({ title: title }));
@@ -104,25 +105,21 @@ const AddHomeworkSheet = () => {
     newHomeworkEntity.add(new StatusFacet({ status: 1 }));
     newHomeworkEntity.add(DataType.HOMEWORK);
 
+    addHomework(lsc, newHomeworkEntity, userId);
+
+    navigateBack();
+
     if (newTopicTitle !== '') {
-      const newTopicId = v4();
       const newTopicEntity = new Entity();
       lsc.engine.addEntity(newTopicEntity);
       newTopicEntity.add(new IdentifierFacet({ guid: newTopicId }));
       newTopicEntity.add(new TitleFacet({ title: newTopicTitle }));
       newTopicEntity.add(new ParentFacet({ parentId: selectedSchoolSubjectId }));
       newTopicEntity.add(DataType.TOPIC);
-
-      await generateDescriptionForTopic(newTopicEntity);
-
       addTopic(lsc, newTopicEntity, userId);
 
-      newHomeworkEntity.add(new ParentFacet({ parentId: newTopicId }));
+      await generateDescriptionForTopic(newTopicEntity);
     }
-
-    addHomework(lsc, newHomeworkEntity, userId);
-
-    navigateBack();
   };
 
   return (

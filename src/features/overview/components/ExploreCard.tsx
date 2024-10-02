@@ -32,6 +32,12 @@ const StyledImage = styled.div<{ backgroundImage: string; mirrored?: boolean }>`
   ${({ mirrored }) => mirrored && tw`scale-x-[-1] bg-right`}
 `;
 
+// const StyledImage = styled.div`
+//   ${tw`w-full h-full bg-right-top`}
+//   background-image: url(${background});
+//   background-size: 180%;
+// `;
+
 const StyledContentContainer = styled.div`
   ${tw`p-4`}
 `;
@@ -71,6 +77,7 @@ const ExploreCard = () => {
         <StyledImageContainer>
           <StyledImage backgroundImage={dummyBase64Image} />
           <StyledImage backgroundImage={dummyBase64Image} mirrored />
+          {/* <StyledImage /> */}
         </StyledImageContainer>
 
         {!isLoadingIndicatorVisible ? (

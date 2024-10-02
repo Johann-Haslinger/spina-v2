@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import { LeanScopeClientContext } from '@leanscope/api-client/browser';
-import { Entity, EntityProps, EntityPropsMapper, useEntities } from '@leanscope/ecs-engine';
+import { Entity, EntityProps, useEntities } from '@leanscope/ecs-engine';
 import { IdentifierFacet, Tags } from '@leanscope/ecs-models';
 import { motion } from 'framer-motion';
 import { useContext, useEffect, useState } from 'react';
@@ -50,6 +50,12 @@ const StyledInfoText = styled.div`
 const PendingResourcesCard = () => {
   const { hasPendingResources } = usePendingResources();
   const { isLoadingIndicatorVisible } = useLoadingIndicator();
+  const [pendingResourceEntities] = useEntities(
+    (e) =>
+      new Date(e.get(DueDateFacet)?.props.dueDate || '') >= sevenDaysAgo &&
+      ([ProgressStatus.TODO, ProgressStatus.IN_PROGRESS].includes(e.get(StatusFacet)?.props.status || 0) ||
+        e.has(AdditionalTag.CHANGED)),
+  );
   const currentDate = new Date();
   const sevenDaysAgo = new Date(currentDate);
   sevenDaysAgo.setDate(currentDate.getDate() - 7);
@@ -72,22 +78,29 @@ const PendingResourcesCard = () => {
             <PendingResourceRowSkeleton />
           </div>
         ) : (
-          <div>
-            {!hasPendingResources && (
-              <StyledInfoText>Alles erledigt! Du hast aktuell keine anstehenden Leistungen. 🎉</StyledInfoText>
-            )}
+          isLoadingIndicatorVisible == false && (
+            <div>
+              {!hasPendingResources && (
+                <StyledInfoText>Alles erledigt! Du hast aktuell keine anstehenden Leistungen. 🎉</StyledInfoText>
+              )}
 
-            <EntityPropsMapper
-              query={(e) =>
-                new Date(e.get(DueDateFacet)?.props.dueDate || '') >= sevenDaysAgo &&
-                ([ProgressStatus.TODO, ProgressStatus.IN_PROGRESS].includes(e.get(StatusFacet)?.props.status || 0) ||
-                  e.has(AdditionalTag.CHANGED))
-              }
-              sort={sortEntitiesByDueDate}
-              get={[[TitleFacet, StatusFacet, DueDateFacet, RelationshipFacet], []]}
-              onMatch={PendingResourceRow}
-            />
-          </div>
+              {[...pendingResourceEntities]
+                .filter((e) => ![4, 3].includes(e.get(StatusFacet)?.props.status || 0))
+                .sort(sortEntitiesByDueDate)
+                .map((entity) => (
+                  <PendingResourceRow
+                    key={entity.get(IdentifierFacet)?.props.guid || entity.id}
+                    title={entity.get(TitleFacet)?.props.title || ''}
+                    status={entity.get(StatusFacet)?.props.status || 0}
+                    dueDate={entity.get(DueDateFacet)?.props.dueDate || ''}
+                    entity={entity}
+                    relationship={entity.get(RelationshipFacet)?.props.relationship || ''}
+                  />
+                ))}
+
+              {}
+            </div>
+          )
         )}
       </StyledCardWrapper>
     </div>
@@ -168,10 +181,19 @@ const PendingResourceRow = (props: TitleProps & StatusProps & DueDateProps & Ent
   const { title, status, entity, relationship, dueDate } = props;
   const daysUntilDue = useDaysUntilDue(entity, dueDate);
   const { isDarkModeActive: isDarkModeAktive } = useSelectedTheme();
-  const isDone = [4, 3].includes(status || 0);
-  const isDisplayed = useIsDisplayed(isDone);
   const [isHovered, setIsHovered] = useState(false);
   const [relatedSchoolSubjectTitle, setRelatedSchoolSubjectTitle] = useState<string | null>(null);
+  const [currentStatus, setCurrentStatus] = useState(status);
+  const isDone = [4, 3].includes(currentStatus || 0);
+
+  useEffect(() => {
+    if (currentStatus == status) return;
+    const timeoutId = setTimeout(() => {
+      updateStatus(entity, currentStatus);
+    }, 250);
+
+    return () => clearTimeout(timeoutId);
+  }, [currentStatus]);
 
   useEffect(() => {
     if (relationship) {
@@ -182,9 +204,8 @@ const PendingResourceRow = (props: TitleProps & StatusProps & DueDateProps & Ent
 
   const openResource = () => entity.add(Tags.SELECTED);
 
-  return isDisplayed ? (
+  return (
     <StyledRowWrapper
-      key={entity.id}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       animate={{
@@ -206,7 +227,7 @@ const PendingResourceRow = (props: TitleProps & StatusProps & DueDateProps & Ent
       </motion.div>
       {status && (
         <StyledSelectWrapper dark={isDarkModeAktive} status={status}>
-          <StyledSelect onChange={(e) => updateStatus(entity, parseInt(e.target.value))} value={status.toString()}>
+          <StyledSelect onChange={(e) => setCurrentStatus(parseInt(e.target.value))} value={status.toString()}>
             <option value={ProgressStatus.TODO}>Todo</option>
             <option value={ProgressStatus.IN_PROGRESS}>In Arbeit</option>
             <option value={ProgressStatus.DONE}>Erledigt</option>
@@ -215,7 +236,7 @@ const PendingResourceRow = (props: TitleProps & StatusProps & DueDateProps & Ent
         </StyledSelectWrapper>
       )}
     </StyledRowWrapper>
-  ) : null;
+  );
 };
 
 const PendingResourceRowSkeleton = () => {
@@ -231,18 +252,4 @@ const PendingResourceRowSkeleton = () => {
       </div>
     </StyledRowWrapper>
   );
-};
-
-const useIsDisplayed = (isDone: boolean) => {
-  const [isDisplayed, setIsDisplayed] = useState(true);
-
-  useEffect(() => {
-    if (isDone) {
-      setTimeout(() => {
-        setIsDisplayed(false);
-      }, 400);
-    }
-  }, [isDone]);
-
-  return isDisplayed;
 };

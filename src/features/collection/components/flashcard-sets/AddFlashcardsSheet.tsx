@@ -2,12 +2,12 @@ import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
-import { Fragment, useContext, useEffect, useState } from 'react';
+import { Fragment, useContext, useEffect, useRef, useState } from 'react';
 import { IoAdd, IoColorWandOutline } from 'react-icons/io5';
 import { v4 } from 'uuid';
 import { AnswerFacet, MasteryLevelFacet, QuestionFacet } from '../../../../app/additionalFacets';
 import { DataType, LearningUnitType, Story, SupabaseEdgeFunction } from '../../../../base/enums';
-import { useImageSelector } from '../../../../common/hooks';
+import { useImageSelector, useInputFocus } from '../../../../common/hooks';
 import { useSelectedLearningUnit } from '../../../../common/hooks/useSelectedLearningUnit';
 import {
   FlexBox,
@@ -54,6 +54,9 @@ const AddFlashcardsSheet = () => {
   const [generateFlashcardsPrompt, setGenerateFlashcardsPrompt] = useState('');
   const [isGeneratingFlashcards, setIsGeneratingFlashcards] = useState(false);
   const { openImagePicker } = useImageSelector((image) => generateFlashcardsFromImage(image));
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
+  useInputFocus(textAreaRef, addFlashcardsMethod == AddFlashcardsMethods.GENERATING_FLASHCARDS_FROM_TEXT);
 
   const generateFlashcardsFromImage = async (image: string) => {
     setIsGeneratingFlashcards(true);
@@ -175,6 +178,7 @@ const AddFlashcardsSheet = () => {
           <Section>
             <SectionRow last>
               <TextAreaInput
+                ref={textAreaRef}
                 placeholder="Worüber möchtest du Karten erzeugen?"
                 onChange={(e) => setGenerateFlashcardsPrompt(e.target.value)}
               />
@@ -194,6 +198,7 @@ const AddFlashcardsSheet = () => {
       <ScrollableBox>
         {flashcards.map((flashcard, index) => (
           <PreviewFlashcard
+            isFocused={index === 0}
             updateFlashcard={(flashcard) =>
               setFlashcards([...flashcards.slice(0, index), flashcard, ...flashcards.slice(index + 1)])
             }

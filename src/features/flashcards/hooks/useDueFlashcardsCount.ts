@@ -14,7 +14,8 @@ const fetchDueFlashcards = async () => {
   const { data, error } = await supabaseClient
     .from(SupabaseTable.FLASHCARDS)
     .select('is_bookmarked')
-    .lte('due_date', currentDateTime);
+    .lte('due_date', currentDateTime)
+    .limit(30);
 
   if (error) {
     console.error('Error fetching due flashcards:', error);

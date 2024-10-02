@@ -3,7 +3,7 @@ import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext } from 'react';
 import tw from 'twin.macro';
-import { background } from '../../../assets';
+import { dummyBase64Image } from '../../../base/dummyBase64Image';
 import { Story } from '../../../base/enums';
 import { ShowMoreButton } from '../../../common/components/buttons';
 import { CloseButton, FlexBox, Section, SectionRow, Sheet, Spacer } from '../../../components';
@@ -18,8 +18,7 @@ const StyledSecondaryText = styled.div`
 
 const StyledImage = styled.div`
   ${tw`rounded-full bg-left bg-cover  mx-auto  h-52 w-52`}
-  background-image: url(${background});
-  background-size: '300%';
+  background-image: url(${dummyBase64Image});
 `;
 
 const HelpAreaSheet = () => {

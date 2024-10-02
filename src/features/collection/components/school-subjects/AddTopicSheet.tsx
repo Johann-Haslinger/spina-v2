@@ -2,11 +2,12 @@ import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity, useEntities } from '@leanscope/ecs-engine';
 import { DescriptionFacet, IdentifierFacet, ImageFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
-import { useContext, useState } from 'react';
+import { useContext, useRef, useState } from 'react';
 import { IoAdd, IoCreateOutline } from 'react-icons/io5';
 import { v4 } from 'uuid';
 import { DateAddedFacet, TitleFacet } from '../../../../app/additionalFacets';
 import { DataType, Story } from '../../../../base/enums';
+import { useInputFocus } from '../../../../common/hooks';
 import {
   FlexBox,
   PrimaryButton,
@@ -36,6 +37,9 @@ const AddTopicSheet = () => {
   const { userId } = useUserData();
   const [selectedImageEntities] = useEntities((e) => e.get(IdentifierFacet)?.props.guid === 'selectedImage');
   const selectedImageSrc = selectedImageEntities[0]?.get(ImageFacet)?.props.imageSrc;
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useInputFocus(inputRef, isVisible);
 
   const navigateBack = () => {
     lsc.stories.transitTo(Story.OBSERVING_SCHOOL_SUBJECT_STORY);
@@ -80,6 +84,7 @@ const AddTopicSheet = () => {
         <Section>
           <SectionRow>
             <TextInput
+              ref={inputRef}
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               type="text"

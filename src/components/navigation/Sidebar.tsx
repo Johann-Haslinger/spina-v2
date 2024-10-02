@@ -137,6 +137,7 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
   const settingsQuickMenuRef = useRef<HTMLDivElement>(null);
   const { width } = useWindowDimensions();
   const isMobile = width < MEDIUM_DEVICE_WIDTH;
+  const { toggleSidebar } = useAppState();
 
   const openSettings = () => lsc.stories.transitTo(Story.OBSERVING_SETTINGS_OVERVIEW_STORY);
   const openContactForm = () => lsc.stories.transitTo(Story.OBSERVING_REPORT_PROBLEM_STORY);
@@ -180,6 +181,7 @@ const SettingsLink = (props: { isFullWidth: boolean }) => {
           bottom: isSettingsQuickMenuVisible ? (isMobile ? 100 : 70) : 55,
           opacity: isSettingsQuickMenuVisible ? 1 : 0,
         }}
+        onClick={toggleSidebar}
       >
         <StyledSettingsMenuWrapper>
           <StyledEmailText>{userEmail}</StyledEmailText>

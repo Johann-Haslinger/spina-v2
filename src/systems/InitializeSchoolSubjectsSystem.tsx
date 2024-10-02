@@ -22,17 +22,18 @@ const fetchSchoolSubjects = async () => {
 };
 
 const InitializeSchoolSubjectsSystem = () => {
-  const { isUsingMockupData: mockupData, isUsingSupabaseData: shouldFetchFromSupabase } = useCurrentDataSource();
+  const { isUsingMockupData, isUsingSupabaseData } = useCurrentDataSource();
   const lsc = useContext(LeanScopeClientContext);
   const { loadingIndicatorEntity } = useLoadingIndicator();
 
   useEffect(() => {
     const initializeSchoolSubjectEntities = async () => {
       loadingIndicatorEntity?.add(Tags.CURRENT);
+      if (!isUsingMockupData && !isUsingSupabaseData) return;
 
-      const schoolSubjects = mockupData
+      const schoolSubjects = isUsingMockupData
         ? dummySchoolSubjects
-        : shouldFetchFromSupabase
+        : isUsingSupabaseData
           ? await fetchSchoolSubjects()
           : [];
 
@@ -50,12 +51,22 @@ const InitializeSchoolSubjectsSystem = () => {
           schoolSubjectEntity.addTag(DataType.SCHOOL_SUBJECT);
         }
       });
+      if (schoolSubjects.length > 0) {
+        const timeoutId = setTimeout(() => {
+          loadingIndicatorEntity?.remove(Tags.CURRENT);
+        }, 300);
 
-      loadingIndicatorEntity?.remove(Tags.CURRENT);
+        return () => {
+          clearTimeout(timeoutId);
+          lsc.engine.entities
+            .filter((e) => dataTypeQuery(e, DataType.SCHOOL_SUBJECT))
+            .forEach((e) => lsc.engine.removeEntity(e));
+        };
+      }
     };
 
     initializeSchoolSubjectEntities();
-  }, [mockupData, shouldFetchFromSupabase]);
+  }, [isUsingMockupData, isUsingSupabaseData]);
 
   return null;
 };
