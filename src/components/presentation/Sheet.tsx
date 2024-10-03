@@ -11,7 +11,7 @@ interface SheetProps {
 }
 
 const StyledSheetWrapper = styled.div<{ backgroundColor?: string }>`
-  ${tw`p-4 overflow-hidden lg:px-8 dark:bg-secondary-dark transition-all dark:text-primary-text-dark w-full md:h-[90%] mx-auto mt-[6%] md:mt-[2.5%]  h-[97%] md:w-8/12  md:rounded-2xl rounded-t-xl  bg-primary`}
+  ${tw`p-4 overflow-hidden lg:px-8 dark:bg-secondary-dark transition-all dark:text-primary-text-dark w-full 2xl:h-[80%] md:h-[90%] mx-auto mt-[6%] md:mt-[2.5%] 2xl:mt-[5%] h-[97%] md:w-8/12 2xl:w-6/12  md:rounded-2xl rounded-t-xl  bg-primary`}
   background-color: ${({ backgroundColor }) => backgroundColor};
 `;
 

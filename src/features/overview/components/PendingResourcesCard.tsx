@@ -87,9 +87,9 @@ const PendingResourcesCard = () => {
               {[...pendingResourceEntities]
                 .filter((e) => ![4, 3].includes(e.get(StatusFacet)?.props.status || 0))
                 .sort(sortEntitiesByDueDate)
-                .map((entity) => (
+                .map((entity, idx) => (
                   <PendingResourceRow
-                    key={entity.get(IdentifierFacet)?.props.guid || entity.id}
+                    key={entity.get(IdentifierFacet)?.props.guid || entity.id + idx}
                     title={entity.get(TitleFacet)?.props.title || ''}
                     status={entity.get(StatusFacet)?.props.status || 0}
                     dueDate={entity.get(DueDateFacet)?.props.dueDate || ''}

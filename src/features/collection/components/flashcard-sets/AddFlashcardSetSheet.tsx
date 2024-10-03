@@ -1,8 +1,8 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity } from '@leanscope/ecs-engine';
-import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
+import { IdentifierFacet, ParentFacet, Tags } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
-import { Fragment, useContext, useRef, useState } from 'react';
+import { Fragment, useContext, useEffect, useRef, useState } from 'react';
 import { IoCheckmarkCircle, IoEllipseOutline } from 'react-icons/io5';
 import { v4 } from 'uuid';
 import { DateAddedFacet, LearningUnitTypeFacet, TitleFacet } from '../../../../app/additionalFacets';
@@ -45,6 +45,12 @@ const AddFlashcardSetSheet = () => {
 
   useInputFocus(inputRef, isVisible);
 
+  useEffect(() => {
+    if (isVisible) {
+      setNewFlashcardSet({ title: '', parent: '' });
+    }
+  }, [isVisible]);
+
   const saveFlashcardSet = async () => {
     navigateBack();
     const flashcardSetId = v4();
@@ -59,6 +65,13 @@ const AddFlashcardSetSheet = () => {
     newFlashcardSetEntity.addTag(DataType.LEARNING_UNIT);
 
     addLearningUnit(lsc, newFlashcardSetEntity, userId);
+
+    setTimeout(() => {
+      newFlashcardSetEntity.add(Tags.SELECTED);
+    }, 500);
+    setTimeout(() => {
+      lsc.stories.transitTo(Story.ADDING_FLASHCARDS_STORY);
+    }, 1000);
   };
 
   const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_TOPIC_STORY);

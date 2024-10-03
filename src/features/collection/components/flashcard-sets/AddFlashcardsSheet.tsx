@@ -155,7 +155,7 @@ const AddFlashcardsSheet = () => {
               role="button"
               icon={<IoAdd />}
             >
-              Manuell hinzufügen
+              Karten manuell hinzufügen
             </SectionRow>
           </Section>
           <Spacer size={2} />
@@ -165,10 +165,10 @@ const AddFlashcardsSheet = () => {
               role="button"
               icon={<IoAdd />}
             >
-              Aus Text erzeugen
+              Karten aus Text erzeugen
             </SectionRow>
             <SectionRow last onClick={openImagePicker} role="button" icon={<IoAdd />}>
-              Aus Bild erzeugen
+              Karten aus Bild erzeugen
             </SectionRow>
           </Section>
         </div>
