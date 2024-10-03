@@ -101,7 +101,7 @@ const ViewManagerSystem = () => {
         setThemeColor('#F5F5F5');
       }
     }
-  }, [isSheetViewVisible, selectedPodcastEntity, selectedFlashcardEntity, isLoggedIn]);
+  }, [isSheetViewVisible, selectedPodcastEntity, selectedFlashcardEntity, isLoggedIn, isDarkModeActive]);
 
   useEffect(() => {
     if (isSidebarVisible && isMobile) {
@@ -117,7 +117,7 @@ const ViewManagerSystem = () => {
         setThemeColor('#F5F5F5');
       }
     }
-  }, [isSidebarVisible]);
+  }, [isSidebarVisible, isDarkModeActive]);
 
   useEffect(() => {
     if (isChatSheetVisible) {
@@ -129,7 +129,7 @@ const ViewManagerSystem = () => {
         setThemeColor('#F5F5F5');
       }
     }
-  }, [isChatSheetVisible]);
+  }, [isChatSheetVisible, isDarkModeActive]);
 
   useEffect(() => {
     if (isQuizViewVisible && backgroundColorDark) {
@@ -141,7 +141,7 @@ const ViewManagerSystem = () => {
         setThemeColor('#F5F5F5');
       }
     }
-  }, [isQuizViewVisible]);
+  }, [isQuizViewVisible, isDarkModeActive]);
 
   useEffect(() => {
     if (isDarkModeActive) {
@@ -172,7 +172,7 @@ const ViewManagerSystem = () => {
         setThemeColor('#F5F5F5');
       }
     }
-  }, [isSheetViewVisible]);
+  }, [isSheetViewVisible, isDarkModeActive]);
 
   return (
     <Fragment>
