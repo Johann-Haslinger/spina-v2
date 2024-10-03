@@ -24,11 +24,11 @@ const StyledMotionDiv = styled(motion.div)`
 `;
 
 const StyledHeading = styled.p`
-  ${tw`mx-auto w-fit text-center xl:pt-32 pt-20 xl:text-4xl text-3xl font-bold`}
+  ${tw`mx-auto w-fit text-center xl:pt-32 pt-20 xl:text-4xl lg:text-4xl text-3xl font-bold`}
 `;
 
 const StyledSubHeading = styled.p`
-  ${tw`mx-auto mt-2 xl:text-lg xl:mt-5 text-center w-fit text-secondary-text dark:text-secondary-text-dark`}
+  ${tw`mx-auto mt-4 lg:text-lg xl:text-lg xl:mt-5 text-center w-fit text-secondary-text dark:text-secondary-text-dark`}
 `;
 
 const StyledInputWrapper = styled.div`
