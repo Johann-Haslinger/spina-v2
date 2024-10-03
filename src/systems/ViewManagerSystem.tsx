@@ -10,6 +10,7 @@ import { useSelectedSchoolSubjectColor } from '../features/collection/hooks/useS
 import { useSelectedTheme } from '../features/collection/hooks/useSelectedTheme';
 import { useCurrentSapientorConversation } from '../features/sapientor/hooks/useCurrentConversation';
 import { useIsAnyStoryCurrent } from '../hooks/useIsAnyStoryCurrent';
+import { useSession } from '../hooks/useSession';
 import { useWindowDimensions } from '../hooks/useWindowDimensions';
 import { dataTypeQuery } from '../utils/queries';
 
@@ -88,9 +89,10 @@ const ViewManagerSystem = () => {
   const { isMobile } = useWindowDimensions();
   const { selectedPodcastEntity } = useSelectedPodcast();
   const [selectedFlashcardEntity] = useEntity((e) => dataTypeQuery(e, DataType.FLASHCARD) && e.hasTag(Tags.SELECTED));
+  const { isLoggedIn } = useSession();
 
   useEffect(() => {
-    if (isSheetViewVisible || selectedPodcastEntity || selectedFlashcardEntity) {
+    if (isSheetViewVisible || selectedPodcastEntity || selectedFlashcardEntity || isLoggedIn === false) {
       if (!isDarkModeActive) {
         setThemeColor('rgb(214,214,214)');
       }
@@ -99,7 +101,7 @@ const ViewManagerSystem = () => {
         setThemeColor('#F5F5F5');
       }
     }
-  }, [isSheetViewVisible, selectedPodcastEntity, selectedFlashcardEntity]);
+  }, [isSheetViewVisible, selectedPodcastEntity, selectedFlashcardEntity, isLoggedIn, isDarkModeActive]);
 
   useEffect(() => {
     if (isSidebarVisible && isMobile) {
@@ -115,7 +117,7 @@ const ViewManagerSystem = () => {
         setThemeColor('#F5F5F5');
       }
     }
-  }, [isSidebarVisible]);
+  }, [isSidebarVisible, isDarkModeActive]);
 
   useEffect(() => {
     if (isChatSheetVisible) {
@@ -127,7 +129,7 @@ const ViewManagerSystem = () => {
         setThemeColor('#F5F5F5');
       }
     }
-  }, [isChatSheetVisible]);
+  }, [isChatSheetVisible, isDarkModeActive]);
 
   useEffect(() => {
     if (isQuizViewVisible && backgroundColorDark) {
@@ -139,7 +141,7 @@ const ViewManagerSystem = () => {
         setThemeColor('#F5F5F5');
       }
     }
-  }, [isQuizViewVisible]);
+  }, [isQuizViewVisible, isDarkModeActive]);
 
   useEffect(() => {
     if (isDarkModeActive) {
@@ -170,7 +172,7 @@ const ViewManagerSystem = () => {
         setThemeColor('#F5F5F5');
       }
     }
-  }, [isSheetViewVisible]);
+  }, [isSheetViewVisible, isDarkModeActive]);
 
   return (
     <Fragment>
