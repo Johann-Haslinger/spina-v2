@@ -56,7 +56,7 @@ const ContactFormSheet = () => {
       </FlexBox>
       <Spacer />
 
-      <form name="contact" method="post" data-netlify="true" onSubmit={handleSubmit}>
+      <form name="contact" method="post" onSubmit={handleSubmit}>
         <input type="hidden" name="form-name" value="contact" />
 
         <Section>
