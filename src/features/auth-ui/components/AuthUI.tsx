@@ -1,9 +1,11 @@
 import styled from '@emotion/styled/macro';
+import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { Auth } from '@supabase/auth-ui-react';
 import { ThemeSupa } from '@supabase/auth-ui-shared';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import tw from 'twin.macro';
+import { Story } from '../../../base/enums';
 import { Sheet } from '../../../components';
 import { useSession } from '../../../hooks/useSession';
 import supabaseClient from '../../../lib/supabase';
@@ -49,6 +51,7 @@ const AuthUI = () => {
   const [input, setInput] = useState('');
   const [isCodeEntered, setIsCodeEntered] = useState(false);
   const { isDarkModeActive } = useSelectedTheme();
+  const isAddingToHomeScreen = useIsStoryCurrent(Story.OBSERVING_ADD_TO_HOME_SCREEN_STORY);
 
   const transition = {
     type: 'spring',
@@ -57,10 +60,12 @@ const AuthUI = () => {
     duration: 0.5,
   };
 
+  const isVisible = isLoggedIn == false && !isAddingToHomeScreen
+
   return (
     isLoggedIn !== null && (
       <div>
-        <Sheet visible={isLoggedIn == false} navigateBack={() => {}}>
+        <Sheet visible={isVisible} navigateBack={() => {}}>
           <StyledContainer>
             <StyledMotionDiv
               animate={{
