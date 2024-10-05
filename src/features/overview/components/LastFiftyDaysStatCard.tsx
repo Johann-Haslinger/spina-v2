@@ -29,7 +29,7 @@ const StyledWeekDayLabel = styled.div`
 `;
 
 const LastFiftyDaysStatCard = () => {
-  const lastSevenWeeks = useLastSevenWeeksStats();
+  const { lastSevenWeeks, totalFlashcardCount } = useLastSevenWeeksStats();
   return (
     <div>
       <StyledCardWrapper>
@@ -37,7 +37,7 @@ const LastFiftyDaysStatCard = () => {
           <IoGrid />
           <StyledText>Letzte 50 Tage</StyledText>
         </StyledFlexContainer>
-        <StyledText2>Du hast dich in den letzten 50 Tagen insgesamt 1.200 Karten abgefragt.</StyledText2>
+        <StyledText2>{totalFlashcardCount == 0 ?"Du hast dich in den letzten 50 Tage noch keine Lernkarten abgefragt.": `Du hast dich in den letzten 50 Tagen insgesamt ${totalFlashcardCount} Karten abgefragt.`}</StyledText2>
 
         <div tw="flex mt-6 xl:pl-2">
           {lastSevenWeeks.map((week, index) => (
@@ -141,15 +141,13 @@ const fetchLastSevenWeeksFlashcardSessions = async () => {
 };
 
 const useLastSevenWeeksStats = () => {
-  const [lastSevenWeeks, setLastSevenWeeks] = useState<{ percent: number; total: number }[][]>([
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-    [],
-  ]);
+  const [lastSevenWeeks, setLastSevenWeeks] = useState<{ percent: number; total: number }[][]>(
+    Array.from({ length: 7 }, () => Array.from({ length: 7 }, () => ({ percent: 0, total: 0 }))),
+  );
+  const totalFlashcardCount = lastSevenWeeks.reduce(
+    (acc, week) => acc + week.reduce((acc, day) => acc + day.total, 0),
+    0,
+  );
 
   useEffect(() => {
     const loadLastSevenWeeksStats = async () => {
@@ -181,5 +179,5 @@ const useLastSevenWeeksStats = () => {
     loadLastSevenWeeksStats();
   }, []);
 
-  return lastSevenWeeks;
+  return { lastSevenWeeks, totalFlashcardCount };
 };
