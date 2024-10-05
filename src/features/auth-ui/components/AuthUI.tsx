@@ -9,7 +9,7 @@ import { useSession } from '../../../hooks/useSession';
 import supabaseClient from '../../../lib/supabase';
 import { useSelectedTheme } from '../../collection/hooks/useSelectedTheme';
 
-const CODE = '1234';
+const CODE = '5295';
 
 const StyledAuthWrapper = styled.div`
   ${tw`w-full h-fit`}

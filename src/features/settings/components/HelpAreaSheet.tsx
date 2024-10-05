@@ -9,8 +9,7 @@ import { ShowMoreButton } from '../../../common/components/buttons';
 import { CloseButton, FlexBox, Section, SectionRow, Sheet, Spacer } from '../../../components';
 import ContactFormSheet from './ContactFormSheet';
 
-const HELP_AREA_LINK = 'https://spina-education.com/hilfebereich';
-const DATA_PRIVACY_LINK = 'https://spina-education.com/nutzungsbedingungenundDatenschutzrichtlinien';
+const DATA_PRIVACY_LINK = 'https://spina.ai/terms-privacy';
 
 const StyledSecondaryText = styled.div`
   ${tw`text-secondary-text text-sm`}
@@ -40,11 +39,6 @@ const HelpAreaSheet = () => {
         <StyledImage />
         <Spacer size={8} />
         <Section>
-          <SectionRow role="button">
-            <a href={HELP_AREA_LINK} target="new">
-              Hilfebereich
-            </a>
-          </SectionRow>
           <SectionRow role="button" onClick={openContactForm}>
             <FlexBox>
               <p>Kontaktieren</p>
@@ -58,7 +52,7 @@ const HelpAreaSheet = () => {
           </SectionRow>
         </Section>
         <Spacer />
-        <StyledSecondaryText>© 2024 Spina Education</StyledSecondaryText>
+        <StyledSecondaryText>© 2024 Spina</StyledSecondaryText>
       </Sheet>
 
       <ContactFormSheet />
