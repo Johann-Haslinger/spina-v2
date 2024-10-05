@@ -1,7 +1,7 @@
 import styled from '@emotion/styled/macro';
 import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
-import { FormEvent, useContext, useState } from 'react';
+import { useContext, useState } from 'react';
 import { IoCheckmarkCircleOutline, IoSend } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { Story } from '../../../base/enums';
@@ -36,17 +36,10 @@ const ContactFormSheet = () => {
   const isContactFormVisible = useIsStoryCurrent(Story.OBSERVING_CONTACT_FORM_STORY);
   const isReportProblemVisible = useIsStoryCurrent(Story.OBSERVING_REPORT_PROBLEM_STORY);
   const isVisible = isContactFormVisible || isReportProblemVisible;
-  const [email, setEmail] = useState('');
-  const [message, setMessage] = useState('');
-  const [isSent, setIsSent] = useState(false);
+  const [isSent] = useState(false);
 
   const navigateBack = () =>
     lsc.stories.transitTo(isContactFormVisible ? Story.OBSERVING_HELP_AREA_STORY : Story.OBSERVING_COLLECTION_STORY);
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsSent(true);
-  };
 
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>
@@ -56,28 +49,21 @@ const ContactFormSheet = () => {
       </FlexBox>
       <Spacer />
 
-      <form name="contact" method="GET" onSubmit={handleSubmit}>
+      <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="contact" />
+        <div hidden>
+          <input name="bot-field" />
+        </div>
 
         <Section>
           <SectionRow last>
-            <TextInput
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="E-Mail"
-              required
-              type="email"
-              id="email"
-              name="email"
-            />
+            <TextInput placeholder="E-Mail" required type="email" id="email" name="email" />
           </SectionRow>
         </Section>
         <Spacer size={2} />
         <StyledSecondaryText>Wir werden uns per Email in den kommenden Tagen bei dir melden.</StyledSecondaryText>
         <Spacer size={2} />
         <StyledTextArea
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
           placeholder="Sag uns, wie wir dir helfen können. Verwende dafür mindestens 5 Zeichen"
           required
           id="message"
@@ -90,9 +76,11 @@ const ContactFormSheet = () => {
             <p>Vielen Dank für deine Nachricht!</p>
           </StyledSentMessage>
         ) : (
-          <StyledSubmitButton type="submit">
-            <StyledSendIcon /> <p>Nachricht senden</p>
-          </StyledSubmitButton>
+          <div>
+            <StyledSubmitButton type="submit">
+              <StyledSendIcon /> <p>Nachricht senden</p>
+            </StyledSubmitButton>
+          </div>
         )}
       </form>
     </Sheet>
