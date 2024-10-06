@@ -56,7 +56,7 @@ const FlashcardGroupTable = () => {
   const flashcardGroupEntities = useDisplayedFlashcardGroups();
 
   return (
-    <div tw="w-full overflow-hidden">
+    <div tw="w-full">
       <InitializeRecentlyAddedFlashcardGroupSeystem />
       <StyledTabBar>
         <StyledTabLabel
