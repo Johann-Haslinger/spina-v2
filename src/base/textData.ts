@@ -397,8 +397,8 @@ export const DATA_TYPE_TEXT_DATA = {
     en: 'Flashcard',
   },
   subtopic: {
-    de: 'Unterthema',
-    en: 'Subtopic',
+    de: 'Gemischt',
+    en: 'Mixed',
   },
   podcast: {
     de: 'Podcast',

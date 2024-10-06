@@ -47,7 +47,6 @@ const fetchLastSevenWeeksFlashcardSessions = async () => {
   return data;
 };
 
-
 const LoadFlashcardSessionsSystem = () => {
   const lsc = useContext(LeanScopeClientContext);
   const { isUsingMockupData, isUsingSupabaseData } = useCurrentDataSource();
@@ -67,32 +66,36 @@ const LoadFlashcardSessionsSystem = () => {
           (e) => e.get(IdentifierFacet)?.props.guid === flashcardSession.id && e.hasTag(DataType.FLASHCARD_SESSION),
         );
 
-        if (!isAlreadyExisting) {
-          const flashcardSessionEntity = new Entity();
-          lsc.engine.addEntity(flashcardSessionEntity);
-          flashcardSessionEntity.add(new IdentifierFacet({ guid: flashcardSession.id }));
-          flashcardSessionEntity.add(new DateAddedFacet({ dateAdded: flashcardSession.session_date }));
-          flashcardSessionEntity.add(
-            new FlashcardCountFacet({
-              flashcardCount: flashcardSession.flashcard_count,
-            }),
+        if (isAlreadyExisting) {
+          const flashcardSessionEntity = lsc.engine.entities.find(
+            (e) => e.get(IdentifierFacet)?.props.guid === flashcardSession.id,
           );
-          flashcardSessionEntity.add(new DurationFacet({ duration: flashcardSession.duration }));
-          flashcardSessionEntity.add(
-            new FlashcardPerformanceFacet({
-              flashcardPerformance: {
-                skip: flashcardSession.skip,
-                forgot: flashcardSession.forgot,
-                partiallyRemembered: flashcardSession.partially_remembered,
-                rememberedWithEffort: flashcardSession.remembered_with_effort,
-                easilyRemembered: flashcardSession.easily_remembered,
-              },
-            }),
-          );
-          flashcardSessionEntity.addTag(DataType.FLASHCARD_SESSION);
+          if (!flashcardSessionEntity) return;
+          lsc.engine.removeEntity(flashcardSessionEntity);
         }
+        const flashcardSessionEntity = new Entity();
+        lsc.engine.addEntity(flashcardSessionEntity);
+        flashcardSessionEntity.add(new IdentifierFacet({ guid: flashcardSession.id }));
+        flashcardSessionEntity.add(new DateAddedFacet({ dateAdded: flashcardSession.session_date }));
+        flashcardSessionEntity.add(
+          new FlashcardCountFacet({
+            flashcardCount: flashcardSession.flashcard_count,
+          }),
+        );
+        flashcardSessionEntity.add(new DurationFacet({ duration: flashcardSession.duration }));
+        flashcardSessionEntity.add(
+          new FlashcardPerformanceFacet({
+            flashcardPerformance: {
+              skip: flashcardSession.skip,
+              forgot: flashcardSession.forgot,
+              partiallyRemembered: flashcardSession.partially_remembered,
+              rememberedWithEffort: flashcardSession.remembered_with_effort,
+              easilyRemembered: flashcardSession.easily_remembered,
+            },
+          }),
+        );
+        flashcardSessionEntity.addTag(DataType.FLASHCARD_SESSION);
       });
-
     };
 
     const initializeLastSevenWeeksFlashcardSessionEntities = async () => {
@@ -123,9 +126,8 @@ const LoadFlashcardSessionsSystem = () => {
         }
       });
     };
-
     initializeLastWeekFlashcardSessionEntities();
-    initializeLastSevenWeeksFlashcardSessionEntities();
+    setTimeout(() => initializeLastSevenWeeksFlashcardSessionEntities(), 300);
   }, [lsc, isUsingMockupData, isUsingSupabaseData]);
 
   return null;

@@ -38,15 +38,22 @@ const StyledSegmentedControl = styled.div`
 const StyledLabel = styled.div`
   ${tw`text-sm flex justify-center`}
 `;
-// const StyledLabel2 = styled.div`
-//   ${tw`text-sm flex w-14 justify-center`}
-// `;
+
+const useDisplayedFlashcardGroups = () => {
+  const fourteenDaysAgo = new Date(new Date().setDate(new Date().getDate() - 14)).toISOString();
+  const [flashcardGroupEntities] = useEntities(
+    (e) =>
+      learningUnitTypeQuery(e, LearningUnitType.FLASHCARD_SET) ||
+      (learningUnitTypeQuery(e, LearningUnitType.MIXED) &&
+        (e.get(DateAddedFacet)?.props.dateAdded || '') >= fourteenDaysAgo),
+  );
+
+  return flashcardGroupEntities;
+};
 
 const FlashcardGroupTable = () => {
   const [currentFilter, setCurrentFilter] = useState(FlashcardGroupFilter.ALL);
-  const [flashcardGroupEntities] = useEntities(
-    (e) => learningUnitTypeQuery(e, LearningUnitType.FLASHCARD_SET) || learningUnitTypeQuery(e, LearningUnitType.MIXED),
-  );
+  const flashcardGroupEntities = useDisplayedFlashcardGroups();
 
   return (
     <div tw="w-full overflow-hidden">
@@ -81,14 +88,7 @@ const FlashcardGroupTable = () => {
         <div>
           <StyledLabel>Titel</StyledLabel>
         </div>
-        <div tw="flex opacity-80  space-x-8">
-          {' '}
-          {/* <StyledLabel2>Priotität</StyledLabel2> */}
-          {/* <StyledLabel2>Fälllig</StyledLabel2>
-          <StyledLabel2>Karten</StyledLabel2>
-          <StyledLabel2>Fortschtitt</StyledLabel2>
-          <StyledLabel2>Üben</StyledLabel2> */}
-        </div>
+        <div tw="flex opacity-80  space-x-8"> </div>
       </StyledSegmentedControl>
       <div tw="min-h-96 space-y-2">
         {flashcardGroupEntities
@@ -126,7 +126,7 @@ const fetchRecentlyAddedLearningUnits = async () => {
     .from(SupabaseTable.LEARNING_UNITS)
     .select('id, title, priority, parent_id, date_added, type')
     .order('date_added', { ascending: false })
-    .gte('date_added', fourteenDaysAgo)
+    .neq('type', LearningUnitType[LearningUnitType.NOTE])
     .or(`date_added.gte.${fourteenDaysAgo},priority.eq.ACTIVE`);
 
   if (error) {

@@ -6,14 +6,15 @@ import { PriorityProps, TitleProps } from '../../../app/additionalFacets';
 import { COLOR_ITEMS } from '../../../base/constants';
 import { LearningUnitPriority } from '../../../base/enums';
 import { updatePriority } from '../../../common/utilities';
+import { useFormattedDateAdded } from '../../collection/hooks/useFormattedDateAdded';
 import { useDueFlashcards } from '../hooks';
 
 const StyledRowWrapper = styled.div`
-  ${tw`flex pl-2  justify-between`}
+  ${tw`flex px-2  items-center py-1 hover:bg-opacity-50 transition-all hover:bg-tertiary rounded-lg justify-between`}
 `;
 
 const StyledSelect = styled.select<{ value: LearningUnitPriority }>`
-  ${tw`rounded-lg text-sm pl-1 py-1 outline-none`}
+  ${tw`rounded-lg text-sm pl-1 py-1 h-fit outline-none`}
   background-color: ${({ value }) => {
     switch (value) {
       case LearningUnitPriority.ACTIVE:
@@ -28,13 +29,15 @@ const StyledSelect = styled.select<{ value: LearningUnitPriority }>`
 const FlashcardGroupRow = (props: TitleProps & PriorityProps & EntityProps) => {
   const { title, entity, priority } = props;
   const { dueFlashcardEntity } = useDueFlashcards();
+  const formattedDateAdded = useFormattedDateAdded(entity, true);
 
   const openFlashcardGroup = () => entity.add(Tags.SELECTED);
 
   return (
     <StyledRowWrapper>
-      <div tw=" hover:underline line-clamp-1 pr-2 " onClick={openFlashcardGroup}>
-        {title}
+      <div tw="  pr-2 " onClick={openFlashcardGroup}>
+        <p tw="line-clamp-2">{title}</p>
+        <p tw="line-clamp-1 text-secondary-text dark:text-secondary-text-dark text-sm">{formattedDateAdded}</p>
       </div>
       <StyledSelect
         onChange={(e) => updatePriority(entity, Number(e.target.value) as LearningUnitPriority, dueFlashcardEntity)}

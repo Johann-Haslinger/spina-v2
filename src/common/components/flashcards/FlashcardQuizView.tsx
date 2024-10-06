@@ -240,7 +240,6 @@ const FlashcardQuizView = () => {
       } else {
         newMasterLevel = 0;
       }
-      console.log('newMasterLevel', newMasterLevel);
       lsc.engine.entities
         .find((e) => e.get(IdentifierFacet)?.props.guid === id)
         ?.add(new MasteryLevelFacet({ masteryLevel: newMasterLevel }));
@@ -280,6 +279,8 @@ const FlashcardQuizView = () => {
   };
 
   const updateCurrentStreak = async () => {
+    if (currentFlashcardIndex === 0 || !userId) return;
+
     const streakEntity = lsc.engine.entities.find((e) => e.has(StreakFacet));
     const currentStreak = streakEntity?.get(StreakFacet)?.props.streak || 0;
     const currentDate = new Date();
@@ -306,6 +307,8 @@ const FlashcardQuizView = () => {
   };
 
   const addFlashcardSession = async () => {
+    if (currentFlashcardIndex === 0 || !userId) return;
+
     const elapsedMinutes = Math.ceil(elapsedSeconds / 60);
     const newFlashcardSession = {
       id: v4(),

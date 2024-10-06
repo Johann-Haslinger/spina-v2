@@ -71,7 +71,7 @@ const Overview = () => {
         <Spacer size={8} />
         <Title>{displayHeaderTexts(selectedLanguage).overview}</Title>
 
-        <Spacer size={4} />
+        <Spacer />
         <StyledColumnsWrapper>
           <StyledColumn>
             <PendingResourcesCard />
@@ -83,7 +83,7 @@ const Overview = () => {
             <StartFlashcardSessionCard />
             <FlashcardChartCard />
             <NewResourcesCard />
-            <LastWeekInfoCard height="24rem" />
+            <LastWeekInfoCard />
           </StyledColumn>
         </StyledColumnsWrapper>
       </View>

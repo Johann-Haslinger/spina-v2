@@ -24,11 +24,11 @@ const StyledText2 = styled.div`
 `;
 
 const StyledWeekDayLabel = styled.div`
-  ${tw`h-10 px-1 min-w-4 font-semibold text-secondary-text pr-2 text-xs xl:text-sm flex items-center w-full justify-center`}
+  ${tw`h-10 px-1 text-center xl:min-w-8 min-w-4 font-semibold text-secondary-text pr-2 text-xs xl:text-sm flex items-center w-full justify-center`}
 `;
 
 const StyledWeekContainer = styled.div`
-  ${tw`flex mt-6 py-2 md:px-2`}
+  ${tw`flex mt-6 py-2`}
 `;
 
 const StyledDayWrapper = styled.div`
@@ -36,15 +36,15 @@ const StyledDayWrapper = styled.div`
 `;
 
 const StyledHoverInfo = styled.div`
-  ${tw`absolute bottom-full p-1 text-xs text-white bg-black font-semibold bg-opacity-20 backdrop-blur-lg rounded-full right-4 text-center w-20`}
+  ${tw`p-1 text-xs relative right-4 text-white bg-black font-semibold bg-opacity-20 backdrop-blur-lg rounded-full text-center w-20`}
 `;
 
 const StyledDayBox = styled.div`
-  ${tw`size-10 hover:opacity-80 transition-all flex justify-center items-center`}
+  ${tw`size-10 xl:size-11 hover:opacity-80 transition-all flex justify-center items-center`}
 `;
 
 const StyledDayInnerBox = styled.div`
-  ${tw`size-8 rounded-md bg-[#3A7945]`}
+  ${tw`size-8  xl:size-9 rounded-md bg-[#3A7945]`}
 `;
 
 const StyledHiddenText = styled.span`
@@ -76,7 +76,7 @@ const LastFiftyDaysStatCard = () => {
               ))}
             </div>
           ))}
-          <div>
+          <div tw="w-full">
             {['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So'].map((day) => (
               <StyledWeekDayLabel key={day}>
                 {day[0]}
@@ -99,7 +99,11 @@ const DayBox = (props: { day: { percent: number; total: number } }) => {
 
   return (
     <StyledDayWrapper>
-      {isHovered && <StyledHoverInfo>{day.total} Karten</StyledHoverInfo>}
+      {isHovered && (
+        <div tw="absolute bottom-full ">
+          <StyledHoverInfo>{day.total} Karten</StyledHoverInfo>
+        </div>
+      )}
       <StyledDayBox onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
         <StyledDayInnerBox style={{ opacity: (opacity > 80 ? 80 : opacity) + '%' }} />
       </StyledDayBox>
