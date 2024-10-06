@@ -14,7 +14,7 @@ const StyledRowWrapper = styled.div`
 `;
 
 const StyledSelect = styled.select<{ value: LearningUnitPriority }>`
-  ${tw`rounded-lg text-sm pl-1 py-1 h-fit outline-none`}
+  ${tw`rounded-lg text-sm pl-1 min-h-7 h-fit outline-none`}
   background-color: ${({ value }) => {
     switch (value) {
       case LearningUnitPriority.ACTIVE:
