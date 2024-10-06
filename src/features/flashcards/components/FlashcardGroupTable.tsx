@@ -90,7 +90,7 @@ const FlashcardGroupTable = () => {
         </div>
         <div tw="flex opacity-80  space-x-8"> </div>
       </StyledSegmentedControl>
-      <div tw="min-h-96 space-y-2">
+      <div tw="min-h-96 px-2 md:px-4 space-y-2">
         {flashcardGroupEntities
           .filter(
             (e) =>

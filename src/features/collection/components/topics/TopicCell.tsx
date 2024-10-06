@@ -39,7 +39,7 @@ const TopicCell = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
   const { isSidebarVisible } = useAppState();
   const { selectedLanguage } = useSelectedLanguage();
   const [isGeneratingImage] = useEntityHasTags(entity, AdditionalTag.GENERATING);
-  const { isDarkModeActive: isDarkModeAktiv } = useSelectedTheme();
+  const { isDarkModeActive } = useSelectedTheme();
 
   const handleOpenTopic = () => {
     if (!isSidebarVisible && !isGeneratingImage) {
@@ -52,8 +52,8 @@ const TopicCell = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
       <StyledTopicCellWrapper
         onClick={handleOpenTopic}
         image={imageSrc || ''}
-        color={accentColor}
-        backgroundColor={isDarkModeAktiv ? accentColor + '90' : accentColor + '90'}
+        color={isDarkModeActive ? accentColor + '50' : accentColor}
+        backgroundColor={isDarkModeActive ? accentColor + '50' : accentColor + '90'}
       >
         {!imageSrc && <IoBook tw="dark:opacity-70" />}
       </StyledTopicCellWrapper>

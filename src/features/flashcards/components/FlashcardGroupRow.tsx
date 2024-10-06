@@ -10,7 +10,7 @@ import { useFormattedDateAdded } from '../../collection/hooks/useFormattedDateAd
 import { useDueFlashcards } from '../hooks';
 
 const StyledRowWrapper = styled.div`
-  ${tw`flex px-2  items-center py-1 hover:bg-opacity-50 transition-all hover:bg-tertiary rounded-lg justify-between`}
+  ${tw`flex  items-center py-1 transition-all  md:hover:scale-105  rounded-lg justify-between`}
 `;
 
 const StyledSelect = styled.select<{ value: LearningUnitPriority }>`
