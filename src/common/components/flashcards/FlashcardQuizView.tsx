@@ -16,11 +16,19 @@ import {
   FlashcardCountFacet,
   FlashcardPerformanceFacet,
   MasteryLevelFacet,
+  PriorityFacet,
   QuestionFacet,
   StreakFacet,
 } from '../../../app/additionalFacets';
 import { MAX_MASTERY_LEVEL, MIN_MASTERY_LEVEL } from '../../../base/constants';
-import { AdditionalTag, DataType, Story, SupabaseColumn, SupabaseTable } from '../../../base/enums';
+import {
+  AdditionalTag,
+  DataType,
+  LearningUnitPriority,
+  Story,
+  SupabaseColumn,
+  SupabaseTable,
+} from '../../../base/enums';
 import { FlexBox, View } from '../../../components';
 import { useSeletedFlashcardGroup } from '../../../features/collection/hooks/useSelectedFlashcardGroup';
 import { useSelectedSchoolSubjectColor } from '../../../features/collection/hooks/useSelectedSchoolSubjectColor';
@@ -36,6 +44,7 @@ import supabaseClient from '../../../lib/supabase';
 import { displayButtonTexts, displayLabelTexts } from '../../../utils/displayText';
 import { dataTypeQuery } from '../../../utils/queries';
 import { useSelectedLearningUnit } from '../../hooks/useSelectedLearningUnit';
+import { updatePriority } from '../../utilities';
 
 const fetchFlashcardsByDue = async () => {
   const { data: flashcards, error } = await supabaseClient
@@ -171,6 +180,11 @@ const FlashcardQuizView = () => {
   const { userId } = useUserData();
   const { dueFlashcardEntity, dueFlashcardsCount } = useDueFlashcards();
   const { isDarkModeActive } = useSelectedTheme();
+  const { selectedLearningUnitEntity } = useSelectedLearningUnit();
+  const isQuizInCollection = useIsAnyStoryCurrent([
+    Story.OBSERVING_BOOKMARKED_FLASHCARD_GROUP_QUIZ_STORY,
+    Story.OBSERVING_FLASHCARD_QUIZ_STORY,
+  ]);
 
   useEffect(() => {
     if (isVisible) {
@@ -196,10 +210,23 @@ const FlashcardQuizView = () => {
       mastery_level: number;
     }[] = [];
 
+    if (isQuizInCollection) {
+      selectedLearningUnitEntity?.add(new PriorityFacet({ priority: LearningUnitPriority.ACTIVE }));
+
+      const flashcardParentIds = Array.from(new Set(flashcardEntities.map((e) => e.get(ParentFacet)?.props.parentId)));
+      flashcardParentIds.forEach(async (parentId) => {
+        const learningUnitEntity = lsc.engine.entities.find((e) => e.get(IdentifierFacet)?.props.guid === parentId);
+
+        if (!learningUnitEntity) return;
+
+        updatePriority(learningUnitEntity, LearningUnitPriority.ACTIVE, dueFlashcardEntity);
+      });
+    }
+
     flashcardEntities.forEach((flashcardEntity) => {
       const id = flashcardEntity.get(IdentifierFacet)?.props.guid;
       const parentId = flashcardEntity.get(ParentFacet)?.props.parentId || '';
-      console.log('update mastery level id', id);
+
       if (!id) return;
 
       let dueDate: Date | null = null;

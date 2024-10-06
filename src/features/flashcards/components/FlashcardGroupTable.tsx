@@ -43,9 +43,9 @@ const useDisplayedFlashcardGroups = () => {
   const fourteenDaysAgo = new Date(new Date().setDate(new Date().getDate() - 14)).toISOString();
   const [flashcardGroupEntities] = useEntities(
     (e) =>
-      learningUnitTypeQuery(e, LearningUnitType.FLASHCARD_SET) ||
-      (learningUnitTypeQuery(e, LearningUnitType.MIXED) &&
-        (e.get(DateAddedFacet)?.props.dateAdded || '') >= fourteenDaysAgo),
+      (learningUnitTypeQuery(e, LearningUnitType.FLASHCARD_SET) || learningUnitTypeQuery(e, LearningUnitType.MIXED)) &&
+      ((e.get(DateAddedFacet)?.props.dateAdded || '') >= fourteenDaysAgo ||
+        e.get(PriorityFacet)?.props.priority.valueOf() === LearningUnitPriority.ACTIVE),
   );
 
   return flashcardGroupEntities;
