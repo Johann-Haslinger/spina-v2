@@ -180,7 +180,7 @@ const PendingResourceRow = (props: TitleProps & StatusProps & DueDateProps & Ent
   const lsc = useContext(LeanScopeClientContext);
   const { title, status, entity, relationship, dueDate } = props;
   const daysUntilDue = useDaysUntilDue(entity, dueDate);
-  const { isDarkModeActive: isDarkModeAktive } = useSelectedTheme();
+  const { isDarkModeActive: isDarkModeActivee } = useSelectedTheme();
   const [isHovered, setIsHovered] = useState(false);
   const [relatedSchoolSubjectTitle, setRelatedSchoolSubjectTitle] = useState<string | null>(null);
   const [currentStatus, setCurrentStatus] = useState(status);
@@ -226,7 +226,7 @@ const PendingResourceRow = (props: TitleProps & StatusProps & DueDateProps & Ent
         </StyledDueDate>
       </motion.div>
       {status && (
-        <StyledSelectWrapper dark={isDarkModeAktive} status={status}>
+        <StyledSelectWrapper dark={isDarkModeActivee} status={status}>
           <StyledSelect onChange={(e) => setCurrentStatus(parseInt(e.target.value))} value={status.toString()}>
             <option value={ProgressStatus.TODO}>Todo</option>
             <option value={ProgressStatus.IN_PROGRESS}>In Arbeit</option>

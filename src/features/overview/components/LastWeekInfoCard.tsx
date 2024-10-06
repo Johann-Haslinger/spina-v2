@@ -3,16 +3,16 @@ import { useState } from 'react';
 import { IoStatsChart } from 'react-icons/io5';
 import Skeleton from 'react-loading-skeleton';
 import tw from 'twin.macro';
-import { useWeekInfoData } from '../../flashcards/hooks/useWeekInfoData';
 import { useLoadingIndicator } from '../../../common/hooks';
+import { useWeekInfoData } from '../../flashcards/hooks/useWeekInfoData';
 
-const StyledCardWrapper = styled.div<{ height: string }>`
-  ${tw`w-full h-fit p-4  rounded-2xl bg-[#E76542] bg-opacity-15`}
-  ${({ height }) => (height === '24rem' ? tw`md:h-[23rem]` : tw`md:h-[17.25rem]`)}
+const StyledCardWrapper = styled.div`
+  ${tw`w-full h-fit p-4 md:h-[26rem] rounded-2xl bg-[#E76542] bg-opacity-15`}
 `;
 
 const StyledBar = styled.div<{ isHovered: boolean }>`
-  ${tw` transition-all mr-auto bg-[#E76542] rounded-r h-3 ml-4  opacity-60 `}
+  ${tw` transition-all mr-auto bg-[#E76542]  ml-4 h-4 rounded-r-md opacity-60 `}
+
   ${({ isHovered }) => isHovered && tw`opacity-100`}
 `;
 
@@ -33,7 +33,7 @@ const StyledSummaryText = styled.div`
 `;
 
 const StyledPerformanceList = styled.div`
-  ${tw` text-[#E76542] mt-2 space-y-1`}
+  ${tw`mt-6 space-y-3 text-[#E76542]`}
 `;
 
 const StyledFlexItem = styled.div`
@@ -41,15 +41,10 @@ const StyledFlexItem = styled.div`
 `;
 
 const StyledLabel = styled.div`
-  ${tw`text-lg`}
+  ${tw`text-xl`}
 `;
 
-interface CardProps {
-  height: '24rem' | '17rem';
-}
-
-const LastWeekInfoCard = (props: CardProps) => {
-  const { height } = props;
+const LastWeekInfoCard = () => {
   const { totalCardCount, totalTimeSpent, flashcardPerformance } = useWeekInfoData();
   const [hoveredBar, setHoveredBar] = useState(0);
   const { isLoadingIndicatorVisible } = useLoadingIndicator();
@@ -61,7 +56,7 @@ const LastWeekInfoCard = (props: CardProps) => {
   }
 
   return (
-    <StyledCardWrapper height={height}>
+    <StyledCardWrapper>
       <StyledHeader>
         <StyledIconWrapper>
           <IoStatsChart />
@@ -90,7 +85,7 @@ const LastWeekInfoCard = (props: CardProps) => {
               <StyledFlexItem key={id} onMouseEnter={() => setHoveredBar(id)} onMouseLeave={() => setHoveredBar(0)}>
                 <StyledLabel>{label}</StyledLabel>
                 <StyledBar isHovered={hoveredBar === id ? true : false} style={{ width: `${value}%` }} />
-                {true && <div tw="ml-2"> {value}%</div>}
+                {true && <div tw="ml-4"> {value}%</div>}
               </StyledFlexItem>
             ))}
           </StyledPerformanceList>

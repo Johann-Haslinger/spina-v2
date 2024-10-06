@@ -20,6 +20,7 @@ import LoadCurrentStreakSystem from '../features/flashcards/systems/LoadCurrentS
 import LoadFlashcardSessionsSystem from '../features/flashcards/systems/LoadFlashcardSessionsSystem';
 import {
   ExploreCard,
+  LastFiftyDaysStatCard,
   LastWeekInfoCard,
   NewResourcesCard,
   PendingResourcesCard,
@@ -70,18 +71,19 @@ const Overview = () => {
         <Spacer size={8} />
         <Title>{displayHeaderTexts(selectedLanguage).overview}</Title>
 
-        <Spacer size={4} />
+        <Spacer />
         <StyledColumnsWrapper>
           <StyledColumn>
             <PendingResourcesCard />
             <ExploreCard />
-            <LastWeekInfoCard height="24rem" />
+            <LastFiftyDaysStatCard />
+            <StreakCard />
           </StyledColumn>
           <StyledColumn>
             <StartFlashcardSessionCard />
             <FlashcardChartCard />
             <NewResourcesCard />
-            <StreakCard />
+            <LastWeekInfoCard />
           </StyledColumn>
         </StyledColumnsWrapper>
       </View>

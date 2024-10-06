@@ -32,6 +32,7 @@ export enum Story {
   OBSERVING_HELP_AREA_STORY = 'observingHelpAreaStory',
   OBSERVING_CONTACT_FORM_STORY = 'observingContactFormStory',
   OBSERVING_REPORT_PROBLEM_STORY = 'observingReportProblemStory',
+  OBSERVING_ADD_TO_HOME_SCREEN_STORY = 'observingAddToHomeScreenStory',
 
   ADDING_FLASHCARD_SET_STORY = 'addFlashcardSetStory',
   ADDING_TOPIC_STORY = 'addTopicStory',

@@ -18,7 +18,7 @@ const StyledCardWrapper = styled.div`
 
 const StyledCheckbox = styled.div<{ isChecked: boolean; isFrozen: boolean }>`
   ${tw`flex items-center justify-center size-8 rounded-md text-2xl text-white bg-[#A3CB63]`}
-  ${({ isChecked }) => (isChecked ? tw` bg-opacity-80` : tw` bg-opacity-40`)}
+  ${({ isChecked }) => (isChecked ? tw` bg-opacity-80` : tw` bg-opacity-20`)}
   ${({ isFrozen }) => isFrozen && tw`bg-opacity-15 text-[#A3CB63]`}
 `;
 

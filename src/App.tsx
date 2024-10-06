@@ -11,6 +11,7 @@ import TabBar from './components/navigation/TabBar';
 import { AuthUI } from './features/auth-ui';
 import PodcastSheet from './features/collection/components/podcasts/PodcastSheet';
 import { SettingsOverviewSheet } from './features/settings';
+import { UseAsPWAInstructionsSheet } from './features/tutorial';
 import { Collection, Exams, Flashcards, Groups, Homeworks, Overview } from './pages/Index';
 import {
   InitializeAppSystem,
@@ -56,6 +57,8 @@ function App() {
         onMatch={PodcastSheet}
       />{' '}
       <AuthUI />
+      
+      <UseAsPWAInstructionsSheet />
     </StyledContentWrapper>
   );
 }

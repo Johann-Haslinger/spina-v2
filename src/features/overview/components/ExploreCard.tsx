@@ -117,10 +117,10 @@ const ExploreCard = () => {
         <Spacer />
         <ScrollableBox>
           {' '}
-          <div tw="xl:w-2/3 lg:w-4/5 mx-auto w-full lg:pt-10 xl:pt-20">
+          <div tw="lg:w-4/5 mx-auto w-full lg:pt-10">
             <StyledSheetTitle>🚀 Spaced Repetition und Active Recall: Die Superkräfte im Lernprozess </StyledSheetTitle>
             <Spacer />
-            <p tw=" text-secondary-text dark:text-secondary-text-dark xl:text-lg">12. Dezember 2023</p>
+            <p tw=" text-secondary-text dark:text-secondary-text-dark xl:text-lg">12. September 2024</p>
             <Spacer />
             <div tw="xl:text-lg">
               Lernen kann manchmal wie eine unüberwindbare Herausforderung erscheinen, besonders wenn es um große Mengen

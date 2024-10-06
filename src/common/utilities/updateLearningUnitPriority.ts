@@ -37,7 +37,7 @@ export const updatePriority = async (
 
   const { data, error: dueFlashcardsError } = await supabaseClient
     .from(SupabaseTable.FLASHCARDS)
-    .select('bookmarked')
+    .select('is_bookmarked')
     .lte('due_date', currentDate);
 
   if (dueFlashcardsError) {
