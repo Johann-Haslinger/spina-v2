@@ -6,7 +6,7 @@ import { SupabaseTable } from '../../../base/enums';
 import supabaseClient from '../../../lib/supabase';
 
 const StyledCardWrapper = styled.div`
-  ${tw`w-full h-fit md:h-[28rem] overflow-y-hidden p-4 pr-0 rounded-2xl bg-[#3A7945] bg-opacity-15`}
+  ${tw`w-full flex flex-col  h-fit md:h-[28rem] overflow-y-hidden p-4 pr-0 rounded-2xl bg-[#3A7945] bg-opacity-15`}
 
   -ms-overflow-style: none;
   scrollbar-width: none;
@@ -25,7 +25,7 @@ const StyledText2 = styled.div`
 `;
 
 const StyledWeekDayLabel = styled.div`
-  ${tw`h-11 px-1 min-w-4 font-semibold text-secondary-text pr-2 text-xs xl:text-sm flex items-center w-full justify-center`}
+  ${tw`h-10 px-1 min-w-4 font-semibold text-secondary-text pr-2 text-xs xl:text-sm flex items-center w-full justify-center`}
 `;
 
 const LastFiftyDaysStatCard = () => {
@@ -33,13 +33,18 @@ const LastFiftyDaysStatCard = () => {
   return (
     <div>
       <StyledCardWrapper>
-        <StyledFlexContainer>
-          <IoGrid />
-          <StyledText>Letzte 50 Tage</StyledText>
-        </StyledFlexContainer>
-        <StyledText2>{totalFlashcardCount == 0 ?"Du hast dich in den letzten 50 Tage noch keine Lernkarten abgefragt.": `Du hast dich in den letzten 50 Tagen insgesamt ${totalFlashcardCount} Karten abgefragt.`}</StyledText2>
-
-        <div tw="flex mt-6 xl:pl-2">
+        <div>
+          <StyledFlexContainer>
+            <IoGrid />
+            <StyledText>Letzte 50 Tage</StyledText>
+          </StyledFlexContainer>
+          <StyledText2>
+            {totalFlashcardCount == 0
+              ? 'Du hast dich in den letzten 50 Tage noch keine Lernkarten abgefragt.'
+              : `Du hast dich in den letzten 50 Tagen insgesamt ${totalFlashcardCount} Karten abgefragt.`}
+          </StyledText2>
+        </div>
+        <div tw="flex mt-6 py-2 md:px-2 ">
           {lastSevenWeeks.map((week, index) => (
             <div key={index}>
               {week.map((day, index) => (
@@ -82,9 +87,9 @@ const DayBox = (props: { day: { percent: number; total: number } }) => {
       <div
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        tw="size-11 hover:opacity-80 transition-all flex justify-center items-center"
+        tw="size-10 hover:opacity-80 transition-all flex justify-center items-center"
       >
-        <div style={{ opacity: (opacity > 100 ? 100 : opacity) + '%' }} tw="size-10 rounded-md bg-[#3A7945]" />
+        <div style={{ opacity: (opacity > 100 ? 100 : opacity) + '%' }} tw="size-8 rounded-md bg-[#3A7945]" />
       </div>
     </div>
   );
