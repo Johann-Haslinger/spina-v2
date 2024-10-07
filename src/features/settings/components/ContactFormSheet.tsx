@@ -49,7 +49,7 @@ const ContactFormSheet = () => {
       </FlexBox>
       <Spacer />
 
-      <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <form   action="/success" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="contact" />
         <div hidden>
           <input name="bot-field" />

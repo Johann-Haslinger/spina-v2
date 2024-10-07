@@ -12,7 +12,7 @@ import { AuthUI } from './features/auth-ui';
 import PodcastSheet from './features/collection/components/podcasts/PodcastSheet';
 import { SettingsOverviewSheet } from './features/settings';
 import { UseAsPWAInstructionsSheet } from './features/tutorial';
-import { Collection, Exams, Flashcards, Groups, Homeworks, Overview } from './pages/Index';
+import { Collection, Exams, Flashcards, Groups, Homeworks, Overview, SuccessPage } from './pages/Index';
 import {
   InitializeAppSystem,
   InitializeSchoolSubjectsSystem,
@@ -40,6 +40,7 @@ function App() {
         <Sidebar />
         <Routes>
           <Route path="/" element={<Overview />} />
+          <Route path='/success' element={<SuccessPage />} />
           <Route path={formatNavLinkAsPath(NavigationLink.OVERVIEW)} element={<Overview />} />
           <Route path={formatNavLinkAsPath(NavigationLink.HOMEWORKS)} element={<Homeworks />} />
           <Route path={formatNavLinkAsPath(NavigationLink.EXAMS)} element={<Exams />} />

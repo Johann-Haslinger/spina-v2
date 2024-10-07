@@ -24,7 +24,7 @@ const StyledText2 = styled.div`
 `;
 
 const StyledWeekDayLabel = styled.div`
-  ${tw`h-10 px-1 text-center xl:min-w-8 min-w-4 font-semibold text-secondary-text pr-2 text-xs xl:text-sm flex items-center w-full justify-center`}
+  ${tw`h-10 xl:h-11 px-1 text-center xl:min-w-8 min-w-4 font-semibold text-secondary-text pr-2 text-xs xl:text-sm flex items-center w-full justify-center`}
 `;
 
 const StyledWeekContainer = styled.div`
