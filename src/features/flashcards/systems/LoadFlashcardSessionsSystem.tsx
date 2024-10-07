@@ -7,10 +7,10 @@ import {
   DurationFacet,
   FlashcardCountFacet,
   FlashcardPerformanceFacet,
-} from '../../../app/additionalFacets';
+} from '../../../base/additionalFacets';
 import { dummyFlashcardSessions } from '../../../base/dummy';
 import { DataType, SupabaseTable } from '../../../base/enums';
-import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
+import { useCurrentDataSource } from '../../../common/hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 
 const fetchFlashcardSessions = async () => {

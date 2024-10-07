@@ -19,7 +19,7 @@ import {
   PriorityFacet,
   QuestionFacet,
   StreakFacet,
-} from '../../../app/additionalFacets';
+} from '../../../base/additionalFacets';
 import { MAX_MASTERY_LEVEL, MIN_MASTERY_LEVEL } from '../../../base/constants';
 import {
   AdditionalTag,
@@ -36,15 +36,15 @@ import { useSelectedSubtopic } from '../../../features/collection/hooks/useSelec
 import { useSelectedTheme } from '../../../features/collection/hooks/useSelectedTheme';
 import { FlashcardPerformance } from '../../../features/flashcards';
 import { useDueFlashcards } from '../../../features/flashcards/hooks/useDueFlashcards';
-import { useIsAnyStoryCurrent } from '../../../hooks/useIsAnyStoryCurrent';
-import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
-import { useTimer } from '../../../hooks/useTimer';
-import { useUserData } from '../../../hooks/useUserData';
 import supabaseClient from '../../../lib/supabase';
-import { displayButtonTexts, displayLabelTexts } from '../../../utils/displayText';
-import { dataTypeQuery } from '../../../utils/queries';
+import { useIsAnyStoryCurrent } from '../../hooks/useIsAnyStoryCurrent';
+import { useSelectedLanguage } from '../../hooks/useSelectedLanguage';
 import { useSelectedLearningUnit } from '../../hooks/useSelectedLearningUnit';
+import { useTimer } from '../../hooks/useTimer';
+import { useUserData } from '../../hooks/useUserData';
 import { updatePriority } from '../../utilities';
+import { displayButtonTexts, displayLabelTexts } from '../../utilities/displayText';
+import { dataTypeQuery } from '../../utilities/queries';
 
 const fetchFlashcardsByDue = async () => {
   const { data: flashcards, error } = await supabaseClient

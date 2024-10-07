@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { EntityProps } from '@leanscope/ecs-engine';
 import { Tags } from '@leanscope/ecs-models';
 import tw from 'twin.macro';
-import { AnswerProps, MasteryLevelProps, QuestionProps } from '../../../../app/additionalFacets';
+import { AnswerProps, MasteryLevelProps, QuestionProps } from '../../../../base/additionalFacets';
 import { MAX_MASTERY_LEVEL, MIN_MASTERY_LEVEL } from '../../../../base/constants';
 import { useSelectedSchoolSubjectColor } from '../../hooks/useSelectedSchoolSubjectColor';
 

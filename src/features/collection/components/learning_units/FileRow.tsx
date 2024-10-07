@@ -15,7 +15,7 @@ import {
   IoTrashOutline,
 } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { FilePathFacet, FilePathProps, TitleProps } from '../../../../app/additionalFacets';
+import { FilePathFacet, FilePathProps, TitleProps } from '../../../../base/additionalFacets';
 import { SupabaseStorageBucket, SupabaseTable } from '../../../../base/enums';
 import { ActionRow, ActionSheet } from '../../../../components';
 import supabaseClient from '../../../../lib/supabase';

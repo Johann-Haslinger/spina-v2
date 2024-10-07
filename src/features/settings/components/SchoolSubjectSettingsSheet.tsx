@@ -5,9 +5,13 @@ import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useState } from 'react';
 import { IoAddCircle, IoRemoveCircle } from 'react-icons/io5';
 import { v4 } from 'uuid';
-import { TitleFacet, TitleProps } from '../../../app/additionalFacets';
+import { TitleFacet, TitleProps } from '../../../base/additionalFacets';
 import { SCHOOL_SUBJECTS } from '../../../base/constants';
 import { DataType, Story, SupabaseTable } from '../../../base/enums';
+import { useSchoolSubjectEntities } from '../../../common/hooks/useSchoolSubjects';
+import { useSelectedLanguage } from '../../../common/hooks/useSelectedLanguage';
+import { useUserData } from '../../../common/hooks/useUserData';
+import { displayActionTexts } from '../../../common/utilities/displayText';
 import {
   Alert,
   AlertButton,
@@ -19,11 +23,7 @@ import {
   Sheet,
   Spacer,
 } from '../../../components';
-import { useSchoolSubjectEntities } from '../../../hooks/useSchoolSubjects';
-import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
-import { useUserData } from '../../../hooks/useUserData';
 import supabaseClient from '../../../lib/supabase';
-import { displayActionTexts } from '../../../utils/displayText';
 
 const removeSchoolSubject = async (subjectId: string) => {
   const { error } = await supabaseClient.from(SupabaseTable.SCHOOL_SUBJECTS).delete().eq('id', subjectId).single();

@@ -1,8 +1,8 @@
 import { useEntity, useEntityHasTags } from '@leanscope/ecs-engine';
 import { IdentifierFacet } from '@leanscope/ecs-models';
-import { SourceFacet, TitleFacet } from '../../../app/additionalFacets';
+import { SourceFacet, TitleFacet } from '../../../base/additionalFacets';
 import { AdditionalTag, DataType } from '../../../base/enums';
-import { dataTypeQuery } from '../../../utils/queries';
+import { dataTypeQuery } from '../../../common/utilities/queries';
 
 export const usePlayingPodcast = () => {
   const [playingPodcastEntity] = useEntity(

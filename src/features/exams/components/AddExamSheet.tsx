@@ -5,8 +5,15 @@ import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { IoAdd, IoCheckmarkCircle, IoEllipseOutline } from 'react-icons/io5';
 import { v4 } from 'uuid';
-import { DueDateFacet, RelationshipFacet, StatusFacet, TitleFacet } from '../../../app/additionalFacets';
+import { DueDateFacet, RelationshipFacet, StatusFacet, TitleFacet } from '../../../base/additionalFacets';
 import { DataType, Story } from '../../../base/enums';
+import { useSchoolSubjectEntities } from '../../../common/hooks/useSchoolSubjects';
+import { useSchoolSubjectTopics } from '../../../common/hooks/useSchoolSubjectTopics';
+import { useSelectedLanguage } from '../../../common/hooks/useSelectedLanguage';
+import { useUserData } from '../../../common/hooks/useUserData';
+import { addExam } from '../../../common/utilities/addExam';
+import { addTopic } from '../../../common/utilities/addTopic';
+import { displayActionTexts, displayButtonTexts, displayLabelTexts } from '../../../common/utilities/displayText';
 import {
   DateInput,
   FlexBox,
@@ -19,13 +26,6 @@ import {
   Spacer,
   TextInput,
 } from '../../../components';
-import { addExam } from '../../../functions/addExam';
-import { addTopic } from '../../../functions/addTopic';
-import { useSchoolSubjectEntities } from '../../../hooks/useSchoolSubjects';
-import { useSchoolSubjectTopics } from '../../../hooks/useSchoolSubjectTopics';
-import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
-import { useUserData } from '../../../hooks/useUserData';
-import { displayActionTexts, displayButtonTexts, displayLabelTexts } from '../../../utils/displayText';
 import { generateDescriptionForTopic } from '../../collection/functions/generateDescriptionForTopic';
 
 const AddExamSheet = () => {

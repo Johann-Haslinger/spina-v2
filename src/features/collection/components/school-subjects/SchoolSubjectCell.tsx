@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 import { EntityProps } from '@leanscope/ecs-engine';
 import { OrderProps, Tags } from '@leanscope/ecs-models';
 import tw from 'twin.macro';
-import { TitleProps } from '../../../../app/additionalFacets';
-import { useSchoolSubjectColors } from '../../../../hooks/useSchoolSubjectColors';
+import { TitleProps } from '../../../../base/additionalFacets';
+import { useSchoolSubjectColors } from '../../../../common/hooks/useSchoolSubjectColors';
 import { useAppState } from '../../hooks/useAppState';
 import { useSelectedTheme } from '../../hooks/useSelectedTheme';
 

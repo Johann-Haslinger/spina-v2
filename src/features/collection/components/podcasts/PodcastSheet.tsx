@@ -3,11 +3,11 @@ import { EntityProps } from '@leanscope/ecs-engine';
 import React, { useEffect, useRef, useState } from 'react';
 import { IoHeadset, IoPlay, IoPlayBack, IoPlayForward } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { DateAddedProps, SourceProps, TitleProps } from '../../../../app/additionalFacets';
+import { DateAddedProps, SourceProps, TitleProps } from '../../../../base/additionalFacets';
 import { AdditionalTag } from '../../../../base/enums';
+import { useIsViewVisible } from '../../../../common/hooks/useIsViewVisible';
+import { formatCounterTime } from '../../../../common/utilities/formatTime';
 import { FlexBox, Sheet } from '../../../../components';
-import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
-import { formatCounterTime } from '../../../../utils/formatTime';
 import { useSelectedSchoolSubjectColor } from '../../hooks/useSelectedSchoolSubjectColor';
 import LoadPodcastAudioSystem from '../../systems/LoadPodcastAudioSystem';
 

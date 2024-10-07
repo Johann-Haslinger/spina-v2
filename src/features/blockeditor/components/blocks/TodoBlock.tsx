@@ -4,7 +4,7 @@ import { FloatOrderProps, IdentifierFacet } from '@leanscope/ecs-models';
 import { useEffect, useRef } from 'react';
 import { IoCheckmarkCircle, IoCloseCircle, IoEllipseOutline } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { TodoStateFacet } from '../../../../app/additionalFacets';
+import { TodoStateFacet } from '../../../../base/additionalFacets';
 import { SupabaseColumn, SupabaseTable } from '../../../../base/enums';
 import supabaseClient from '../../../../lib/supabase';
 import { useCurrentBlockeditor } from '../../hooks/useCurrentBlockeditor';

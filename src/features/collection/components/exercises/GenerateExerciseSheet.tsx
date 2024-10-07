@@ -2,9 +2,9 @@ import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext } from 'react';
 import { Story } from '../../../../base/enums';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
+import { displayButtonTexts } from '../../../../common/utilities/displayText';
 import { FlexBox, SecondaryButton, Section, SectionRow, Sheet, Spacer } from '../../../../components';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
-import { displayButtonTexts } from '../../../../utils/displayText';
 
 const GenerateExerciseSheet = () => {
   const lsc = useContext(LeanScopeClientContext);

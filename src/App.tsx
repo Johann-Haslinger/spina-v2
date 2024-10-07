@@ -3,9 +3,18 @@ import { EntityPropsMapper } from '@leanscope/ecs-engine';
 import { Tags } from '@leanscope/ecs-models';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import tw from 'twin.macro';
-import { DateAddedFacet, SourceFacet, TitleFacet } from './app/additionalFacets';
+import { DateAddedFacet, SourceFacet, TitleFacet } from './base/additionalFacets';
 import { DataType, NavigationLink, Story } from './base/enums';
-import { InitializeLoadingIndicatorSystem } from './common/systems';
+import {
+  InitializeAppSystem,
+  InitializeLoadingIndicatorSystem,
+  InitializeSchoolSubjectsSystem,
+  InitializeStoriesSystem,
+  InitializeUserSystem,
+  ViewManagerSystem,
+} from './common/systems';
+import { formatNavLinkAsPath } from './common/utilities/formatNavLinkAsPath';
+import { dataTypeQuery } from './common/utilities/queries';
 import { Sidebar } from './components';
 import TabBar from './components/navigation/TabBar';
 import { AuthUI } from './features/auth-ui';
@@ -13,15 +22,6 @@ import PodcastSheet from './features/collection/components/podcasts/PodcastSheet
 import { SettingsOverviewSheet } from './features/settings';
 import { UseAsPWAInstructionsSheet } from './features/tutorial';
 import { Collection, Exams, Flashcards, Groups, Homeworks, Overview, SuccessPage } from './pages/Index';
-import {
-  InitializeAppSystem,
-  InitializeSchoolSubjectsSystem,
-  InitializeStoriesSystem,
-  InitializeUserSystem,
-  ViewManagerSystem,
-} from './systems';
-import { formatNavLinkAsPath } from './utils/formatNavLinkAsPath';
-import { dataTypeQuery } from './utils/queries';
 
 const StyledContentWrapper = styled.div`
   ${tw`w-screen h-screen bg-primary dark:bg-primary-dark`}
@@ -40,7 +40,7 @@ function App() {
         <Sidebar />
         <Routes>
           <Route path="/" element={<Overview />} />
-          <Route path='/success' element={<SuccessPage />} />
+          <Route path="/success" element={<SuccessPage />} />
           <Route path={formatNavLinkAsPath(NavigationLink.OVERVIEW)} element={<Overview />} />
           <Route path={formatNavLinkAsPath(NavigationLink.HOMEWORKS)} element={<Homeworks />} />
           <Route path={formatNavLinkAsPath(NavigationLink.EXAMS)} element={<Exams />} />
@@ -58,7 +58,6 @@ function App() {
         onMatch={PodcastSheet}
       />{' '}
       <AuthUI />
-      
       <UseAsPWAInstructionsSheet />
     </StyledContentWrapper>
   );

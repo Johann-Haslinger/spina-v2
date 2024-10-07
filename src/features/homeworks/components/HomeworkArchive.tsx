@@ -7,13 +7,13 @@ import { motion } from 'framer-motion';
 import { useContext, useState } from 'react';
 import { IoChevronForward, IoHomeOutline } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { RelationshipFacet, TitleFacet, TitleProps } from '../../../app/additionalFacets';
+import { RelationshipFacet, TitleFacet, TitleProps } from '../../../base/additionalFacets';
 import { DataType, Story } from '../../../base/enums';
+import { useSelectedLanguage } from '../../../common/hooks/useSelectedLanguage';
+import { displayHeaderTexts } from '../../../common/utilities/displayText';
+import { dataTypeQuery } from '../../../common/utilities/queries';
+import { sortEntitiesByDateAdded } from '../../../common/utilities/sortEntitiesByTime';
 import { BackButton, NavigationBar, SecondaryText, Spacer, Title, View } from '../../../components';
-import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
-import { displayHeaderTexts } from '../../../utils/displayText';
-import { dataTypeQuery } from '../../../utils/queries';
-import { sortEntitiesByDateAdded } from '../../../utils/sortEntitiesByTime';
 import { useFormattedDateAdded } from '../../collection/hooks/useFormattedDateAdded';
 import InitializeHomeworksForArchiveSystem from '../systems/InitializeHomeworksForArchiveSystem';
 

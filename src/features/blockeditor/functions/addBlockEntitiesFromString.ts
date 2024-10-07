@@ -2,7 +2,7 @@ import { ILeanScopeClient } from '@leanscope/api-client/interfaces';
 import { Entity } from '@leanscope/ecs-engine';
 import { FloatOrderFacet, IdentifierFacet, ParentFacet, TextFacet } from '@leanscope/ecs-models';
 import { v4 } from 'uuid';
-import { BlocktypeFacet, TexttypeFacet } from '../../../app/additionalFacets';
+import { BlocktypeFacet, TexttypeFacet } from '../../../base/additionalFacets';
 import { Blocktype, DataType, Texttype } from '../../../base/enums';
 import { addBlock } from './addBlock';
 

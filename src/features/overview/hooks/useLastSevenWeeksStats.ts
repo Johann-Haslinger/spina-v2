@@ -1,8 +1,8 @@
 import { Entity, useEntities } from '@leanscope/ecs-engine';
 import { useEffect, useState } from 'react';
-import { DateAddedFacet, FlashcardCountFacet } from '../../../app/additionalFacets';
+import { DateAddedFacet, FlashcardCountFacet } from '../../../base/additionalFacets';
 import { DataType } from '../../../base/enums';
-import { dataTypeQuery } from '../../../utils/queries';
+import { dataTypeQuery } from '../../../common/utilities/queries';
 
 const getMaxFlashcardsPerDay = (flashcardSessionEntities: readonly Entity[]): number => {
   const flashcardsPerDay: { [date: string]: number } = {};

@@ -1,7 +1,7 @@
 import { Entity, useEntities } from '@leanscope/ecs-engine';
 import { ParentFacet } from '@leanscope/ecs-models';
 import { DataType } from '../../../base/enums';
-import { dataTypeQuery, isChildOfQuery } from '../../../utils/queries';
+import { dataTypeQuery, isChildOfQuery } from '../../../common/utilities/queries';
 
 export const useExerciseParts = (exerciseEntity?: Entity, exercisePartEntity?: Entity) => {
   const [exercisePartEntities] = useEntities(

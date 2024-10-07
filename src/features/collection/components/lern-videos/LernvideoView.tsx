@@ -1,9 +1,9 @@
 import { EntityProps } from '@leanscope/ecs-engine';
 import { IdentifierProps } from '@leanscope/ecs-models';
 import { Fragment } from 'react/jsx-runtime';
-import { DateAddedProps, TitleProps } from '../../../../app/additionalFacets';
+import { DateAddedProps, TitleProps } from '../../../../base/additionalFacets';
+import { useIsViewVisible } from '../../../../common/hooks/useIsViewVisible';
 import { View } from '../../../../components';
-import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
 
 import { dummyBase64Audio } from '../../../../base/dummyBase64Audio';
 import { dummyBase64Image } from '../../../../base/dummyBase64Image';

@@ -11,8 +11,11 @@ import {
   MasteryLevelProps,
   QuestionFacet,
   QuestionProps,
-} from '../../../../app/additionalFacets';
+} from '../../../../base/additionalFacets';
 import { AdditionalTag, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
+import { useIsViewVisible } from '../../../../common/hooks/useIsViewVisible';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
+import { displayActionTexts, displayButtonTexts } from '../../../../common/utilities/displayText';
 import {
   FlexBox,
   PrimaryButton,
@@ -24,10 +27,7 @@ import {
   Spacer,
   TextAreaInput,
 } from '../../../../components';
-import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../../lib/supabase';
-import { displayActionTexts, displayButtonTexts } from '../../../../utils/displayText';
 
 const StyledMasteryLevelText = styled.div`
   ${tw`lg:pl-10 px-4 dark:text-primary-text-dark`}

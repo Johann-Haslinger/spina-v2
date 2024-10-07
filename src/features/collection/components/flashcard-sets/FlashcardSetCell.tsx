@@ -1,6 +1,6 @@
 import { EntityProps } from '@leanscope/ecs-engine';
 import { Tags } from '@leanscope/ecs-models';
-import { TitleProps } from '../../../../app/additionalFacets';
+import { TitleProps } from '../../../../base/additionalFacets';
 import { FlashcardSetThumbNail } from '../../../../components';
 import { useSelectedSchoolSubjectColor } from '../../hooks/useSelectedSchoolSubjectColor';
 

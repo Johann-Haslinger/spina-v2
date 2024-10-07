@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import { IoBook } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { useSelectedLanguage } from '../../hooks/useSelectedLanguage';
-import { displayAlertTexts, displayDataTypeTexts } from '../../utils/displayText';
+import { useSelectedLanguage } from '../../common/hooks/useSelectedLanguage';
+import { displayAlertTexts, displayDataTypeTexts } from '../../common/utilities/displayText';
 
 const StyledTopictCellWrapper = styled.div`
   ${tw`pb-4 min-h-40 w-36`}

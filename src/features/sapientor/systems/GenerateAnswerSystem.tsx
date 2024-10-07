@@ -2,7 +2,7 @@ import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity, useEntities } from '@leanscope/ecs-engine';
 import { IdentifierFacet, TextFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
-import { DateAddedFacet, MessageRoleFacet, RelatedResourcesFacet } from '../../../app/additionalFacets';
+import { DateAddedFacet, MessageRoleFacet, RelatedResourcesFacet } from '../../../base/additionalFacets';
 import { AdditionalTag, MessageRole } from '../../../base/enums';
 import { Resource } from '../../../base/types';
 import supabaseClient from '../../../lib/supabase';

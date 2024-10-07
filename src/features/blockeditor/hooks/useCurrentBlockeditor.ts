@@ -1,6 +1,6 @@
 import { useEntities } from '@leanscope/ecs-engine';
 import { IdentifierFacet } from '@leanscope/ecs-models';
-import { BlockeditorStateFacet } from '../../../app/additionalFacets';
+import { BlockeditorStateFacet } from '../../../base/additionalFacets';
 import { AdditionalTag } from '../../../base/enums';
 
 export const useCurrentBlockeditor = () => {

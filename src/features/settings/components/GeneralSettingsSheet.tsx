@@ -3,9 +3,9 @@ import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext } from 'react';
 import { IoMoonOutline, IoSunnyOutline } from 'react-icons/io5';
 import { Story, SupportedTheme } from '../../../base/enums';
+import { useSelectedLanguage } from '../../../common/hooks/useSelectedLanguage';
+import { displayLabelTexts } from '../../../common/utilities/displayText';
 import { CloseButton, FlexBox, Section, SectionRow, SelectInput, Sheet, Spacer } from '../../../components';
-import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
-import { displayLabelTexts } from '../../../utils/displayText';
 import { useSelectedTheme } from '../../collection/hooks/useSelectedTheme';
 
 const GeneralSettingsSheet = () => {

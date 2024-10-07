@@ -3,9 +3,9 @@ import { EntityPropsMapper } from '@leanscope/ecs-engine';
 import { FloatOrderFacet, IdentifierFacet, ParentFacet, TextFacet } from '@leanscope/ecs-models';
 import { DragDropContext, Droppable, DroppableProvided } from 'react-beautiful-dnd';
 import tw from 'twin.macro';
-import { BlocktypeFacet } from '../../../app/additionalFacets';
+import { BlocktypeFacet } from '../../../base/additionalFacets';
 import { DataType } from '../../../base/enums';
-import { sortEntitiesByFloatOrder } from '../../../utils/sortEntitiesByFloatOrder';
+import { sortEntitiesByFloatOrder } from '../../../common/utilities/sortEntitiesByFloatOrder';
 import { useCurrentBlockeditor } from '../hooks/useCurrentBlockeditor';
 import BlockRenderer from './Blockrenderer';
 

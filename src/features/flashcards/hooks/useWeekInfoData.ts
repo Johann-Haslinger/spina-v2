@@ -5,9 +5,9 @@ import {
   DurationFacet,
   FlashcardCountFacet,
   FlashcardPerformanceFacet,
-} from '../../../app/additionalFacets';
+} from '../../../base/additionalFacets';
 import { DataType } from '../../../base/enums';
-import { dataTypeQuery } from '../../../utils/queries';
+import { dataTypeQuery } from '../../../common/utilities/queries';
 
 export type FlashcardPerformance = {
   skip: number;

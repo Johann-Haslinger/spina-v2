@@ -5,10 +5,15 @@ import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { Fragment, useContext, useEffect, useRef, useState } from 'react';
 import { IoAdd, IoColorWandOutline } from 'react-icons/io5';
 import { v4 } from 'uuid';
-import { AnswerFacet, MasteryLevelFacet, QuestionFacet } from '../../../../app/additionalFacets';
+import { AnswerFacet, MasteryLevelFacet, QuestionFacet } from '../../../../base/additionalFacets';
 import { DataType, LearningUnitType, Story, SupabaseEdgeFunction } from '../../../../base/enums';
 import { useImageSelector, useInputFocus } from '../../../../common/hooks';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
 import { useSelectedLearningUnit } from '../../../../common/hooks/useSelectedLearningUnit';
+import { useUserData } from '../../../../common/hooks/useUserData';
+import { addFlashcards } from '../../../../common/utilities/addFlashcards';
+import { displayButtonTexts } from '../../../../common/utilities/displayText';
+import { generateFlashCards } from '../../../../common/utilities/generateResources';
 import {
   FlexBox,
   PrimaryButton,
@@ -21,12 +26,7 @@ import {
   TextAreaInput,
 } from '../../../../components';
 import GeneratingIndecator from '../../../../components/content/GeneratingIndecator';
-import { addFlashcards } from '../../../../functions/addFlashcards';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
-import { useUserData } from '../../../../hooks/useUserData';
 import supabaseClient from '../../../../lib/supabase';
-import { displayButtonTexts } from '../../../../utils/displayText';
-import { generateFlashCards } from '../../../../utils/generateResources';
 import { updateLearningUnitType } from '../../functions/updateLearningUnitType';
 import PreviewFlashcard from './PreviewFlashcard';
 

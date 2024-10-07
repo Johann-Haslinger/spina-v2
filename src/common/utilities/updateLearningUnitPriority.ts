@@ -1,6 +1,6 @@
 import { Entity } from '@leanscope/ecs-engine';
-import { IdentifierFacet, CountFacet } from '@leanscope/ecs-models';
-import { PriorityFacet } from '../../app/additionalFacets';
+import { CountFacet, IdentifierFacet } from '@leanscope/ecs-models';
+import { PriorityFacet } from '../../base/additionalFacets';
 import { LearningUnitPriority, SupabaseTable } from '../../base/enums';
 import supabaseClient from '../../lib/supabase';
 

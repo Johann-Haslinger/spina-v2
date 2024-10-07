@@ -2,10 +2,10 @@ import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext } from 'react';
 import { AdditionalTag, Story, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
+import { displayActionTexts } from '../../../../common/utilities/displayText';
 import { Alert, AlertButton } from '../../../../components';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../../lib/supabase';
-import { displayActionTexts } from '../../../../utils/displayText';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
 
 const DeleteTopicAlert = () => {

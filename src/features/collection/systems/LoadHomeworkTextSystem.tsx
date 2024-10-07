@@ -3,8 +3,8 @@ import { IdentifierFacet, Tags, TextFacet } from '@leanscope/ecs-models';
 import { useEffect } from 'react';
 import { dummyText } from '../../../base/dummy';
 import { DataType, SupabaseColumn, SupabaseTable } from '../../../base/enums';
-import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
-import { useUserData } from '../../../hooks/useUserData';
+import { useCurrentDataSource } from '../../../common/hooks/useCurrentDataSource';
+import { useUserData } from '../../../common/hooks/useUserData';
 import supabaseClient from '../../../lib/supabase';
 
 const fetchHomeworkText = async (homeworkId: string) => {

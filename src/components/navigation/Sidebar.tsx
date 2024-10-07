@@ -20,13 +20,13 @@ import tw from 'twin.macro';
 import { ViSpina } from '../../assets/icons';
 import { COLOR_ITEMS, MEDIUM_DEVICE_WIDTH, NAV_LINKS } from '../../base/constants';
 import { NavigationLink, Story, SupportedLanguage, SupportedTheme } from '../../base/enums';
+import { useSelectedLanguage } from '../../common/hooks/useSelectedLanguage';
+import { useUserData } from '../../common/hooks/useUserData';
+import { useWindowDimensions } from '../../common/hooks/useWindowDimensions';
+import { displayAlertTexts, displayButtonTexts, displayHeaderTexts } from '../../common/utilities/displayText';
 import { useAppState } from '../../features/collection/hooks/useAppState';
 import { usePlayingPodcast } from '../../features/collection/hooks/usePlayingPodcast';
 import { useSelectedTheme } from '../../features/collection/hooks/useSelectedTheme';
-import { useSelectedLanguage } from '../../hooks/useSelectedLanguage';
-import { useUserData } from '../../hooks/useUserData';
-import { useWindowDimensions } from '../../hooks/useWindowDimensions';
-import { displayAlertTexts, displayButtonTexts, displayHeaderTexts } from '../../utils/displayText';
 import NavigationLinkIcon from './NavigationLinkIcon';
 
 const StyledSelectedPodcasrCellWrapper = styled.div<{ visible: boolean }>`

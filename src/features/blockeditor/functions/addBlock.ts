@@ -1,7 +1,7 @@
 import { ILeanScopeClient } from '@leanscope/api-client/interfaces';
 import { Entity } from '@leanscope/ecs-engine';
 import { FloatOrderFacet, IdentifierFacet, ImageFacet, ParentFacet, TextFacet } from '@leanscope/ecs-models';
-import { BlocktypeFacet, ListStyleFacet, TexttypeFacet, TodoStateFacet } from '../../../app/additionalFacets';
+import { BlocktypeFacet, ListStyleFacet, TexttypeFacet, TodoStateFacet } from '../../../base/additionalFacets';
 import { SupabaseTable } from '../../../base/enums';
 import supabaseClient from '../../../lib/supabase';
 

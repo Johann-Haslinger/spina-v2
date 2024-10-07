@@ -3,8 +3,12 @@ import { EntityPropsMapper, useEntities } from '@leanscope/ecs-engine';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { Fragment, useContext } from 'react';
 import { IoAdd } from 'react-icons/io5';
-import { DateAddedFacet, TitleFacet } from '../../../../app/additionalFacets';
+import { DateAddedFacet, TitleFacet } from '../../../../base/additionalFacets';
 import { DataType, Story } from '../../../../base/enums';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
+import { displayHeaderTexts } from '../../../../common/utilities/displayText';
+import { dataTypeQuery } from '../../../../common/utilities/queries';
+import { sortEntitiesByDateAdded } from '../../../../common/utilities/sortEntitiesByTime';
 import {
   BackButton,
   NavBarButton,
@@ -14,10 +18,6 @@ import {
   Title,
   View,
 } from '../../../../components';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
-import { displayHeaderTexts } from '../../../../utils/displayText';
-import { dataTypeQuery } from '../../../../utils/queries';
-import { sortEntitiesByDateAdded } from '../../../../utils/sortEntitiesByTime';
 import LoadPodcastsSystem from '../../systems/LoadPodcastsSystem';
 import DeletePodcastAlert from './DeletePodcastAlert';
 import PodcastRow from './PodcastRow';

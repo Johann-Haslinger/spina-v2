@@ -6,8 +6,8 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import tw from 'twin.macro';
 import { Story } from '../../../base/enums';
+import { useSession } from '../../../common/hooks/useSession';
 import { Sheet } from '../../../components';
-import { useSession } from '../../../hooks/useSession';
 import supabaseClient from '../../../lib/supabase';
 import { useSelectedTheme } from '../../collection/hooks/useSelectedTheme';
 
@@ -60,7 +60,7 @@ const AuthUI = () => {
     duration: 0.5,
   };
 
-  const isVisible = isLoggedIn == false && !isAddingToHomeScreen
+  const isVisible = isLoggedIn == false && !isAddingToHomeScreen;
 
   return (
     isLoggedIn !== null && (

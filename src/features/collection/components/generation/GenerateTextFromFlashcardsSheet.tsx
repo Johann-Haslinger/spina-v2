@@ -3,8 +3,12 @@ import { Entity, useEntities } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet, TextFacet } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
-import { AnswerFacet, QuestionFacet, TitleFacet } from '../../../../app/additionalFacets';
+import { AnswerFacet, QuestionFacet, TitleFacet } from '../../../../base/additionalFacets';
 import { AdditionalTag, DataType, Story } from '../../../../base/enums';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
+import { displayButtonTexts } from '../../../../common/utilities/displayText';
+import { generateImprovedText } from '../../../../common/utilities/generateResources';
+import { dataTypeQuery, isChildOfQuery } from '../../../../common/utilities/queries';
 import {
   FlexBox,
   GeneratingIndecator,
@@ -15,10 +19,6 @@ import {
   Spacer,
 } from '../../../../components';
 import SapientorConversationMessage from '../../../../components/content/SapientorConversationMessage';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
-import { displayButtonTexts } from '../../../../utils/displayText';
-import { generateImprovedText } from '../../../../utils/generateResources';
-import { dataTypeQuery, isChildOfQuery } from '../../../../utils/queries';
 import { addBlockEntitiesFromString } from '../../../blockeditor/functions/addBlockEntitiesFromString';
 import { useSelectedFlashcardSet } from '../../hooks/useSelectedFlashcardSet';
 

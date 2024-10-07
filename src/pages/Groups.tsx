@@ -4,16 +4,16 @@ import { ColorFacet, DescriptionFacet, Tags } from '@leanscope/ecs-models';
 import { useContext } from 'react';
 import { IoCreateOutline } from 'react-icons/io5';
 import { Fragment } from 'react/jsx-runtime';
-import { TitleFacet } from '../app/additionalFacets';
+import { TitleFacet } from '../base/additionalFacets';
 import { DataType, Story } from '../base/enums';
+import { useSelectedLanguage } from '../common/hooks/useSelectedLanguage';
+import { displayHeaderTexts } from '../common/utilities/displayText';
+import { dataTypeQuery } from '../common/utilities/queries';
 import { CollectionGrid, NavBarButton, NavigationBar, NoContentAddedHint, Spacer, Title, View } from '../components';
 import { LearningGroupCell, LearningGroupView } from '../features/groups';
 import AddLearningGroupSheet from '../features/groups/components/AddLearningGroupSheet';
 import { useLearningGroups } from '../features/groups/hooks/useLearningGroups';
 import InitializeLearningGroupsSystem from '../features/groups/systems/InitializeLearningGroupsSystem';
-import { useSelectedLanguage } from '../hooks/useSelectedLanguage';
-import { displayHeaderTexts } from '../utils/displayText';
-import { dataTypeQuery } from '../utils/queries';
 
 const Groups = () => {
   const lsc = useContext(LeanScopeClientContext);

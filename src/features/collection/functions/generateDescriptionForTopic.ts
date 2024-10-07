@@ -1,9 +1,9 @@
 import { Entity } from '@leanscope/ecs-engine';
 import { DescriptionFacet, IdentifierFacet } from '@leanscope/ecs-models';
-import { TitleFacet } from '../../../app/additionalFacets';
+import { TitleFacet } from '../../../base/additionalFacets';
 import { AdditionalTag, SupabaseTable } from '../../../base/enums';
+import { getCompletion } from '../../../common/utilities/getCompletion';
 import supabaseClient from '../../../lib/supabase';
-import { getCompletion } from '../../../utils/getCompletion';
 
 export const generateDescriptionForTopic = async (entity: Entity) => {
   const description = entity.get(DescriptionFacet)?.props.description;

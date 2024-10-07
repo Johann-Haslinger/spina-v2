@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { IoCheckmark, IoFlame, IoSnowOutline } from 'react-icons/io5';
 import Skeleton from 'react-loading-skeleton';
 import tw from 'twin.macro';
-import { DateUpdatedFacet, StreakFacet } from '../../../app/additionalFacets';
+import { DateUpdatedFacet, StreakFacet } from '../../../base/additionalFacets';
 import { useLoadingIndicator } from '../../../common/hooks';
 
 const StyledCardWrapper = styled.div`

@@ -2,11 +2,11 @@ import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext } from 'react';
 import { AdditionalTag, Story, SupabaseTable } from '../../../../base/enums';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
 import { useSelectedLearningUnit } from '../../../../common/hooks/useSelectedLearningUnit';
+import { displayActionTexts } from '../../../../common/utilities/displayText';
 import { Alert, AlertButton } from '../../../../components';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../../lib/supabase';
-import { displayActionTexts } from '../../../../utils/displayText';
 
 const DeleteLearningUnitAlert = () => {
   const lsc = useContext(LeanScopeClientContext);

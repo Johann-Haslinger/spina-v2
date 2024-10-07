@@ -6,9 +6,14 @@ import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
 import tw from 'twin.macro';
 import { v4 } from 'uuid';
-import { TitleFacet } from '../../../app/additionalFacets';
+import { TitleFacet } from '../../../base/additionalFacets';
 import { COLOR_ITEMS } from '../../../base/constants';
 import { DataType, Story, SupabaseTable } from '../../../base/enums';
+import { useCurrentDataSource } from '../../../common/hooks/useCurrentDataSource';
+import { useSchoolSubjectEntities } from '../../../common/hooks/useSchoolSubjects';
+import { useSelectedLanguage } from '../../../common/hooks/useSelectedLanguage';
+import { useUserData } from '../../../common/hooks/useUserData';
+import { displayAlertTexts, displayButtonTexts, displayLabelTexts } from '../../../common/utilities/displayText';
 import {
   FlexBox,
   PrimaryButton,
@@ -20,12 +25,7 @@ import {
   TextAreaInput,
   TextInput,
 } from '../../../components';
-import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
-import { useSchoolSubjectEntities } from '../../../hooks/useSchoolSubjects';
-import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
-import { useUserData } from '../../../hooks/useUserData';
 import supabaseClient from '../../../lib/supabase';
-import { displayAlertTexts, displayButtonTexts, displayLabelTexts } from '../../../utils/displayText';
 
 const StyledColorSelect = styled.select<{ color: string }>`
   ${tw`rounded-md text-white px-2 outline-none py-0.5`}

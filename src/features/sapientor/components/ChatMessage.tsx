@@ -6,14 +6,14 @@ import { motion } from 'framer-motion';
 import { useContext, useEffect } from 'react';
 import { Fragment } from 'react/jsx-runtime';
 import tw from 'twin.macro';
-import { MessageRoleProps, RelatedResourcesProps, TitleFacet, TitleProps } from '../../../app/additionalFacets';
+import { MessageRoleProps, RelatedResourcesProps, TitleFacet, TitleProps } from '../../../base/additionalFacets';
 import { COLOR_ITEMS } from '../../../base/constants';
 import { AdditionalTag, DataType, MessageRole } from '../../../base/enums';
 import { Resource } from '../../../base/types';
+import { useSelectedLanguage } from '../../../common/hooks/useSelectedLanguage';
+import { displayDataTypeTexts } from '../../../common/utilities/displayText';
 import { NoteThumbNail, TopicResoucreThumbNail } from '../../../components';
 import SapientorConversationMessage from '../../../components/content/SapientorConversationMessage';
-import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
-import { displayDataTypeTexts } from '../../../utils/displayText';
 import { useAppState } from '../../collection/hooks/useAppState';
 
 const TopicResourceCell = (props: TitleProps & EntityProps) => {

@@ -3,9 +3,9 @@ import { Entity, useEntityComponents } from '@leanscope/ecs-engine';
 import { Tags } from '@leanscope/ecs-models';
 import { motion } from 'framer-motion';
 import tw from 'twin.macro';
-import { RelationshipFacet, TitleFacet } from '../../../app/additionalFacets';
-import { useDaysUntilDue } from '../../../hooks/useDaysUntilDue';
-import { useSchoolSubject } from '../../../hooks/useSchoolSubject';
+import { RelationshipFacet, TitleFacet } from '../../../base/additionalFacets';
+import { useDaysUntilDue } from '../../../common/hooks/useDaysUntilDue';
+import { useSchoolSubject } from '../../../common/hooks/useSchoolSubject';
 import { useSelectedTheme } from '../../collection/hooks/useSelectedTheme';
 
 const StyledExamCellContainer = styled.div`

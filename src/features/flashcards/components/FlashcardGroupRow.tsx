@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { EntityProps } from '@leanscope/ecs-engine';
 import { Tags } from '@leanscope/ecs-models';
 import tw from 'twin.macro';
-import { PriorityProps, TitleProps } from '../../../app/additionalFacets';
+import { PriorityProps, TitleProps } from '../../../base/additionalFacets';
 import { COLOR_ITEMS } from '../../../base/constants';
 import { LearningUnitPriority } from '../../../base/enums';
 import { updatePriority } from '../../../common/utilities';

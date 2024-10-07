@@ -2,8 +2,8 @@ import { useEntities } from '@leanscope/ecs-engine';
 import { Tags } from '@leanscope/ecs-models';
 import { COLOR_ITEMS } from '../../../base/constants';
 import { DataType } from '../../../base/enums';
-import { useSchoolSubjectColors } from '../../../hooks/useSchoolSubjectColors';
-import { dataTypeQuery } from '../../../utils/queries';
+import { useSchoolSubjectColors } from '../../../common/hooks/useSchoolSubjectColors';
+import { dataTypeQuery } from '../../../common/utilities/queries';
 
 export const useSelectedSchoolSubjectColor = () => {
   const [selectedSchoolSubjectEntity] = useEntities(

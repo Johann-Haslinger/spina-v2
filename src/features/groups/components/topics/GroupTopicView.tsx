@@ -3,8 +3,13 @@ import { EntityProps, EntityPropsMapper } from '@leanscope/ecs-engine';
 import { DescriptionProps, IdentifierFacet } from '@leanscope/ecs-models';
 import { Fragment, useContext } from 'react';
 import { IoCreateOutline, IoEllipsisHorizontalCircleOutline, IoTrashOutline } from 'react-icons/io5';
-import { TitleFacet, TitleProps } from '../../../../app/additionalFacets';
+import { TitleFacet, TitleProps } from '../../../../base/additionalFacets';
 import { AdditionalTag, DataType, Story } from '../../../../base/enums';
+import { useIsViewVisible } from '../../../../common/hooks/useIsViewVisible';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
+import { displayActionTexts, displayAlertTexts } from '../../../../common/utilities/displayText';
+import { dataTypeQuery, isChildOfQuery } from '../../../../common/utilities/queries';
+import { sortEntitiesByDateAdded } from '../../../../common/utilities/sortEntitiesByTime';
 import {
   ActionRow,
   BackButton,
@@ -17,11 +22,6 @@ import {
   Title,
   View,
 } from '../../../../components';
-import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
-import { displayActionTexts, displayAlertTexts } from '../../../../utils/displayText';
-import { dataTypeQuery, isChildOfQuery } from '../../../../utils/queries';
-import { sortEntitiesByDateAdded } from '../../../../utils/sortEntitiesByTime';
 import FlashcardSetCell from '../../../collection/components/flashcard-sets/FlashcardSetCell';
 import LearningUnitCell from '../../../collection/components/learning_units/LearningUnitCell';
 import { useEntityHasChildren } from '../../../collection/hooks/useEntityHasChildren';

@@ -2,7 +2,7 @@ import { ILeanScopeClient } from '@leanscope/api-client/interfaces';
 import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { v4 } from 'uuid';
-import { FilePathFacet, TitleFacet, TypeFacet } from '../../../app/additionalFacets';
+import { FilePathFacet, TitleFacet, TypeFacet } from '../../../base/additionalFacets';
 import { DataType, SupabaseStorageBucket, SupabaseTable } from '../../../base/enums';
 import supabaseClient from '../../../lib/supabase';
 

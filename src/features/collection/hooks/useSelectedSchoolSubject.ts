@@ -1,8 +1,8 @@
 import { useEntity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, OrderFacet, Tags } from '@leanscope/ecs-models';
-import { TitleFacet } from '../../../app/additionalFacets';
+import { TitleFacet } from '../../../base/additionalFacets';
 import { DataType } from '../../../base/enums';
-import { dataTypeQuery } from '../../../utils/queries';
+import { dataTypeQuery } from '../../../common/utilities/queries';
 
 export const useSelectedSchoolSubject = () => {
   const [selectedSchoolSubjectEntity] = useEntity(

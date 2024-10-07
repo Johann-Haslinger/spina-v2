@@ -4,8 +4,11 @@ import { IdentifierProps, TextFacet, TextProps } from '@leanscope/ecs-models';
 import { useContext } from 'react';
 import { IoCreateOutline, IoEllipsisHorizontalCircleOutline, IoTrashOutline } from 'react-icons/io5';
 import { Fragment } from 'react/jsx-runtime';
-import { TitleProps } from '../../../app/additionalFacets';
+import { TitleProps } from '../../../base/additionalFacets';
 import { AdditionalTag, Story, SupabaseColumn, SupabaseTable } from '../../../base/enums';
+import { useIsViewVisible } from '../../../common/hooks/useIsViewVisible';
+import { useSelectedLanguage } from '../../../common/hooks/useSelectedLanguage';
+import { displayActionTexts, displayButtonTexts, displayHeaderTexts } from '../../../common/utilities/displayText';
 import {
   ActionRow,
   BackButton,
@@ -16,10 +19,7 @@ import {
   Title,
   View,
 } from '../../../components';
-import { useIsViewVisible } from '../../../hooks/useIsViewVisible';
-import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../lib/supabase';
-import { displayActionTexts, displayButtonTexts, displayHeaderTexts } from '../../../utils/displayText';
 import LoadExamTextSystem from '../systems/LoadExamTextSystem';
 import DeleteExamAlert from './DeleteExamAlert';
 import EditExamSheet from './EditExamSheet';

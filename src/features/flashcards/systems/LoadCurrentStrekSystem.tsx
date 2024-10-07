@@ -3,11 +3,11 @@ import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { v4 } from 'uuid';
-import { DateUpdatedFacet, StreakFacet } from '../../../app/additionalFacets';
+import { DateUpdatedFacet, StreakFacet } from '../../../base/additionalFacets';
 import { dummyStreak } from '../../../base/dummy';
 import { SupabaseTable } from '../../../base/enums';
-import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
-import { useUserData } from '../../../hooks/useUserData';
+import { useCurrentDataSource } from '../../../common/hooks/useCurrentDataSource';
+import { useUserData } from '../../../common/hooks/useUserData';
 import supabaseClient from '../../../lib/supabase';
 
 const fetchCurrentStreak = async () => {

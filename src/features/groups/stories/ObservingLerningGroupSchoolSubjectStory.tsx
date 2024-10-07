@@ -3,19 +3,19 @@ import { EntityCreator } from '@leanscope/ecs-engine';
 import { ColorFacet, DescriptionFacet, IdentifierFacet, OrderFacet, ParentFacet, Tags } from '@leanscope/ecs-models';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { TitleFacet } from '../../../app/additionalFacets';
+import { TitleFacet } from '../../../base/additionalFacets';
 import { COLOR_ITEMS } from '../../../base/constants';
 import { DataType, Story } from '../../../base/enums';
 import { Sidebar } from '../../../components';
 
 import { LocalDataMode } from '@leanscope/api-client';
 import { customFacetBuildersMap } from '@leanscope/ecs-generation';
+import InitializeAppSystem from '../../../common/systems/InitializeAppSystem';
+import InitializeSchoolSubjectsSystem from '../../../common/systems/InitializeSchoolSubjectsSystem';
+import InitializeStoriesSystem from '../../../common/systems/InitializeStoriesSystem';
+import ViewManagerSystem from '../../../common/systems/ViewManagerSystem';
 import { VITE_SUPABASE_KEY, VITE_SUPABASE_URL } from '../../../environment';
 import { Groups } from '../../../pages/Index';
-import InitializeAppSystem from '../../../systems/InitializeAppSystem';
-import InitializeSchoolSubjectsSystem from '../../../systems/InitializeSchoolSubjectsSystem';
-import InitializeStoriesSystem from '../../../systems/InitializeStoriesSystem';
-import ViewManagerSystem from '../../../systems/ViewManagerSystem';
 import { SettingsOverviewSheet as Settings } from '../../settings';
 
 const ObservingLerningGroupSchoolSubjectStory = () => {

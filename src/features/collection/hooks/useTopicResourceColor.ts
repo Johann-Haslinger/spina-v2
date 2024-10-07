@@ -2,7 +2,7 @@ import { Entity, useEntity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, OrderFacet, ParentFacet } from '@leanscope/ecs-models';
 import { COLOR_ITEMS } from '../../../base/constants';
 import { DataType } from '../../../base/enums';
-import { dataTypeQuery } from '../../../utils/queries';
+import { dataTypeQuery } from '../../../common/utilities/queries';
 
 export const useTopicResourceColor = (resourceEntity: Entity) => {
   const topicId = resourceEntity.get(ParentFacet)?.props.parentId;

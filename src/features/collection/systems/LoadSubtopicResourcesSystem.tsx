@@ -8,10 +8,10 @@ import {
   MasteryLevelFacet,
   QuestionFacet,
   TitleFacet,
-} from '../../../app/additionalFacets';
+} from '../../../base/additionalFacets';
 import { dummyFlashcards, dummyPodcasts } from '../../../base/dummy';
 import { DataType, SupabaseColumn, SupabaseTable } from '../../../base/enums';
-import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
+import { useCurrentDataSource } from '../../../common/hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 import { useSelectedSubtopic } from '../hooks/useSelectedSubtopic';
 

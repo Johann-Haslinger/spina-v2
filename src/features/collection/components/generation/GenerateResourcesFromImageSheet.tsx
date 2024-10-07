@@ -13,16 +13,16 @@ import {
   QuestionFacet,
   SourceFacet,
   TitleFacet,
-} from '../../../../app/additionalFacets';
+} from '../../../../base/additionalFacets';
 import { COLOR_ITEMS } from '../../../../base/constants';
 import { AdditionalTag, DataType, LearningUnitType, Story } from '../../../../base/enums';
+import { useUserData } from '../../../../common/hooks/useUserData';
+import { addBlocks } from '../../../../common/utilities/addBlocks';
+import { addFlashcards } from '../../../../common/utilities/addFlashcards';
+import { addLearningUnit } from '../../../../common/utilities/addLeaningUnit';
+import { addText } from '../../../../common/utilities/addText';
 import { CloseButton, FlexBox, ScrollableBox, Sheet } from '../../../../components';
 import SapientorConversationMessage from '../../../../components/content/SapientorConversationMessage';
-import { addBlocks } from '../../../../functions/addBlocks';
-import { addFlashcards } from '../../../../functions/addFlashcards';
-import { addLearningUnit } from '../../../../functions/addLeaningUnit';
-import { addText } from '../../../../functions/addText';
-import { useUserData } from '../../../../hooks/useUserData';
 import supabaseClient from '../../../../lib/supabase';
 import { getBlockEntitiesFromText } from '../../../blockeditor/functions/getBlockEntitiesFromString';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';

@@ -1,14 +1,14 @@
+import { LocalDataMode } from '@leanscope/api-client';
 import { LeanScopeClient, LeanScopeClientApp } from '@leanscope/api-client/browser';
+import { customFacetBuildersMap } from '@leanscope/ecs-generation';
 import React from 'react';
 import { Story } from '../../../base/enums';
+import InitializeAppSystem from '../../../common/systems/InitializeAppSystem';
+import InitializeSchoolSubjectsSystem from '../../../common/systems/InitializeSchoolSubjectsSystem';
+import InitializeStoriesSystem from '../../../common/systems/InitializeStoriesSystem';
+import ViewManagerSystem from '../../../common/systems/ViewManagerSystem';
+import { VITE_SUPABASE_KEY, VITE_SUPABASE_URL } from '../../../environment';
 import Exams from '../../../pages/Exams';
-import InitializeAppSystem from '../../../systems/InitializeAppSystem';
-import InitializeSchoolSubjectsSystem from '../../../systems/InitializeSchoolSubjectsSystem';
-import InitializeStoriesSystem from '../../../systems/InitializeStoriesSystem';
-import ViewManagerSystem from '../../../systems/ViewManagerSystem';
-import { LocalDataMode } from '@leanscope/api-client';
-import { customFacetBuildersMap } from '@leanscope/ecs-generation';
-import { VITE_SUPABASE_URL, VITE_SUPABASE_KEY } from '../../../environment';
 
 const ObservingExamsStory = () => {
   return (

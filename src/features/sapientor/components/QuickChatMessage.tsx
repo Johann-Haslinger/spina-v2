@@ -3,7 +3,7 @@ import { TextProps } from '@leanscope/ecs-models';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import tw from 'twin.macro';
-import { MessageRoleProps, RelatedResourcesProps } from '../../../app/additionalFacets';
+import { MessageRoleProps, RelatedResourcesProps } from '../../../base/additionalFacets';
 import { COLOR_ITEMS } from '../../../base/constants';
 import { MessageRole } from '../../../base/enums';
 

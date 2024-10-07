@@ -6,13 +6,13 @@ import { IoChevronForward, IoCreate, IoGrid, IoInformationCircle, IoPersonCircle
 import tw from 'twin.macro';
 import { COLOR_ITEMS } from '../../../base/constants';
 import { Story } from '../../../base/enums';
+import { useUserData } from '../../../common/hooks/useUserData';
 import { CloseButton, FlexBox, Section, SectionRow, Sheet, Spacer } from '../../../components';
-import { useUserData } from '../../../hooks/useUserData';
-import GeneralSettingsSheet from './GeneralSettingsSheet';
-import ProfileSettingsSheet from './ProfileSettingsSheet';
-import HelpAreaSheet from './HelpAreaSheet';
-import SchoolSubjectSettingsSheet from './SchoolSubjectSettingsSheet';
 import DataSettingsSheet from './DataSettingsSheet';
+import GeneralSettingsSheet from './GeneralSettingsSheet';
+import HelpAreaSheet from './HelpAreaSheet';
+import ProfileSettingsSheet from './ProfileSettingsSheet';
+import SchoolSubjectSettingsSheet from './SchoolSubjectSettingsSheet';
 
 const SettingsOverviewSheet = () => {
   const lsc = useContext(LeanScopeClientContext);

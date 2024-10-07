@@ -1,7 +1,7 @@
 import { Entity } from '@leanscope/ecs-engine';
 import { FloatOrderFacet, IdentifierFacet, ParentFacet, TextFacet } from '@leanscope/ecs-models';
 import { v4 } from 'uuid';
-import { BlocktypeFacet, TexttypeFacet } from '../../../app/additionalFacets';
+import { BlocktypeFacet, TexttypeFacet } from '../../../base/additionalFacets';
 import { Blocktype, DataType, Texttype } from '../../../base/enums';
 
 export const getBlockEntitiesFromText = (text: string, parentId: string): Entity[] => {

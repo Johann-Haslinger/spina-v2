@@ -6,9 +6,12 @@ import { useContext } from 'react';
 import { IoAdd } from 'react-icons/io5';
 import 'react-loading-skeleton/dist/skeleton.css';
 import tw from 'twin.macro';
-import { LearningUnitTypeFacet, PriorityFacet, TitleFacet } from '../app/additionalFacets';
+import { LearningUnitTypeFacet, PriorityFacet, TitleFacet } from '../base/additionalFacets';
 import { DataType, Story } from '../base/enums';
 import FlashcardQuizView from '../common/components/flashcards/FlashcardQuizView';
+import { useSelectedLanguage } from '../common/hooks/useSelectedLanguage';
+import { displayDataTypeTexts, displayHeaderTexts } from '../common/utilities/displayText';
+import { dataTypeQuery } from '../common/utilities/queries';
 import { ActionRow, NavBarButton, NavigationBar, Spacer, Title, View } from '../components';
 import { AddHomeworkSheet, HomeworkView } from '../features/collection';
 import LearningUnitView from '../features/collection/components/learning_units/LearningUnitView';
@@ -27,9 +30,6 @@ import {
   StartFlashcardSessionCard,
 } from '../features/overview';
 import FlashcardChartCard from '../features/overview/components/FlashcardChartCard';
-import { useSelectedLanguage } from '../hooks/useSelectedLanguage';
-import { displayDataTypeTexts, displayHeaderTexts } from '../utils/displayText';
-import { dataTypeQuery } from '../utils/queries';
 
 const StyledColumnsWrapper = styled.div`
   ${tw`grid grid-cols-1 md:grid-cols-2 gap-4`}

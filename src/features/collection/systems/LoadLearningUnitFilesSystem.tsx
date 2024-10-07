@@ -2,10 +2,10 @@ import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
-import { FilePathFacet, TitleFacet } from '../../../app/additionalFacets';
+import { FilePathFacet, TitleFacet } from '../../../base/additionalFacets';
 import { DataType, SupabaseTable } from '../../../base/enums';
+import { useCurrentDataSource } from '../../../common/hooks/useCurrentDataSource';
 import { useSelectedLearningUnit } from '../../../common/hooks/useSelectedLearningUnit';
-import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 
 const fetchFilesForLearningUnit = async (parentId: string) => {

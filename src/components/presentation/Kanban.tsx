@@ -4,7 +4,7 @@ import { IdentifierFacet } from '@leanscope/ecs-models';
 import { PropsWithChildren, ReactNode } from 'react';
 import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautiful-dnd';
 import tw from 'twin.macro';
-import { StatusFacet } from '../../app/additionalFacets';
+import { StatusFacet } from '../../base/additionalFacets';
 import { COLOR_ITEMS } from '../../base/constants';
 import { ProgressStatus } from '../../base/enums';
 

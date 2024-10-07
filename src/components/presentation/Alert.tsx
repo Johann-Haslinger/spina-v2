@@ -2,9 +2,9 @@ import styled from '@emotion/styled/macro';
 import { motion } from 'framer-motion';
 import { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import tw from 'twin.macro';
+import { useSelectedLanguage } from '../../common/hooks/useSelectedLanguage';
+import { displayAlertTexts } from '../../common/utilities/displayText';
 import { useSelectedTheme } from '../../features/collection/hooks/useSelectedTheme';
-import { useSelectedLanguage } from '../../hooks/useSelectedLanguage';
-import { displayAlertTexts } from '../../utils/displayText';
 
 const StyledAlertWrapper = styled.div`
   ${tw`bg-white dark:bg-secondary-dark overflow-hidden  text-primary-text dark:text-primary-text-dark w-10/12 md:w-64 mx-auto mt-72  backdrop-blur-lg bg-opacity-90 rounded-lg `}

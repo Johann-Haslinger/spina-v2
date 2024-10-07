@@ -17,13 +17,13 @@ import {
   StatusProps,
   TitleFacet,
   TitleProps,
-} from '../../../app/additionalFacets';
+} from '../../../base/additionalFacets';
 import { AdditionalTag, DataType, ProgressStatus, SupabaseTable } from '../../../base/enums';
 import { useLoadingIndicator } from '../../../common/hooks';
-import { useDaysUntilDue } from '../../../hooks/useDaysUntilDue';
+import { useDaysUntilDue } from '../../../common/hooks/useDaysUntilDue';
+import { dataTypeQuery } from '../../../common/utilities/queries';
+import { sortEntitiesByDueDate } from '../../../common/utilities/sortEntitiesByTime';
 import supabaseClient from '../../../lib/supabase';
-import { dataTypeQuery } from '../../../utils/queries';
-import { sortEntitiesByDueDate } from '../../../utils/sortEntitiesByTime';
 import { useSelectedTheme } from '../../collection/hooks/useSelectedTheme';
 import InitializeExamsSystem from '../../exams/systems/InitializeExamsSystem';
 import InitializeHomeworksSystem from '../../homeworks/systems/InitializeHomeworksSystem';

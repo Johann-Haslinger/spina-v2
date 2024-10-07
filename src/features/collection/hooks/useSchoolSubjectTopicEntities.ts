@@ -1,6 +1,6 @@
 import { Entity, useEntities } from '@leanscope/ecs-engine';
 import { AdditionalTag, DataType } from '../../../base/enums';
-import { dataTypeQuery, isChildOfQuery } from '../../../utils/queries';
+import { dataTypeQuery, isChildOfQuery } from '../../../common/utilities/queries';
 
 export const useSchoolSubjectTopicEntities = (schoolSubjectEntity?: Entity) => {
   const [topics] = useEntities(

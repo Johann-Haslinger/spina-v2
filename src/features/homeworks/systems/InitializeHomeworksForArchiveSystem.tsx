@@ -3,12 +3,12 @@ import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect } from 'react';
-import { DateAddedFacet, RelationshipFacet, TitleFacet } from '../../../app/additionalFacets';
+import { DateAddedFacet, RelationshipFacet, TitleFacet } from '../../../base/additionalFacets';
 import { dummyHomeworks } from '../../../base/dummy';
 import { DataType, Story, SupabaseTable } from '../../../base/enums';
-import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
+import { useCurrentDataSource } from '../../../common/hooks/useCurrentDataSource';
+import { dataTypeQuery } from '../../../common/utilities/queries';
 import supabaseClient from '../../../lib/supabase';
-import { dataTypeQuery } from '../../../utils/queries';
 
 const fetchHomeworksForArchive = async () => {
   const { data, error } = await supabaseClient

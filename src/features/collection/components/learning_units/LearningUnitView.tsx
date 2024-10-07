@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity, EntityProps, EntityPropsMapper, useEntities, useEntityComponents } from '@leanscope/ecs-engine';
 import { IdentifierFacet, IdentifierProps, ImageFacet, Tags, TextFacet, UrlFacet } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
@@ -13,7 +14,7 @@ import {
   QuestionFacet,
   TitleFacet,
   TitleProps,
-} from '../../../../app/additionalFacets';
+} from '../../../../base/additionalFacets';
 import {
   AdditionalTag,
   DataType,
@@ -23,7 +24,10 @@ import {
   Story,
 } from '../../../../base/enums';
 import FlashcardQuizView from '../../../../common/components/flashcards/FlashcardQuizView';
+import { useIsViewVisible } from '../../../../common/hooks/useIsViewVisible';
+import { useUserData } from '../../../../common/hooks/useUserData';
 import { updatePriority } from '../../../../common/utilities';
+import { dataTypeQuery, isChildOfQuery } from '../../../../common/utilities/queries';
 import {
   BackButton,
   CollectionGrid,
@@ -33,9 +37,6 @@ import {
   TextEditor,
   View,
 } from '../../../../components';
-import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
-import { useUserData } from '../../../../hooks/useUserData';
-import { dataTypeQuery, isChildOfQuery } from '../../../../utils/queries';
 import { useDueFlashcards } from '../../../flashcards';
 import { addFileToLearningUnit } from '../../functions/addFileToLearningUnit';
 import { useFileSelector } from '../../hooks/useFileSelector';
@@ -57,7 +58,6 @@ import FileViewer from './FileViewer';
 import LearningUnitNavBar from './LearningUnitNavBar';
 import LearningUnitTitle from './LearningUnitTitle';
 import StyleActionSheet from './StyleActionSheet';
-import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 
 const StyledSelect = styled.select<{ value: LearningUnitPriority }>`
   ${tw`bg-secondary dark:bg-primary-dark  transition-all outline-none`}

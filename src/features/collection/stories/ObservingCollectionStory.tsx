@@ -4,14 +4,14 @@ import { customFacetBuildersMap } from '@leanscope/ecs-generation';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { Story } from '../../../base/enums';
+import InitializeAppSystem from '../../../common/systems/InitializeAppSystem';
+import InitializeSchoolSubjectsSystem from '../../../common/systems/InitializeSchoolSubjectsSystem';
+import InitializeStoriesSystem from '../../../common/systems/InitializeStoriesSystem';
+import ViewManagerSystem from '../../../common/systems/ViewManagerSystem';
 import { Sidebar } from '../../../components';
 import TabBar from '../../../components/navigation/TabBar';
 import { VITE_SUPABASE_KEY, VITE_SUPABASE_URL } from '../../../environment';
 import Collection from '../../../pages/Collection';
-import InitializeAppSystem from '../../../systems/InitializeAppSystem';
-import InitializeSchoolSubjectsSystem from '../../../systems/InitializeSchoolSubjectsSystem';
-import InitializeStoriesSystem from '../../../systems/InitializeStoriesSystem';
-import ViewManagerSystem from '../../../systems/ViewManagerSystem';
 import { SettingsOverviewSheet as Settings } from '../../settings';
 
 const ObservingCollectionStory = () => {

@@ -3,18 +3,18 @@ import { EntityPropsMapper } from '@leanscope/ecs-engine';
 import { IdentifierFacet, Tags, TextFacet } from '@leanscope/ecs-models';
 import { Fragment, useContext } from 'react';
 import { IoAdd } from 'react-icons/io5';
-import { TitleFacet } from '../app/additionalFacets';
+import { TitleFacet } from '../base/additionalFacets';
 import { DataType, Story } from '../base/enums';
+import { useSelectedLanguage } from '../common/hooks/useSelectedLanguage';
+import { displayHeaderTexts } from '../common/utilities/displayText';
+import { dataTypeQuery } from '../common/utilities/queries';
+import { sortEntitiesByDateAdded, sortEntitiesByDueDate } from '../common/utilities/sortEntitiesByTime';
 import { Kanban, NavBarButton, NavigationBar, Spacer, Title, View } from '../components';
 import AddExamSheet from '../features/exams/components/AddExamSheet';
 import ExamKanbanCell from '../features/exams/components/ExamKanbanCell';
 import ExamView from '../features/exams/components/ExamView';
 import { useExamStatus } from '../features/exams/hooks/useExamStatus';
 import InitializeExamsSystem from '../features/exams/systems/InitializeExamsSystem';
-import { useSelectedLanguage } from '../hooks/useSelectedLanguage';
-import { displayHeaderTexts } from '../utils/displayText';
-import { dataTypeQuery } from '../utils/queries';
-import { sortEntitiesByDateAdded, sortEntitiesByDueDate } from '../utils/sortEntitiesByTime';
 
 const Exams = () => {
   const lsc = useContext(LeanScopeClientContext);

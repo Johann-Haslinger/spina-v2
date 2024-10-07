@@ -1,4 +1,4 @@
-import { formatNavLinkAsPath } from '../utils/formatNavLinkAsPath';
+import { formatNavLinkAsPath } from '../common/utilities/formatNavLinkAsPath';
 
 import { NavigationLink, SupportedLanguage } from './enums';
 

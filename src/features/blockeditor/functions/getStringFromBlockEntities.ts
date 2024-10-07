@@ -1,6 +1,6 @@
 import { Entity } from '@leanscope/ecs-engine';
 import { TextFacet } from '@leanscope/ecs-models';
-import { BlocktypeFacet, TexttypeFacet, TodoStateFacet } from '../../../app/additionalFacets';
+import { BlocktypeFacet, TexttypeFacet, TodoStateFacet } from '../../../base/additionalFacets';
 import { Texttype } from '../../../base/enums';
 
 export const getStringFromBlockEntities = (blockEntities: readonly Entity[]) => {

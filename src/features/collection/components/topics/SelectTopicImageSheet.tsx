@@ -7,10 +7,10 @@ import { useContext, useEffect, useState } from 'react';
 import { IoRemoveCircle } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { Story, SupabaseStorageBucket } from '../../../../base/enums';
+import { getCompletion } from '../../../../common/utilities/getCompletion';
+import { loadImagesFromUnsplash } from '../../../../common/utilities/loadImagesFromUnsplash';
 import { CloseButton, FlexBox, ScrollableBox, Section, SectionRow, Sheet, Spacer } from '../../../../components';
 import supabaseClient from '../../../../lib/supabase';
-import { getCompletion } from '../../../../utils/getCompletion';
-import { loadImagesFromUnsplash } from '../../../../utils/loadImagesFromUnsplash';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
 
 interface UnsplashUser {

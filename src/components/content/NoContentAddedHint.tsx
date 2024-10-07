@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import tw from 'twin.macro';
-import { useSelectedLanguage } from '../../hooks/useSelectedLanguage';
-import { displayAlertTexts } from '../../utils/displayText';
+import { useSelectedLanguage } from '../../common/hooks/useSelectedLanguage';
+import { displayAlertTexts } from '../../common/utilities/displayText';
 
 const StyledNoConttentAddedWrapper = styled.div`
   ${tw`mx-auto  mt-32 text-center`}

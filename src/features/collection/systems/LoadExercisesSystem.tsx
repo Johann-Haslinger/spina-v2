@@ -2,13 +2,13 @@ import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
-import { DateAddedFacet, TitleFacet } from '../../../app/additionalFacets';
+import { DateAddedFacet, TitleFacet } from '../../../base/additionalFacets';
 import { dummyExercises } from '../../../base/dummy';
 import { DataType, SupabaseColumn, SupabaseTable } from '../../../base/enums';
-import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
-import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
+import { useCurrentDataSource } from '../../../common/hooks/useCurrentDataSource';
+import { useSelectedLanguage } from '../../../common/hooks/useSelectedLanguage';
+import { displayAlertTexts } from '../../../common/utilities/displayText';
 import supabaseClient from '../../../lib/supabase';
-import { displayAlertTexts } from '../../../utils/displayText';
 import { useSelectedTopic } from '../hooks/useSelectedTopic';
 
 const fetchExercisesForTopic = async (topicId: string) => {

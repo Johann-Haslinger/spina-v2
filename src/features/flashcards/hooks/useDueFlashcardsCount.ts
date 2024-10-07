@@ -4,7 +4,7 @@ import { CountFacet, IdentifierFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
 import { dummyFlashcards } from '../../../base/dummy';
 import { SupabaseTable } from '../../../base/enums';
-import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
+import { useCurrentDataSource } from '../../../common/hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 import { useDueFlashcards } from './useDueFlashcards';
 

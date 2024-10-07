@@ -1,8 +1,8 @@
 import { useEntity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, Tags } from '@leanscope/ecs-models';
-import { DueDateFacet, TitleFacet } from '../../../app/additionalFacets';
+import { DueDateFacet, TitleFacet } from '../../../base/additionalFacets';
 import { DataType } from '../../../base/enums';
-import { dataTypeQuery } from '../../../utils/queries';
+import { dataTypeQuery } from '../../../common/utilities/queries';
 
 export const useSelectedExam = () => {
   const [selectedExamEntity] = useEntity((e) => e.has(Tags.SELECTED) && dataTypeQuery(e, DataType.EXAM));

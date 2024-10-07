@@ -6,7 +6,7 @@ import { RefObject, useContext, useEffect, useRef, useState } from 'react';
 import tw from 'twin.macro';
 import { COLOR_ITEMS } from '../../../../base/constants';
 import { Story } from '../../../../base/enums';
-import { useSelection } from '../../../../hooks/useSelection';
+import { useSelection } from '../../../../common/hooks/useSelection';
 
 const rgbaToHex = (rgba: string) => {
   const parts = rgba.replace(/^rgba?\(|\s+|\)$/g, '').split(',');
