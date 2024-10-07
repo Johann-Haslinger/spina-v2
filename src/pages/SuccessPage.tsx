@@ -1,7 +1,10 @@
 import styled from '@emotion/styled';
+import { LeanScopeClientContext } from '@leanscope/api-client/browser';
+import { useContext, useEffect } from 'react';
 import { IoArrowForward } from 'react-icons/io5';
 import { NavLink } from 'react-router-dom';
 import tw from 'twin.macro';
+import { Story } from '../base/enums';
 import { View } from '../components';
 
 const StyledSuccessAlertWrapper = styled.div`
@@ -13,6 +16,12 @@ const StyledSuccessAlert = styled.div`
 `;
 
 const SuccessPage = () => {
+  const lsc = useContext(LeanScopeClientContext);
+
+  useEffect(() => {
+    lsc.stories.transitTo(Story.OBSERVING_OVERVIEW);
+  }, []);
+
   return (
     <View viewType="baseView">
       <StyledSuccessAlertWrapper>
