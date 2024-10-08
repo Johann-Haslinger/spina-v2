@@ -5,7 +5,17 @@ import { CountFacet, IdentifierFacet, ParentFacet } from '@leanscope/ecs-models'
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { motion } from 'framer-motion';
 import { Fragment, useContext, useEffect, useState } from 'react';
-import { IoCheckmarkCircleOutline, IoChevronBack, IoFileTray } from 'react-icons/io5';
+import {
+  IoBookmark,
+  IoBookmarkOutline,
+  IoCheckmarkCircleOutline,
+  IoChevronBack,
+  IoCreateOutline,
+  IoEllipsisVertical,
+  IoFileTray,
+  IoPauseOutline,
+  IoTrashOutline,
+} from 'react-icons/io5';
 import tw from 'twin.macro';
 import { v4 } from 'uuid';
 import {
@@ -29,7 +39,21 @@ import {
   SupabaseColumn,
   SupabaseTable,
 } from '../../../base/enums';
-import { FlexBox, View } from '../../../components';
+import {
+  ActionRow,
+  ActionSheet,
+  Alert,
+  AlertButton,
+  FlexBox,
+  PrimaryButton,
+  SecondaryButton,
+  Section,
+  SectionRow,
+  Sheet,
+  Spacer,
+  TextAreaInput,
+  View,
+} from '../../../components';
 import { useSeletedFlashcardGroup } from '../../../features/collection/hooks/useSelectedFlashcardGroup';
 import { useSelectedSchoolSubjectColor } from '../../../features/collection/hooks/useSelectedSchoolSubjectColor';
 import { useSelectedSubtopic } from '../../../features/collection/hooks/useSelectedSubtopic';
@@ -41,7 +65,7 @@ import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
 import { useTimer } from '../../../hooks/useTimer';
 import { useUserData } from '../../../hooks/useUserData';
 import supabaseClient from '../../../lib/supabase';
-import { displayButtonTexts, displayLabelTexts } from '../../../utils/displayText';
+import { displayActionTexts, displayButtonTexts, displayLabelTexts } from '../../../utils/displayText';
 import { dataTypeQuery } from '../../../utils/queries';
 import { useSelectedLearningUnit } from '../../hooks/useSelectedLearningUnit';
 import { updatePriority } from '../../utilities';
@@ -586,8 +610,13 @@ const StyledAnswerText = styled.div<{ color: string }>`
   color: ${(props) => props.color};
 `;
 
+const StyledNavButtonContainer = styled.div<{ backgroundColor?: string }>`
+  ${tw`flex w-[95%] xl:w-1/3 md:w-2/5  absolute bottom-8 xl:right-1/3 md:right-[30%] xl:left-1/3 md:left-[30%] left-[2.5%] right-[2.5%] space-x-1 `}
+  background-color: ${(props) => (props.backgroundColor ? props.backgroundColor : '')};
+`;
+
 const StyledNavButtonAreaWrapper = styled.div`
-  ${tw`flex w-[90%] space-x-1  xl:w-1/3 md:w-2/5 text-xl md:text-2xl xl:left-1/3 md:left-[30%] left-[5%] justify-between dark:bg-opacity-5 bg-white  bg-opacity-40 p-1   rounded-xl md:rounded-2xl absolute bottom-8  `}
+  ${tw`flex  space-x-1  w-full text-xl md:text-2xl  justify-between dark:bg-opacity-5 bg-white  bg-opacity-40 p-1   rounded-xl md:rounded-2xl  `}
 `;
 
 const StyledNavButton = styled.div`
@@ -604,20 +633,20 @@ const FlashcardCell = (props: {
   flashcardIndex: number;
   navigateToNextFlashcard: () => void;
 }) => {
+  const lsc = useContext(LeanScopeClientContext);
   const { flashcardEntity, currentFlashcardIndex, flashcardIndex, navigateToNextFlashcard } = props;
   const [isDisplayed, setIsDisplayed] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
   const isCurrent = currentFlashcardIndex === flashcardIndex;
   const question = flashcardEntity.get(QuestionFacet)?.props.question;
   const answer = flashcardEntity.get(AnswerFacet)?.props.answer;
-  const { color } = useSelectedSchoolSubjectColor();
+  const { color, backgroundColorDark, backgroundColor } = useSelectedSchoolSubjectColor();
   const { isDarkModeActive } = useSelectedTheme();
-
-  useKeyEvents((event) => {
-    if (event.key === ' ') {
-      setIsFlipped((prev) => !prev);
-    }
-  });
+  const [isContextMenuVisible, setIsContextMenuVisible] = useState(false);
+  const [isDeleteFlashcardAlertVisible, setIsDeleteFlashcardAlertVisible] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(false);
+  const flashcardId = flashcardEntity.get(IdentifierFacet)?.props.guid;
+  const [isEditFlashcardSheetVisible, setIsEditFlashcardSheetVisible] = useState(false);
 
   useEffect(() => {
     if (isCurrent) {
@@ -654,9 +683,61 @@ const FlashcardCell = (props: {
     navigateToNextFlashcard();
   };
 
+  const deleteFlashcard = async () => {
+    navigateToNextFlashcard();
+
+    if (!flashcardId) return;
+
+    const { error } = await supabaseClient.from(SupabaseTable.FLASHCARDS).delete().eq(SupabaseColumn.ID, flashcardId);
+
+    if (error) {
+      console.error('Error deleting flashcard:', error);
+    }
+
+    const flashcardEntityToDelete = lsc.engine.entities.find((e) => e.get(IdentifierFacet)?.props.guid === flashcardId);
+    if (flashcardEntityToDelete) {
+      lsc.engine.removeEntity(flashcardEntityToDelete);
+    }
+
+    setIsDeleteFlashcardAlertVisible(false);
+  };
+
+  const pauseFlashcard = async () => {
+    const { error } = await supabaseClient
+      .from(SupabaseTable.FLASHCARDS)
+      .update({ due_date: null })
+      .eq(SupabaseColumn.ID, flashcardEntity.get(IdentifierFacet)?.props.guid);
+
+    if (error) {
+      console.error('Error pausing flashcard:', error);
+    }
+
+    navigateToNextFlashcard();
+  };
+
+  const bookmarkFlashcard = async () => {
+    const { error } = await supabaseClient
+      .from(SupabaseTable.FLASHCARDS)
+      .update({ is_bookmarked: true })
+      .eq(SupabaseColumn.ID, flashcardEntity.get(IdentifierFacet)?.props.guid);
+
+    if (error) {
+      console.error('Error bookmarking flashcard:', error);
+    }
+
+    const flashcardEntityToBookmark = lsc.engine.entities.find(
+      (e) => e.get(IdentifierFacet)?.props.guid === flashcardId,
+    );
+    if (flashcardEntityToBookmark) {
+      flashcardEntityToBookmark.add(AdditionalTag.BOOKMARKED);
+    }
+
+    setIsBookmarked(true);
+  };
+
   return (
     isDisplayed && (
-      <Fragment>
+      <div>
         <StyledFlashcardCellContainer>
           <motion.div
             transition={{ type: 'just' }}
@@ -692,44 +773,153 @@ const FlashcardCell = (props: {
             </motion.div>
           </motion.div>
         </StyledFlashcardCellContainer>
+        <div tw="scale-100 fixed bottom-72 mb-4 xl:right-[28%] md:right-[24%] right-2">
+          <ActionSheet visible={isContextMenuVisible} navigateBack={() => setIsContextMenuVisible(false)}>
+            <ActionRow onClick={() => setIsEditFlashcardSheetVisible(true)} icon={<IoCreateOutline />} first>
+              Bearbeiten
+            </ActionRow>
+            <ActionRow onClick={bookmarkFlashcard} icon={isBookmarked ? <IoBookmark /> : <IoBookmarkOutline />}>
+              Merken
+            </ActionRow>
+            <ActionRow onClick={pauseFlashcard} icon={<IoPauseOutline />}>
+              Karte Pausieren
+            </ActionRow>
+            <ActionRow
+              onClick={() => setIsDeleteFlashcardAlertVisible(true)}
+              last
+              destructive
+              icon={<IoTrashOutline />}
+            >
+              Löschen
+            </ActionRow>
+          </ActionSheet>
+        </div>
+        <StyledNavButtonContainer backgroundColor={isDarkModeActive ? backgroundColorDark : backgroundColor}>
+          <StyledNavButtonAreaWrapper>
+            {isFlipped ? (
+              <Fragment>
+                <StyledNavButton onClick={handleSkipClick}>
+                  <div>⏩</div>
+                  <StyledLabel>1 h</StyledLabel>
+                </StyledNavButton>
+                <StyledNavButton onClick={handleForgotClick}>
+                  <div>❌</div> <StyledLabel>1 min</StyledLabel>
+                </StyledNavButton>
+                <StyledNavButton onClick={handlePartiallyRememberedClick}>
+                  <div>🤔</div> <StyledLabel>12 h</StyledLabel>
+                </StyledNavButton>
+                <StyledNavButton onClick={handleRememberedWithEffortClick}>
+                  <div>😀</div> <StyledLabel>24 h</StyledLabel>
+                </StyledNavButton>
+                <StyledNavButton onClick={handleRememberedEasilyClick}>
+                  <div>👑</div> <StyledLabel>4 Tage</StyledLabel>
+                </StyledNavButton>
+              </Fragment>
+            ) : (
+              <StyledNavButton tw="w-full" onClick={() => setIsFlipped((prev) => !prev)}>
+                <div>🔄</div>
+                <StyledLabel>Antwort</StyledLabel>
+              </StyledNavButton>
+            )}
+          </StyledNavButtonAreaWrapper>
 
-        <StyledNavButtonAreaWrapper>
-          {isFlipped ? (
-            <Fragment>
-              <StyledNavButton onClick={handleSkipClick}>
-                <div>⏩</div>
-                <StyledLabel>1 h</StyledLabel>
-              </StyledNavButton>
-              <StyledNavButton onClick={handleForgotClick}>
-                <div>❌</div> <StyledLabel>1 min</StyledLabel>
-              </StyledNavButton>
-              <StyledNavButton onClick={handlePartiallyRememberedClick}>
-                <div>🤔</div> <StyledLabel>12 h</StyledLabel>
-              </StyledNavButton>
-              <StyledNavButton onClick={handleRememberedWithEffortClick}>
-                <div>😀</div> <StyledLabel>24 h</StyledLabel>
-              </StyledNavButton>
-              <StyledNavButton onClick={handleRememberedEasilyClick}>
-                <div>👑</div> <StyledLabel>4 Tage</StyledLabel>
-              </StyledNavButton>
-            </Fragment>
-          ) : (
-            <StyledNavButton tw="w-full" onClick={() => setIsFlipped((prev) => !prev)}>
-              <div>🔄</div>
-              <StyledLabel>Antwort</StyledLabel>
+          <div tw="text-xl md:w-20  w-9 md:text-2xl text-secondary-text dark:text-secondary-text-dark  dark:bg-opacity-5 bg-white  bg-opacity-40 p-1   rounded-xl md:rounded-2xl  ">
+            <StyledNavButton onClick={() => setIsContextMenuVisible(true)} tw="w-full h-full">
+              <IoEllipsisVertical />
             </StyledNavButton>
-          )}
-        </StyledNavButtonAreaWrapper>
-      </Fragment>
+          </div>
+        </StyledNavButtonContainer>
+
+        <DeleteFlashcardAlert
+          isVisible={isDeleteFlashcardAlertVisible}
+          navigateBack={() => setIsDeleteFlashcardAlertVisible(false)}
+          deleteFlashcard={deleteFlashcard}
+        />
+        <EditFlashcardSheet
+          isVisible={isEditFlashcardSheetVisible}
+          navigateBack={() => setIsEditFlashcardSheetVisible(false)}
+          flashcardEntity={flashcardEntity}
+        />
+      </div>
     )
   );
 };
 
 export default FlashcardQuizView;
 
-const useKeyEvents = (callback: (event: KeyboardEvent) => void) => {
-  useEffect(() => {
-    window.addEventListener('keydown', callback);
-    return () => window.removeEventListener('keydown', callback);
-  }, []);
+const DeleteFlashcardAlert = (props: { isVisible: boolean; navigateBack: () => void; deleteFlashcard: () => void }) => {
+  const { isVisible, navigateBack, deleteFlashcard } = props;
+  const { selectedLanguage } = useSelectedLanguage();
+
+  return (
+    <Alert navigateBack={navigateBack} visible={isVisible}>
+      <AlertButton onClick={navigateBack} role="primary">
+        {displayActionTexts(selectedLanguage).cancel}
+      </AlertButton>
+      <AlertButton onClick={deleteFlashcard} role="destructive">
+        {displayActionTexts(selectedLanguage).delete}
+      </AlertButton>
+    </Alert>
+  );
+};
+
+// const useKeyEvents = (callback: (event: KeyboardEvent) => void) => {
+//   useEffect(() => {
+//     window.addEventListener('keydown', callback);
+//     return () => window.removeEventListener('keydown', callback);
+//   }, []);
+// };
+
+const EditFlashcardSheet = (props: { isVisible: boolean; navigateBack: () => void; flashcardEntity: Entity }) => {
+  const { isVisible, navigateBack, flashcardEntity } = props;
+  const question = flashcardEntity.get(QuestionFacet)?.props.question;
+  const answer = flashcardEntity.get(AnswerFacet)?.props.answer;
+  const [editedQuestion, setEditedQuestion] = useState(question);
+  const [editedAnswer, setEditedAnswer] = useState(answer);
+  const { selectedLanguage } = useSelectedLanguage();
+  const displaySaveButton = editedQuestion !== question || editedAnswer !== answer;
+
+  const saveFlashcard = async () => {
+    const { error } = await supabaseClient
+      .from(SupabaseTable.FLASHCARDS)
+      .update({ question: editedQuestion, answer: editedAnswer })
+      .eq(SupabaseColumn.ID, flashcardEntity.get(IdentifierFacet)?.props.guid);
+
+    if (error) {
+      console.error('Error updating flashcard:', error);
+    }
+
+    flashcardEntity.add(new QuestionFacet({ question: editedQuestion || '' }));
+    flashcardEntity.add(new AnswerFacet({ answer: editedAnswer || '' }));
+
+    navigateBack();
+  };
+
+  return (
+    <Sheet visible={isVisible} navigateBack={navigateBack}>
+      <FlexBox>
+        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
+        {displaySaveButton && (
+          <PrimaryButton onClick={saveFlashcard}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
+        )}
+      </FlexBox>
+      <Spacer />
+      <Section>
+        <SectionRow>
+          <TextAreaInput
+            placeholder="Frage"
+            value={editedQuestion}
+            onChange={(event) => setEditedQuestion(event.target.value)}
+          />
+        </SectionRow>
+        <SectionRow last>
+          <TextAreaInput
+            placeholder="Antwort"
+            value={editedAnswer}
+            onChange={(event) => setEditedAnswer(event.target.value)}
+          />
+        </SectionRow>
+      </Section>
+    </Sheet>
+  );
 };
