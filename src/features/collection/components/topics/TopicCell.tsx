@@ -52,8 +52,8 @@ const TopicCell = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
       <StyledTopicCellWrapper
         onClick={handleOpenTopic}
         image={imageSrc || ''}
-        color={isDarkModeActive ? accentColor + '50' : accentColor}
-        backgroundColor={isDarkModeActive ? accentColor + '50' : accentColor + '90'}
+        color={isDarkModeActive ? accentColor + '70' : accentColor}
+        backgroundColor={isDarkModeActive ? accentColor + '80' : accentColor + '90'}
       >
         {!imageSrc && <IoBook tw="dark:opacity-70" />}
       </StyledTopicCellWrapper>

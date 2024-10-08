@@ -34,8 +34,8 @@ const SchoolSubjectCell = (props: TitleProps & OrderProps & EntityProps) => {
 
   return (
     <StyledCellWrapper
-      backgroundColor={isDarkModeActive ? color + '50' : color + '90'}
-      color={isDarkModeActive ? color + '50' : color}
+      backgroundColor={isDarkModeActive ? color + '70' : color + '90'}
+      color={isDarkModeActive ? color + '80' : color}
       onClick={handleOpenSchoolSubject}
     >
       <StyledTitle>{title.slice(0, 2)}</StyledTitle>

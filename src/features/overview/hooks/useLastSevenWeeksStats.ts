@@ -24,6 +24,9 @@ const getLastSevenWeeksDates = (): string[] => {
   const dates: string[] = [];
   const today = new Date();
 
+  const currentWeekDay = today.getDay() || 7;
+  today.setDate(today.getDate() - currentWeekDay + 7);
+
   for (let i = 0; i < 7 * 7; i++) {
     const date = new Date(today);
     date.setDate(today.getDate() - i);
@@ -80,8 +83,6 @@ export const useLastSevenWeeksStats = () => {
         };
       }),
     );
-
-    console.log('Aktuelle Berechnung:', newLastSevenWeeks);
 
     setLastSevenWeeks(newLastSevenWeeks);
   }, [flashcardSessionEntities.length]);
