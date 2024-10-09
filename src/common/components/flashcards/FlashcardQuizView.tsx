@@ -739,6 +739,7 @@ const FlashcardCell = (props: {
 
   const openEditFlashcardSheet = () => {
     appStateEntity?.add(new ColorFacet({ colorName: isDarkModeActive ? colorThemeDark : colorTheme }));
+    console.log('openEditFlashcardSheet', isDarkModeActive ? colorThemeDark : colorTheme);
     setIsEditFlashcardSheetVisible(true);
   };
 

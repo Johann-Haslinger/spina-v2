@@ -60,7 +60,7 @@ export const COLOR_ITEMS: {
     backgroundColor: '#ADC1EE',
     backgroundColorDark: '#0F1523',
     colorTheme: '#97A9D0',
-    colorThemeDark: '#000000',
+    colorThemeDark: '#070A11',
   },
   {
     color: '#A3CB63',
@@ -68,7 +68,7 @@ export const COLOR_ITEMS: {
     backgroundColor: '#CBE0AB',
     backgroundColorDark: '#181E0F',
     colorTheme: '#B2C496',
-    colorThemeDark: '#000000',
+    colorThemeDark: '#0C0F07',
   },
   {
     color: '#6EBED9',
@@ -76,7 +76,7 @@ export const COLOR_ITEMS: {
     backgroundColor: '#B1D9E7',
     backgroundColorDark: '#111D21',
     colorTheme: '#9BBECA',
-    colorThemeDark: '#000000',
+    colorThemeDark: '#080E10',
   },
 
   {
@@ -85,16 +85,16 @@ export const COLOR_ITEMS: {
     backgroundColor: '#F2C99F',
     backgroundColorDark: '#24180B',
     colorTheme: '#D4B08B',
-    colorThemeDark: '#000000',
+    colorThemeDark: '#120C05',
   },
 
   {
     color: '#E76542',
     name: 'red',
     backgroundColor: '#EEAD9B',
-    backgroundColorDark: '#000000',
+    backgroundColorDark: '#260A0B',
     colorTheme: '#D09788',
-    colorThemeDark: '#000000',
+    colorThemeDark: '#130505',
   },
 
   {
@@ -103,7 +103,7 @@ export const COLOR_ITEMS: {
     backgroundColor: '#DA9297',
     backgroundColorDark: '#260A0B',
     colorTheme: '#BF8084',
-    colorThemeDark: '#000000',
+    colorThemeDark: '#130505',
   },
   {
     color: '#397A45',
@@ -111,7 +111,7 @@ export const COLOR_ITEMS: {
     backgroundColor: '#97B79D',
     backgroundColorDark: '#0B180E',
     colorTheme: '#84A089',
-    colorThemeDark: '#000000',
+    colorThemeDark: '#050C07',
   },
   {
     color: '#039FC4',
@@ -119,7 +119,7 @@ export const COLOR_ITEMS: {
     backgroundColor: '#7CCADC',
     backgroundColorDark: '#012027',
     colorTheme: '#6CB1C0',
-    colorThemeDark: '#000000',
+    colorThemeDark: '#101E21',
   },
   {
     color: '#364893',
@@ -127,7 +127,7 @@ export const COLOR_ITEMS: {
     backgroundColor: '#959EC4',
     backgroundColorDark: '#0B0E1D',
     colorTheme: '#828AAB',
-    colorThemeDark: '#000000',
+    colorThemeDark: '#05070E',
   },
 ];
 
