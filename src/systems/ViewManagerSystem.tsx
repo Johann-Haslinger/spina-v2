@@ -80,7 +80,7 @@ const ViewManagerSystem = () => {
     Story.OBSERVING_FLASHCARD_QUIZ_STORY,
     Story.OBSERVING_SPACED_REPETITION_QUIZ,
   ]);
-  const { isDarkModeActive } = useSelectedTheme();
+  const { isDarkModeActive, customTheme } = useSelectedTheme();
   const [closingVews] = useEntities((e) => e.hasTag(Tags.SELECTED) && e.hasTag(AdditionalTag.NAVIGATE_BACK));
   const [themeColor, setThemeColor] = useState('#F5F5F5');
   const { backgroundColor, backgroundColorDark } = useSelectedSchoolSubjectColor();
@@ -92,13 +92,31 @@ const ViewManagerSystem = () => {
   const { isLoggedIn } = useSession();
 
   useEffect(() => {
+    if (customTheme) {
+      setThemeColor(customTheme);
+    } else if (isQuizViewVisible && backgroundColorDark) {
+      setThemeColor(isDarkModeActive ? backgroundColorDark : backgroundColor);
+    } else {
+      if (isDarkModeActive) {
+        setThemeColor('#000000');
+      } else {
+        setThemeColor('#F5F5F5');
+      }
+    }
+  }, [customTheme]);
+
+  useEffect(() => {
     if (isSheetViewVisible || selectedPodcastEntity || selectedFlashcardEntity || isLoggedIn === false) {
       if (!isDarkModeActive) {
         setThemeColor('rgb(214,214,214)');
+      } else {
+        setThemeColor('#000000');
       }
     } else {
       if (!isDarkModeActive) {
         setThemeColor('#F5F5F5');
+      } else {
+        setThemeColor('#000000');
       }
     }
   }, [isSheetViewVisible, selectedPodcastEntity, selectedFlashcardEntity, isLoggedIn, isDarkModeActive]);

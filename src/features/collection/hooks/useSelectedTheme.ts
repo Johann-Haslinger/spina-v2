@@ -1,9 +1,11 @@
 import { useEntity, useEntityHasTags } from '@leanscope/ecs-engine';
+import { ColorFacet } from '@leanscope/ecs-models';
 import { AdditionalTag, SupportedTheme } from '../../../base/enums';
 
 export const useSelectedTheme = () => {
   const [appStateEntity] = useEntity((e) => e.has(AdditionalTag.APP_STATE_ENTITY));
   const [isDarkModeActive] = useEntityHasTags(appStateEntity, SupportedTheme.DARK);
+  const customTheme = appStateEntity?.get(ColorFacet)?.props.colorName;
 
   const changeTheme = (theme: SupportedTheme) => {
     if (theme === SupportedTheme.DARK) {
@@ -17,5 +19,5 @@ export const useSelectedTheme = () => {
     }
   };
 
-  return { isDarkModeActive, changeTheme };
+  return { isDarkModeActive, changeTheme, customTheme };
 };

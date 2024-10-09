@@ -51,24 +51,32 @@ export const COLOR_ITEMS: {
   name?: string;
   backgroundColor: string;
   backgroundColorDark?: string;
+  colorTheme?: string;
+  colorThemeDark?: string;
 }[] = [
   {
     color: '#668FE8',
     name: 'lavendar',
     backgroundColor: '#ADC1EE',
     backgroundColorDark: '#0F1523',
+    colorTheme: '#97A9D0',
+    colorThemeDark: '#000000',
   },
   {
     color: '#A3CB63',
     name: 'green',
     backgroundColor: '#CBE0AB',
     backgroundColorDark: '#181E0F',
+    colorTheme: '#B2C496',
+    colorThemeDark: '#000000',
   },
   {
     color: '#6EBED9',
     name: 'light blue',
     backgroundColor: '#B1D9E7',
     backgroundColorDark: '#111D21',
+    colorTheme: '#9BBECA',
+    colorThemeDark: '#000000',
   },
 
   {
@@ -76,6 +84,8 @@ export const COLOR_ITEMS: {
     name: 'orange',
     backgroundColor: '#F2C99F',
     backgroundColorDark: '#24180B',
+    colorTheme: '#D4B08B',
+    colorThemeDark: '#000000',
   },
 
   {
@@ -83,6 +93,8 @@ export const COLOR_ITEMS: {
     name: 'red',
     backgroundColor: '#EEAD9B',
     backgroundColorDark: '#000000',
+    colorTheme: '#D09788',
+    colorThemeDark: '#000000',
   },
 
   {
@@ -90,24 +102,32 @@ export const COLOR_ITEMS: {
     name: 'camin',
     backgroundColor: '#DA9297',
     backgroundColorDark: '#260A0B',
+    colorTheme: '#BF8084',
+    colorThemeDark: '#000000',
   },
   {
     color: '#397A45',
     name: 'dark green',
     backgroundColor: '#97B79D',
     backgroundColorDark: '#0B180E',
+    colorTheme: '#84A089',
+    colorThemeDark: '#000000',
   },
   {
     color: '#039FC4',
     name: 'blue',
     backgroundColor: '#7CCADC',
     backgroundColorDark: '#012027',
+    colorTheme: '#6CB1C0',
+    colorThemeDark: '#000000',
   },
   {
     color: '#364893',
     name: 'navy',
     backgroundColor: '#959EC4',
     backgroundColorDark: '#0B0E1D',
+    colorTheme: '#828AAB',
+    colorThemeDark: '#000000',
   },
 ];
 

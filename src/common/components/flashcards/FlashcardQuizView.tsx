@@ -1,7 +1,7 @@
 import styled from '@emotion/styled/macro';
 import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity, useEntities } from '@leanscope/ecs-engine';
-import { CountFacet, IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
+import { ColorFacet, CountFacet, IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { motion } from 'framer-motion';
 import { Fragment, useContext, useEffect, useState } from 'react';
@@ -54,6 +54,7 @@ import {
   TextAreaInput,
   View,
 } from '../../../components';
+import { useAppState } from '../../../features/collection/hooks/useAppState';
 import { useSeletedFlashcardGroup } from '../../../features/collection/hooks/useSelectedFlashcardGroup';
 import { useSelectedSchoolSubjectColor } from '../../../features/collection/hooks/useSelectedSchoolSubjectColor';
 import { useSelectedSubtopic } from '../../../features/collection/hooks/useSelectedSubtopic';
@@ -640,13 +641,14 @@ const FlashcardCell = (props: {
   const isCurrent = currentFlashcardIndex === flashcardIndex;
   const question = flashcardEntity.get(QuestionFacet)?.props.question;
   const answer = flashcardEntity.get(AnswerFacet)?.props.answer;
-  const { color, backgroundColorDark, backgroundColor } = useSelectedSchoolSubjectColor();
+  const { color, backgroundColorDark, backgroundColor, colorTheme, colorThemeDark } = useSelectedSchoolSubjectColor();
   const { isDarkModeActive } = useSelectedTheme();
   const [isContextMenuVisible, setIsContextMenuVisible] = useState(false);
   const [isDeleteFlashcardAlertVisible, setIsDeleteFlashcardAlertVisible] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const flashcardId = flashcardEntity.get(IdentifierFacet)?.props.guid;
   const [isEditFlashcardSheetVisible, setIsEditFlashcardSheetVisible] = useState(false);
+  const { appStateEntity } = useAppState();
 
   useEffect(() => {
     if (isCurrent) {
@@ -735,6 +737,15 @@ const FlashcardCell = (props: {
     setIsBookmarked(true);
   };
 
+  const openEditFlashcardSheet = () => {
+    appStateEntity?.add(new ColorFacet({ colorName: isDarkModeActive ? colorThemeDark : colorTheme }));
+    setIsEditFlashcardSheetVisible(true);
+  };
+
+  const openDeleteFlashcardAlert = () => {
+    appStateEntity?.add(new ColorFacet({ colorName: isDarkModeActive ? colorThemeDark : colorTheme }));
+    setIsDeleteFlashcardAlertVisible(true);
+  };
   return (
     isDisplayed && (
       <div>
@@ -775,7 +786,7 @@ const FlashcardCell = (props: {
         </StyledFlashcardCellContainer>
         <div tw="scale-100 fixed bottom-72 mb-4 xl:right-[28%] md:right-[24%] right-2">
           <ActionSheet visible={isContextMenuVisible} navigateBack={() => setIsContextMenuVisible(false)}>
-            <ActionRow onClick={() => setIsEditFlashcardSheetVisible(true)} icon={<IoCreateOutline />} first>
+            <ActionRow onClick={openEditFlashcardSheet} icon={<IoCreateOutline />} first>
               Bearbeiten
             </ActionRow>
             <ActionRow onClick={bookmarkFlashcard} icon={isBookmarked ? <IoBookmark /> : <IoBookmarkOutline />}>
@@ -784,12 +795,7 @@ const FlashcardCell = (props: {
             <ActionRow onClick={pauseFlashcard} icon={<IoPauseOutline />}>
               Karte Pausieren
             </ActionRow>
-            <ActionRow
-              onClick={() => setIsDeleteFlashcardAlertVisible(true)}
-              last
-              destructive
-              icon={<IoTrashOutline />}
-            >
+            <ActionRow onClick={openDeleteFlashcardAlert} last destructive icon={<IoTrashOutline />}>
               Löschen
             </ActionRow>
           </ActionSheet>
@@ -832,12 +838,18 @@ const FlashcardCell = (props: {
 
         <DeleteFlashcardAlert
           isVisible={isDeleteFlashcardAlertVisible}
-          navigateBack={() => setIsDeleteFlashcardAlertVisible(false)}
+          navigateBack={() => {
+            setIsDeleteFlashcardAlertVisible(false);
+            appStateEntity?.remove(ColorFacet);
+          }}
           deleteFlashcard={deleteFlashcard}
         />
         <EditFlashcardSheet
           isVisible={isEditFlashcardSheetVisible}
-          navigateBack={() => setIsEditFlashcardSheetVisible(false)}
+          navigateBack={() => {
+            setIsEditFlashcardSheetVisible(false);
+            appStateEntity?.remove(ColorFacet);
+          }}
           flashcardEntity={flashcardEntity}
         />
       </div>
