@@ -129,9 +129,6 @@ const LearningUnitNavBar = (props: EntityProps & LearningUnitTypeProps & Learnin
                 Exportieren
               </ActionRow>
             )}
-            {/* <ActionRow icon={<IoArrowUpCircleOutline />} onClick={openAddResourceToLerningGroupSheet}>
-              {displayActionTexts(selectedLanguage).addToLearningGroup}
-            </ActionRow> */}
             <ActionRow last destructive onClick={openDeleteAlert} icon={<IoTrashOutline />}>
               {displayActionTexts(selectedLanguage).delete}
             </ActionRow>

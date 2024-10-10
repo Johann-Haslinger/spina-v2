@@ -60,12 +60,12 @@ import { useSelectedTopic } from '../../hooks/useSelectedTopic';
 import LoadHomeworksSystem from '../../systems/LoadHomeworksSystem';
 import LoadLearningUnitsSystem from '../../systems/LoadLearningUnitsSystem';
 import AddFlashcardSetSheet from '../flashcard-sets/AddFlashcardSetSheet';
-import GenerateResourcesFromImageSheet from '../generation/GenerateResourcesFromImageSheet';
 import AddHomeworkSheet from '../homeworks/AddHomeworkSheet';
 import HomeworkCell from '../homeworks/HomeworkCell';
 import LearningUnitCell from '../learning_units/LearningUnitCell';
 import DeleteTopicAlert from './DeleteTopicAlert';
 import EditTopicSheet from './EditTopicSheet';
+import GeneratingLearningUnitFromImageSheet from '../generation/GeneratingLearningUnitFromImageSheet';
 
 const useImageSelector = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -343,31 +343,12 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
         </StyledTopicViewContainer>
       </View>
 
-      {/* <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataType.LEARNING_UNIT) && e.has(Tags.SELECTED)}
-        get={[[TitleFacet, TextFacet, IdentifierFacet, LearningUnitTypeFacet, PriorityFacet], []]}
-        onMatch={LearningUnitView}
-      />
-
-      <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataType.HOMEWORK) && e.has(Tags.SELECTED)}
-        get={[[TitleFacet, IdentifierFacet, TextFacet, DueDateFacet], []]}
-        onMatch={HomeworkView}
-      />
-
-      <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataType.EXERCISE) && e.has(Tags.SELECTED)}
-        get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
-        onMatch={ExerciseView}
-      /> */}
-
       <AddHomeworkSheet />
       <AddFlashcardSetSheet />
 
       <DeleteTopicAlert />
       <EditTopicSheet />
-      {/* <GeneratingLearningUnitFromImageSheet /> */}
-      <GenerateResourcesFromImageSheet />
+      <GeneratingLearningUnitFromImageSheet />
       <AddResourceToLearningGroupSheet />
     </div>
   );

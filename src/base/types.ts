@@ -31,6 +31,13 @@ export type ConversationMessage = {
   suggestions?: Suggestion[];
 };
 
-export type SchoolSubject = {
+export interface SchoolSubject {
   name: string;
-};
+}
+
+export interface UploadedFile {
+  id: string;
+  file: File;
+  url: string;
+  type: string;
+}

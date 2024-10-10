@@ -97,6 +97,7 @@ export enum Story {
   READING_ARTICLE = 'readingArticle',
 }
 export enum AdditionalTag {
+  UPLOADED_FILE = 'uploadedFile',
   MOCKUP_DATA = 'mockupData',
   NAVIGATE_BACK = 'navigateBack',
   APP_STATE_ENTITY = 'appStateEntity',
