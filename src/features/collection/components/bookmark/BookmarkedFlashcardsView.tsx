@@ -22,6 +22,8 @@ import { dataTypeQuery } from '../../../../utils/queries';
 import { sortEntitiesByDateAdded } from '../../../../utils/sortEntitiesByTime';
 import EditFlashcardSheet from '../flashcard-sets/EditFlashcardSheet';
 import FlashcardCell from '../flashcard-sets/FlashcardCell';
+import { addNotificationEntity } from '../../../../common/utilities';
+import { ILeanScopeClient } from '@leanscope/api-client';
 
 const BookmarkedFlashcardsView = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -65,7 +67,7 @@ const BookmarkedFlashcardsView = () => {
 
 export default BookmarkedFlashcardsView;
 
-const fetchBookmarkedFlashcards = async () => {
+const fetchBookmarkedFlashcards = async (lsc: ILeanScopeClient) => {
   const { data: flashcards, error } = await supabaseClient
     .from(SupabaseTable.FLASHCARDS)
     .select('question, id, answer, mastery_level, parent_id')
@@ -73,6 +75,11 @@ const fetchBookmarkedFlashcards = async () => {
 
   if (error) {
     console.error('Error fetching flashcards:', error);
+    addNotificationEntity(lsc, {
+      title: 'Fehler beim Abrufen der Lernkarten',
+      message: error.message + ' ' + error.details + ' ' + error.hint,
+      type: 'error',
+    });
     return [];
   }
 
@@ -89,7 +96,7 @@ const InitializeBookmarkedFlashcardsSystem = () => {
       const flashcards = isUsingMockupData
         ? dummyFlashcards
         : isUsingSupabaseData
-          ? await fetchBookmarkedFlashcards()
+          ? await fetchBookmarkedFlashcards(lsc)
           : [];
 
       flashcards.forEach((flashcard) => {

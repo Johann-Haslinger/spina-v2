@@ -51,7 +51,7 @@ const GenerateTextFromFlashcardsSheet = () => {
         .join(' ');
 
       if (textToImprove) {
-        const imporvedText = await generateImprovedText(textToImprove);
+        const imporvedText = await generateImprovedText(lsc, textToImprove);
 
         setGeneratedText(imporvedText);
       }

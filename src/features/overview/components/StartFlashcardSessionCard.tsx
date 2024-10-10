@@ -77,7 +77,8 @@ const StartFlashcardSessionCard = () => {
               <div>
                 <StyledButtonTitle>Abfrage Starten</StyledButtonTitle>
                 <StyledButtonSubtitle>
-                  {dueFlashcardsCount > 30 ? `30 von ${dueFlashcardsCount}` : dueFlashcardsCount} fällige Karten abfragen 
+                  {dueFlashcardsCount > 30 ? `30 von ${dueFlashcardsCount}` : dueFlashcardsCount} fällige Karten
+                  abfragen
                 </StyledButtonSubtitle>{' '}
               </div>
             )}

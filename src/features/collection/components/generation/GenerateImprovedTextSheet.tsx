@@ -4,6 +4,7 @@ import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
 import { Story, SupabaseTable } from '../../../../base/enums';
 import { useSelectedLearningUnit } from '../../../../common/hooks/useSelectedLearningUnit';
+import { addNotificationEntity } from '../../../../common/utilities';
 import {
   FlexBox,
   GeneratingIndecator,
@@ -34,7 +35,7 @@ const GenerateImprovedTextSheet = () => {
         setIsGenerating(false);
         return;
       }
-      const improvedText = await generateImprovedText(selectedLearningUnitText);
+      const improvedText = await generateImprovedText(lsc, selectedLearningUnitText);
 
       setGeneratedText(`Passt das so für dich?<br/> <br/>
       ${improvedText}
@@ -67,6 +68,11 @@ const GenerateImprovedTextSheet = () => {
 
     if (error) {
       console.error('Error updating text', error);
+      addNotificationEntity(lsc, {
+        title: 'Fehler beim Speichern des verbesserten Textes',
+        message: error.message + ' ' + error.details + ' ' + error.hint,
+        type: 'error',
+      });
     }
   };
 

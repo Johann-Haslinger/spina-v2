@@ -18,6 +18,7 @@ import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../lib/supabase';
 import { displayButtonTexts, displayLabelTexts } from '../../../utils/displayText';
 import { useSelectedExam } from '../hooks/useSelectedExam';
+import { addNotificationEntity } from '../../../common/utilities';
 
 const EditExamSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -37,8 +38,6 @@ const EditExamSheet = () => {
   const updateExam = async () => {
     if (newTitle && newDueDate) {
       navigateBack();
-      selectedExamEntity?.add(new TitleFacet({ title: newTitle }));
-      selectedExamEntity?.add(new DueDateFacet({ dueDate: newDueDate }));
 
       const { error } = await supabaseClient
         .from(SupabaseTable.EXAMS)
@@ -50,7 +49,16 @@ const EditExamSheet = () => {
 
       if (error) {
         console.error('Error updating exam set', error);
+        addNotificationEntity(lsc, {
+          title: 'Fehler beim Aktualisieren der Prüfung',
+          message: error.message,
+          type: 'error',
+        });
+        return;
       }
+
+      selectedExamEntity?.add(new TitleFacet({ title: newTitle }));
+      selectedExamEntity?.add(new DueDateFacet({ dueDate: newDueDate }));
     }
   };
 

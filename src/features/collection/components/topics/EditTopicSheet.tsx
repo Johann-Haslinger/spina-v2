@@ -6,6 +6,7 @@ import { useContext, useEffect, useState } from 'react';
 import { IoCreateOutline } from 'react-icons/io5';
 import { TitleFacet } from '../../../../app/additionalFacets';
 import { Story, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
+import { addNotificationEntity } from '../../../../common/utilities';
 import {
   FlexBox,
   PrimaryButton,
@@ -34,8 +35,6 @@ const EditTopicSheet = () => {
 
   useEffect(() => {
     const updateTopicImage = async () => {
-      selectedTopicEntity?.add(new ImageFacet({ imageSrc: selectedImageEntities[0]?.get(ImageFacet)?.props.imageSrc }));
-
       const { error } = await supabaseClient
         .from(SupabaseTable.TOPICS)
         .update({
@@ -45,7 +44,15 @@ const EditTopicSheet = () => {
 
       if (error) {
         console.error('Error updating topic set', error);
+        addNotificationEntity(lsc, {
+          title: 'Fehler beim Aktualisieren des Themenbildes',
+          message: error.message,
+          type: 'error',
+        });
+        return;
       }
+
+      selectedTopicEntity?.add(new ImageFacet({ imageSrc: selectedImageEntities[0]?.get(ImageFacet)?.props.imageSrc }));
 
       selectedImageEntities.forEach((e) => lsc.engine.removeEntity(e));
     };
@@ -66,8 +73,6 @@ const EditTopicSheet = () => {
   const updateTopic = async () => {
     if (newTitle && newDescription) {
       navigateBack();
-      selectedTopicEntity?.add(new TitleFacet({ title: newTitle }));
-      selectedTopicEntity?.add(new DescriptionFacet({ description: newDescription }));
 
       const { error } = await supabaseClient
         .from(SupabaseTable.TOPICS)
@@ -80,7 +85,15 @@ const EditTopicSheet = () => {
 
       if (error) {
         console.error('Error updating topic set', error);
+        addNotificationEntity(lsc, {
+          title: 'Fehler beim Aktualisieren des Themas',
+          message: error.message,
+          type: 'error',
+        });
+        return;
       }
+      selectedTopicEntity?.add(new TitleFacet({ title: newTitle }));
+      selectedTopicEntity?.add(new DescriptionFacet({ description: newDescription }));
     }
   };
 

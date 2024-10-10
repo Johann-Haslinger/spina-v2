@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { ILeanScopeClient } from '@leanscope/api-client';
 import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity, EntityProps, useEntities } from '@leanscope/ecs-engine';
 import { IdentifierFacet, Tags } from '@leanscope/ecs-models';
@@ -20,6 +21,7 @@ import {
 } from '../../../app/additionalFacets';
 import { AdditionalTag, DataType, ProgressStatus, SupabaseTable } from '../../../base/enums';
 import { useLoadingIndicator } from '../../../common/hooks';
+import { addNotificationEntity } from '../../../common/utilities';
 import { useDaysUntilDue } from '../../../hooks/useDaysUntilDue';
 import supabaseClient from '../../../lib/supabase';
 import { dataTypeQuery } from '../../../utils/queries';
@@ -126,11 +128,9 @@ const usePendingResources = () => {
   return { pendingResourceEntities, hasPendingResources };
 };
 
-const updateStatus = async (entity: Entity, status: number) => {
+const updateStatus = async (lsc: ILeanScopeClient, entity: Entity, status: number) => {
   const id = entity.get(IdentifierFacet)?.props.guid;
   const dataType = dataTypeQuery(entity, DataType.HOMEWORK) ? DataType.HOMEWORK : DataType.EXAM;
-  entity.add(new StatusFacet({ status }));
-  entity.add(AdditionalTag.CHANGED);
 
   const { error } = await supabaseClient
     .from(dataType == DataType.HOMEWORK ? SupabaseTable.HOMEWORKS : SupabaseTable.EXAMS)
@@ -139,7 +139,14 @@ const updateStatus = async (entity: Entity, status: number) => {
 
   if (error) {
     console.error('Error updating status:', error);
+    addNotificationEntity(lsc, {
+      title: 'Fehler beim Aktualisieren des Status',
+      message: error.message,
+      type: 'error',
+    });
   }
+  entity.add(new StatusFacet({ status }));
+  entity.add(AdditionalTag.CHANGED);
 };
 
 const StyledSelect = styled.select`
@@ -189,7 +196,7 @@ const PendingResourceRow = (props: TitleProps & StatusProps & DueDateProps & Ent
   useEffect(() => {
     if (currentStatus == status) return;
     const timeoutId = setTimeout(() => {
-      updateStatus(entity, currentStatus);
+      updateStatus(lsc, entity, currentStatus);
     }, 250);
 
     return () => clearTimeout(timeoutId);

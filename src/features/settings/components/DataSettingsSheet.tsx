@@ -3,6 +3,7 @@ import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useState } from 'react';
 import { AdditionalTag, DataType, Story, SupabaseTable } from '../../../base/enums';
+import { addNotificationEntity } from '../../../common/utilities';
 import {
   Alert,
   AlertButton,
@@ -21,30 +22,48 @@ import { displayActionTexts } from '../../../utils/displayText';
 import { dataTypeQuery } from '../../../utils/queries';
 
 const archiveAllTopics = async (lsc: ILeanScopeClient, userId: string) => {
-  lsc.engine.entities.filter((e) => dataTypeQuery(e, DataType.TOPIC)).forEach((e) => e.add(AdditionalTag.ARCHIVED));
-
   const { error } = await supabaseClient.from(SupabaseTable.TOPICS).update({ is_archived: true }).eq('user_id', userId);
 
   if (error) {
     console.error('Error archiving topics:', error.message);
+    addNotificationEntity(lsc, {
+      title: 'Fehler beim Archivieren deiner Themen',
+      message: error.message,
+      type: 'error',
+    });
+    return;
   }
+
+  lsc.engine.entities.filter((e) => dataTypeQuery(e, DataType.TOPIC)).forEach((e) => e.add(AdditionalTag.ARCHIVED));
 };
 
 const deleteAllTopics = async (lsc: ILeanScopeClient, userId: string) => {
-  lsc.engine.entities.filter((e) => dataTypeQuery(e, DataType.TOPIC)).forEach((e) => lsc.engine.removeEntity(e));
-
   const { error } = await supabaseClient.from(SupabaseTable.TOPICS).delete().eq('user_id', userId);
 
   if (error) {
     console.error('Error deleting topics:', error.message);
+    addNotificationEntity(lsc, {
+      title: 'Fehler beim Löschen deiner Themen',
+      message: error.message,
+      type: 'error',
+    });
+    return;
   }
+
+  lsc.engine.entities.filter((e) => dataTypeQuery(e, DataType.TOPIC)).forEach((e) => lsc.engine.removeEntity(e));
 };
 
-const deleteUserAccount = async (userId: string) => {
+const deleteUserAccount = async (lsc: ILeanScopeClient, userId: string) => {
   const { error: deleteError } = await supabaseClient.auth.admin.deleteUser(userId);
 
   if (deleteError) {
     console.error('Error deleting user account:', deleteError.message);
+    addNotificationEntity(lsc, {
+      title: 'Fehler beim Löschen deines Accounts',
+      message: deleteError.message,
+      type: 'error',
+    });
+
     return;
   }
 
@@ -70,7 +89,7 @@ const DataSettingsSheet = () => {
     if (deleteAlert === DeleteAlert.DELETE_TOPICS) {
       deleteAllTopics(lsc, userId);
     } else if (deleteAlert === DeleteAlert.DELETE_ACCOUNT) {
-      deleteUserAccount(userId);
+      deleteUserAccount(lsc, userId);
     }
   };
 

@@ -5,6 +5,7 @@ import { v4 } from 'uuid';
 import { FilePathFacet, TitleFacet, TypeFacet } from '../../../app/additionalFacets';
 import { DataType, SupabaseStorageBucket, SupabaseTable } from '../../../base/enums';
 import supabaseClient from '../../../lib/supabase';
+import { addNotificationEntity } from '../../../common/utilities';
 
 interface UploadedFile {
   id: string;
@@ -33,9 +34,13 @@ export const addFileToLearningUnit = async (
 
   if (error) {
     console.error('Upload failed:', error);
+    addNotificationEntity(lsc, {
+      title: 'Fehler beim Hochladen der Datei',
+      message: error.message,
+      type: 'error',
+    });
     return;
   }
-  console.log('uploadFileData', uploadFileData);
 
   if (!uploadFileData.path) return;
 

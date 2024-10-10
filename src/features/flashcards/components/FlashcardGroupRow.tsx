@@ -8,6 +8,8 @@ import { LearningUnitPriority } from '../../../base/enums';
 import { updatePriority } from '../../../common/utilities';
 import { useFormattedDateAdded } from '../../collection/hooks/useFormattedDateAdded';
 import { useDueFlashcards } from '../hooks';
+import { useContext } from 'react';
+import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 
 const StyledRowWrapper = styled.div`
   ${tw`flex  items-center py-1 transition-all  md:hover:scale-105  rounded-lg justify-between`}
@@ -27,6 +29,7 @@ const StyledSelect = styled.select<{ value: LearningUnitPriority }>`
 `;
 
 const FlashcardGroupRow = (props: TitleProps & PriorityProps & EntityProps) => {
+  const lsc = useContext(LeanScopeClientContext);
   const { title, entity, priority } = props;
   const { dueFlashcardEntity } = useDueFlashcards();
   const formattedDateAdded = useFormattedDateAdded(entity, true);
@@ -40,7 +43,9 @@ const FlashcardGroupRow = (props: TitleProps & PriorityProps & EntityProps) => {
         <p tw="line-clamp-1 text-secondary-text dark:text-secondary-text-dark text-sm">{formattedDateAdded}</p>
       </div>
       <StyledSelect
-        onChange={(e) => updatePriority(entity, Number(e.target.value) as LearningUnitPriority, dueFlashcardEntity)}
+        onChange={(e) =>
+          updatePriority(lsc, entity, Number(e.target.value) as LearningUnitPriority, dueFlashcardEntity)
+        }
         value={priority}
       >
         <option value={LearningUnitPriority.ACTIVE}>Aktiv</option>

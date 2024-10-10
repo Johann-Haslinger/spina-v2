@@ -3,13 +3,10 @@ import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { AnswerFacet, QuestionFacet } from '../app/additionalFacets';
 import { SupabaseTable } from '../base/enums';
+import { addNotificationEntity } from '../common/utilities';
 import supabaseClient from '../lib/supabase';
 
 export const addFlashcards = async (lsc: ILeanScopeClient, flashcardEntities: Entity[], userId: string) => {
-  flashcardEntities.forEach((flashcardEntity) => {
-    lsc.engine.addEntity(flashcardEntity);
-  });
-
   const { error } = await supabaseClient.from(SupabaseTable.FLASHCARDS).insert(
     flashcardEntities.map((flashcardEntity) => ({
       question: flashcardEntity.get(QuestionFacet)?.props.question,
@@ -22,5 +19,15 @@ export const addFlashcards = async (lsc: ILeanScopeClient, flashcardEntities: En
 
   if (error) {
     console.error('Error inserting flashcard', error);
+    addNotificationEntity(lsc, {
+      title: 'Fehler beim Hinzufügen der Karteikarte',
+      message: error.message,
+      type: 'error',
+    });
+    return;
   }
+
+  flashcardEntities.forEach((flashcardEntity) => {
+    lsc.engine.addEntity(flashcardEntity);
+  });
 };

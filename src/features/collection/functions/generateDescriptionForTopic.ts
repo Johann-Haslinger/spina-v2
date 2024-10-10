@@ -4,8 +4,9 @@ import { TitleFacet } from '../../../app/additionalFacets';
 import { AdditionalTag, SupabaseTable } from '../../../base/enums';
 import supabaseClient from '../../../lib/supabase';
 import { getCompletion } from '../../../utils/getCompletion';
+import { ILeanScopeClient } from '@leanscope/api-client';
 
-export const generateDescriptionForTopic = async (entity: Entity) => {
+export const generateDescriptionForTopic = async (lsc: ILeanScopeClient, entity: Entity) => {
   const description = entity.get(DescriptionFacet)?.props.description;
   // const image = entity?.get(ImageFacet)?.props.imageSrc;
   const title = entity?.get(TitleFacet)?.props.title;
@@ -17,7 +18,7 @@ export const generateDescriptionForTopic = async (entity: Entity) => {
   // const imageContentPrompt = `Beschreibe kurz und präzise ein passendes Bild zu '${title}', damit es einfach nachgemalt werden kann. Verwende wenige Wörter und wähle ein reales Motiv.`;
   entity.addTag(AdditionalTag.GENERATING);
   if (!description) {
-    topicDescription = await getCompletion(generatingDescriptionPrompt);
+    topicDescription = await getCompletion(lsc, generatingDescriptionPrompt);
     entity.add(new DescriptionFacet({ description: topicDescription }));
 
     const { error } = await supabaseClient

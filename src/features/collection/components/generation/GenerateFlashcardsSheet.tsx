@@ -62,7 +62,7 @@ const GenerateFlashcardsSheet = () => {
         return;
       }
       setIsGenerating(true);
-      const flashcards = await generateFlashCards(`${selectedLearningUnitTitle}: ${selectedLearningUnitText}`);
+      const flashcards = await generateFlashCards(lsc, `${selectedLearningUnitTitle}: ${selectedLearningUnitText}`);
       setIsGenerating(false);
       setMessage('Passen die Karteikarten so für dich?<br/> <br/> ');
       setTimeout(() => {

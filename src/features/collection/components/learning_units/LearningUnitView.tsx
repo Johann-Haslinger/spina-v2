@@ -105,7 +105,7 @@ const LearningUnitView = (
               ,{' '}
               <StyledSelect
                 onChange={(e) =>
-                  updatePriority(entity, Number(e.target.value) as LearningUnitPriority, dueFlashcardEntity)
+                  updatePriority(lsc, entity, Number(e.target.value) as LearningUnitPriority, dueFlashcardEntity)
                 }
                 value={priority}
                 defaultValue={0}

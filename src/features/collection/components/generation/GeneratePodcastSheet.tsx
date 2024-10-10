@@ -71,8 +71,8 @@ const GeneratePodcastSheet = () => {
        "${text}".   Der Podcast sollte informativ und leicht verständlich sein, um das Lernen zu erleichtern. Außerdem soll es Spaß machen, den Podcast zu hören. Sprachlich soll der Podcast locker gestaltet sein. Du bist der Moderator des Podcasts. Sprich den Zuhörer direkt und mit du an. Der Podcast sollte eine Länge von 2-3 Minuten haben.
       `;
 
-      const transcript = await getCompletion(generatinPodcastTranscriptPrompt);
-      const audioBase64 = await getAudioFromText(transcript);
+      const transcript = await getCompletion(lsc, generatinPodcastTranscriptPrompt);
+      const audioBase64 = await getAudioFromText(lsc, transcript);
 
       if (audioBase64) {
         const newPodcastId = v4();

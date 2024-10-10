@@ -83,7 +83,6 @@ const AddHomeworkSheet = () => {
 
     const { title, dueDate, parent, description } = newHomework;
     const newHomeworkEntity = new Entity();
-    lsc.engine.addEntity(newHomeworkEntity);
     newHomeworkEntity.add(new IdentifierFacet({ guid: newHomeworkId }));
     newHomeworkEntity.add(
       new ParentFacet({
@@ -111,14 +110,13 @@ const AddHomeworkSheet = () => {
 
     if (newTopicTitle !== '') {
       const newTopicEntity = new Entity();
-      lsc.engine.addEntity(newTopicEntity);
       newTopicEntity.add(new IdentifierFacet({ guid: newTopicId }));
       newTopicEntity.add(new TitleFacet({ title: newTopicTitle }));
       newTopicEntity.add(new ParentFacet({ parentId: selectedSchoolSubjectId }));
       newTopicEntity.add(DataType.TOPIC);
       addTopic(lsc, newTopicEntity, userId);
 
-      await generateDescriptionForTopic(newTopicEntity);
+      await generateDescriptionForTopic(lsc, newTopicEntity);
     }
   };
 

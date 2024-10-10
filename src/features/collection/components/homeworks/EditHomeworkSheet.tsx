@@ -18,6 +18,7 @@ import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../../lib/supabase';
 import { displayButtonTexts, displayLabelTexts } from '../../../../utils/displayText';
 import { useSelectedHomework } from '../../hooks/useSelectedHomework';
+import { addNotificationEntity } from '../../../../common/utilities';
 
 const EditHomeworkSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -51,6 +52,11 @@ const EditHomeworkSheet = () => {
 
       if (error) {
         console.error('Error updating homework set', error);
+        addNotificationEntity(lsc, {
+          title: 'Fehler beim Aktualisieren der Hausaufgabe',
+          message: error.message + ' ' + error.details + ' ' + error.hint,
+          type: 'error',
+        });
       }
     }
   };

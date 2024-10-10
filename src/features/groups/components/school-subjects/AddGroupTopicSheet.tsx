@@ -57,7 +57,7 @@ const AddGroupTopicSheet = () => {
         const generatingDescriptionPrompt =
           'Bitte schreibe einen sehr kurzen Beschreibungssatz zu folgendem Thema:' + title;
 
-        topicDescription = await getCompletion(generatingDescriptionPrompt);
+        topicDescription = await getCompletion(lsc, generatingDescriptionPrompt);
         newTopicEntity.add(new DescriptionFacet({ description: topicDescription }));
       }
 

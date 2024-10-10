@@ -4,10 +4,9 @@ import { DescriptionFacet, IdentifierFacet, ImageFacet, ParentFacet } from '@lea
 import { TitleFacet } from '../app/additionalFacets';
 import { SupabaseTable } from '../base/enums';
 import supabaseClient from '../lib/supabase';
+import { addNotificationEntity } from '../common/utilities';
 
 export const addTopic = async (lsc: ILeanScopeClient, topicEntity: Entity, userId: string) => {
-  lsc.engine.addEntity(topicEntity);
-
   const topicId = topicEntity.get(IdentifierFacet)?.props.guid;
   const parentId = topicEntity.get(ParentFacet)?.props.parentId;
   const title = topicEntity.get(TitleFacet)?.props.title;
@@ -27,5 +26,12 @@ export const addTopic = async (lsc: ILeanScopeClient, topicEntity: Entity, userI
 
   if (error) {
     console.error('Error adding topic', error);
+    addNotificationEntity(lsc, {
+      title: 'Fehler beim Hinzufügen des Themas',
+      message: error.message,
+      type: 'error',
+    });
   }
+
+  lsc.engine.addEntity(topicEntity);
 };

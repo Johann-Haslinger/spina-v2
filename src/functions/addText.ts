@@ -1,9 +1,11 @@
+import { ILeanScopeClient } from '@leanscope/api-client';
 import { Entity } from '@leanscope/ecs-engine';
 import { ParentFacet, TextFacet } from '@leanscope/ecs-models';
 import { SupabaseTable } from '../base/enums';
+import { addNotificationEntity } from '../common/utilities';
 import supabaseClient from '../lib/supabase';
 
-export const addText = async (textEntity: Entity, userId: string) => {
+export const addText = async (lsc: ILeanScopeClient, textEntity: Entity, userId: string) => {
   const parentId = textEntity.get(ParentFacet)?.props.parentId;
   const text = textEntity.get(TextFacet)?.props.text;
 
@@ -17,5 +19,10 @@ export const addText = async (textEntity: Entity, userId: string) => {
 
   if (error) {
     console.error('Error adding text', error);
+    addNotificationEntity(lsc, {
+      title: 'Fehler beim Hinzufügen des Textes',
+      message: error.message,
+      type: 'error',
+    });
   }
 };

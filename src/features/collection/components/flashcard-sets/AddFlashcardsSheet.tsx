@@ -9,6 +9,7 @@ import { AnswerFacet, MasteryLevelFacet, QuestionFacet } from '../../../../app/a
 import { DataType, LearningUnitType, Story, SupabaseEdgeFunction } from '../../../../base/enums';
 import { useImageSelector, useInputFocus } from '../../../../common/hooks';
 import { useSelectedLearningUnit } from '../../../../common/hooks/useSelectedLearningUnit';
+import { addNotificationEntity } from '../../../../common/utilities';
 import {
   FlexBox,
   PrimaryButton,
@@ -74,6 +75,11 @@ const AddFlashcardsSheet = () => {
 
     if (error) {
       console.error('Error generating completion:', error.message);
+      addNotificationEntity(lsc, {
+        title: 'Fehler beim Erzeugen der Lernkarten',
+        message: error.message + ' ' + error.details + ' ' + error.hint,
+        type: 'error',
+      });
     }
 
     const generatedFlashcards: { answer: string; question: string }[] = JSON.parse(flashcardsData).cards;
@@ -128,7 +134,7 @@ const AddFlashcardsSheet = () => {
 
   const handleGenerateFlashcards = async () => {
     setIsGeneratingFlashcards(true);
-    const flashcards = await generateFlashCards(generateFlashcardsPrompt);
+    const flashcards = await generateFlashCards(lsc, generateFlashcardsPrompt);
     setFlashcards(flashcards);
     setIsGeneratingFlashcards(false);
     setAddFlashcardsMethod(AddFlashcardsMethods.DONE);

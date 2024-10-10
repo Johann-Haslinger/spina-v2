@@ -1,6 +1,8 @@
+import { ILeanScopeClient } from '@leanscope/api-client';
+import { addNotificationEntity } from '../common/utilities';
 import supabaseClient from '../lib/supabase';
 
-export const getCompletion = async (prompt: string): Promise<string> => {
+export const getCompletion = async (lsc: ILeanScopeClient, prompt: string): Promise<string> => {
   const session = await supabaseClient.auth.getSession();
 
   if (session) {
@@ -13,6 +15,11 @@ export const getCompletion = async (prompt: string): Promise<string> => {
 
     if (error) {
       console.error('error generating completion:', error.message);
+      addNotificationEntity(lsc, {
+        title: 'Fehler beim Generieren einer Antwort.',
+        message: error.message,
+        type: 'error',
+      });
       return `error generating completion:` + error.message;
     }
 
@@ -22,7 +29,7 @@ export const getCompletion = async (prompt: string): Promise<string> => {
   }
 };
 
-export const getJSONCompletion = async (prompt: string): Promise<string> => {
+export const getJSONCompletion = async (lsc: ILeanScopeClient, prompt: string): Promise<string> => {
   const session = await supabaseClient.auth.getSession();
 
   if (session) {
@@ -35,6 +42,11 @@ export const getJSONCompletion = async (prompt: string): Promise<string> => {
 
     if (error) {
       console.error('error generating completion:', error.message);
+      addNotificationEntity(lsc, {
+        title: 'Fehler beim Generieren einer Antwort.',
+        message: error.message,
+        type: 'error',
+      });
       return `error generating completion:` + error.message;
     }
 
@@ -44,7 +56,7 @@ export const getJSONCompletion = async (prompt: string): Promise<string> => {
   }
 };
 
-export async function getAudioFromText(text: string): Promise<string | undefined> {
+export async function getAudioFromText(lsc: ILeanScopeClient, text: string): Promise<string | undefined> {
   const session = await supabaseClient.auth.getSession();
 
   if (session) {
@@ -57,6 +69,11 @@ export async function getAudioFromText(text: string): Promise<string | undefined
 
     if (error) {
       console.error('Fehler bei der Anfrage:', error.message);
+      addNotificationEntity(lsc, {
+        title: 'Fehler beim Generieren einer Antwort.',
+        message: error.message,
+        type: 'error',
+      });
       return 'Fehler bei der Ausführung der Funktion';
     }
 
@@ -66,7 +83,7 @@ export async function getAudioFromText(text: string): Promise<string | undefined
   }
 }
 
-export const getImageFromText = async (text: string): Promise<string | undefined> => {
+export const getImageFromText = async (lsc: ILeanScopeClient, text: string): Promise<string | undefined> => {
   const session = await supabaseClient.auth.getSession();
 
   if (session) {
@@ -79,6 +96,11 @@ export const getImageFromText = async (text: string): Promise<string | undefined
 
     if (error) {
       console.error('error generating image:', error.message);
+      addNotificationEntity(lsc, {
+        title: 'Fehler beim Generieren eines Bildes.',
+        message: error.message,
+        type: 'error',
+      });
       return `error generating image:` + error.message;
     }
 

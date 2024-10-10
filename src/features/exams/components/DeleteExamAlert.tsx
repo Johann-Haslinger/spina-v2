@@ -7,6 +7,7 @@ import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../lib/supabase';
 import { displayActionTexts } from '../../../utils/displayText';
 import { useSelectedExam } from '../hooks/useSelectedExam';
+import { addNotificationEntity } from '../../../common/utilities';
 
 const DeleteExamAlert = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -21,13 +22,19 @@ const DeleteExamAlert = () => {
     selectedExamEntity?.add(AdditionalTag.NAVIGATE_BACK);
     setTimeout(async () => {
       if (selectedExamEntity) {
-        lsc.engine.removeEntity(selectedExamEntity);
-
         const { error } = await supabaseClient.from(SupabaseTable.EXAMS).delete().eq(SupabaseColumn.ID, selectedExamId);
 
         if (error) {
           console.error('Error deleting exam', error);
+          addNotificationEntity(lsc, {
+            title: 'Fehler beim Löschen der Prüfung',
+            message: error.message,
+            type: 'error',
+          });
+          return;
         }
+
+        lsc.engine.removeEntity(selectedExamEntity);
       }
     }, 300);
   };

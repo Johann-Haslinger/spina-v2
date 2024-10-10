@@ -327,3 +327,13 @@ export class FilePathFacet extends Facet<FilePathProps> {
     super(props);
   }
 }
+
+export interface IconProps {
+  icon: string;
+}
+
+export class IconFacet extends Facet<IconProps> {
+  constructor(props: IconProps) {
+    super(props);
+  }
+}

@@ -3,11 +3,10 @@ import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { DateAddedFacet, LearningUnitTypeFacet, TitleFacet } from '../app/additionalFacets';
 import { LearningUnitPriority, LearningUnitType, SupabaseTable } from '../base/enums';
+import { addNotificationEntity } from '../common/utilities';
 import supabaseClient from '../lib/supabase';
 
 export const addLearningUnit = async (lsc: ILeanScopeClient, learningUnitEntity: Entity, userId: string) => {
-  lsc.engine.addEntity(learningUnitEntity);
-
   const id = learningUnitEntity.get(IdentifierFacet)?.props.guid;
   const parent_id = learningUnitEntity.get(ParentFacet)?.props.parentId;
   const title = learningUnitEntity.get(TitleFacet)?.props.title;
@@ -28,5 +27,12 @@ export const addLearningUnit = async (lsc: ILeanScopeClient, learningUnitEntity:
 
   if (error) {
     console.error('Error inserting learning unit', error);
+    addNotificationEntity(lsc, {
+      title: 'Fehler beim Hinzufügen der Lerneinheit',
+      message: error.message,
+      type: 'error',
+    });
   }
+
+  lsc.engine.addEntity(learningUnitEntity);
 };

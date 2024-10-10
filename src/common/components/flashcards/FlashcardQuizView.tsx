@@ -69,7 +69,7 @@ import supabaseClient from '../../../lib/supabase';
 import { displayActionTexts, displayButtonTexts, displayLabelTexts } from '../../../utils/displayText';
 import { dataTypeQuery } from '../../../utils/queries';
 import { useSelectedLearningUnit } from '../../hooks/useSelectedLearningUnit';
-import { updatePriority } from '../../utilities';
+import { addNotificationEntity, updatePriority } from '../../utilities';
 
 const fetchFlashcardsByDue = async () => {
   const { data: flashcards, error } = await supabaseClient
@@ -244,7 +244,7 @@ const FlashcardQuizView = () => {
 
         if (!learningUnitEntity) return;
 
-        updatePriority(learningUnitEntity, LearningUnitPriority.ACTIVE, dueFlashcardEntity);
+        updatePriority(lsc, learningUnitEntity, LearningUnitPriority.ACTIVE, dueFlashcardEntity);
       });
     }
 
@@ -327,6 +327,11 @@ const FlashcardQuizView = () => {
 
     if (error) {
       console.error('Fehler beim Aktualisieren der Flashcards:', error);
+      addNotificationEntity(lsc, {
+        title: 'Fehler beim Aktualisieren der Lernkarten',
+        message: error.message + error.details + error.hint,
+        type: 'error',
+      });
     }
   };
 
@@ -351,6 +356,11 @@ const FlashcardQuizView = () => {
 
       if (updateError) {
         console.error('Error updating current streak:', updateError);
+        addNotificationEntity(lsc, {
+          title: 'Fehler beim Aktualisieren des Streaks',
+          message: updateError.message + updateError.details + updateError.hint,
+          type: 'error',
+        });
       }
 
       streakEntity?.add(new StreakFacet({ streak: currentStreak + 1 }));
@@ -378,6 +388,11 @@ const FlashcardQuizView = () => {
 
     if (error) {
       console.error('Error adding flashcard session:', error);
+      addNotificationEntity(lsc, {
+        title: 'Fehler beim Hinzufügen der Lernkartensession',
+        message: 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut: ' + error,
+        type: 'error',
+      });
     }
 
     const newSessionEntity = new Entity();
@@ -694,6 +709,11 @@ const FlashcardCell = (props: {
 
     if (error) {
       console.error('Error deleting flashcard:', error);
+      addNotificationEntity(lsc, {
+        title: 'Fehler beim Löschen der Lernkarte',
+        message: error.message + error.details + error.hint,
+        type: 'error',
+      });
     }
 
     const flashcardEntityToDelete = lsc.engine.entities.find((e) => e.get(IdentifierFacet)?.props.guid === flashcardId);
@@ -712,6 +732,11 @@ const FlashcardCell = (props: {
 
     if (error) {
       console.error('Error pausing flashcard:', error);
+      addNotificationEntity(lsc, {
+        title: 'Fehler beim Pausieren der Lernkarte',
+        message: error.message + error.details + error.hint,
+        type: 'error',
+      });
     }
 
     navigateToNextFlashcard();
@@ -725,6 +750,11 @@ const FlashcardCell = (props: {
 
     if (error) {
       console.error('Error bookmarking flashcard:', error);
+      addNotificationEntity(lsc, {
+        title: 'Fehler beim Speichern der Lernkarte',
+        message: error.message + error.details + error.hint,
+        type: 'error',
+      });
     }
 
     const flashcardEntityToBookmark = lsc.engine.entities.find(
@@ -884,6 +914,7 @@ const DeleteFlashcardAlert = (props: { isVisible: boolean; navigateBack: () => v
 // };
 
 const EditFlashcardSheet = (props: { isVisible: boolean; navigateBack: () => void; flashcardEntity: Entity }) => {
+  const lsc = useContext(LeanScopeClientContext);
   const { isVisible, navigateBack, flashcardEntity } = props;
   const question = flashcardEntity.get(QuestionFacet)?.props.question;
   const answer = flashcardEntity.get(AnswerFacet)?.props.answer;
@@ -900,6 +931,11 @@ const EditFlashcardSheet = (props: { isVisible: boolean; navigateBack: () => voi
 
     if (error) {
       console.error('Error updating flashcard:', error);
+      addNotificationEntity(lsc, {
+        title: 'Fehler beim Aktualisieren der Lernkarte',
+        message: error.message + error.details + error.hint,
+        type: 'error',
+      });
     }
 
     flashcardEntity.add(new QuestionFacet({ question: editedQuestion || '' }));

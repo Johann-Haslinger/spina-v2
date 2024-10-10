@@ -93,7 +93,7 @@ const AddExamSheet = () => {
 
       newExamEntity.add(new ParentFacet({ parentId: newTopicId }));
 
-      await generateDescriptionForTopic(newTopicEntity);
+      await generateDescriptionForTopic(lsc, newTopicEntity);
     }
 
     addExam(lsc, newExamEntity, userId);

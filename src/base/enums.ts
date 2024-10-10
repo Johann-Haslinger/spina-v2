@@ -1,4 +1,5 @@
 export enum Story {
+  ANY = 'any',
   OBSERVING_COLLECTION_STORY = 'observingCollectionStory',
   OBSERVING_SCHOOL_SUBJECT_STORY = 'observingSchoolSubjectStory',
   OBSERVING_TOPIC_STORY = 'observingTopicStory',
@@ -33,6 +34,7 @@ export enum Story {
   OBSERVING_CONTACT_FORM_STORY = 'observingContactFormStory',
   OBSERVING_REPORT_PROBLEM_STORY = 'observingReportProblemStory',
   OBSERVING_ADD_TO_HOME_SCREEN_STORY = 'observingAddToHomeScreenStory',
+  OBSERVING_NOTIFICATION_STORY = 'observingNotificationStory',
 
   ADDING_FLASHCARD_SET_STORY = 'addFlashcardSetStory',
   ADDING_TOPIC_STORY = 'addTopicStory',
@@ -97,6 +99,7 @@ export enum Story {
   READING_ARTICLE = 'readingArticle',
 }
 export enum AdditionalTag {
+  NOTIFICATION = 'notification',
   UPLOADED_FILE = 'uploadedFile',
   MOCKUP_DATA = 'mockupData',
   NAVIGATE_BACK = 'navigateBack',

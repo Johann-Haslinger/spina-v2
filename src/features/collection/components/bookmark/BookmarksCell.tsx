@@ -21,7 +21,11 @@ const BookmarksCell = () => {
   const openBookmarkCollection = () => lsc.stories.transitTo(Story.OBSERVING_BOOKMARKS_STORY);
 
   return (
-    <StyledCellWrapper color={isDarkModeActive ? color + 30 : color} backgroundColor={isDarkModeActive ? color + 50 : color + 90} onClick={openBookmarkCollection}>
+    <StyledCellWrapper
+      color={isDarkModeActive ? color + 30 : color}
+      backgroundColor={isDarkModeActive ? color + 50 : color + 90}
+      onClick={openBookmarkCollection}
+    >
       <IoBookmark />
     </StyledCellWrapper>
   );

@@ -15,6 +15,7 @@ import {
 import tw from 'twin.macro';
 import { FilePathFacet, FilePathProps, TitleProps } from '../../../../app/additionalFacets';
 import { AdditionalTag, DataType, SupabaseStorageBucket, SupabaseTable } from '../../../../base/enums';
+import { addNotificationEntity } from '../../../../common/utilities';
 import { ActionRow, NavBarButton, View } from '../../../../components';
 import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
 import supabaseClient from '../../../../lib/supabase';
@@ -22,7 +23,6 @@ import { dataTypeQuery } from '../../../../utils/queries';
 
 const deleteFile = async (lsc: ILeanScopeClient, entity: Entity) => {
   const filePath = entity.get(FilePathFacet)?.props.filePath;
-  lsc.engine.removeEntity(entity);
 
   if (!filePath) {
     console.error('File path not found');
@@ -35,6 +35,12 @@ const deleteFile = async (lsc: ILeanScopeClient, entity: Entity) => {
 
   if (storageDeleteError) {
     console.error('Error deleting file:', storageDeleteError);
+    addNotificationEntity(lsc, {
+      title: 'Fehler beim Löschen der Datei',
+      message: storageDeleteError.message,
+      type: 'error',
+    });
+    return;
   }
   const { error: tableDeleteError } = await supabaseClient
     .from(SupabaseTable.LEARNING_UNIT_FILES)
@@ -43,7 +49,15 @@ const deleteFile = async (lsc: ILeanScopeClient, entity: Entity) => {
 
   if (tableDeleteError) {
     console.error('Error deleting file from table:', tableDeleteError);
+    addNotificationEntity(lsc, {
+      title: 'Fehler beim Löschen der Datei',
+      message: tableDeleteError.message + ' ' + tableDeleteError.details + ' ' + tableDeleteError.hint,
+      type: 'error',
+    });
+    return;
   }
+
+  lsc.engine.removeEntity(entity);
 };
 
 const downloadFile = async (title: string, filePath: string) => {

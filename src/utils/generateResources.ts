@@ -1,6 +1,10 @@
+import { ILeanScopeClient } from '@leanscope/api-client';
 import { getCompletion, getJSONCompletion } from './getCompletion';
 
-export const generateFlashCards = async (prompt: string): Promise<{ question: string; answer: string }[]> => {
+export const generateFlashCards = async (
+  lsc: ILeanScopeClient,
+  prompt: string,
+): Promise<{ question: string; answer: string }[]> => {
   const generateFlashCardsPrompt = `Wandle bitte den folgenden Text in Karteikarten um, mit Fragen und Antworten zum lernen als JSON mit einem Array von Objekten. 
     Text:
     ${prompt}
@@ -24,17 +28,17 @@ export const generateFlashCards = async (prompt: string): Promise<{ question: st
   
     `;
 
-  const completion = await getJSONCompletion(generateFlashCardsPrompt);
+  const completion = await getJSONCompletion(lsc, generateFlashCardsPrompt);
   const flashcards = JSON.parse(completion).cards;
 
   return flashcards;
 };
 
-export const generateImprovedText = async (textToImprove: string): Promise<string> => {
+export const generateImprovedText = async (lsc: ILeanScopeClient, textToImprove: string): Promise<string> => {
   const improveTextPrompt = `Schreibe bitte basierend auf dem folgenden Text eine verbesserte Erklärung des in ihm behandelten Themas, die gut nachvollziehbar ist. Formatieren den Text zudem als HTML. Nutze <b> für Unterüberschriften, <i> für Fachbegriffe, <u> für wichtige Stellen und <br/><br/> für den Abstand zwischen Absätzen. Lass die Hauptüberschrift weg. Erzeuge eine neue Zeile mit <br/><br/>, anstelle von \n. Hier der zu verbessernde Text:
   " ${textToImprove}"`;
 
-  const improvedText = await getCompletion(improveTextPrompt);
+  const improvedText = await getCompletion(lsc, improveTextPrompt);
 
   return improvedText;
 };

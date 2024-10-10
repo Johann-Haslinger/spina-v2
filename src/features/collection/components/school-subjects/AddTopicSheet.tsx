@@ -65,7 +65,7 @@ const AddTopicSheet = () => {
       newTopicEntity.add(DataType.TOPIC);
       navigateBack();
 
-      await generateDescriptionForTopic(newTopicEntity);
+      await generateDescriptionForTopic(lsc, newTopicEntity);
 
       addTopic(lsc, newTopicEntity, userId);
     }

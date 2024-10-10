@@ -13,6 +13,7 @@ import {
   QuestionProps,
 } from '../../../../app/additionalFacets';
 import { AdditionalTag, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
+import { addNotificationEntity } from '../../../../common/utilities';
 import {
   FlexBox,
   PrimaryButton,
@@ -60,6 +61,11 @@ const EditFlashcardSheet = (props: QuestionProps & AnswerProps & MasteryLevelPro
 
     if (error) {
       console.error('Error updating flashcard: ', error);
+      addNotificationEntity(lsc, {
+        title: 'Fehler beim Aktualisieren der Lernkarte',
+        message: error.message + ' ' + error.details + ' ' + error.hint,
+        type: 'error',
+      });
     }
   };
 
@@ -73,6 +79,11 @@ const EditFlashcardSheet = (props: QuestionProps & AnswerProps & MasteryLevelPro
 
       if (error) {
         console.error('Error deleting flashcard: ', error);
+        addNotificationEntity(lsc, {
+          title: 'Fehler beim Löschen der Lernkarte',
+          message: error.message + ' ' + error.details + ' ' + error.hint,
+          type: 'error',
+        });
       }
     }, 300);
   };
@@ -135,6 +146,7 @@ const EditFlashcardSheet = (props: QuestionProps & AnswerProps & MasteryLevelPro
 export default EditFlashcardSheet;
 
 const useIsBookmarked = (entity: Entity) => {
+  const lsc = useContext(LeanScopeClientContext);
   const [isBookmarked, setIsBookmarked] = useState(false);
 
   const toggleBookmark = async () => {
@@ -156,6 +168,11 @@ const useIsBookmarked = (entity: Entity) => {
 
     if (error) {
       console.error('Error updating bookmark:', error);
+      addNotificationEntity(lsc, {
+        title: 'Fehler beim Aktualisieren des Lesezeichens',
+        message: error.message + ' ' + error.details + ' ' + error.hint,
+        type: 'error',
+      });
     }
   };
 

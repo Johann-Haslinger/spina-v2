@@ -3,11 +3,10 @@ import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { DueDateFacet, RelationshipFacet, TitleFacet } from '../app/additionalFacets';
 import { SupabaseTable } from '../base/enums';
+import { addNotificationEntity } from '../common/utilities';
 import supabaseClient from '../lib/supabase';
 
 export const addExam = async (lsc: ILeanScopeClient, examEntity: Entity, userId: string) => {
-  lsc.engine.addEntity(examEntity);
-
   const { error } = await supabaseClient.from(SupabaseTable.EXAMS).insert([
     {
       id: examEntity.get(IdentifierFacet)?.props.guid,
@@ -22,5 +21,13 @@ export const addExam = async (lsc: ILeanScopeClient, examEntity: Entity, userId:
 
   if (error) {
     console.error('Error inserting exam', error);
+    addNotificationEntity(lsc, {
+      title: 'Fehler beim Hinzufügen der Prüfung',
+      message: error.message,
+      type: 'error',
+    });
+    return;
   }
+
+  lsc.engine.addEntity(examEntity);
 };

@@ -2,6 +2,7 @@ import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext } from 'react';
 import { AdditionalTag, Story, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
+import { addNotificationEntity } from '../../../../common/utilities';
 import { Alert, AlertButton } from '../../../../components';
 import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../../lib/supabase';
@@ -30,6 +31,11 @@ const DeleteHomeworkAlert = () => {
 
         if (error) {
           console.error('Error deleting homework', error);
+          addNotificationEntity(lsc, {
+            title: 'Fehler beim Löschen der Hausaufgabe',
+            message: error.message + ' ' + error.details + ' ' + error.hint,
+            type: 'error',
+          });
         }
       }
     }, 300);

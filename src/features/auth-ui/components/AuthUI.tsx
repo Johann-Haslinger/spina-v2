@@ -60,7 +60,7 @@ const AuthUI = () => {
     duration: 0.5,
   };
 
-  const isVisible = isLoggedIn == false && !isAddingToHomeScreen
+  const isVisible = isLoggedIn == false && !isAddingToHomeScreen;
 
   return (
     isLoggedIn !== null && (

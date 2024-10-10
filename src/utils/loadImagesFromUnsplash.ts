@@ -1,6 +1,8 @@
+import { ILeanScopeClient } from '@leanscope/api-client';
+import { addNotificationEntity } from '../common/utilities';
 import supabaseClient from '../lib/supabase';
 
-export const loadImagesFromUnsplash = async (query: string) => {
+export const loadImagesFromUnsplash = async (lsc: ILeanScopeClient, query: string) => {
   const session = await supabaseClient.auth.getSession();
 
   if (session) {
@@ -13,6 +15,11 @@ export const loadImagesFromUnsplash = async (query: string) => {
 
     if (error) {
       console.error('error loading images from unsplash:', error.message);
+      addNotificationEntity(lsc, {
+        title: 'Fehler beim Laden von Bildern',
+        message: error.message,
+        type: 'error',
+      });
       return [];
     }
 

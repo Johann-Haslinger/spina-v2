@@ -15,11 +15,11 @@ export const generatePdf = (title: string, htmlText: string) => {
   const contentWidth = 210 - marginLeft - marginRight;
 
   pdf.setFontSize(20);
-  pdf.setFont("Helvetica", 'bold');
+  pdf.setFont('Helvetica', 'bold');
   pdf.text(title, marginLeft, marginTop);
 
   pdf.setFontSize(12);
-  pdf.setFont("Helvetica", 'normal');
+  pdf.setFont('Helvetica', 'normal');
 
   const plainText = htmlText.replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ');
 
