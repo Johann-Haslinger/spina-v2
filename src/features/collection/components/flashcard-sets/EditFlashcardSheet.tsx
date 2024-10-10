@@ -79,12 +79,17 @@ const EditFlashcardSheet = (props: QuestionProps & AnswerProps & MasteryLevelPro
 
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>
-      <FlexBox>
-        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
-        {(questionValue !== question || answerValue !== answer) && (
+      {questionValue !== question || answerValue !== answer ? (
+        <FlexBox>
+          <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
           <PrimaryButton onClick={updateFlashcard}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
-        )}
-      </FlexBox>
+        </FlexBox>
+      ) : (
+        <FlexBox>
+          <div /> <PrimaryButton>{displayButtonTexts(selectedLanguage).done}</PrimaryButton>
+        </FlexBox>
+      )}
+
       <Spacer />
       <Section>
         <SectionRow>

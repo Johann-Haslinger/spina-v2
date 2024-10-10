@@ -15,13 +15,15 @@ export const generatePdf = (title: string, htmlText: string) => {
   const contentWidth = 210 - marginLeft - marginRight;
 
   pdf.setFontSize(20);
+  pdf.setFont("Helvetica", 'bold');
   pdf.text(title, marginLeft, marginTop);
 
   pdf.setFontSize(12);
+  pdf.setFont("Helvetica", 'normal');
 
   const plainText = htmlText.replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ');
 
-  let yOffset = marginTop + lineHeight * 2;
+  let yOffset = 32 + lineHeight * 2;
   const splitText = pdf.splitTextToSize(plainText, contentWidth);
 
   splitText.forEach((line: string) => {

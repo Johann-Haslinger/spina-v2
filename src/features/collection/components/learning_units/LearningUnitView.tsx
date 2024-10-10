@@ -148,7 +148,7 @@ const LearningUnitView = (
           </div>
         )}
 
-        <div>
+        <div tw="z-[100]">
           <EntityPropsMapper
             query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataType.FILE)}
             get={[[FilePathFacet, TitleFacet], []]}
