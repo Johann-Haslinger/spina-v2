@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import { UploadedFile } from '../../../base/types';
-export const useFileSelector = (onFileSelect: (file: UploadedFile) => void) => {
+export const useFileSelector = (onFileSelect: (file: UploadedFile) => void, onlyAllowImages?: boolean) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [isSelectingImageSrc, setIsSelectingImageSrc] = useState(false);
 
   useEffect(() => {
     if (isSelectingImageSrc && fileInputRef.current !== null) {
       fileInputRef.current.click();
-      setIsSelectingImageSrc(false); // Zustand zurücksetzen
+      setIsSelectingImageSrc(false);
     }
   }, [isSelectingImageSrc]);
 
@@ -82,7 +82,7 @@ export const useFileSelector = (onFileSelect: (file: UploadedFile) => void) => {
       multiple
       onChange={handleFileChange}
       style={{ display: 'none' }}
-      accept=".pdf, .png, .jpeg, .jpg"
+      accept={onlyAllowImages ? 'image/*' : 'image/*,application/pdf'}
     />
   );
 

@@ -23,13 +23,13 @@ const StyledText = styled.div`
 `;
 
 const StyledImageContainer = styled.div`
-  ${tw`flex h-48 mt-4 w-full`}
+  ${tw`flex h-44 mt-4 mb-2 w-full`}
 `;
 
 const StyledImage = styled.div<{ backgroundImage: string; mirrored?: boolean }>`
-  ${tw`w-1/2 h-full bg-right bg-cover bg-no-repeat `}
+  ${tw`w-1/2 h-full bg-right-top bg-cover bg-no-repeat `}
   background-image: url(${({ backgroundImage }) => backgroundImage});
-  ${({ mirrored }) => mirrored && tw`scale-x-[-1] bg-right`}
+  ${({ mirrored }) => mirrored && tw`scale-x-[-1]`}
 `;
 
 // const StyledImage = styled.div`
@@ -84,7 +84,7 @@ const ExploreCard = () => {
           <div>
             {' '}
             <StyledContentContainer>
-              <StyledTitle> 🚀 Spaced Repetition und Active Recall: Die Superkräfte im Lernprozess</StyledTitle>
+              <StyledTitle>Spaced Repetition und Active Recall: Die Superkräfte im Lernprozess 🚀 </StyledTitle>
               <StyledDescription>
                 Lernen kann manchmal wie eine unüberwindbare Herausforderung erscheinen, besonders wenn es um große
                 Mengen an Informationen geht. Aber was, wenn es Methoden gäbe, die das Lernen nicht nur effektiver,
@@ -104,7 +104,6 @@ const ExploreCard = () => {
 
             <Skeleton baseColor="#C2D0EE" highlightColor="#CFDAF0" borderRadius={4} tw="w-4/5 h-3 mt-4" />
             <Skeleton baseColor="#C2D0EE" highlightColor="#CFDAF0" borderRadius={4} tw="w-4/5 h-3" />
-            {/* <Skeleton baseColor="#C2D0EE" highlightColor="#CFDAF0" borderRadius={4} tw="w-3/5 h-3" /> */}
           </div>
         )}
       </StyledCardWrapper>
@@ -118,7 +117,7 @@ const ExploreCard = () => {
         <ScrollableBox>
           {' '}
           <div tw="lg:w-4/5 mx-auto w-full lg:pt-10">
-            <StyledSheetTitle>🚀 Spaced Repetition und Active Recall: Die Superkräfte im Lernprozess </StyledSheetTitle>
+            <StyledSheetTitle>Spaced Repetition und Active Recall: Die Superkräfte im Lernprozess 🚀</StyledSheetTitle>
             <Spacer />
             <p tw=" text-secondary-text dark:text-secondary-text-dark xl:text-lg">12. September 2024</p>
             <Spacer />

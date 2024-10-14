@@ -41,3 +41,18 @@ export interface UploadedFile {
   url: string;
   type: string;
 }
+
+export interface Flashcard {
+  question: string;
+  answer: string;
+}
+
+export interface GeneratedFlashcardSetResource {
+  title: string;
+  flashcards: Flashcard[];
+}
+
+export interface GeneratedNoteResource {
+  text: string;
+  title: string;
+}

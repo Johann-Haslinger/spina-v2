@@ -28,10 +28,11 @@ export const addLearningUnit = async (lsc: ILeanScopeClient, learningUnitEntity:
   if (error) {
     console.error('Error inserting learning unit', error);
     addNotificationEntity(lsc, {
-      title: 'Fehler beim Hinzufügen der Lerneinheit',
+      title: 'Fehler beim Hinzufügen deiner Lerneinheit',
       message: error.message,
       type: 'error',
     });
+    return;
   }
 
   lsc.engine.addEntity(learningUnitEntity);

@@ -4,7 +4,7 @@ import tw from 'twin.macro';
 import { useSelectedTheme } from '../../../features/collection/hooks/useSelectedTheme';
 
 const StyledBackgroundOverlay = styled(motion.div)`
-  ${tw`absolute z-[100] w-full h-full top-0 left-0`}
+  ${tw`fixed z-[100] w-full h-full top-0 left-0`}
 `;
 
 const BackgroundOverlay = (props: { isVisible: boolean }) => {

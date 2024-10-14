@@ -38,7 +38,7 @@ const StyledNotificationLargeIcon = styled.div`
 `;
 
 const StyledNotificationFirstName = styled(motion.p)`
-  ${tw`font-semibold dark:opacity-90 line-clamp-2`}
+  ${tw`font-semibold dark:opacity-90 line-clamp-1`}
 `;
 
 const StyledNotificationProgressBar = styled(motion.div)`
@@ -46,7 +46,7 @@ const StyledNotificationProgressBar = styled(motion.div)`
 `;
 
 const StyledNotificationCell = styled(motion.div)<{ isSelected: boolean }>`
-  ${tw`dark:bg-opacity-5  dark:text-white md:left-1/3 transform -translate-x-1/2 md:w-1/3 select-none absolute cursor-pointer overflow-hidden flex flex-col justify-between shadow-[0_0px_40px_1px_rgba(0,0,0,0.12)] h-24 bg-white w-[95%] left-[2.5%] rounded-2xl bg-opacity-70 backdrop-blur dark:backdrop-blur-lg`}
+  ${tw`dark:bg-opacity-5  dark:text-white md:left-1/4 transform -translate-x-1/2 md:w-1/2 xl:left-1/3 xl:w-1/3 select-none absolute cursor-pointer overflow-hidden flex flex-col justify-between shadow-[0_0px_40px_1px_rgba(0,0,0,0.12)] h-24 bg-white w-[95%] left-[2.5%] rounded-2xl bg-opacity-70 backdrop-blur dark:backdrop-blur-lg`}
   ${({ isSelected }) => isSelected && tw`dark:backdrop-blur-xl dark:bg-opacity-10 backdrop-blur-lg`}
 `;
 

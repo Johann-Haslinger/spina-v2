@@ -252,6 +252,7 @@ export enum SupabaseTable {
 export enum SupabaseStorageBucket {
   LEARNING_UNIT_FILES = 'learning_unit_files',
   TOPIC_IMAGES = 'topic_images',
+  UPLOADED_IMAGES = 'uploaded_images',
 }
 
 export enum SupabaseColumn {
@@ -262,8 +263,10 @@ export enum SupabaseColumn {
   PARENT_ID = 'parent_id',
   DUE_DATE = 'due_date',
 }
+
 export enum SupabaseEdgeFunction {
   GENERATE_FLASHCARDS = 'generate-flashcards',
+  GENERATE_LEARNING_UNIT = 'generate-learning-unit',
 }
 export enum FlashcardsNavigationState {
   OVERVIEW = 'overview',

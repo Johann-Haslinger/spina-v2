@@ -60,7 +60,7 @@ import { useSelectedTopic } from '../../hooks/useSelectedTopic';
 import LoadHomeworksSystem from '../../systems/LoadHomeworksSystem';
 import LoadLearningUnitsSystem from '../../systems/LoadLearningUnitsSystem';
 import AddFlashcardSetSheet from '../flashcard-sets/AddFlashcardSetSheet';
-import GeneratingLearningUnitFromImageSheet from '../generation/GeneratingLearningUnitFromImageSheet';
+import GeneratingLearningUnitFromImageSheet from '../generation/generate-learning-unit-from-image/GeneratingLearningUnitFromImageSheet';
 import AddHomeworkSheet from '../homeworks/AddHomeworkSheet';
 import HomeworkCell from '../homeworks/HomeworkCell';
 import LearningUnitCell from '../learning_units/LearningUnitCell';

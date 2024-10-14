@@ -7,7 +7,10 @@ import { AdditionalTag } from '../../base/enums';
 import { UploadedFile } from '../../base/types';
 
 export const addUploadedFileEntity = (lsc: ILeanScopeClient, file: UploadedFile, onEntityAdded?: () => void) => {
-  console.log('Adding uploaded file entity', file);
+  lsc.engine.entities
+    .filter((entity) => entity.has(AdditionalTag.UPLOADED_FILE))
+    .forEach((e) => lsc.engine.removeEntity(e));
+
   const fileEntity = new Entity();
   lsc.engine.addEntity(fileEntity);
   fileEntity.add(new FileFacet({ file: file.file }));

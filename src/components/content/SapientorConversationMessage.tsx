@@ -44,7 +44,7 @@ const SapientorConversationMessage = (props: {
     setTimeout(() => {
       setAdditionalContent(message.specialContent);
       setSugesstions(message.suggestions || []);
-    }, 600);
+    }, message.message.length * 5);
   }, [message]);
 
   return (

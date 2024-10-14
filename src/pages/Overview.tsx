@@ -12,7 +12,7 @@ import FlashcardQuizView from '../common/components/flashcards/FlashcardQuizView
 import { addUploadedFileEntity } from '../common/utilities/addUploadedFileEntity';
 import { ActionRow, NavBarButton, NavigationBar, Spacer, Title, View } from '../components';
 import { AddHomeworkSheet, HomeworkView } from '../features/collection';
-import GeneratingLearningUnitFromImageSheet from '../features/collection/components/generation/GeneratingLearningUnitFromImageSheet';
+import GeneratingLearningUnitFromImageSheet from '../features/collection/components/generation/generate-learning-unit-from-image/GeneratingLearningUnitFromImageSheet';
 import LearningUnitView from '../features/collection/components/learning_units/LearningUnitView';
 import TopicView from '../features/collection/components/topics/TopicView';
 import { useFileSelector } from '../features/collection/hooks/useFileSelector';
@@ -111,8 +111,9 @@ export default Overview;
 const AddResourcesButton = () => {
   const lsc = useContext(LeanScopeClientContext);
   const { selectedLanguage } = useSelectedLanguage();
-  const { openFilePicker, fileInput } = useFileSelector((file) =>
-    addUploadedFileEntity(lsc, file, openGenerateFromImageSheet),
+  const { openFilePicker, fileInput } = useFileSelector(
+    (file) => addUploadedFileEntity(lsc, file, openGenerateFromImageSheet),
+    true,
   );
 
   const openAddHomeworkSheet = () => lsc.stories.transitTo(Story.ADDING_HOMEWORK_STORY);

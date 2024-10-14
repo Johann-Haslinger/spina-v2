@@ -20,7 +20,7 @@ export const addFlashcards = async (lsc: ILeanScopeClient, flashcardEntities: En
   if (error) {
     console.error('Error inserting flashcard', error);
     addNotificationEntity(lsc, {
-      title: 'Fehler beim Hinzufügen der Karteikarte',
+      title: 'Fehler beim Hinzufügen deiner Karteikarten',
       message: error.message,
       type: 'error',
     });
