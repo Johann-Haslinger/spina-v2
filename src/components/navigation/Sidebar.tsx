@@ -346,6 +346,7 @@ const Sidebar = () => {
           zIndex: 20,
         }}
         initial={{
+          opacity: 0,
           width: 72,
           x: isMediumDevice ? '-110%' : -100,
         }}
@@ -354,6 +355,7 @@ const Sidebar = () => {
           type: isMobile ? 'tween' : 'spring',
         }}
         animate={{
+          opacity: isVisible ? 1 : 0,
           width: isMobile ? '100%' : isFullWidth ? 250 : 72,
           x: isVisible ? 0 : isMediumDevice ? '-110%' : -300,
         }}

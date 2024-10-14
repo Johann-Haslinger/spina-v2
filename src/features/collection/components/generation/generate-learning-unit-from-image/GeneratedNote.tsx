@@ -1,18 +1,23 @@
+import styled from '@emotion/styled';
 import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet, Tags, TextFacet } from '@leanscope/ecs-models';
-import { motion } from 'framer-motion';
 import { useContext, useState } from 'react';
+import tw from 'twin.macro';
 import { v4 as uuid } from 'uuid';
 import { DateAddedFacet, LearningUnitTypeFacet, PriorityFacet, TitleFacet } from '../../../../../app/additionalFacets';
 import { DataType, LearningUnitPriority, LearningUnitType, Story } from '../../../../../base/enums';
+import { GeneratedNoteResource } from '../../../../../base/types';
 import { CloseButton, FlexBox, ScrollableBox } from '../../../../../components';
 import SapientorConversationMessage from '../../../../../components/content/SapientorConversationMessage';
 import { addLearningUnit } from '../../../../../functions/addLeaningUnit';
 import { addText } from '../../../../../functions/addText';
 import { useUserData } from '../../../../../hooks/useUserData';
 import { useSelectedTopic } from '../../../hooks/useSelectedTopic';
-import { GeneratedNoteResource } from '../../../../../base/types';
+
+const StyledNoteWrapper = styled.div`
+  ${tw`md:px-4 pt-1 h-full w-full`}
+`;
 
 const GeneratedNote = (props: { note: GeneratedNoteResource; isVisible: boolean; regenerateNote: () => void }) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -59,7 +64,7 @@ const GeneratedNote = (props: { note: GeneratedNoteResource; isVisible: boolean;
   };
 
   return (
-    <motion.div tw="md:px-4 h-full w-full">
+    <StyledNoteWrapper>
       <FlexBox>
         <div />
         <CloseButton onClick={navigateBack} />
@@ -89,7 +94,7 @@ const GeneratedNote = (props: { note: GeneratedNoteResource; isVisible: boolean;
           />
         )}
       </ScrollableBox>
-    </motion.div>
+    </StyledNoteWrapper>
   );
 };
 

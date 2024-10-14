@@ -1,10 +1,9 @@
-import styled from '@emotion/styled';
 import { EntityPropsMapper } from '@leanscope/ecs-engine';
 import { Tags } from '@leanscope/ecs-models';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import tw from 'twin.macro';
 import { DateAddedFacet, SourceFacet, TitleFacet } from './app/additionalFacets';
 import { DataType, NavigationLink, Story } from './base/enums';
+import { NotificationMenu } from './common/components/notifications';
 import { InitializeLoadingIndicatorSystem } from './common/systems';
 import { Sidebar } from './components';
 import TabBar from './components/navigation/TabBar';
@@ -22,15 +21,10 @@ import {
 } from './systems';
 import { formatNavLinkAsPath } from './utils/formatNavLinkAsPath';
 import { dataTypeQuery } from './utils/queries';
-import { NotificationMenu } from './common/components/notifications';
-
-const StyledContentWrapper = styled.div`
-  ${tw`w-screen h-screen bg-primary dark:bg-primary-dark`}
-`;
 
 function App() {
   return (
-    <StyledContentWrapper>
+    <div>
       <InitializeUserSystem />
       <InitializeStoriesSystem initialStory={Story.OBSERVING_COLLECTION_STORY} />
       <InitializeAppSystem />
@@ -61,7 +55,7 @@ function App() {
       />{' '}
       <AuthUI />
       <UseAsPWAInstructionsSheet />
-    </StyledContentWrapper>
+    </div>
   );
 }
 

@@ -16,7 +16,7 @@ import {
 } from '../../../../../app/additionalFacets';
 import { DataType, LearningUnitPriority, LearningUnitType, Story } from '../../../../../base/enums';
 import { Flashcard, GeneratedFlashcardSetResource } from '../../../../../base/types';
-import { CloseButton, FlexBox, ScrollableBox, Spacer } from '../../../../../components';
+import { CloseButton, FlexBox, ScrollableBox } from '../../../../../components';
 import SapientorConversationMessage from '../../../../../components/content/SapientorConversationMessage';
 import { addFlashcards } from '../../../../../functions/addFlashcards';
 import { addLearningUnit } from '../../../../../functions/addLeaningUnit';
@@ -25,7 +25,7 @@ import { useSelectedTopic } from '../../../hooks/useSelectedTopic';
 import PreviewFlashcard from '../../flashcard-sets/PreviewFlashcard';
 
 const StyledPreviewCardsWrapper = styled.div`
-  ${tw`w-full md:px-4`}
+  ${tw`w-full`}
 `;
 
 const GeneratedFlashcardSet = (props: {
@@ -90,12 +90,12 @@ const GeneratedFlashcardSet = (props: {
   };
 
   return (
-    <motion.div tw="md:px-4   h-full w-full">
+    <motion.div tw="md:px-4 pt-1 h-full w-full">
       <FlexBox>
         <div />
         <CloseButton onClick={navigateBack} />
       </FlexBox>
-      <Spacer />
+
       {isVisible && (
         <ScrollableBox>
           <SapientorConversationMessage

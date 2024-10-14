@@ -30,7 +30,7 @@ const Sheet = (props: PropsWithChildren & SheetProps) => {
   return (
     isSheetDisplayed && (
       <div>
-        <BackgroundOverlay isVisible={visible} />
+        <BackgroundOverlay overlayBaseUI isVisible={visible} />
         <StyledSheetContainer
           transition={{ type: 'Tween' }}
           initial={{ y: 1000 }}
