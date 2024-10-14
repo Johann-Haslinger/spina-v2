@@ -7,7 +7,7 @@ const StyledBackgroundOverlay = styled(motion.div)`
   ${tw`fixed  w-full h-full top-0 left-0`}
 `;
 
-const BackgroundOverlay = (props: { isVisible: boolean, overlayBaseUI?: boolean  }) => {
+const BackgroundOverlay = (props: { isVisible: boolean; overlayBaseUI?: boolean }) => {
   const { isVisible } = props;
   const { isDarkModeActive } = useSelectedTheme();
 

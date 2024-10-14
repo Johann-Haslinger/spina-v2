@@ -1,6 +1,6 @@
-import styled from "@emotion/styled";
-import { motion } from "framer-motion";
-import tw from "twin.macro";
+import styled from '@emotion/styled';
+import { motion } from 'framer-motion';
+import tw from 'twin.macro';
 
 const StyledGeneratingIndicatorWrapper = styled(motion.div)`
   ${tw`flex h-full pb-12 items-center justify-center`}

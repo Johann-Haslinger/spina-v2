@@ -46,7 +46,7 @@ const Overview = () => {
   const { selectedLanguage } = useSelectedLanguage();
 
   return (
-    <div>
+    <div tw="h-screen w-screen fixed top-0 left-0 overflow-hidden">
       <LoadFlashcardSessionsSystem />
       <LoadCurrentStreakSystem />
 

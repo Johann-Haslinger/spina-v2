@@ -5,23 +5,23 @@ import tw from 'twin.macro';
 import { BackgroundOverlay } from '../../common/components/others';
 
 const StyledViewContainer = styled(motion.div)<{ backgroundColor?: string }>`
-  ${tw`fixed top-0 left-0 w-screen overflow-hidden h-screen  backdrop-blur-2xl `}
+  ${tw`fixed top-0 h-screen overflow-y-scroll left-0 w-screen backdrop-blur-2xl `}
   background-color: ${({ backgroundColor }) => backgroundColor};
   ${({ backgroundColor }) => !backgroundColor && tw` bg-primary dark:bg-primary-dark `}
 `;
 
-const StyledViewWrapper = styled.div`
-  ${tw`w-full h-full overflow-y-scroll`}
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-`;
+// const StyledViewWrapper = styled.div`
+//   ${tw`w-full h-full overflow-y-scroll`}
+//   -ms-overflow-style: none;
+//   scrollbar-width: none;
+// `;
 
 const StyledViewContent = styled.div<{
   reducePaddingX?: boolean;
   isOverlayView: boolean;
   hidePadding: boolean;
 }>`
-  ${tw` mx-auto overflow-y-hidden h-fit text-primary-text dark:text-primary-text-dark pb-60 md:pt-28 xl:pt-36 pt-16    w-full  px-4`}
+  ${tw` mx-auto overflow-y-hidden h-fit text-primary-text dark:text-primary-text-dark pb-60 md:pt-28 xl:pt-36 pt-16 w-full  px-4`}
   ${({ reducePaddingX: ignorePaddingX }) =>
     ignorePaddingX ? tw`md:w-[52rem] px-1.5` : tw` md:w-[48rem] xl:w-[51rem] 2xl:w-[56rem] `} 
   ${({ hidePadding }) => hidePadding && tw`!w-full !pt-0 px-0 !pb-0 `}
@@ -68,16 +68,15 @@ const View = (props: ViewProps & PropsWithChildren) => {
             x: visible ? 0 : '100%',
           }}
           backgroundColor={backgroundColor}
+          onScroll={handleScroll}
         >
-          <StyledViewWrapper onScroll={handleScroll}>
-            <StyledViewContent
-              hidePadding={hidePadding}
-              isOverlayView={viewType == 'overlayView'}
-              reducePaddingX={reducePaddingX}
-            >
-              {children}
-            </StyledViewContent>
-          </StyledViewWrapper>
+          <StyledViewContent
+            hidePadding={hidePadding}
+            isOverlayView={viewType == 'overlayView'}
+            reducePaddingX={reducePaddingX}
+          >
+            {children}
+          </StyledViewContent>
         </StyledViewContainer>
       </div>
     )
