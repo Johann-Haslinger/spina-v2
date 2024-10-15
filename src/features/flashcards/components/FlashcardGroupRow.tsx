@@ -8,6 +8,7 @@ import { PriorityProps, TitleProps } from '../../../app/additionalFacets';
 import { COLOR_ITEMS } from '../../../base/constants';
 import { LearningUnitPriority } from '../../../base/enums';
 import { updatePriority } from '../../../common/utilities';
+import { useWindowDimensions } from '../../../hooks/useWindowDimensions';
 import { useFormattedDateAdded } from '../../collection/hooks/useFormattedDateAdded';
 import { useDueFlashcards } from '../hooks';
 
@@ -33,14 +34,17 @@ const FlashcardGroupRow = (props: TitleProps & PriorityProps & EntityProps) => {
   const { title, entity, priority } = props;
   const { dueFlashcardEntity } = useDueFlashcards();
   const formattedDateAdded = useFormattedDateAdded(entity, true);
+  const { isMobile } = useWindowDimensions();
 
   const openFlashcardGroup = () => entity.add(Tags.SELECTED);
 
   return (
     <StyledRowWrapper>
-      <div tw="w-full  pr-2 " onClick={openFlashcardGroup}>
-        <p tw="line-clamp-1 w-full overflow-hidden">{title}</p>
-        <p tw="line-clamp-1 text-secondary-text dark:text-secondary-text-dark text-sm">{formattedDateAdded}</p>
+      <div tw="w-48 md:w-full  pr-2 " onClick={openFlashcardGroup}>
+        <p tw="line-clamp-1 overflow-hidden">{title}</p>
+        <p tw="line-clamp-1 text-secondary-text dark:text-secondary-text-dark text-sm">
+          {isMobile ? formattedDateAdded.replace('Hinzugefügt am ', '') : formattedDateAdded}
+        </p>
       </div>
       <div tw="h-full py-2.5 ">
         <StyledSelect
