@@ -78,12 +78,12 @@ const downloadFile = async (lsc: ILeanScopeClient, title: string, filePath: stri
 };
 
 const StyledRowWrapper = styled(motion.div)<{ isContextMenuOpen: boolean }>`
-  ${tw`flex scale-100 z-40 space-x-4 pr-4 mb-2 hover:scale-105 transition-all items-center pl-2 justify-between py-3 dark:bg-secondary-dark bg-tertiary bg-opacity-50 rounded-xl border-black border-opacity-5`}
+  ${tw`flex overflow-hidden scale-100 z-40 space-x-4 pr-4 mb-2 hover:scale-105 transition-all items-center pl-2 justify-between py-3 dark:bg-secondary-dark bg-tertiary bg-opacity-50 rounded-xl border-black border-opacity-5`}
   ${({ isContextMenuOpen }) => isContextMenuOpen && tw`scale-105 `}
 `;
 
 const StyledTitle = styled.p`
-  ${tw`line-clamp-2`}
+  ${tw`line-clamp-2 overflow-hidden w-full`}
 `;
 
 const StyledDueDate = styled.p`

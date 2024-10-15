@@ -1,6 +1,8 @@
 import styled from '@emotion/styled';
+import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { EntityProps } from '@leanscope/ecs-engine';
 import { Tags } from '@leanscope/ecs-models';
+import { useContext } from 'react';
 import tw from 'twin.macro';
 import { PriorityProps, TitleProps } from '../../../app/additionalFacets';
 import { COLOR_ITEMS } from '../../../base/constants';
@@ -8,15 +10,13 @@ import { LearningUnitPriority } from '../../../base/enums';
 import { updatePriority } from '../../../common/utilities';
 import { useFormattedDateAdded } from '../../collection/hooks/useFormattedDateAdded';
 import { useDueFlashcards } from '../hooks';
-import { useContext } from 'react';
-import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 
 const StyledRowWrapper = styled.div`
-  ${tw`flex  items-center py-1 transition-all  md:hover:scale-105  rounded-lg justify-between`}
+  ${tw`flex overflow-hidden h-14 items-center py-1 transition-all  md:hover:scale-105  rounded-lg justify-between`}
 `;
 
 const StyledSelect = styled.select<{ value: LearningUnitPriority }>`
-  ${tw`rounded-lg text-sm pl-1 min-h-7 h-fit outline-none`}
+  ${tw`rounded-lg text-sm pl-1  h-full outline-none`}
   background-color: ${({ value }) => {
     switch (value) {
       case LearningUnitPriority.ACTIVE:
@@ -38,20 +38,22 @@ const FlashcardGroupRow = (props: TitleProps & PriorityProps & EntityProps) => {
 
   return (
     <StyledRowWrapper>
-      <div tw="  pr-2 " onClick={openFlashcardGroup}>
-        <p tw="line-clamp-2">{title}</p>
+      <div tw="w-full  pr-2 " onClick={openFlashcardGroup}>
+        <p tw="line-clamp-1 w-full overflow-hidden">{title}</p>
         <p tw="line-clamp-1 text-secondary-text dark:text-secondary-text-dark text-sm">{formattedDateAdded}</p>
       </div>
-      <StyledSelect
-        onChange={(e) =>
-          updatePriority(lsc, entity, Number(e.target.value) as LearningUnitPriority, dueFlashcardEntity)
-        }
-        value={priority}
-      >
-        <option value={LearningUnitPriority.ACTIVE}>Aktiv</option>
-        <option value={LearningUnitPriority.MAINTAINING}>Aufrechterhalten</option>
-        <option value={LearningUnitPriority.PAUSED}>Pausiert</option>
-      </StyledSelect>
+      <div tw="h-full py-2.5 ">
+        <StyledSelect
+          onChange={(e) =>
+            updatePriority(lsc, entity, Number(e.target.value) as LearningUnitPriority, dueFlashcardEntity)
+          }
+          value={priority}
+        >
+          <option value={LearningUnitPriority.ACTIVE}>Aktiv</option>
+          <option value={LearningUnitPriority.MAINTAINING}>Aufrechterhalten</option>
+          <option value={LearningUnitPriority.PAUSED}>Pausiert</option>
+        </StyledSelect>
+      </div>
     </StyledRowWrapper>
   );
 };
