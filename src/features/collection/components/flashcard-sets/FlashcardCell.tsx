@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
-import { EntityProps } from '@leanscope/ecs-engine';
+import { EntityProps, useEntityComponents } from '@leanscope/ecs-engine';
 import { Tags } from '@leanscope/ecs-models';
+import { IoPlayCircleOutline } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { AnswerProps, MasteryLevelProps, QuestionProps } from '../../../../app/additionalFacets';
+import { AnswerProps, DueDateFacet, MasteryLevelProps, QuestionProps } from '../../../../app/additionalFacets';
 import { MAX_MASTERY_LEVEL, MIN_MASTERY_LEVEL } from '../../../../base/constants';
 import { useSelectedSchoolSubjectColor } from '../../hooks/useSelectedSchoolSubjectColor';
 
@@ -24,7 +25,7 @@ const StyledAnswerText = styled.div`
 `;
 
 const StyledProgressBarWrapper = styled.div`
-  ${tw`flex items-center  transition-all rounded-full bg-white dark:bg-primary-dark mt-3 `}
+  ${tw`flex items-center w-full transition-all rounded-full bg-white dark:bg-primary-dark  `}
 `;
 
 const StyledProgressBar = styled.div<{
@@ -39,6 +40,8 @@ const StyledProgressBar = styled.div<{
 const FlashcardCell = (props: QuestionProps & AnswerProps & EntityProps & MasteryLevelProps) => {
   const { question, answer, entity, masteryLevel = 0 } = props;
   const { color: accentColor } = useSelectedSchoolSubjectColor();
+  const [dueDateFacet] = useEntityComponents(entity, DueDateFacet);
+  const isPaused = dueDateFacet?.props.dueDate === null;
 
   const openFlashcard = () => entity.add(Tags.SELECTED);
 
@@ -49,12 +52,23 @@ const FlashcardCell = (props: QuestionProps & AnswerProps & EntityProps & Master
         <StyledQuestionText>{question}</StyledQuestionText>
         <StyledAnswerText>{answer}</StyledAnswerText>
       </StyledTextWrapper>
-      <StyledProgressBarWrapper>
-        <StyledProgressBar
-          backgroundColor={accentColor}
-          width={((masteryLevel ? masteryLevel : MIN_MASTERY_LEVEL) / MAX_MASTERY_LEVEL) * 100 + 2 + '%'}
-        />
-      </StyledProgressBarWrapper>
+      <div tw="w-full mt-3 items-center flex space-x-4">
+        <StyledProgressBarWrapper>
+          <StyledProgressBar
+            backgroundColor={accentColor}
+            width={((masteryLevel ? masteryLevel : MIN_MASTERY_LEVEL) / MAX_MASTERY_LEVEL) * 100 + 2 + '%'}
+          />
+        </StyledProgressBarWrapper>
+        <div
+          style={{
+            opacity: !isPaused ? 0 : 1,
+          }}
+          tw="text-primary-color dark:text-primary-text-dark"
+        >
+          {' '}
+          <IoPlayCircleOutline />
+        </div>
+      </div>
     </StyledFlashcardCellWrapper>
   );
 };

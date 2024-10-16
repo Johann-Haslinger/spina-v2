@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity, EntityProps, EntityPropsMapper, useEntities, useEntityComponents } from '@leanscope/ecs-engine';
 import { IdentifierFacet, IdentifierProps, ImageFacet, Tags, TextFacet, UrlFacet } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
@@ -57,7 +58,6 @@ import FileViewer from './FileViewer';
 import LearningUnitNavBar from './LearningUnitNavBar';
 import LearningUnitTitle from './LearningUnitTitle';
 import StyleActionSheet from './StyleActionSheet';
-import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 
 const StyledSelect = styled.select<{ value: LearningUnitPriority }>`
   ${tw`bg-secondary dark:bg-primary-dark  transition-all outline-none`}

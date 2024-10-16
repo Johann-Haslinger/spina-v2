@@ -162,6 +162,7 @@ export const dummyFlashcards = [
       'Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.',
     mastery_level: 1,
     is_bookmarked: false,
+    due_date: new Date().toISOString(),
   },
   {
     id: v4(),
@@ -171,6 +172,7 @@ export const dummyFlashcards = [
       'Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.',
     mastery_level: 1,
     is_bookmarked: false,
+    due_date: new Date().toISOString(),
   },
 
   {
@@ -181,6 +183,7 @@ export const dummyFlashcards = [
       'Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.',
     mastery_level: 1,
     is_bookmarked: true,
+    due_date: new Date().toISOString(),
   },
 
   {
@@ -191,6 +194,7 @@ export const dummyFlashcards = [
       'Consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat.',
     mastery_level: 1,
     is_bookmarked: false,
+    due_date: new Date().toISOString(),
   },
 ];
 

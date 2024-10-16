@@ -1,13 +1,21 @@
 import styled from '@emotion/styled';
+import { ILeanScopeClient } from '@leanscope/api-client';
 import { LeanScopeClientContext } from '@leanscope/api-client/browser';
-import { Entity, EntityProps } from '@leanscope/ecs-engine';
+import { Entity, EntityProps, useEntityComponents } from '@leanscope/ecs-engine';
 import { IdentifierFacet, IdentifierProps } from '@leanscope/ecs-models';
 import { useContext, useState } from 'react';
-import { IoBookmark, IoBookmarkOutline, IoTrashOutline } from 'react-icons/io5';
+import {
+  IoBookmark,
+  IoBookmarkOutline,
+  IoPauseCircleOutline,
+  IoPlayCircleOutline,
+  IoTrashOutline,
+} from 'react-icons/io5';
 import tw from 'twin.macro';
 import {
   AnswerFacet,
   AnswerProps,
+  DueDateFacet,
   MasteryLevelProps,
   QuestionFacet,
   QuestionProps,
@@ -42,6 +50,7 @@ const EditFlashcardSheet = (props: QuestionProps & AnswerProps & MasteryLevelPro
   const [questionValue, setQuestionValue] = useState(question);
   const [answerValue, setAnswerValue] = useState(answer);
   const { isBookmarked, toggleBookmark } = useIsBookmarked(entity);
+  const { isPaused, togglePause } = useIsPaused(lsc, entity);
 
   const navigateBack = () => entity.addTag(AdditionalTag.NAVIGATE_BACK);
 
@@ -122,6 +131,13 @@ const EditFlashcardSheet = (props: QuestionProps & AnswerProps & MasteryLevelPro
       <Spacer size={2} />
       <Section>
         <SectionRow
+          role="button"
+          icon={isPaused ? <IoPlayCircleOutline /> : <IoPauseCircleOutline />}
+          onClick={togglePause}
+        >
+          {isPaused ? 'Karte fortsetzen' : 'Karte pausieren'}
+        </SectionRow>
+        <SectionRow
           last
           role="button"
           icon={isBookmarked ? <IoBookmark /> : <IoBookmarkOutline />}
@@ -170,11 +186,36 @@ const useIsBookmarked = (entity: Entity) => {
       console.error('Error updating bookmark:', error);
       addNotificationEntity(lsc, {
         title: 'Fehler beim Aktualisieren des Lesezeichens',
-        message: error.message + ' ' + error.details + ' ' + error.hint,
+        message: error.message,
         type: 'error',
       });
     }
   };
 
   return { isBookmarked, toggleBookmark };
+};
+
+const useIsPaused = (lsc: ILeanScopeClient, entity: Entity) => {
+  const [dueDateFacet] = useEntityComponents(entity, DueDateFacet);
+  const isPaused = dueDateFacet?.props.dueDate === null;
+
+  const togglePause = async () => {
+    const newDueDate = isPaused ? new Date().toISOString() : null;
+    const id = entity.get(IdentifierFacet)?.props.guid;
+
+    entity.add(new DueDateFacet({ dueDate: newDueDate }));
+
+    const { error } = await supabaseClient.from(SupabaseTable.FLASHCARDS).update({ due_date: newDueDate }).eq('id', id);
+
+    if (error) {
+      console.error('Error updating pause:', error);
+      addNotificationEntity(lsc, {
+        title: 'Fehler beim Aktualisieren der Pause',
+        message: error.message,
+        type: 'error',
+      });
+    }
+  };
+
+  return { isPaused, togglePause };
 };

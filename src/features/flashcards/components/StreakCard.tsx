@@ -7,7 +7,6 @@ import { DateUpdatedFacet, StreakFacet } from '../../../app/additionalFacets';
 import { useLoadingIndicator } from '../../../common/hooks';
 import tw from 'twin.macro';
 
-
 const StyledCardWrapper = styled.div`
   ${tw`w-full min-h-[10rem] h-fit md:h-[10rem] flex flex-col justify-between p-4 rounded-2xl bg-[#A3CB63] bg-opacity-15`}
 `;

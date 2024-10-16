@@ -1,16 +1,17 @@
+import { ILeanScopeClient } from '@leanscope/api-client';
 import { Entity } from '@leanscope/ecs-engine';
-import { CountFacet, IdentifierFacet } from '@leanscope/ecs-models';
-import { PriorityFacet } from '../../app/additionalFacets';
+import { CountFacet, IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
+import { DueDateFacet, PriorityFacet } from '../../app/additionalFacets';
 import { LearningUnitPriority, SupabaseTable } from '../../base/enums';
 import supabaseClient from '../../lib/supabase';
 import { addNotificationEntity } from './addNotificationEntity';
-import { ILeanScopeClient } from '@leanscope/api-client';
 
 export const updatePriority = async (
   lsc: ILeanScopeClient,
   entity: Entity,
   priority: LearningUnitPriority,
   dueFlashcardEntity: Entity | undefined,
+  ignoreFlashcardUpdate?: boolean,
 ) => {
   entity.add(new PriorityFacet({ priority: priority }));
 
@@ -25,9 +26,12 @@ export const updatePriority = async (
     console.error('Error updating priority', error);
     addNotificationEntity(lsc, {
       title: 'Fehler beim Aktualisieren der Priorität',
-      message: error.message + ' ' + error.details + ' ' + error.hint,
+      message: error.message,
       type: 'error',
     });
+  }
+  if (ignoreFlashcardUpdate) {
+    return;
   }
 
   const newFlashcardDueDate = priority === LearningUnitPriority.PAUSED ? null : new Date().toISOString();
@@ -40,6 +44,10 @@ export const updatePriority = async (
   if (updateFlashcardsError) {
     console.error('Error updating flashcards', updateFlashcardsError);
   }
+
+  lsc.engine.entities
+    .filter((e) => e.get(ParentFacet)?.props.parentId === id)
+    .forEach((e) => e.add(new DueDateFacet({ dueDate: newFlashcardDueDate })));
 
   const currentDate = new Date().toISOString();
 

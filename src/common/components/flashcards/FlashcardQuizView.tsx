@@ -22,6 +22,7 @@ import {
   AnswerFacet,
   DateAddedFacet,
   DateUpdatedFacet,
+  DueDateFacet,
   DurationFacet,
   FlashcardCountFacet,
   FlashcardPerformanceFacet,
@@ -244,13 +245,14 @@ const FlashcardQuizView = () => {
 
         if (!learningUnitEntity) return;
 
-        updatePriority(lsc, learningUnitEntity, LearningUnitPriority.ACTIVE, dueFlashcardEntity);
+        updatePriority(lsc, learningUnitEntity, LearningUnitPriority.ACTIVE, dueFlashcardEntity, true);
       });
     }
 
     flashcardEntities.forEach((flashcardEntity) => {
       const id = flashcardEntity.get(IdentifierFacet)?.props.guid;
       const parentId = flashcardEntity.get(ParentFacet)?.props.parentId || '';
+      const flashcardInLsc = lsc.engine.entities.find((e) => e.get(IdentifierFacet)?.props.guid === id);
 
       if (!id) return;
 
@@ -272,6 +274,10 @@ const FlashcardQuizView = () => {
         dueDate.setHours(dueDate.getHours() + 1);
       }
 
+      if (dueDate) {
+        flashcardInLsc?.add(new DueDateFacet({ dueDate: dueDate?.toISOString() }));
+      }
+
       const masteryLevel = flashcardEntity.get(MasteryLevelFacet)?.props.masteryLevel || 0;
       let newMasterLevel = masteryLevel;
 
@@ -279,19 +285,16 @@ const FlashcardQuizView = () => {
         newMasterLevel = MAX_MASTERY_LEVEL;
       } else if (flashcardEntity.has(AdditionalTag.REMEMBERED_EASILY)) {
         newMasterLevel = masteryLevel + 1;
-        flashcardEntity.add(new MasteryLevelFacet({ masteryLevel: newMasterLevel }));
       } else if (flashcardEntity.has(AdditionalTag.REMEMBERED_WITH_EFFORT)) {
         newMasterLevel = masteryLevel + 1;
-        flashcardEntity.add(new MasteryLevelFacet({ masteryLevel: newMasterLevel }));
       } else if (flashcardEntity.has(AdditionalTag.PARTIALLY_REMEMBERED)) {
         newMasterLevel = masteryLevel + 1;
-        flashcardEntity.add(new MasteryLevelFacet({ masteryLevel: newMasterLevel }));
       } else if (flashcardEntity.has(AdditionalTag.FORGOT)) {
         newMasterLevel = MIN_MASTERY_LEVEL;
-        flashcardEntity.add(new MasteryLevelFacet({ masteryLevel: newMasterLevel }));
-      } else {
-        newMasterLevel = 0;
       }
+
+      flashcardEntity.add(new MasteryLevelFacet({ masteryLevel: newMasterLevel }));
+
       lsc.engine.entities
         .find((e) => e.get(IdentifierFacet)?.props.guid === id)
         ?.add(new MasteryLevelFacet({ masteryLevel: newMasterLevel }));
@@ -305,6 +308,7 @@ const FlashcardQuizView = () => {
           mastery_level: newMasterLevel,
         });
       }
+      console.log('updatedFlashcards:', updatedFlashcards);
     });
 
     dueFlashcardEntity?.add(
@@ -725,11 +729,18 @@ const FlashcardCell = (props: {
   };
 
   const pauseFlashcard = async () => {
+    lsc.engine.entities
+      .filter((e) => e.has(IdentifierFacet) && e.get(IdentifierFacet)?.props.guid === flashcardId)
+      .forEach((e) => e.add(new DueDateFacet({ dueDate: null })));
+
     const { error } = await supabaseClient
       .from(SupabaseTable.FLASHCARDS)
       .update({ due_date: null })
       .eq(SupabaseColumn.ID, flashcardEntity.get(IdentifierFacet)?.props.guid);
-
+    console.log(
+      'pasued flashcard',
+      lsc.engine.entities.filter((e) => e.has(IdentifierFacet) && e.get(IdentifierFacet)?.props.guid === flashcardId),
+    );
     if (error) {
       console.error('Error pausing flashcard:', error);
       addNotificationEntity(lsc, {
@@ -737,6 +748,7 @@ const FlashcardCell = (props: {
         message: error.message + error.details + error.hint,
         type: 'error',
       });
+      return;
     }
 
     navigateToNextFlashcard();
@@ -769,7 +781,6 @@ const FlashcardCell = (props: {
 
   const openEditFlashcardSheet = () => {
     appStateEntity?.add(new ColorFacet({ colorName: isDarkModeActive ? colorThemeDark : colorTheme }));
-    console.log('openEditFlashcardSheet', isDarkModeActive ? colorThemeDark : colorTheme);
     setIsEditFlashcardSheetVisible(true);
   };
 

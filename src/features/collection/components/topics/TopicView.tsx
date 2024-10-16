@@ -144,7 +144,7 @@ const StyledTopicResourcesWrapper = styled.div<{ largeShadow: boolean }>`
 `;
 
 const StyledNavbarBackground = styled.div`
-  ${tw`w-full xl:h-0 h-14 bg-primary z-[50] absolute top-0 left-0 dark:bg-primary-dark`}
+  ${tw`w-full xl:h-0 h-14 bg-primary z-[50] fixed top-0 left-0 dark:bg-primary-dark`}
 `;
 
 const StyledImageOverlay = styled.div<{ overlay?: string }>`

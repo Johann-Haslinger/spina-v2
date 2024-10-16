@@ -50,7 +50,7 @@ export class DateAddedFacet extends Facet<DateAddedProps> {
   }
 }
 export interface DueDateProps {
-  dueDate: string;
+  dueDate: string | null;
 }
 
 export class DueDateFacet extends Facet<DueDateProps> {

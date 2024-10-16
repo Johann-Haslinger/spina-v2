@@ -15,7 +15,7 @@ const StyledViewContent = styled.div<{
   isOverlayView: boolean;
   hidePadding: boolean;
 }>`
-  ${tw` mx-auto overflow-y-hidden pb-40 text-primary-text dark:text-primary-text-dark md:pt-28 xl:pt-36 pt-16 w-full  px-4`}
+  ${tw` mx-auto overflow-y-hidden overflow-x-visible pb-40 text-primary-text dark:text-primary-text-dark md:pt-28 xl:pt-36 pt-16 w-full  px-4`}
   ${({ reducePaddingX: ignorePaddingX }) =>
     ignorePaddingX ? tw`md:w-[52rem] px-1.5` : tw` md:w-[48rem] xl:w-[51rem] 2xl:w-[56rem] `} 
   ${({ hidePadding }) => hidePadding && tw`!w-full !pt-0 px-0 !pb-0 `}
@@ -53,7 +53,7 @@ const View = (props: ViewProps & PropsWithChildren) => {
           initial={{
             zIndex: overlaySidebar ? 100 : 'auto',
             x: viewType == 'overlayView' ? '100%' : 0,
-            backgroundColor: backgroundColor && 'white',
+            backgroundColor: backgroundColor,
           }}
           transition={{
             type: 'tween',
