@@ -5,7 +5,7 @@ import tw from 'twin.macro';
 import { BackgroundOverlay } from '../../common/components/others';
 
 const StyledViewContainer = styled(motion.div)<{ backgroundColor?: string }>`
-  ${tw`fixed top-0 h-screen overflow-y-scroll left-0 w-screen `}
+  ${tw`fixed top-0 overflow-x-visible h-screen overflow-y-scroll left-0 w-screen `}
   background-color: ${({ backgroundColor }) => backgroundColor};
   ${({ backgroundColor }) => !backgroundColor && tw` bg-primary dark:bg-primary-dark `}
 `;

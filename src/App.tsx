@@ -20,6 +20,8 @@ import { AuthUI } from './features/auth-ui';
 import PodcastSheet from './features/collection/components/podcasts/PodcastSheet';
 import { SettingsOverviewSheet } from './features/settings';
 import { UseAsPWAInstructionsSheet } from './features/tutorial';
+import Tutorial from './features/tutorial/components/Tutorial';
+import TransitToTutorialSystem from './features/tutorial/systems/TransitToTutorialSystem';
 import { Collection, Exams, Flashcards, Groups, Homeworks, Overview, SuccessPage } from './pages/Index';
 
 function App() {
@@ -31,6 +33,7 @@ function App() {
       <ViewManagerSystem />
       <InitializeSchoolSubjectsSystem />
       <InitializeLoadingIndicatorSystem />
+      <TransitToTutorialSystem />
       <BrowserRouter>
         <Sidebar />
         <Routes>
@@ -53,6 +56,7 @@ function App() {
         get={[[TitleFacet, DateAddedFacet, SourceFacet], []]}
         onMatch={PodcastSheet}
       />{' '}
+      <Tutorial />
       <AuthUI />
       <UseAsPWAInstructionsSheet />
     </div>
