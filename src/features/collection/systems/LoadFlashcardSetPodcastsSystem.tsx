@@ -2,10 +2,10 @@ import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
-import { DateAddedFacet, TitleFacet } from '../../../app/additionalFacets';
-import { dummyPodcasts } from '../../../base/dummy';
-import { DataType, SupabaseColumn, SupabaseTable } from '../../../base/enums';
-import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
+import { useCurrentDataSource } from '../../../common/hooks/useCurrentDataSource';
+import { DateAddedFacet, TitleFacet } from '../../../common/types/additionalFacets';
+import { dummyPodcasts } from '../../../common/types/dummy';
+import { DataType, SupabaseColumn, SupabaseTable } from '../../../common/types/enums';
 import supabaseClient from '../../../lib/supabase';
 import { useSelectedFlashcardSet } from '../hooks/useSelectedFlashcardSet';
 

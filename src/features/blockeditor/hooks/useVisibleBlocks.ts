@@ -1,7 +1,7 @@
 import { ParentFacet } from '@leanscope/ecs-models';
 
 import { useEntities } from '@leanscope/ecs-engine';
-import { DataType } from '../../../base/enums';
+import { DataType } from '../../../common/types/enums';
 import { getStringFromBlockEntities } from '../functions/getStringFromBlockEntities';
 import { useCurrentBlockeditor } from './useCurrentBlockeditor';
 

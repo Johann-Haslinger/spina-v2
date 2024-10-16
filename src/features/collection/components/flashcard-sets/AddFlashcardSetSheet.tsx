@@ -5,9 +5,15 @@ import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { Fragment, useContext, useEffect, useRef, useState } from 'react';
 import { IoCheckmarkCircle, IoEllipseOutline } from 'react-icons/io5';
 import { v4 } from 'uuid';
-import { DateAddedFacet, LearningUnitTypeFacet, TitleFacet } from '../../../../app/additionalFacets';
-import { DataType, LearningUnitType, Story } from '../../../../base/enums';
 import { useInputFocus } from '../../../../common/hooks';
+import { useSchoolSubjectEntities } from '../../../../common/hooks/useSchoolSubjects';
+import { useSchoolSubjectTopics } from '../../../../common/hooks/useSchoolSubjectTopics';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
+import { useUserData } from '../../../../common/hooks/useUserData';
+import { DateAddedFacet, LearningUnitTypeFacet, TitleFacet } from '../../../../common/types/additionalFacets';
+import { DataType, LearningUnitType, Story } from '../../../../common/types/enums';
+import { addLearningUnit } from '../../../../common/utilities/addLeaningUnit';
+import { displayAlertTexts, displayButtonTexts, displayLabelTexts } from '../../../../common/utilities/displayText';
 import {
   FlexBox,
   PrimaryButton,
@@ -19,12 +25,6 @@ import {
   Spacer,
   TextInput,
 } from '../../../../components';
-import { addLearningUnit } from '../../../../functions/addLeaningUnit';
-import { useSchoolSubjectEntities } from '../../../../hooks/useSchoolSubjects';
-import { useSchoolSubjectTopics } from '../../../../hooks/useSchoolSubjectTopics';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
-import { useUserData } from '../../../../hooks/useUserData';
-import { displayAlertTexts, displayButtonTexts, displayLabelTexts } from '../../../../utils/displayText';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
 
 const AddFlashcardSetSheet = () => {

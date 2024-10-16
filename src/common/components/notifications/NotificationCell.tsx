@@ -7,10 +7,10 @@ import { motion } from 'framer-motion';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { IoClose } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { DateAddedFacet, IconProps, TitleProps } from '../../../app/additionalFacets';
-import { AdditionalTag, Story } from '../../../base/enums';
-import { useWindowDimensions } from '../../../hooks/useWindowDimensions';
+import { DateAddedFacet, IconProps, TitleProps } from '../../../common/types/additionalFacets';
 import { useOutsideClick } from '../../hooks';
+import { useWindowDimensions } from '../../hooks/useWindowDimensions';
+import { AdditionalTag, Story } from '../../types/enums';
 
 const useOrderOfNotification = (entity: Entity) => {
   const [order, setOrder] = useState(0);

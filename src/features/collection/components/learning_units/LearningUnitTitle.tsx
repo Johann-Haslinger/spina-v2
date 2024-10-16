@@ -1,7 +1,7 @@
 import { EntityProps } from '@leanscope/ecs-engine';
 import { IdentifierProps } from '@leanscope/ecs-models';
-import { TitleFacet, TitleProps } from '../../../../app/additionalFacets';
-import { SupabaseColumn, SupabaseTable } from '../../../../base/enums';
+import { TitleFacet, TitleProps } from '../../../../common/types/additionalFacets';
+import { SupabaseColumn, SupabaseTable } from '../../../../common/types/enums';
 import { Title } from '../../../../components';
 import supabaseClient from '../../../../lib/supabase';
 

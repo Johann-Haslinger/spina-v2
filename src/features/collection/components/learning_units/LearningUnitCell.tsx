@@ -1,11 +1,11 @@
 import { EntityProps } from '@leanscope/ecs-engine';
 import { Tags } from '@leanscope/ecs-models';
-import { TitleProps } from '../../../../app/additionalFacets';
-import { LearningUnitType } from '../../../../base/enums';
+import { TitleProps } from '../../../../common/types/additionalFacets';
+import { LearningUnitType } from '../../../../common/types/enums';
+import { learningUnitTypeQuery } from '../../../../common/utilities/queries';
 import { FlashcardSetThumbNail, NoteThumbNail } from '../../../../components';
 import SubtopicThumbNail from '../../../../components/thumb-nails/SubtopicThumbNail';
 import { useSelectedSchoolSubjectColor } from '../../hooks/useSelectedSchoolSubjectColor';
-import { learningUnitTypeQuery } from '../../../../utils/queries';
 
 const LearningUnitCell = (props: TitleProps & EntityProps) => {
   const { title, entity } = props;

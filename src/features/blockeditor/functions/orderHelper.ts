@@ -1,7 +1,7 @@
 import { ILeanScopeClient } from '@leanscope/api-client/interfaces';
 import { Entity } from '@leanscope/ecs-engine';
 import { FloatOrderFacet, ParentFacet } from '@leanscope/ecs-models';
-import { DataType } from '../../../base/enums';
+import { DataType } from '../../../common/types/enums';
 
 export const getNextHigherOrder = (lsc: ILeanScopeClient, blockEntity: Entity) => {
   const blockEntityOrder = blockEntity.get(FloatOrderFacet)?.props.index || 0;

@@ -4,7 +4,7 @@ import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
 import tw from 'twin.macro';
 import { logo } from '../../../assets';
-import { Story } from '../../../base/enums';
+import { Story } from '../../../common/types/enums';
 import { CloseButton, FlexBox, Sheet, Spacer } from '../../../components';
 
 const StyledContainer = styled.div`

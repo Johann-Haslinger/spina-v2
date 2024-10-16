@@ -1,5 +1,5 @@
 import { useEntities } from '@leanscope/ecs-engine';
-import { DataType } from '../../../base/enums';
+import { DataType } from '../../../common/types/enums';
 
 export const useLearningGroups = () => {
   const [learningGroupEntities] = useEntities((e) => e.has(DataType.LEARNING_GROUP));

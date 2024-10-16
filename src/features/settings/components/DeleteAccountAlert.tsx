@@ -2,13 +2,13 @@ import { ILeanScopeClient } from '@leanscope/api-client';
 import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext } from 'react';
-import { Story } from '../../../base/enums';
+import { useSelectedLanguage } from '../../../common/hooks/useSelectedLanguage';
+import { useUserData } from '../../../common/hooks/useUserData';
+import { Story } from '../../../common/types/enums';
 import { addNotificationEntity } from '../../../common/utilities';
+import { displayActionTexts } from '../../../common/utilities/displayText';
 import { Alert, AlertButton } from '../../../components';
-import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
-import { useUserData } from '../../../hooks/useUserData';
 import supabaseClient from '../../../lib/supabase';
-import { displayActionTexts } from '../../../utils/displayText';
 
 const deleteUserAccount = async (lsc: ILeanScopeClient, userId: string) => {
   const { error: deleteError } = await supabaseClient.auth.admin.deleteUser(userId);

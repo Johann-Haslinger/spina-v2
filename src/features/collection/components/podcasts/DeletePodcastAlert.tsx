@@ -2,12 +2,12 @@ import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { useEntity } from '@leanscope/ecs-engine';
 import { IdentifierFacet } from '@leanscope/ecs-models';
 import { useContext } from 'react';
-import { AdditionalTag, DataType, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
+import { AdditionalTag, DataType, SupabaseColumn, SupabaseTable } from '../../../../common/types/enums';
+import { displayActionTexts } from '../../../../common/utilities/displayText';
+import { dataTypeQuery } from '../../../../common/utilities/queries';
 import { Alert, AlertButton } from '../../../../components';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../../lib/supabase';
-import { displayActionTexts } from '../../../../utils/displayText';
-import { dataTypeQuery } from '../../../../utils/queries';
 
 const DeletePodcastAlert = () => {
   const lsc = useContext(LeanScopeClientContext);

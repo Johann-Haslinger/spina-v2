@@ -30,16 +30,8 @@ import {
   PriorityFacet,
   QuestionFacet,
   StreakFacet,
-} from '../../../app/additionalFacets';
-import { MAX_MASTERY_LEVEL, MIN_MASTERY_LEVEL } from '../../../base/constants';
-import {
-  AdditionalTag,
-  DataType,
-  LearningUnitPriority,
-  Story,
-  SupabaseColumn,
-  SupabaseTable,
-} from '../../../base/enums';
+} from '../../../common/types/additionalFacets';
+import { MAX_MASTERY_LEVEL, MIN_MASTERY_LEVEL } from '../../../common/types/constants';
 import {
   ActionRow,
   ActionSheet,
@@ -62,15 +54,16 @@ import { useSelectedSubtopic } from '../../../features/collection/hooks/useSelec
 import { useSelectedTheme } from '../../../features/collection/hooks/useSelectedTheme';
 import { FlashcardPerformance } from '../../../features/flashcards';
 import { useDueFlashcards } from '../../../features/flashcards/hooks/useDueFlashcards';
-import { useIsAnyStoryCurrent } from '../../../hooks/useIsAnyStoryCurrent';
-import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
-import { useTimer } from '../../../hooks/useTimer';
-import { useUserData } from '../../../hooks/useUserData';
 import supabaseClient from '../../../lib/supabase';
-import { displayActionTexts, displayButtonTexts, displayLabelTexts } from '../../../utils/displayText';
-import { dataTypeQuery } from '../../../utils/queries';
+import { useIsAnyStoryCurrent } from '../../hooks/useIsAnyStoryCurrent';
+import { useSelectedLanguage } from '../../hooks/useSelectedLanguage';
 import { useSelectedLearningUnit } from '../../hooks/useSelectedLearningUnit';
+import { useTimer } from '../../hooks/useTimer';
+import { useUserData } from '../../hooks/useUserData';
+import { AdditionalTag, DataType, LearningUnitPriority, Story, SupabaseColumn, SupabaseTable } from '../../types/enums';
 import { addNotificationEntity, updatePriority } from '../../utilities';
+import { displayActionTexts, displayButtonTexts, displayLabelTexts } from '../../utilities/displayText';
+import { dataTypeQuery } from '../../utilities/queries';
 
 const fetchFlashcardsByDue = async () => {
   const { data: flashcards, error } = await supabaseClient

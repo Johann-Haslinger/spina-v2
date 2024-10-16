@@ -3,18 +3,18 @@ import { EntityPropsMapper } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet, Tags, TextFacet } from '@leanscope/ecs-models';
 import { useContext } from 'react';
 import { IoAdd, IoArchiveOutline } from 'react-icons/io5';
-import { DueDateFacet, TitleFacet } from '../app/additionalFacets';
-import { DataType, Story } from '../base/enums';
+import { useSelectedLanguage } from '../common/hooks/useSelectedLanguage';
+import { DueDateFacet, TitleFacet } from '../common/types/additionalFacets';
+import { DataType, Story } from '../common/types/enums';
+import { displayHeaderTexts } from '../common/utilities/displayText';
+import { dataTypeQuery } from '../common/utilities/queries';
+import { sortEntitiesByDueDate } from '../common/utilities/sortEntitiesByTime';
 import { Kanban, NavBarButton, NavigationBar, Spacer, Title, View } from '../components';
 import { AddHomeworkSheet, HomeworkView } from '../features/collection';
 import { HomeworkKanbanCell } from '../features/homeworks';
 import HomeworkArchive from '../features/homeworks/components/HomeworkArchive';
 import { useHomeworkStatus } from '../features/homeworks/hooks/useHomeworkStatus';
 import InitializeHomeworksSystem from '../features/homeworks/systems/InitializeHomeworksSystem';
-import { useSelectedLanguage } from '../hooks/useSelectedLanguage';
-import { displayHeaderTexts } from '../utils/displayText';
-import { dataTypeQuery } from '../utils/queries';
-import { sortEntitiesByDueDate } from '../utils/sortEntitiesByTime';
 
 const Homeworks = () => {
   const lsc = useContext(LeanScopeClientContext);

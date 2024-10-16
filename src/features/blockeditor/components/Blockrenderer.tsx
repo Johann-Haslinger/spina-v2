@@ -1,7 +1,7 @@
 import { EntityProps } from '@leanscope/ecs-engine';
 import { FloatOrderProps } from '@leanscope/ecs-models';
-import { BlocktypeProps } from '../../../app/additionalFacets';
-import { Blocktype } from '../../../base/enums';
+import { BlocktypeProps } from '../../../common/types/additionalFacets';
+import { Blocktype } from '../../../common/types/enums';
 import { DividerBlock, ListBlock, TextBlock, TodoBlock } from './blocks';
 import PageBlock from './blocks/PageBlock';
 

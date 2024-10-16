@@ -1,8 +1,8 @@
 import { ILeanScopeClient } from '@leanscope/api-client/interfaces';
 import { Entity } from '@leanscope/ecs-engine';
 import { FloatOrderFacet, IdentifierFacet, ImageFacet, ParentFacet, TextFacet } from '@leanscope/ecs-models';
-import { BlocktypeFacet, ListStyleFacet, TexttypeFacet, TodoStateFacet } from '../../../app/additionalFacets';
-import { SupabaseTable } from '../../../base/enums';
+import { BlocktypeFacet, ListStyleFacet, TexttypeFacet, TodoStateFacet } from '../../../common/types/additionalFacets';
+import { SupabaseTable } from '../../../common/types/enums';
 import supabaseClient from '../../../lib/supabase';
 
 export const addBlock = async (lsc: ILeanScopeClient, newBlockEntity: Entity, userId: string) => {

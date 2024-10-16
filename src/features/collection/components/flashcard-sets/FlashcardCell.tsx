@@ -3,8 +3,8 @@ import { EntityProps, useEntityComponents } from '@leanscope/ecs-engine';
 import { Tags } from '@leanscope/ecs-models';
 import { IoPlayCircleOutline } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { AnswerProps, DueDateFacet, MasteryLevelProps, QuestionProps } from '../../../../app/additionalFacets';
-import { MAX_MASTERY_LEVEL, MIN_MASTERY_LEVEL } from '../../../../base/constants';
+import { AnswerProps, DueDateFacet, MasteryLevelProps, QuestionProps } from '../../../../common/types/additionalFacets';
+import { MAX_MASTERY_LEVEL, MIN_MASTERY_LEVEL } from '../../../../common/types/constants';
 import { useSelectedSchoolSubjectColor } from '../../hooks/useSelectedSchoolSubjectColor';
 
 const StyledFlashcardCellWrapper = styled.div<{

@@ -8,13 +8,13 @@ import {
   RelationshipFacet,
   StatusFacet,
   TitleFacet,
-} from '../../../app/additionalFacets';
+} from '../../../common/types/additionalFacets';
 
-import { dummyExams } from '../../../base/dummy';
-import { DataType, SupabaseTable } from '../../../base/enums';
-import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
+import { useCurrentDataSource } from '../../../common/hooks/useCurrentDataSource';
+import { dummyExams } from '../../../common/types/dummy';
+import { DataType, SupabaseTable } from '../../../common/types/enums';
+import { dataTypeQuery } from '../../../common/utilities/queries';
 import supabaseClient from '../../../lib/supabase';
-import { dataTypeQuery } from '../../../utils/queries';
 
 const fetchExams = async () => {
   const fourteenDaysAgo = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();

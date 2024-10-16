@@ -24,15 +24,23 @@ import {
 import Skeleton from 'react-loading-skeleton';
 import tw from 'twin.macro';
 import { v4 } from 'uuid';
+import { useLoadingIndicator } from '../../../../common/hooks';
+import { useIsViewVisible } from '../../../../common/hooks/useIsViewVisible';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
+import { useUserData } from '../../../../common/hooks/useUserData';
+import { useWindowDimensions } from '../../../../common/hooks/useWindowDimensions';
 import {
   DateAddedFacet,
   LearningUnitTypeFacet,
   SourceFacet,
   TitleFacet,
   TitleProps,
-} from '../../../../app/additionalFacets';
-import { AdditionalTag, DataType, LearningUnitType, Story, SupabaseTable } from '../../../../base/enums';
-import { useLoadingIndicator } from '../../../../common/hooks';
+} from '../../../../common/types/additionalFacets';
+import { AdditionalTag, DataType, LearningUnitType, Story, SupabaseTable } from '../../../../common/types/enums';
+import { addLearningUnit } from '../../../../common/utilities/addLeaningUnit';
+import { displayActionTexts, displayDataTypeTexts } from '../../../../common/utilities/displayText';
+import { dataTypeQuery, isChildOfQuery, learningUnitTypeQuery } from '../../../../common/utilities/queries';
+import { sortEntitiesByDateAdded, sortEntitiesByDueDate } from '../../../../common/utilities/sortEntitiesByTime';
 import {
   ActionRow,
   CollectionGrid,
@@ -43,15 +51,7 @@ import {
   Title,
   View,
 } from '../../../../components';
-import { addLearningUnit } from '../../../../functions/addLeaningUnit';
-import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
-import { useUserData } from '../../../../hooks/useUserData';
-import { useWindowDimensions } from '../../../../hooks/useWindowDimensions';
 import supabaseClient from '../../../../lib/supabase';
-import { displayActionTexts, displayDataTypeTexts } from '../../../../utils/displayText';
-import { dataTypeQuery, isChildOfQuery, learningUnitTypeQuery } from '../../../../utils/queries';
-import { sortEntitiesByDateAdded, sortEntitiesByDueDate } from '../../../../utils/sortEntitiesByTime';
 import AddResourceToLearningGroupSheet from '../../../groups/components/AddResourceToLearningGroupSheet';
 import { useEntityHasChildren } from '../../hooks/useEntityHasChildren';
 import { useSelectedSchoolSubjectGrid } from '../../hooks/useSchoolSubjectGrid';

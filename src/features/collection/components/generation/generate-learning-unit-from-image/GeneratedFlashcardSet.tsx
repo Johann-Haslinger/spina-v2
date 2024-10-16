@@ -6,6 +6,7 @@ import { motion } from 'framer-motion';
 import { useContext, useState } from 'react';
 import tw from 'twin.macro';
 import { v4 as uuid } from 'uuid';
+import { useUserData } from '../../../../../common/hooks/useUserData';
 import {
   AnswerFacet,
   DateAddedFacet,
@@ -13,14 +14,14 @@ import {
   PriorityFacet,
   QuestionFacet,
   TitleFacet,
-} from '../../../../../app/additionalFacets';
-import { DataType, LearningUnitPriority, LearningUnitType, Story } from '../../../../../base/enums';
-import { Flashcard, GeneratedFlashcardSetResource } from '../../../../../base/types';
+} from '../../../../../common/types/additionalFacets';
+import { DataType, LearningUnitPriority, LearningUnitType, Story } from '../../../../../common/types/enums';
+import { Flashcard, GeneratedFlashcardSetResource } from '../../../../../common/types/types';
+import { addFlashcards } from '../../../../../common/utilities/addFlashcards';
+import { addLearningUnit } from '../../../../../common/utilities/addLeaningUnit';
 import { CloseButton, FlexBox, ScrollableBox } from '../../../../../components';
 import SapientorConversationMessage from '../../../../../components/content/SapientorConversationMessage';
-import { addFlashcards } from '../../../../../functions/addFlashcards';
-import { addLearningUnit } from '../../../../../functions/addLeaningUnit';
-import { useUserData } from '../../../../../hooks/useUserData';
+import { findMatchingTopicForLearningUnit } from '../../../functions/findMatchingTopicForLearningUnit';
 import { useSelectedTopic } from '../../../hooks/useSelectedTopic';
 import PreviewFlashcard from '../../flashcard-sets/PreviewFlashcard';
 

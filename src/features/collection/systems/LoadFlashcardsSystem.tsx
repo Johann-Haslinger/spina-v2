@@ -2,11 +2,11 @@ import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
-import { AnswerFacet, DueDateFacet, MasteryLevelFacet, QuestionFacet } from '../../../app/additionalFacets';
-import { dummyFlashcards } from '../../../base/dummy';
-import { AdditionalTag, DataType, SupabaseColumn, SupabaseTable } from '../../../base/enums';
+import { useCurrentDataSource } from '../../../common/hooks/useCurrentDataSource';
 import { useSelectedLearningUnit } from '../../../common/hooks/useSelectedLearningUnit';
-import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
+import { AnswerFacet, DueDateFacet, MasteryLevelFacet, QuestionFacet } from '../../../common/types/additionalFacets';
+import { dummyFlashcards } from '../../../common/types/dummy';
+import { AdditionalTag, DataType, SupabaseColumn, SupabaseTable } from '../../../common/types/enums';
 import supabaseClient from '../../../lib/supabase';
 
 const fetchFlashcardsForFlashcardGroup = async (parentId: string) => {

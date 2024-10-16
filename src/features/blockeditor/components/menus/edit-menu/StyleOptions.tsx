@@ -6,12 +6,24 @@ import { IdentifierFacet, Tags } from '@leanscope/ecs-models';
 import { motion } from 'framer-motion';
 import { Fragment, useContext, useEffect, useState } from 'react';
 import tw from 'twin.macro';
-import { BlocktypeFacet, ListStyleFacet, TexttypeFacet, TodoStateFacet } from '../../../../../app/additionalFacets';
-import { Blocktype, DataType, ListStyle, SupabaseColumn, SupabaseTable, Texttype } from '../../../../../base/enums';
-import { BLOCK_TYPE_TEXT_DATA, TEXT_TYPE_TEXT_DATA } from '../../../../../base/textData';
-import { useSelectedLanguage } from '../../../../../hooks/useSelectedLanguage';
+import { useSelectedLanguage } from '../../../../../common/hooks/useSelectedLanguage';
+import {
+  BlocktypeFacet,
+  ListStyleFacet,
+  TexttypeFacet,
+  TodoStateFacet,
+} from '../../../../../common/types/additionalFacets';
+import {
+  Blocktype,
+  DataType,
+  ListStyle,
+  SupabaseColumn,
+  SupabaseTable,
+  Texttype,
+} from '../../../../../common/types/enums';
+import { BLOCK_TYPE_TEXT_DATA, TEXT_TYPE_TEXT_DATA } from '../../../../../common/types/textData';
+import { displayButtonTexts } from '../../../../../common/utilities/displayText';
 import supabaseClient from '../../../../../lib/supabase';
-import { displayButtonTexts } from '../../../../../utils/displayText';
 import { getPreviewTextStyle } from '../../../functions/getTextStyle';
 import { useCurrentBlockeditor } from '../../../hooks/useCurrentBlockeditor';
 

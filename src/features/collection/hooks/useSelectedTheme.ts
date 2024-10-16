@@ -1,6 +1,6 @@
 import { useEntity, useEntityComponents, useEntityHasTags } from '@leanscope/ecs-engine';
 import { ColorFacet } from '@leanscope/ecs-models';
-import { AdditionalTag, SupportedTheme } from '../../../base/enums';
+import { AdditionalTag, SupportedTheme } from '../../../common/types/enums';
 
 export const useSelectedTheme = () => {
   const [appStateEntity] = useEntity((e) => e.has(AdditionalTag.APP_STATE_ENTITY));

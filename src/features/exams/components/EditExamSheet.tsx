@@ -1,8 +1,11 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
-import { DueDateFacet, TitleFacet } from '../../../app/additionalFacets';
-import { Story, SupabaseColumn, SupabaseTable } from '../../../base/enums';
+import { useSelectedLanguage } from '../../../common/hooks/useSelectedLanguage';
+import { DueDateFacet, TitleFacet } from '../../../common/types/additionalFacets';
+import { Story, SupabaseColumn, SupabaseTable } from '../../../common/types/enums';
+import { addNotificationEntity } from '../../../common/utilities';
+import { displayButtonTexts, displayLabelTexts } from '../../../common/utilities/displayText';
 import {
   DateInput,
   FlexBox,
@@ -14,11 +17,8 @@ import {
   Spacer,
   TextInput,
 } from '../../../components';
-import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../lib/supabase';
-import { displayButtonTexts, displayLabelTexts } from '../../../utils/displayText';
 import { useSelectedExam } from '../hooks/useSelectedExam';
-import { addNotificationEntity } from '../../../common/utilities';
 
 const EditExamSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -30,7 +30,7 @@ const EditExamSheet = () => {
 
   useEffect(() => {
     setNewTitle(selectedExamTitle);
-    setNewDueDate(selectedExamDueDate);
+    setNewDueDate(selectedExamDueDate || '');
   }, [selectedExamTitle, selectedExamDueDate]);
 
   const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_EXAMS_STORY);

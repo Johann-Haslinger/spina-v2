@@ -3,8 +3,8 @@ import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { useContext } from 'react';
 import { IoBookmark } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { COLOR_ITEMS } from '../../../../base/constants';
-import { Story } from '../../../../base/enums';
+import { COLOR_ITEMS } from '../../../../common/types/constants';
+import { Story } from '../../../../common/types/enums';
 
 const StyledCellWrapper = styled.div<{ color: string; backgroundColor: string }>`
   ${tw`  w-full flex  cursor-pointer  items-center justify-center pr-3 text-8xl md:hover:text-9xl md:hover:scale-105  transition-all h-40`}

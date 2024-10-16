@@ -1,11 +1,11 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext } from 'react';
-import { AdditionalTag, Story, SupabaseColumn } from '../../../../base/enums';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
+import { AdditionalTag, Story, SupabaseColumn } from '../../../../common/types/enums';
+import { displayActionTexts } from '../../../../common/utilities/displayText';
 import { Alert, AlertButton } from '../../../../components';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../../lib/supabase';
-import { displayActionTexts } from '../../../../utils/displayText';
 import { useSelectedGroupHomework } from '../../hooks/useSelectedGroupHomework';
 
 const DeleteGroupHomeworkAlert = () => {

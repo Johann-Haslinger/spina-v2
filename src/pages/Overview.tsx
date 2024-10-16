@@ -6,10 +6,13 @@ import { useContext } from 'react';
 import { IoAdd, IoCameraOutline } from 'react-icons/io5';
 import 'react-loading-skeleton/dist/skeleton.css';
 import tw from 'twin.macro';
-import { LearningUnitTypeFacet, PriorityFacet, TitleFacet } from '../app/additionalFacets';
-import { DataType, Story } from '../base/enums';
 import FlashcardQuizView from '../common/components/flashcards/FlashcardQuizView';
+import { useSelectedLanguage } from '../common/hooks/useSelectedLanguage';
+import { LearningUnitTypeFacet, PriorityFacet, TitleFacet } from '../common/types/additionalFacets';
+import { DataType, Story } from '../common/types/enums';
 import { addUploadedFileEntity } from '../common/utilities/addUploadedFileEntity';
+import { displayDataTypeTexts, displayHeaderTexts } from '../common/utilities/displayText';
+import { dataTypeQuery } from '../common/utilities/queries';
 import { ActionRow, NavBarButton, NavigationBar, Spacer, Title, View } from '../components';
 import { AddHomeworkSheet, HomeworkView } from '../features/collection';
 import GeneratingLearningUnitFromImageSheet from '../features/collection/components/generation/generate-learning-unit-from-image/GeneratingLearningUnitFromImageSheet';
@@ -30,9 +33,6 @@ import {
   StartFlashcardSessionCard,
 } from '../features/overview';
 import FlashcardChartCard from '../features/overview/components/FlashcardChartCard';
-import { useSelectedLanguage } from '../hooks/useSelectedLanguage';
-import { displayDataTypeTexts, displayHeaderTexts } from '../utils/displayText';
-import { dataTypeQuery } from '../utils/queries';
 
 const StyledColumnsWrapper = styled.div`
   ${tw`grid grid-cols-1 md:grid-cols-2 gap-4`}

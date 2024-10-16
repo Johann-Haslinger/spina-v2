@@ -1,6 +1,6 @@
 import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet } from '@leanscope/ecs-models';
-import { DataType, SupabaseColumn, SupabaseTable } from '../../../base/enums';
+import { DataType, SupabaseColumn, SupabaseTable } from '../../../common/types/enums';
 import supabaseClient from '../../../lib/supabase';
 
 const usePendingResourceStatus = () => {

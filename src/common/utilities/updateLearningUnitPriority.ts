@@ -1,9 +1,9 @@
 import { ILeanScopeClient } from '@leanscope/api-client';
 import { Entity } from '@leanscope/ecs-engine';
 import { CountFacet, IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
-import { DueDateFacet, PriorityFacet } from '../../app/additionalFacets';
-import { LearningUnitPriority, SupabaseTable } from '../../base/enums';
+import { DueDateFacet, PriorityFacet } from '../../common/types/additionalFacets';
 import supabaseClient from '../../lib/supabase';
+import { LearningUnitPriority, SupabaseTable } from '../types/enums';
 import { addNotificationEntity } from './addNotificationEntity';
 
 export const updatePriority = async (

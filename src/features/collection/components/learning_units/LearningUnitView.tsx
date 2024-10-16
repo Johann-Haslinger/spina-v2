@@ -5,6 +5,9 @@ import { IdentifierFacet, IdentifierProps, ImageFacet, Tags, TextFacet, UrlFacet
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
 import tw from 'twin.macro';
+import FlashcardQuizView from '../../../../common/components/flashcards/FlashcardQuizView';
+import { useIsViewVisible } from '../../../../common/hooks/useIsViewVisible';
+import { useUserData } from '../../../../common/hooks/useUserData';
 import {
   AnswerFacet,
   FilePathFacet,
@@ -14,7 +17,7 @@ import {
   QuestionFacet,
   TitleFacet,
   TitleProps,
-} from '../../../../app/additionalFacets';
+} from '../../../../common/types/additionalFacets';
 import {
   AdditionalTag,
   DataType,
@@ -22,9 +25,9 @@ import {
   LearningUnitType,
   LearningUnitViews,
   Story,
-} from '../../../../base/enums';
-import FlashcardQuizView from '../../../../common/components/flashcards/FlashcardQuizView';
+} from '../../../../common/types/enums';
 import { updatePriority } from '../../../../common/utilities';
+import { dataTypeQuery, isChildOfQuery } from '../../../../common/utilities/queries';
 import {
   BackButton,
   CollectionGrid,
@@ -34,9 +37,6 @@ import {
   TextEditor,
   View,
 } from '../../../../components';
-import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
-import { useUserData } from '../../../../hooks/useUserData';
-import { dataTypeQuery, isChildOfQuery } from '../../../../utils/queries';
 import { useDueFlashcards } from '../../../flashcards';
 import { addFileToLearningUnit } from '../../functions/addFileToLearningUnit';
 import { useFileSelector } from '../../hooks/useFileSelector';

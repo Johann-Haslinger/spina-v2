@@ -1,7 +1,7 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { useEntity, useEntityHasTags } from '@leanscope/ecs-engine';
 import { useContext } from 'react';
-import { AdditionalTag, Story } from '../../../base/enums';
+import { AdditionalTag, Story } from '../../../common/types/enums';
 
 export const useAppState = () => {
   const lsc = useContext(LeanScopeClientContext);

@@ -1,7 +1,7 @@
 import { useEntities } from '@leanscope/ecs-engine';
 import { IdentifierFacet } from '@leanscope/ecs-models';
-import { BlockeditorStateFacet } from '../../../app/additionalFacets';
-import { AdditionalTag } from '../../../base/enums';
+import { BlockeditorStateFacet } from '../../../common/types/additionalFacets';
+import { AdditionalTag } from '../../../common/types/enums';
 
 export const useCurrentBlockeditor = () => {
   const [currentBlockeditorEntity] = useEntities((e) => e.has(BlockeditorStateFacet))[0];

@@ -3,20 +3,20 @@ import { EntityPropsMapper } from '@leanscope/ecs-engine';
 import { IdentifierFacet, OrderFacet, Tags, TextFacet } from '@leanscope/ecs-models';
 import { Fragment } from 'react/jsx-runtime';
 import tw from 'twin.macro';
-import { DueDateFacet, LearningUnitTypeFacet, PriorityFacet, TitleFacet } from '../app/additionalFacets';
-import { MEDIUM_DEVICE_WIDTH } from '../base/constants';
-import { DataType } from '../base/enums';
 import { useLoadingIndicator } from '../common/hooks';
+import { useSelectedLanguage } from '../common/hooks/useSelectedLanguage';
+import { useWindowDimensions } from '../common/hooks/useWindowDimensions';
+import { DueDateFacet, LearningUnitTypeFacet, PriorityFacet, TitleFacet } from '../common/types/additionalFacets';
+import { MEDIUM_DEVICE_WIDTH } from '../common/types/constants';
+import { DataType } from '../common/types/enums';
+import { displayHeaderTexts } from '../common/utilities/displayText';
+import { dataTypeQuery } from '../common/utilities/queries';
 import { CollectionGrid, NavigationBar, Spacer, Title, View } from '../components';
 import { BookmarksCell, HomeworkView, SchoolSubjectCell, SchoolSubjectView } from '../features/collection';
 import BookmarksView from '../features/collection/components/bookmark/BookmarksView';
 import ExerciseView from '../features/collection/components/exercises/ExerciseView';
 import LearningUnitView from '../features/collection/components/learning_units/LearningUnitView';
 import SchoolSubjectCellSkeleton from '../features/collection/components/school-subjects/SchoolSubjectCellSkeleton';
-import { useSelectedLanguage } from '../hooks/useSelectedLanguage';
-import { useWindowDimensions } from '../hooks/useWindowDimensions';
-import { displayHeaderTexts } from '../utils/displayText';
-import { dataTypeQuery } from '../utils/queries';
 
 const StyledTitleWrapper = styled.div`
   ${tw`px-2.5 md:px-0 `}

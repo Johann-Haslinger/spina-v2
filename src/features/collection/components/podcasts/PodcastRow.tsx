@@ -4,12 +4,12 @@ import { Tags } from '@leanscope/ecs-models';
 import { Fragment, useState } from 'react';
 import { IoBookmarkOutline, IoEllipsisHorizontal, IoHeadset, IoTrashOutline } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { DateAddedProps, TitleProps } from '../../../../app/additionalFacets';
-import { COLOR_ITEMS } from '../../../../base/constants';
-import { AdditionalTag } from '../../../../base/enums';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
+import { DateAddedProps, TitleProps } from '../../../../common/types/additionalFacets';
+import { COLOR_ITEMS } from '../../../../common/types/constants';
+import { AdditionalTag } from '../../../../common/types/enums';
+import { displayActionTexts, displayAlertTexts, displayDataTypeTexts } from '../../../../common/utilities/displayText';
 import { ActionRow, ActionSheet, FlexBox } from '../../../../components';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
-import { displayActionTexts, displayAlertTexts, displayDataTypeTexts } from '../../../../utils/displayText';
 import { useSelectedSchoolSubjectColor } from '../../hooks/useSelectedSchoolSubjectColor';
 import DeletePodcastAlert from './DeletePodcastAlert';
 

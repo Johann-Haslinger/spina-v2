@@ -2,10 +2,10 @@ import { ILeanScopeClient } from '@leanscope/api-client/interfaces';
 import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { v4 } from 'uuid';
-import { FilePathFacet, TitleFacet, TypeFacet } from '../../../app/additionalFacets';
-import { DataType, SupabaseStorageBucket, SupabaseTable } from '../../../base/enums';
-import supabaseClient from '../../../lib/supabase';
+import { FilePathFacet, TitleFacet, TypeFacet } from '../../../common/types/additionalFacets';
+import { DataType, SupabaseStorageBucket, SupabaseTable } from '../../../common/types/enums';
 import { addNotificationEntity } from '../../../common/utilities';
+import supabaseClient from '../../../lib/supabase';
 
 interface UploadedFile {
   id: string;

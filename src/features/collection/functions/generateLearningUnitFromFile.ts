@@ -1,6 +1,6 @@
 import { ILeanScopeClient } from '@leanscope/api-client';
-import { Story, SupabaseEdgeFunction, SupabaseStorageBucket } from '../../../base/enums';
-import { GeneratedFlashcardSetResource, GeneratedNoteResource } from '../../../base/types';
+import { Story, SupabaseEdgeFunction, SupabaseStorageBucket } from '../../../common/types/enums';
+import { GeneratedFlashcardSetResource, GeneratedNoteResource } from '../../../common/types/types';
 import { addNotificationEntity } from '../../../common/utilities';
 import supabaseClient from '../../../lib/supabase';
 

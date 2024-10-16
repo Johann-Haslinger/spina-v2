@@ -1,8 +1,8 @@
 import { TextFacet } from '@leanscope/ecs-models';
 import { useEffect } from 'react';
-import { dummyText } from '../../../base/dummy';
-import { SupabaseColumn, SupabaseTable } from '../../../base/enums';
-import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
+import { useCurrentDataSource } from '../../../common/hooks/useCurrentDataSource';
+import { dummyText } from '../../../common/types/dummy';
+import { SupabaseColumn, SupabaseTable } from '../../../common/types/enums';
 import supabaseClient from '../../../lib/supabase';
 import { useSelectedExam } from '../hooks/useSelectedExam';
 

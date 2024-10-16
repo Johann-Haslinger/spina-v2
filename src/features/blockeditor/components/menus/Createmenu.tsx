@@ -7,10 +7,10 @@ import { ChangeEvent, Fragment, useContext, useEffect, useRef, useState } from '
 import { IoCodeSlash, IoGrid, IoImage, IoRemove } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { v4 } from 'uuid';
-import { BlocktypeFacet } from '../../../../app/additionalFacets';
-import { COLOR_ITEMS } from '../../../../base/constants';
-import { Blocktype, DataType } from '../../../../base/enums';
-import { useUserData } from '../../../../hooks/useUserData';
+import { useUserData } from '../../../../common/hooks/useUserData';
+import { BlocktypeFacet } from '../../../../common/types/additionalFacets';
+import { COLOR_ITEMS } from '../../../../common/types/constants';
+import { Blocktype, DataType } from '../../../../common/types/enums';
 import { addBlock } from '../../functions/addBlock';
 import { changeBlockeditorState } from '../../functions/changeBlockeditorState';
 import { getHighestOrder } from '../../functions/orderHelper';

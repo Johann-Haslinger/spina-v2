@@ -2,8 +2,12 @@ import { ILeanScopeClient } from '@leanscope/api-client';
 import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useState } from 'react';
-import { AdditionalTag, DataType, Story, SupabaseTable } from '../../../base/enums';
+import { useSelectedLanguage } from '../../../common/hooks/useSelectedLanguage';
+import { useUserData } from '../../../common/hooks/useUserData';
+import { AdditionalTag, DataType, Story, SupabaseTable } from '../../../common/types/enums';
 import { addNotificationEntity } from '../../../common/utilities';
+import { displayActionTexts } from '../../../common/utilities/displayText';
+import { dataTypeQuery } from '../../../common/utilities/queries';
 import {
   Alert,
   AlertButton,
@@ -15,11 +19,7 @@ import {
   Sheet,
   Spacer,
 } from '../../../components';
-import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
-import { useUserData } from '../../../hooks/useUserData';
 import supabaseClient from '../../../lib/supabase';
-import { displayActionTexts } from '../../../utils/displayText';
-import { dataTypeQuery } from '../../../utils/queries';
 
 const archiveAllTopics = async (lsc: ILeanScopeClient, userId: string) => {
   const { error } = await supabaseClient.from(SupabaseTable.TOPICS).update({ is_archived: true }).eq('user_id', userId);

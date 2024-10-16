@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
-import { SourceFacet } from '../../../app/additionalFacets';
-import { dummyBase64Audio } from '../../../base/dummyBase64Audio';
-import { SupabaseColumn, SupabaseTable } from '../../../base/enums';
-import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
+import { useCurrentDataSource } from '../../../common/hooks/useCurrentDataSource';
+import { SourceFacet } from '../../../common/types/additionalFacets';
+import { dummyBase64Audio } from '../../../common/types/dummyBase64Audio';
+import { SupabaseColumn, SupabaseTable } from '../../../common/types/enums';
 import supabaseClient from '../../../lib/supabase';
 import { useSelectedPodcast } from '../hooks/useSelectedPodcast';
 

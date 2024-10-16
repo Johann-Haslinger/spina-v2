@@ -5,9 +5,13 @@ import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useRef, useState } from 'react';
 import { IoAdd, IoCreateOutline } from 'react-icons/io5';
 import { v4 } from 'uuid';
-import { DateAddedFacet, TitleFacet } from '../../../../app/additionalFacets';
-import { DataType, Story } from '../../../../base/enums';
 import { useInputFocus } from '../../../../common/hooks';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
+import { useUserData } from '../../../../common/hooks/useUserData';
+import { DateAddedFacet, TitleFacet } from '../../../../common/types/additionalFacets';
+import { DataType, Story } from '../../../../common/types/enums';
+import { addTopic } from '../../../../common/utilities/addTopic';
+import { displayActionTexts, displayButtonTexts, displayLabelTexts } from '../../../../common/utilities/displayText';
 import {
   FlexBox,
   PrimaryButton,
@@ -19,10 +23,6 @@ import {
   TextAreaInput,
   TextInput,
 } from '../../../../components';
-import { addTopic } from '../../../../functions/addTopic';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
-import { useUserData } from '../../../../hooks/useUserData';
-import { displayActionTexts, displayButtonTexts, displayLabelTexts } from '../../../../utils/displayText';
 import { generateDescriptionForTopic } from '../../functions/generateDescriptionForTopic';
 import { useSelectedSchoolSubject } from '../../hooks/useSelectedSchoolSubject';
 import SelectTopicImageSheet from '../topics/SelectTopicImageSheet';

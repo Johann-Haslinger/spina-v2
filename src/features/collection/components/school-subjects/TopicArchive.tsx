@@ -7,12 +7,12 @@ import { motion } from 'framer-motion';
 import { useContext, useState } from 'react';
 import { IoBookOutline } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { DateAddedFacet, DateAddedProps, TitleFacet, TitleProps } from '../../../../app/additionalFacets';
-import { AdditionalTag, DataType, Story } from '../../../../base/enums';
 import { ShowMoreButton } from '../../../../common/components/buttons';
+import { DateAddedFacet, DateAddedProps, TitleFacet, TitleProps } from '../../../../common/types/additionalFacets';
+import { AdditionalTag, DataType, Story } from '../../../../common/types/enums';
+import { isChildOfQuery } from '../../../../common/utilities/queries';
+import { sortEntitiesByDateAdded } from '../../../../common/utilities/sortEntitiesByTime';
 import { BackButton, NavigationBar, NoContentAddedHint, Spacer, Title, View } from '../../../../components';
-import { isChildOfQuery } from '../../../../utils/queries';
-import { sortEntitiesByDateAdded } from '../../../../utils/sortEntitiesByTime';
 import { useSelectedSchoolSubject } from '../../hooks/useSelectedSchoolSubject';
 import LoadArchivedTopicsSystem from '../../systems/LoadArchivedTopicsSystem';
 

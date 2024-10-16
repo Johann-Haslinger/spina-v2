@@ -2,9 +2,9 @@ import { ILeanScopeClient } from '@leanscope/api-client';
 import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet } from '@leanscope/ecs-models';
 import { v4 } from 'uuid';
-import { FileFacet } from '../../app/additionalFacets';
-import { AdditionalTag } from '../../base/enums';
-import { UploadedFile } from '../../base/types';
+import { FileFacet } from '../../common/types/additionalFacets';
+import { AdditionalTag } from '../types/enums';
+import { UploadedFile } from '../types/types';
 
 export const addUploadedFileEntity = (lsc: ILeanScopeClient, file: UploadedFile, onEntityAdded?: () => void) => {
   lsc.engine.entities

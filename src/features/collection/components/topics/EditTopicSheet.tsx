@@ -4,9 +4,11 @@ import { DescriptionFacet, IdentifierFacet, ImageFacet } from '@leanscope/ecs-mo
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
 import { IoCreateOutline } from 'react-icons/io5';
-import { TitleFacet } from '../../../../app/additionalFacets';
-import { Story, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
+import { TitleFacet } from '../../../../common/types/additionalFacets';
+import { Story, SupabaseColumn, SupabaseTable } from '../../../../common/types/enums';
 import { addNotificationEntity } from '../../../../common/utilities';
+import { displayActionTexts, displayButtonTexts, displayLabelTexts } from '../../../../common/utilities/displayText';
 import {
   FlexBox,
   PrimaryButton,
@@ -18,9 +20,7 @@ import {
   TextAreaInput,
   TextInput,
 } from '../../../../components';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../../lib/supabase';
-import { displayActionTexts, displayButtonTexts, displayLabelTexts } from '../../../../utils/displayText';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
 
 const EditTopicSheet = () => {

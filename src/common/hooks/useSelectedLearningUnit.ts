@@ -1,8 +1,8 @@
 import { useEntity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet, Tags, TextFacet } from '@leanscope/ecs-models';
-import { LearningUnitTypeFacet, TitleFacet } from '../../app/additionalFacets';
-import { DataType } from '../../base/enums';
-import { dataTypeQuery } from '../../utils/queries';
+import { LearningUnitTypeFacet, TitleFacet } from '../../common/types/additionalFacets';
+import { DataType } from '../types/enums';
+import { dataTypeQuery } from '../utilities/queries';
 
 export const useSelectedLearningUnit = () => {
   const [selectedLearningUnitEntity] = useEntity(

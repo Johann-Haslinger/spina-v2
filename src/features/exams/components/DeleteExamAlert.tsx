@@ -1,13 +1,13 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext } from 'react';
-import { AdditionalTag, Story, SupabaseColumn, SupabaseTable } from '../../../base/enums';
-import { Alert, AlertButton } from '../../../components';
-import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
-import supabaseClient from '../../../lib/supabase';
-import { displayActionTexts } from '../../../utils/displayText';
-import { useSelectedExam } from '../hooks/useSelectedExam';
+import { useSelectedLanguage } from '../../../common/hooks/useSelectedLanguage';
+import { AdditionalTag, Story, SupabaseColumn, SupabaseTable } from '../../../common/types/enums';
 import { addNotificationEntity } from '../../../common/utilities';
+import { displayActionTexts } from '../../../common/utilities/displayText';
+import { Alert, AlertButton } from '../../../components';
+import supabaseClient from '../../../lib/supabase';
+import { useSelectedExam } from '../hooks/useSelectedExam';
 
 const DeleteExamAlert = () => {
   const lsc = useContext(LeanScopeClientContext);

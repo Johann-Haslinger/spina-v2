@@ -6,8 +6,8 @@ import { useEffect, useMemo } from 'react';
 
 import styled from '@emotion/styled';
 import tw from 'twin.macro';
-import { DateAddedFacet, IconFacet, TitleFacet } from '../../../app/additionalFacets';
-import { AdditionalTag, Story } from '../../../base/enums';
+import { DateAddedFacet, IconFacet, TitleFacet } from '../../../common/types/additionalFacets';
+import { AdditionalTag, Story } from '../../types/enums';
 import NotificationCell from './NotificationCell';
 
 const StyledBackgroundOverlay = styled(motion.div)`

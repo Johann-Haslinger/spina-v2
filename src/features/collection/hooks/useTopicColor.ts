@@ -1,6 +1,6 @@
 import { Entity, useEntity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, OrderFacet, ParentFacet } from '@leanscope/ecs-models';
-import { COLOR_ITEMS } from '../../../base/constants';
+import { COLOR_ITEMS } from '../../../common/types/constants';
 
 export const useTopicColor = (topicEntity: Entity) => {
   const parentId = topicEntity.get(ParentFacet)?.props.parentId;

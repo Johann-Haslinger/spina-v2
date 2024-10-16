@@ -3,8 +3,8 @@ import { Entity, EntityProps, useEntityHasTags } from '@leanscope/ecs-engine';
 import { OrderFacet, OrderProps, Tags } from '@leanscope/ecs-models';
 import { IoChevronForward, IoChevronUp } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { AnswerProps, QuestionProps } from '../../../../app/additionalFacets';
-import { COLOR_ITEMS } from '../../../../base/constants';
+import { AnswerProps, QuestionProps } from '../../../../common/types/additionalFacets';
+import { COLOR_ITEMS } from '../../../../common/types/constants';
 import { useExerciseParts } from '../../hooks/useExerciseParts';
 
 const SytledExercisePartWrapper = styled.div<{

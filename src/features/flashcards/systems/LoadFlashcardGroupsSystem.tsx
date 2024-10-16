@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
+import { useCurrentDataSource } from '../../../common/hooks/useCurrentDataSource';
 
 const LoadFlashcardGroupsSystem = () => {
   const { isUsingSupabaseData, isUsingMockupData } = useCurrentDataSource();

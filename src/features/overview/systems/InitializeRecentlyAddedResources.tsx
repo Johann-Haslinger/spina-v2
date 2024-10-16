@@ -2,9 +2,14 @@ import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
-import { DateAddedFacet, LearningUnitTypeFacet, PriorityFacet, TitleFacet } from '../../../app/additionalFacets';
-import { DataType, LearningUnitPriority, LearningUnitType, SupabaseTable } from '../../../base/enums';
-import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
+import { useCurrentDataSource } from '../../../common/hooks/useCurrentDataSource';
+import {
+  DateAddedFacet,
+  LearningUnitTypeFacet,
+  PriorityFacet,
+  TitleFacet,
+} from '../../../common/types/additionalFacets';
+import { DataType, LearningUnitPriority, LearningUnitType, SupabaseTable } from '../../../common/types/enums';
 import supabaseClient from '../../../lib/supabase';
 
 const fetchRecentlyLearningUnits = async () => {

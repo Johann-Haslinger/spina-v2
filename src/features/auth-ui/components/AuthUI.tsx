@@ -5,9 +5,9 @@ import { ThemeSupa } from '@supabase/auth-ui-shared';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import tw from 'twin.macro';
-import { Story } from '../../../base/enums';
+import { useSession } from '../../../common/hooks/useSession';
+import { Story } from '../../../common/types/enums';
 import { Sheet } from '../../../components';
-import { useSession } from '../../../hooks/useSession';
 import supabaseClient from '../../../lib/supabase';
 import { useSelectedTheme } from '../../collection/hooks/useSelectedTheme';
 

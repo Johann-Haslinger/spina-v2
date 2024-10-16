@@ -3,7 +3,7 @@ import { Entity, useEntity, useEntityHasTags } from '@leanscope/ecs-engine';
 import { IdentifierFacet } from '@leanscope/ecs-models';
 import { useContext } from 'react';
 import { v4 } from 'uuid';
-import { AdditionalTag, SupportedModel } from '../../../base/enums';
+import { AdditionalTag, SupportedModel } from '../../../common/types/enums';
 
 export const useCurrentSapientorConversation = () => {
   const lsc = useContext(LeanScopeClientContext);

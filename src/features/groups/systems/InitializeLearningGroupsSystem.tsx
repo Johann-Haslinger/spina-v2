@@ -2,12 +2,12 @@ import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity } from '@leanscope/ecs-engine';
 import { ColorFacet, DescriptionFacet, IdentifierFacet, OrderFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
-import { TitleFacet } from '../../../app/additionalFacets';
-import { dummyLearningGroups } from '../../../base/dummy';
-import { DataType } from '../../../base/enums';
-import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
+import { useCurrentDataSource } from '../../../common/hooks/useCurrentDataSource';
+import { TitleFacet } from '../../../common/types/additionalFacets';
+import { dummyLearningGroups } from '../../../common/types/dummy';
+import { DataType } from '../../../common/types/enums';
+import { dataTypeQuery } from '../../../common/utilities/queries';
 import supabaseClient from '../../../lib/supabase';
-import { dataTypeQuery } from '../../../utils/queries';
 
 const fetchLearningGroups = async () => {
   const { data: learningGroups, error } = await supabaseClient

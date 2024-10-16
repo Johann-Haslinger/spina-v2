@@ -1,7 +1,7 @@
 import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet } from '@leanscope/ecs-models';
-import { LearningUnitTypeFacet } from '../../../app/additionalFacets';
-import { LearningUnitPriority, LearningUnitType, SupabaseTable } from '../../../base/enums';
+import { LearningUnitTypeFacet } from '../../../common/types/additionalFacets';
+import { LearningUnitPriority, LearningUnitType, SupabaseTable } from '../../../common/types/enums';
 import supabaseClient from '../../../lib/supabase';
 
 export const updateLearningUnitType = async (entity: Entity, userId: string, type: LearningUnitType) => {

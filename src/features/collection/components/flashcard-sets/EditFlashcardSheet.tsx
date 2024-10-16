@@ -12,6 +12,8 @@ import {
   IoTrashOutline,
 } from 'react-icons/io5';
 import tw from 'twin.macro';
+import { useIsViewVisible } from '../../../../common/hooks/useIsViewVisible';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
 import {
   AnswerFacet,
   AnswerProps,
@@ -19,9 +21,10 @@ import {
   MasteryLevelProps,
   QuestionFacet,
   QuestionProps,
-} from '../../../../app/additionalFacets';
-import { AdditionalTag, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
+} from '../../../../common/types/additionalFacets';
+import { AdditionalTag, SupabaseColumn, SupabaseTable } from '../../../../common/types/enums';
 import { addNotificationEntity } from '../../../../common/utilities';
+import { displayActionTexts, displayButtonTexts } from '../../../../common/utilities/displayText';
 import {
   FlexBox,
   PrimaryButton,
@@ -33,10 +36,7 @@ import {
   Spacer,
   TextAreaInput,
 } from '../../../../components';
-import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../../lib/supabase';
-import { displayActionTexts, displayButtonTexts } from '../../../../utils/displayText';
 
 const StyledMasteryLevelText = styled.div`
   ${tw`lg:pl-10 px-4 dark:text-primary-text-dark`}

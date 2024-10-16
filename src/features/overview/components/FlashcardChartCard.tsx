@@ -5,8 +5,8 @@ import { IoBarChart } from 'react-icons/io5';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import tw from 'twin.macro';
-import { COLOR_ITEMS } from '../../../base/constants';
 import { useLoadingIndicator } from '../../../common/hooks';
+import { COLOR_ITEMS } from '../../../common/types/constants';
 import { useWeekStats } from '../../flashcards/hooks/useWeekStats';
 
 const StyledCardWrapper = styled.div`

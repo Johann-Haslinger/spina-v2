@@ -3,9 +3,9 @@ import { TextProps } from '@leanscope/ecs-models';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 import tw from 'twin.macro';
-import { MessageRoleProps, RelatedResourcesProps } from '../../../app/additionalFacets';
-import { COLOR_ITEMS } from '../../../base/constants';
-import { MessageRole } from '../../../base/enums';
+import { MessageRoleProps, RelatedResourcesProps } from '../../../common/types/additionalFacets';
+import { COLOR_ITEMS } from '../../../common/types/constants';
+import { MessageRole } from '../../../common/types/enums';
 
 const StyledMessageContentWrapper = styled.div<{ role: MessageRole }>`
   ${tw` ml-8   mb-1 w-72  bg-tertiary dark:text-primary-text-dark  dark:bg-secondary-dark pb-3 transition-all rounded-xl p-2 `}

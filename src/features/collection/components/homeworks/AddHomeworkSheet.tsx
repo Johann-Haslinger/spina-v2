@@ -6,8 +6,15 @@ import { Fragment, useContext, useEffect, useRef, useState } from 'react';
 import { IoAdd, IoCheckmarkCircle, IoEllipseOutline } from 'react-icons/io5';
 import { useLocation } from 'react-router';
 import { v4 } from 'uuid';
-import { DueDateFacet, RelationshipFacet, StatusFacet, TitleFacet } from '../../../../app/additionalFacets';
-import { DataType, Story } from '../../../../base/enums';
+import { useSchoolSubjectEntities } from '../../../../common/hooks/useSchoolSubjects';
+import { useSchoolSubjectTopics } from '../../../../common/hooks/useSchoolSubjectTopics';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
+import { useUserData } from '../../../../common/hooks/useUserData';
+import { DueDateFacet, RelationshipFacet, StatusFacet, TitleFacet } from '../../../../common/types/additionalFacets';
+import { DataType, Story } from '../../../../common/types/enums';
+import { addHomework } from '../../../../common/utilities/addHomework';
+import { addTopic } from '../../../../common/utilities/addTopic';
+import { displayActionTexts, displayButtonTexts, displayLabelTexts } from '../../../../common/utilities/displayText';
 import {
   DateInput,
   FlexBox,
@@ -21,13 +28,6 @@ import {
   TextAreaInput,
   TextInput,
 } from '../../../../components';
-import { addHomework } from '../../../../functions/addHomework';
-import { addTopic } from '../../../../functions/addTopic';
-import { useSchoolSubjectEntities } from '../../../../hooks/useSchoolSubjects';
-import { useSchoolSubjectTopics } from '../../../../hooks/useSchoolSubjectTopics';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
-import { useUserData } from '../../../../hooks/useUserData';
-import { displayActionTexts, displayButtonTexts, displayLabelTexts } from '../../../../utils/displayText';
 import { generateDescriptionForTopic } from '../../functions/generateDescriptionForTopic';
 import { useSelectedSchoolSubject } from '../../hooks/useSelectedSchoolSubject';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';

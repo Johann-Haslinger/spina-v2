@@ -1,12 +1,12 @@
 import { EntityProps, EntityPropsMapper } from '@leanscope/ecs-engine';
 import { OrderFacet } from '@leanscope/ecs-models';
 import { Fragment } from 'react/jsx-runtime';
-import { AnswerFacet, QuestionFacet, TitleProps } from '../../../../app/additionalFacets';
-import { AdditionalTag, DataType } from '../../../../base/enums';
+import { useIsViewVisible } from '../../../../common/hooks/useIsViewVisible';
+import { AnswerFacet, QuestionFacet, TitleProps } from '../../../../common/types/additionalFacets';
+import { AdditionalTag, DataType } from '../../../../common/types/enums';
+import { dataTypeQuery, isChildOfQuery } from '../../../../common/utilities/queries';
+import { sortEntitiesByOrder } from '../../../../common/utilities/sortEntitiesByOrder';
 import { BackButton, NavigationBar, NoContentAddedHint, Spacer, Title, View } from '../../../../components';
-import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
-import { dataTypeQuery, isChildOfQuery } from '../../../../utils/queries';
-import { sortEntitiesByOrder } from '../../../../utils/sortEntitiesByOrder';
 import { useExerciseParts } from '../../hooks/useExerciseParts';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
 import ExercisePart from './ExercisePart';

@@ -13,13 +13,13 @@ import {
   IoTrashOutline,
 } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { FilePathFacet, FilePathProps, TitleProps } from '../../../../app/additionalFacets';
-import { AdditionalTag, DataType, SupabaseStorageBucket, SupabaseTable } from '../../../../base/enums';
+import { useIsViewVisible } from '../../../../common/hooks/useIsViewVisible';
+import { FilePathFacet, FilePathProps, TitleProps } from '../../../../common/types/additionalFacets';
+import { AdditionalTag, DataType, SupabaseStorageBucket, SupabaseTable } from '../../../../common/types/enums';
 import { addNotificationEntity } from '../../../../common/utilities';
+import { dataTypeQuery } from '../../../../common/utilities/queries';
 import { ActionRow, NavBarButton, View } from '../../../../components';
-import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
 import supabaseClient from '../../../../lib/supabase';
-import { dataTypeQuery } from '../../../../utils/queries';
 
 const deleteFile = async (lsc: ILeanScopeClient, entity: Entity) => {
   const filePath = entity.get(FilePathFacet)?.props.filePath;

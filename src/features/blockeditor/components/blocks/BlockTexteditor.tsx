@@ -6,7 +6,13 @@ import { FloatOrderFacet, IdentifierFacet, ParentFacet, TextFacet } from '@leans
 import { FormEvent, Fragment, RefObject, useContext, useState } from 'react';
 import tw from 'twin.macro';
 import { v4 } from 'uuid';
-import { BlocktypeFacet, ListStyleFacet, TexttypeFacet, TodoStateFacet } from '../../../../app/additionalFacets';
+import { useUserData } from '../../../../common/hooks/useUserData';
+import {
+  BlocktypeFacet,
+  ListStyleFacet,
+  TexttypeFacet,
+  TodoStateFacet,
+} from '../../../../common/types/additionalFacets';
 import {
   AdditionalTag,
   Blocktype,
@@ -15,8 +21,7 @@ import {
   SupabaseColumn,
   SupabaseTable,
   Texttype,
-} from '../../../../base/enums';
-import { useUserData } from '../../../../hooks/useUserData';
+} from '../../../../common/types/enums';
 import supabaseClient from '../../../../lib/supabase';
 import { addBlock } from '../../functions/addBlock';
 import { addBlockEntitiesFromString } from '../../functions/addBlockEntitiesFromString';

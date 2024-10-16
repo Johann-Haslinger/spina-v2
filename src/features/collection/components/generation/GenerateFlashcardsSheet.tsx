@@ -6,8 +6,13 @@ import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
 import tw from 'twin.macro';
 import { v4 } from 'uuid';
-import { AnswerFacet, MasteryLevelFacet, QuestionFacet } from '../../../../app/additionalFacets';
-import { DataType, LearningUnitType, Story } from '../../../../base/enums';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
+import { useUserData } from '../../../../common/hooks/useUserData';
+import { AnswerFacet, MasteryLevelFacet, QuestionFacet } from '../../../../common/types/additionalFacets';
+import { DataType, LearningUnitType, Story } from '../../../../common/types/enums';
+import { addFlashcards } from '../../../../common/utilities/addFlashcards';
+import { displayButtonTexts } from '../../../../common/utilities/displayText';
+import { generateFlashCards } from '../../../../common/utilities/generateResources';
 import {
   FlexBox,
   GeneratingIndecator,
@@ -18,11 +23,6 @@ import {
   Spacer,
 } from '../../../../components';
 import SapientorConversationMessage from '../../../../components/content/SapientorConversationMessage';
-import { addFlashcards } from '../../../../functions/addFlashcards';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
-import { useUserData } from '../../../../hooks/useUserData';
-import { displayButtonTexts } from '../../../../utils/displayText';
-import { generateFlashCards } from '../../../../utils/generateResources';
 
 import { useSelectedLearningUnit } from '../../../../common/hooks/useSelectedLearningUnit';
 import { updateLearningUnitType } from '../../functions/updateLearningUnitType';

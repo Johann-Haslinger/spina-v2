@@ -9,6 +9,8 @@ import { IoTime } from 'react-icons/io5';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import tw from 'twin.macro';
+import { useLoadingIndicator } from '../../../common/hooks';
+import { useDaysUntilDue } from '../../../common/hooks/useDaysUntilDue';
 import {
   DueDateFacet,
   DueDateProps,
@@ -18,14 +20,12 @@ import {
   StatusProps,
   TitleFacet,
   TitleProps,
-} from '../../../app/additionalFacets';
-import { AdditionalTag, DataType, ProgressStatus, SupabaseTable } from '../../../base/enums';
-import { useLoadingIndicator } from '../../../common/hooks';
+} from '../../../common/types/additionalFacets';
+import { AdditionalTag, DataType, ProgressStatus, SupabaseTable } from '../../../common/types/enums';
 import { addNotificationEntity } from '../../../common/utilities';
-import { useDaysUntilDue } from '../../../hooks/useDaysUntilDue';
+import { dataTypeQuery } from '../../../common/utilities/queries';
+import { sortEntitiesByDueDate } from '../../../common/utilities/sortEntitiesByTime';
 import supabaseClient from '../../../lib/supabase';
-import { dataTypeQuery } from '../../../utils/queries';
-import { sortEntitiesByDueDate } from '../../../utils/sortEntitiesByTime';
 import { useSelectedTheme } from '../../collection/hooks/useSelectedTheme';
 import InitializeExamsSystem from '../../exams/systems/InitializeExamsSystem';
 import InitializeHomeworksSystem from '../../homeworks/systems/InitializeHomeworksSystem';
@@ -186,7 +186,7 @@ const StyledSelectWrapper = styled.div<{ status: ProgressStatus; dark: boolean }
 const PendingResourceRow = (props: TitleProps & StatusProps & DueDateProps & EntityProps & RelationshipProps) => {
   const lsc = useContext(LeanScopeClientContext);
   const { title, status, entity, relationship, dueDate } = props;
-  const daysUntilDue = useDaysUntilDue(entity, dueDate);
+  const daysUntilDue = useDaysUntilDue(entity, dueDate || '');
   const { isDarkModeActive: isDarkModeActivee } = useSelectedTheme();
   const [isHovered, setIsHovered] = useState(false);
   const [relatedSchoolSubjectTitle, setRelatedSchoolSubjectTitle] = useState<string | null>(null);

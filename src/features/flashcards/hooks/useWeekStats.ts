@@ -1,8 +1,8 @@
 import { useEntities } from '@leanscope/ecs-engine';
 import { useEffect, useState } from 'react';
-import { DateAddedFacet, FlashcardCountFacet } from '../../../app/additionalFacets';
-import { DataType } from '../../../base/enums';
-import { dataTypeQuery } from '../../../utils/queries';
+import { DateAddedFacet, FlashcardCountFacet } from '../../../common/types/additionalFacets';
+import { DataType } from '../../../common/types/enums';
+import { dataTypeQuery } from '../../../common/utilities/queries';
 
 export const useWeekStats = () => {
   const today = new Date();

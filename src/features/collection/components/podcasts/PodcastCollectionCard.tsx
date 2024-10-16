@@ -3,7 +3,7 @@ import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { useContext } from 'react';
 import { IoHeadset } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { Story } from '../../../../base/enums';
+import { Story } from '../../../../common/types/enums';
 
 const StyledCellWrapper = styled.div`
   ${tw`  w-full flex bg-[#003D69] text-white  cursor-pointer  items-center justify-center pr-3 text-8xl md:hover:text-9xl md:hover:scale-105  transition-all h-40`}

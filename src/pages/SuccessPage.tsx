@@ -4,7 +4,7 @@ import { useContext, useEffect } from 'react';
 import { IoArrowForward } from 'react-icons/io5';
 import { NavLink } from 'react-router-dom';
 import tw from 'twin.macro';
-import { Story } from '../base/enums';
+import { Story } from '../common/types/enums';
 import { View } from '../components';
 
 const StyledSuccessAlertWrapper = styled.div`

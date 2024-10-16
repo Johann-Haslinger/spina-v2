@@ -3,9 +3,9 @@ import { useEntities } from '@leanscope/ecs-engine';
 import { useEffect, useState } from 'react';
 import { IoCheckmark, IoFlame, IoSnowOutline } from 'react-icons/io5';
 import Skeleton from 'react-loading-skeleton';
-import { DateUpdatedFacet, StreakFacet } from '../../../app/additionalFacets';
-import { useLoadingIndicator } from '../../../common/hooks';
 import tw from 'twin.macro';
+import { useLoadingIndicator } from '../../../common/hooks';
+import { DateUpdatedFacet, StreakFacet } from '../../../common/types/additionalFacets';
 
 const StyledCardWrapper = styled.div`
   ${tw`w-full min-h-[10rem] h-fit md:h-[10rem] flex flex-col justify-between p-4 rounded-2xl bg-[#A3CB63] bg-opacity-15`}

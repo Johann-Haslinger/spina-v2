@@ -6,10 +6,14 @@ import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useState } from 'react';
 import { IoAddCircle, IoRemoveCircle } from 'react-icons/io5';
 import { v4 } from 'uuid';
-import { TitleFacet, TitleProps } from '../../../app/additionalFacets';
-import { SCHOOL_SUBJECTS } from '../../../base/constants';
-import { DataType, Story, SupabaseTable } from '../../../base/enums';
+import { useSchoolSubjectEntities } from '../../../common/hooks/useSchoolSubjects';
+import { useSelectedLanguage } from '../../../common/hooks/useSelectedLanguage';
+import { useUserData } from '../../../common/hooks/useUserData';
+import { TitleFacet, TitleProps } from '../../../common/types/additionalFacets';
+import { SCHOOL_SUBJECTS } from '../../../common/types/constants';
+import { DataType, Story, SupabaseTable } from '../../../common/types/enums';
 import { addNotificationEntity } from '../../../common/utilities';
+import { displayActionTexts } from '../../../common/utilities/displayText';
 import {
   Alert,
   AlertButton,
@@ -21,11 +25,7 @@ import {
   Sheet,
   Spacer,
 } from '../../../components';
-import { useSchoolSubjectEntities } from '../../../hooks/useSchoolSubjects';
-import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
-import { useUserData } from '../../../hooks/useUserData';
 import supabaseClient from '../../../lib/supabase';
-import { displayActionTexts } from '../../../utils/displayText';
 
 const removeSchoolSubject = async (lsc: ILeanScopeClient, subjectId: string, subjectEntity: Entity) => {
   const { error } = await supabaseClient.from(SupabaseTable.SCHOOL_SUBJECTS).delete().eq('id', subjectId).single();

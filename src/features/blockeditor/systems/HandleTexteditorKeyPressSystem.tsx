@@ -1,8 +1,8 @@
 import { EntityProps, useEntityHasTags } from '@leanscope/ecs-engine';
 import { Tags } from '@leanscope/ecs-models';
 import { useEffect } from 'react';
-import { TexttypeFacet } from '../../../app/additionalFacets';
-import { Texttype } from '../../../base/enums';
+import { TexttypeFacet } from '../../../common/types/additionalFacets';
+import { Texttype } from '../../../common/types/enums';
 import { useCurrentBlockeditor } from '../hooks/useCurrentBlockeditor';
 
 const HandleTexteditorKeyPressSystem = (props: EntityProps) => {

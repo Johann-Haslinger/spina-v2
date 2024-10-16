@@ -19,15 +19,21 @@ import {
   IoTextOutline,
   IoTrashOutline,
 } from 'react-icons/io5';
-import { LearningUnitTypeProps, TitleFacet } from '../../../../app/additionalFacets';
-import { AdditionalTag, LearningUnitType, LearningUnitViews, Story, SupabaseTable } from '../../../../base/enums';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
+import { useSelection } from '../../../../common/hooks/useSelection';
+import { useUserData } from '../../../../common/hooks/useUserData';
+import { LearningUnitTypeProps, TitleFacet } from '../../../../common/types/additionalFacets';
+import {
+  AdditionalTag,
+  LearningUnitType,
+  LearningUnitViews,
+  Story,
+  SupabaseTable,
+} from '../../../../common/types/enums';
 import { generatePdf } from '../../../../common/utilities';
+import { displayActionTexts } from '../../../../common/utilities/displayText';
 import { ActionRow, NavBarButton, NavigationBar } from '../../../../components';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
-import { useSelection } from '../../../../hooks/useSelection';
-import { useUserData } from '../../../../hooks/useUserData';
 import supabaseClient from '../../../../lib/supabase';
-import { displayActionTexts } from '../../../../utils/displayText';
 import { updateLearningUnitType } from '../../functions/updateLearningUnitType';
 
 interface LearningUnitNavBarProps {

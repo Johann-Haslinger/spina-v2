@@ -2,8 +2,8 @@ import styled from '@emotion/styled';
 import { EntityProps } from '@leanscope/ecs-engine';
 import { FloatOrderProps } from '@leanscope/ecs-models';
 import tw from 'twin.macro';
-import { ListStyleFacet } from '../../../../app/additionalFacets';
-import { ListStyle } from '../../../../base/enums';
+import { ListStyleFacet } from '../../../../common/types/additionalFacets';
+import { ListStyle } from '../../../../common/types/enums';
 import BlockOutline from './BlockOutline';
 import BlockTexteditor from './BlockTexteditor';
 

@@ -2,8 +2,8 @@ import { ILeanScopeClient } from '@leanscope/api-client';
 import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, Tags, TextFacet } from '@leanscope/ecs-models';
 import { v4 } from 'uuid';
-import { DateAddedFacet, IconFacet, TitleFacet } from '../../app/additionalFacets';
-import { AdditionalTag } from '../../base/enums';
+import { DateAddedFacet, IconFacet, TitleFacet } from '../../common/types/additionalFacets';
+import { AdditionalTag } from '../types/enums';
 
 export const addNotificationEntity = (
   lsc: ILeanScopeClient,

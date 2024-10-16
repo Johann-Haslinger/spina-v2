@@ -3,16 +3,16 @@ import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
+import { useCurrentDataSource } from '../../../common/hooks/useCurrentDataSource';
 import {
   DateAddedFacet,
   DurationFacet,
   FlashcardCountFacet,
   FlashcardPerformanceFacet,
-} from '../../../app/additionalFacets';
-import { dummyFlashcardSessions } from '../../../base/dummy';
-import { DataType, SupabaseTable } from '../../../base/enums';
+} from '../../../common/types/additionalFacets';
+import { dummyFlashcardSessions } from '../../../common/types/dummy';
+import { DataType, SupabaseTable } from '../../../common/types/enums';
 import { addNotificationEntity } from '../../../common/utilities';
-import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../lib/supabase';
 
 const fetchFlashcardSessions = async (lsc: ILeanScopeClient) => {

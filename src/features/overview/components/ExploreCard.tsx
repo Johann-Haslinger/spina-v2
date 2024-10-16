@@ -5,9 +5,9 @@ import { useContext } from 'react';
 import { IoChevronForward, IoReader } from 'react-icons/io5';
 import Skeleton from 'react-loading-skeleton';
 import tw from 'twin.macro';
-import { dummyBase64Image } from '../../../base/dummyBase64Image';
-import { Story } from '../../../base/enums';
 import { useLoadingIndicator } from '../../../common/hooks';
+import { dummyBase64Image } from '../../../common/types/dummyBase64Image';
+import { Story } from '../../../common/types/enums';
 import { CloseButton, FlexBox, ScrollableBox, Sheet, Spacer } from '../../../components';
 
 const StyledCardWrapper = styled.div`

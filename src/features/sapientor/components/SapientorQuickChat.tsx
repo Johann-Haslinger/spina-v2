@@ -5,12 +5,12 @@ import { motion } from 'framer-motion';
 import { Fragment } from 'react/jsx-runtime';
 import tw from 'twin.macro';
 
+import { MessageRoleFacet, RelatedResourcesFacet } from '../../../common/types/additionalFacets';
+import { sortMessageEntitiesByDateAdded } from '../../../common/utilities/sortEntitiesByTime';
+import { useCurrentSapientorConversation } from '../hooks/useCurrentConversation';
 import GenerateAnswerSystem from '../systems/GenerateAnswerSystem';
 import QuickChatMessage from './QuickChatMessage';
 import SapientorPromptBox from './SapientorPromptBox';
-import { useCurrentSapientorConversation } from '../hooks/useCurrentConversation';
-import { MessageRoleFacet, RelatedResourcesFacet } from '../../../app/additionalFacets';
-import { sortMessageEntitiesByDateAdded } from '../../../utils/sortEntitiesByTime';
 
 const StyledMessagesWrapper = styled.div`
   ${tw`w-80 mr-8`}

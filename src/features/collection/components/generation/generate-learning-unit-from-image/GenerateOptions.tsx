@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
 import { IoSparkles } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { useWindowDimensions } from '../../../../../hooks/useWindowDimensions';
+import { useWindowDimensions } from '../../../../../common/hooks/useWindowDimensions';
 
 const StyledGenerateOptionsWrapper = styled(motion.div)`
   ${tw`md:flex  w-full h-full md:space-x-2`}

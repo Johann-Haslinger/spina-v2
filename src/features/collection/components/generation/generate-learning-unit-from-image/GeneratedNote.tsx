@@ -5,14 +5,20 @@ import { IdentifierFacet, ParentFacet, Tags, TextFacet } from '@leanscope/ecs-mo
 import { useContext, useState } from 'react';
 import tw from 'twin.macro';
 import { v4 as uuid } from 'uuid';
-import { DateAddedFacet, LearningUnitTypeFacet, PriorityFacet, TitleFacet } from '../../../../../app/additionalFacets';
-import { DataType, LearningUnitPriority, LearningUnitType, Story } from '../../../../../base/enums';
-import { GeneratedNoteResource } from '../../../../../base/types';
+import { useUserData } from '../../../../../common/hooks/useUserData';
+import {
+  DateAddedFacet,
+  LearningUnitTypeFacet,
+  PriorityFacet,
+  TitleFacet,
+} from '../../../../../common/types/additionalFacets';
+import { DataType, LearningUnitPriority, LearningUnitType, Story } from '../../../../../common/types/enums';
+import { GeneratedNoteResource } from '../../../../../common/types/types';
+import { addLearningUnit } from '../../../../../common/utilities/addLeaningUnit';
+import { addText } from '../../../../../common/utilities/addText';
 import { CloseButton, FlexBox, ScrollableBox } from '../../../../../components';
 import SapientorConversationMessage from '../../../../../components/content/SapientorConversationMessage';
-import { addLearningUnit } from '../../../../../functions/addLeaningUnit';
-import { addText } from '../../../../../functions/addText';
-import { useUserData } from '../../../../../hooks/useUserData';
+import { findMatchingTopicForLearningUnit } from '../../../functions/findMatchingTopicForLearningUnit';
 import { useSelectedTopic } from '../../../hooks/useSelectedTopic';
 
 const StyledNoteWrapper = styled.div`

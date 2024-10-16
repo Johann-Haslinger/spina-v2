@@ -1,10 +1,19 @@
 import { EntityPropsMapper } from '@leanscope/ecs-engine';
 import { Tags } from '@leanscope/ecs-models';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { DateAddedFacet, SourceFacet, TitleFacet } from './app/additionalFacets';
-import { DataType, NavigationLink, Story } from './base/enums';
 import { NotificationMenu } from './common/components/notifications';
-import { InitializeLoadingIndicatorSystem } from './common/systems';
+import {
+  InitializeAppSystem,
+  InitializeLoadingIndicatorSystem,
+  InitializeSchoolSubjectsSystem,
+  InitializeStoriesSystem,
+  InitializeUserSystem,
+  ViewManagerSystem,
+} from './common/systems';
+import { DateAddedFacet, SourceFacet, TitleFacet } from './common/types/additionalFacets';
+import { DataType, NavigationLink, Story } from './common/types/enums';
+import { formatNavLinkAsPath } from './common/utilities/formatNavLinkAsPath';
+import { dataTypeQuery } from './common/utilities/queries';
 import { Sidebar } from './components';
 import TabBar from './components/navigation/TabBar';
 import { AuthUI } from './features/auth-ui';
@@ -12,15 +21,6 @@ import PodcastSheet from './features/collection/components/podcasts/PodcastSheet
 import { SettingsOverviewSheet } from './features/settings';
 import { UseAsPWAInstructionsSheet } from './features/tutorial';
 import { Collection, Exams, Flashcards, Groups, Homeworks, Overview, SuccessPage } from './pages/Index';
-import {
-  InitializeAppSystem,
-  InitializeSchoolSubjectsSystem,
-  InitializeStoriesSystem,
-  InitializeUserSystem,
-  ViewManagerSystem,
-} from './systems';
-import { formatNavLinkAsPath } from './utils/formatNavLinkAsPath';
-import { dataTypeQuery } from './utils/queries';
 
 function App() {
   return (

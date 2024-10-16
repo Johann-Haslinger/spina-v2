@@ -1,5 +1,5 @@
 import { IoBook, IoCopy, IoGrid, IoHome, IoJournal, IoPeople, IoTrophy } from 'react-icons/io5';
-import { NavigationLink } from '../../base/enums';
+import { NavigationLink } from '../../common/types/enums';
 
 const NavigationLinkIcon = (props: { navLink: NavigationLink }) => {
   switch (props.navLink) {

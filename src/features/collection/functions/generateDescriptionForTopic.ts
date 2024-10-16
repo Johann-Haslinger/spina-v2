@@ -1,10 +1,10 @@
+import { ILeanScopeClient } from '@leanscope/api-client';
 import { Entity } from '@leanscope/ecs-engine';
 import { DescriptionFacet, IdentifierFacet } from '@leanscope/ecs-models';
-import { TitleFacet } from '../../../app/additionalFacets';
-import { AdditionalTag, SupabaseTable } from '../../../base/enums';
+import { TitleFacet } from '../../../common/types/additionalFacets';
+import { AdditionalTag, SupabaseTable } from '../../../common/types/enums';
+import { getCompletion } from '../../../common/utilities/getCompletion';
 import supabaseClient from '../../../lib/supabase';
-import { getCompletion } from '../../../utils/getCompletion';
-import { ILeanScopeClient } from '@leanscope/api-client';
 
 export const generateDescriptionForTopic = async (lsc: ILeanScopeClient, entity: Entity) => {
   const description = entity.get(DescriptionFacet)?.props.description;

@@ -2,9 +2,9 @@ import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity, useEntities } from '@leanscope/ecs-engine';
 import { IdentifierFacet, TextFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
-import { DateAddedFacet, MessageRoleFacet, RelatedResourcesFacet } from '../../../app/additionalFacets';
-import { AdditionalTag, MessageRole } from '../../../base/enums';
-import { Resource } from '../../../base/types';
+import { DateAddedFacet, MessageRoleFacet, RelatedResourcesFacet } from '../../../common/types/additionalFacets';
+import { AdditionalTag, MessageRole } from '../../../common/types/enums';
+import { Resource } from '../../../common/types/types';
 import supabaseClient from '../../../lib/supabase';
 import { useCurrentSapientorConversation } from '../hooks/useCurrentConversation';
 

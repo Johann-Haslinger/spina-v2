@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { UploadedFile } from '../../../base/types';
+import { UploadedFile } from '../../../common/types/types';
 export const useFileSelector = (onFileSelect: (file: UploadedFile) => void, onlyAllowImages?: boolean) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [isSelectingImageSrc, setIsSelectingImageSrc] = useState(false);

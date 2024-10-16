@@ -4,11 +4,11 @@ import { EntityProps } from '@leanscope/ecs-engine';
 import { Tags } from '@leanscope/ecs-models';
 import { useContext } from 'react';
 import tw from 'twin.macro';
-import { PriorityProps, TitleProps } from '../../../app/additionalFacets';
-import { COLOR_ITEMS } from '../../../base/constants';
-import { LearningUnitPriority } from '../../../base/enums';
+import { useWindowDimensions } from '../../../common/hooks/useWindowDimensions';
+import { PriorityProps, TitleProps } from '../../../common/types/additionalFacets';
+import { COLOR_ITEMS } from '../../../common/types/constants';
+import { LearningUnitPriority } from '../../../common/types/enums';
 import { updatePriority } from '../../../common/utilities';
-import { useWindowDimensions } from '../../../hooks/useWindowDimensions';
 import { useFormattedDateAdded } from '../../collection/hooks/useFormattedDateAdded';
 import { useDueFlashcards } from '../hooks';
 

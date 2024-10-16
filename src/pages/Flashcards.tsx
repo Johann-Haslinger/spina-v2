@@ -1,14 +1,14 @@
 import styled from '@emotion/styled';
 import tw from 'twin.macro';
 import FlashcardQuizView from '../common/components/flashcards/FlashcardQuizView';
+import { useSelectedLanguage } from '../common/hooks/useSelectedLanguage';
+import { displayHeaderTexts } from '../common/utilities/displayText';
 import { NavigationBar, Spacer, Title, View } from '../components';
 import { FlashcardGroupTable } from '../features/flashcards';
 import StreakCard from '../features/flashcards/components/StreakCard';
 import LoadCurrentStreakSystem from '../features/flashcards/systems/LoadCurrentStrekSystem';
 import LoadFlashcardSessionsSystem from '../features/flashcards/systems/LoadFlashcardSessionsSystem';
 import { FlashcardChartCard, LastWeekInfoCard, StartFlashcardSessionCard } from '../features/overview';
-import { useSelectedLanguage } from '../hooks/useSelectedLanguage';
-import { displayHeaderTexts } from '../utils/displayText';
 
 const StyledColumnsWrapper = styled.div`
   ${tw`grid grid-cols-1 md:grid-cols-2 gap-4`}

@@ -3,10 +3,10 @@ import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect } from 'react';
-import { DateAddedFacet, TitleFacet } from '../../../app/additionalFacets';
-import { dummyPodcasts } from '../../../base/dummy';
-import { DataType, Story, SupabaseColumn, SupabaseTable } from '../../../base/enums';
-import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
+import { useCurrentDataSource } from '../../../common/hooks/useCurrentDataSource';
+import { DateAddedFacet, TitleFacet } from '../../../common/types/additionalFacets';
+import { dummyPodcasts } from '../../../common/types/dummy';
+import { DataType, Story, SupabaseColumn, SupabaseTable } from '../../../common/types/enums';
 import supabaseClient from '../../../lib/supabase';
 import { useSelectedTopic } from '../hooks/useSelectedTopic';
 

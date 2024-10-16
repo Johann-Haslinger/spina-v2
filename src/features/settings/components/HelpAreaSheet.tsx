@@ -3,9 +3,9 @@ import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext } from 'react';
 import tw from 'twin.macro';
-import { dummyBase64Image } from '../../../base/dummyBase64Image';
-import { Story } from '../../../base/enums';
 import { ShowMoreButton } from '../../../common/components/buttons';
+import { dummyBase64Image } from '../../../common/types/dummyBase64Image';
+import { Story } from '../../../common/types/enums';
 import { CloseButton, FlexBox, Section, SectionRow, Sheet, Spacer } from '../../../components';
 import ContactFormSheet from './ContactFormSheet';
 

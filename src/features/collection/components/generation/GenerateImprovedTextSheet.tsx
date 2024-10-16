@@ -2,9 +2,12 @@ import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { TextFacet } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
-import { Story, SupabaseTable } from '../../../../base/enums';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
 import { useSelectedLearningUnit } from '../../../../common/hooks/useSelectedLearningUnit';
+import { Story, SupabaseTable } from '../../../../common/types/enums';
 import { addNotificationEntity } from '../../../../common/utilities';
+import { displayButtonTexts } from '../../../../common/utilities/displayText';
+import { generateImprovedText } from '../../../../common/utilities/generateResources';
 import {
   FlexBox,
   GeneratingIndecator,
@@ -14,10 +17,7 @@ import {
   Sheet,
 } from '../../../../components';
 import SapientorConversationMessage from '../../../../components/content/SapientorConversationMessage';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../../lib/supabase';
-import { displayButtonTexts } from '../../../../utils/displayText';
-import { generateImprovedText } from '../../../../utils/generateResources';
 
 const GenerateImprovedTextSheet = () => {
   const lsc = useContext(LeanScopeClientContext);

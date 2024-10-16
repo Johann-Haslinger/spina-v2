@@ -1,7 +1,7 @@
 import { Entity, useEntityHasTags } from '@leanscope/ecs-engine';
 import { Tags } from '@leanscope/ecs-models';
 import { useEffect, useRef } from 'react';
-import { AdditionalTag } from '../../../base/enums';
+import { AdditionalTag } from '../../../common/types/enums';
 import { changeBlockeditorState } from '../functions/changeBlockeditorState';
 import { useCurrentBlockeditor } from './useCurrentBlockeditor';
 

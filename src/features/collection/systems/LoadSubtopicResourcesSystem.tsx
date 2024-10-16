@@ -2,16 +2,16 @@ import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
+import { useCurrentDataSource } from '../../../common/hooks/useCurrentDataSource';
 import {
   AnswerFacet,
   DateAddedFacet,
   MasteryLevelFacet,
   QuestionFacet,
   TitleFacet,
-} from '../../../app/additionalFacets';
-import { dummyFlashcards, dummyPodcasts } from '../../../base/dummy';
-import { DataType, SupabaseColumn, SupabaseTable } from '../../../base/enums';
-import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
+} from '../../../common/types/additionalFacets';
+import { dummyFlashcards, dummyPodcasts } from '../../../common/types/dummy';
+import { DataType, SupabaseColumn, SupabaseTable } from '../../../common/types/enums';
 import supabaseClient from '../../../lib/supabase';
 import { useSelectedSubtopic } from '../hooks/useSelectedSubtopic';
 

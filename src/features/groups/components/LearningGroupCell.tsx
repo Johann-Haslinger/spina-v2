@@ -3,9 +3,9 @@ import { EntityProps } from '@leanscope/ecs-engine';
 import { ColorProps, DescriptionProps, Tags } from '@leanscope/ecs-models';
 import { IoPeople } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { TitleProps } from '../../../app/additionalFacets';
-import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
-import { displayAlertTexts } from '../../../utils/displayText';
+import { useSelectedLanguage } from '../../../common/hooks/useSelectedLanguage';
+import { TitleProps } from '../../../common/types/additionalFacets';
+import { displayAlertTexts } from '../../../common/utilities/displayText';
 
 const StyledLearningGroupCellContainer = styled.div`
   ${tw` w-full cursor-pointer pb-6 h-fit`}
