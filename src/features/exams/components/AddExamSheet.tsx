@@ -5,6 +5,7 @@ import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { IoAdd, IoCheckmarkCircle, IoEllipseOutline } from 'react-icons/io5';
 import { v4 } from 'uuid';
+import { DiscardUnsavedChangesAlert } from '../../../common/components/others';
 import { useSchoolSubjectEntities } from '../../../common/hooks/useSchoolSubjects';
 import { useSchoolSubjectTopics } from '../../../common/hooks/useSchoolSubjectTopics';
 import { useSelectedLanguage } from '../../../common/hooks/useSelectedLanguage';
@@ -27,6 +28,7 @@ import {
   TextInput,
 } from '../../../components';
 import { generateDescriptionForTopic } from '../../collection/functions/generateDescriptionForTopic';
+import { useDiscardAlertState } from '../../collection/hooks/useDiscardAlertState';
 
 const AddExamSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -46,23 +48,22 @@ const AddExamSheet = () => {
   const [newTopicTitle, setNewTopicTitle] = useState('');
   const examTitleInputRef = useRef<HTMLInputElement>(null);
   const topicTitleInputRef = useRef<HTMLInputElement>(null);
+  const { isDiscardAlertVisible, openDiscardAlert, closeDiscardAlert } = useDiscardAlertState();
+  const hasUnsavedChanges = newExam.title || newExam.parent;
 
   useEffect(() => {
     if (isVisible) setTimeout(() => examTitleInputRef.current?.focus(), 10);
   }, [isVisible]);
 
-  useEffect(() => {
-    if (!isVisible) {
-      setNewExam({ title: '', parent: '', dueDate: '', id: v4() });
-    }
-  }, [isVisible]);
-
-  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_EXAMS_STORY);
+  const navigateBack = () => {
+    closeDiscardAlert();
+    lsc.stories.transitTo(Story.OBSERVING_SCHOOL_SUBJECT_STORY);
+    setNewExam({ title: '', parent: '', dueDate: '', id: v4() });
+  };
 
   const saveExam = async () => {
     const { title, dueDate, parent, id } = newExam;
     const newExamEntity = new Entity();
-    lsc.engine.addEntity(newExamEntity);
     newExamEntity.add(new IdentifierFacet({ guid: id }));
     newExamEntity.add(
       new ParentFacet({
@@ -83,7 +84,6 @@ const AddExamSheet = () => {
     if (newTopicTitle !== '') {
       const newTopicId = v4();
       const newTopicEntity = new Entity();
-      lsc.engine.addEntity(newTopicEntity);
       newTopicEntity.add(new IdentifierFacet({ guid: newTopicId }));
       newTopicEntity.add(new TitleFacet({ title: newTopicTitle }));
       newTopicEntity.add(new ParentFacet({ parentId: selectedSchoolSubjectId }));
@@ -101,101 +101,107 @@ const AddExamSheet = () => {
     navigateBack();
   };
 
+  const handleBackClick = () => (hasUnsavedChanges ? openDiscardAlert() : navigateBack());
+
   return (
-    <Sheet navigateBack={navigateBack} visible={isVisible}>
-      <FlexBox>
-        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
-        {newExam.title && newExam.parent && (
-          <PrimaryButton onClick={saveExam}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
-        )}
-      </FlexBox>
-      <Spacer />
-      <Section>
-        <SectionRow>
-          <TextInput
-            ref={examTitleInputRef}
-            placeholder={displayLabelTexts(selectedLanguage).title}
-            value={newExam.title}
-            onChange={(e) => setNewExam({ ...newExam, title: e.target.value })}
-          />
-        </SectionRow>
-        <SectionRow>
-          <FlexBox>
-            <p>{displayLabelTexts(selectedLanguage).dueDate} </p>
-            <DateInput
-              value={newExam.dueDate}
-              onChange={(e) => setNewExam({ ...newExam, dueDate: e.target.value })}
-              type="date"
-            />
-          </FlexBox>
-        </SectionRow>
-        <SectionRow last>
-          <FlexBox>
-            <p>{displayLabelTexts(selectedLanguage).schoolSubject}</p>
-            <SelectInput value={selectedSchoolSubjectId} onChange={(e) => setSelectedSchoolSubjectId(e.target.value)}>
-              <option value="">{displayLabelTexts(selectedLanguage).select}</option>
-              {schooolSubjectEntities.map((entity, idx) => {
-                const schoolSubjectId = entity.get(IdentifierFacet)?.props.guid;
-                const schoolSubjectTitle = entity.get(TitleFacet)?.props.title;
-                return (
-                  <option key={idx} value={schoolSubjectId}>
-                    {schoolSubjectTitle}
-                  </option>
-                );
-              })}
-            </SelectInput>
-          </FlexBox>
-        </SectionRow>
-      </Section>
-      <Spacer size={2} />
-      {selectedSchoolSubjectId && (
-        <Section>
-          {schoolSubjectTopics.map((topic, idx) => (
-            <SectionRow
-              key={idx}
-              onClick={() => setNewExam({ ...newExam, parent: topic.id })}
-              icon={newExam.parent === topic.id ? <IoCheckmarkCircle /> : <IoEllipseOutline />}
-            >
-              {topic.title}
-            </SectionRow>
-          ))}
-          {!isAddingNewTopic ? (
-            <SectionRow
-              icon={<IoAdd />}
-              last
-              role="button"
-              onClick={() => {
-                setIsAddingNewTopic(true);
-                setTimeout(() => topicTitleInputRef.current?.focus(), 10);
-              }}
-            >
-              {displayActionTexts(selectedLanguage).addTopic}
-            </SectionRow>
-          ) : (
-            <SectionRow
-              last
-              icon={
-                newTopicTitle !== '' ? (
-                  newExam.parent === 'newTopic' ? (
-                    <IoCheckmarkCircle />
-                  ) : (
-                    <IoEllipseOutline onClick={() => setNewExam({ ...newExam, parent: 'newTopic' })} />
-                  )
-                ) : (
-                  <IoEllipseOutline style={{ color: '#86858A' }} />
-                )
-              }
-            >
-              <TextInput
-                ref={topicTitleInputRef}
-                value={newTopicTitle}
-                onChange={(e) => setNewTopicTitle(e.target.value)}
-              />
-            </SectionRow>
+    <div>
+      <Sheet navigateBack={handleBackClick} visible={isVisible}>
+        <FlexBox>
+          <SecondaryButton onClick={handleBackClick}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
+          {newExam.title && newExam.parent && (
+            <PrimaryButton onClick={saveExam}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
           )}
+        </FlexBox>
+        <Spacer />
+        <Section>
+          <SectionRow>
+            <TextInput
+              ref={examTitleInputRef}
+              placeholder={displayLabelTexts(selectedLanguage).title}
+              value={newExam.title}
+              onChange={(e) => setNewExam({ ...newExam, title: e.target.value })}
+            />
+          </SectionRow>
+          <SectionRow>
+            <FlexBox>
+              <p>{displayLabelTexts(selectedLanguage).dueDate} </p>
+              <DateInput
+                value={newExam.dueDate}
+                onChange={(e) => setNewExam({ ...newExam, dueDate: e.target.value })}
+                type="date"
+              />
+            </FlexBox>
+          </SectionRow>
+          <SectionRow last>
+            <FlexBox>
+              <p>{displayLabelTexts(selectedLanguage).schoolSubject}</p>
+              <SelectInput value={selectedSchoolSubjectId} onChange={(e) => setSelectedSchoolSubjectId(e.target.value)}>
+                <option value="">{displayLabelTexts(selectedLanguage).select}</option>
+                {schooolSubjectEntities.map((entity, idx) => {
+                  const schoolSubjectId = entity.get(IdentifierFacet)?.props.guid;
+                  const schoolSubjectTitle = entity.get(TitleFacet)?.props.title;
+                  return (
+                    <option key={idx} value={schoolSubjectId}>
+                      {schoolSubjectTitle}
+                    </option>
+                  );
+                })}
+              </SelectInput>
+            </FlexBox>
+          </SectionRow>
         </Section>
-      )}
-    </Sheet>
+        <Spacer size={2} />
+        {selectedSchoolSubjectId && (
+          <Section>
+            {schoolSubjectTopics.map((topic, idx) => (
+              <SectionRow
+                key={idx}
+                onClick={() => setNewExam({ ...newExam, parent: topic.id })}
+                icon={newExam.parent === topic.id ? <IoCheckmarkCircle /> : <IoEllipseOutline />}
+              >
+                {topic.title}
+              </SectionRow>
+            ))}
+            {!isAddingNewTopic ? (
+              <SectionRow
+                icon={<IoAdd />}
+                last
+                role="button"
+                onClick={() => {
+                  setIsAddingNewTopic(true);
+                  setTimeout(() => topicTitleInputRef.current?.focus(), 10);
+                }}
+              >
+                {displayActionTexts(selectedLanguage).addTopic}
+              </SectionRow>
+            ) : (
+              <SectionRow
+                last
+                icon={
+                  newTopicTitle !== '' ? (
+                    newExam.parent === 'newTopic' ? (
+                      <IoCheckmarkCircle />
+                    ) : (
+                      <IoEllipseOutline onClick={() => setNewExam({ ...newExam, parent: 'newTopic' })} />
+                    )
+                  ) : (
+                    <IoEllipseOutline style={{ color: '#86858A' }} />
+                  )
+                }
+              >
+                <TextInput
+                  ref={topicTitleInputRef}
+                  value={newTopicTitle}
+                  onChange={(e) => setNewTopicTitle(e.target.value)}
+                />
+              </SectionRow>
+            )}
+          </Section>
+        )}
+      </Sheet>
+
+      <DiscardUnsavedChangesAlert isVisible={isDiscardAlertVisible} cancel={closeDiscardAlert} close={navigateBack} />
+    </div>
   );
 };
 

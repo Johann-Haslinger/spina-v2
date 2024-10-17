@@ -79,7 +79,9 @@ export const AddingSchoolSubjectsSection = (props: {
       <div tw="md:w-96  pb-14 h-full flex flex-col justify-between md:justify-start pt-20 md:pt-32 lg:pt-48 xl:pt-60">
         <div>
           <StyledTitle>Wähle deine Schulfächer aus</StyledTitle>
-          <p tw="mt-4  md:mt-6">Wähle deine Schulfächer aus. Du kannst diese später in den Einstellungen noch anpassen.</p>
+          <p tw="mt-4  md:mt-6">
+            Wähle deine Schulfächer aus. Du kannst diese später in den Einstellungen noch anpassen.
+          </p>
 
           <div tw="mt-6">
             {schoolSubjects.length > 0 && (

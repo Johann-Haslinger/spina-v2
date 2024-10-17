@@ -25,8 +25,8 @@ export const generateDescriptionForTopic = async (lsc: ILeanScopeClient, entity:
     const images = await loadImagesFromUnsplash(lsc, searchQuery);
     console.log('images', images);
     console.log(images[0].url);
-    const firstImage = JSON.parse(images)[0];
-    entity.add(new ImageFacet({ imageSrc: firstImage.url || '' }));
+    const firstImage = JSON.parse(images)[0] && JSON.parse(images)[0];
+    entity.add(new ImageFacet({ imageSrc: (firstImage && firstImage.url) || '' }));
 
     const { error } = await supabaseClient
       .from(SupabaseTable.TOPICS)

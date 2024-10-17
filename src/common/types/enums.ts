@@ -139,6 +139,7 @@ export enum AdditionalTag {
   ARCHIVED = 'archived',
   CHANGED = 'changed',
   LOADING_INDICATOR = 'loadingIndicator',
+  MULTIPLE_SCREEN_OVERLAYS = 'multipleScreenOverlays',
 }
 
 export enum NavigationLink {

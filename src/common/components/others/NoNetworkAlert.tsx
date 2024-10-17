@@ -5,7 +5,7 @@ import { Sheet } from '../../../components';
 import tw from 'twin.macro';
 
 const StyledIcon = styled.div`
-  ${tw`text-9xl mt-40 w-fit mx-auto text-orange-500`}
+  ${tw`text-9xl mt-40 xl:mt-48 2xl:mt-56 w-fit mx-auto text-orange-500`}
 `;
 
 const StyledTitle = styled.p`
@@ -17,7 +17,7 @@ const StyledMessage = styled.p`
 `;
 
 const NoNetworkAlert = () => {
-  const isOffline = !useOfflineStatus();
+  const isOffline = useOfflineStatus();
 
   return (
     <Sheet visible={isOffline} navigateBack={() => {}}>

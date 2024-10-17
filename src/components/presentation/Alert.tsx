@@ -25,10 +25,11 @@ const StyledButtonWrapper = styled.div`
 interface AlertProps {
   visible?: boolean;
   navigateBack?: () => void;
+  displayDiscardAlert?: boolean;
 }
 
 const Alert = (props: AlertProps & PropsWithChildren) => {
-  const { visible = true, navigateBack, children } = props;
+  const { visible = true, navigateBack, children, displayDiscardAlert } = props;
   const [isAlertDisplayed, setIsAlertDisplayed] = useState(false);
   const alertRef = useRef<HTMLDivElement>(null);
   const { isDarkModeActive: isDarkMode } = useSelectedTheme();
@@ -66,7 +67,7 @@ const Alert = (props: AlertProps & PropsWithChildren) => {
           height: '100%',
           top: 0,
           left: 0,
-          zIndex: 100,
+          zIndex: 400,
           position: 'fixed',
         }}
         animate={{
@@ -74,13 +75,21 @@ const Alert = (props: AlertProps & PropsWithChildren) => {
         }}
       >
         <motion.div
+          style={{
+            zIndex: 500,
+          }}
           initial={{ opacity: 0, scale: 1.1 }}
           animate={{ opacity: visible ? 1 : 0, scale: visible ? 1 : 1.1 }}
           transition={{ duration: 0.2 }}
         >
           <StyledAlertWrapper ref={alertRef}>
             <StyledAlertTitle>{displayAlertTexts(selectedLanguage).deleteAlertTitle}</StyledAlertTitle>
-            <StyledAlertSubTitle> {displayAlertTexts(selectedLanguage).deleteAlertSubtitle}</StyledAlertSubTitle>
+            <StyledAlertSubTitle>
+              {' '}
+              {displayDiscardAlert
+                ? 'Deine vorgenommen Änderungen werden nicht gespeichert.'
+                : displayAlertTexts(selectedLanguage).deleteAlertSubtitle}
+            </StyledAlertSubTitle>
             <StyledButtonWrapper>{children}</StyledButtonWrapper>
           </StyledAlertWrapper>
         </motion.div>

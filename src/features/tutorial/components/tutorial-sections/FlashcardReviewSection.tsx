@@ -115,7 +115,7 @@ const updateFlashcardsDueDateAndMasteryLevel = async (
     mastery_level: number;
   }[] = [];
 
-  const calculateDueDate = (flashcardEntity: any): Date | null => {
+  const calculateDueDate = (flashcardEntity: Entity): Date | null => {
     const now = new Date();
     if (flashcardEntity.has(AdditionalTag.REMEMBERED_EASILY)) {
       now.setDate(now.getDate() + 4);
@@ -133,7 +133,7 @@ const updateFlashcardsDueDateAndMasteryLevel = async (
     return now;
   };
 
-  const calculateMasteryLevel = (flashcardEntity: any, currentMasteryLevel: number): number => {
+  const calculateMasteryLevel = (flashcardEntity: Entity, currentMasteryLevel: number): number => {
     if (currentMasteryLevel === MAX_MASTERY_LEVEL && !flashcardEntity.has(AdditionalTag.FORGOT)) {
       return MAX_MASTERY_LEVEL;
     } else if (
@@ -182,11 +182,11 @@ const updateFlashcardsDueDateAndMasteryLevel = async (
     if (error) {
       throw error;
     }
-  } catch (error: any) {
+  } catch (error) {
     console.error('Fehler beim Aktualisieren der Flashcards:', error);
     addNotificationEntity(lsc, {
       title: 'Fehler beim Aktualisieren der Lernkarten',
-      message: error.message + error.details + error.hint,
+      message: (error as Error).message,
       type: 'error',
     });
   }
@@ -249,7 +249,6 @@ const saveFlashcardSession = async (
     newSessionEntity.add(new DurationFacet({ duration: newFlashcardSession.duration }));
     newSessionEntity.add(new FlashcardPerformanceFacet({ flashcardPerformance }));
     newSessionEntity.addTag(DataType.FLASHCARD_SESSION);
-    
   } catch (error) {
     console.error('Unexpected error:', error);
     addNotificationEntity(lsc, {

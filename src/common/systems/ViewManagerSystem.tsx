@@ -1,4 +1,4 @@
-import { useEntities, useEntity } from '@leanscope/ecs-engine';
+import { useEntities, useEntity, useEntityHasTags } from '@leanscope/ecs-engine';
 import { Tags } from '@leanscope/ecs-models';
 import { Fragment, useEffect, useState } from 'react';
 import { AdditionalTag, DataType, Story } from '../types/enums';
@@ -81,15 +81,28 @@ const ViewManagerSystem = () => {
     Story.OBSERVING_SPACED_REPETITION_QUIZ,
   ]);
   const { isDarkModeActive, customTheme } = useSelectedTheme();
-  const [closingVews] = useEntities((e) => e.hasTag(Tags.SELECTED) && e.hasTag(AdditionalTag.NAVIGATE_BACK));
+  const [closingViews] = useEntities((e) => e.hasTag(Tags.SELECTED) && e.hasTag(AdditionalTag.NAVIGATE_BACK));
   const [themeColor, setThemeColor] = useState('#F5F5F5');
   const { backgroundColor, backgroundColorDark } = useSelectedSchoolSubjectColor();
   const { isChatSheetVisible } = useCurrentSapientorConversation();
-  const { isSidebarVisible } = useAppState();
+  const { isSidebarVisible, appStateEntity } = useAppState();
   const { isMobile } = useWindowDimensions();
   const { selectedPodcastEntity } = useSelectedPodcast();
   const [selectedFlashcardEntity] = useEntity((e) => dataTypeQuery(e, DataType.FLASHCARD) && e.hasTag(Tags.SELECTED));
   const { isLoggedIn } = useSession();
+  const [hasMultipleScreenOverlays] = useEntityHasTags(appStateEntity, AdditionalTag.MULTIPLE_SCREEN_OVERLAYS);
+
+  useEffect(() => {
+    if (hasMultipleScreenOverlays) {
+      if (!isDarkModeActive) {
+        setThemeColor('rgb(186,186,186)');
+      }
+    } else {
+      if (!isDarkModeActive) {
+        setThemeColor('rgb(214,214,214)');
+      }
+    }
+  }, [hasMultipleScreenOverlays, isDarkModeActive]);
 
   useEffect(() => {
     if (customTheme) {
@@ -173,12 +186,12 @@ const ViewManagerSystem = () => {
 
   useEffect(() => {
     setTimeout(() => {
-      closingVews.forEach((view) => {
+      closingViews.forEach((view) => {
         view.removeTag(Tags.SELECTED);
         view.removeTag(AdditionalTag.NAVIGATE_BACK);
       });
     }, 300);
-  }, [closingVews.length]);
+  }, [closingViews.length]);
 
   useEffect(() => {
     if (isSheetViewVisible) {

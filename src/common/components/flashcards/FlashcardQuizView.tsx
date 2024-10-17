@@ -228,8 +228,8 @@ const FlashcardQuizView = () => {
       parent_id: string;
       mastery_level: number;
     }[] = [];
-  
-    const calculateDueDate = (flashcardEntity: any): Date | null => {
+
+    const calculateDueDate = (flashcardEntity: Entity): Date | null => {
       const now = new Date();
       if (flashcardEntity.has(AdditionalTag.REMEMBERED_EASILY)) {
         now.setDate(now.getDate() + 4);
@@ -246,8 +246,8 @@ const FlashcardQuizView = () => {
       }
       return now;
     };
-  
-    const calculateMasteryLevel = (flashcardEntity: any, currentMasteryLevel: number): number => {
+
+    const calculateMasteryLevel = (flashcardEntity: Entity, currentMasteryLevel: number): number => {
       if (currentMasteryLevel === MAX_MASTERY_LEVEL && !flashcardEntity.has(AdditionalTag.FORGOT)) {
         return MAX_MASTERY_LEVEL;
       } else if (
@@ -261,35 +261,35 @@ const FlashcardQuizView = () => {
       }
       return currentMasteryLevel;
     };
-  
+
     if (isQuizInCollection) {
       selectedLearningUnitEntity?.add(new PriorityFacet({ priority: LearningUnitPriority.ACTIVE }));
-  
-      const flashcardParentIds = Array.from(new Set(flashcardEntities.map(e => e.get(ParentFacet)?.props.parentId)));
+
+      const flashcardParentIds = Array.from(new Set(flashcardEntities.map((e) => e.get(ParentFacet)?.props.parentId)));
       await Promise.all(
-        flashcardParentIds.map(async parentId => {
-          const learningUnitEntity = lsc.engine.entities.find(e => e.get(IdentifierFacet)?.props.guid === parentId);
+        flashcardParentIds.map(async (parentId) => {
+          const learningUnitEntity = lsc.engine.entities.find((e) => e.get(IdentifierFacet)?.props.guid === parentId);
           if (learningUnitEntity) {
             updatePriority(lsc, learningUnitEntity, LearningUnitPriority.ACTIVE, dueFlashcardEntity, true);
           }
-        })
+        }),
       );
     }
-  
-    flashcardEntities.forEach(flashcardEntity => {
+
+    flashcardEntities.forEach((flashcardEntity) => {
       const id = flashcardEntity.get(IdentifierFacet)?.props.guid;
       const parentId = flashcardEntity.get(ParentFacet)?.props.parentId || '';
-      const flashcardInLsc = lsc.engine.entities.find(e => e.get(IdentifierFacet)?.props.guid === id);
-  
+      const flashcardInLsc = lsc.engine.entities.find((e) => e.get(IdentifierFacet)?.props.guid === id);
+
       if (!id) return;
-  
+
       const dueDate = calculateDueDate(flashcardEntity);
       const masteryLevel = flashcardEntity.get(MasteryLevelFacet)?.props.masteryLevel || 0;
       const newMasterLevel = calculateMasteryLevel(flashcardEntity, masteryLevel);
-  
+
       flashcardEntity.add(new MasteryLevelFacet({ masteryLevel: newMasterLevel }));
       flashcardInLsc?.add(new MasteryLevelFacet({ masteryLevel: newMasterLevel }));
-  
+
       if (dueDate) {
         flashcardInLsc?.add(new DueDateFacet({ dueDate: dueDate.toISOString() }));
         updatedFlashcards.push({
@@ -301,39 +301,38 @@ const FlashcardQuizView = () => {
         });
       }
     });
-  
+
     dueFlashcardEntity?.add(
       new CountFacet({
         count:
           dueFlashcardsCount -
           flashcardEntities.filter(
-            e =>
+            (e) =>
               e.has(AdditionalTag.REMEMBERED_WITH_EFFORT) ||
               e.has(AdditionalTag.REMEMBERED_EASILY) ||
               e.has(AdditionalTag.SKIP) ||
-              e.has(AdditionalTag.PARTIALLY_REMEMBERED)
+              e.has(AdditionalTag.PARTIALLY_REMEMBERED),
           ).length,
-      })
+      }),
     );
-  
+
     try {
       const { error } = await supabaseClient
         .from(SupabaseTable.FLASHCARDS)
         .upsert(updatedFlashcards, { onConflict: SupabaseColumn.ID });
-  
+
       if (error) {
         throw error;
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error('Fehler beim Aktualisieren der Flashcards:', error);
       addNotificationEntity(lsc, {
         title: 'Fehler beim Aktualisieren der Lernkarten',
-        message: error.message + error.details + error.hint,
+        message: (error as Error).message,
         type: 'error',
       });
     }
   };
-  
 
   const updateCurrentStreak = async () => {
     if (currentFlashcardIndex === 0 || !userId) return;

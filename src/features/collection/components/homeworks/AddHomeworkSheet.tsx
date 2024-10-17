@@ -29,8 +29,10 @@ import {
   TextInput,
 } from '../../../../components';
 import { generateDescriptionForTopic } from '../../functions/generateDescriptionForTopic';
+import { useDiscardAlertState } from '../../hooks/useDiscardAlertState';
 import { useSelectedSchoolSubject } from '../../hooks/useSelectedSchoolSubject';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
+import { DiscardUnsavedChangesAlert } from '../../../../common/components/others';
 
 const AddHomeworkSheet = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -56,6 +58,8 @@ const AddHomeworkSheet = () => {
   const [newTopicTitle, setNewTopicTitle] = useState('');
   const homeworkTitleInputRef = useRef<HTMLInputElement>(null);
   const topicTitleInputRef = useRef<HTMLInputElement>(null);
+  const { isDiscardAlertVisible, openDiscardAlert, closeDiscardAlert } = useDiscardAlertState();
+  const hasUnsavedChanges = newHomework.title || newHomework.dueDate || selectedSchoolSubjectId;
 
   useEffect(() => {
     if (isVisible) setTimeout(() => homeworkTitleInputRef.current?.focus(), 10);
@@ -75,7 +79,10 @@ const AddHomeworkSheet = () => {
     setNewTopicTitle('');
   }, [isVisible]);
 
-  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_HOMEWORKS_STORY);
+  const navigateBack = () => {
+    closeDiscardAlert();
+    lsc.stories.transitTo(Story.OBSERVING_SCHOOL_SUBJECT_STORY);
+  };
 
   const saveHomework = async () => {
     const newHomeworkId = v4();
@@ -120,117 +127,126 @@ const AddHomeworkSheet = () => {
     }
   };
 
-  return (
-    <Sheet visible={isVisible} navigateBack={navigateBack}>
-      <FlexBox>
-        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
+  const handleBackClick = () => (hasUnsavedChanges ? openDiscardAlert() : navigateBack());
 
-        {newHomework.title && newHomework.dueDate && schoolSubjectEntities.length !== 0 && (
-          <PrimaryButton onClick={saveHomework}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
-        )}
-      </FlexBox>
-      <Spacer />
-      <Section>
-        <SectionRow>
-          <TextInput
-            ref={homeworkTitleInputRef}
-            value={newHomework.title}
-            onChange={(e) => setNewHomework({ ...newHomework, title: e.target.value })}
-            placeholder={displayLabelTexts(selectedLanguage).title}
-          />
-        </SectionRow>
-        <SectionRow last={inCollectionVisible}>
-          <FlexBox>
-            <p>{displayLabelTexts(selectedLanguage).dueDate} </p>
-            <DateInput
-              value={newHomework.dueDate}
-              onChange={(e) => setNewHomework({ ...newHomework, dueDate: e.target.value })}
-              type="date"
+  return (
+    <div>
+      <Sheet visible={isVisible} navigateBack={handleBackClick}>
+        <FlexBox>
+          <SecondaryButton onClick={handleBackClick}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
+
+          {newHomework.title && newHomework.dueDate && schoolSubjectEntities.length !== 0 && (
+            <PrimaryButton onClick={saveHomework}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
+          )}
+        </FlexBox>
+        <Spacer />
+        <Section>
+          <SectionRow>
+            <TextInput
+              ref={homeworkTitleInputRef}
+              value={newHomework.title}
+              onChange={(e) => setNewHomework({ ...newHomework, title: e.target.value })}
+              placeholder={displayLabelTexts(selectedLanguage).title}
             />
-          </FlexBox>
-        </SectionRow>
-        {!inCollectionVisible && (
-          <SectionRow last>
+          </SectionRow>
+          <SectionRow last={inCollectionVisible}>
             <FlexBox>
-              <p>{displayLabelTexts(selectedLanguage).schoolSubject}</p>
-              <SelectInput value={selectedSchoolSubjectId} onChange={(e) => setSelectedSchoolSubjectId(e.target.value)}>
-                <option value="">{displayLabelTexts(selectedLanguage).select}</option>
-                {schoolSubjectEntities.map((entity, idx) => {
-                  const schoolSubjectId = entity.get(IdentifierFacet)?.props.guid;
-                  const schoolSubjectTitle = entity.get(TitleFacet)?.props.title;
-                  return (
-                    <option key={idx} value={schoolSubjectId}>
-                      {schoolSubjectTitle}
-                    </option>
-                  );
-                })}
-              </SelectInput>
+              <p>{displayLabelTexts(selectedLanguage).dueDate} </p>
+              <DateInput
+                value={newHomework.dueDate}
+                onChange={(e) => setNewHomework({ ...newHomework, dueDate: e.target.value })}
+                type="date"
+              />
             </FlexBox>
           </SectionRow>
-        )}
-      </Section>
-      {selectedSchoolSubjectId && (
-        <Fragment>
-          <Spacer size={2} />
-          <Section>
-            {schoolSubjectTopics.map((topic, idx) => (
-              <SectionRow
-                key={idx}
-                onClick={() => setNewHomework({ ...newHomework, parent: topic.id })}
-                icon={newHomework.parent === topic.id ? <IoCheckmarkCircle /> : <IoEllipseOutline />}
-              >
-                {topic.title}
-              </SectionRow>
-            ))}
-            {!isAddingNewTopic ? (
-              <SectionRow
-                icon={<IoAdd />}
-                last
-                role="button"
-                onClick={() => {
-                  setIsAddingNewTopic(true);
-                  setTimeout(() => topicTitleInputRef.current?.focus(), 10);
-                }}
-              >
-                {displayActionTexts(selectedLanguage).addTopic}
-              </SectionRow>
-            ) : (
-              <SectionRow
-                last
-                icon={
-                  newTopicTitle !== '' ? (
-                    newHomework.parent === 'newTopic' ? (
-                      <IoCheckmarkCircle />
+          {!inCollectionVisible && (
+            <SectionRow last>
+              <FlexBox>
+                <p>{displayLabelTexts(selectedLanguage).schoolSubject}</p>
+                <SelectInput
+                  value={selectedSchoolSubjectId}
+                  onChange={(e) => setSelectedSchoolSubjectId(e.target.value)}
+                >
+                  <option value="">{displayLabelTexts(selectedLanguage).select}</option>
+                  {schoolSubjectEntities.map((entity, idx) => {
+                    const schoolSubjectId = entity.get(IdentifierFacet)?.props.guid;
+                    const schoolSubjectTitle = entity.get(TitleFacet)?.props.title;
+                    return (
+                      <option key={idx} value={schoolSubjectId}>
+                        {schoolSubjectTitle}
+                      </option>
+                    );
+                  })}
+                </SelectInput>
+              </FlexBox>
+            </SectionRow>
+          )}
+        </Section>
+        {selectedSchoolSubjectId && (
+          <Fragment>
+            <Spacer size={2} />
+            <Section>
+              {schoolSubjectTopics.map((topic, idx) => (
+                <SectionRow
+                  key={idx}
+                  onClick={() => setNewHomework({ ...newHomework, parent: topic.id })}
+                  icon={newHomework.parent === topic.id ? <IoCheckmarkCircle /> : <IoEllipseOutline />}
+                >
+                  {topic.title}
+                </SectionRow>
+              ))}
+              {!isAddingNewTopic ? (
+                <SectionRow
+                  icon={<IoAdd />}
+                  last
+                  role="button"
+                  onClick={() => {
+                    setIsAddingNewTopic(true);
+                    setTimeout(() => topicTitleInputRef.current?.focus(), 10);
+                  }}
+                >
+                  {displayActionTexts(selectedLanguage).addTopic}
+                </SectionRow>
+              ) : (
+                <SectionRow
+                  last
+                  icon={
+                    newTopicTitle !== '' ? (
+                      newHomework.parent === 'newTopic' ? (
+                        <IoCheckmarkCircle />
+                      ) : (
+                        <IoEllipseOutline onClick={() => setNewHomework({ ...newHomework, parent: 'newTopic' })} />
+                      )
                     ) : (
-                      <IoEllipseOutline onClick={() => setNewHomework({ ...newHomework, parent: 'newTopic' })} />
+                      <IoEllipseOutline style={{ color: '#86858A' }} />
                     )
-                  ) : (
-                    <IoEllipseOutline style={{ color: '#86858A' }} />
-                  )
-                }
-              >
-                <TextInput
-                  ref={topicTitleInputRef}
-                  value={newTopicTitle}
-                  onChange={(e) => setNewTopicTitle(e.target.value)}
-                />
-              </SectionRow>
-            )}
-          </Section>
-        </Fragment>
-      )}
+                  }
+                >
+                  <TextInput
+                    ref={topicTitleInputRef}
+                    value={newTopicTitle}
+                    onChange={(e) => setNewTopicTitle(e.target.value)}
+                  />
+                </SectionRow>
+              )}
+            </Section>
+          </Fragment>
+        )}
 
-      <Spacer size={2} />
-      <Section>
-        <SectionRow last>
-          <TextAreaInput
-            value={newHomework.description}
-            onChange={(e) => setNewHomework({ ...newHomework, description: e.target.value })}
-            placeholder={displayLabelTexts(selectedLanguage).description}
-          />
-        </SectionRow>
-      </Section>
-    </Sheet>
+        <Spacer size={2} />
+        <Section>
+          <SectionRow last>
+            <TextAreaInput
+              value={newHomework.description}
+              onChange={(e) => setNewHomework({ ...newHomework, description: e.target.value })}
+              placeholder={displayLabelTexts(selectedLanguage).description}
+            />
+          </SectionRow>
+        </Section>
+      </Sheet>
+
+      <DiscardUnsavedChangesAlert isVisible={isDiscardAlertVisible} cancel={closeDiscardAlert} close={navigateBack} />
+    </div>
   );
 };
 

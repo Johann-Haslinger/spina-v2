@@ -1,6 +1,7 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
+import { DiscardUnsavedChangesAlert } from '../../../common/components/others';
 import { useSelectedLanguage } from '../../../common/hooks/useSelectedLanguage';
 import { DueDateFacet, TitleFacet } from '../../../common/types/additionalFacets';
 import { Story, SupabaseColumn, SupabaseTable } from '../../../common/types/enums';
@@ -18,6 +19,7 @@ import {
   TextInput,
 } from '../../../components';
 import supabaseClient from '../../../lib/supabase';
+import { useDiscardAlertState } from '../../collection/hooks/useDiscardAlertState';
 import { useSelectedExam } from '../hooks/useSelectedExam';
 
 const EditExamSheet = () => {
@@ -27,14 +29,18 @@ const EditExamSheet = () => {
   const { selectedExamTitle, selectedExamEntity, selectedExamId, selectedExamDueDate } = useSelectedExam();
   const [newTitle, setNewTitle] = useState(selectedExamTitle);
   const [newDueDate, setNewDueDate] = useState(selectedExamTitle);
+  const { isDiscardAlertVisible, openDiscardAlert, closeDiscardAlert } = useDiscardAlertState();
+  const hasUnsavedChanges = newTitle !== selectedExamTitle || newDueDate !== selectedExamDueDate;
 
   useEffect(() => {
     setNewTitle(selectedExamTitle);
     setNewDueDate(selectedExamDueDate || '');
   }, [selectedExamTitle, selectedExamDueDate]);
 
-  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_EXAMS_STORY);
-
+  const navigateBack = () => {
+    closeDiscardAlert();
+    lsc.stories.transitTo(Story.OBSERVING_EXAMS_STORY);
+  };
   const updateExam = async () => {
     if (newTitle && newDueDate) {
       navigateBack();
@@ -62,31 +68,41 @@ const EditExamSheet = () => {
     }
   };
 
+  const handleBackClick = () => (hasUnsavedChanges ? openDiscardAlert() : navigateBack());
+
   return (
-    <Sheet visible={isVisible} navigateBack={navigateBack}>
-      <FlexBox>
-        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
-        {(newTitle !== selectedExamTitle || newDueDate !== selectedExamDueDate) && (
-          <PrimaryButton onClick={updateExam}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
-        )}
-      </FlexBox>
-      <Spacer />
-      <Section>
-        <SectionRow>
-          <TextInput
-            value={newTitle}
-            onChange={(e) => setNewTitle(e.target.value)}
-            placeholder={displayLabelTexts(selectedLanguage).title}
-          />
-        </SectionRow>
-        <SectionRow last>
-          <FlexBox>
-            <div>{displayLabelTexts(selectedLanguage).dueDate}</div>
-            <DateInput type="date" value={newDueDate} onChange={(e) => setNewDueDate(e.target.value)} />
-          </FlexBox>
-        </SectionRow>
-      </Section>
-    </Sheet>
+    <div>
+      <Sheet visible={isVisible} navigateBack={handleBackClick}>
+        <FlexBox>
+          <SecondaryButton onClick={handleBackClick}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
+          {(newTitle !== selectedExamTitle || newDueDate !== selectedExamDueDate) && (
+            <PrimaryButton onClick={updateExam}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
+          )}
+        </FlexBox>
+        <Spacer />
+        <Section>
+          <SectionRow>
+            <TextInput
+              value={newTitle}
+              onChange={(e) => setNewTitle(e.target.value)}
+              placeholder={displayLabelTexts(selectedLanguage).title}
+            />
+          </SectionRow>
+          <SectionRow last>
+            <FlexBox>
+              <div>{displayLabelTexts(selectedLanguage).dueDate}</div>
+              <DateInput type="date" value={newDueDate} onChange={(e) => setNewDueDate(e.target.value)} />
+            </FlexBox>
+          </SectionRow>
+        </Section>
+      </Sheet>
+
+      <DiscardUnsavedChangesAlert
+        isVisible={isDiscardAlertVisible}
+        close={() => navigateBack()}
+        cancel={closeDiscardAlert}
+      />
+    </div>
   );
 };
 
