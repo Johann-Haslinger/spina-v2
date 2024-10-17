@@ -78,8 +78,8 @@ const downloadFile = async (lsc: ILeanScopeClient, title: string, filePath: stri
 };
 
 const StyledRowWrapper = styled(motion.div)<{ isContextMenuOpen: boolean }>`
-  ${tw`flex overflow-hidden scale-100 z-40 space-x-4 pr-4 mb-2 hover:scale-105 transition-all items-center pl-2 justify-between py-3 dark:bg-secondary-dark bg-tertiary bg-opacity-50 rounded-xl border-black border-opacity-5`}
-  ${({ isContextMenuOpen }) => isContextMenuOpen && tw`scale-105 `}
+  ${tw`flex overflow-hidden scale-100 z-40 space-x-4 pr-4 mb-2 hover:scale-[1.03] transition-all items-center pl-2 justify-between py-3 dark:bg-secondary-dark bg-tertiary bg-opacity-50 rounded-xl border-black border-opacity-5`}
+  ${({ isContextMenuOpen }) => isContextMenuOpen && tw`scale-[1.03]  `}
 `;
 
 const StyledTitle = styled.p`
@@ -125,7 +125,7 @@ const FileRow = (props: TitleProps & FilePathProps & EntityProps) => {
           <IoEllipsisHorizontalCircleOutline />
         </StyledIcon>
       </StyledRowWrapper>
-      <div tw="relative left-20 ml-10 bottom-8 z-[500]">
+      <div tw="relative ml-4 left-4 bottom-8 z-[500]">
         <ActionSheet visible={isContextMenuOpen} navigateBack={() => setIsContextMenuOpen(false)}>
           <ActionRow first icon={<IoOpenOutline />} onClick={openFile}>
             Öffnen

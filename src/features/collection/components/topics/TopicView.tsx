@@ -136,7 +136,7 @@ const StyledTopAreaWrapper = styled.div<{ image: string; grid: boolean; containI
 `;
 
 const StyledTopicResourcesWrapper = styled.div<{ largeShadow: boolean }>`
-  ${tw` px-4  md:px-20 h-fit min-h-screen     pt-10 pb-40  dark:bg-primary-dark transition-all   bg-primary  lg:px-32 xl:px-60 2xl:px-96 w-full`}
+  ${tw` px-4  md:px-20 h-fit min-h-screen     pt-10 pb-40  dark:bg-primary-dark transition-all   bg-primary  lg:px-32 xl:px-60 2xl:px-80 w-full`}
   ${({ largeShadow }) =>
     largeShadow
       ? tw`shadow-[0px_0px_60px_0px_rgba(0, 0, 0, 0.6)] xl:shadow-[0px_0px_60px_0px_rgba(0, 0, 0, 0.5)] `

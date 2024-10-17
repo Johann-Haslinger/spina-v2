@@ -1,7 +1,6 @@
-import { EntityPropsMapper } from '@leanscope/ecs-engine';
-import { Tags } from '@leanscope/ecs-models';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { NotificationMenu } from './common/components/notifications';
+import { NoNetworkAlert } from './common/components/others';
 import {
   InitializeAppSystem,
   InitializeLoadingIndicatorSystem,
@@ -10,21 +9,18 @@ import {
   InitializeUserSystem,
   ViewManagerSystem,
 } from './common/systems';
-import { DateAddedFacet, SourceFacet, TitleFacet } from './common/types/additionalFacets';
-import { DataType, NavigationLink, Story } from './common/types/enums';
+import { NavigationLink, Story } from './common/types/enums';
 import { formatNavLinkAsPath } from './common/utilities/formatNavLinkAsPath';
-import { dataTypeQuery } from './common/utilities/queries';
 import { Sidebar } from './components';
 import TabBar from './components/navigation/TabBar';
 import { AuthUI } from './features/auth-ui';
-import PodcastSheet from './features/collection/components/podcasts/PodcastSheet';
 import { SettingsOverviewSheet } from './features/settings';
 import { UseAsPWAInstructionsSheet } from './features/tutorial';
 import Tutorial from './features/tutorial/components/Tutorial';
 import TransitToTutorialSystem from './features/tutorial/systems/TransitToTutorialSystem';
 import { Collection, Exams, Flashcards, Groups, Homeworks, Overview, SuccessPage } from './pages/Index';
 
-function App() {
+const App = () => {
   return (
     <div>
       <InitializeUserSystem />
@@ -34,6 +30,7 @@ function App() {
       <InitializeSchoolSubjectsSystem />
       <InitializeLoadingIndicatorSystem />
       <TransitToTutorialSystem />
+
       <BrowserRouter>
         <Sidebar />
         <Routes>
@@ -51,16 +48,13 @@ function App() {
         <TabBar />
         <NotificationMenu />
       </BrowserRouter>
-      <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataType.PODCAST) && e.has(Tags.SELECTED)}
-        get={[[TitleFacet, DateAddedFacet, SourceFacet], []]}
-        onMatch={PodcastSheet}
-      />{' '}
+
+      <NoNetworkAlert />
       <Tutorial />
       <AuthUI />
       <UseAsPWAInstructionsSheet />
     </div>
   );
-}
+};
 
 export default App;
