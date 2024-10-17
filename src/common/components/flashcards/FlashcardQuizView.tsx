@@ -910,13 +910,6 @@ const DeleteFlashcardAlert = (props: { isVisible: boolean; navigateBack: () => v
   );
 };
 
-// const useKeyEvents = (callback: (event: KeyboardEvent) => void) => {
-//   useEffect(() => {
-//     window.addEventListener('keydown', callback);
-//     return () => window.removeEventListener('keydown', callback);
-//   }, []);
-// };
-
 const EditFlashcardSheet = (props: { isVisible: boolean; navigateBack: () => void; flashcardEntity: Entity }) => {
   const lsc = useContext(LeanScopeClientContext);
   const { isVisible, navigateBack, flashcardEntity } = props;

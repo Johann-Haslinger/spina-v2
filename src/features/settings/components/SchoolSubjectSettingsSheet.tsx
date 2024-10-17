@@ -144,6 +144,7 @@ const SchoolSubjectCell = (props: EntityProps & TitleProps & IdentifierProps & {
   const navigateBack = () => setIsDeleteAlertVisible(false);
 
   const handleRemoveSchoolSubject = (entity: Entity) => {
+    navigateBack();
     const schoolSubjectId = entity.get(IdentifierFacet)?.props.guid || '';
     removeSchoolSubject(lsc, schoolSubjectId, entity);
   };

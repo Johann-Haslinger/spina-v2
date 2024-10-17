@@ -50,6 +50,7 @@ export interface Flashcard {
 export interface GeneratedFlashcardSetResource {
   title: string;
   flashcards: Flashcard[];
+  id?: string;
 }
 
 export interface GeneratedNoteResource {

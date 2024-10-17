@@ -268,6 +268,7 @@ export enum SupabaseColumn {
 export enum SupabaseEdgeFunction {
   GENERATE_FLASHCARDS = 'generate-flashcards',
   GENERATE_LEARNING_UNIT = 'generate-learning-unit',
+  GENERATE_LEARNING_UNIT_PARENT_DETAILS = 'generate-learning-unit-parent-details',
 }
 export enum FlashcardsNavigationState {
   OVERVIEW = 'overview',
