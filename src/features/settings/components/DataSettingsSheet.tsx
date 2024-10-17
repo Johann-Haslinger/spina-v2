@@ -66,8 +66,6 @@ const deleteUserAccount = async (lsc: ILeanScopeClient, userId: string) => {
 
     return;
   }
-
-  console.log('User account deleted successfully.');
 };
 
 enum DeleteAlert {

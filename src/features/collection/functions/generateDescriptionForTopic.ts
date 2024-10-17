@@ -1,30 +1,35 @@
 import { ILeanScopeClient } from '@leanscope/api-client';
 import { Entity } from '@leanscope/ecs-engine';
-import { DescriptionFacet, IdentifierFacet } from '@leanscope/ecs-models';
+import { DescriptionFacet, IdentifierFacet, ImageFacet } from '@leanscope/ecs-models';
 import { TitleFacet } from '../../../common/types/additionalFacets';
 import { AdditionalTag, SupabaseTable } from '../../../common/types/enums';
 import { getCompletion } from '../../../common/utilities/getCompletion';
+import { loadImagesFromUnsplash } from '../../../common/utilities/loadImagesFromUnsplash';
 import supabaseClient from '../../../lib/supabase';
 
 export const generateDescriptionForTopic = async (lsc: ILeanScopeClient, entity: Entity) => {
   const description = entity.get(DescriptionFacet)?.props.description;
-  // const image = entity?.get(ImageFacet)?.props.imageSrc;
   const title = entity?.get(TitleFacet)?.props.title;
   const id = entity.get(IdentifierFacet)?.props.guid;
   let topicDescription = description;
-  // let topicImage = image;
 
   const generatingDescriptionPrompt = 'Bitte schreibe einen sehr kurzen Beschreibungssatz zu folgendem Thema:' + title;
-  // const imageContentPrompt = `Beschreibe kurz und präzise ein passendes Bild zu '${title}', damit es einfach nachgemalt werden kann. Verwende wenige Wörter und wähle ein reales Motiv.`;
-  entity.addTag(AdditionalTag.GENERATING);
+
   if (!description) {
     topicDescription = await getCompletion(lsc, generatingDescriptionPrompt);
     entity.add(new DescriptionFacet({ description: topicDescription }));
+
+    const searchQueryPrompt = `Erstelle eine Unsplash-Suchanfrage für das um ein passendes Bild für das Thema "${title}" zu finden. Die Anfrage soll nicht länger als 3 Wörter sein und auf Unsplash vorhandene Bilder liefern.`;
+    const searchQuery = await getCompletion(lsc, searchQueryPrompt);
+    const images = await loadImagesFromUnsplash(lsc, searchQuery);
+
+    entity.add(new ImageFacet({ imageSrc: images[0].url }));
 
     const { error } = await supabaseClient
       .from(SupabaseTable.TOPICS)
       .update({
         description: topicDescription,
+        image_url: images[0].url,
       })
       .eq('id', id);
 
@@ -32,16 +37,6 @@ export const generateDescriptionForTopic = async (lsc: ILeanScopeClient, entity:
       console.error('Error updating topic:', error);
     }
   }
-  // if (!image || regenerate) {
-  //   const imageContent = await getCompletion(imageContentPrompt);
-  //   console.log('imageContent', imageContent);
-
-  //   const generatingImagePrompt = `${imageContent},e`;
-
-  //   topicImage = await getImageFromText(generatingImagePrompt);
-  //   console.log('topicImage', topicImage);
-  //   entity.add(new ImageFacet({ imageSrc: topicImage }));
-  // }
 
   entity.remove(AdditionalTag.GENERATING);
 };

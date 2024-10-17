@@ -301,7 +301,6 @@ const FlashcardQuizView = () => {
           mastery_level: newMasterLevel,
         });
       }
-      console.log('updatedFlashcards:', updatedFlashcards);
     });
 
     dueFlashcardEntity?.add(
@@ -730,10 +729,7 @@ const FlashcardCell = (props: {
       .from(SupabaseTable.FLASHCARDS)
       .update({ due_date: null })
       .eq(SupabaseColumn.ID, flashcardEntity.get(IdentifierFacet)?.props.guid);
-    console.log(
-      'pasued flashcard',
-      lsc.engine.entities.filter((e) => e.has(IdentifierFacet) && e.get(IdentifierFacet)?.props.guid === flashcardId),
-    );
+
     if (error) {
       console.error('Error pausing flashcard:', error);
       addNotificationEntity(lsc, {

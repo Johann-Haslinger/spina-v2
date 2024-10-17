@@ -38,6 +38,9 @@ import {
   SelectingImageSection,
   TutorialIntroductionSection,
 } from './tutorial-sections';
+import { generateDescriptionForTopic } from '../../collection/functions/generateDescriptionForTopic';
+
+const delay = (ms: number): Promise<void> => new Promise<void>((res) => setTimeout(res, ms));
 
 const TutorialView = (props: { tutorialState: TutorialState; setTutorialState: (newValue: TutorialState) => void }) => {
   const lsc = useContext(LeanScopeClientContext);
@@ -58,9 +61,7 @@ const TutorialView = (props: { tutorialState: TutorialState; setTutorialState: (
   ].includes(tutorialState);
 
   const handleImageSelection = async (image: File) => {
-    console.log('Generating note from uploaded file...');
     const newFlashcardSet = await generateLearningUnitFromFile(lsc, image, userId, 'flashcardSet');
-    console.log('Generated note:', newFlashcardSet);
 
     if (!newFlashcardSet) {
       setTutorialState(TutorialState.SELECTING_IMAGE);
@@ -162,6 +163,7 @@ const saveUserData = async (
     newSchoolSubjectEntity.add(new TitleFacet({ title: schoolSubject }));
     newSchoolSubjectEntity.add(new IdentifierFacet({ guid: id }));
     newSchoolSubjectEntity.add(new OrderFacet({ orderIndex: idx }));
+
     newSchoolSubjectEntity.add(DataType.SCHOOL_SUBJECT);
 
     return newSchoolSubjectEntity;
@@ -188,7 +190,6 @@ const saveUserData = async (
       .find((entity) => entity.get(TitleFacet)?.props.title === flashcardSetParentDetails.schoolSubjectTitle)
       ?.get(IdentifierFacet)?.props.guid || '';
 
-
   const newTopicEntity = new Entity();
   lsc.engine.addEntity(newTopicEntity);
   newTopicEntity.add(new TitleFacet({ title: flashcardSetParentDetails.topicTitle }));
@@ -197,6 +198,8 @@ const saveUserData = async (
   newTopicEntity.add(DataType.TOPIC);
 
   addTopic(lsc, newTopicEntity, userId);
+
+  await delay(500);
 
   const flashcardSetId = flashcardSet.id || '';
 
@@ -211,9 +214,10 @@ const saveUserData = async (
 
   addLearningUnit(lsc, flashcardSetEntity, userId);
 
+  await delay(500);
+
   const flashcardEntities = flashcardSet.flashcards.map((flashcard) => {
     const flashcardEntity = new Entity();
-    lsc.engine.addEntity(flashcardEntity);
     flashcardEntity.add(new IdentifierFacet({ guid: uuid() }));
     flashcardEntity.add(new QuestionFacet({ question: flashcard.question }));
     flashcardEntity.add(new AnswerFacet({ answer: flashcard.answer }));
@@ -225,6 +229,8 @@ const saveUserData = async (
 
   console.log('Adding flashcards:', flashcardEntities);
   addFlashcards(lsc, flashcardEntities, userId);
+
+  generateDescriptionForTopic(lsc, newTopicEntity);
 };
 
 const generateParentDetails = async (content: string) => {

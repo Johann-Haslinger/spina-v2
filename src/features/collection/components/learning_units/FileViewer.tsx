@@ -74,7 +74,6 @@ const downloadFile = async (title: string, filePath: string) => {
 };
 
 const fetchFileUrl = async (filePath: string) => {
-  console.log('filePath', filePath);
   const { data, error } = await supabaseClient.storage
     .from(SupabaseStorageBucket.LEARNING_UNIT_FILES)
     .createSignedUrl(filePath, 60 * 60);
@@ -83,8 +82,6 @@ const fetchFileUrl = async (filePath: string) => {
     console.error('Error fetching signed URL:', error);
     return '';
   }
-
-  console.log('data', data?.signedUrl);
 
   return data.signedUrl;
 };
@@ -167,7 +164,6 @@ const FileViewer = (props: EntityProps & TitleProps & FilePathProps) => {
           text: 'Schau dir diese Datei an!',
           files: [file],
         });
-        console.log('Datei wurde erfolgreich geteilt');
       } catch (error) {
         console.error('Fehler beim Teilen', error);
       }

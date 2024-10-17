@@ -1,11 +1,10 @@
-import { motion } from "framer-motion";
-import styled from "@emotion/styled";
-import tw from "twin.macro";
-import { GeneratedFlashcardSetResource } from "../../../../common/types/types";
-import { NavigationButton } from "../../../../components";
-import PreviewFlashcard from "../../../collection/components/flashcard-sets/PreviewFlashcard";
-import { TutorialState } from "../../types";
-
+import { motion } from 'framer-motion';
+import styled from '@emotion/styled';
+import tw from 'twin.macro';
+import { GeneratedFlashcardSetResource } from '../../../../common/types/types';
+import { NavigationButton } from '../../../../components';
+import PreviewFlashcard from '../../../collection/components/flashcard-sets/PreviewFlashcard';
+import { TutorialState } from '../../types';
 
 const StyledMotionDiv = styled(motion.div)`
   ${tw`w-screen h-screen overflow-y-scroll px-4 absolute left-0 top-0 flex justify-center`}
@@ -38,10 +37,10 @@ export const GeneratedFlashcardsSection = (props: {
   const positionX = isVisible
     ? 0
     : [TutorialState.INTRODUCTION, TutorialState.SELECTING_IMAGE, TutorialState.GENERATING_FLASHCARDS].includes(
-        tutorialState,
-      )
-    ? 600
-    : -600;
+          tutorialState,
+        )
+      ? 600
+      : -600;
 
   const handleFurtherButtonClick = () => setTutorialState(TutorialState.SAVING_FLASHCARDS);
 
@@ -52,7 +51,7 @@ export const GeneratedFlashcardsSection = (props: {
         initial={{ opacity: 0, x: positionX }}
         animate={{ opacity: isVisible ? 1 : 0, x: positionX, display: isVisible ? 'flex' : 'none' }}
         transition={{
-          type: "tween",
+          type: 'tween',
           duration: 0.3,
         }}
       >

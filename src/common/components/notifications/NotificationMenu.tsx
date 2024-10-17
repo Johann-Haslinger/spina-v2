@@ -2,7 +2,7 @@ import { useEntities } from '@leanscope/ecs-engine';
 import { IdentifierFacet, TextFacet } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { motion } from 'framer-motion';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 
 import styled from '@emotion/styled';
 import tw from 'twin.macro';
@@ -24,10 +24,6 @@ const NotificationMenu = () => {
         (a?.get(DateAddedFacet)?.props.dateAdded ?? '') > (b?.get(DateAddedFacet)?.props.dateAdded ?? '') ? -1 : 1,
       )
       .slice(0, 3);
-  }, [notificationEntities.length]);
-
-  useEffect(() => {
-    console.log('NotificationMenu rendered', notificationEntities.length, recentThreeNotificationEntities);
   }, [notificationEntities.length]);
 
   return (

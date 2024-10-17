@@ -175,7 +175,11 @@ const EditFlashcardSetDetailsSheet = (props: {
   );
 };
 
-const useEditedFlashcardSetDetails = (initialDetails: { topicTitle: string; schoolSubjectTitle: string; title: string }) => {
+const useEditedFlashcardSetDetails = (initialDetails: {
+  topicTitle: string;
+  schoolSubjectTitle: string;
+  title: string;
+}) => {
   const [editedDetails, setEditedDetails] = useState(initialDetails);
 
   useEffect(() => {

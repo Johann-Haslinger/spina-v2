@@ -67,11 +67,9 @@ export const SelectingImageSection = (props: {
         <StyledBackButton onClick={handleBackButtonClick}>
           <IoArrowBack />
         </StyledBackButton>
-        <div 
-        onClick={()=> setTutorialState(TutorialState.EXPLAINING_OVERVIEW)}
-        tw="text-secondary-text text-sm">
+        {/* <div onClick={() => setTutorialState(TutorialState.EXPLAINING_OVERVIEW)} tw="text-secondary-text text-sm">
           Überspringen
-        </div>
+        </div> */}
       </FlexBox>
 
       <StyledContainerDiv>

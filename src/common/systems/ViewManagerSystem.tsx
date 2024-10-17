@@ -94,7 +94,6 @@ const ViewManagerSystem = () => {
   useEffect(() => {
     if (customTheme) {
       setThemeColor(customTheme);
-      console.log('customTheme', customTheme);
     } else if (isQuizViewVisible && backgroundColorDark) {
       setThemeColor(isDarkModeActive ? backgroundColorDark : backgroundColor);
     } else {

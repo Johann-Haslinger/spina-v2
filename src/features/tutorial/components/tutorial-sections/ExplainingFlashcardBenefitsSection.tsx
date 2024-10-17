@@ -1,9 +1,9 @@
-import { motion } from "framer-motion";
-import { IoArrowBack } from "react-icons/io5";
-import { NavigationButton } from "../../../../components";
-import { TutorialState } from "../../types";
-import styled from "@emotion/styled";
-import tw from "twin.macro";
+import { motion } from 'framer-motion';
+import { IoArrowBack } from 'react-icons/io5';
+import { NavigationButton } from '../../../../components';
+import { TutorialState } from '../../types';
+import styled from '@emotion/styled';
+import tw from 'twin.macro';
 
 const StyledTitle = styled.p`
   ${tw`text-2xl font-bold`}

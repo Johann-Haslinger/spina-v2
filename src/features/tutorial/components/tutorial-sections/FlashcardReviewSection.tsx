@@ -1,10 +1,9 @@
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { IoArrowBack } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { GeneratedFlashcardSetResource } from '../../../../common/types/types';
-import { NavigationButton } from '../../../../components';
+import { FlexBox, NavigationButton } from '../../../../components';
 import { TutorialState } from '../../types';
 
 const StyledTitle = styled.p`
@@ -33,7 +32,6 @@ export const FlashcardReviewSection = (props: {
       ? 600
       : -600;
 
-  const handleBackButtonClick = () => setTutorialState(TutorialState.ADDING_SCHOOL_SUBJECTS);
   const openFlashcardQuiz = () => setIsFlashcardQuizVisible(true);
   // const closeFlashcardQuiz = () => {
   //   setIsFlashcardQuizVisible(false);
@@ -53,9 +51,12 @@ export const FlashcardReviewSection = (props: {
           }}
           tw="w-screen h-screen px-4 absolute left-0 top-0 flex justify-center"
         >
-          <div tw="absolute left-4 opacity-40 top-4 text-xl" onClick={handleBackButtonClick}>
-            <IoArrowBack />
-          </div>
+          <FlexBox tw="p-4 text-secondary-text absolute top-0 left-0 w-screen">
+            <div />
+            <div onClick={() => setTutorialState(TutorialState.EXPLAINING_OVERVIEW)} tw="text-secondary-text text-sm">
+              Überspringen
+            </div>
+          </FlexBox>
 
           <div tw="md:w-96  pb-14 h-full flex flex-col justify-between md:justify-start pt-20 md:pt-32 lg:pt-48 xl:pt-60">
             <div>

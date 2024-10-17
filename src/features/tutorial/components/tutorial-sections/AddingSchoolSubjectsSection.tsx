@@ -1,11 +1,11 @@
-import { motion } from "framer-motion";
-import { useState } from "react";
-import { IoArrowBack, IoRemoveCircle, IoAddCircle } from "react-icons/io5";
-import { SCHOOL_SUBJECTS } from "../../../../common/types/constants";
-import { Section, SectionRow, Spacer, TextInput, NavigationButton } from "../../../../components";
-import { TutorialState } from "../../types";
-import styled from "@emotion/styled";
-import tw from "twin.macro";
+import { motion } from 'framer-motion';
+import { useState } from 'react';
+import { IoArrowBack, IoRemoveCircle, IoAddCircle } from 'react-icons/io5';
+import { SCHOOL_SUBJECTS } from '../../../../common/types/constants';
+import { Section, SectionRow, Spacer, TextInput, NavigationButton } from '../../../../components';
+import { TutorialState } from '../../types';
+import styled from '@emotion/styled';
+import tw from 'twin.macro';
 
 const StyledTitle = styled.p`
   ${tw`text-2xl font-bold`}
