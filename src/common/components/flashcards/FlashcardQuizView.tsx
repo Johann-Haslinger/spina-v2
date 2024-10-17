@@ -228,71 +228,70 @@ const FlashcardQuizView = () => {
       parent_id: string;
       mastery_level: number;
     }[] = [];
-
+  
+    const calculateDueDate = (flashcardEntity: any): Date | null => {
+      const now = new Date();
+      if (flashcardEntity.has(AdditionalTag.REMEMBERED_EASILY)) {
+        now.setDate(now.getDate() + 4);
+      } else if (flashcardEntity.has(AdditionalTag.REMEMBERED_WITH_EFFORT)) {
+        now.setDate(now.getDate() + 1);
+      } else if (flashcardEntity.has(AdditionalTag.PARTIALLY_REMEMBERED)) {
+        now.setHours(now.getHours() + 12);
+      } else if (flashcardEntity.has(AdditionalTag.FORGOT)) {
+        return now;
+      } else if (flashcardEntity.has(AdditionalTag.SKIP)) {
+        now.setHours(now.getHours() + 1);
+      } else {
+        return null;
+      }
+      return now;
+    };
+  
+    const calculateMasteryLevel = (flashcardEntity: any, currentMasteryLevel: number): number => {
+      if (currentMasteryLevel === MAX_MASTERY_LEVEL && !flashcardEntity.has(AdditionalTag.FORGOT)) {
+        return MAX_MASTERY_LEVEL;
+      } else if (
+        flashcardEntity.has(AdditionalTag.REMEMBERED_EASILY) ||
+        flashcardEntity.has(AdditionalTag.REMEMBERED_WITH_EFFORT) ||
+        flashcardEntity.has(AdditionalTag.PARTIALLY_REMEMBERED)
+      ) {
+        return currentMasteryLevel + 1;
+      } else if (flashcardEntity.has(AdditionalTag.FORGOT)) {
+        return MIN_MASTERY_LEVEL;
+      }
+      return currentMasteryLevel;
+    };
+  
     if (isQuizInCollection) {
       selectedLearningUnitEntity?.add(new PriorityFacet({ priority: LearningUnitPriority.ACTIVE }));
-
-      const flashcardParentIds = Array.from(new Set(flashcardEntities.map((e) => e.get(ParentFacet)?.props.parentId)));
-      flashcardParentIds.forEach(async (parentId) => {
-        const learningUnitEntity = lsc.engine.entities.find((e) => e.get(IdentifierFacet)?.props.guid === parentId);
-
-        if (!learningUnitEntity) return;
-
-        updatePriority(lsc, learningUnitEntity, LearningUnitPriority.ACTIVE, dueFlashcardEntity, true);
-      });
+  
+      const flashcardParentIds = Array.from(new Set(flashcardEntities.map(e => e.get(ParentFacet)?.props.parentId)));
+      await Promise.all(
+        flashcardParentIds.map(async parentId => {
+          const learningUnitEntity = lsc.engine.entities.find(e => e.get(IdentifierFacet)?.props.guid === parentId);
+          if (learningUnitEntity) {
+            updatePriority(lsc, learningUnitEntity, LearningUnitPriority.ACTIVE, dueFlashcardEntity, true);
+          }
+        })
+      );
     }
-
-    flashcardEntities.forEach((flashcardEntity) => {
+  
+    flashcardEntities.forEach(flashcardEntity => {
       const id = flashcardEntity.get(IdentifierFacet)?.props.guid;
       const parentId = flashcardEntity.get(ParentFacet)?.props.parentId || '';
-      const flashcardInLsc = lsc.engine.entities.find((e) => e.get(IdentifierFacet)?.props.guid === id);
-
+      const flashcardInLsc = lsc.engine.entities.find(e => e.get(IdentifierFacet)?.props.guid === id);
+  
       if (!id) return;
-
-      let dueDate: Date | null = null;
-
-      if (flashcardEntity.has(AdditionalTag.REMEMBERED_EASILY)) {
-        dueDate = new Date();
-        dueDate.setDate(dueDate.getDate() + 4);
-      } else if (flashcardEntity.has(AdditionalTag.REMEMBERED_WITH_EFFORT)) {
-        dueDate = new Date();
-        dueDate.setDate(dueDate.getDate() + 1);
-      } else if (flashcardEntity.has(AdditionalTag.PARTIALLY_REMEMBERED)) {
-        dueDate = new Date();
-        dueDate.setHours(dueDate.getHours() + 12);
-      } else if (flashcardEntity.has(AdditionalTag.FORGOT)) {
-        dueDate = new Date();
-      } else if (flashcardEntity.has(AdditionalTag.SKIP)) {
-        dueDate = new Date();
-        dueDate.setHours(dueDate.getHours() + 1);
-      }
-
-      if (dueDate) {
-        flashcardInLsc?.add(new DueDateFacet({ dueDate: dueDate?.toISOString() }));
-      }
-
+  
+      const dueDate = calculateDueDate(flashcardEntity);
       const masteryLevel = flashcardEntity.get(MasteryLevelFacet)?.props.masteryLevel || 0;
-      let newMasterLevel = masteryLevel;
-
-      if (masteryLevel == MAX_MASTERY_LEVEL && !flashcardEntity.has(AdditionalTag.FORGOT)) {
-        newMasterLevel = MAX_MASTERY_LEVEL;
-      } else if (flashcardEntity.has(AdditionalTag.REMEMBERED_EASILY)) {
-        newMasterLevel = masteryLevel + 1;
-      } else if (flashcardEntity.has(AdditionalTag.REMEMBERED_WITH_EFFORT)) {
-        newMasterLevel = masteryLevel + 1;
-      } else if (flashcardEntity.has(AdditionalTag.PARTIALLY_REMEMBERED)) {
-        newMasterLevel = masteryLevel + 1;
-      } else if (flashcardEntity.has(AdditionalTag.FORGOT)) {
-        newMasterLevel = MIN_MASTERY_LEVEL;
-      }
-
+      const newMasterLevel = calculateMasteryLevel(flashcardEntity, masteryLevel);
+  
       flashcardEntity.add(new MasteryLevelFacet({ masteryLevel: newMasterLevel }));
-
-      lsc.engine.entities
-        .find((e) => e.get(IdentifierFacet)?.props.guid === id)
-        ?.add(new MasteryLevelFacet({ masteryLevel: newMasterLevel }));
-
+      flashcardInLsc?.add(new MasteryLevelFacet({ masteryLevel: newMasterLevel }));
+  
       if (dueDate) {
+        flashcardInLsc?.add(new DueDateFacet({ dueDate: dueDate.toISOString() }));
         updatedFlashcards.push({
           id,
           user_id: userId,
@@ -302,26 +301,30 @@ const FlashcardQuizView = () => {
         });
       }
     });
-
+  
     dueFlashcardEntity?.add(
       new CountFacet({
         count:
           dueFlashcardsCount -
           flashcardEntities.filter(
-            (e) =>
+            e =>
               e.has(AdditionalTag.REMEMBERED_WITH_EFFORT) ||
               e.has(AdditionalTag.REMEMBERED_EASILY) ||
               e.has(AdditionalTag.SKIP) ||
-              e.has(AdditionalTag.PARTIALLY_REMEMBERED),
+              e.has(AdditionalTag.PARTIALLY_REMEMBERED)
           ).length,
-      }),
+      })
     );
-
-    const { error } = await supabaseClient
-      .from(SupabaseTable.FLASHCARDS)
-      .upsert(updatedFlashcards, { onConflict: SupabaseColumn.ID });
-
-    if (error) {
+  
+    try {
+      const { error } = await supabaseClient
+        .from(SupabaseTable.FLASHCARDS)
+        .upsert(updatedFlashcards, { onConflict: SupabaseColumn.ID });
+  
+      if (error) {
+        throw error;
+      }
+    } catch (error: any) {
       console.error('Fehler beim Aktualisieren der Flashcards:', error);
       addNotificationEntity(lsc, {
         title: 'Fehler beim Aktualisieren der Lernkarten',
@@ -330,6 +333,7 @@ const FlashcardQuizView = () => {
       });
     }
   };
+  
 
   const updateCurrentStreak = async () => {
     if (currentFlashcardIndex === 0 || !userId) return;

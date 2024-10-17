@@ -51,18 +51,17 @@ const InitializeSchoolSubjectsSystem = () => {
           schoolSubjectEntity.addTag(DataType.SCHOOL_SUBJECT);
         }
       });
-      if (schoolSubjects.length > 0) {
-        const timeoutId = setTimeout(() => {
-          loadingIndicatorEntity?.remove(Tags.CURRENT);
-        }, 300);
 
-        return () => {
-          clearTimeout(timeoutId);
-          lsc.engine.entities
-            .filter((e) => dataTypeQuery(e, DataType.SCHOOL_SUBJECT))
-            .forEach((e) => lsc.engine.removeEntity(e));
-        };
-      }
+      const timeoutId = setTimeout(() => {
+        loadingIndicatorEntity?.remove(Tags.CURRENT);
+      }, 300);
+
+      return () => {
+        clearTimeout(timeoutId);
+        lsc.engine.entities
+          .filter((e) => dataTypeQuery(e, DataType.SCHOOL_SUBJECT))
+          .forEach((e) => lsc.engine.removeEntity(e));
+      };
     };
 
     initializeSchoolSubjectEntities();

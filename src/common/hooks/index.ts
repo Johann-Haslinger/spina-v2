@@ -6,3 +6,4 @@ export * from './useOutsideClick';
 export * from './useCurrentDataSource';
 export * from './useSession';
 export * from './useDaysUntilDue';
+export * from './useTimer';

@@ -89,11 +89,15 @@ const GeneratingIndicator = (props: { isGeneratingDone: boolean; isAnimationPlay
     <StyledIndicatorContainer>
       <motion.div tw="flex animate-pulse space-x-4">
         <AnimatedTextSwitcher
+          isAnimationPlaying={isAnimationPlaying}
           texts={[
             'Hochladen des Bildes',
             'Analyse des Bildes',
             'Erstellung der Lernkarten',
+            'Validierung der Lernkarten',
             'Fertigstellung der Lernkarten',
+            'Zuordnung zu Themen',
+            'Speichern der Lernkarten',
           ]}
         />
       </motion.div>
@@ -107,7 +111,6 @@ const GeneratingIndicator = (props: { isGeneratingDone: boolean; isAnimationPlay
     </StyledIndicatorContainer>
   );
 };
-
 const useGeneratingProgress = (isGeneratingDone: boolean, isAnimationPlaying: boolean) => {
   const [progress, setProgress] = useState(0);
 
@@ -120,8 +123,12 @@ const useGeneratingProgress = (isGeneratingDone: boolean, isAnimationPlaying: bo
     }
 
     const intervalId = setInterval(() => {
-      setProgress((prev) => Math.min(prev + 1, 100));
-    }, 200);
+      setProgress((prev) => {
+        const increment = Math.random() * (0.5 + (100 - prev) / 50);
+        const nextProgress = Math.min(prev + increment, 100);
+        return nextProgress;
+      });
+    }, 250);
 
     return () => clearInterval(intervalId);
   }, [isGeneratingDone, isAnimationPlaying]);
@@ -129,16 +136,18 @@ const useGeneratingProgress = (isGeneratingDone: boolean, isAnimationPlaying: bo
   return progress;
 };
 
-const AnimatedTextSwitcher = ({ texts }: { texts: string[] }) => {
+const AnimatedTextSwitcher = ({ texts, isAnimationPlaying }: { texts: string[]; isAnimationPlaying: boolean }) => {
   const [currentTextIndex, setCurrentTextIndex] = useState(0);
 
   useEffect(() => {
+    if (!isAnimationPlaying) return;
+
     const interval = setInterval(() => {
       setCurrentTextIndex((prevIndex) => (prevIndex == texts.length - 1 ? prevIndex : prevIndex + 1));
-    }, 5000);
+    }, 3000);
 
     return () => clearInterval(interval);
-  }, [texts.length]);
+  }, [texts.length, isAnimationPlaying]);
 
   return (
     <AnimatedTextContainer>

@@ -26,6 +26,7 @@ import { addLearningUnit } from '../../../common/utilities/addLeaningUnit';
 import { addTopic } from '../../../common/utilities/addTopic';
 import { View } from '../../../components';
 import supabaseClient from '../../../lib/supabase';
+import { generateDescriptionForTopic } from '../../collection/functions/generateDescriptionForTopic';
 import { generateLearningUnitFromFile } from '../../collection/functions/generateLearningUnitFromFile';
 import { ParentDetails, TutorialState } from '../types';
 import {
@@ -38,7 +39,6 @@ import {
   SelectingImageSection,
   TutorialIntroductionSection,
 } from './tutorial-sections';
-import { generateDescriptionForTopic } from '../../collection/functions/generateDescriptionForTopic';
 
 const delay = (ms: number): Promise<void> => new Promise<void>((res) => setTimeout(res, ms));
 
@@ -67,11 +67,12 @@ const TutorialView = (props: { tutorialState: TutorialState; setTutorialState: (
       setTutorialState(TutorialState.SELECTING_IMAGE);
       return;
     }
-
-    setGeneratedFlashcardSet({ ...newFlashcardSet, id: uuid() });
     setTimeout(() => {
-      setTutorialState(TutorialState.DISPLAYING_FLASHCARDS);
-    }, 100);
+      setGeneratedFlashcardSet({ ...newFlashcardSet, id: uuid() });
+      setTimeout(() => {
+        setTutorialState(TutorialState.DISPLAYING_FLASHCARDS);
+      }, 100);
+    }, 0);
   };
 
   useEffect(() => {
