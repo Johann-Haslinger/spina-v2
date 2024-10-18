@@ -18,14 +18,15 @@ const InitializeAppSystem = (props: { mockupData?: boolean }) => {
     } else {
       appStateEntity.add(AdditionalTag.ONLINE);
     }
-
     const storedTheme = localStorage.getItem('theme');
 
     if (storedTheme) {
       appStateEntity.add(storedTheme === 'dark' ? SupportedTheme.DARK : SupportedTheme.LIGHT);
     } else {
-      localStorage.setItem('theme', SupportedTheme.LIGHT);
-      appStateEntity.add(SupportedTheme.LIGHT);
+      const prefersDarkMode = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+      const defaultTheme = prefersDarkMode ? SupportedTheme.DARK : SupportedTheme.LIGHT;
+      localStorage.setItem('theme', defaultTheme);
+      appStateEntity.add(defaultTheme);
     }
 
     const storedLanguage = localStorage.getItem('language');

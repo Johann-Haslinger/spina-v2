@@ -1,6 +1,6 @@
 import { useEntities, useEntity, useEntityHasTags } from '@leanscope/ecs-engine';
 import { Tags } from '@leanscope/ecs-models';
-import { Fragment, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AdditionalTag, DataType, Story } from '../types/enums';
 
 import { SucessSheet } from '../../components';
@@ -139,7 +139,7 @@ const ViewManagerSystem = () => {
       if (isDarkModeActive) {
         setThemeColor('#1a1a1a');
       } else {
-        setThemeColor('#ffffff');
+        setThemeColor('#F5F5F5');
       }
     } else if (isMobile) {
       if (isDarkModeActive) {
@@ -206,10 +206,10 @@ const ViewManagerSystem = () => {
   }, [isSheetViewVisible, isDarkModeActive]);
 
   return (
-    <Fragment>
+    <div>
       <meta name="theme-color" content={themeColor} />
       <SucessSheet />
-    </Fragment>
+    </div>
   );
 };
 
