@@ -43,7 +43,7 @@ const StyledDayBox = styled.div`
   ${tw`size-10 xl:size-11 hover:opacity-80 transition-all flex justify-center items-center`}
 `;
 
-const StyledDayInnerBox = styled.div`
+const StyledDayInnerBox = styled.div<{ isToday: boolean }>`
   ${tw`size-8  xl:size-9 rounded-md bg-[#3A7945]`}
 `;
 
@@ -52,7 +52,7 @@ const StyledHiddenText = styled.span`
 `;
 
 const LastFiftyDaysStatCard = () => {
-  const { lastSevenWeeks, totalFlashcardCount } = useLastSevenWeeksStats();
+  const { lastSevenWeeks, lastSevenWeeksDates, totalFlashcardCount } = useLastSevenWeeksStats();
 
   return (
     <div>
@@ -72,7 +72,11 @@ const LastFiftyDaysStatCard = () => {
           {lastSevenWeeks.map((week, weekIndex) => (
             <div key={`week-${weekIndex}`}>
               {week.map((day, dayIndex) => (
-                <DayBox day={day} key={`day-${weekIndex}-${dayIndex}`} />
+                <DayBox
+                  day={day}
+                  key={`day-${weekIndex}-${dayIndex}`}
+                  date={lastSevenWeeksDates[weekIndex * 7 + dayIndex]}
+                />
               ))}
             </div>
           ))}
@@ -92,10 +96,14 @@ const LastFiftyDaysStatCard = () => {
 
 export default LastFiftyDaysStatCard;
 
-const DayBox = (props: { day: { percent: number; total: number } }) => {
-  const { day } = props;
+const DayBox = (props: { day: { percent: number; total: number }; date: string }) => {
+  const { day, date } = props;
   const opacity = 10 + (day.percent > 0 ? day.percent + 0.1 : 0) * 100;
   const [isHovered, setIsHovered] = useState(false);
+
+  const today = new Date().toISOString().split('T')[0];
+  const isFutureDay = new Date(date) > new Date(today);
+  const isToday = date === today;
 
   return (
     <StyledDayWrapper>
@@ -104,8 +112,14 @@ const DayBox = (props: { day: { percent: number; total: number } }) => {
           <StyledHoverInfo>{day.total} Karten</StyledHoverInfo>
         </div>
       )}
-      <StyledDayBox onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
-        <StyledDayInnerBox style={{ opacity: (opacity > 80 ? 80 : opacity) + '%' }} />
+      <StyledDayBox
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        style={{
+          opacity: isFutureDay ? 0 : (opacity > 80 ? 80 : opacity) + '%',
+        }}
+      >
+        <StyledDayInnerBox isToday={isToday} />
       </StyledDayBox>
     </StyledDayWrapper>
   );
