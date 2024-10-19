@@ -135,7 +135,7 @@ const AuthUI = () => {
                   providers={[]}
                 />
 
-                <p tw="text-secondary-text text-center w-full text-xs">
+                <p tw="text-secondary-text mt-2 text-center w-full text-xs">
                   Durch die Anmeldung stimmst du unseren{' '}
                   <b>
                     <a target='_blank' href={DATA_PRIVACY_LINK}>Nutzungsbedingungen</a>
