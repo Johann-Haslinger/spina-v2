@@ -3,7 +3,7 @@ import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet, Tags } from '@leanscope/ecs-models';
 import { motion } from 'framer-motion';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import tw from 'twin.macro';
 import { v4 as uuid } from 'uuid';
 import { useUserData } from '../../../../../common/hooks/useUserData';
@@ -21,7 +21,6 @@ import { addFlashcards } from '../../../../../common/utilities/addFlashcards';
 import { addLearningUnit } from '../../../../../common/utilities/addLeaningUnit';
 import { CloseButton, FlexBox, ScrollableBox } from '../../../../../components';
 import SapientorConversationMessage from '../../../../../components/content/SapientorConversationMessage';
-import { findMatchingTopicForLearningUnit } from '../../../functions/findMatchingTopicForLearningUnit';
 import { useSelectedTopic } from '../../../hooks/useSelectedTopic';
 import PreviewFlashcard from '../../flashcard-sets/PreviewFlashcard';
 
@@ -33,22 +32,29 @@ const GeneratedFlashcardSet = (props: {
   generatedFlashcardSet: GeneratedFlashcardSetResource;
   isVisible: boolean;
   regenerateFlashcards: () => void;
+  selectedParentId: string | null;
 }) => {
   const lsc = useContext(LeanScopeClientContext);
   const {
     generatedFlashcardSet: { flashcards, title },
     isVisible,
     regenerateFlashcards,
+    selectedParentId,
   } = props;
   const [generatedFlashcards, setGeneratedFlashcards] = useState<Flashcard[]>(flashcards);
   const { userId } = useUserData();
   const { selectedTopicId } = useSelectedTopic();
   const isFlashcardSetEmpty = generatedFlashcards.length === 0;
-  const [selectedParentId, setSelectedParentId] = useState<string | null>(null);
 
   const navigateBack = () => lsc.stories.transitTo(Story.ANY);
 
-  const saveLearningUnit = () => {
+  useEffect(() => {
+    if (selectedParentId && generatedFlashcards.length > 0) {
+      saveLearningUnit(selectedParentId);
+    }
+  }, [selectedParentId]);
+
+  const saveLearningUnit = (selectedParentId: string) => {
     navigateBack();
 
     const parentId = selectedTopicId || selectedParentId;
@@ -81,12 +87,9 @@ const GeneratedFlashcardSet = (props: {
 
   const checkParentId = () => {
     if (selectedTopicId) {
-      saveLearningUnit();
+      saveLearningUnit(selectedTopicId);
     } else {
-      const learningUnitContent =
-        title + ' ' + generatedFlashcards.map((flashcard) => flashcard.question + ' = ' + flashcard.answer).join(' ');
-      const parentId = findMatchingTopicForLearningUnit(learningUnitContent);
-      setSelectedParentId(parentId);
+      lsc.stories.transitTo(Story.SELECTING_PARENT_STORY);
     }
   };
 

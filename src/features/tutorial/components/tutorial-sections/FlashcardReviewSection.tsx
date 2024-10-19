@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { ILeanScopeClient } from '@leanscope/api-client';
 import { LeanScopeClientContext } from '@leanscope/api-client/browser';
-import { Entity, EntityProps } from '@leanscope/ecs-engine';
+import { Entity, EntityProps, useEntities } from '@leanscope/ecs-engine';
 import { CountFacet, IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { motion } from 'framer-motion';
 import { useContext, useEffect, useState } from 'react';
@@ -14,6 +14,7 @@ import {
   AnswerFacet,
   AnswerProps,
   DateAddedFacet,
+  DateUpdatedFacet,
   DueDateFacet,
   DurationFacet,
   FlashcardCountFacet,
@@ -21,11 +22,13 @@ import {
   MasteryLevelFacet,
   QuestionFacet,
   QuestionProps,
+  StreakFacet,
 } from '../../../../common/types/additionalFacets';
 import { MAX_MASTERY_LEVEL, MIN_MASTERY_LEVEL } from '../../../../common/types/constants';
 import { AdditionalTag, DataType, SupabaseColumn, SupabaseTable } from '../../../../common/types/enums';
 import { GeneratedFlashcardSetResource } from '../../../../common/types/types';
 import { addNotificationEntity } from '../../../../common/utilities';
+import { dataTypeQuery } from '../../../../common/utilities/queries';
 import { CloseButton, FlexBox, NavigationButton, Sheet, Spacer } from '../../../../components';
 import supabaseClient from '../../../../lib/supabase';
 import { useDueFlashcards } from '../../../flashcards';
@@ -43,7 +46,6 @@ export const FlashcardReviewSection = (props: {
   const { tutorialState, setTutorialState, flashcardSet } = props;
   const isVisible = tutorialState == TutorialState.REVIEWING_FLASHCARDS;
   const [isFlashcardQuzVisible, setIsFlashcardQuizVisible] = useState(false);
-  console.log('isFlashcardQuzVisible', isFlashcardQuzVisible);
   const positionX = isVisible
     ? 0
     : [
@@ -94,11 +96,13 @@ export const FlashcardReviewSection = (props: {
           </div>
         </motion.div>
 
-        <FlashcardQuiz
-          isVisible={isFlashcardQuzVisible}
-          navigateBack={closeFlashcardQuiz}
-          flashcardSet={flashcardSet}
-        />
+        {isVisible && (
+          <FlashcardQuiz
+            isVisible={isFlashcardQuzVisible}
+            navigateBack={closeFlashcardQuiz}
+            flashcardSet={flashcardSet}
+          />
+        )}
       </div>
     )
   );
@@ -135,6 +139,39 @@ const calculateMasteryLevel = (flashcardEntity: Entity, currentMasteryLevel: num
     return MIN_MASTERY_LEVEL;
   }
   return currentMasteryLevel;
+};
+
+const updateCurrentStreak = async (lsc: ILeanScopeClient, reviewedFlashcardsCount: number, userId: string) => {
+  if (reviewedFlashcardsCount === 0 || !userId) return;
+
+  const streakEntity = lsc.engine.entities.find((e) => e.has(StreakFacet));
+  const currentStreak = streakEntity?.get(StreakFacet)?.props.streak || 0;
+  const currentDate = new Date();
+
+  if (
+    streakEntity &&
+    currentDate.getDate() !== new Date(streakEntity.get(DateUpdatedFacet)?.props.dateUpdated || '').getDate()
+  ) {
+    const { error: updateError } = await supabaseClient
+      .from(SupabaseTable.STREAKS)
+      .update({
+        streak: currentStreak + 1,
+        date_updated: currentDate.toISOString(),
+      })
+      .eq(SupabaseColumn.ID, streakEntity.get(IdentifierFacet)?.props.guid);
+
+    if (updateError) {
+      console.error('Error updating current streak:', updateError);
+      addNotificationEntity(lsc, {
+        title: 'Fehler beim Aktualisieren des Streaks',
+        message: updateError.message + updateError.details + updateError.hint,
+        type: 'error',
+      });
+    }
+
+    streakEntity?.add(new StreakFacet({ streak: currentStreak + 1 }));
+    streakEntity?.add(new DateUpdatedFacet({ dateUpdated: currentDate.toISOString() }));
+  }
 };
 
 const updateFlashcardsDueDateAndMasteryLevel = async (
@@ -243,7 +280,11 @@ const saveFlashcardSession = async (
       session_date: new Date().toISOString(),
       duration: elapsedMinutes,
       flashcard_count: reviewedFlashcardsCount,
-      ...flashcardPerformance,
+      skip: flashcardPerformance.skip,
+      forgot: flashcardPerformance.forgot,
+      partially_remembered: flashcardPerformance.partiallyRemembered,
+      remembered_with_effort: flashcardPerformance.rememberedWithEffort,
+      easily_remembered: flashcardPerformance.easilyRemembered,
     };
 
     const { error } = await supabaseClient.from(SupabaseTable.FLASHCARD_SESSIONS).insert([newFlashcardSession]);
@@ -274,6 +315,8 @@ const saveFlashcardSession = async (
       type: 'error',
     });
   }
+
+  updateCurrentStreak(lsc, reviewedFlashcardsCount, userId);
 };
 
 const FlashcardQuiz = (props: {
@@ -480,38 +523,11 @@ const useIsDisplayed = (isVisible: boolean) => {
 };
 
 const useFlashcardEntitiesForQuiz = (flashcardSet: GeneratedFlashcardSetResource) => {
-  const [flashcardEntities, setFlashcardEntities] = useState<Entity[]>([]);
+  const [flashcardEntities] = useEntities(
+    (e) => e.get(ParentFacet)?.props.parentId === flashcardSet.id && dataTypeQuery(e, DataType.FLASHCARD),
+  );
 
-  useEffect(() => {
-    const fetchFlashcardEntities = async () => {
-      // const { data: flashcards, error } = await supabaseClient
-      //   .from(SupabaseTable.FLASHCARDS)
-      //   .select('question, answer, id')
-      //   .eq('parentId', flashcardSet.id);
-
-      // if (error) {
-      //   console.error('Error fetching flashcards:', error);
-      // }
-      const flashcards = flashcardSet.flashcards;
-      const flashcardEntities = flashcards?.map((flashcard, idx) => {
-        const newFlashcardEntity = new Entity();
-        newFlashcardEntity.add(new QuestionFacet({ question: flashcard.question }));
-        newFlashcardEntity.add(new AnswerFacet({ answer: flashcard.answer }));
-        // newFlashcardEntity.add(new IdentifierFacet({ guid: flashcard.id|| idx }));
-        newFlashcardEntity.add(new IdentifierFacet({ guid: idx.toString() }));
-
-        return newFlashcardEntity;
-      });
-
-      if (!flashcardEntities) return;
-
-      setFlashcardEntities(flashcardEntities);
-    };
-
-    fetchFlashcardEntities();
-  }, [flashcardSet]);
-
-  return flashcardEntities;
+  return [...flashcardEntities];
 };
 
 const FlashcardQuizEnd = (props: { isVisible: boolean; endQuiz: () => void }) => {

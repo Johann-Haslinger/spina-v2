@@ -28,9 +28,8 @@ const InitializeSchoolSubjectsSystem = () => {
 
   useEffect(() => {
     const initializeSchoolSubjectEntities = async () => {
-      console.log('InitializeSchoolSubjectsSystem');
       loadingIndicatorEntity?.add(Tags.CURRENT);
-      console.log('isUsingMockupData', isUsingMockupData);
+
       if (!isUsingMockupData && !isUsingSupabaseData) return;
 
       const schoolSubjects = isUsingMockupData
@@ -38,8 +37,6 @@ const InitializeSchoolSubjectsSystem = () => {
         : isUsingSupabaseData
           ? await fetchSchoolSubjects()
           : [];
-
-      console.log('schoolSubjects', schoolSubjects);
 
       if (schoolSubjects.length > 0) {
         schoolSubjects.forEach((schoolSubject, idx) => {

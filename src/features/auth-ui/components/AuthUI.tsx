@@ -11,6 +11,7 @@ import { Sheet } from '../../../components';
 import supabaseClient from '../../../lib/supabase';
 import { useSelectedTheme } from '../../collection/hooks/useSelectedTheme';
 
+const DATA_PRIVACY_LINK = 'https://spina.ai/terms-privacy';
 const CODE = '5295';
 
 const StyledAuthWrapper = styled.div`
@@ -107,6 +108,7 @@ const AuthUI = () => {
               <StyledAuthWrapper>
                 <Auth
                   supabaseClient={supabaseClient}
+                 
                   appearance={{
                     theme: ThemeSupa,
                     variables: {
@@ -132,6 +134,19 @@ const AuthUI = () => {
                   theme={isDarkModeActive ? 'dark' : 'light'}
                   providers={[]}
                 />
+
+                <p tw="text-secondary-text text-center w-full text-xs">
+                  Durch die Anmeldung stimmst du unseren{' '}
+                  <b>
+                    <a target='_blank' href={DATA_PRIVACY_LINK}>Nutzungsbedingungen</a>
+                  </b>{' '}
+                  <br />
+                  und{' '}
+                  <b>
+                    <a target='_blank' href={DATA_PRIVACY_LINK}>Datenschutzrichtlinien</a>
+                  </b>{' '}
+                  zu.
+                </p>
               </StyledAuthWrapper>
             </StyledMotionDiv>
           </StyledContainer>

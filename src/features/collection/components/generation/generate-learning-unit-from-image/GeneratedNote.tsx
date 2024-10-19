@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet, Tags, TextFacet } from '@leanscope/ecs-models';
-import { useContext, useState } from 'react';
+import { useContext, useEffect } from 'react';
 import tw from 'twin.macro';
 import { v4 as uuid } from 'uuid';
 import { useUserData } from '../../../../../common/hooks/useUserData';
@@ -18,24 +18,35 @@ import { addLearningUnit } from '../../../../../common/utilities/addLeaningUnit'
 import { addText } from '../../../../../common/utilities/addText';
 import { CloseButton, FlexBox, ScrollableBox } from '../../../../../components';
 import SapientorConversationMessage from '../../../../../components/content/SapientorConversationMessage';
-import { findMatchingTopicForLearningUnit } from '../../../functions/findMatchingTopicForLearningUnit';
 import { useSelectedTopic } from '../../../hooks/useSelectedTopic';
+
+const delay = (ms: number) => new Promise((res) => setTimeout(res, ms));
 
 const StyledNoteWrapper = styled.div`
   ${tw`md:px-4 pt-1 h-full w-full`}
 `;
 
-const GeneratedNote = (props: { note: GeneratedNoteResource; isVisible: boolean; regenerateNote: () => void }) => {
+const GeneratedNote = (props: {
+  note: GeneratedNoteResource;
+  isVisible: boolean;
+  regenerateNote: () => void;
+  selectedParentId: string | null;
+}) => {
   const lsc = useContext(LeanScopeClientContext);
-  const { note, isVisible, regenerateNote } = props;
+  const { note, isVisible, regenerateNote, selectedParentId } = props;
   const { userId } = useUserData();
   const { selectedTopicId } = useSelectedTopic();
   const isNoteEmpty = note.text == '';
-  const [selectedParentId, setSelectedParentId] = useState<string | null>(null);
 
   const navigateBack = () => lsc.stories.transitTo(Story.ANY);
 
-  const saveLearningUnit = () => {
+  useEffect(() => {
+    if (selectedParentId && !isNoteEmpty) {
+      saveLearningUnit(selectedParentId);
+    }
+  }, [selectedParentId]);
+
+  const saveLearningUnit = async(selectedParentId: string) => {
     navigateBack();
 
     const parentId = selectedTopicId || selectedParentId;
@@ -53,6 +64,8 @@ const GeneratedNote = (props: { note: GeneratedNoteResource; isVisible: boolean;
 
     addLearningUnit(lsc, newLearningUnitEntity, userId);
 
+    await delay(200);
+
     const newTextEntity = new Entity();
     newTextEntity.add(new ParentFacet({ parentId: learningUnitId }));
     newTextEntity.add(new TextFacet({ text: note.text }));
@@ -62,10 +75,9 @@ const GeneratedNote = (props: { note: GeneratedNoteResource; isVisible: boolean;
 
   const checkParentId = () => {
     if (selectedTopicId) {
-      saveLearningUnit();
+      saveLearningUnit(selectedTopicId);
     } else {
-      const parentId = findMatchingTopicForLearningUnit(note.title + ' ' + note.text);
-      setSelectedParentId(parentId);
+      lsc.stories.transitTo(Story.SELECTING_PARENT_STORY);
     }
   };
 

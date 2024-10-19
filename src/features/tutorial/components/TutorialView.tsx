@@ -84,7 +84,7 @@ const TutorialView = (props: { tutorialState: TutorialState; setTutorialState: (
         ': ' +
         generatedFlashcardSet.flashcards.map((flashcard) => flashcard.question + ' = ' + flashcard.answer).join(' ');
       const parentDetails = await generateParentDetails(flashcardSetContent);
-      console.log('Parent details:', parentDetails);
+
       setFlashcardSetParentDetails(parentDetails);
       setSchoolSubjects([parentDetails.schoolSubjectTitle]);
     };
@@ -200,7 +200,7 @@ const saveUserData = async (
 
   addTopic(lsc, newTopicEntity, userId);
 
-  await delay(500);
+  await delay(100);
 
   const flashcardSetId = flashcardSet.id || '';
 
@@ -215,7 +215,7 @@ const saveUserData = async (
 
   addLearningUnit(lsc, flashcardSetEntity, userId);
 
-  await delay(500);
+  await delay(100);
 
   const flashcardEntities = flashcardSet.flashcards.map((flashcard) => {
     const flashcardEntity = new Entity();
@@ -229,7 +229,6 @@ const saveUserData = async (
   });
 
   addFlashcards(lsc, flashcardEntities, userId);
-  localStorage.setItem('tutorialDone', 'true');
 
   generateDescriptionForTopic(lsc, newTopicEntity);
 };
@@ -252,8 +251,7 @@ const generateParentDetails = async (content: string) => {
     return null;
   }
 
-  console.log(data);
   const parentDetails = JSON.parse(data);
-  console.log(parentDetails);
+
   return parentDetails;
 };

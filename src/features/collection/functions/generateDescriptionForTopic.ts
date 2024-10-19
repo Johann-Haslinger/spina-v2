@@ -21,10 +21,9 @@ export const generateDescriptionForTopic = async (lsc: ILeanScopeClient, entity:
 
     const searchQueryPrompt = `Erstelle eine Unsplash-Suchanfrage für das um ein passendes Bild für das Thema "${title}" zu finden. Die Anfrage soll nicht länger als 3 Wörter sein und auf Unsplash vorhandene Bilder liefern.`;
     const searchQuery = await getCompletion(lsc, searchQueryPrompt);
-    console.log('searchQuery', searchQuery);
+
     const images = await loadImagesFromUnsplash(lsc, searchQuery);
-    console.log('images', images);
-    console.log(images[0].url);
+
     const firstImage = JSON.parse(images)[0] && JSON.parse(images)[0];
     entity.add(new ImageFacet({ imageSrc: (firstImage && firstImage.url) || '' }));
 
