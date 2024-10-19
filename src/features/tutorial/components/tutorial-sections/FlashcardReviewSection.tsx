@@ -373,7 +373,7 @@ const useTimerStart = (isVisible: boolean, startTimer: () => void) => {
 };
 
 const StyledFlashcardCellContainer = styled(motion.div)`
-  ${tw` overflow-hidden  mx-auto 2xl:h-[70%] md:h-[80%]  mt-[8%] md:mt-[8%] 2xl:mt-[8%] h-[94%] md:w-8/12 2xl:w-6/12  items-center top-0 pb-14  flex justify-center absolute w-full `}
+  ${tw` overflow-hidden mx-auto 2xl:h-[70%] md:h-[80%]  mt-[20%] md:mt-[6%] 2xl:mt-[8%] h-[90%] md:w-8/12 2xl:w-6/12  items-center top-0 pb-14  flex justify-center absolute w-full `}
 `;
 
 const StyledFlashcardWrapper = styled(motion.div)`
@@ -437,7 +437,7 @@ const Flashcard = (props: FlashcardProps) => {
     isDisplayed && (
       <div>
         <StyledFlashcardCellContainer transition={{ type: 'just' }}>
-          <div tw="relative right-8 h-full w-full overflow-hidden">
+          <div tw="relative right-4 h-full w-full overflow-hidden">
             <motion.div
               tw="w-full h-full flex justify-center items-center"
               transition={{ type: 'just' }}
@@ -537,7 +537,7 @@ const FlashcardQuizEnd = (props: { isVisible: boolean; endQuiz: () => void }) =>
   return (
     isVisible && (
       <StyledFlashcardCellContainer transition={{ type: 'just' }}>
-        <div tw="relative right-8 h-full w-full overflow-hidden">
+        <div tw="relative right-4 h-full w-full overflow-hidden">
           <motion.div
             tw="w-full h-full flex justify-center items-center"
             transition={{ type: 'just' }}
