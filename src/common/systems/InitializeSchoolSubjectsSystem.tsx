@@ -28,7 +28,9 @@ const InitializeSchoolSubjectsSystem = () => {
 
   useEffect(() => {
     const initializeSchoolSubjectEntities = async () => {
+      console.log('InitializeSchoolSubjectsSystem');
       loadingIndicatorEntity?.add(Tags.CURRENT);
+      console.log('isUsingMockupData', isUsingMockupData);
       if (!isUsingMockupData && !isUsingSupabaseData) return;
 
       const schoolSubjects = isUsingMockupData
@@ -37,34 +39,41 @@ const InitializeSchoolSubjectsSystem = () => {
           ? await fetchSchoolSubjects()
           : [];
 
-      schoolSubjects.forEach((schoolSubject, idx) => {
-        const isExisting = lsc.engine.entities.some(
-          (e) => e.get(IdentifierFacet)?.props.guid === schoolSubject.id && dataTypeQuery(e, DataType.SCHOOL_SUBJECT),
-        );
+      console.log('schoolSubjects', schoolSubjects);
 
-        if (!isExisting) {
-          const schoolSubjectEntity = new Entity();
-          lsc.engine.addEntity(schoolSubjectEntity);
-          schoolSubjectEntity.add(new TitleFacet({ title: schoolSubject.title }));
-          schoolSubjectEntity.add(new IdentifierFacet({ guid: schoolSubject.id }));
-          schoolSubjectEntity.add(new OrderFacet({ orderIndex: idx }));
-          schoolSubjectEntity.addTag(DataType.SCHOOL_SUBJECT);
-        }
-      });
+      if (schoolSubjects.length > 0) {
+        schoolSubjects.forEach((schoolSubject, idx) => {
+          const isExisting = lsc.engine.entities.some(
+            (e) => e.get(IdentifierFacet)?.props.guid === schoolSubject.id && dataTypeQuery(e, DataType.SCHOOL_SUBJECT),
+          );
 
-      const timeoutId = setTimeout(() => {
+          if (!isExisting) {
+            const schoolSubjectEntity = new Entity();
+            lsc.engine.addEntity(schoolSubjectEntity);
+            schoolSubjectEntity.add(new TitleFacet({ title: schoolSubject.title }));
+            schoolSubjectEntity.add(new IdentifierFacet({ guid: schoolSubject.id }));
+            schoolSubjectEntity.add(new OrderFacet({ orderIndex: idx }));
+            schoolSubjectEntity.addTag(DataType.SCHOOL_SUBJECT);
+          }
+        });
+      }
+
+      const timeOut = setTimeout(() => {
         loadingIndicatorEntity?.remove(Tags.CURRENT);
       }, 300);
 
       return () => {
-        clearTimeout(timeoutId);
-        lsc.engine.entities
-          .filter((e) => dataTypeQuery(e, DataType.SCHOOL_SUBJECT))
-          .forEach((e) => lsc.engine.removeEntity(e));
+        clearTimeout(timeOut);
       };
     };
 
     initializeSchoolSubjectEntities();
+
+    return () => {
+      lsc.engine.entities
+        .filter((e) => dataTypeQuery(e, DataType.SCHOOL_SUBJECT))
+        .forEach((e) => lsc.engine.removeEntity(e));
+    };
   }, [isUsingMockupData, isUsingSupabaseData]);
 
   return null;

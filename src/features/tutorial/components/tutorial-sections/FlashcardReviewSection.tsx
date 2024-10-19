@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { ILeanScopeClient } from '@leanscope/api-client';
 import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity, EntityProps } from '@leanscope/ecs-engine';
-import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
+import { CountFacet, IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { motion } from 'framer-motion';
 import { useContext, useEffect, useState } from 'react';
 import { IoCheckmarkCircleOutline } from 'react-icons/io5';
@@ -28,6 +28,7 @@ import { GeneratedFlashcardSetResource } from '../../../../common/types/types';
 import { addNotificationEntity } from '../../../../common/utilities';
 import { CloseButton, FlexBox, NavigationButton, Sheet, Spacer } from '../../../../components';
 import supabaseClient from '../../../../lib/supabase';
+import { useDueFlashcards } from '../../../flashcards';
 import { TutorialState } from '../../types';
 
 const StyledTitle = styled.p`
@@ -102,10 +103,45 @@ export const FlashcardReviewSection = (props: {
     )
   );
 };
+
+const calculateDueDate = (flashcardEntity: Entity): Date | null => {
+  const now = new Date();
+  if (flashcardEntity.has(AdditionalTag.REMEMBERED_EASILY)) {
+    now.setDate(now.getDate() + 4);
+  } else if (flashcardEntity.has(AdditionalTag.REMEMBERED_WITH_EFFORT)) {
+    now.setDate(now.getDate() + 1);
+  } else if (flashcardEntity.has(AdditionalTag.PARTIALLY_REMEMBERED)) {
+    now.setHours(now.getHours() + 12);
+  } else if (flashcardEntity.has(AdditionalTag.FORGOT)) {
+    return now;
+  } else if (flashcardEntity.has(AdditionalTag.SKIP)) {
+    now.setHours(now.getHours() + 1);
+  } else {
+    return null;
+  }
+  return now;
+};
+
+const calculateMasteryLevel = (flashcardEntity: Entity, currentMasteryLevel: number): number => {
+  if (currentMasteryLevel === MAX_MASTERY_LEVEL && !flashcardEntity.has(AdditionalTag.FORGOT)) {
+    return MAX_MASTERY_LEVEL;
+  } else if (
+    flashcardEntity.has(AdditionalTag.REMEMBERED_EASILY) ||
+    flashcardEntity.has(AdditionalTag.REMEMBERED_WITH_EFFORT) ||
+    flashcardEntity.has(AdditionalTag.PARTIALLY_REMEMBERED)
+  ) {
+    return currentMasteryLevel + 1;
+  } else if (flashcardEntity.has(AdditionalTag.FORGOT)) {
+    return MIN_MASTERY_LEVEL;
+  }
+  return currentMasteryLevel;
+};
+
 const updateFlashcardsDueDateAndMasteryLevel = async (
   lsc: ILeanScopeClient,
   flashcardEntities: Entity[],
   userId: string,
+  dueFlashcardEntity?: Entity,
 ) => {
   const updatedFlashcards: {
     id: string;
@@ -114,39 +150,6 @@ const updateFlashcardsDueDateAndMasteryLevel = async (
     parent_id: string;
     mastery_level: number;
   }[] = [];
-
-  const calculateDueDate = (flashcardEntity: Entity): Date | null => {
-    const now = new Date();
-    if (flashcardEntity.has(AdditionalTag.REMEMBERED_EASILY)) {
-      now.setDate(now.getDate() + 4);
-    } else if (flashcardEntity.has(AdditionalTag.REMEMBERED_WITH_EFFORT)) {
-      now.setDate(now.getDate() + 1);
-    } else if (flashcardEntity.has(AdditionalTag.PARTIALLY_REMEMBERED)) {
-      now.setHours(now.getHours() + 12);
-    } else if (flashcardEntity.has(AdditionalTag.FORGOT)) {
-      return now;
-    } else if (flashcardEntity.has(AdditionalTag.SKIP)) {
-      now.setHours(now.getHours() + 1);
-    } else {
-      return null;
-    }
-    return now;
-  };
-
-  const calculateMasteryLevel = (flashcardEntity: Entity, currentMasteryLevel: number): number => {
-    if (currentMasteryLevel === MAX_MASTERY_LEVEL && !flashcardEntity.has(AdditionalTag.FORGOT)) {
-      return MAX_MASTERY_LEVEL;
-    } else if (
-      flashcardEntity.has(AdditionalTag.REMEMBERED_EASILY) ||
-      flashcardEntity.has(AdditionalTag.REMEMBERED_WITH_EFFORT) ||
-      flashcardEntity.has(AdditionalTag.PARTIALLY_REMEMBERED)
-    ) {
-      return currentMasteryLevel + 1;
-    } else if (flashcardEntity.has(AdditionalTag.FORGOT)) {
-      return MIN_MASTERY_LEVEL;
-    }
-    return currentMasteryLevel;
-  };
 
   flashcardEntities.forEach((flashcardEntity) => {
     const id = flashcardEntity.get(IdentifierFacet)?.props.guid;
@@ -173,6 +176,20 @@ const updateFlashcardsDueDateAndMasteryLevel = async (
       });
     }
   });
+
+  dueFlashcardEntity?.add(
+    new CountFacet({
+      count:
+        flashcardEntities.length -
+        flashcardEntities.filter(
+          (e) =>
+            e.has(AdditionalTag.REMEMBERED_WITH_EFFORT) ||
+            e.has(AdditionalTag.REMEMBERED_EASILY) ||
+            e.has(AdditionalTag.SKIP) ||
+            e.has(AdditionalTag.PARTIALLY_REMEMBERED),
+        ).length,
+    }),
+  );
 
   try {
     const { error } = await supabaseClient
@@ -270,6 +287,7 @@ const FlashcardQuiz = (props: {
   const [currentFlashcardIndex, setCurrentFlashcardIndex] = useState(0);
   const { userId } = useUserData();
   const { elapsedTime, startTimer, stopTimer } = useTimer();
+  const { dueFlashcardEntity } = useDueFlashcards();
 
   useTimerStart(isVisible, startTimer);
 
@@ -277,13 +295,13 @@ const FlashcardQuiz = (props: {
 
   const endFlashcardQuiz = () => {
     stopTimer();
-    updateFlashcardsDueDateAndMasteryLevel(lsc, flashcardEntities, userId);
+    updateFlashcardsDueDateAndMasteryLevel(lsc, flashcardEntities, userId, dueFlashcardEntity);
     saveFlashcardSession(lsc, flashcardEntities, elapsedTime, userId);
     navigateBack();
   };
 
   return (
-    <Sheet visible={isVisible} navigateBack={endFlashcardQuiz}>
+    <Sheet visible={isVisible} navigateBack={() => {}}>
       <FlexBox>
         <div /> <CloseButton onClick={endFlashcardQuiz} />
       </FlexBox>
@@ -312,7 +330,7 @@ const useTimerStart = (isVisible: boolean, startTimer: () => void) => {
 };
 
 const StyledFlashcardCellContainer = styled(motion.div)`
-  ${tw` overflow-hidden  mx-auto 2xl:h-[70%] md:h-[80%]  mt-[8%] md:mt-[8%] 2xl:mt-[12%] h-[94%] md:w-8/12 2xl:w-6/12  items-center top-0 pb-14  flex justify-center absolute w-full `}
+  ${tw` overflow-hidden  mx-auto 2xl:h-[70%] md:h-[80%]  mt-[8%] md:mt-[8%] 2xl:mt-[8%] h-[94%] md:w-8/12 2xl:w-6/12  items-center top-0 pb-14  flex justify-center absolute w-full `}
 `;
 
 const StyledFlashcardWrapper = styled(motion.div)`

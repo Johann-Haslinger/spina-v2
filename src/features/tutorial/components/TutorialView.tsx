@@ -228,8 +228,8 @@ const saveUserData = async (
     return flashcardEntity;
   });
 
-  console.log('Adding flashcards:', flashcardEntities);
   addFlashcards(lsc, flashcardEntities, userId);
+  localStorage.setItem('tutorialDone', 'true');
 
   generateDescriptionForTopic(lsc, newTopicEntity);
 };
