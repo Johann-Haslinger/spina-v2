@@ -1,17 +1,22 @@
 import styled from '@emotion/styled';
 import { LeanScopeClientContext } from '@leanscope/api-client/browser';
-import { useEntities } from '@leanscope/ecs-engine';
-import { useIsStoryCurrent } from '@leanscope/storyboarding';
+import { EntityProps, useEntities } from '@leanscope/ecs-engine';
+import { IdentifierFacet } from '@leanscope/ecs-models';
+import { useIsAnyStoryCurrent, useIsStoryCurrent } from '@leanscope/storyboarding';
 import { motion } from 'framer-motion';
 import { useContext, useEffect, useRef, useState } from 'react';
+import { IoChevronForward, IoChevronUp } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { BackgroundOverlay } from '../../../../../common/components/others';
 import { useOutsideClick } from '../../../../../common/hooks';
+import { useSchoolSubjectEntities } from '../../../../../common/hooks/useSchoolSubjects';
 import { useUserData } from '../../../../../common/hooks/useUserData';
 import { useWindowDimensions } from '../../../../../common/hooks/useWindowDimensions';
-import { FileFacet } from '../../../../../common/types/additionalFacets';
-import { AdditionalTag, Story } from '../../../../../common/types/enums';
+import { FileFacet, TitleFacet } from '../../../../../common/types/additionalFacets';
+import { AdditionalTag, Story, SupabaseTable } from '../../../../../common/types/enums';
 import { GeneratedFlashcardSetResource, GeneratedNoteResource } from '../../../../../common/types/types';
+import { CloseButton, FlexBox, Section, SectionRow, Sheet, Spacer } from '../../../../../components';
+import supabaseClient from '../../../../../lib/supabase';
 import { generateLearningUnitFromFile } from '../../../functions/generateLearningUnitFromFile';
 import GeneratedFlashcardSet from './GeneratedFlashcardSet';
 import GeneratedNote from './GeneratedNote';
@@ -43,12 +48,14 @@ const GeneratingLearningUnitFromImageSheet = () => {
   const [uploadedFileEntities] = useEntities((e) => e.has(AdditionalTag.UPLOADED_FILE));
   const uploadedFile = uploadedFileEntities[0]?.get(FileFacet)?.props.file;
   const { userId } = useUserData();
+  const [selectedParentId, setSelectedParentId] = useState<string | null>(null);
 
   const navigateBack = () => lsc.stories.transitTo(Story.ANY);
 
   useOutsideClick(sheetRef, navigateBack, isVisible);
 
   const handleGenerateNoteButtonClick = async () => {
+    console.log('uploadedFile', uploadedFile);
     if (!uploadedFile) return;
 
     setGeneratedNote(null);
@@ -111,6 +118,7 @@ const GeneratingLearningUnitFromImageSheet = () => {
         <GeneratingIndicator isVisible={currentView === View.GENERATING} />
         {generatedFlashcardSet && (
           <GeneratedFlashcardSet
+            selectedParentId={selectedParentId}
             regenerateFlashcards={handleGenerateCardsButtonClick}
             generatedFlashcardSet={generatedFlashcardSet}
             isVisible={currentView === View.CARDS}
@@ -118,12 +126,15 @@ const GeneratingLearningUnitFromImageSheet = () => {
         )}
         {generatedNote && (
           <GeneratedNote
+            selectedParentId={selectedParentId}
             note={generatedNote}
             isVisible={currentView === View.NOTE}
             regenerateNote={handleGenerateNoteButtonClick}
           />
         )}
       </StyledSheet>
+
+      <SelectParentSheet onParentSelect={(parentId) => setSelectedParentId(parentId)} />
     </div>
   );
 };
@@ -131,7 +142,7 @@ const GeneratingLearningUnitFromImageSheet = () => {
 export default GeneratingLearningUnitFromImageSheet;
 
 const useCurrentView = () => {
-  const isVisible = useIsStoryCurrent(Story.GENERATING_RESOURCES_FROM_IMAGE);
+  const isVisible = useIsAnyStoryCurrent([Story.GENERATING_RESOURCES_FROM_IMAGE, Story.SELECTING_PARENT_STORY]);
   const [currentView, setCurrentView] = useState<View>(View.CHOOSE_LEARNING_UNIT_TYPE);
 
   useEffect(() => {
@@ -145,7 +156,7 @@ const useCurrentView = () => {
 
 const useGeneratedFlashcards = () => {
   const [generatedFlashcardSet, setGeneratedFlashcardSet] = useState<GeneratedFlashcardSetResource | null>(null);
-  const isVisible = useIsStoryCurrent(Story.GENERATING_RESOURCES_FROM_IMAGE);
+  const isVisible = useIsAnyStoryCurrent([Story.GENERATING_RESOURCES_FROM_IMAGE, Story.SELECTING_PARENT_STORY]);
 
   useEffect(() => {
     setGeneratedFlashcardSet(null);
@@ -156,11 +167,100 @@ const useGeneratedFlashcards = () => {
 
 const useGeneratedNote = () => {
   const [generatedNote, setGeneratedNote] = useState<GeneratedNoteResource | null>(null);
-  const isVisible = useIsStoryCurrent(Story.GENERATING_RESOURCES_FROM_IMAGE);
+  const isVisible = useIsAnyStoryCurrent([Story.GENERATING_RESOURCES_FROM_IMAGE, Story.SELECTING_PARENT_STORY]);
 
   useEffect(() => {
     setGeneratedNote(null);
   }, [isVisible]);
 
   return { generatedNote, setGeneratedNote };
+};
+
+const SelectParentSheet = (props: { onParentSelect: (parentId: string) => void }) => {
+  const lsc = useContext(LeanScopeClientContext);
+  const isVisible = useIsStoryCurrent(Story.SELECTING_PARENT_STORY);
+  const schoolSubjectEntities = useSchoolSubjectEntities();
+
+  const navigateBack = () => lsc.stories.transitTo(Story.GENERATING_RESOURCES_FROM_IMAGE);
+
+  const handleParentSelect = (parentId: string) => {
+    props.onParentSelect(parentId);
+    navigateBack();
+  };
+
+  return (
+    <Sheet navigateBack={navigateBack} visible={isVisible}>
+      <FlexBox>
+        <div />
+        <CloseButton onClick={navigateBack} />
+      </FlexBox>
+      <Spacer />
+      <Section>
+        {schoolSubjectEntities.map((schoolSubjectEntity, idx) => (
+          <SchoolSubjectCell
+            onTopicSelect={handleParentSelect}
+            entity={schoolSubjectEntity}
+            key={schoolSubjectEntity.id}
+            isLast={idx === schoolSubjectEntities.length - 1}
+          />
+        ))}
+      </Section>
+    </Sheet>
+  );
+};
+interface SchoolSubjectCellProps extends EntityProps {
+  onTopicSelect: (topicId: string) => void;
+  isLast: boolean;
+}
+
+const useTopics = (schoolSubjectId: string, isSchoolSubjectSelected: boolean) => {
+  const [topics, setTopics] = useState<{ title: string; id: string }[]>([]);
+
+  useEffect(() => {
+    const fetchTopicsForSchoolSubject = async () => {
+      if (!isSchoolSubjectSelected) return;
+
+      const { data: topics, error } = await supabaseClient
+        .from(SupabaseTable.TOPICS)
+        .select('title, id')
+        .eq('parent_id', schoolSubjectId)
+        .eq('is_archived', false);
+
+      if (error) {
+        console.error('Error fetching topics:', error);
+        return;
+      }
+
+      setTopics(topics);
+    };
+
+    fetchTopicsForSchoolSubject();
+  }, [schoolSubjectId, isSchoolSubjectSelected]);
+
+  return topics;
+};
+
+const SchoolSubjectCell = (props: SchoolSubjectCellProps) => {
+  const { entity, isLast } = props;
+  const [isSelected, setIsSelected] = useState(false);
+  const schoolSubjectId = entity.get(IdentifierFacet)?.props.guid || '';
+  const schoolSubjectName = entity.get(TitleFacet)?.props.title || '';
+  const topics = useTopics(schoolSubjectId, isSelected);
+
+  return (
+    <div>
+      <SectionRow onClick={() => setIsSelected(!isSelected)} last={isLast && !isSelected} role="button">
+        <FlexBox>
+          <p>{schoolSubjectName}</p>
+          <div tw="text-secondary-text">{!isSelected ? <IoChevronForward /> : <IoChevronUp />}</div>
+        </FlexBox>
+      </SectionRow>
+      {isSelected &&
+        topics.map((topic) => (
+          <SectionRow role="button" onClick={() => props.onTopicSelect(topic.id)} key={topic.id}>
+            <div tw="pl-4">{topic.title}</div>
+          </SectionRow>
+        ))}
+    </div>
+  );
 };

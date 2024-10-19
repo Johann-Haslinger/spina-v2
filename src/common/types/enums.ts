@@ -92,6 +92,7 @@ export enum Story {
   GENERATING_EXERCISE_STORY = 'generateExerciseStory',
 
   SELECTING_IMAGE_FOR_TOPIC_STORY = 'selectingImageForTopicStory',
+  SELECTING_PARENT_STORY = 'selectingParentStory',
 
   CLONING_RESOURCE_FROM_GROUP_STORY = 'cloneResourceFromGroupStory',
 

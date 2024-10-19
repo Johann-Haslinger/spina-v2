@@ -1,5 +1,5 @@
 import styled from '@emotion/styled/macro';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import tw from 'twin.macro';
 
 const StyledMessageWrapper = styled.div`
@@ -44,13 +44,7 @@ const TypingAnimationInnerHTML: React.FC<TypingAnimationProps> = ({
     }
   }, [displayedHTML]);
 
-  return (
-    <StyledMessageWrapper
-      contentEditable
-      className="  outline-none"
-      dangerouslySetInnerHTML={{ __html: displayedHTML }}
-    />
-  );
+  return <StyledMessageWrapper className="outline-none" dangerouslySetInnerHTML={{ __html: displayedHTML }} />;
 };
 
 export default TypingAnimationInnerHTML;

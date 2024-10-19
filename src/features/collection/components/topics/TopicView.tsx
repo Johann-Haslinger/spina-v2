@@ -32,11 +32,11 @@ import { useWindowDimensions } from '../../../../common/hooks/useWindowDimension
 import {
   DateAddedFacet,
   LearningUnitTypeFacet,
-  SourceFacet,
   TitleFacet,
   TitleProps,
 } from '../../../../common/types/additionalFacets';
 import { AdditionalTag, DataType, LearningUnitType, Story, SupabaseTable } from '../../../../common/types/enums';
+import { addUploadedFileEntity } from '../../../../common/utilities';
 import { addLearningUnit } from '../../../../common/utilities/addLeaningUnit';
 import { displayActionTexts, displayDataTypeTexts } from '../../../../common/utilities/displayText';
 import { dataTypeQuery, isChildOfQuery, learningUnitTypeQuery } from '../../../../common/utilities/queries';
@@ -54,6 +54,7 @@ import {
 import supabaseClient from '../../../../lib/supabase';
 import AddResourceToLearningGroupSheet from '../../../groups/components/AddResourceToLearningGroupSheet';
 import { useEntityHasChildren } from '../../hooks/useEntityHasChildren';
+import { useFileSelector } from '../../hooks/useFileSelector';
 import { useSelectedSchoolSubjectGrid } from '../../hooks/useSchoolSubjectGrid';
 import { useSelectedSchoolSubjectColor } from '../../hooks/useSelectedSchoolSubjectColor';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
@@ -66,40 +67,6 @@ import HomeworkCell from '../homeworks/HomeworkCell';
 import LearningUnitCell from '../learning_units/LearningUnitCell';
 import DeleteTopicAlert from './DeleteTopicAlert';
 import EditTopicSheet from './EditTopicSheet';
-
-const useImageSelector = () => {
-  const lsc = useContext(LeanScopeClientContext);
-
-  const handleImageUpload = (event: Event) => {
-    const input = event.target as HTMLInputElement;
-    if (input.files && input.files.length > 0) {
-      const file = input.files[0];
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        const base64 = reader.result as string;
-        const newImagePromptEntity = new Entity();
-        lsc.engine.addEntity(newImagePromptEntity);
-        newImagePromptEntity.add(new SourceFacet({ source: base64 }));
-        newImagePromptEntity.add(AdditionalTag.GENERATE_FROM_IMAGE_PROMPT);
-
-        lsc.stories.transitTo(Story.GENERATING_RESOURCES_FROM_IMAGE);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const openImageSelector = () => {
-    const fileInput = document.createElement('input');
-    fileInput.type = 'file';
-    fileInput.accept = 'image/*';
-    fileInput.addEventListener('change', handleImageUpload);
-    fileInput.click();
-  };
-
-  return {
-    openImageSelector,
-  };
-};
 
 const changeIsArchived = async (entity: Entity, value: boolean) => {
   const id = entity.get(IdentifierFacet)?.props.guid;
@@ -165,7 +132,10 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
   const { title, entity, imageSrc, description } = props;
   const isVisible = useIsViewVisible(entity);
   const { selectedLanguage } = useSelectedLanguage();
-  const { openImageSelector } = useImageSelector();
+  const { openFilePicker, fileInput } = useFileSelector(
+    (file) => addUploadedFileEntity(lsc, file, openGenerateFromImageSheet),
+    true,
+  );
   const { userId } = useUserData();
   const { selectedTopicId } = useSelectedTopic();
   const [scrollY, setScrollY] = useState(0);
@@ -181,6 +151,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
   const openDeleteTopicAlert = () => lsc.stories.transitTo(Story.DELETING_TOPIC_STORY);
   const openAddFlashcardSetSheet = () => lsc.stories.transitTo(Story.ADDING_FLASHCARD_SET_STORY);
   const openAddHomeworkSheet = () => lsc.stories.transitTo(Story.ADDING_HOMEWORK_STORY);
+  const openGenerateFromImageSheet = () => lsc.stories.transitTo(Story.GENERATING_RESOURCES_FROM_IMAGE);
 
   const saveNote = async () => {
     if (selectedTopicId) {
@@ -236,7 +207,7 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
                   <ActionRow icon={<IoAdd />} hasSpace onClick={openAddHomeworkSheet}>
                     {displayDataTypeTexts(selectedLanguage).homework}
                   </ActionRow>
-                  <ActionRow icon={<IoCameraOutline />} onClick={openImageSelector} last>
+                  <ActionRow icon={<IoCameraOutline />} onClick={openFilePicker} last>
                     {displayActionTexts(selectedLanguage).generateFromImage}
                   </ActionRow>
                 </div>
@@ -350,6 +321,8 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
       <EditTopicSheet />
       <GeneratingLearningUnitFromImageSheet />
       <AddResourceToLearningGroupSheet />
+
+      {fileInput}
     </div>
   );
 };
