@@ -63,6 +63,11 @@ const TutorialView = (props: { tutorialState: TutorialState; setTutorialState: (
   const handleImageSelection = async (image: File) => {
     const newFlashcardSet = await generateLearningUnitFromFile(lsc, image, userId, 'flashcardSet');
 
+    if (newFlashcardSet?.title == 'Kein Inhalt erkannt' || newFlashcardSet?.flashcards.length == 0) {
+      setTutorialState(TutorialState.SELECTING_IMAGE);
+      return;
+    }
+
     if (!newFlashcardSet) {
       setTutorialState(TutorialState.SELECTING_IMAGE);
       return;

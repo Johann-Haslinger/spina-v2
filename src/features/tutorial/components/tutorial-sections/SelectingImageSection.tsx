@@ -27,7 +27,7 @@ const StyledDescription = styled.p`
 `;
 
 const StyledInputContainer = styled.div`
-  ${tw`mt-6 rounded-lg`}
+  ${tw`mt-6 w-full overflow-hidden rounded-lg`}
 `;
 
 const StyledInput = styled.input`
