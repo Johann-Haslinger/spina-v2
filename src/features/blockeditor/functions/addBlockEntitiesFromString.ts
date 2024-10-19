@@ -2,8 +2,8 @@ import { ILeanScopeClient } from '@leanscope/api-client/interfaces';
 import { Entity } from '@leanscope/ecs-engine';
 import { FloatOrderFacet, IdentifierFacet, ParentFacet, TextFacet } from '@leanscope/ecs-models';
 import { v4 } from 'uuid';
-import { BlocktypeFacet, TexttypeFacet } from '../../../app/additionalFacets';
-import { Blocktype, DataType, Texttype } from '../../../base/enums';
+import { BlocktypeFacet, TexttypeFacet } from '../../../common/types/additionalFacets';
+import { Blocktype, DataType, Texttype } from '../../../common/types/enums';
 import { addBlock } from './addBlock';
 
 export async function addBlockEntitiesFromString(

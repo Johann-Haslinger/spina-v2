@@ -2,9 +2,9 @@ import styled from '@emotion/styled/macro';
 import { motion } from 'framer-motion';
 import { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import tw from 'twin.macro';
+import { useSelectedLanguage } from '../../common/hooks/useSelectedLanguage';
+import { displayAlertTexts } from '../../common/utilities/displayText';
 import { useSelectedTheme } from '../../features/collection/hooks/useSelectedTheme';
-import { useSelectedLanguage } from '../../hooks/useSelectedLanguage';
-import { displayAlertTexts } from '../../utils/displayText';
 
 const StyledAlertWrapper = styled.div`
   ${tw`bg-white dark:bg-secondary-dark overflow-hidden  text-primary-text dark:text-primary-text-dark w-10/12 md:w-64 mx-auto mt-72  backdrop-blur-lg bg-opacity-90 rounded-lg `}
@@ -25,10 +25,11 @@ const StyledButtonWrapper = styled.div`
 interface AlertProps {
   visible?: boolean;
   navigateBack?: () => void;
+  displayDiscardAlert?: boolean;
 }
 
 const Alert = (props: AlertProps & PropsWithChildren) => {
-  const { visible = true, navigateBack, children } = props;
+  const { visible = true, navigateBack, children, displayDiscardAlert } = props;
   const [isAlertDisplayed, setIsAlertDisplayed] = useState(false);
   const alertRef = useRef<HTMLDivElement>(null);
   const { isDarkModeActive: isDarkMode } = useSelectedTheme();
@@ -66,7 +67,7 @@ const Alert = (props: AlertProps & PropsWithChildren) => {
           height: '100%',
           top: 0,
           left: 0,
-          zIndex: 100,
+          zIndex: 400,
           position: 'fixed',
         }}
         animate={{
@@ -74,13 +75,21 @@ const Alert = (props: AlertProps & PropsWithChildren) => {
         }}
       >
         <motion.div
+          style={{
+            zIndex: 500,
+          }}
           initial={{ opacity: 0, scale: 1.1 }}
           animate={{ opacity: visible ? 1 : 0, scale: visible ? 1 : 1.1 }}
           transition={{ duration: 0.2 }}
         >
           <StyledAlertWrapper ref={alertRef}>
             <StyledAlertTitle>{displayAlertTexts(selectedLanguage).deleteAlertTitle}</StyledAlertTitle>
-            <StyledAlertSubTitle> {displayAlertTexts(selectedLanguage).deleteAlertSubtitle}</StyledAlertSubTitle>
+            <StyledAlertSubTitle>
+              {' '}
+              {displayDiscardAlert
+                ? 'Deine vorgenommen Änderungen werden nicht gespeichert.'
+                : displayAlertTexts(selectedLanguage).deleteAlertSubtitle}
+            </StyledAlertSubTitle>
             <StyledButtonWrapper>{children}</StyledButtonWrapper>
           </StyledAlertWrapper>
         </motion.div>

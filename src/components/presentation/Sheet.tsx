@@ -1,8 +1,9 @@
 import styled from '@emotion/styled';
 import { motion } from 'framer-motion';
-import { Fragment, PropsWithChildren, useEffect, useRef, useState } from 'react';
+import { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import tw from 'twin.macro';
-import { useSelectedTheme } from '../../features/collection/hooks/useSelectedTheme';
+import { BackgroundOverlay } from '../../common/components/others';
+import { useOutsideClick } from '../../common/hooks';
 
 interface SheetProps {
   navigateBack: () => void;
@@ -15,24 +16,41 @@ const StyledSheetWrapper = styled.div<{ backgroundColor?: string }>`
   background-color: ${({ backgroundColor }) => backgroundColor};
 `;
 
+const StyledSheetContainer = styled(motion.div)`
+  ${tw` fixed w-full h-full top-0 left-0 z-[200]`}
+`;
+
 const Sheet = (props: PropsWithChildren & SheetProps) => {
   const { children, visible = true, navigateBack, backgroundColor } = props;
   const sheetRef = useRef<HTMLDivElement>(null);
+  const isSheetDisplayed = useIsSheetDisplayed(visible);
+
+  useOutsideClick(sheetRef, navigateBack, visible);
+
+  return (
+    isSheetDisplayed && (
+      <div>
+        <BackgroundOverlay overlayBaseUI isVisible={visible} />
+        <StyledSheetContainer
+          transition={{ type: 'Tween' }}
+          initial={{ y: 1000 }}
+          animate={{
+            y: visible ? 0 : 1000,
+          }}
+        >
+          <StyledSheetWrapper backgroundColor={backgroundColor} ref={sheetRef}>
+            {children}
+          </StyledSheetWrapper>
+        </StyledSheetContainer>
+      </div>
+    )
+  );
+};
+
+export default Sheet;
+
+const useIsSheetDisplayed = (visible: boolean) => {
   const [isSheetDisplayed, setIsSheetDisplayed] = useState(false);
-  const { isDarkModeActive: isDarkMode } = useSelectedTheme();
-
-  useEffect(() => {
-    document.addEventListener('click', handleClickOutside, true);
-    return () => {
-      document.removeEventListener('click', handleClickOutside, true);
-    };
-  }, [navigateBack, sheetRef.current]);
-
-  const handleClickOutside = (e: MouseEvent) => {
-    if (sheetRef.current && !sheetRef.current.contains(e.target as Node)) {
-      navigateBack();
-    }
-  };
 
   useEffect(() => {
     if (visible) {
@@ -44,48 +62,5 @@ const Sheet = (props: PropsWithChildren & SheetProps) => {
     }
   }, [visible]);
 
-  return (
-    isSheetDisplayed && (
-      <Fragment>
-        <motion.div
-          initial={{
-            backgroundColor: '#0000010',
-          }}
-          animate={{
-            backgroundColor: visible ? (isDarkMode ? '#00000080' : '#00000020') : '#0000000',
-            zIndex: 100,
-          }}
-          style={{
-            position: 'absolute',
-            width: '100%',
-            height: '100%',
-            top: 0,
-            left: 0,
-          }}
-        />
-        <motion.div
-          transition={{ type: 'Tween' }}
-          initial={{ y: 1000 }}
-          animate={{
-            y: visible ? 0 : 1000,
-          }}
-          style={{
-            position: 'fixed',
-            width: '100%',
-            height: '100%',
-
-            left: 0,
-            bottom: 0,
-            zIndex: 200,
-          }}
-        >
-          <StyledSheetWrapper backgroundColor={backgroundColor} ref={sheetRef}>
-            {children}
-          </StyledSheetWrapper>
-        </motion.div>
-      </Fragment>
-    )
-  );
+  return isSheetDisplayed;
 };
-
-export default Sheet;

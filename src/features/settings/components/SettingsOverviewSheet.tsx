@@ -4,15 +4,15 @@ import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { PropsWithChildren, ReactNode, useContext } from 'react';
 import { IoChevronForward, IoCreate, IoGrid, IoInformationCircle, IoPersonCircle, IoServer } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { COLOR_ITEMS } from '../../../base/constants';
-import { Story } from '../../../base/enums';
+import { useUserData } from '../../../common/hooks/useUserData';
+import { COLOR_ITEMS } from '../../../common/types/constants';
+import { Story } from '../../../common/types/enums';
 import { CloseButton, FlexBox, Section, SectionRow, Sheet, Spacer } from '../../../components';
-import { useUserData } from '../../../hooks/useUserData';
-import GeneralSettingsSheet from './GeneralSettingsSheet';
-import ProfileSettingsSheet from './ProfileSettingsSheet';
-import HelpAreaSheet from './HelpAreaSheet';
-import SchoolSubjectSettingsSheet from './SchoolSubjectSettingsSheet';
 import DataSettingsSheet from './DataSettingsSheet';
+import GeneralSettingsSheet from './GeneralSettingsSheet';
+import HelpAreaSheet from './HelpAreaSheet';
+import ProfileSettingsSheet from './ProfileSettingsSheet';
+import SchoolSubjectSettingsSheet from './SchoolSubjectSettingsSheet';
 
 const SettingsOverviewSheet = () => {
   const lsc = useContext(LeanScopeClientContext);

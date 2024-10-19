@@ -68,7 +68,7 @@ const Title: React.FC<React.PropsWithChildren<TitleProps>> = ({
       }}
     />
   ) : (
-    <div tw="line-clamp-2 text-3xl font-bold">{children}</div>
+    <div tw=" text-3xl font-bold">{children}</div>
   );
 };
 

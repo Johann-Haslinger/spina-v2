@@ -4,7 +4,7 @@ import { Tags } from '@leanscope/ecs-models';
 import { motion } from 'framer-motion';
 import { Fragment, useEffect, useState } from 'react';
 import tw from 'twin.macro';
-import { DataType } from '../../../../../base/enums';
+import { DataType } from '../../../../../common/types/enums';
 
 type Option = {
   name: string;

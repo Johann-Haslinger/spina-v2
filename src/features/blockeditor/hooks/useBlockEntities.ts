@@ -1,6 +1,6 @@
 import { Entity, useEntities } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
-import { DataType } from '../../../base/enums';
+import { DataType } from '../../../common/types/enums';
 
 export const useBlockEntities = (blockeditorEntity?: Entity) => {
   const blockeditorId = blockeditorEntity?.get(IdentifierFacet)?.props.guid;

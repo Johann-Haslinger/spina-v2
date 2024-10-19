@@ -1,5 +1,5 @@
 import { IdentifierFacet, TextFacet } from '@leanscope/ecs-models';
-import { SupabaseTable } from '../../../base/enums';
+import { SupabaseTable } from '../../../common/types/enums';
 import supabaseClient from '../../../lib/supabase';
 import { useSelectedHomework } from './useSelectedHomework';
 import { useSelectedNote } from './useSelectedNote';

@@ -1,15 +1,15 @@
 import { LeanScopeClient, LeanScopeClientApp } from '@leanscope/api-client/browser';
 import React from 'react';
-import { Story } from '../../../base/enums';
-import InitializeSchoolSubjectsSystem from '../../../systems/InitializeSchoolSubjectsSystem';
-import InitializeStoriesSystem from '../../../systems/InitializeStoriesSystem';
-import ViewManagerSystem from '../../../systems/ViewManagerSystem';
+import InitializeSchoolSubjectsSystem from '../../../common/systems/InitializeSchoolSubjectsSystem';
+import InitializeStoriesSystem from '../../../common/systems/InitializeStoriesSystem';
+import ViewManagerSystem from '../../../common/systems/ViewManagerSystem';
+import { Story } from '../../../common/types/enums';
 
 import { LocalDataMode } from '@leanscope/api-client';
 import { BrowserRouter } from 'react-router-dom';
+import InitializeAppSystem from '../../../common/systems/InitializeAppSystem';
 import { Sidebar, View } from '../../../components';
 import { VITE_SUPABASE_KEY, VITE_SUPABASE_URL } from '../../../environment';
-import InitializeAppSystem from '../../../systems/InitializeAppSystem';
 import { SettingsOverviewSheet as Settings } from '../../settings';
 import Blockeditor from '../components/Blockeditor';
 import InitializeBlockeditorSystem from '../systems/InitializeBlockeditorSystem';

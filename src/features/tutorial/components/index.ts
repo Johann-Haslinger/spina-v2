@@ -1,1 +1,1 @@
-export {default as UseAsPWAInstructionsSheet} from './UseAsPWAInstructionsSheet';
+export { default as UseAsPWAInstructionsSheet } from './UseAsPWAInstructionsSheet';

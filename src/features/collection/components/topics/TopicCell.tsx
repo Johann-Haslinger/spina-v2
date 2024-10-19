@@ -3,10 +3,10 @@ import { EntityProps, useEntityHasTags } from '@leanscope/ecs-engine';
 import { DescriptionProps, ImageProps, Tags } from '@leanscope/ecs-models';
 import { IoBook } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { TitleProps } from '../../../../app/additionalFacets';
-import { AdditionalTag } from '../../../../base/enums';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
-import { displayAlertTexts } from '../../../../utils/displayText';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
+import { TitleProps } from '../../../../common/types/additionalFacets';
+import { AdditionalTag } from '../../../../common/types/enums';
+import { displayAlertTexts } from '../../../../common/utilities/displayText';
 import { useAppState } from '../../hooks/useAppState';
 import { useSelectedTheme } from '../../hooks/useSelectedTheme';
 import { useTopicColor } from '../../hooks/useTopicColor';
@@ -52,8 +52,8 @@ const TopicCell = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
       <StyledTopicCellWrapper
         onClick={handleOpenTopic}
         image={imageSrc || ''}
-        color={isDarkModeActive ? accentColor + '50' : accentColor}
-        backgroundColor={isDarkModeActive ? accentColor + '50' : accentColor + '90'}
+        color={isDarkModeActive ? accentColor + '70' : accentColor}
+        backgroundColor={isDarkModeActive ? accentColor + '80' : accentColor + '90'}
       >
         {!imageSrc && <IoBook tw="dark:opacity-70" />}
       </StyledTopicCellWrapper>

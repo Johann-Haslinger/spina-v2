@@ -4,7 +4,7 @@ import { IdentifierFacet, Tags } from '@leanscope/ecs-models';
 import React, { PropsWithChildren, useEffect, useRef, useState } from 'react';
 import { Draggable, DraggableProvided } from 'react-beautiful-dnd';
 import tw from 'twin.macro';
-import { AdditionalTag } from '../../../../base/enums';
+import { AdditionalTag } from '../../../../common/types/enums';
 import { useCurrentBlockeditor } from '../../hooks/useCurrentBlockeditor';
 
 const StyledBlockWrapper = styled.div<{

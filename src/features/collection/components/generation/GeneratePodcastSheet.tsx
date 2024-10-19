@@ -7,15 +7,21 @@ import { useContext, useEffect, useState } from 'react';
 import { IoCheckmarkCircle } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { v4 } from 'uuid';
-import { AnswerFacet, DateAddedFacet, QuestionFacet, SourceFacet, TitleFacet } from '../../../../app/additionalFacets';
-import { DataType, Story } from '../../../../base/enums';
+import { useIsAnyStoryCurrent } from '../../../../common/hooks/useIsAnyStoryCurrent';
+import { useUserData } from '../../../../common/hooks/useUserData';
+import {
+  AnswerFacet,
+  DateAddedFacet,
+  QuestionFacet,
+  SourceFacet,
+  TitleFacet,
+} from '../../../../common/types/additionalFacets';
+import { DataType, Story } from '../../../../common/types/enums';
+import { addPodcast } from '../../../../common/utilities/addPodcast';
+import { getAudioFromText, getCompletion } from '../../../../common/utilities/getCompletion';
+import { dataTypeQuery, isChildOfQuery } from '../../../../common/utilities/queries';
 import { CloseButton, FlexBox, GeneratingIndecator, Sheet } from '../../../../components';
 import SapientorConversationMessage from '../../../../components/content/SapientorConversationMessage';
-import { addPodcast } from '../../../../functions/addPodcast';
-import { useIsAnyStoryCurrent } from '../../../../hooks/useIsAnyStoryCurrent';
-import { useUserData } from '../../../../hooks/useUserData';
-import { getAudioFromText, getCompletion } from '../../../../utils/getCompletion';
-import { dataTypeQuery, isChildOfQuery } from '../../../../utils/queries';
 import { useSelectedFlashcardSet } from '../../hooks/useSelectedFlashcardSet';
 import { useSelectedNote } from '../../hooks/useSelectedNote';
 import { useSelectedSubtopic } from '../../hooks/useSelectedSubtopic';
@@ -71,8 +77,8 @@ const GeneratePodcastSheet = () => {
        "${text}".   Der Podcast sollte informativ und leicht verständlich sein, um das Lernen zu erleichtern. Außerdem soll es Spaß machen, den Podcast zu hören. Sprachlich soll der Podcast locker gestaltet sein. Du bist der Moderator des Podcasts. Sprich den Zuhörer direkt und mit du an. Der Podcast sollte eine Länge von 2-3 Minuten haben.
       `;
 
-      const transcript = await getCompletion(generatinPodcastTranscriptPrompt);
-      const audioBase64 = await getAudioFromText(transcript);
+      const transcript = await getCompletion(lsc, generatinPodcastTranscriptPrompt);
+      const audioBase64 = await getAudioFromText(lsc, transcript);
 
       if (audioBase64) {
         const newPodcastId = v4();

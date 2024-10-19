@@ -2,10 +2,9 @@ import styled from '@emotion/styled';
 import { EntityProps } from '@leanscope/ecs-engine';
 import { OrderProps, Tags } from '@leanscope/ecs-models';
 import tw from 'twin.macro';
-import { TitleProps } from '../../../../app/additionalFacets';
-import { useSchoolSubjectColors } from '../../../../hooks/useSchoolSubjectColors';
+import { useSchoolSubjectColors } from '../../../../common/hooks/useSchoolSubjectColors';
+import { TitleProps } from '../../../../common/types/additionalFacets';
 import { useAppState } from '../../hooks/useAppState';
-import { useSelectedTheme } from '../../hooks/useSelectedTheme';
 
 const StyledCellWrapper = styled.div<{
   backgroundColor: string;
@@ -24,7 +23,6 @@ const SchoolSubjectCell = (props: TitleProps & OrderProps & EntityProps) => {
   const { title, entity } = props;
   const { isSidebarVisible } = useAppState();
   const { color } = useSchoolSubjectColors(props.entity);
-  const { isDarkModeActive } = useSelectedTheme();
 
   const handleOpenSchoolSubject = () => {
     if (!isSidebarVisible) {
@@ -33,11 +31,7 @@ const SchoolSubjectCell = (props: TitleProps & OrderProps & EntityProps) => {
   };
 
   return (
-    <StyledCellWrapper
-      backgroundColor={isDarkModeActive ? color + '50' : color + '90'}
-      color={isDarkModeActive ? color + '50' : color}
-      onClick={handleOpenSchoolSubject}
-    >
+    <StyledCellWrapper backgroundColor={color + '90'} color={color} onClick={handleOpenSchoolSubject}>
       <StyledTitle>{title.slice(0, 2)}</StyledTitle>
     </StyledCellWrapper>
   );

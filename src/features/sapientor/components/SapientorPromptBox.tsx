@@ -6,7 +6,7 @@ import { ChangeEvent, Fragment, useContext, useEffect, useRef, useState } from '
 import { IoArrowUp, IoClose } from 'react-icons/io5';
 import tw from 'twin.macro';
 
-import { AdditionalTag } from '../../../base/enums';
+import { AdditionalTag } from '../../../common/types/enums';
 import { FlexBox } from '../../../components';
 import { useCurrentSapientorConversation } from '../hooks/useCurrentConversation';
 

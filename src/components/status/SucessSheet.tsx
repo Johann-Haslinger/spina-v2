@@ -4,7 +4,7 @@ import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext } from 'react';
 import { IoCheckmarkCircle } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { Story } from '../../base/enums';
+import { Story } from '../../common/types/enums';
 import CloseButton from '../buttons/CloseButton';
 import FlexBox from '../layout/FlexBox';
 import Sheet from '../presentation/Sheet';

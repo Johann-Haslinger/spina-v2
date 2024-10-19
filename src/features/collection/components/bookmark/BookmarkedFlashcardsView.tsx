@@ -1,11 +1,16 @@
+import { ILeanScopeClient } from '@leanscope/api-client';
 import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity, EntityPropsMapper, useEntities } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet, Tags } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect } from 'react';
-import { AnswerFacet, MasteryLevelFacet, QuestionFacet } from '../../../../app/additionalFacets';
-import { dummyFlashcards } from '../../../../base/dummy';
-import { AdditionalTag, DataType, Story, SupabaseTable } from '../../../../base/enums';
+import { useCurrentDataSource } from '../../../../common/hooks/useCurrentDataSource';
+import { AnswerFacet, MasteryLevelFacet, QuestionFacet } from '../../../../common/types/additionalFacets';
+import { dummyFlashcards } from '../../../../common/types/dummy';
+import { AdditionalTag, DataType, Story, SupabaseTable } from '../../../../common/types/enums';
+import { addNotificationEntity } from '../../../../common/utilities';
+import { dataTypeQuery } from '../../../../common/utilities/queries';
+import { sortEntitiesByDateAdded } from '../../../../common/utilities/sortEntitiesByTime';
 import {
   BackButton,
   CollectionGrid,
@@ -16,10 +21,7 @@ import {
   Title,
   View,
 } from '../../../../components';
-import { useCurrentDataSource } from '../../../../hooks/useCurrentDataSource';
 import supabaseClient from '../../../../lib/supabase';
-import { dataTypeQuery } from '../../../../utils/queries';
-import { sortEntitiesByDateAdded } from '../../../../utils/sortEntitiesByTime';
 import EditFlashcardSheet from '../flashcard-sets/EditFlashcardSheet';
 import FlashcardCell from '../flashcard-sets/FlashcardCell';
 
@@ -65,7 +67,7 @@ const BookmarkedFlashcardsView = () => {
 
 export default BookmarkedFlashcardsView;
 
-const fetchBookmarkedFlashcards = async () => {
+const fetchBookmarkedFlashcards = async (lsc: ILeanScopeClient) => {
   const { data: flashcards, error } = await supabaseClient
     .from(SupabaseTable.FLASHCARDS)
     .select('question, id, answer, mastery_level, parent_id')
@@ -73,6 +75,11 @@ const fetchBookmarkedFlashcards = async () => {
 
   if (error) {
     console.error('Error fetching flashcards:', error);
+    addNotificationEntity(lsc, {
+      title: 'Fehler beim Abrufen der Lernkarten',
+      message: error.message + ' ' + error.details + ' ' + error.hint,
+      type: 'error',
+    });
     return [];
   }
 
@@ -89,7 +96,7 @@ const InitializeBookmarkedFlashcardsSystem = () => {
       const flashcards = isUsingMockupData
         ? dummyFlashcards
         : isUsingSupabaseData
-          ? await fetchBookmarkedFlashcards()
+          ? await fetchBookmarkedFlashcards(lsc)
           : [];
 
       flashcards.forEach((flashcard) => {

@@ -1,11 +1,12 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext } from 'react';
-import { AdditionalTag, Story, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
+import { AdditionalTag, Story, SupabaseColumn, SupabaseTable } from '../../../../common/types/enums';
+import { addNotificationEntity } from '../../../../common/utilities';
+import { displayActionTexts } from '../../../../common/utilities/displayText';
 import { Alert, AlertButton } from '../../../../components';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../../lib/supabase';
-import { displayActionTexts } from '../../../../utils/displayText';
 import { useSelectedHomework } from '../../hooks/useSelectedHomework';
 
 const DeleteHomeworkAlert = () => {
@@ -30,6 +31,11 @@ const DeleteHomeworkAlert = () => {
 
         if (error) {
           console.error('Error deleting homework', error);
+          addNotificationEntity(lsc, {
+            title: 'Fehler beim Löschen der Hausaufgabe',
+            message: error.message + ' ' + error.details + ' ' + error.hint,
+            type: 'error',
+          });
         }
       }
     }, 300);

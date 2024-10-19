@@ -1,11 +1,12 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext } from 'react';
-import { AdditionalTag, Story, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
+import { AdditionalTag, Story, SupabaseColumn, SupabaseTable } from '../../../../common/types/enums';
+import { addNotificationEntity } from '../../../../common/utilities';
+import { displayActionTexts } from '../../../../common/utilities/displayText';
 import { Alert, AlertButton } from '../../../../components';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../../lib/supabase';
-import { displayActionTexts } from '../../../../utils/displayText';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
 
 const DeleteTopicAlert = () => {
@@ -21,8 +22,6 @@ const DeleteTopicAlert = () => {
     selectedTopicEntity?.add(AdditionalTag.NAVIGATE_BACK);
     setTimeout(async () => {
       if (selectedTopicEntity) {
-        lsc.engine.removeEntity(selectedTopicEntity);
-
         const { error } = await supabaseClient
           .from(SupabaseTable.TOPICS)
           .delete()
@@ -30,7 +29,15 @@ const DeleteTopicAlert = () => {
 
         if (error) {
           console.error('Error deleting Topic', error);
+          addNotificationEntity(lsc, {
+            title: 'Fehler beim Löschen des Themas',
+            message: error.message,
+            type: 'error',
+          });
+          return;
         }
+
+        lsc.engine.removeEntity(selectedTopicEntity);
 
         const { error: error6 } = await supabaseClient
           .from(SupabaseTable.HOMEWORKS)

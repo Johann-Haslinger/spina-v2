@@ -6,9 +6,15 @@ import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
 import tw from 'twin.macro';
 import { v4 } from 'uuid';
-import { TitleFacet } from '../../../app/additionalFacets';
-import { COLOR_ITEMS } from '../../../base/constants';
-import { DataType, Story, SupabaseTable } from '../../../base/enums';
+import { useCurrentDataSource } from '../../../common/hooks/useCurrentDataSource';
+import { useSchoolSubjectEntities } from '../../../common/hooks/useSchoolSubjects';
+import { useSelectedLanguage } from '../../../common/hooks/useSelectedLanguage';
+import { useUserData } from '../../../common/hooks/useUserData';
+import { TitleFacet } from '../../../common/types/additionalFacets';
+import { COLOR_ITEMS } from '../../../common/types/constants';
+import { DataType, Story, SupabaseTable } from '../../../common/types/enums';
+import { addNotificationEntity } from '../../../common/utilities';
+import { displayAlertTexts, displayButtonTexts, displayLabelTexts } from '../../../common/utilities/displayText';
 import {
   FlexBox,
   PrimaryButton,
@@ -20,12 +26,7 @@ import {
   TextAreaInput,
   TextInput,
 } from '../../../components';
-import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
-import { useSchoolSubjectEntities } from '../../../hooks/useSchoolSubjects';
-import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
-import { useUserData } from '../../../hooks/useUserData';
 import supabaseClient from '../../../lib/supabase';
-import { displayAlertTexts, displayButtonTexts, displayLabelTexts } from '../../../utils/displayText';
 
 const StyledColorSelect = styled.select<{ color: string }>`
   ${tw`rounded-md text-white px-2 outline-none py-0.5`}
@@ -70,14 +71,6 @@ const AddLearningGroupSheet = () => {
 
     const newLearningGroupId = v4();
 
-    const newLearningGroupEntity = new Entity();
-    lsc.engine.addEntity(newLearningGroupEntity);
-    newLearningGroupEntity.add(new IdentifierFacet({ guid: newLearningGroupId }));
-    newLearningGroupEntity.add(new TitleFacet({ title: newLearningGroup.title }));
-    newLearningGroupEntity.add(new ColorFacet({ colorName: newLearningGroup.color }));
-    newLearningGroupEntity.add(new DescriptionFacet({ description: newLearningGroup.description }));
-    newLearningGroupEntity.add(DataType.LEARNING_GROUP);
-
     if (shouldFetchFromSupabase) {
       const { error } = await supabaseClient.from(SupabaseTable.LEARNING_GROUPS).insert([
         {
@@ -92,7 +85,21 @@ const AddLearningGroupSheet = () => {
 
       if (error) {
         console.error('Error inserting new learning group', error);
+        addNotificationEntity(lsc, {
+          title: 'Fehler beim Erstellen der Lerngruppe',
+          message: error.message,
+          type: 'error',
+        });
+        return;
       }
+
+      const newLearningGroupEntity = new Entity();
+      lsc.engine.addEntity(newLearningGroupEntity);
+      newLearningGroupEntity.add(new IdentifierFacet({ guid: newLearningGroupId }));
+      newLearningGroupEntity.add(new TitleFacet({ title: newLearningGroup.title }));
+      newLearningGroupEntity.add(new ColorFacet({ colorName: newLearningGroup.color }));
+      newLearningGroupEntity.add(new DescriptionFacet({ description: newLearningGroup.description }));
+      newLearningGroupEntity.add(DataType.LEARNING_GROUP);
 
       schoolSubjectEntities.forEach(async (schoolSubjectEntity, idx) => {
         const newLearningGroupSchoolSubjectId = v4();

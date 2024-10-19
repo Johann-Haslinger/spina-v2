@@ -2,8 +2,8 @@ import styled from '@emotion/styled/macro';
 import { motion } from 'framer-motion';
 import { ReactNode, useEffect, useState } from 'react';
 import tw from 'twin.macro';
-import { COLOR_ITEMS } from '../../base/constants';
-import { ConversationMessage, Suggestion } from '../../base/types';
+import { COLOR_ITEMS } from '../../common/types/constants';
+import { ConversationMessage, Suggestion } from '../../common/types/types';
 import { useSelectedTheme } from '../../features/collection/hooks/useSelectedTheme';
 import Spacer from '../layout/Spacer';
 import TypingAnimationInnerHTML from './TypingAnimationInnerHTML';
@@ -44,7 +44,7 @@ const SapientorConversationMessage = (props: {
     setTimeout(() => {
       setAdditionalContent(message.specialContent);
       setSugesstions(message.suggestions || []);
-    }, 600);
+    }, message.message.length * 5);
   }, [message]);
 
   return (

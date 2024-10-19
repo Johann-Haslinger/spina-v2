@@ -2,9 +2,9 @@ import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity } from '@leanscope/ecs-engine';
 import { CountFacet, IdentifierFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
-import { dummyFlashcards } from '../../../base/dummy';
-import { SupabaseTable } from '../../../base/enums';
-import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
+import { useCurrentDataSource } from '../../../common/hooks/useCurrentDataSource';
+import { dummyFlashcards } from '../../../common/types/dummy';
+import { SupabaseTable } from '../../../common/types/enums';
 import supabaseClient from '../../../lib/supabase';
 import { useDueFlashcards } from './useDueFlashcards';
 

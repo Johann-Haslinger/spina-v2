@@ -4,7 +4,7 @@ import { PropsWithChildren, useEffect, useRef } from 'react';
 import tw from 'twin.macro';
 
 const StyledActionSheetWrapper = styled.div`
-  ${tw` bg-[rgb(244,244,244)] mt-3  dark:bg-secondary-dark  w-full dark:shadow-[0px_0px_60px_0px_rgba(255, 255, 255, 0.05)] shadow-[0px_0px_60px_0px_rgba(0,0,0,0.13)] text-primary-text dark:text-primary-text-dark  backdrop-blur-2xl rounded-lg `}
+  ${tw` bg-[rgb(244,244,244)] mt-3  dark:bg-secondary-dark  w-full dark:shadow-[0px_0px_60px_0px_rgba(255, 255, 255, 0.01)] shadow-[0px_0px_60px_0px_rgba(0,0,0,0.13)] text-primary-text dark:text-primary-text-dark  backdrop-blur-2xl rounded-lg `}
 `;
 
 interface ActionSheetProps {

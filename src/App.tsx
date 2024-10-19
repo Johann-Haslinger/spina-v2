@@ -1,45 +1,41 @@
-import styled from '@emotion/styled';
-import { EntityPropsMapper } from '@leanscope/ecs-engine';
-import { Tags } from '@leanscope/ecs-models';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import tw from 'twin.macro';
-import { DateAddedFacet, SourceFacet, TitleFacet } from './app/additionalFacets';
-import { DataType, NavigationLink, Story } from './base/enums';
-import { InitializeLoadingIndicatorSystem } from './common/systems';
-import { Sidebar } from './components';
-import TabBar from './components/navigation/TabBar';
-import { AuthUI } from './features/auth-ui';
-import PodcastSheet from './features/collection/components/podcasts/PodcastSheet';
-import { SettingsOverviewSheet } from './features/settings';
-import { UseAsPWAInstructionsSheet } from './features/tutorial';
-import { Collection, Exams, Flashcards, Groups, Homeworks, Overview } from './pages/Index';
+import { NotificationMenu } from './common/components/notifications';
+import { NoNetworkAlert } from './common/components/others';
 import {
   InitializeAppSystem,
+  InitializeLoadingIndicatorSystem,
   InitializeSchoolSubjectsSystem,
   InitializeStoriesSystem,
   InitializeUserSystem,
   ViewManagerSystem,
-} from './systems';
-import { formatNavLinkAsPath } from './utils/formatNavLinkAsPath';
-import { dataTypeQuery } from './utils/queries';
+} from './common/systems';
+import { NavigationLink, Story } from './common/types/enums';
+import { formatNavLinkAsPath } from './common/utilities/formatNavLinkAsPath';
+import { Sidebar } from './components';
+import TabBar from './components/navigation/TabBar';
+import { AuthUI } from './features/auth-ui';
+import { SettingsOverviewSheet } from './features/settings';
+import { UseAsPWAInstructionsSheet } from './features/tutorial';
+import Tutorial from './features/tutorial/components/Tutorial';
+import TransitToTutorialSystem from './features/tutorial/systems/TransitToTutorialSystem';
+import { Collection, Exams, Flashcards, Groups, Homeworks, Overview, SuccessPage } from './pages/Index';
 
-const StyledContentWrapper = styled.div`
-  ${tw`w-screen h-screen bg-primary dark:bg-primary-dark`}
-`;
-
-function App() {
+const App = () => {
   return (
-    <StyledContentWrapper>
+    <div>
       <InitializeUserSystem />
       <InitializeStoriesSystem initialStory={Story.OBSERVING_COLLECTION_STORY} />
       <InitializeAppSystem />
       <ViewManagerSystem />
       <InitializeSchoolSubjectsSystem />
       <InitializeLoadingIndicatorSystem />
+      <TransitToTutorialSystem />
+
       <BrowserRouter>
         <Sidebar />
         <Routes>
           <Route path="/" element={<Overview />} />
+          <Route path="/success" element={<SuccessPage />} />
           <Route path={formatNavLinkAsPath(NavigationLink.OVERVIEW)} element={<Overview />} />
           <Route path={formatNavLinkAsPath(NavigationLink.HOMEWORKS)} element={<Homeworks />} />
           <Route path={formatNavLinkAsPath(NavigationLink.EXAMS)} element={<Exams />} />
@@ -50,17 +46,15 @@ function App() {
 
         <SettingsOverviewSheet />
         <TabBar />
+        <NotificationMenu />
       </BrowserRouter>
-      <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataType.PODCAST) && e.has(Tags.SELECTED)}
-        get={[[TitleFacet, DateAddedFacet, SourceFacet], []]}
-        onMatch={PodcastSheet}
-      />{' '}
+
+      <NoNetworkAlert />
+      <Tutorial />
       <AuthUI />
-      
       <UseAsPWAInstructionsSheet />
-    </StyledContentWrapper>
+    </div>
   );
-}
+};
 
 export default App;

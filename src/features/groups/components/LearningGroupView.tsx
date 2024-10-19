@@ -4,8 +4,12 @@ import { ColorProps, DescriptionProps, OrderFacet, Tags } from '@leanscope/ecs-m
 import { useContext } from 'react';
 import { IoCreateOutline, IoEllipsisHorizontalCircleOutline, IoTrashOutline } from 'react-icons/io5';
 import { Fragment } from 'react/jsx-runtime';
-import { TitleFacet, TitleProps } from '../../../app/additionalFacets';
-import { AdditionalTag, DataType, Story } from '../../../base/enums';
+import { useIsViewVisible } from '../../../common/hooks/useIsViewVisible';
+import { useSelectedLanguage } from '../../../common/hooks/useSelectedLanguage';
+import { TitleFacet, TitleProps } from '../../../common/types/additionalFacets';
+import { AdditionalTag, DataType, Story } from '../../../common/types/enums';
+import { displayActionTexts, displayAlertTexts, displayHeaderTexts } from '../../../common/utilities/displayText';
+import { dataTypeQuery, isChildOfQuery } from '../../../common/utilities/queries';
 import {
   ActionRow,
   BackButton,
@@ -17,10 +21,6 @@ import {
   Title,
   View,
 } from '../../../components';
-import { useIsViewVisible } from '../../../hooks/useIsViewVisible';
-import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
-import { displayActionTexts, displayAlertTexts, displayHeaderTexts } from '../../../utils/displayText';
-import { dataTypeQuery, isChildOfQuery } from '../../../utils/queries';
 import { SchoolSubjectCell } from '../../collection';
 import LoadLearningGroupSchoolSubjectsSystem from '../systems/LoadLearningGroupSchoolSubjectsSystem';
 import DeleteLearningGroupAlert from './DeleteLearningGroupAlert';

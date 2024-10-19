@@ -1,19 +1,21 @@
+import { ILeanScopeClient } from '@leanscope/api-client';
 import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
+import { useCurrentDataSource } from '../../../common/hooks/useCurrentDataSource';
 import {
   DateAddedFacet,
   DurationFacet,
   FlashcardCountFacet,
   FlashcardPerformanceFacet,
-} from '../../../app/additionalFacets';
-import { dummyFlashcardSessions } from '../../../base/dummy';
-import { DataType, SupabaseTable } from '../../../base/enums';
-import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
+} from '../../../common/types/additionalFacets';
+import { dummyFlashcardSessions } from '../../../common/types/dummy';
+import { DataType, SupabaseTable } from '../../../common/types/enums';
+import { addNotificationEntity } from '../../../common/utilities';
 import supabaseClient from '../../../lib/supabase';
 
-const fetchFlashcardSessions = async () => {
+const fetchFlashcardSessions = async (lsc: ILeanScopeClient) => {
   const sevenDaysAgo = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
 
   const { data: flashcardSessions, error } = await supabaseClient
@@ -25,12 +27,17 @@ const fetchFlashcardSessions = async () => {
 
   if (error) {
     console.error('Error fetching flashcard sessions:', error);
+    addNotificationEntity(lsc, {
+      title: 'Es ist ein Fehler aufgetreten',
+      message: 'Beim Laden der Karteikartenrunden ist ein Fehler aufgetreten: ' + error.message,
+      type: 'error',
+    });
   }
 
   return flashcardSessions || [];
 };
 
-const fetchLastSevenWeeksFlashcardSessions = async () => {
+const fetchLastSevenWeeksFlashcardSessions = async (lsc: ILeanScopeClient) => {
   const currentDate = new Date();
   const sevenWeeksAgo = new Date(currentDate.setDate(currentDate.getDate() - 49)).toISOString();
   const { data, error } = await supabaseClient
@@ -41,6 +48,12 @@ const fetchLastSevenWeeksFlashcardSessions = async () => {
 
   if (error) {
     console.error('Error fetching last seven weeks flashcard sessions:', error);
+    addNotificationEntity(lsc, {
+      title: 'Es ist ein Fehler aufgetreten',
+      message:
+        'Beim Laden der Karteikartenrunden der letzten sieben Wochen ist ein Fehler aufgetreten: ' + error.message,
+      type: 'error',
+    });
     return [];
   }
 
@@ -58,7 +71,7 @@ const LoadFlashcardSessionsSystem = () => {
       const flashcardSessions = isUsingMockupData
         ? dummyFlashcardSessions
         : isUsingSupabaseData
-          ? await fetchFlashcardSessions()
+          ? await fetchFlashcardSessions(lsc)
           : [];
 
       flashcardSessions.forEach((flashcardSession) => {
@@ -104,7 +117,7 @@ const LoadFlashcardSessionsSystem = () => {
       const flashcardSessions = isUsingMockupData
         ? dummyFlashcardSessions
         : isUsingSupabaseData
-          ? await fetchLastSevenWeeksFlashcardSessions()
+          ? await fetchLastSevenWeeksFlashcardSessions(lsc)
           : [];
 
       flashcardSessions.forEach((flashcardSession) => {

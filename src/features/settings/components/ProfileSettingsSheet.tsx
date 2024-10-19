@@ -3,9 +3,9 @@ import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext } from 'react';
 import { IoLogOutOutline, IoTrashOutline } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { Story } from '../../../base/enums';
+import { useUserData } from '../../../common/hooks/useUserData';
+import { Story } from '../../../common/types/enums';
 import { CloseButton, FlexBox, Section, SectionRow, Sheet, Spacer } from '../../../components';
-import { useUserData } from '../../../hooks/useUserData';
 import DeleteAccountAlert from './DeleteAccountAlert';
 
 const StyledSecondaryText = tw.p`text-sm text-secondary-text`;

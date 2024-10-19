@@ -4,8 +4,13 @@ import { DescriptionFacet, Tags } from '@leanscope/ecs-models';
 import { useContext } from 'react';
 import { IoAdd } from 'react-icons/io5';
 import { Fragment } from 'react/jsx-runtime';
-import { TitleFacet, TitleProps } from '../../../../app/additionalFacets';
-import { AdditionalTag, DataType, Story } from '../../../../base/enums';
+import { useIsViewVisible } from '../../../../common/hooks/useIsViewVisible';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
+import { TitleFacet, TitleProps } from '../../../../common/types/additionalFacets';
+import { AdditionalTag, DataType, Story } from '../../../../common/types/enums';
+import { displayButtonTexts } from '../../../../common/utilities/displayText';
+import { dataTypeQuery, isChildOfQuery } from '../../../../common/utilities/queries';
+import { sortEntitiesByDateAdded } from '../../../../common/utilities/sortEntitiesByTime';
 import {
   BackButton,
   CollectionGrid,
@@ -16,11 +21,6 @@ import {
   Title,
   View,
 } from '../../../../components';
-import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
-import { displayButtonTexts } from '../../../../utils/displayText';
-import { dataTypeQuery, isChildOfQuery } from '../../../../utils/queries';
-import { sortEntitiesByDateAdded } from '../../../../utils/sortEntitiesByTime';
 import TopicCell from '../../../collection/components/topics/TopicCell';
 import { useSelectedLearningGroup } from '../../hooks/useSelectedLearningGroup';
 import LoadGroupTopicsSystem from '../../systems/LoadGroupTopicsSystem';

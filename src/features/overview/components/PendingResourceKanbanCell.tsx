@@ -3,11 +3,11 @@ import { Entity, useEntityComponents } from '@leanscope/ecs-engine';
 import { Tags } from '@leanscope/ecs-models';
 import { motion } from 'framer-motion';
 import tw from 'twin.macro';
-import { RelationshipFacet, TitleFacet } from '../../../app/additionalFacets';
-import { useDaysUntilDue } from '../../../hooks/useDaysUntilDue';
-import { useSchoolSubject } from '../../../hooks/useSchoolSubject';
-import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
-import { displayAlertTexts } from '../../../utils/displayText';
+import { useDaysUntilDue } from '../../../common/hooks/useDaysUntilDue';
+import { useSchoolSubject } from '../../../common/hooks/useSchoolSubject';
+import { useSelectedLanguage } from '../../../common/hooks/useSelectedLanguage';
+import { RelationshipFacet, TitleFacet } from '../../../common/types/additionalFacets';
+import { displayAlertTexts } from '../../../common/utilities/displayText';
 
 const StyledResourceCellContainer = styled.div`
   ${tw`w-full  transition-all h-32 px-2 py-1`}

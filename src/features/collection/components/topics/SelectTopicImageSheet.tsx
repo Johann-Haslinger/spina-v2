@@ -6,11 +6,11 @@ import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
 import { IoRemoveCircle } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { Story, SupabaseStorageBucket } from '../../../../base/enums';
+import { Story, SupabaseStorageBucket } from '../../../../common/types/enums';
+import { getCompletion } from '../../../../common/utilities/getCompletion';
+import { loadImagesFromUnsplash } from '../../../../common/utilities/loadImagesFromUnsplash';
 import { CloseButton, FlexBox, ScrollableBox, Section, SectionRow, Sheet, Spacer } from '../../../../components';
 import supabaseClient from '../../../../lib/supabase';
-import { getCompletion } from '../../../../utils/getCompletion';
-import { loadImagesFromUnsplash } from '../../../../utils/loadImagesFromUnsplash';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
 
 interface UnsplashUser {
@@ -169,6 +169,7 @@ const UnsplashImage = (props: { image: PreviewImage; parentStory: Story }) => {
 };
 
 const useUnsplashImages = (isVisible: boolean, topicTitle?: string) => {
+  const lsc = useContext(LeanScopeClientContext);
   const { selectedTopicTitle } = useSelectedTopic();
   const [images, setImages] = useState<PreviewImage[]>([]);
 
@@ -182,8 +183,8 @@ const useUnsplashImages = (isVisible: boolean, topicTitle?: string) => {
 
       if (isVisible && images.length === 0 && (selectedTopicTitle || topicTitle)) {
         const searchQueryPrompt = `Erstelle eine Unsplash-Suchanfrage für das um ein passendes Bild für das Thema "${topicTitle || selectedTopicTitle}" zu finden. Die Anfrage soll nicht länger als 3 Wörter sein und auf Unsplash vorhandene Bilder liefern.`;
-        const searchQuery = await getCompletion(searchQueryPrompt);
-        loadImagesFromUnsplash(searchQuery).then((images) => {
+        const searchQuery = await getCompletion(lsc, searchQueryPrompt);
+        loadImagesFromUnsplash(lsc, searchQuery).then((images) => {
           setImages(JSON.parse(images));
         });
       }

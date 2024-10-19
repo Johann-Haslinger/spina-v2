@@ -1,8 +1,8 @@
 import { useEntity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, Tags, TextFacet } from '@leanscope/ecs-models';
-import { TitleFacet } from '../../../app/additionalFacets';
-import { DataType } from '../../../base/enums';
-import { dataTypeQuery } from '../../../utils/queries';
+import { TitleFacet } from '../../../common/types/additionalFacets';
+import { DataType } from '../../../common/types/enums';
+import { dataTypeQuery } from '../../../common/utilities/queries';
 
 export const useSelectedSubtopic = () => {
   const [selectedSubtopicEntity] = useEntity((e) => dataTypeQuery(e, DataType.SUBTOPIC) && e.hasTag(Tags.SELECTED));

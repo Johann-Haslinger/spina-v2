@@ -6,11 +6,11 @@ import { useState } from 'react';
 import { IoFileTray } from 'react-icons/io5';
 import Skeleton from 'react-loading-skeleton';
 import tw from 'twin.macro';
-import { DateAddedFacet, TitleFacet, TitleProps } from '../../../app/additionalFacets';
-import { DataType } from '../../../base/enums';
 import { useLoadingIndicator } from '../../../common/hooks';
-import { dataTypeQuery } from '../../../utils/queries';
-import { sortEntitiesByDateAdded } from '../../../utils/sortEntitiesByTime';
+import { DateAddedFacet, TitleFacet, TitleProps } from '../../../common/types/additionalFacets';
+import { DataType } from '../../../common/types/enums';
+import { dataTypeQuery } from '../../../common/utilities/queries';
+import { sortEntitiesByDateAdded } from '../../../common/utilities/sortEntitiesByTime';
 import { useFormattedDateAdded } from '../../collection/hooks/useFormattedDateAdded';
 import InitializeRecentlyAddedResources from '../systems/InitializeRecentlyAddedResources';
 

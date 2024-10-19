@@ -1,26 +1,18 @@
 import { useEffect, useRef, useState } from 'react';
-interface UploadedFile {
-  id: string;
-  file: File;
-  url: string;
-  type: string;
-}
-
-export const useFileSelector = (onFileSelect: (file: UploadedFile) => void) => {
+import { UploadedFile } from '../../../common/types/types';
+export const useFileSelector = (onFileSelect: (file: UploadedFile) => void, onlyAllowImages?: boolean) => {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [isSelectingImageSrc, setIsSelectingImageSrc] = useState(false);
 
   useEffect(() => {
     if (isSelectingImageSrc && fileInputRef.current !== null) {
       fileInputRef.current.click();
+      setIsSelectingImageSrc(false);
     }
   }, [isSelectingImageSrc]);
 
   const openFilePicker = () => {
     setIsSelectingImageSrc(true);
-    if (fileInputRef.current) {
-      fileInputRef.current.click();
-    }
   };
 
   const resizeImage = (file: File, maxWidth: number, maxHeight: number, callback: (file: File) => void) => {
@@ -78,17 +70,19 @@ export const useFileSelector = (onFileSelect: (file: UploadedFile) => void) => {
           console.warn('Invalid file type or size');
         }
       });
+
+      event.target.value = '';
     }
   };
 
-  const fileInput = isSelectingImageSrc && (
+  const fileInput = (
     <input
       type="file"
       ref={fileInputRef}
       multiple
       onChange={handleFileChange}
       style={{ display: 'none' }}
-      accept=".pdf, .png, .jpeg, .jpg"
+      accept={onlyAllowImages ? 'image/*' : 'image/*,application/pdf'}
     />
   );
 

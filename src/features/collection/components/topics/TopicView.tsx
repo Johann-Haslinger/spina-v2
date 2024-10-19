@@ -24,15 +24,23 @@ import {
 import Skeleton from 'react-loading-skeleton';
 import tw from 'twin.macro';
 import { v4 } from 'uuid';
+import { useLoadingIndicator } from '../../../../common/hooks';
+import { useIsViewVisible } from '../../../../common/hooks/useIsViewVisible';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
+import { useUserData } from '../../../../common/hooks/useUserData';
+import { useWindowDimensions } from '../../../../common/hooks/useWindowDimensions';
 import {
   DateAddedFacet,
   LearningUnitTypeFacet,
   SourceFacet,
   TitleFacet,
   TitleProps,
-} from '../../../../app/additionalFacets';
-import { AdditionalTag, DataType, LearningUnitType, Story, SupabaseTable } from '../../../../base/enums';
-import { useLoadingIndicator } from '../../../../common/hooks';
+} from '../../../../common/types/additionalFacets';
+import { AdditionalTag, DataType, LearningUnitType, Story, SupabaseTable } from '../../../../common/types/enums';
+import { addLearningUnit } from '../../../../common/utilities/addLeaningUnit';
+import { displayActionTexts, displayDataTypeTexts } from '../../../../common/utilities/displayText';
+import { dataTypeQuery, isChildOfQuery, learningUnitTypeQuery } from '../../../../common/utilities/queries';
+import { sortEntitiesByDateAdded, sortEntitiesByDueDate } from '../../../../common/utilities/sortEntitiesByTime';
 import {
   ActionRow,
   CollectionGrid,
@@ -43,15 +51,7 @@ import {
   Title,
   View,
 } from '../../../../components';
-import { addLearningUnit } from '../../../../functions/addLeaningUnit';
-import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
-import { useUserData } from '../../../../hooks/useUserData';
-import { useWindowDimensions } from '../../../../hooks/useWindowDimensions';
 import supabaseClient from '../../../../lib/supabase';
-import { displayActionTexts, displayDataTypeTexts } from '../../../../utils/displayText';
-import { dataTypeQuery, isChildOfQuery, learningUnitTypeQuery } from '../../../../utils/queries';
-import { sortEntitiesByDateAdded, sortEntitiesByDueDate } from '../../../../utils/sortEntitiesByTime';
 import AddResourceToLearningGroupSheet from '../../../groups/components/AddResourceToLearningGroupSheet';
 import { useEntityHasChildren } from '../../hooks/useEntityHasChildren';
 import { useSelectedSchoolSubjectGrid } from '../../hooks/useSchoolSubjectGrid';
@@ -60,7 +60,7 @@ import { useSelectedTopic } from '../../hooks/useSelectedTopic';
 import LoadHomeworksSystem from '../../systems/LoadHomeworksSystem';
 import LoadLearningUnitsSystem from '../../systems/LoadLearningUnitsSystem';
 import AddFlashcardSetSheet from '../flashcard-sets/AddFlashcardSetSheet';
-import GenerateResourcesFromImageSheet from '../generation/GenerateResourcesFromImageSheet';
+import GeneratingLearningUnitFromImageSheet from '../generation/generate-learning-unit-from-image/GeneratingLearningUnitFromImageSheet';
 import AddHomeworkSheet from '../homeworks/AddHomeworkSheet';
 import HomeworkCell from '../homeworks/HomeworkCell';
 import LearningUnitCell from '../learning_units/LearningUnitCell';
@@ -136,7 +136,7 @@ const StyledTopAreaWrapper = styled.div<{ image: string; grid: boolean; containI
 `;
 
 const StyledTopicResourcesWrapper = styled.div<{ largeShadow: boolean }>`
-  ${tw` px-4  md:px-20 h-fit min-h-screen     pt-10 pb-40  dark:bg-primary-dark transition-all   bg-primary  lg:px-32 xl:px-60 2xl:px-96 w-full`}
+  ${tw` px-4  md:px-20 h-fit min-h-screen     pt-10 pb-40  dark:bg-primary-dark transition-all   bg-primary  lg:px-32 xl:px-60 2xl:px-80 w-full`}
   ${({ largeShadow }) =>
     largeShadow
       ? tw`shadow-[0px_0px_60px_0px_rgba(0, 0, 0, 0.6)] xl:shadow-[0px_0px_60px_0px_rgba(0, 0, 0, 0.5)] `
@@ -144,7 +144,7 @@ const StyledTopicResourcesWrapper = styled.div<{ largeShadow: boolean }>`
 `;
 
 const StyledNavbarBackground = styled.div`
-  ${tw`w-full xl:h-0 h-14 bg-primary z-[50] absolute top-0 left-0 dark:bg-primary-dark`}
+  ${tw`w-full xl:h-0 h-14 bg-primary z-[50] fixed top-0 left-0 dark:bg-primary-dark`}
 `;
 
 const StyledImageOverlay = styled.div<{ overlay?: string }>`
@@ -343,31 +343,12 @@ const TopicView = (props: TitleProps & EntityProps & DescriptionProps & ImagePro
         </StyledTopicViewContainer>
       </View>
 
-      {/* <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataType.LEARNING_UNIT) && e.has(Tags.SELECTED)}
-        get={[[TitleFacet, TextFacet, IdentifierFacet, LearningUnitTypeFacet, PriorityFacet], []]}
-        onMatch={LearningUnitView}
-      />
-
-      <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataType.HOMEWORK) && e.has(Tags.SELECTED)}
-        get={[[TitleFacet, IdentifierFacet, TextFacet, DueDateFacet], []]}
-        onMatch={HomeworkView}
-      />
-
-      <EntityPropsMapper
-        query={(e) => dataTypeQuery(e, DataType.EXERCISE) && e.has(Tags.SELECTED)}
-        get={[[TitleFacet, TextFacet, IdentifierFacet], []]}
-        onMatch={ExerciseView}
-      /> */}
-
       <AddHomeworkSheet />
       <AddFlashcardSetSheet />
 
       <DeleteTopicAlert />
       <EditTopicSheet />
-      {/* <GeneratingLearningUnitFromImageSheet /> */}
-      <GenerateResourcesFromImageSheet />
+      <GeneratingLearningUnitFromImageSheet />
       <AddResourceToLearningGroupSheet />
     </div>
   );

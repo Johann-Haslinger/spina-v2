@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { FlashcardsNavigationState } from '../../../base/enums';
+import { FlashcardsNavigationState } from '../../../common/types/enums';
 
 // const StyledSegmentedControlWrapper = styled.div`
 //   ${tw`flex space-x-6 mr-2`}

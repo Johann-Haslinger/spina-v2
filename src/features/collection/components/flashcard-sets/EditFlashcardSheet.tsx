@@ -1,18 +1,30 @@
 import styled from '@emotion/styled';
+import { ILeanScopeClient } from '@leanscope/api-client';
 import { LeanScopeClientContext } from '@leanscope/api-client/browser';
-import { Entity, EntityProps } from '@leanscope/ecs-engine';
+import { Entity, EntityProps, useEntityComponents } from '@leanscope/ecs-engine';
 import { IdentifierFacet, IdentifierProps } from '@leanscope/ecs-models';
 import { useContext, useState } from 'react';
-import { IoBookmark, IoBookmarkOutline, IoTrashOutline } from 'react-icons/io5';
+import {
+  IoBookmark,
+  IoBookmarkOutline,
+  IoPauseCircleOutline,
+  IoPlayCircleOutline,
+  IoTrashOutline,
+} from 'react-icons/io5';
 import tw from 'twin.macro';
+import { useIsViewVisible } from '../../../../common/hooks/useIsViewVisible';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
 import {
   AnswerFacet,
   AnswerProps,
+  DueDateFacet,
   MasteryLevelProps,
   QuestionFacet,
   QuestionProps,
-} from '../../../../app/additionalFacets';
-import { AdditionalTag, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
+} from '../../../../common/types/additionalFacets';
+import { AdditionalTag, SupabaseColumn, SupabaseTable } from '../../../../common/types/enums';
+import { addNotificationEntity } from '../../../../common/utilities';
+import { displayActionTexts, displayButtonTexts } from '../../../../common/utilities/displayText';
 import {
   FlexBox,
   PrimaryButton,
@@ -24,10 +36,7 @@ import {
   Spacer,
   TextAreaInput,
 } from '../../../../components';
-import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../../lib/supabase';
-import { displayActionTexts, displayButtonTexts } from '../../../../utils/displayText';
 
 const StyledMasteryLevelText = styled.div`
   ${tw`lg:pl-10 px-4 dark:text-primary-text-dark`}
@@ -41,6 +50,7 @@ const EditFlashcardSheet = (props: QuestionProps & AnswerProps & MasteryLevelPro
   const [questionValue, setQuestionValue] = useState(question);
   const [answerValue, setAnswerValue] = useState(answer);
   const { isBookmarked, toggleBookmark } = useIsBookmarked(entity);
+  const { isPaused, togglePause } = useIsPaused(lsc, entity);
 
   const navigateBack = () => entity.addTag(AdditionalTag.NAVIGATE_BACK);
 
@@ -60,6 +70,11 @@ const EditFlashcardSheet = (props: QuestionProps & AnswerProps & MasteryLevelPro
 
     if (error) {
       console.error('Error updating flashcard: ', error);
+      addNotificationEntity(lsc, {
+        title: 'Fehler beim Aktualisieren der Lernkarte',
+        message: error.message + ' ' + error.details + ' ' + error.hint,
+        type: 'error',
+      });
     }
   };
 
@@ -73,18 +88,28 @@ const EditFlashcardSheet = (props: QuestionProps & AnswerProps & MasteryLevelPro
 
       if (error) {
         console.error('Error deleting flashcard: ', error);
+        addNotificationEntity(lsc, {
+          title: 'Fehler beim Löschen der Lernkarte',
+          message: error.message + ' ' + error.details + ' ' + error.hint,
+          type: 'error',
+        });
       }
     }, 300);
   };
 
   return (
     <Sheet visible={isVisible} navigateBack={navigateBack}>
-      <FlexBox>
-        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
-        {(questionValue !== question || answerValue !== answer) && (
+      {questionValue !== question || answerValue !== answer ? (
+        <FlexBox>
+          <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
           <PrimaryButton onClick={updateFlashcard}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
-        )}
-      </FlexBox>
+        </FlexBox>
+      ) : (
+        <FlexBox>
+          <div /> <PrimaryButton>{displayButtonTexts(selectedLanguage).done}</PrimaryButton>
+        </FlexBox>
+      )}
+
       <Spacer />
       <Section>
         <SectionRow>
@@ -105,6 +130,13 @@ const EditFlashcardSheet = (props: QuestionProps & AnswerProps & MasteryLevelPro
       </Section>
       <Spacer size={2} />
       <Section>
+        <SectionRow
+          role="button"
+          icon={isPaused ? <IoPlayCircleOutline /> : <IoPauseCircleOutline />}
+          onClick={togglePause}
+        >
+          {isPaused ? 'Karte fortsetzen' : 'Karte pausieren'}
+        </SectionRow>
         <SectionRow
           last
           role="button"
@@ -130,6 +162,7 @@ const EditFlashcardSheet = (props: QuestionProps & AnswerProps & MasteryLevelPro
 export default EditFlashcardSheet;
 
 const useIsBookmarked = (entity: Entity) => {
+  const lsc = useContext(LeanScopeClientContext);
   const [isBookmarked, setIsBookmarked] = useState(false);
 
   const toggleBookmark = async () => {
@@ -151,8 +184,38 @@ const useIsBookmarked = (entity: Entity) => {
 
     if (error) {
       console.error('Error updating bookmark:', error);
+      addNotificationEntity(lsc, {
+        title: 'Fehler beim Aktualisieren des Lesezeichens',
+        message: error.message,
+        type: 'error',
+      });
     }
   };
 
   return { isBookmarked, toggleBookmark };
+};
+
+const useIsPaused = (lsc: ILeanScopeClient, entity: Entity) => {
+  const [dueDateFacet] = useEntityComponents(entity, DueDateFacet);
+  const isPaused = dueDateFacet?.props.dueDate === null;
+
+  const togglePause = async () => {
+    const newDueDate = isPaused ? new Date().toISOString() : null;
+    const id = entity.get(IdentifierFacet)?.props.guid;
+
+    entity.add(new DueDateFacet({ dueDate: newDueDate }));
+
+    const { error } = await supabaseClient.from(SupabaseTable.FLASHCARDS).update({ due_date: newDueDate }).eq('id', id);
+
+    if (error) {
+      console.error('Error updating pause:', error);
+      addNotificationEntity(lsc, {
+        title: 'Fehler beim Aktualisieren der Pause',
+        message: error.message,
+        type: 'error',
+      });
+    }
+  };
+
+  return { isPaused, togglePause };
 };

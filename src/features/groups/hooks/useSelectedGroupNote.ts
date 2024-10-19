@@ -1,8 +1,8 @@
 import { useEntity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet, Tags, TextFacet } from '@leanscope/ecs-models';
-import { TitleFacet } from '../../../app/additionalFacets';
-import { DataType } from '../../../base/enums';
-import { dataTypeQuery } from '../../../utils/queries';
+import { TitleFacet } from '../../../common/types/additionalFacets';
+import { DataType } from '../../../common/types/enums';
+import { dataTypeQuery } from '../../../common/utilities/queries';
 
 export const useSelectedGroupNote = () => {
   const [selectedGroupNoteEntity] = useEntity((e) => dataTypeQuery(e, DataType.GROUP_NOTE) && e.hasTag(Tags.SELECTED));

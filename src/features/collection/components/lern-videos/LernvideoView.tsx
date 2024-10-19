@@ -1,12 +1,12 @@
 import { EntityProps } from '@leanscope/ecs-engine';
 import { IdentifierProps } from '@leanscope/ecs-models';
 import { Fragment } from 'react/jsx-runtime';
-import { DateAddedProps, TitleProps } from '../../../../app/additionalFacets';
+import { useIsViewVisible } from '../../../../common/hooks/useIsViewVisible';
+import { DateAddedProps, TitleProps } from '../../../../common/types/additionalFacets';
 import { View } from '../../../../components';
-import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
 
-import { dummyBase64Audio } from '../../../../base/dummyBase64Audio';
-import { dummyBase64Image } from '../../../../base/dummyBase64Image';
+import { dummyBase64Audio } from '../../../../common/types/dummyBase64Audio';
+import { dummyBase64Image } from '../../../../common/types/dummyBase64Image';
 
 interface Media {
   audio: string;

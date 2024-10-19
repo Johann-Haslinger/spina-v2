@@ -5,9 +5,14 @@ import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useRef, useState } from 'react';
 import { IoAdd, IoCreateOutline } from 'react-icons/io5';
 import { v4 } from 'uuid';
-import { DateAddedFacet, TitleFacet } from '../../../../app/additionalFacets';
-import { DataType, Story } from '../../../../base/enums';
+import { DiscardUnsavedChangesAlert } from '../../../../common/components/others';
 import { useInputFocus } from '../../../../common/hooks';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
+import { useUserData } from '../../../../common/hooks/useUserData';
+import { DateAddedFacet, TitleFacet } from '../../../../common/types/additionalFacets';
+import { DataType, Story } from '../../../../common/types/enums';
+import { addTopic } from '../../../../common/utilities/addTopic';
+import { displayActionTexts, displayButtonTexts, displayLabelTexts } from '../../../../common/utilities/displayText';
 import {
   FlexBox,
   PrimaryButton,
@@ -19,11 +24,8 @@ import {
   TextAreaInput,
   TextInput,
 } from '../../../../components';
-import { addTopic } from '../../../../functions/addTopic';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
-import { useUserData } from '../../../../hooks/useUserData';
-import { displayActionTexts, displayButtonTexts, displayLabelTexts } from '../../../../utils/displayText';
 import { generateDescriptionForTopic } from '../../functions/generateDescriptionForTopic';
+import { useDiscardAlertState } from '../../hooks/useDiscardAlertState';
 import { useSelectedSchoolSubject } from '../../hooks/useSelectedSchoolSubject';
 import SelectTopicImageSheet from '../topics/SelectTopicImageSheet';
 
@@ -38,16 +40,20 @@ const AddTopicSheet = () => {
   const [selectedImageEntities] = useEntities((e) => e.get(IdentifierFacet)?.props.guid === 'selectedImage');
   const selectedImageSrc = selectedImageEntities[0]?.get(ImageFacet)?.props.imageSrc;
   const inputRef = useRef<HTMLInputElement>(null);
+  const { isDiscardAlertVisible, openDiscardAlert, closeDiscardAlert } = useDiscardAlertState();
+  const hasUnsavedChanges = title !== '' || description !== '' || selectedImageSrc;
 
   useInputFocus(inputRef, isVisible);
 
   const navigateBack = () => {
+    closeDiscardAlert();
     lsc.stories.transitTo(Story.OBSERVING_SCHOOL_SUBJECT_STORY);
     setTitle('');
     setDescription('');
     selectedImageEntities.forEach((e) => lsc.engine.removeEntity(e));
   };
   const openImageSelectorSheet = () => lsc.stories.transitTo(Story.SELECTING_IMAGE_FOR_TOPIC_STORY);
+  const handleBackClick = () => (hasUnsavedChanges ? openDiscardAlert() : navigateBack());
 
   const saveTopic = async () => {
     if (selectedSchoolSubjectId) {
@@ -65,7 +71,7 @@ const AddTopicSheet = () => {
       newTopicEntity.add(DataType.TOPIC);
       navigateBack();
 
-      await generateDescriptionForTopic(newTopicEntity);
+      await generateDescriptionForTopic(lsc, newTopicEntity);
 
       addTopic(lsc, newTopicEntity, userId);
     }
@@ -73,9 +79,9 @@ const AddTopicSheet = () => {
 
   return (
     <div>
-      <Sheet navigateBack={navigateBack} visible={isVisible}>
+      <Sheet navigateBack={handleBackClick} visible={isVisible}>
         <FlexBox>
-          <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
+          <SecondaryButton onClick={handleBackClick}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
           {title !== '' && (
             <PrimaryButton onClick={saveTopic}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
           )}
@@ -118,6 +124,7 @@ const AddTopicSheet = () => {
       </Sheet>
 
       <SelectTopicImageSheet topicTitle={title} />
+      <DiscardUnsavedChangesAlert isVisible={isDiscardAlertVisible} cancel={closeDiscardAlert} close={navigateBack} />
     </div>
   );
 };

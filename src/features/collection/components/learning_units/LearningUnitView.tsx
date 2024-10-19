@@ -1,9 +1,13 @@
 import styled from '@emotion/styled';
+import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity, EntityProps, EntityPropsMapper, useEntities, useEntityComponents } from '@leanscope/ecs-engine';
 import { IdentifierFacet, IdentifierProps, ImageFacet, Tags, TextFacet, UrlFacet } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
 import tw from 'twin.macro';
+import FlashcardQuizView from '../../../../common/components/flashcards/FlashcardQuizView';
+import { useIsViewVisible } from '../../../../common/hooks/useIsViewVisible';
+import { useUserData } from '../../../../common/hooks/useUserData';
 import {
   AnswerFacet,
   FilePathFacet,
@@ -13,7 +17,7 @@ import {
   QuestionFacet,
   TitleFacet,
   TitleProps,
-} from '../../../../app/additionalFacets';
+} from '../../../../common/types/additionalFacets';
 import {
   AdditionalTag,
   DataType,
@@ -21,9 +25,9 @@ import {
   LearningUnitType,
   LearningUnitViews,
   Story,
-} from '../../../../base/enums';
-import FlashcardQuizView from '../../../../common/components/flashcards/FlashcardQuizView';
+} from '../../../../common/types/enums';
 import { updatePriority } from '../../../../common/utilities';
+import { dataTypeQuery, isChildOfQuery } from '../../../../common/utilities/queries';
 import {
   BackButton,
   CollectionGrid,
@@ -33,9 +37,6 @@ import {
   TextEditor,
   View,
 } from '../../../../components';
-import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
-import { useUserData } from '../../../../hooks/useUserData';
-import { dataTypeQuery, isChildOfQuery } from '../../../../utils/queries';
 import { useDueFlashcards } from '../../../flashcards';
 import { addFileToLearningUnit } from '../../functions/addFileToLearningUnit';
 import { useFileSelector } from '../../hooks/useFileSelector';
@@ -57,7 +58,6 @@ import FileViewer from './FileViewer';
 import LearningUnitNavBar from './LearningUnitNavBar';
 import LearningUnitTitle from './LearningUnitTitle';
 import StyleActionSheet from './StyleActionSheet';
-import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 
 const StyledSelect = styled.select<{ value: LearningUnitPriority }>`
   ${tw`bg-secondary dark:bg-primary-dark  transition-all outline-none`}
@@ -105,7 +105,7 @@ const LearningUnitView = (
               ,{' '}
               <StyledSelect
                 onChange={(e) =>
-                  updatePriority(entity, Number(e.target.value) as LearningUnitPriority, dueFlashcardEntity)
+                  updatePriority(lsc, entity, Number(e.target.value) as LearningUnitPriority, dueFlashcardEntity)
                 }
                 value={priority}
                 defaultValue={0}
@@ -148,7 +148,7 @@ const LearningUnitView = (
           </div>
         )}
 
-        <div>
+        <div tw="z-[100]">
           <EntityPropsMapper
             query={(e) => isChildOfQuery(e, entity) && dataTypeQuery(e, DataType.FILE)}
             get={[[FilePathFacet, TitleFacet], []]}

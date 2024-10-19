@@ -18,15 +18,15 @@ import {
 import { NavLink, useLocation } from 'react-router-dom';
 import tw from 'twin.macro';
 import { ViSpina } from '../../assets/icons';
-import { COLOR_ITEMS, MEDIUM_DEVICE_WIDTH, NAV_LINKS } from '../../base/constants';
-import { NavigationLink, Story, SupportedLanguage, SupportedTheme } from '../../base/enums';
+import { useSelectedLanguage } from '../../common/hooks/useSelectedLanguage';
+import { useUserData } from '../../common/hooks/useUserData';
+import { useWindowDimensions } from '../../common/hooks/useWindowDimensions';
+import { COLOR_ITEMS, MEDIUM_DEVICE_WIDTH, NAV_LINKS } from '../../common/types/constants';
+import { NavigationLink, Story, SupportedLanguage, SupportedTheme } from '../../common/types/enums';
+import { displayAlertTexts, displayButtonTexts, displayHeaderTexts } from '../../common/utilities/displayText';
 import { useAppState } from '../../features/collection/hooks/useAppState';
 import { usePlayingPodcast } from '../../features/collection/hooks/usePlayingPodcast';
 import { useSelectedTheme } from '../../features/collection/hooks/useSelectedTheme';
-import { useSelectedLanguage } from '../../hooks/useSelectedLanguage';
-import { useUserData } from '../../hooks/useUserData';
-import { useWindowDimensions } from '../../hooks/useWindowDimensions';
-import { displayAlertTexts, displayButtonTexts, displayHeaderTexts } from '../../utils/displayText';
 import NavigationLinkIcon from './NavigationLinkIcon';
 
 const StyledSelectedPodcasrCellWrapper = styled.div<{ visible: boolean }>`
@@ -305,7 +305,7 @@ const StyledSpinaIcon = styled.div`
   ${tw` flex w-[54px] justify-center text-3xl dark:text-primary-text-dark h-5 md:hover:scale-90 transition-all  mb-12  scale-75`}
 `;
 const StyledSidebarWrapper = styled.div<{ isFullWidth: boolean }>`
-  ${tw`h-full md:rounded-xl pt-6 bg-white dark:bg-secondary-dark  transition-all  px-2 backdrop-blur-2xl bg-opacity-95  `}
+  ${tw`h-full md:rounded-xl pt-6  bg-white dark:bg-secondary-dark   px-2 backdrop-blur-2xl bg-opacity-95  `}
 `;
 
 const Sidebar = () => {
@@ -346,6 +346,7 @@ const Sidebar = () => {
           zIndex: 20,
         }}
         initial={{
+          opacity: 0,
           width: 72,
           x: isMediumDevice ? '-110%' : -100,
         }}
@@ -354,6 +355,7 @@ const Sidebar = () => {
           type: isMobile ? 'tween' : 'spring',
         }}
         animate={{
+          opacity: isVisible ? 1 : 0,
           width: isMobile ? '100%' : isFullWidth ? 250 : 72,
           x: isVisible ? 0 : isMediumDevice ? '-110%' : -300,
         }}

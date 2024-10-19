@@ -6,6 +6,7 @@ import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
 import tw from 'twin.macro';
 import { v4 } from 'uuid';
+import { useUserData } from '../../../../common/hooks/useUserData';
 import {
   AnswerFacet,
   DateAddedFacet,
@@ -13,16 +14,16 @@ import {
   QuestionFacet,
   SourceFacet,
   TitleFacet,
-} from '../../../../app/additionalFacets';
-import { COLOR_ITEMS } from '../../../../base/constants';
-import { AdditionalTag, DataType, LearningUnitType, Story } from '../../../../base/enums';
+} from '../../../../common/types/additionalFacets';
+import { COLOR_ITEMS } from '../../../../common/types/constants';
+import { AdditionalTag, DataType, LearningUnitType, Story } from '../../../../common/types/enums';
+import { addNotificationEntity } from '../../../../common/utilities';
+import { addBlocks } from '../../../../common/utilities/addBlocks';
+import { addFlashcards } from '../../../../common/utilities/addFlashcards';
+import { addLearningUnit } from '../../../../common/utilities/addLeaningUnit';
+import { addText } from '../../../../common/utilities/addText';
 import { CloseButton, FlexBox, ScrollableBox, Sheet } from '../../../../components';
 import SapientorConversationMessage from '../../../../components/content/SapientorConversationMessage';
-import { addBlocks } from '../../../../functions/addBlocks';
-import { addFlashcards } from '../../../../functions/addFlashcards';
-import { addLearningUnit } from '../../../../functions/addLeaningUnit';
-import { addText } from '../../../../functions/addText';
-import { useUserData } from '../../../../hooks/useUserData';
 import supabaseClient from '../../../../lib/supabase';
 import { getBlockEntitiesFromText } from '../../../blockeditor/functions/getBlockEntitiesFromString';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
@@ -147,6 +148,11 @@ const GenerateResourcesFromImageSheet = () => {
 
     if (error) {
       console.error('Error generating completion:', error.message);
+      addNotificationEntity(lsc, {
+        title: 'Fehler beim Erzeugen der Lernkarten',
+        message: error.message + ' ' + error.details + ' ' + error.hint,
+        type: 'error',
+      });
     }
 
     const generatedFlashcards: { answer: string; question: string }[] = JSON.parse(flashcardsData).cards;
@@ -208,6 +214,11 @@ const GenerateResourcesFromImageSheet = () => {
 
     if (error) {
       console.error('Error generating completion:', error.message);
+      addNotificationEntity(lsc, {
+        title: 'Fehler beim Erzeugen der Lernkarten',
+        message: error.message + ' ' + error.details + ' ' + error.hint,
+        type: 'error',
+      });
     }
 
     const title = note.title;
@@ -435,7 +446,7 @@ const GenerateResourcesFromImageSheet = () => {
         newTextEntity.add(new ParentFacet({ parentId: subTopicId }));
         newTextEntity.add(new TextFacet({ text: note }));
 
-        addText(newTextEntity, userId);
+        addText(lsc, newTextEntity, userId);
       } else {
         const flashcardSetId = v4();
 

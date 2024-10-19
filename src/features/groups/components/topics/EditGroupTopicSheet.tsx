@@ -2,8 +2,10 @@ import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { DescriptionFacet } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
-import { TitleFacet } from '../../../../app/additionalFacets';
-import { Story, SupabaseColumn } from '../../../../base/enums';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
+import { TitleFacet } from '../../../../common/types/additionalFacets';
+import { Story, SupabaseColumn } from '../../../../common/types/enums';
+import { displayButtonTexts, displayLabelTexts } from '../../../../common/utilities/displayText';
 import {
   FlexBox,
   PrimaryButton,
@@ -15,9 +17,7 @@ import {
   TextAreaInput,
   TextInput,
 } from '../../../../components';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../../lib/supabase';
-import { displayButtonTexts, displayLabelTexts } from '../../../../utils/displayText';
 import { useSelectedGroupTopic } from '../../hooks/useSelectedGroupTopic';
 const EditGroupGroupTopicSheet = () => {
   const lsc = useContext(LeanScopeClientContext);

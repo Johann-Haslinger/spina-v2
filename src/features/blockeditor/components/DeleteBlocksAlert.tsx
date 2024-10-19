@@ -3,11 +3,11 @@ import { useEntities } from '@leanscope/ecs-engine';
 import { IdentifierFacet, Tags } from '@leanscope/ecs-models';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext } from 'react';
-import { DataType, Story, SupabaseColumn, SupabaseTable } from '../../../base/enums';
+import { useSelectedLanguage } from '../../../common/hooks/useSelectedLanguage';
+import { DataType, Story, SupabaseColumn, SupabaseTable } from '../../../common/types/enums';
+import { displayActionTexts } from '../../../common/utilities/displayText';
 import { Alert, AlertButton } from '../../../components';
-import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../lib/supabase';
-import { displayActionTexts } from '../../../utils/displayText';
 
 const DeleteBlocksAlert = () => {
   const lsc = useContext(LeanScopeClientContext);

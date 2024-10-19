@@ -15,14 +15,14 @@ import {
   IoTrashOutline,
 } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { FilePathFacet, FilePathProps, TitleProps } from '../../../../app/additionalFacets';
-import { SupabaseStorageBucket, SupabaseTable } from '../../../../base/enums';
+import { FilePathFacet, FilePathProps, TitleProps } from '../../../../common/types/additionalFacets';
+import { SupabaseStorageBucket, SupabaseTable } from '../../../../common/types/enums';
+import { addNotificationEntity } from '../../../../common/utilities';
 import { ActionRow, ActionSheet } from '../../../../components';
 import supabaseClient from '../../../../lib/supabase';
 
 const deleteFile = async (lsc: ILeanScopeClient, entity: Entity) => {
   const filePath = entity.get(FilePathFacet)?.props.filePath;
-  lsc.engine.removeEntity(entity);
 
   if (!filePath) {
     console.error('File path not found');
@@ -35,6 +35,12 @@ const deleteFile = async (lsc: ILeanScopeClient, entity: Entity) => {
 
   if (storageDeleteError) {
     console.error('Error deleting file:', storageDeleteError);
+    addNotificationEntity(lsc, {
+      title: 'Fehler beim Löschen der Datei',
+      message: storageDeleteError.message,
+      type: 'error',
+    });
+    return;
   }
   const { error: tableDeleteError } = await supabaseClient
     .from(SupabaseTable.LEARNING_UNIT_FILES)
@@ -43,29 +49,41 @@ const deleteFile = async (lsc: ILeanScopeClient, entity: Entity) => {
 
   if (tableDeleteError) {
     console.error('Error deleting file from table:', tableDeleteError);
+    addNotificationEntity(lsc, {
+      title: 'Fehler beim Löschen der Datei',
+      message: tableDeleteError.message + ' ' + tableDeleteError.details + ' ' + tableDeleteError.hint,
+      type: 'error',
+    });
   }
+
+  lsc.engine.removeEntity(entity);
 };
 
-const downloadFile = async (title: string, filePath: string) => {
+const downloadFile = async (lsc: ILeanScopeClient, title: string, filePath: string) => {
   const { data, error } = await supabaseClient.storage
     .from(SupabaseStorageBucket.LEARNING_UNIT_FILES)
     .createSignedUrl(filePath, 60 * 60);
 
   if (error) {
     console.error('Error fetching signed URL:', error);
-    return '';
+    addNotificationEntity(lsc, {
+      title: 'Fehler beim Herunterladen der Datei',
+      message: error.message,
+      type: 'error',
+    });
+    return;
   }
 
   saveAs(data.signedUrl, title);
 };
 
 const StyledRowWrapper = styled(motion.div)<{ isContextMenuOpen: boolean }>`
-  ${tw`flex scale-100 space-x-4 pr-4 mb-2 hover:scale-105 transition-all items-center pl-2 justify-between py-3 dark:bg-secondary-dark bg-tertiary bg-opacity-50 rounded-xl border-black border-opacity-5`}
-  ${({ isContextMenuOpen }) => isContextMenuOpen && tw`scale-105 `}
+  ${tw`flex overflow-hidden scale-100 z-40 space-x-4 pr-4 mb-2 hover:scale-[1.03] transition-all items-center pl-2 justify-between py-3 dark:bg-secondary-dark bg-tertiary bg-opacity-50 rounded-xl border-black border-opacity-5`}
+  ${({ isContextMenuOpen }) => isContextMenuOpen && tw`scale-[1.03]  `}
 `;
 
 const StyledTitle = styled.p`
-  ${tw`line-clamp-2`}
+  ${tw`line-clamp-2 overflow-hidden w-full`}
 `;
 
 const StyledDueDate = styled.p`
@@ -83,7 +101,7 @@ const FileRow = (props: TitleProps & FilePathProps & EntityProps) => {
   const [isContextMenuOpen, setIsContextMenuOpen] = useState(false);
 
   const openFile = () => entity.addTag(Tags.SELECTED);
-  const handleDownload = () => downloadFile(title, filePath);
+  const handleDownload = () => downloadFile(lsc, title, filePath);
   const handleDelete = () => deleteFile(lsc, entity);
 
   return (
@@ -107,7 +125,7 @@ const FileRow = (props: TitleProps & FilePathProps & EntityProps) => {
           <IoEllipsisHorizontalCircleOutline />
         </StyledIcon>
       </StyledRowWrapper>
-      <div tw="relative left-20 ml-10 bottom-8 z-[500]">
+      <div tw="relative ml-4 left-4 bottom-8 z-[500]">
         <ActionSheet visible={isContextMenuOpen} navigateBack={() => setIsContextMenuOpen(false)}>
           <ActionRow first icon={<IoOpenOutline />} onClick={openFile}>
             Öffnen

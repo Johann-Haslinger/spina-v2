@@ -19,15 +19,21 @@ import {
   IoTextOutline,
   IoTrashOutline,
 } from 'react-icons/io5';
-import { LearningUnitTypeProps, TitleFacet } from '../../../../app/additionalFacets';
-import { AdditionalTag, LearningUnitType, LearningUnitViews, Story, SupabaseTable } from '../../../../base/enums';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
+import { useSelection } from '../../../../common/hooks/useSelection';
+import { useUserData } from '../../../../common/hooks/useUserData';
+import { LearningUnitTypeProps, TitleFacet } from '../../../../common/types/additionalFacets';
+import {
+  AdditionalTag,
+  LearningUnitType,
+  LearningUnitViews,
+  Story,
+  SupabaseTable,
+} from '../../../../common/types/enums';
 import { generatePdf } from '../../../../common/utilities';
+import { displayActionTexts } from '../../../../common/utilities/displayText';
 import { ActionRow, NavBarButton, NavigationBar } from '../../../../components';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
-import { useSelection } from '../../../../hooks/useSelection';
-import { useUserData } from '../../../../hooks/useUserData';
 import supabaseClient from '../../../../lib/supabase';
-import { displayActionTexts } from '../../../../utils/displayText';
 import { updateLearningUnitType } from '../../functions/updateLearningUnitType';
 
 interface LearningUnitNavBarProps {
@@ -47,7 +53,6 @@ const LearningUnitNavBar = (props: EntityProps & LearningUnitTypeProps & Learnin
   const openDeleteAlert = () => lsc.stories.transitTo(Story.DELETING_NOTE_STORY);
   const openGenerateFlashcardsSheet = () => lsc.stories.transitTo(Story.GENERATING_FLASHCARDS_STORY);
   const openImproveTextSheet = () => lsc.stories.transitTo(Story.GENERATING_IMPROVED_TEXT_STORY);
-  // const openAddResourceToLerningGroupSheet = () => lsc.stories.transitTo(Story.ADDING_RESOURCE_TO_LEARNING_GROUP_STORY);
   const openAddFlashcardsSheet = () => lsc.stories.transitTo(Story.ADDING_FLASHCARDS_STORY);
   const openEditTextStyleSheet = () => lsc.stories.transitTo(Story.EDITING_TEXT_STYLE_STORY);
   const openFlashcardQuizView = () => lsc.stories.transitTo(Story.OBSERVING_FLASHCARD_QUIZ_STORY);
@@ -129,9 +134,6 @@ const LearningUnitNavBar = (props: EntityProps & LearningUnitTypeProps & Learnin
                 Exportieren
               </ActionRow>
             )}
-            {/* <ActionRow icon={<IoArrowUpCircleOutline />} onClick={openAddResourceToLerningGroupSheet}>
-              {displayActionTexts(selectedLanguage).addToLearningGroup}
-            </ActionRow> */}
             <ActionRow last destructive onClick={openDeleteAlert} icon={<IoTrashOutline />}>
               {displayActionTexts(selectedLanguage).delete}
             </ActionRow>

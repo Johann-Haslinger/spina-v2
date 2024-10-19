@@ -5,10 +5,8 @@ export const useInputFocus = (
   isFocused: boolean,
 ) => {
   useEffect(() => {
-    console.log('useInputFocus', isFocused, inputRef);
     if (!isFocused) return;
 
-    console.log('useInputFocus', isFocused);
     const timeoutId = setTimeout(() => inputRef.current?.focus(), 10);
 
     return () => {

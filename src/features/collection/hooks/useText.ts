@@ -1,9 +1,9 @@
 import { Entity, useEntityComponents, useEntityHasTags } from '@leanscope/ecs-engine';
 import { IdentifierFacet, Tags, TextFacet } from '@leanscope/ecs-models';
 import { useEffect, useState } from 'react';
-import { SupabaseColumn, SupabaseTable } from '../../../base/enums';
-import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
-import { useUserData } from '../../../hooks/useUserData';
+import { useCurrentDataSource } from '../../../common/hooks/useCurrentDataSource';
+import { useUserData } from '../../../common/hooks/useUserData';
+import { SupabaseColumn, SupabaseTable } from '../../../common/types/enums';
 import supabaseClient from '../../../lib/supabase';
 
 const fetchText = async (parentId: string, userId: string) => {

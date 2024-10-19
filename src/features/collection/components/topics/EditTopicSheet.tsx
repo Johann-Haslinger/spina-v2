@@ -4,8 +4,12 @@ import { DescriptionFacet, IdentifierFacet, ImageFacet } from '@leanscope/ecs-mo
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
 import { IoCreateOutline } from 'react-icons/io5';
-import { TitleFacet } from '../../../../app/additionalFacets';
-import { Story, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
+import { DiscardUnsavedChangesAlert } from '../../../../common/components/others';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
+import { TitleFacet } from '../../../../common/types/additionalFacets';
+import { Story, SupabaseColumn, SupabaseTable } from '../../../../common/types/enums';
+import { addNotificationEntity } from '../../../../common/utilities';
+import { displayActionTexts, displayButtonTexts, displayLabelTexts } from '../../../../common/utilities/displayText';
 import {
   FlexBox,
   PrimaryButton,
@@ -17,9 +21,8 @@ import {
   TextAreaInput,
   TextInput,
 } from '../../../../components';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../../lib/supabase';
-import { displayActionTexts, displayButtonTexts, displayLabelTexts } from '../../../../utils/displayText';
+import { useDiscardAlertState } from '../../hooks/useDiscardAlertState';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
 
 const EditTopicSheet = () => {
@@ -31,11 +34,12 @@ const EditTopicSheet = () => {
   const [newDescription, setNewDescription] = useState(selectedTopicDescription);
   const [selectedImageEntities] = useEntities((e) => e.get(IdentifierFacet)?.props.guid === 'selectedImage');
   const selectedImageSrc = selectedImageEntities[0]?.get(ImageFacet)?.props.imageSrc;
+  const { isDiscardAlertVisible, openDiscardAlert, closeDiscardAlert } = useDiscardAlertState();
+  const hasUnsavedChanges =
+    newTitle !== selectedTopicTitle || newDescription !== selectedTopicDescription || selectedImageSrc;
 
   useEffect(() => {
     const updateTopicImage = async () => {
-      selectedTopicEntity?.add(new ImageFacet({ imageSrc: selectedImageEntities[0]?.get(ImageFacet)?.props.imageSrc }));
-
       const { error } = await supabaseClient
         .from(SupabaseTable.TOPICS)
         .update({
@@ -45,7 +49,15 @@ const EditTopicSheet = () => {
 
       if (error) {
         console.error('Error updating topic set', error);
+        addNotificationEntity(lsc, {
+          title: 'Fehler beim Aktualisieren des Themenbildes',
+          message: error.message,
+          type: 'error',
+        });
+        return;
       }
+
+      selectedTopicEntity?.add(new ImageFacet({ imageSrc: selectedImageEntities[0]?.get(ImageFacet)?.props.imageSrc }));
 
       selectedImageEntities.forEach((e) => lsc.engine.removeEntity(e));
     };
@@ -60,14 +72,16 @@ const EditTopicSheet = () => {
     setNewDescription(selectedTopicDescription);
   }, [selectedTopicTitle, selectedTopicDescription]);
 
-  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_TOPIC_STORY);
+  const navigateBack = () => {
+    closeDiscardAlert();
+    lsc.stories.transitTo(Story.OBSERVING_TOPIC_STORY);
+  };
   const openImageSelectorSheet = () => lsc.stories.transitTo(Story.SELECTING_IMAGE_FOR_TOPIC_STORY);
+  const handleBackClick = () => (hasUnsavedChanges ? openDiscardAlert() : navigateBack());
 
   const updateTopic = async () => {
     if (newTitle && newDescription) {
       navigateBack();
-      selectedTopicEntity?.add(new TitleFacet({ title: newTitle }));
-      selectedTopicEntity?.add(new DescriptionFacet({ description: newDescription }));
 
       const { error } = await supabaseClient
         .from(SupabaseTable.TOPICS)
@@ -80,15 +94,23 @@ const EditTopicSheet = () => {
 
       if (error) {
         console.error('Error updating topic set', error);
+        addNotificationEntity(lsc, {
+          title: 'Fehler beim Aktualisieren des Themas',
+          message: error.message,
+          type: 'error',
+        });
+        return;
       }
+      selectedTopicEntity?.add(new TitleFacet({ title: newTitle }));
+      selectedTopicEntity?.add(new DescriptionFacet({ description: newDescription }));
     }
   };
 
   return (
     <div>
-      <Sheet visible={isVisible} navigateBack={navigateBack}>
+      <Sheet visible={isVisible} navigateBack={handleBackClick}>
         <FlexBox>
-          <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
+          <SecondaryButton onClick={handleBackClick}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
           {(newTitle !== selectedTopicTitle || newDescription !== selectedTopicDescription || selectedImageSrc) && (
             <PrimaryButton onClick={updateTopic}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
           )}
@@ -119,6 +141,8 @@ const EditTopicSheet = () => {
 
         <Spacer />
       </Sheet>
+
+      <DiscardUnsavedChangesAlert isVisible={isDiscardAlertVisible} cancel={closeDiscardAlert} close={navigateBack} />
     </div>
   );
 };

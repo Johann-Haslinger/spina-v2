@@ -5,10 +5,10 @@ import { motion } from 'framer-motion';
 import { useContext, useEffect, useRef } from 'react';
 import tw from 'twin.macro';
 
-import { MessageRoleFacet } from '../../../app/additionalFacets';
-import { COLOR_ITEMS, MEDIUM_DEVICE_WIDTH } from '../../../base/constants';
-import { AdditionalTag } from '../../../base/enums';
-import { useWindowDimensions } from '../../../hooks/useWindowDimensions';
+import { useWindowDimensions } from '../../../common/hooks/useWindowDimensions';
+import { MessageRoleFacet } from '../../../common/types/additionalFacets';
+import { COLOR_ITEMS, MEDIUM_DEVICE_WIDTH } from '../../../common/types/constants';
+import { AdditionalTag } from '../../../common/types/enums';
 import { useCurrentSapientorConversation } from '../hooks/useCurrentConversation';
 import SapientorChatSheet from './SapientorChatSheet';
 import SapientorEye from './SapientorEye';

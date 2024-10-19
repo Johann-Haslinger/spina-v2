@@ -1,11 +1,11 @@
 {
   "name": "Spina",
   "short_name": "Spina",
-  "description": "Spina Schopl-App PWA",
+  "description": "Spina Schul-App PWA",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#F5F5F5",
-  "theme_color": "#F5F5F5",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
   "icons": [
     {
       "src": "spina.png",

@@ -5,8 +5,8 @@ import { IoCopy, IoPlay } from 'react-icons/io5';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import tw from 'twin.macro';
-import { Story } from '../../../base/enums';
 import { useLoadingIndicator } from '../../../common/hooks';
+import { Story } from '../../../common/types/enums';
 import { useDueFlashcardsCount } from '../../flashcards/hooks/useDueFlashcardsCount';
 
 const StyledCardWrapper = styled.div`
@@ -77,7 +77,8 @@ const StartFlashcardSessionCard = () => {
               <div>
                 <StyledButtonTitle>Abfrage Starten</StyledButtonTitle>
                 <StyledButtonSubtitle>
-                  {dueFlashcardsCount > 30 ? `30 von ${dueFlashcardsCount}` : dueFlashcardsCount} fällige Karten abfragen 
+                  {dueFlashcardsCount > 30 ? `30 von ${dueFlashcardsCount}` : dueFlashcardsCount} fällige Karten
+                  abfragen
                 </StyledButtonSubtitle>{' '}
               </div>
             )}

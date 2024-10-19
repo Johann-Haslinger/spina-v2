@@ -4,26 +4,45 @@ import { useEffect, useState } from 'react';
 import { IoCheckmark, IoFlame, IoSnowOutline } from 'react-icons/io5';
 import Skeleton from 'react-loading-skeleton';
 import tw from 'twin.macro';
-import { DateUpdatedFacet, StreakFacet } from '../../../app/additionalFacets';
 import { useLoadingIndicator } from '../../../common/hooks';
+import { DateUpdatedFacet, StreakFacet } from '../../../common/types/additionalFacets';
 
 const StyledCardWrapper = styled.div`
-  ${tw`w-full h-[10rem] flex flex-col justify-between p-4 rounded-2xl  bg-[#A3CB63] bg-opacity-15`}
+  ${tw`w-full min-h-[10rem] h-fit md:h-[10rem] flex flex-col justify-between p-4 rounded-2xl bg-[#A3CB63] bg-opacity-15`}
 `;
-
-// const StyledStreakLabel = styled.div<{ currentStrak: boolean }>`
-//   ${tw` mt-1 font-bold`}
-//   ${({ currentStrak }) => (currentStrak ? tw`text-3xl` : tw`text-2xl mt-2 leading-7`)}
-// `;
 
 const StyledCheckbox = styled.div<{ isChecked: boolean; isFrozen: boolean }>`
   ${tw`flex items-center justify-center size-8 rounded-md text-2xl text-white bg-[#A3CB63]`}
-  ${({ isChecked }) => (isChecked ? tw` bg-opacity-80` : tw` bg-opacity-20`)}
+  ${({ isChecked }) => (isChecked ? tw`bg-opacity-80` : tw`bg-opacity-20`)}
   ${({ isFrozen }) => isFrozen && tw`bg-opacity-15 text-[#A3CB63]`}
 `;
 
 const StyledCheckmarksContainer = styled.div`
-  ${tw`flex space-x-2`}
+  ${tw`flex mt-4 space-x-2`}
+`;
+
+const StyledStreakHeader = styled.div`
+  ${tw`flex space-x-2 text-[#A3CB63] items-center`}
+`;
+
+const StyledStreakTitle = styled.div`
+  ${tw`font-bold text-sm`}
+`;
+
+const StyledStreakContent = styled.div`
+  ${tw`font-medium mt-2`}
+`;
+
+const StyledSkeletonContainer = styled.div`
+  ${tw`w-full mt-3 dark:opacity-10 transition-all`}
+`;
+
+const StyledSkeletonFull = styled(Skeleton)`
+  ${tw`w-full h-3`}
+`;
+
+const StyledSkeletonHalf = styled(Skeleton)`
+  ${tw`w-1/2 h-3`}
 `;
 
 const StreakCard = () => {
@@ -33,21 +52,18 @@ const StreakCard = () => {
 
   return (
     <StyledCardWrapper>
-      <div tw="h-24">
-        <div tw="flex space-x-2 text-[#A3CB63] items-center">
-          <div tw="">
-            <IoFlame />
-          </div>
-          <div tw="font-bold text-sm">Aktuelle Streak</div>
-        </div>
+      <div>
+        <StyledStreakHeader>
+          <IoFlame />
+          <StyledStreakTitle>Aktuelle Streak</StyledStreakTitle>
+        </StyledStreakHeader>
 
         {!isLoadingIndicatorVisible ? (
-          <div tw="font-medium mt-2">
+          <StyledStreakContent>
             {isFrozen ? (
               'Deine Streak ist eingefroren. 🥶 Starte eine Lernrunde um sie fortzusetzten!'
             ) : isCurrentStreakEntityExisting ? (
               <p>
-                {' '}
                 Du hast bereits{' '}
                 <strong>
                   {streak} {streak == 1 ? 'Tag' : 'Tage'}
@@ -57,12 +73,12 @@ const StreakCard = () => {
             ) : (
               'Bist du bereit für eine neue Streak? 🚀'
             )}
-          </div>
+          </StyledStreakContent>
         ) : (
-          <div tw="w-full mt-3 dark:opacity-10 transition-all ">
-            <Skeleton baseColor="#CFE0B4" highlightColor="#DAE6C8" borderRadius={4} tw="w-full h-3" />
-            <Skeleton baseColor="#CFE0B4" highlightColor="#DAE6C8" borderRadius={4} tw="w-1/2 h-3" />
-          </div>
+          <StyledSkeletonContainer>
+            <StyledSkeletonFull baseColor="#CFE0B4" highlightColor="#DAE6C8" borderRadius={4} />
+            <StyledSkeletonHalf baseColor="#CFE0B4" highlightColor="#DAE6C8" borderRadius={4} />
+          </StyledSkeletonContainer>
         )}
       </div>
 
@@ -78,7 +94,7 @@ const StreakCard = () => {
                 {isFrozen && <IoSnowOutline />}
               </StyledCheckbox>
             );
-          })}{' '}
+          })}
         </StyledCheckmarksContainer>
       )}
     </StyledCardWrapper>

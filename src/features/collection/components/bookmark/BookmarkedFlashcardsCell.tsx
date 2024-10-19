@@ -1,6 +1,6 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { useContext } from 'react';
-import { Story } from '../../../../base/enums';
+import { Story } from '../../../../common/types/enums';
 import { FlashcardSetThumbNail } from '../../../../components';
 import { useSelectedSchoolSubjectColor } from '../../hooks/useSelectedSchoolSubjectColor';
 

@@ -1,5 +1,5 @@
 import { Entity } from '@leanscope/ecs-engine';
-import { DateAddedFacet } from '../../../app/additionalFacets';
+import { DateAddedFacet } from '../../../common/types/additionalFacets';
 
 export const useFormattedDateAdded = (entity: Entity, short?: boolean) => {
   const dateAdded = entity.get(DateAddedFacet)?.props.dateAdded || '';

@@ -4,14 +4,19 @@ import { Entity, EntityPropsMapper, useEntities } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet, Tags, TextFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect, useState } from 'react';
 import tw from 'twin.macro';
-import { DateAddedFacet, LearningUnitTypeFacet, PriorityFacet, TitleFacet } from '../../../app/additionalFacets';
-import { dummyLearningUnits } from '../../../base/dummy';
-import { DataType, LearningUnitPriority, LearningUnitType, SupabaseTable } from '../../../base/enums';
-import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
+import { useCurrentDataSource } from '../../../common/hooks/useCurrentDataSource';
+import {
+  DateAddedFacet,
+  LearningUnitTypeFacet,
+  PriorityFacet,
+  TitleFacet,
+} from '../../../common/types/additionalFacets';
+import { dummyLearningUnits } from '../../../common/types/dummy';
+import { DataType, LearningUnitPriority, LearningUnitType, SupabaseTable } from '../../../common/types/enums';
+import { sortEntitiesByDateAdded } from '../../../common/utilities/sortEntitiesByTime';
 import supabaseClient from '../../../lib/supabase';
-import { sortEntitiesByDateAdded } from '../../../utils/sortEntitiesByTime';
 
-import { dataTypeQuery, learningUnitTypeQuery } from '../../../utils/queries';
+import { dataTypeQuery, learningUnitTypeQuery } from '../../../common/utilities/queries';
 import LearningUnitView from '../../collection/components/learning_units/LearningUnitView';
 import FlashcardGroupRow from './FlashcardGroupRow';
 

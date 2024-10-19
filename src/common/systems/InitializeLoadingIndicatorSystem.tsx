@@ -2,7 +2,7 @@ import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, Tags } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
-import { AdditionalTag } from '../../base/enums';
+import { AdditionalTag } from '../types/enums';
 
 const InitializeLoadingIndicatorSystem = () => {
   const lsc = useContext(LeanScopeClientContext);

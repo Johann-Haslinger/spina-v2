@@ -3,16 +3,22 @@ import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { EntityPropsMapper } from '@leanscope/ecs-engine';
 import { DescriptionFacet, IdentifierFacet, ImageFacet, Tags, TextFacet } from '@leanscope/ecs-models';
 import { useContext } from 'react';
-import { IoAdd } from 'react-icons/io5';
+import { IoAdd, IoCameraOutline } from 'react-icons/io5';
 import 'react-loading-skeleton/dist/skeleton.css';
 import tw from 'twin.macro';
-import { LearningUnitTypeFacet, PriorityFacet, TitleFacet } from '../app/additionalFacets';
-import { DataType, Story } from '../base/enums';
 import FlashcardQuizView from '../common/components/flashcards/FlashcardQuizView';
+import { useSelectedLanguage } from '../common/hooks/useSelectedLanguage';
+import { LearningUnitTypeFacet, PriorityFacet, TitleFacet } from '../common/types/additionalFacets';
+import { DataType, Story } from '../common/types/enums';
+import { addUploadedFileEntity } from '../common/utilities/addUploadedFileEntity';
+import { displayDataTypeTexts, displayHeaderTexts } from '../common/utilities/displayText';
+import { dataTypeQuery } from '../common/utilities/queries';
 import { ActionRow, NavBarButton, NavigationBar, Spacer, Title, View } from '../components';
 import { AddHomeworkSheet, HomeworkView } from '../features/collection';
+import GeneratingLearningUnitFromImageSheet from '../features/collection/components/generation/generate-learning-unit-from-image/GeneratingLearningUnitFromImageSheet';
 import LearningUnitView from '../features/collection/components/learning_units/LearningUnitView';
 import TopicView from '../features/collection/components/topics/TopicView';
+import { useFileSelector } from '../features/collection/hooks/useFileSelector';
 import AddExamSheet from '../features/exams/components/AddExamSheet';
 import ExamView from '../features/exams/components/ExamView';
 import StreakCard from '../features/flashcards/components/StreakCard';
@@ -27,9 +33,6 @@ import {
   StartFlashcardSessionCard,
 } from '../features/overview';
 import FlashcardChartCard from '../features/overview/components/FlashcardChartCard';
-import { useSelectedLanguage } from '../hooks/useSelectedLanguage';
-import { displayDataTypeTexts, displayHeaderTexts } from '../utils/displayText';
-import { dataTypeQuery } from '../utils/queries';
 
 const StyledColumnsWrapper = styled.div`
   ${tw`grid grid-cols-1 md:grid-cols-2 gap-4`}
@@ -40,33 +43,16 @@ const StyledColumn = styled.div`
 `;
 
 const Overview = () => {
-  const lsc = useContext(LeanScopeClientContext);
   const { selectedLanguage } = useSelectedLanguage();
 
-  const openAddHomeworkSheet = () => lsc.stories.transitTo(Story.ADDING_HOMEWORK_STORY);
-  const openAddExamSheet = () => lsc.stories.transitTo(Story.ADDING_EXAM_STORY);
-
   return (
-    <div>
+    <div tw="h-screen w-screen fixed top-0 left-0 overflow-hidden">
       <LoadFlashcardSessionsSystem />
       <LoadCurrentStreakSystem />
 
       <View viewType="baseView">
         <NavigationBar>
-          <NavBarButton
-            content={
-              <div>
-                <ActionRow first onClick={openAddHomeworkSheet} icon={<IoAdd />}>
-                  {displayDataTypeTexts(selectedLanguage).homework}
-                </ActionRow>
-                <ActionRow last onClick={openAddExamSheet} icon={<IoAdd />}>
-                  {displayDataTypeTexts(selectedLanguage).exam}
-                </ActionRow>
-              </div>
-            }
-          >
-            <IoAdd />
-          </NavBarButton>
+          <AddResourcesButton />
         </NavigationBar>
         <Spacer size={8} />
         <Title>{displayHeaderTexts(selectedLanguage).overview}</Title>
@@ -90,6 +76,7 @@ const Overview = () => {
 
       <AddHomeworkSheet />
       <AddExamSheet />
+      <GeneratingLearningUnitFromImageSheet />
 
       <EntityPropsMapper
         query={(e) => e.has(Tags.SELECTED) && dataTypeQuery(e, DataType.HOMEWORK)}
@@ -120,3 +107,39 @@ const Overview = () => {
 };
 
 export default Overview;
+
+const AddResourcesButton = () => {
+  const lsc = useContext(LeanScopeClientContext);
+  const { selectedLanguage } = useSelectedLanguage();
+  const { openFilePicker, fileInput } = useFileSelector(
+    (file) => addUploadedFileEntity(lsc, file, openGenerateFromImageSheet),
+    true,
+  );
+
+  const openAddHomeworkSheet = () => lsc.stories.transitTo(Story.ADDING_HOMEWORK_STORY);
+  const openAddExamSheet = () => lsc.stories.transitTo(Story.ADDING_EXAM_STORY);
+  const openGenerateFromImageSheet = () => lsc.stories.transitTo(Story.GENERATING_RESOURCES_FROM_IMAGE);
+
+  return (
+    <div>
+      <NavBarButton
+        content={
+          <div>
+            <ActionRow first onClick={openAddHomeworkSheet} icon={<IoAdd />}>
+              {displayDataTypeTexts(selectedLanguage).homework}
+            </ActionRow>
+            <ActionRow hasSpace onClick={openAddExamSheet} icon={<IoAdd />}>
+              {displayDataTypeTexts(selectedLanguage).exam}
+            </ActionRow>
+            <ActionRow last onClick={openFilePicker} icon={<IoCameraOutline />}>
+              Aus Bild erzeugen
+            </ActionRow>
+          </div>
+        }
+      >
+        <IoAdd />
+      </NavBarButton>
+      {fileInput}
+    </div>
+  );
+};

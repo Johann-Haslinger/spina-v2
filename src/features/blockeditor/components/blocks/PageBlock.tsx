@@ -5,11 +5,11 @@ import { FloatOrderProps, IdentifierFacet, ParentFacet, Tags, TextFacet } from '
 import { useContext, useEffect } from 'react';
 import { Fragment } from 'react/jsx-runtime';
 import tw from 'twin.macro';
-import { AdditionalTag, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
+import { AdditionalTag, SupabaseColumn, SupabaseTable } from '../../../../common/types/enums';
+import { displayAlertTexts } from '../../../../common/utilities/displayText';
 import { View } from '../../../../components';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../../lib/supabase';
-import { displayAlertTexts } from '../../../../utils/displayText';
 import { changeBlockeditorState } from '../../functions/changeBlockeditorState';
 import { useCurrentBlockeditor } from '../../hooks/useCurrentBlockeditor';
 import Blockeditor from '../Blockeditor';

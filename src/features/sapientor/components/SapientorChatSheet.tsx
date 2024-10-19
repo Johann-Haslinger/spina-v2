@@ -6,12 +6,12 @@ import tw from 'twin.macro';
 
 import { useEntityHasTags } from '@leanscope/ecs-engine';
 import { useEffect, useState } from 'react';
-import { MessageRoleFacet, RelatedResourcesFacet } from '../../../app/additionalFacets';
-import { COLOR_ITEMS } from '../../../base/constants';
-import { AdditionalTag, SupportedModel } from '../../../base/enums';
+import { MessageRoleFacet, RelatedResourcesFacet } from '../../../common/types/additionalFacets';
+import { COLOR_ITEMS } from '../../../common/types/constants';
+import { AdditionalTag, SupportedModel } from '../../../common/types/enums';
+import { sortMessageEntitiesByDateAdded } from '../../../common/utilities/sortEntitiesByTime';
 import { ScrollableBox, Sheet, Spacer } from '../../../components';
 import SapientorConversationMessage from '../../../components/content/SapientorConversationMessage';
-import { sortMessageEntitiesByDateAdded } from '../../../utils/sortEntitiesByTime';
 import { useCurrentSapientorConversation } from '../hooks/useCurrentConversation';
 import ChatMessage from './ChatMessage';
 import SapientorPromptBox from './SapientorPromptBox';

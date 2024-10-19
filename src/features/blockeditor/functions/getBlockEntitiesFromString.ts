@@ -1,8 +1,8 @@
 import { Entity } from '@leanscope/ecs-engine';
 import { FloatOrderFacet, IdentifierFacet, ParentFacet, TextFacet } from '@leanscope/ecs-models';
 import { v4 } from 'uuid';
-import { BlocktypeFacet, TexttypeFacet } from '../../../app/additionalFacets';
-import { Blocktype, DataType, Texttype } from '../../../base/enums';
+import { BlocktypeFacet, TexttypeFacet } from '../../../common/types/additionalFacets';
+import { Blocktype, DataType, Texttype } from '../../../common/types/enums';
 
 export const getBlockEntitiesFromText = (text: string, parentId: string): Entity[] => {
   const sanitizedText = text.replace(/style="([\s\S]*?)"/gi, '');

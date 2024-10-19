@@ -5,7 +5,7 @@ import { useContext } from 'react';
 import { IoCopy, IoGrid, IoHome, IoPersonCircle } from 'react-icons/io5';
 import { NavLink, useLocation } from 'react-router-dom';
 import tw from 'twin.macro';
-import { AdditionalTag, Story } from '../../base/enums';
+import { AdditionalTag, Story } from '../../common/types/enums';
 
 const TABS = [
   {

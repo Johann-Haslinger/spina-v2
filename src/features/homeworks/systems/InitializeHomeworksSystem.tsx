@@ -2,18 +2,18 @@ import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity } from '@leanscope/ecs-engine';
 import { IdentifierFacet, ParentFacet } from '@leanscope/ecs-models';
 import { useContext, useEffect } from 'react';
+import { useCurrentDataSource } from '../../../common/hooks/useCurrentDataSource';
 import {
   DateAddedFacet,
   DueDateFacet,
   RelationshipFacet,
   StatusFacet,
   TitleFacet,
-} from '../../../app/additionalFacets';
-import { dummyHomeworks } from '../../../base/dummy';
-import { DataType, SupabaseTable } from '../../../base/enums';
-import { useCurrentDataSource } from '../../../hooks/useCurrentDataSource';
+} from '../../../common/types/additionalFacets';
+import { dummyHomeworks } from '../../../common/types/dummy';
+import { DataType, SupabaseTable } from '../../../common/types/enums';
+import { dataTypeQuery } from '../../../common/utilities/queries';
 import supabaseClient from '../../../lib/supabase';
-import { dataTypeQuery } from '../../../utils/queries';
 
 const fetchHomeworks = async () => {
   const sevenDaysAgo = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();

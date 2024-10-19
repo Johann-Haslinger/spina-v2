@@ -5,10 +5,17 @@ import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { Fragment, useContext, useEffect, useRef, useState } from 'react';
 import { IoAdd, IoColorWandOutline } from 'react-icons/io5';
 import { v4 } from 'uuid';
-import { AnswerFacet, MasteryLevelFacet, QuestionFacet } from '../../../../app/additionalFacets';
-import { DataType, LearningUnitType, Story, SupabaseEdgeFunction } from '../../../../base/enums';
+import { DiscardUnsavedChangesAlert } from '../../../../common/components/others';
 import { useImageSelector, useInputFocus } from '../../../../common/hooks';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
 import { useSelectedLearningUnit } from '../../../../common/hooks/useSelectedLearningUnit';
+import { useUserData } from '../../../../common/hooks/useUserData';
+import { AnswerFacet, MasteryLevelFacet, QuestionFacet } from '../../../../common/types/additionalFacets';
+import { DataType, LearningUnitType, Story, SupabaseEdgeFunction } from '../../../../common/types/enums';
+import { addNotificationEntity } from '../../../../common/utilities';
+import { addFlashcards } from '../../../../common/utilities/addFlashcards';
+import { displayButtonTexts } from '../../../../common/utilities/displayText';
+import { generateFlashCards } from '../../../../common/utilities/generateResources';
 import {
   FlexBox,
   PrimaryButton,
@@ -21,13 +28,9 @@ import {
   TextAreaInput,
 } from '../../../../components';
 import GeneratingIndecator from '../../../../components/content/GeneratingIndecator';
-import { addFlashcards } from '../../../../functions/addFlashcards';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
-import { useUserData } from '../../../../hooks/useUserData';
 import supabaseClient from '../../../../lib/supabase';
-import { displayButtonTexts } from '../../../../utils/displayText';
-import { generateFlashCards } from '../../../../utils/generateResources';
 import { updateLearningUnitType } from '../../functions/updateLearningUnitType';
+import { useDiscardAlertState } from '../../hooks/useDiscardAlertState';
 import PreviewFlashcard from './PreviewFlashcard';
 
 type Flashcard = {
@@ -55,6 +58,8 @@ const AddFlashcardsSheet = () => {
   const [isGeneratingFlashcards, setIsGeneratingFlashcards] = useState(false);
   const { openImagePicker } = useImageSelector((image) => generateFlashcardsFromImage(image));
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const { isDiscardAlertVisible, openDiscardAlert, closeDiscardAlert } = useDiscardAlertState();
+  const hasUnsavedChanges = flashcards.length > 0;
 
   useInputFocus(textAreaRef, addFlashcardsMethod == AddFlashcardsMethods.GENERATING_FLASHCARDS_FROM_TEXT);
 
@@ -74,6 +79,11 @@ const AddFlashcardsSheet = () => {
 
     if (error) {
       console.error('Error generating completion:', error.message);
+      addNotificationEntity(lsc, {
+        title: 'Fehler beim Erzeugen der Lernkarten',
+        message: error.message + ' ' + error.details + ' ' + error.hint,
+        type: 'error',
+      });
     }
 
     const generatedFlashcards: { answer: string; question: string }[] = JSON.parse(flashcardsData).cards;
@@ -94,7 +104,10 @@ const AddFlashcardsSheet = () => {
     setFlashcards([]);
   }, [isVisible]);
 
-  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_FLASHCARD_SET_STORY);
+  const navigateBack = () => {
+    closeDiscardAlert();
+    lsc.stories.transitTo(Story.OBSERVING_FLASHCARD_SET_STORY);
+  };
 
   const saveFlashcards = async () => {
     navigateBack();
@@ -128,86 +141,92 @@ const AddFlashcardsSheet = () => {
 
   const handleGenerateFlashcards = async () => {
     setIsGeneratingFlashcards(true);
-    const flashcards = await generateFlashCards(generateFlashcardsPrompt);
+    const flashcards = await generateFlashCards(lsc, generateFlashcardsPrompt);
     setFlashcards(flashcards);
     setIsGeneratingFlashcards(false);
     setAddFlashcardsMethod(AddFlashcardsMethods.DONE);
   };
 
+  const handleBackClick = () => (hasUnsavedChanges ? openDiscardAlert() : navigateBack());
+
   return (
-    <Sheet navigateBack={navigateBack} visible={isVisible}>
-      <FlexBox>
-        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
-        {flashcards.length > 0 && (
-          <PrimaryButton onClick={saveFlashcards}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
-        )}
-      </FlexBox>
-      <Spacer />
-      {addFlashcardsMethod == undefined && !isGeneratingFlashcards && (
-        <div>
-          <Section>
-            <SectionRow
-              last
-              onClick={() => {
-                setAddFlashcardsMethod(AddFlashcardsMethods.ADDING_FLASHCARDS_MANUALLY);
-                setFlashcards([{ question: '', answer: '' }]);
-              }}
-              role="button"
-              icon={<IoAdd />}
-            >
-              Karten manuell hinzufügen
-            </SectionRow>
-          </Section>
-          <Spacer size={2} />
-          <Section>
-            <SectionRow
-              onClick={() => setAddFlashcardsMethod(AddFlashcardsMethods.GENERATING_FLASHCARDS_FROM_TEXT)}
-              role="button"
-              icon={<IoAdd />}
-            >
-              Karten aus Text erzeugen
-            </SectionRow>
-            <SectionRow last onClick={openImagePicker} role="button" icon={<IoAdd />}>
-              Karten aus Bild erzeugen
-            </SectionRow>
-          </Section>
-        </div>
-      )}
-      {addFlashcardsMethod == AddFlashcardsMethods.GENERATING_FLASHCARDS_FROM_TEXT && !isGeneratingFlashcards && (
-        <Fragment>
-          <Section>
-            <SectionRow last>
-              <TextAreaInput
-                ref={textAreaRef}
-                placeholder="Worüber möchtest du Karten erzeugen?"
-                onChange={(e) => setGenerateFlashcardsPrompt(e.target.value)}
-              />
-            </SectionRow>
-          </Section>
-          <Spacer size={2} />
-          {generateFlashcardsPrompt && (
+    <div>
+      <Sheet navigateBack={handleBackClick} visible={isVisible}>
+        <FlexBox>
+          <SecondaryButton onClick={handleBackClick}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
+          {flashcards.length > 0 && (
+            <PrimaryButton onClick={saveFlashcards}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
+          )}
+        </FlexBox>
+        <Spacer />
+        {addFlashcardsMethod == undefined && !isGeneratingFlashcards && (
+          <div>
             <Section>
-              <SectionRow role="button" icon={<IoColorWandOutline />} last onClick={handleGenerateFlashcards}>
-                Karteikarten erzuegen
+              <SectionRow
+                last
+                onClick={() => {
+                  setAddFlashcardsMethod(AddFlashcardsMethods.ADDING_FLASHCARDS_MANUALLY);
+                  setFlashcards([{ question: '', answer: '' }]);
+                }}
+                role="button"
+                icon={<IoAdd />}
+              >
+                Karten manuell hinzufügen
               </SectionRow>
             </Section>
-          )}
-        </Fragment>
-      )}
-      {isGeneratingFlashcards && <GeneratingIndecator />}
-      <ScrollableBox>
-        {flashcards.map((flashcard, index) => (
-          <PreviewFlashcard
-            isFocused={index === 0}
-            updateFlashcard={(flashcard) =>
-              setFlashcards([...flashcards.slice(0, index), flashcard, ...flashcards.slice(index + 1)])
-            }
-            key={index}
-            flashcard={flashcard}
-          />
-        ))}
-      </ScrollableBox>
-    </Sheet>
+            <Spacer size={2} />
+            <Section>
+              <SectionRow
+                onClick={() => setAddFlashcardsMethod(AddFlashcardsMethods.GENERATING_FLASHCARDS_FROM_TEXT)}
+                role="button"
+                icon={<IoAdd />}
+              >
+                Karten aus Text erzeugen
+              </SectionRow>
+              <SectionRow last onClick={openImagePicker} role="button" icon={<IoAdd />}>
+                Karten aus Bild erzeugen
+              </SectionRow>
+            </Section>
+          </div>
+        )}
+        {addFlashcardsMethod == AddFlashcardsMethods.GENERATING_FLASHCARDS_FROM_TEXT && !isGeneratingFlashcards && (
+          <Fragment>
+            <Section>
+              <SectionRow last>
+                <TextAreaInput
+                  ref={textAreaRef}
+                  placeholder="Worüber möchtest du Karten erzeugen?"
+                  onChange={(e) => setGenerateFlashcardsPrompt(e.target.value)}
+                />
+              </SectionRow>
+            </Section>
+            <Spacer size={2} />
+            {generateFlashcardsPrompt && (
+              <Section>
+                <SectionRow role="button" icon={<IoColorWandOutline />} last onClick={handleGenerateFlashcards}>
+                  Karteikarten erzuegen
+                </SectionRow>
+              </Section>
+            )}
+          </Fragment>
+        )}
+        {isGeneratingFlashcards && <GeneratingIndecator />}
+        <ScrollableBox>
+          {flashcards.map((flashcard, index) => (
+            <PreviewFlashcard
+              isFocused={index === 0}
+              updateFlashcard={(flashcard) =>
+                setFlashcards([...flashcards.slice(0, index), flashcard, ...flashcards.slice(index + 1)])
+              }
+              key={index}
+              flashcard={flashcard}
+            />
+          ))}
+        </ScrollableBox>
+      </Sheet>
+
+      <DiscardUnsavedChangesAlert isVisible={isDiscardAlertVisible} cancel={closeDiscardAlert} close={navigateBack} />
+    </div>
   );
 };
 

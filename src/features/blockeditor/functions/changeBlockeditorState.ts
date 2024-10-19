@@ -1,6 +1,6 @@
 import { Entity } from '@leanscope/ecs-engine';
-import { BlockeditorStateFacet } from '../../../app/additionalFacets';
-import { BlockeditorState } from '../../../base/types';
+import { BlockeditorStateFacet } from '../../../common/types/additionalFacets';
+import { BlockeditorState } from '../../../common/types/types';
 
 export const changeBlockeditorState = (blockeditorEntity?: Entity, newBlockeditorState?: BlockeditorState) => {
   if (blockeditorEntity && newBlockeditorState) {

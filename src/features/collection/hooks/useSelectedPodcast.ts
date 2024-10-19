@@ -1,8 +1,8 @@
 import { useEntity, useEntityHasTags } from '@leanscope/ecs-engine';
 import { IdentifierFacet, Tags } from '@leanscope/ecs-models';
-import { AdditionalTag, DataType } from '../../../base/enums';
-import { dataTypeQuery } from '../../../utils/queries';
-import { SourceFacet, TitleFacet } from '../../../app/additionalFacets';
+import { SourceFacet, TitleFacet } from '../../../common/types/additionalFacets';
+import { AdditionalTag, DataType } from '../../../common/types/enums';
+import { dataTypeQuery } from '../../../common/utilities/queries';
 
 export const useSelectedPodcast = () => {
   const [selectedPodcastEntity] = useEntity((e) => dataTypeQuery(e, DataType.PODCAST) && e.has(Tags.SELECTED));

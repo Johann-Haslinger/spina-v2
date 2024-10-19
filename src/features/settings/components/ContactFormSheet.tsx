@@ -4,7 +4,7 @@ import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useState } from 'react';
 import { IoCheckmarkCircleOutline, IoSend } from 'react-icons/io5';
 import tw from 'twin.macro';
-import { Story } from '../../../base/enums';
+import { Story } from '../../../common/types/enums';
 import { CloseButton, FlexBox, Section, SectionRow, Sheet, Spacer, TextInput } from '../../../components';
 
 const StyledSecondaryText = styled.div`
@@ -49,7 +49,7 @@ const ContactFormSheet = () => {
       </FlexBox>
       <Spacer />
 
-      <form name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
+      <form action="/success" name="contact" method="POST" data-netlify="true" netlify-honeypot="bot-field">
         <input type="hidden" name="form-name" value="contact" />
         <div hidden>
           <input name="bot-field" />

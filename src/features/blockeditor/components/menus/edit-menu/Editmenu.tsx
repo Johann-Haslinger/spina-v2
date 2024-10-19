@@ -15,8 +15,10 @@ import {
 } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { v4 } from 'uuid';
-import { BlocktypeFacet, TexttypeFacet, TitleFacet } from '../../../../../app/additionalFacets';
-import { COLOR_ITEMS } from '../../../../../base/constants';
+import { useSelectedLanguage } from '../../../../../common/hooks/useSelectedLanguage';
+import { useUserData } from '../../../../../common/hooks/useUserData';
+import { BlocktypeFacet, TexttypeFacet, TitleFacet } from '../../../../../common/types/additionalFacets';
+import { COLOR_ITEMS } from '../../../../../common/types/constants';
 import {
   AdditionalTag,
   Blocktype,
@@ -25,12 +27,10 @@ import {
   SupabaseColumn,
   SupabaseTable,
   Texttype,
-} from '../../../../../base/enums';
-import { useSelectedLanguage } from '../../../../../hooks/useSelectedLanguage';
-import { useUserData } from '../../../../../hooks/useUserData';
+} from '../../../../../common/types/enums';
+import { displayLabelTexts } from '../../../../../common/utilities/displayText';
+import { sortEntitiesByFloatOrder } from '../../../../../common/utilities/sortEntitiesByFloatOrder';
 import supabaseClient from '../../../../../lib/supabase';
-import { displayLabelTexts } from '../../../../../utils/displayText';
-import { sortEntitiesByFloatOrder } from '../../../../../utils/sortEntitiesByFloatOrder';
 import { addBlock } from '../../../functions/addBlock';
 import { changeBlockeditorState } from '../../../functions/changeBlockeditorState';
 import { useCurrentBlockeditor } from '../../../hooks/useCurrentBlockeditor';

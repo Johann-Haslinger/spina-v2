@@ -1,4 +1,4 @@
-import { Texttype } from '../../../base/enums';
+import { Texttype } from '../../../common/types/enums';
 
 export const getTextStyle = (textType: Texttype): React.CSSProperties => {
   return {

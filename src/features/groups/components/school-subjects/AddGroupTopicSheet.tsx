@@ -4,8 +4,12 @@ import { DescriptionFacet, IdentifierFacet, ParentFacet } from '@leanscope/ecs-m
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useState } from 'react';
 import { v4 } from 'uuid';
-import { DateAddedFacet, TitleFacet } from '../../../../app/additionalFacets';
-import { DataType, Story, SupabaseTable } from '../../../../base/enums';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
+import { useUserData } from '../../../../common/hooks/useUserData';
+import { DateAddedFacet, TitleFacet } from '../../../../common/types/additionalFacets';
+import { DataType, Story, SupabaseTable } from '../../../../common/types/enums';
+import { displayButtonTexts, displayLabelTexts } from '../../../../common/utilities/displayText';
+import { getCompletion } from '../../../../common/utilities/getCompletion';
 import {
   FlexBox,
   PrimaryButton,
@@ -17,11 +21,7 @@ import {
   TextAreaInput,
   TextInput,
 } from '../../../../components';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
-import { useUserData } from '../../../../hooks/useUserData';
 import supabaseClient from '../../../../lib/supabase';
-import { displayButtonTexts, displayLabelTexts } from '../../../../utils/displayText';
-import { getCompletion } from '../../../../utils/getCompletion';
 import { useSelectedGroupSchoolSubject } from '../../hooks/useSelectedGroupSchoolSubject';
 import { useSelectedLearningGroup } from '../../hooks/useSelectedLearningGroup';
 
@@ -57,7 +57,7 @@ const AddGroupTopicSheet = () => {
         const generatingDescriptionPrompt =
           'Bitte schreibe einen sehr kurzen Beschreibungssatz zu folgendem Thema:' + title;
 
-        topicDescription = await getCompletion(generatingDescriptionPrompt);
+        topicDescription = await getCompletion(lsc, generatingDescriptionPrompt);
         newTopicEntity.add(new DescriptionFacet({ description: topicDescription }));
       }
 

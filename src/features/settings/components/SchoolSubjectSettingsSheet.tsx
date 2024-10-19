@@ -1,3 +1,4 @@
+import { ILeanScopeClient } from '@leanscope/api-client';
 import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity, EntityProps } from '@leanscope/ecs-engine';
 import { IdentifierFacet, IdentifierProps } from '@leanscope/ecs-models';
@@ -5,9 +6,14 @@ import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useState } from 'react';
 import { IoAddCircle, IoRemoveCircle } from 'react-icons/io5';
 import { v4 } from 'uuid';
-import { TitleFacet, TitleProps } from '../../../app/additionalFacets';
-import { SCHOOL_SUBJECTS } from '../../../base/constants';
-import { DataType, Story, SupabaseTable } from '../../../base/enums';
+import { useSchoolSubjectEntities } from '../../../common/hooks/useSchoolSubjects';
+import { useSelectedLanguage } from '../../../common/hooks/useSelectedLanguage';
+import { useUserData } from '../../../common/hooks/useUserData';
+import { TitleFacet, TitleProps } from '../../../common/types/additionalFacets';
+import { SCHOOL_SUBJECTS } from '../../../common/types/constants';
+import { DataType, Story, SupabaseTable } from '../../../common/types/enums';
+import { addNotificationEntity } from '../../../common/utilities';
+import { displayActionTexts } from '../../../common/utilities/displayText';
 import {
   Alert,
   AlertButton,
@@ -19,21 +25,24 @@ import {
   Sheet,
   Spacer,
 } from '../../../components';
-import { useSchoolSubjectEntities } from '../../../hooks/useSchoolSubjects';
-import { useSelectedLanguage } from '../../../hooks/useSelectedLanguage';
-import { useUserData } from '../../../hooks/useUserData';
 import supabaseClient from '../../../lib/supabase';
-import { displayActionTexts } from '../../../utils/displayText';
 
-const removeSchoolSubject = async (subjectId: string) => {
+const removeSchoolSubject = async (lsc: ILeanScopeClient, subjectId: string, subjectEntity: Entity) => {
   const { error } = await supabaseClient.from(SupabaseTable.SCHOOL_SUBJECTS).delete().eq('id', subjectId).single();
 
   if (error) {
     console.error('Error deleting subject:', error.message);
+    addNotificationEntity(lsc, {
+      title: 'Fehler beim Löschen des Schulfachs',
+      message: error.message,
+      type: 'error',
+    });
   }
+
+  lsc.engine.removeEntity(subjectEntity);
 };
 
-const addSubject = async (subjectEntity: Entity, userId: string) => {
+const addSubject = async (lsc: ILeanScopeClient, subjectEntity: Entity, userId: string) => {
   const { error } = await supabaseClient.from(SupabaseTable.SCHOOL_SUBJECTS).insert([
     {
       title: subjectEntity.get(TitleFacet)?.props.title,
@@ -44,7 +53,17 @@ const addSubject = async (subjectEntity: Entity, userId: string) => {
 
   if (error) {
     console.error('Error adding subject:', error.message);
+
+    addNotificationEntity(lsc, {
+      title: 'Fehler beim Hinzufügen des Schulfachs',
+      message: error.message,
+      type: 'error',
+    });
+
+    return;
   }
+
+  lsc.engine.addEntity(subjectEntity);
 };
 
 const SchoolSubjectSettingsSheet = () => {
@@ -70,12 +89,11 @@ const SchoolSubjectSettingsSheet = () => {
 
   const handleAddSubject = (schoolSubjectName: string) => {
     const newSchoolSubjectEntity = new Entity();
-    lsc.engine.addEntity(newSchoolSubjectEntity);
     newSchoolSubjectEntity.add(new TitleFacet({ title: schoolSubjectName }));
     newSchoolSubjectEntity.add(new IdentifierFacet({ guid: v4() }));
     newSchoolSubjectEntity.add(DataType.SCHOOL_SUBJECT);
 
-    addSubject(newSchoolSubjectEntity, userId);
+    addSubject(lsc, newSchoolSubjectEntity, userId);
   };
 
   return (
@@ -126,10 +144,9 @@ const SchoolSubjectCell = (props: EntityProps & TitleProps & IdentifierProps & {
   const navigateBack = () => setIsDeleteAlertVisible(false);
 
   const handleRemoveSchoolSubject = (entity: Entity) => {
-    lsc.engine.removeEntity(entity);
-
+    navigateBack();
     const schoolSubjectId = entity.get(IdentifierFacet)?.props.guid || '';
-    removeSchoolSubject(schoolSubjectId);
+    removeSchoolSubject(lsc, schoolSubjectId, entity);
   };
 
   return (

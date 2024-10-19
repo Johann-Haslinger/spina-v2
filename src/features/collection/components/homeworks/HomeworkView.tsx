@@ -1,11 +1,16 @@
+import { ILeanScopeClient } from '@leanscope/api-client';
 import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { Entity, EntityProps } from '@leanscope/ecs-engine';
 import { IdentifierFacet, IdentifierProps, TextFacet, TextProps } from '@leanscope/ecs-models';
 import { useContext } from 'react';
 import { IoCreateOutline, IoEllipsisHorizontalCircleOutline, IoShareOutline, IoTrashOutline } from 'react-icons/io5';
-import { TitleProps } from '../../../../app/additionalFacets';
-import { AdditionalTag, Story, SupabaseTable } from '../../../../base/enums';
-import { generatePdf } from '../../../../common/utilities';
+import { useDaysUntilDue } from '../../../../common/hooks/useDaysUntilDue';
+import { useIsViewVisible } from '../../../../common/hooks/useIsViewVisible';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
+import { TitleProps } from '../../../../common/types/additionalFacets';
+import { AdditionalTag, Story, SupabaseTable } from '../../../../common/types/enums';
+import { addNotificationEntity, generatePdf } from '../../../../common/utilities';
+import { displayActionTexts, displayButtonTexts } from '../../../../common/utilities/displayText';
 import {
   ActionRow,
   BackButton,
@@ -17,17 +22,13 @@ import {
   Title,
   View,
 } from '../../../../components';
-import { useDaysUntilDue } from '../../../../hooks/useDaysUntilDue';
-import { useIsViewVisible } from '../../../../hooks/useIsViewVisible';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../../lib/supabase';
-import { displayActionTexts, displayButtonTexts } from '../../../../utils/displayText';
 import { useSelectedTopic } from '../../hooks/useSelectedTopic';
 import LoadHomeworkTextSystem from '../../systems/LoadHomeworkTextSystem';
 import DeleteHomeworkAlert from './DeleteHomeworkAlert';
 import EditHomeworkSheet from './EditHomeworkSheet';
 
-const updateText = async (text: string, entity: Entity) => {
+const updateText = async (lsc: ILeanScopeClient, text: string, entity: Entity) => {
   entity.add(new TextFacet({ text }));
 
   const id = entity.get(IdentifierFacet)?.props.guid;
@@ -36,6 +37,11 @@ const updateText = async (text: string, entity: Entity) => {
 
   if (error) {
     console.error('Error updating homework text:', error);
+    addNotificationEntity(lsc, {
+      title: 'Fehler beim Aktualisieren des Hausaufgabentextes',
+      message: error.message + ' ' + error.details + ' ' + error.hint,
+      type: 'error',
+    });
   }
 };
 
@@ -85,7 +91,7 @@ const HomeworkView = (props: EntityProps & TitleProps & TextProps & IdentifierPr
         <Spacer size={2} />
         <SecondaryText>{daysUntilDue}</SecondaryText>
         <Spacer size={6} />
-        <TextEditor placeholder="Beginne hier..." value={text} onBlur={(e) => updateText(e, entity)} />
+        <TextEditor placeholder="Beginne hier..." value={text} onBlur={(e) => updateText(lsc, e, entity)} />
       </View>
 
       <DeleteHomeworkAlert />

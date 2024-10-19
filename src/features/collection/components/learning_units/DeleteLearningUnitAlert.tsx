@@ -1,12 +1,13 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext } from 'react';
-import { AdditionalTag, Story, SupabaseTable } from '../../../../base/enums';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
 import { useSelectedLearningUnit } from '../../../../common/hooks/useSelectedLearningUnit';
+import { AdditionalTag, Story, SupabaseTable } from '../../../../common/types/enums';
+import { addNotificationEntity } from '../../../../common/utilities';
+import { displayActionTexts } from '../../../../common/utilities/displayText';
 import { Alert, AlertButton } from '../../../../components';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../../lib/supabase';
-import { displayActionTexts } from '../../../../utils/displayText';
 
 const DeleteLearningUnitAlert = () => {
   const lsc = useContext(LeanScopeClientContext);
@@ -21,8 +22,6 @@ const DeleteLearningUnitAlert = () => {
     selectedLearningUnitEntity?.add(AdditionalTag.NAVIGATE_BACK);
     setTimeout(async () => {
       if (selectedLearningUnitEntity) {
-        lsc.engine.removeEntity(selectedLearningUnitEntity);
-
         const { error } = await supabaseClient
           .from(SupabaseTable.LEARNING_UNITS)
           .delete()
@@ -30,16 +29,14 @@ const DeleteLearningUnitAlert = () => {
 
         if (error) {
           console.error('Error deleting learning unit', error);
+          addNotificationEntity(lsc, {
+            title: 'Fehler beim Löschen der Lerneinheit',
+            message: error.message + ' ' + error.details + ' ' + error.hint,
+            type: 'error',
+          });
+          return;
         }
-
-        const { error: error2 } = await supabaseClient
-          .from(SupabaseTable.FLASHCARDS)
-          .delete()
-          .eq('parent_id', selectedLearningUnitId);
-
-        if (error2) {
-          console.error('Error deleting flashcards', error2);
-        }
+        lsc.engine.removeEntity(selectedLearningUnitEntity);
       }
     }, 300);
   };

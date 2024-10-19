@@ -1,8 +1,12 @@
 import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext, useEffect, useState } from 'react';
-import { DueDateFacet, TitleFacet } from '../../../../app/additionalFacets';
-import { Story, SupabaseColumn, SupabaseTable } from '../../../../base/enums';
+import { DiscardUnsavedChangesAlert } from '../../../../common/components/others';
+import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
+import { DueDateFacet, TitleFacet } from '../../../../common/types/additionalFacets';
+import { Story, SupabaseColumn, SupabaseTable } from '../../../../common/types/enums';
+import { addNotificationEntity } from '../../../../common/utilities';
+import { displayButtonTexts, displayLabelTexts } from '../../../../common/utilities/displayText';
 import {
   DateInput,
   FlexBox,
@@ -14,9 +18,8 @@ import {
   Spacer,
   TextInput,
 } from '../../../../components';
-import { useSelectedLanguage } from '../../../../hooks/useSelectedLanguage';
 import supabaseClient from '../../../../lib/supabase';
-import { displayButtonTexts, displayLabelTexts } from '../../../../utils/displayText';
+import { useDiscardAlertState } from '../../hooks/useDiscardAlertState';
 import { useSelectedHomework } from '../../hooks/useSelectedHomework';
 
 const EditHomeworkSheet = () => {
@@ -27,13 +30,18 @@ const EditHomeworkSheet = () => {
     useSelectedHomework();
   const [newTitle, setNewTitle] = useState(selectedHomeworkTitle);
   const [newDueDate, setNewDueDate] = useState(selectedHomeworkTitle);
+  const { isDiscardAlertVisible, openDiscardAlert, closeDiscardAlert } = useDiscardAlertState();
+  const hasUnsavedChanges = newTitle !== selectedHomeworkTitle || newDueDate !== selectedHomeworkDueDate;
 
   useEffect(() => {
     setNewTitle(selectedHomeworkTitle);
-    setNewDueDate(selectedHomeworkDueDate);
+    setNewDueDate(selectedHomeworkDueDate || '');
   }, [selectedHomeworkTitle, selectedHomeworkDueDate]);
 
-  const navigateBack = () => lsc.stories.transitTo(Story.OBSERVING_HOMEWORKS_STORY);
+  const navigateBack = () => {
+    closeDiscardAlert();
+    lsc.stories.transitTo(Story.OBSERVING_HOMEWORKS_STORY);
+  };
 
   const updateHomework = async () => {
     if (newTitle && newDueDate) {
@@ -51,35 +59,50 @@ const EditHomeworkSheet = () => {
 
       if (error) {
         console.error('Error updating homework set', error);
+        addNotificationEntity(lsc, {
+          title: 'Fehler beim Aktualisieren der Hausaufgabe',
+          message: error.message + ' ' + error.details + ' ' + error.hint,
+          type: 'error',
+        });
       }
     }
   };
 
+  const handleBackClick = () => (hasUnsavedChanges ? openDiscardAlert() : navigateBack());
+
   return (
-    <Sheet visible={isVisible} navigateBack={navigateBack}>
-      <FlexBox>
-        <SecondaryButton onClick={navigateBack}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
-        {(newTitle !== selectedHomeworkTitle || newDueDate !== selectedHomeworkDueDate) && (
-          <PrimaryButton onClick={updateHomework}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
-        )}
-      </FlexBox>
-      <Spacer />
-      <Section>
-        <SectionRow>
-          <TextInput
-            value={newTitle}
-            onChange={(e) => setNewTitle(e.target.value)}
-            placeholder={displayLabelTexts(selectedLanguage).title}
-          />
-        </SectionRow>
-        <SectionRow last>
-          <FlexBox>
-            <div>{displayLabelTexts(selectedLanguage).dueDate}</div>
-            <DateInput type="date" value={newDueDate} onChange={(e) => setNewDueDate(e.target.value)} />
-          </FlexBox>
-        </SectionRow>
-      </Section>
-    </Sheet>
+    <div>
+      <Sheet visible={isVisible} navigateBack={handleBackClick}>
+        <FlexBox>
+          <SecondaryButton onClick={handleBackClick}>{displayButtonTexts(selectedLanguage).cancel}</SecondaryButton>
+          {(newTitle !== selectedHomeworkTitle || newDueDate !== selectedHomeworkDueDate) && (
+            <PrimaryButton onClick={updateHomework}>{displayButtonTexts(selectedLanguage).save}</PrimaryButton>
+          )}
+        </FlexBox>
+        <Spacer />
+        <Section>
+          <SectionRow>
+            <TextInput
+              value={newTitle}
+              onChange={(e) => setNewTitle(e.target.value)}
+              placeholder={displayLabelTexts(selectedLanguage).title}
+            />
+          </SectionRow>
+          <SectionRow last>
+            <FlexBox>
+              <div>{displayLabelTexts(selectedLanguage).dueDate}</div>
+              <DateInput type="date" value={newDueDate} onChange={(e) => setNewDueDate(e.target.value)} />
+            </FlexBox>
+          </SectionRow>
+        </Section>
+      </Sheet>
+
+      <DiscardUnsavedChangesAlert
+        isVisible={isDiscardAlertVisible}
+        close={() => navigateBack()}
+        cancel={closeDiscardAlert}
+      />
+    </div>
   );
 };
 
