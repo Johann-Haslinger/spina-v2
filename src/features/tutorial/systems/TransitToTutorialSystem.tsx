@@ -10,13 +10,9 @@ const TransitToTutorialSystem = () => {
   const { isLoadingIndicatorVisible } = useLoadingIndicator();
 
   useEffect(() => {
-    if (schoolSubjectEntities.length > 0 || isLoadingIndicatorVisible) return;
+    // if (schoolSubjectEntities.length > 0 || isLoadingIndicatorVisible) return;
 
-    const tutorialDone = localStorage.getItem('tutorialDone');
-
-    if (!tutorialDone) {
-      lsc.stories.transitTo(Story.OBSERVING_TUTORIAL_STORY);
-    }
+    lsc.stories.transitTo(Story.OBSERVING_TUTORIAL_STORY);
   }, [schoolSubjectEntities.length, isLoadingIndicatorVisible]);
 
   return null;
