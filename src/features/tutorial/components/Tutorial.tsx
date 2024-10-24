@@ -6,7 +6,6 @@ import TutorialView from './TutorialView';
 
 const Tutorial = () => {
   const isTutorialPlaying = useIsStoryCurrent(Story.OBSERVING_TUTORIAL_STORY);
-  // const isTutorialPlaying = true;
   const [tutorialState, setTutorialState] = useState<TutorialState>(TutorialState.INTRODUCTION);
 
   return (
