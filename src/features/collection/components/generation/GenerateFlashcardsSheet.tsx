@@ -15,7 +15,7 @@ import { displayButtonTexts } from '../../../../common/utilities/displayText';
 import { generateFlashCards } from '../../../../common/utilities/generateResources';
 import {
   FlexBox,
-  GeneratingIndecator,
+  GeneratingIndicator,
   PrimaryButton,
   ScrollableBox,
   SecondaryButton,
@@ -116,7 +116,7 @@ const GenerateFlashcardsSheet = () => {
         )}
       </FlexBox>
       <Spacer />
-      {isGenerating && <GeneratingIndecator />}
+      {isGenerating && <GeneratingIndicator />}
       <ScrollableBox>
         {!isGenerating && (
           <SapientorConversationMessage

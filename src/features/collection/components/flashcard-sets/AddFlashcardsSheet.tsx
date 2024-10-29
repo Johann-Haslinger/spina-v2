@@ -27,7 +27,7 @@ import {
   Spacer,
   TextAreaInput,
 } from '../../../../components';
-import GeneratingIndecator from '../../../../components/content/GeneratingIndecator';
+import GeneratingIndicator from '../../../../components/content/GeneratingIndicator';
 import supabaseClient from '../../../../lib/supabase';
 import { updateLearningUnitType } from '../../functions/updateLearningUnitType';
 import { useDiscardAlertState } from '../../hooks/useDiscardAlertState';
@@ -210,7 +210,7 @@ const AddFlashcardsSheet = () => {
             )}
           </Fragment>
         )}
-        {isGeneratingFlashcards && <GeneratingIndecator />}
+        {isGeneratingFlashcards && <GeneratingIndicator />}
         <ScrollableBox>
           {flashcards.map((flashcard, index) => (
             <PreviewFlashcard

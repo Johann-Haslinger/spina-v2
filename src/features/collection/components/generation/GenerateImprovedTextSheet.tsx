@@ -10,7 +10,7 @@ import { displayButtonTexts } from '../../../../common/utilities/displayText';
 import { generateImprovedText } from '../../../../common/utilities/generateResources';
 import {
   FlexBox,
-  GeneratingIndecator,
+  GeneratingIndicator,
   PrimaryButton,
   ScrollableBox,
   SecondaryButton,
@@ -84,7 +84,7 @@ const GenerateImprovedTextSheet = () => {
           <PrimaryButton onClick={saveImprovedText}> {displayButtonTexts(selectedLanguage).save}</PrimaryButton>
         )}
       </FlexBox>
-      {isGenerating && <GeneratingIndecator />}
+      {isGenerating && <GeneratingIndicator />}
       <ScrollableBox>
         {!isGenerating && (
           <SapientorConversationMessage

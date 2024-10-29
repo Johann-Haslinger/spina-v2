@@ -39,6 +39,6 @@ export { default as FlashcardSetThumbNail } from './thumb-nails/FlashcardSetThum
 export { default as NoteThumbNail } from './thumb-nails/NoteThumbNail';
 export { default as TopicResoucreThumbNail } from './thumb-nails/TopicResoucreThumbNail';
 
-export { default as GeneratingIndecator } from './content/GeneratingIndecator';
+export { default as GeneratingIndicator } from './content/GeneratingIndicator';
 export { default as ProgressBar } from './status/ProgressBar';
 export { default as SucessSheet } from './status/SucessSheet';
