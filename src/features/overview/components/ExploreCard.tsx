@@ -5,8 +5,8 @@ import { useContext } from 'react';
 import { IoChevronForward, IoReader } from 'react-icons/io5';
 import Skeleton from 'react-loading-skeleton';
 import tw from 'twin.macro';
+import { background } from '../../../assets';
 import { useLoadingIndicator } from '../../../common/hooks';
-import { dummyBase64Image } from '../../../common/types/dummyBase64Image';
 import { Story } from '../../../common/types/enums';
 import { CloseButton, FlexBox, ScrollableBox, Sheet, Spacer } from '../../../components';
 
@@ -23,20 +23,19 @@ const StyledText = styled.div`
 `;
 
 const StyledImageContainer = styled.div`
-  ${tw`flex h-44 mt-4 mb-2 w-full`}
+  ${tw`flex bg-black h-44 mt-4 mb-2 w-full`}
 `;
 
-const StyledImage = styled.div<{ backgroundImage: string; mirrored?: boolean }>`
-  ${tw`w-1/2 h-full bg-right-top bg-cover bg-no-repeat `}
-  background-image: url(${({ backgroundImage }) => backgroundImage});
-  ${({ mirrored }) => mirrored && tw`scale-x-[-1]`}
-`;
-
-// const StyledImage = styled.div`
-//   ${tw`w-full h-full bg-right-top`}
-//   background-image: url(${background});
-//   background-size: 180%;
+// const StyledImage = styled.div<{ backgroundImage: string; mirrored?: boolean }>`
+//   ${tw`w-1/2 h-full bg-right-top bg-cover bg-no-repeat `}
+//   background-image: url(${({ backgroundImage }) => backgroundImage});
+//   ${({ mirrored }) => mirrored && tw`scale-x-[-1]`}
 // `;
+
+const StyledImage = styled.div`
+  ${tw`w-full bg-cover h-full bg-center dark:opacity-60`}
+  background-image: url(${background});
+`;
 
 const StyledContentContainer = styled.div`
   ${tw`p-4`}
@@ -75,9 +74,9 @@ const ExploreCard = () => {
         </StyledFlexContainer>
 
         <StyledImageContainer>
-          <StyledImage backgroundImage={dummyBase64Image} />
-          <StyledImage backgroundImage={dummyBase64Image} mirrored />
-          {/* <StyledImage /> */}
+          {/* <StyledImage backgroundImage={dummyBase64Image} />
+          <StyledImage backgroundImage={dummyBase64Image} mirrored /> */}
+          <StyledImage />
         </StyledImageContainer>
 
         {!isLoadingIndicatorVisible ? (
