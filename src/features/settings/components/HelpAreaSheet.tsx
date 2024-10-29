@@ -3,21 +3,23 @@ import { LeanScopeClientContext } from '@leanscope/api-client/browser';
 import { useIsStoryCurrent } from '@leanscope/storyboarding';
 import { useContext } from 'react';
 import tw from 'twin.macro';
+import { background } from '../../../assets';
 import { ShowMoreButton } from '../../../common/components/buttons';
-import { dummyBase64Image } from '../../../common/types/dummyBase64Image';
 import { Story } from '../../../common/types/enums';
 import { CloseButton, FlexBox, Section, SectionRow, Sheet, Spacer } from '../../../components';
 import ContactFormSheet from './ContactFormSheet';
 
-const DATA_PRIVACY_LINK = 'https://spina.ai/terms-privacy';
+const DATA_PRIVACY_LINK = 'https://spina.ai/privacy';
+const TERMS_OF_USE_LINK = 'https://spina.ai/terms-of-use';
 
 const StyledSecondaryText = styled.div`
   ${tw`text-secondary-text text-sm`}
 `;
 
 const StyledImage = styled.div`
-  ${tw`rounded-full bg-left bg-cover  mx-auto  h-52 w-52`}
-  background-image: url(${dummyBase64Image});
+  ${tw`rounded-full bg-cover bg-right mx-auto  h-52 w-52`}
+  background-image: url(${background});
+  
 `;
 
 const HelpAreaSheet = () => {
@@ -45,9 +47,14 @@ const HelpAreaSheet = () => {
               <ShowMoreButton />
             </FlexBox>
           </SectionRow>
-          <SectionRow role="button" last>
+          <SectionRow role="button">
             <a href={DATA_PRIVACY_LINK} target="new">
-              Nutzungsbedingungen und Datenschutzrichtlinien
+              Datenschutzrichtlinien
+            </a>
+          </SectionRow>
+          <SectionRow role="button" last>
+            <a href={TERMS_OF_USE_LINK} target="new">
+              Nutzungsbedingungen
             </a>
           </SectionRow>
         </Section>
