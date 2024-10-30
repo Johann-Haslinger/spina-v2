@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 import { LeanScopeClientContext } from '@leanscope/api-client/browser';
-import { EntityProps } from '@leanscope/ecs-engine';
+import { EntityProps, useEntityComponents } from '@leanscope/ecs-engine';
 import { Tags } from '@leanscope/ecs-models';
 import { useContext } from 'react';
 import tw from 'twin.macro';
 import { useWindowDimensions } from '../../../common/hooks/useWindowDimensions';
-import { PriorityProps, TitleProps } from '../../../common/types/additionalFacets';
+import { PriorityFacet, PriorityProps, TitleProps } from '../../../common/types/additionalFacets';
 import { COLOR_ITEMS } from '../../../common/types/constants';
 import { LearningUnitPriority } from '../../../common/types/enums';
 import { updatePriority } from '../../../common/utilities';
@@ -31,10 +31,13 @@ const StyledSelect = styled.select<{ value: LearningUnitPriority }>`
 
 const FlashcardGroupRow = (props: TitleProps & PriorityProps & EntityProps) => {
   const lsc = useContext(LeanScopeClientContext);
-  const { title, entity, priority } = props;
+  const { title, entity } = props;
   const { dueFlashcardEntity } = useDueFlashcards();
   const formattedDateAdded = useFormattedDateAdded(entity, true);
   const { isMobile } = useWindowDimensions();
+  const [priorityFacet] = useEntityComponents(entity, PriorityFacet);
+  const priority = priorityFacet?.props.priority || LearningUnitPriority.PAUSED;
+
 
   const openFlashcardGroup = () => entity.add(Tags.SELECTED);
 
@@ -43,7 +46,7 @@ const FlashcardGroupRow = (props: TitleProps & PriorityProps & EntityProps) => {
       <div tw="w-48 md:w-full  pr-2 " onClick={openFlashcardGroup}>
         <p tw="line-clamp-1 overflow-hidden">{title}</p>
         <p tw="line-clamp-1 text-secondary-text dark:text-secondary-text-dark text-sm">
-          {isMobile ? formattedDateAdded.replace('Hinzugefügt am ', '') : formattedDateAdded}
+          {isMobile ? formattedDateAdded.replace('Hinzugefügt am ', '') : formattedDateAdded} {priority}
         </p>
       </div>
       <div tw="h-full py-2.5 ">
