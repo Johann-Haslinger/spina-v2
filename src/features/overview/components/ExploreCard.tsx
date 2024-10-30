@@ -33,7 +33,7 @@ const StyledImageContainer = styled.div`
 // `;
 
 const StyledImage = styled.div`
-  ${tw`w-full bg-cover h-full bg-center dark:opacity-60`}
+  ${tw`w-full bg-cover h-full bg-center dark:opacity-70`}
   background-image: url(${background});
 `;
 

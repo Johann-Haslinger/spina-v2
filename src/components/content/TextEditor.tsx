@@ -12,8 +12,13 @@ const StyledPlaceholder = styled.div`
   ${tw`text-secondary-text opacity-70`}
 `;
 
-const TextEditor = (props: { onBlur?: (newValue: string) => void; value?: string; placeholder?: string }) => {
-  const { onBlur, value, placeholder } = props;
+const TextEditor = (props: {
+  onBlur?: (newValue: string) => void;
+  value?: string;
+  placeholder?: string;
+  beenFocused?: boolean;
+}) => {
+  const { onBlur, value, placeholder, beenFocused } = props;
   const textEditorRef = useRef<HTMLDivElement>(null);
   const sanitizer = dompurify.sanitize;
   const [isTextEditorFocused, setIsTextEditorFocused] = useState(false);
@@ -26,6 +31,10 @@ const TextEditor = (props: { onBlur?: (newValue: string) => void; value?: string
   useEffect(() => {
     if (initialText) setIsTextEditorFocused(true);
   }, [initialText]);
+
+  useEffect(() => {
+    if (beenFocused) handleFocus();
+  }, [beenFocused]);
 
   const handlePaste = (e: React.ClipboardEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -58,7 +67,19 @@ const TextEditor = (props: { onBlur?: (newValue: string) => void; value?: string
 
   const handleFocus = () => {
     setIsTextEditorFocused(true);
-    setTimeout(() => textEditorRef.current?.focus(), 10);
+    setTimeout(() => {
+      const editor = textEditorRef.current;
+      if (editor) {
+        editor.focus();
+        if (!beenFocused) return;
+        const range = document.createRange();
+        const selection = window.getSelection();
+        range.selectNodeContents(editor);
+        range.collapse(false);
+        selection?.removeAllRanges();
+        selection?.addRange(range);
+      }
+    }, 10);
   };
 
   const handleBlur = () => {

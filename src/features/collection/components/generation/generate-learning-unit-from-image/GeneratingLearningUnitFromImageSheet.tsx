@@ -55,7 +55,6 @@ const GeneratingLearningUnitFromImageSheet = () => {
   useOutsideClick(sheetRef, navigateBack, isVisible);
 
   const handleGenerateNoteButtonClick = async () => {
-    console.log('uploadedFile', uploadedFile);
     if (!uploadedFile) return;
 
     setGeneratedNote(null);

@@ -18,6 +18,7 @@ interface TitleProps {
   size?: Size;
   editable?: boolean;
   onBlur?: (value: string) => void;
+  onEnterClick?: () => void;
 }
 
 const Title: React.FC<React.PropsWithChildren<TitleProps>> = ({
@@ -25,6 +26,7 @@ const Title: React.FC<React.PropsWithChildren<TitleProps>> = ({
   size = 'medium',
   editable = false,
   onBlur,
+  onEnterClick,
 }) => {
   const [isFocused, setIsFocused] = useState(false);
   const [text, setText] = useState(children as string);
@@ -64,6 +66,8 @@ const Title: React.FC<React.PropsWithChildren<TitleProps>> = ({
       onKeyDown={(e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
           e.preventDefault();
+          textAreaRef.current?.blur();
+          onEnterClick?.();
         }
       }}
     />
