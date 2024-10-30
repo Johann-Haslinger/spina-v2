@@ -80,12 +80,17 @@ const LearningUnitView = (
   const { dueFlashcardEntity } = useDueFlashcards();
   const [textFacet] = useEntityComponents(entity, TextFacet);
   const isGeneratingImprovedTextViewVisible = useIsStoryCurrent(Story.GENERATING_IMPROVED_TEXT_STORY);
+  const [isTextEditorFocused, setIsTextEditorFocused] = useState(false);
 
   const navigateBack = () => entity.addTag(AdditionalTag.NAVIGATE_BACK);
+  const onEnterClick = () => {
+    if (type == LearningUnitType.NOTE) {
+      setIsTextEditorFocused(true);
+      setTimeout(() => setIsTextEditorFocused(false), 100);
+    }
+  };
 
-  useEffect(() => {
-    updateValue(textFacet?.props.text || '');
-  }, [currentView, isGeneratingImprovedTextViewVisible]);
+  useTextUpdater(() => updateValue(textFacet?.props.text || ''), [currentView, isGeneratingImprovedTextViewVisible]);
 
   return (
     <div>
@@ -96,7 +101,7 @@ const LearningUnitView = (
         <LearningUnitNavBar currentView={currentView} openFilePicker={openFilePicker} entity={entity} type={type} />
 
         <BackButton navigateBack={navigateBack}>{selectedTopicTitle}</BackButton>
-        <LearningUnitTitle {...props} />
+        <LearningUnitTitle onEnterClick={onEnterClick} {...props} />
         <Spacer size={2} />
         <SecondaryText>
           {formattedDateAdded}
@@ -134,7 +139,12 @@ const LearningUnitView = (
             {!hasFlashcards && <NoContentAddedHint />}
           </div>
         ) : (
-          <TextEditor placeholder="Beginne hier..." value={text} onBlur={updateText} />
+          <TextEditor
+            beenFocused={isTextEditorFocused}
+            placeholder="Beginne hier..."
+            value={text}
+            onBlur={updateText}
+          />
         )}
         <Spacer />
         {hasAttachedResources && (
@@ -249,4 +259,10 @@ const useCurrentView = (type: LearningUnitType) => {
   }, [type]);
 
   return { currentView, setCurrentView };
+};
+
+const useTextUpdater = (updateValue: () => void, dependencies: unknown[]) => {
+  useEffect(() => {
+    updateValue();
+  }, [...dependencies]);
 };

@@ -11,7 +11,7 @@ import { generateImprovedText } from '../../../../common/utilities/generateResou
 import { dataTypeQuery, isChildOfQuery } from '../../../../common/utilities/queries';
 import {
   FlexBox,
-  GeneratingIndecator,
+  GeneratingIndicator,
   PrimaryButton,
   ScrollableBox,
   SecondaryButton,
@@ -95,7 +95,7 @@ const GenerateTextFromFlashcardsSheet = () => {
       </FlexBox>
       <Spacer />
       {isGenerating ? (
-        <GeneratingIndecator />
+        <GeneratingIndicator />
       ) : (
         <ScrollableBox>
           <SapientorConversationMessage

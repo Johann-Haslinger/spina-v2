@@ -5,8 +5,12 @@ import { SupabaseColumn, SupabaseTable } from '../../../../common/types/enums';
 import { Title } from '../../../../components';
 import supabaseClient from '../../../../lib/supabase';
 
-const LearningUnitTitle = (props: EntityProps & TitleProps & IdentifierProps) => {
-  const { entity, title, guid } = props;
+interface LearningUnitTitleProps extends EntityProps, TitleProps, IdentifierProps {
+  onEnterClick?: () => void;
+}
+
+const LearningUnitTitle = (props: LearningUnitTitleProps) => {
+  const { entity, title, guid, onEnterClick } = props;
 
   const handleTitleBlur = async (value: string) => {
     entity.add(new TitleFacet({ title: value }));
@@ -21,7 +25,7 @@ const LearningUnitTitle = (props: EntityProps & TitleProps & IdentifierProps) =>
   };
 
   return (
-    <Title editable onBlur={handleTitleBlur}>
+    <Title onEnterClick={onEnterClick} editable onBlur={handleTitleBlur}>
       {title}
     </Title>
   );

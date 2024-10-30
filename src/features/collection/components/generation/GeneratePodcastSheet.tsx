@@ -20,7 +20,7 @@ import { DataType, Story } from '../../../../common/types/enums';
 import { addPodcast } from '../../../../common/utilities/addPodcast';
 import { getAudioFromText, getCompletion } from '../../../../common/utilities/getCompletion';
 import { dataTypeQuery, isChildOfQuery } from '../../../../common/utilities/queries';
-import { CloseButton, FlexBox, GeneratingIndecator, Sheet } from '../../../../components';
+import { CloseButton, FlexBox, GeneratingIndicator, Sheet } from '../../../../components';
 import SapientorConversationMessage from '../../../../components/content/SapientorConversationMessage';
 import { useSelectedFlashcardSet } from '../../hooks/useSelectedFlashcardSet';
 import { useSelectedNote } from '../../hooks/useSelectedNote';
@@ -117,7 +117,7 @@ const GeneratePodcastSheet = () => {
         <div />
         <CloseButton onClick={navigateBack} />
       </FlexBox>
-      {isGenerating && <GeneratingIndecator />}
+      {isGenerating && <GeneratingIndicator />}
       {!isGenerating && visibleText == '' && (
         <SapientorConversationMessage
           message={{

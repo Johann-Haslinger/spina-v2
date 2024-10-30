@@ -46,7 +46,7 @@ const GeneratedNote = (props: {
     }
   }, [selectedParentId]);
 
-  const saveLearningUnit = async(selectedParentId: string) => {
+  const saveLearningUnit = async (selectedParentId: string) => {
     navigateBack();
 
     const parentId = selectedTopicId || selectedParentId;

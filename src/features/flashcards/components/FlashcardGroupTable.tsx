@@ -22,9 +22,9 @@ import FlashcardGroupRow from './FlashcardGroupRow';
 
 enum FlashcardGroupFilter {
   ALL = -1,
-  ACTIV = 1,
+  ACTIVE = 1,
   MAINTAINING = 2,
-  PASUED = 0,
+  PAUSED = 0,
 }
 
 const StyledTabBar = styled.div`
@@ -38,7 +38,7 @@ const StyledTabLabel = styled.div<{ isActive: boolean }>`
 `;
 
 const StyledSegmentedControl = styled.div`
-  ${tw`flex my-6 px-4 bg-tertiary dark:bg-secondary-dark transition-all  py-2 rounded-lg justify-between`}
+  ${tw`flex my-6 px-4 bg-tertiary dark:bg-secondary-dark py-2 rounded-lg justify-between`}
 `;
 const StyledLabel = styled.div`
   ${tw`text-sm flex justify-center`}
@@ -62,7 +62,7 @@ const FlashcardGroupTable = () => {
 
   return (
     <div tw="w-full">
-      <InitializeRecentlyAddedFlashcardGroupSeystem />
+      <InitRecentlyAddedFlashcardGroupSystem />
       <StyledTabBar>
         <StyledTabLabel
           isActive={currentFilter === FlashcardGroupFilter.ALL}
@@ -71,8 +71,8 @@ const FlashcardGroupTable = () => {
           Alle
         </StyledTabLabel>
         <StyledTabLabel
-          isActive={currentFilter === FlashcardGroupFilter.ACTIV}
-          onClick={() => setCurrentFilter(FlashcardGroupFilter.ACTIV)}
+          isActive={currentFilter === FlashcardGroupFilter.ACTIVE}
+          onClick={() => setCurrentFilter(FlashcardGroupFilter.ACTIVE)}
         >
           Aktiv
         </StyledTabLabel>
@@ -83,8 +83,8 @@ const FlashcardGroupTable = () => {
           Aufrechterhalten
         </StyledTabLabel>
         <StyledTabLabel
-          isActive={currentFilter === FlashcardGroupFilter.PASUED}
-          onClick={() => setCurrentFilter(FlashcardGroupFilter.PASUED)}
+          isActive={currentFilter === FlashcardGroupFilter.PAUSED}
+          onClick={() => setCurrentFilter(FlashcardGroupFilter.PAUSED)}
         >
           Pausiert
         </StyledTabLabel>
@@ -142,12 +142,12 @@ const fetchRecentlyAddedLearningUnits = async () => {
   return data || [];
 };
 
-const InitializeRecentlyAddedFlashcardGroupSeystem = () => {
+const InitRecentlyAddedFlashcardGroupSystem = () => {
   const lsc = useContext(LeanScopeClientContext);
   const { isUsingMockupData, isUsingSupabaseData } = useCurrentDataSource();
 
   useEffect(() => {
-    const initializeRecentlyAddeLearningUnitsEntities = async () => {
+    const initLearningUnitEntities = async () => {
       const learningUnits = isUsingMockupData
         ? dummyLearningUnits
         : isUsingSupabaseData
@@ -179,7 +179,7 @@ const InitializeRecentlyAddedFlashcardGroupSeystem = () => {
       });
     };
 
-    initializeRecentlyAddeLearningUnitsEntities();
+    initLearningUnitEntities();
   }, [isUsingMockupData, isUsingSupabaseData]);
 
   return null;

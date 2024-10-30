@@ -108,7 +108,6 @@ const AuthUI = () => {
               <StyledAuthWrapper>
                 <Auth
                   supabaseClient={supabaseClient}
-                 
                   appearance={{
                     theme: ThemeSupa,
                     variables: {
@@ -138,12 +137,16 @@ const AuthUI = () => {
                 <p tw="text-secondary-text mt-2 text-center w-full text-xs">
                   Durch die Anmeldung stimmst du unseren{' '}
                   <b>
-                    <a target='_blank' href={DATA_PRIVACY_LINK}>Nutzungsbedingungen</a>
+                    <a target="_blank" href={DATA_PRIVACY_LINK}>
+                      Nutzungsbedingungen
+                    </a>
                   </b>{' '}
                   <br />
                   und{' '}
                   <b>
-                    <a target='_blank' href={DATA_PRIVACY_LINK}>Datenschutzrichtlinien</a>
+                    <a target="_blank" href={DATA_PRIVACY_LINK}>
+                      Datenschutzrichtlinien
+                    </a>
                   </b>{' '}
                   zu.
                 </p>
