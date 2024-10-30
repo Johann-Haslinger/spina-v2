@@ -60,7 +60,7 @@ const SchoolSubjectView = (props: TitleProps & EntityProps) => {
                 dataTypeQuery(e, DataType.TOPIC) && isChildOfQuery(e, entity) && !e.hasTag(AdditionalTag.ARCHIVED)
               }
               sort={(a, b) => sortEntitiesByDateAdded(a, b)}
-              get={[[TitleFacet, DescriptionFacet, ImageFacet], []]}
+              get={[[TitleFacet, DescriptionFacet], []]}
               onMatch={TopicCell}
             />
           ) : (

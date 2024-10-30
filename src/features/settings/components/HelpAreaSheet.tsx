@@ -19,7 +19,6 @@ const StyledSecondaryText = styled.div`
 const StyledImage = styled.div`
   ${tw`rounded-full bg-cover bg-right mx-auto  h-52 w-52`}
   background-image: url(${background});
-  
 `;
 
 const HelpAreaSheet = () => {

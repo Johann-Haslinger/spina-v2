@@ -139,7 +139,12 @@ const LearningUnitView = (
             {!hasFlashcards && <NoContentAddedHint />}
           </div>
         ) : (
-          <TextEditor beenFocused={isTextEditorFocused} placeholder="Beginne hier..." value={text} onBlur={updateText} />
+          <TextEditor
+            beenFocused={isTextEditorFocused}
+            placeholder="Beginne hier..."
+            value={text}
+            onBlur={updateText}
+          />
         )}
         <Spacer />
         {hasAttachedResources && (

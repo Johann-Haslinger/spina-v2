@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
-import { EntityProps, useEntityHasTags } from '@leanscope/ecs-engine';
-import { DescriptionProps, ImageProps, Tags } from '@leanscope/ecs-models';
+import { EntityProps, useEntityComponents, useEntityHasTags } from '@leanscope/ecs-engine';
+import { DescriptionProps, ImageFacet, Tags } from '@leanscope/ecs-models';
 import { IoBook } from 'react-icons/io5';
 import tw from 'twin.macro';
 import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
@@ -33,8 +33,10 @@ const StyledTopicDescription = styled.p`
   ${tw` text-secondary-text text-base w-5/6 font-normal line-clamp-2 mt-1`}
 `;
 
-const TopicCell = (props: TitleProps & EntityProps & DescriptionProps & ImageProps) => {
-  const { title, entity, description, imageSrc } = props;
+const TopicCell = (props: TitleProps & EntityProps & DescriptionProps) => {
+  const { title, entity, description } = props;
+  const [imageFacet] = useEntityComponents(entity, ImageFacet);
+  const imageSrc = imageFacet?.props.imageSrc  || '';
   const { color: accentColor } = useTopicColor(entity);
   const { isSidebarVisible } = useAppState();
   const { selectedLanguage } = useSelectedLanguage();
