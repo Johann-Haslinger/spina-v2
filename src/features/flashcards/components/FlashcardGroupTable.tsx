@@ -105,6 +105,8 @@ const FlashcardGroupTable = () => {
           .sort(sortEntitiesByDateAdded)
           .map((entity, idx) => (
             <FlashcardGroupRow
+              dateAdded={entity.get(DateAddedFacet)?.props.dateAdded || ''}
+              currentFilter={currentFilter}
               entity={entity}
               title={entity.get(TitleFacet)?.props.title || ''}
               priority={entity.get(PriorityFacet)?.props.priority || 0}
