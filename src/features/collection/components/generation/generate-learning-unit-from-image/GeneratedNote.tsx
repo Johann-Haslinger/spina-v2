@@ -64,8 +64,8 @@ const GeneratedNote = (props: {
 
     addLearningUnit(lsc, newLearningUnitEntity, userId);
 
-    await delay(200);
-
+    await delay(300);
+    console.log('newLearningUnitEntity', newLearningUnitEntity, learningUnitId);
     const newTextEntity = new Entity();
     newTextEntity.add(new ParentFacet({ parentId: learningUnitId }));
     newTextEntity.add(new TextFacet({ text: note.text }));
