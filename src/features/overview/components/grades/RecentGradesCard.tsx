@@ -19,15 +19,16 @@ import {
 import { DataType } from '../../../../common/types/enums';
 import { dataTypeQuery } from '../../../../common/utilities/queries';
 import { sortEntitiesByDateAdded } from '../../../../common/utilities/sortEntitiesByTime';
+import EditGradeSheet from './EditGradeSheet';
 
 const StyledCardWrapper = styled.div`
-  ${tw`w-full h-fit md:h-[28rem] overflow-y-scroll pr-0 p-4  rounded-2xl bg-[#FFCC00] bg-opacity-15 dark:bg-opacity-[0.12]`}
+  ${tw`w-full h-fit md:h-[28rem] overflow-y-scroll pr-0 p-4  rounded-2xl bg-[#668FE8] bg-opacity-10 dark:bg-opacity-[0.12]`}
   -ms-overflow-style: none;
   scrollbar-width: none;
 `;
 
 const StyledFlexContainer = styled.div`
-  ${tw`flex space-x-2 text-[#FFCC00] mb-2 dark:opacity-80 items-center`}
+  ${tw`flex space-x-2 text-[#668FE8] mb-2 opacity-80 items-center`}
 `;
 
 const StyledText = styled.div`
@@ -44,33 +45,41 @@ const RecentGradesCard = () => {
   const { isLoadingIndicatorVisible } = useLoadingIndicator();
 
   return (
-    <StyledCardWrapper>
-      <StyledFlexContainer>
-        <IoSchool />
-        <StyledText>Neue Noten</StyledText>
-      </StyledFlexContainer>
-      {!isLoadingIndicatorVisible ? (
-        <div>
-          {' '}
-          {!hasGrades && <StyledInfoText>Du hast in den letzten Tagen keine neuen Noten hinzugefügt.</StyledInfoText>}
-          <EntityPropsMapper
-            query={(e) =>
-              new Date(e.get(DateAddedFacet)?.props.dateAdded || '') >= threeWeeksAgo &&
-              dataTypeQuery(e, DataType.GRADE)
-            }
-            get={[[ParentFacet, DateAddedFacet, ValueFacet, TypeFacet], []]}
-            sort={sortEntitiesByDateAdded}
-            onMatch={NewGradeRow}
-          />
-        </div>
-      ) : (
-        <div tw="dark:opacity-10 transition-all">
-          <NewGradeRowSkeleton />
-          <NewGradeRowSkeleton />
-          <NewGradeRowSkeleton />
-        </div>
-      )}
-    </StyledCardWrapper>
+    <div>
+      <StyledCardWrapper>
+        <StyledFlexContainer>
+          <IoSchool />
+          <StyledText>Neue Noten</StyledText>
+        </StyledFlexContainer>
+        {!isLoadingIndicatorVisible ? (
+          <div>
+            {' '}
+            {!hasGrades && <StyledInfoText>Du hast in den letzten Tagen keine neuen Noten hinzugefügt.</StyledInfoText>}
+            <EntityPropsMapper
+              query={(e) =>
+                new Date(e.get(DateAddedFacet)?.props.dateAdded || '') >= threeWeeksAgo &&
+                dataTypeQuery(e, DataType.GRADE)
+              }
+              get={[[ParentFacet, DateAddedFacet, ValueFacet, TypeFacet], []]}
+              sort={sortEntitiesByDateAdded}
+              onMatch={NewGradeRow}
+            />
+          </div>
+        ) : (
+          <div tw="dark:opacity-10 transition-all">
+            <NewGradeRowSkeleton />
+            <NewGradeRowSkeleton />
+            <NewGradeRowSkeleton />
+          </div>
+        )}
+      </StyledCardWrapper>
+
+      <EntityPropsMapper
+        query={(e) => dataTypeQuery(e, DataType.GRADE) && e.has(Tags.SELECTED)}
+        get={[[ParentFacet, DateAddedFacet, ValueFacet, TypeFacet], []]}
+        onMatch={EditGradeSheet}
+      />
+    </div>
   );
 };
 
@@ -114,12 +123,15 @@ const NewGradeRow = (props: ValueProps & ParentProps & TypeProps & EntityProps) 
   const openGrade = () => entity.add(Tags.SELECTED);
 
   return (
-    <StyledRowWrapper onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+    <StyledRowWrapper
+      onClick={openGrade}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
       <motion.div
         animate={{
           x: isHovered ? 15 : 0,
         }}
-        onClick={openGrade}
       >
         <StyledTitle>
           {value} in {relatedSchoolSubjectTitle}

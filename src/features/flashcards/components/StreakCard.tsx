@@ -61,7 +61,7 @@ const StreakCard = () => {
         {!isLoadingIndicatorVisible ? (
           <StyledStreakContent>
             {isFrozen ? (
-              'Deine Streak ist eingefroren. 🥶 Starte eine Lernrunde um sie fortzusetzten!'
+              'Deine Streak ist eingefroren. Starte eine Lernrunde um sie fortzusetzten!'
             ) : isCurrentStreakEntityExisting ? (
               <p>
                 Du hast bereits{' '}

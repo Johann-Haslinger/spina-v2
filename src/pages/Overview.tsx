@@ -36,6 +36,7 @@ import {
   StartFlashcardSessionCard,
 } from '../features/overview';
 import FlashcardChartCard from '../features/overview/components/FlashcardChartCard';
+import InitializeGradeTypesSystem from '../features/overview/systems/InitializeGradeTypesSystem';
 import InitializeRecentlyAddedGrades from '../features/overview/systems/InitializeRecentlyAddedGrades';
 
 const StyledColumnsWrapper = styled.div`
@@ -52,6 +53,7 @@ const Overview = () => {
   return (
     <div>
       <LoadFlashcardSessionsSystem />
+      <InitializeGradeTypesSystem />
       <InitializeRecentlyAddedGrades />
       <LoadCurrentStreakSystem />
 

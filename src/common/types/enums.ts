@@ -82,6 +82,7 @@ export enum Story {
   DELETING_GROUP_HOMEWORK_STORY = 'deleteGroupHomeworkStory',
   DELETING_GROUP_FLASHCARD_SET_STORY = 'deleteGroupFlashcardSetStory',
   DELETING_ACCOUNT_STORY = 'deleteAccountStory',
+  DELETING_GRADE_STORY = 'deleteGradeStory',
 
   GENERATING_IMPROVED_TEXT_STORY = 'generateImprovedFlashcardsStory',
   GENERATING_FLASHCARDS_STORY = 'generateFlashcardsStory',
@@ -182,6 +183,7 @@ export enum DataType {
   LEARNING_UNIT = 'learningUnit',
   FILE = 'file',
   GRADE = 'grade',
+  GRADE_TYPE = 'gradeType',
 }
 
 export enum SupportedLanguage {

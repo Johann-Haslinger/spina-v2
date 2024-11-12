@@ -8,7 +8,7 @@ import { useGradeTypes, useInputFocus } from '../../../../common/hooks';
 import { useSchoolSubjectEntities } from '../../../../common/hooks/useSchoolSubjects';
 import { useSelectedLanguage } from '../../../../common/hooks/useSelectedLanguage';
 import { useUserData } from '../../../../common/hooks/useUserData';
-import { TitleFacet, TypeFacet, ValueFacet } from '../../../../common/types/additionalFacets';
+import { DateAddedFacet, TitleFacet, TypeFacet, ValueFacet } from '../../../../common/types/additionalFacets';
 import { DataType, Story } from '../../../../common/types/enums';
 import { addGrade } from '../../../../common/utilities/addGrade';
 import { displayButtonTexts, displayLabelTexts } from '../../../../common/utilities/displayText';
@@ -29,7 +29,7 @@ const AddGradeSheet = () => {
   const isVisible = useIsStoryCurrent(Story.AddING_GRADE_STORY);
   const { selectedLanguage } = useSelectedLanguage();
   const { grade, setGrade } = useNewGrade();
-  const isGradeValid = grade.type_id && grade.parent_id && grade.value;
+  const isGradeValid = grade.type_id && grade.parent_id && grade.value !== undefined && grade.value >= 0;
   const gradeInputRef = useRef<HTMLInputElement>(null);
   const schoolSubjectEntities = useSchoolSubjectEntities();
   const gradeTypes = useGradeTypes();
@@ -45,10 +45,20 @@ const AddGradeSheet = () => {
     newGradeEntity.add(new ParentFacet({ parentId: grade.parent_id }));
     newGradeEntity.add(new ValueFacet({ value: grade.value || 0 }));
     newGradeEntity.add(new TypeFacet({ type: grade.type_id }));
+    newGradeEntity.add(new DateAddedFacet({ dateAdded: new Date().toISOString() }));
     newGradeEntity.add(DataType.GRADE);
 
     addGrade(lsc, newGradeEntity, userId);
     navigateBack();
+  };
+
+  const handleGradeValueChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let newValue = parseInt(e.target.value);
+    if (newValue > 15) newValue = 15;
+    if (newValue < 0) newValue = 0;
+    if (isNaN(newValue)) newValue = 0;
+
+    setGrade({ ...grade, value: newValue });
   };
 
   return (
@@ -62,23 +72,15 @@ const AddGradeSheet = () => {
       <Spacer size={4} />
       <Section>
         <SectionRow>
-          <TextInput
-            ref={gradeInputRef}
-            placeholder="Note"
-            type="number"
-            min={0}
-            max={15}
-            value={grade.value}
-            onChange={(e) => setGrade({ ...grade, value: Number(e.target.value) })}
-          />
+          <TextInput ref={gradeInputRef} placeholder="Note" value={grade.value} onChange={handleGradeValueChange} />
         </SectionRow>
         <SectionRow>
           <FlexBox>
             <p>Notenart</p>
             <SelectInput value={grade.type_id} onChange={(e) => setGrade({ ...grade, type_id: e.target.value })}>
               <option value="">{displayLabelTexts(selectedLanguage).select}</option>
-              {gradeTypes.map((type) => (
-                <option key={type.id} value={type.id}>
+              {gradeTypes.map((type, idx) => (
+                <option key={idx} value={type.id}>
                   {type.title}
                 </option>
               ))}

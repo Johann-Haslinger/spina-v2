@@ -117,8 +117,13 @@ const useGradeDetails = () => {
     const overallAverage =
       subjectAverages.reduce((sum, subject) => sum + (subject?.average ?? 0), 0) / subjectAverages.length;
 
-    return { bestSubject, worstSubject, overallAverage, subjectAverages };
-  }, [schoolSubjectEntities.length, grades, gradeTypes]);
+    return {
+      bestSubject,
+      worstSubject,
+      overallAverage: overallAverage ? overallAverage.toFixed(1) : overallAverage,
+      subjectAverages,
+    };
+  }, [schoolSubjectEntities.length, JSON.stringify(grades), JSON.stringify(gradeTypes)]);
 
   return results;
 };
@@ -133,7 +138,7 @@ const useGrades = () => {
         parent_id: entity.get(ParentFacet)?.props.parentId || '',
         type_id: entity.get(TypeFacet)?.props.type || '',
       })),
-    [gradeEntities.length],
+    [JSON.stringify(gradeEntities)],
   );
 
   return grades;
