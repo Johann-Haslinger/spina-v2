@@ -113,6 +113,7 @@ const AuthUI = () => {
               </div>
               <StyledAuthWrapper>
                 <Auth
+                  redirectTo={'https://app.spina.ai/verified-email'}
                   supabaseClient={supabaseClient}
                   appearance={{
                     theme: ThemeSupa,
