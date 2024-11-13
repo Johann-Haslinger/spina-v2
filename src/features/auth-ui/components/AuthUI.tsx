@@ -12,7 +12,8 @@ import supabaseClient from '../../../lib/supabase';
 import { useSelectedTheme } from '../../collection/hooks/useSelectedTheme';
 
 const DATA_PRIVACY_LINK = 'https://spina.ai/terms-privacy';
-const CODE = '5295';
+const CODE1 = '5295';
+const CODE2 = '6783';
 
 const StyledAuthWrapper = styled.div`
   ${tw`w-full h-fit`}
@@ -86,7 +87,10 @@ const AuthUI = () => {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                 />
-                <StyledButton isActive={input !== ''} onClick={() => input == CODE && setIsCodeEntered(true)}>
+                <StyledButton
+                  isActive={input !== ''}
+                  onClick={() => (input == CODE1 || input == CODE2) && setIsCodeEntered(true)}
+                >
                   Weiter
                 </StyledButton>
               </StyledInputWrapper>
