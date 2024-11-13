@@ -11,8 +11,11 @@ import { Sheet } from '../../../components';
 import supabaseClient from '../../../lib/supabase';
 import { useSelectedTheme } from '../../collection/hooks/useSelectedTheme';
 
-const DATA_PRIVACY_LINK = 'https://spina.ai/terms-privacy';
-const CODE = '5295';
+const TERMS_OF_USE_LINK = 'https://spina.ai/terms-of-use';
+const PRIVACY_LINK = 'https://spina.ai/privacy';
+
+const CODE1 = '5295';
+const CODE2 = '6783';
 
 const StyledAuthWrapper = styled.div`
   ${tw`w-full h-fit`}
@@ -86,7 +89,10 @@ const AuthUI = () => {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                 />
-                <StyledButton isActive={input !== ''} onClick={() => input == CODE && setIsCodeEntered(true)}>
+                <StyledButton
+                  isActive={input !== ''}
+                  onClick={() => (input == CODE1 || input == CODE2) && setIsCodeEntered(true)}
+                >
                   Weiter
                 </StyledButton>
               </StyledInputWrapper>
@@ -137,14 +143,14 @@ const AuthUI = () => {
                 <p tw="text-secondary-text mt-2 text-center w-full text-xs">
                   Durch die Anmeldung stimmst du unseren{' '}
                   <b>
-                    <a target="_blank" href={DATA_PRIVACY_LINK}>
+                    <a target="_blank" href={TERMS_OF_USE_LINK}>
                       Nutzungsbedingungen
                     </a>
                   </b>{' '}
                   <br />
                   und{' '}
                   <b>
-                    <a target="_blank" href={DATA_PRIVACY_LINK}>
+                    <a target="_blank" href={PRIVACY_LINK}>
                       Datenschutzrichtlinien
                     </a>
                   </b>{' '}

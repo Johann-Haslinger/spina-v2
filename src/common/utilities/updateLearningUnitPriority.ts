@@ -13,6 +13,7 @@ export const updatePriority = async (
   dueFlashcardEntity: Entity | undefined,
   ignoreFlashcardUpdate?: boolean,
 ) => {
+  console.log('updatePriority', priority);
   entity.add(new PriorityFacet({ priority: priority }));
 
   const id = entity.get(IdentifierFacet)?.props.guid;

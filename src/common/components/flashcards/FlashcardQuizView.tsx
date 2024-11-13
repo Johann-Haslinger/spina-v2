@@ -610,18 +610,16 @@ const StyledFlashcardCellContainer = styled.div`
 `;
 
 const StyledFlashcardWrapper = styled.div<{ backgroundColor?: string }>`
-  ${tw`bg-white overflow-y-scroll dark:text-white  dark:bg-opacity-5 mx-auto py-16  cursor-pointer flex items-center  w-11/12 md:w-8/12 xl:w-2/5 2xl:w-1/3 lg:w-1/2 h-60  p-4 rounded-2xl`}/* background-color: ${(
-    props,
-  ) => (props.backgroundColor ? props.backgroundColor + 10 : '')}; */
+  ${tw`bg-white grid place-items-center overflow-y-scroll p-4 dark:text-white  dark:bg-opacity-5 mx-auto cursor-pointer  w-11/12 md:w-8/12 xl:w-2/5 2xl:w-1/3 lg:w-1/2 h-60 rounded-2xl`}
 `;
 
 const StyledQuestionText = styled.div<{ color: string }>`
-  ${tw`text-lg py-4 text-center mx-auto w-fit font-bold `}
+  ${tw`text-lg my-auto text-center mx-auto h-fit w-fit font-bold  `}
   color: ${(props) => props.color};
 `;
 
 const StyledAnswerText = styled.div<{ color: string }>`
-  ${tw`text-lg py-4 text-center mx-auto w-fit scale-x-[-1]  `}
+  ${tw`text-lg text-center mx-auto h-fit w-fit scale-x-[-1]  `}
   color: ${(props) => props.color};
 `;
 
