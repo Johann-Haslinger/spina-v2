@@ -11,7 +11,9 @@ import { Sheet } from '../../../components';
 import supabaseClient from '../../../lib/supabase';
 import { useSelectedTheme } from '../../collection/hooks/useSelectedTheme';
 
-const DATA_PRIVACY_LINK = 'https://spina.ai/terms-privacy';
+const TERMS_OF_USE_LINK = 'https://spina.ai/terms-of-use';
+const PRIVACY_LINK = 'https://spina.ai/privacy';
+
 const CODE1 = '5295';
 const CODE2 = '6783';
 
@@ -141,14 +143,14 @@ const AuthUI = () => {
                 <p tw="text-secondary-text mt-2 text-center w-full text-xs">
                   Durch die Anmeldung stimmst du unseren{' '}
                   <b>
-                    <a target="_blank" href={DATA_PRIVACY_LINK}>
+                    <a target="_blank" href={TERMS_OF_USE_LINK}>
                       Nutzungsbedingungen
                     </a>
                   </b>{' '}
                   <br />
                   und{' '}
                   <b>
-                    <a target="_blank" href={DATA_PRIVACY_LINK}>
+                    <a target="_blank" href={PRIVACY_LINK}>
                       Datenschutzrichtlinien
                     </a>
                   </b>{' '}
