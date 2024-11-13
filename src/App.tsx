@@ -18,7 +18,16 @@ import { SettingsOverviewSheet } from './features/settings';
 import { UseAsPWAInstructionsSheet } from './features/tutorial';
 import Tutorial from './features/tutorial/components/Tutorial';
 import TransitToTutorialSystem from './features/tutorial/systems/TransitToTutorialSystem';
-import { Collection, Exams, Flashcards, Groups, Homeworks, Overview, SuccessPage, VerifiedEmailPage } from './pages/Index';
+import {
+  Collection,
+  Exams,
+  Flashcards,
+  Groups,
+  Homeworks,
+  Overview,
+  SuccessPage,
+  VerifiedEmailPage,
+} from './pages/Index';
 
 const App = () => {
   return (
@@ -29,9 +38,9 @@ const App = () => {
       <ViewManagerSystem />
       <InitializeSchoolSubjectsSystem />
       <InitializeLoadingIndicatorSystem />
-      <TransitToTutorialSystem />
 
       <BrowserRouter>
+        <TransitToTutorialSystem />
         <Sidebar />
         <Routes>
           <Route path="/" element={<Overview />} />
