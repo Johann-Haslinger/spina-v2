@@ -25,14 +25,19 @@ import StreakCard from '../features/flashcards/components/StreakCard';
 import LoadCurrentStreakSystem from '../features/flashcards/systems/LoadCurrentStrekSystem';
 import LoadFlashcardSessionsSystem from '../features/flashcards/systems/LoadFlashcardSessionsSystem';
 import {
+  AddGradeSheet,
   ExploreCard,
+  GradesDetailsCard,
   LastFiftyDaysStatCard,
   LastWeekInfoCard,
   NewResourcesCard,
   PendingResourcesCard,
+  RecentGradesCard,
   StartFlashcardSessionCard,
 } from '../features/overview';
 import FlashcardChartCard from '../features/overview/components/FlashcardChartCard';
+import InitializeGradeTypesSystem from '../features/overview/systems/InitializeGradeTypesSystem';
+import InitializeRecentlyAddedGrades from '../features/overview/systems/InitializeRecentlyAddedGrades';
 
 const StyledColumnsWrapper = styled.div`
   ${tw`grid grid-cols-1 md:grid-cols-2 gap-4`}
@@ -48,6 +53,8 @@ const Overview = () => {
   return (
     <div>
       <LoadFlashcardSessionsSystem />
+      <InitializeGradeTypesSystem />
+      <InitializeRecentlyAddedGrades />
       <LoadCurrentStreakSystem />
 
       <View viewType="baseView">
@@ -62,6 +69,7 @@ const Overview = () => {
           <StyledColumn>
             <PendingResourcesCard />
             <ExploreCard />
+            <GradesDetailsCard />
             <LastFiftyDaysStatCard />
             <StreakCard />
           </StyledColumn>
@@ -70,6 +78,7 @@ const Overview = () => {
             <FlashcardChartCard />
             <NewResourcesCard />
             <LastWeekInfoCard />
+            <RecentGradesCard />
           </StyledColumn>
         </StyledColumnsWrapper>
       </View>
@@ -77,6 +86,7 @@ const Overview = () => {
       <AddHomeworkSheet />
       <AddExamSheet />
       <GeneratingLearningUnitFromImageSheet />
+      <AddGradeSheet />
 
       <EntityPropsMapper
         query={(e) => e.has(Tags.SELECTED) && dataTypeQuery(e, DataType.HOMEWORK)}
@@ -119,6 +129,7 @@ const AddResourcesButton = () => {
   const openAddHomeworkSheet = () => lsc.stories.transitTo(Story.ADDING_HOMEWORK_STORY);
   const openAddExamSheet = () => lsc.stories.transitTo(Story.ADDING_EXAM_STORY);
   const openGenerateFromImageSheet = () => lsc.stories.transitTo(Story.GENERATING_RESOURCES_FROM_IMAGE);
+  const openAddGradeSheet = () => lsc.stories.transitTo(Story.AddING_GRADE_STORY);
 
   return (
     <div>
@@ -128,8 +139,11 @@ const AddResourcesButton = () => {
             <ActionRow first onClick={openAddHomeworkSheet} icon={<IoAdd />}>
               {displayDataTypeTexts(selectedLanguage).homework}
             </ActionRow>
-            <ActionRow hasSpace onClick={openAddExamSheet} icon={<IoAdd />}>
+            <ActionRow onClick={openAddExamSheet} icon={<IoAdd />}>
               {displayDataTypeTexts(selectedLanguage).exam}
+            </ActionRow>
+            <ActionRow hasSpace onClick={openAddGradeSheet} icon={<IoAdd />}>
+              Note
             </ActionRow>
             <ActionRow last onClick={openFilePicker} icon={<IoCameraOutline />}>
               Aus Bild erzeugen

@@ -46,7 +46,7 @@ const StyledTitle = styled.p`
 `;
 
 const StyledDescription = styled.p`
-  ${tw`text-secondary-text line-clamp-2 mt-2`}
+  ${tw`text-secondary-text text-base line-clamp-2 mt-2`}
 `;
 
 const StyledReadMore = styled.div`

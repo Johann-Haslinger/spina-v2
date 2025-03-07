@@ -7,3 +7,4 @@ export * from './useCurrentDataSource';
 export * from './useSession';
 export * from './useDaysUntilDue';
 export * from './useTimer';
+export * from './useGradeTypes';

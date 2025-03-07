@@ -155,3 +155,14 @@ export const SCHOOL_SUBJECTS: string[] = [
   'Wirtschaftslehre',
   'Italienisch',
 ];
+
+export const DEFAULT_GRADS_TYPES = [
+  {
+    title: 'Großer Leistungsnachweis',
+    weight: 2,
+  },
+  {
+    title: 'Kleiner Leistungsnachweis',
+    weight: 1,
+  },
+];

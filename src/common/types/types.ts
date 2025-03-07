@@ -57,3 +57,10 @@ export interface GeneratedNoteResource {
   text: string;
   title: string;
 }
+
+export interface Grade {
+  id?: string;
+  type_id: string;
+  parent_id: string;
+  value: number;
+}

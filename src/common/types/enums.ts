@@ -52,6 +52,7 @@ export enum Story {
   ADDING_GROUP_FLASHCARD_SET_STORY = 'addGroupFlashcardSetStory',
   ADDING_RESOURCE_TO_LEARNING_GROUP_STORY = 'addResourceToLearningGroupStory',
   ADDING_CHAPTER_STORY = 'addChapterStory',
+  AddING_GRADE_STORY = 'addGradeStory',
 
   EDITING_FLASHCARD_STORY = 'editFlashcardStory',
   EDITING_FLASHCARD_SET_STORY = 'editFlashcardSetStory',
@@ -81,6 +82,7 @@ export enum Story {
   DELETING_GROUP_HOMEWORK_STORY = 'deleteGroupHomeworkStory',
   DELETING_GROUP_FLASHCARD_SET_STORY = 'deleteGroupFlashcardSetStory',
   DELETING_ACCOUNT_STORY = 'deleteAccountStory',
+  DELETING_GRADE_STORY = 'deleteGradeStory',
 
   GENERATING_IMPROVED_TEXT_STORY = 'generateImprovedFlashcardsStory',
   GENERATING_FLASHCARDS_STORY = 'generateFlashcardsStory',
@@ -180,6 +182,8 @@ export enum DataType {
   CHAPTER = 'chapter',
   LEARNING_UNIT = 'learningUnit',
   FILE = 'file',
+  GRADE = 'grade',
+  GRADE_TYPE = 'gradeType',
 }
 
 export enum SupportedLanguage {
@@ -250,6 +254,9 @@ export enum SupabaseTable {
   EXERCISE_PARTS = 'exercise_parts',
   EXERCISES = 'exercises',
   LEARNING_UNIT_FILES = 'learning_unit_files',
+  GRADES = 'grades',
+  GRADE_TYPES = 'grade_types',
+  ParentFacet = "ParentFacet",
 }
 
 export enum SupabaseStorageBucket {

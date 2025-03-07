@@ -336,3 +336,23 @@ export class IconFacet extends Facet<IconProps> {
     super(props);
   }
 }
+
+export interface ValueProps {
+  value: number;
+}
+
+export class ValueFacet extends Facet<ValueProps> {
+  constructor(props: ValueProps) {
+    super(props);
+  }
+}
+
+export interface WeightProps {
+  weight: number;
+}
+
+export class WeightFacet extends Facet<WeightProps> {
+  constructor(props: WeightProps) {
+    super(props);
+  }
+}

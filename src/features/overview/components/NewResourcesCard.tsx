@@ -90,7 +90,7 @@ const useNewResources = () => {
 };
 
 const StyledRowWrapper = styled(motion.div)`
-  ${tw`flex pr-4 w-full items-center pl-2 justify-between py-1.5 border-b border-black border-opacity-5`}
+  ${tw`flex pr-4 w-full items-center pl-2 justify-between py-1.5`}
 `;
 
 const StyledTitle = styled.p`
